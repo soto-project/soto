@@ -155,6 +155,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String
 
+        @inlinable
         public init(clientToken: String? = AssociateUserToPermissionGroupRequest.idempotencyToken(), permissionGroupId: String, userId: String) {
             self.clientToken = clientToken
             self.permissionGroupId = permissionGroupId
@@ -190,6 +191,7 @@ extension FinspaceData {
         /// The returned status code of the response.
         public let statusCode: Int?
 
+        @inlinable
         public init(statusCode: Int? = nil) {
             self.statusCode = statusCode
         }
@@ -212,6 +214,7 @@ extension FinspaceData {
         ///  The token that users must pass to use the credentials.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Int64? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -233,6 +236,7 @@ extension FinspaceData {
         /// The text of the error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCategory: ErrorCategory? = nil, errorMessage: String? = nil) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
@@ -272,6 +276,7 @@ extension FinspaceData {
         /// The unique identifier of the Changeset that is updated.
         public let updatesChangesetId: String?
 
+        @inlinable
         public init(activeFromTimestamp: Int64? = nil, activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
             self.activeFromTimestamp = activeFromTimestamp
             self.activeUntilTimestamp = activeUntilTimestamp
@@ -313,6 +318,7 @@ extension FinspaceData {
         /// Data type of a column.    STRING – A String data type.  CHAR – A char data type.  INTEGER – An integer data type.  TINYINT – A tinyint data type.  SMALLINT – A smallint data type.  BIGINT – A bigint data type.  FLOAT – A float data type.  DOUBLE – A double data type.  DATE – A date data type.  DATETIME – A datetime data type.  BOOLEAN – A boolean data type.  BINARY – A binary data type.
         public let dataType: ColumnDataType?
 
+        @inlinable
         public init(columnDescription: String? = nil, columnName: String? = nil, dataType: ColumnDataType? = nil) {
             self.columnDescription = columnDescription
             self.columnName = columnName
@@ -345,6 +351,7 @@ extension FinspaceData {
         /// Options that define the location of the data being ingested (s3SourcePath) and the source of the changeset (sourceType). Both s3SourcePath and sourceType are required attributes. Here is an example of how you could specify the sourceParams:   "sourceParams":  { "s3SourcePath": "s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv", "sourceType": "S3" }   The S3 path that you specify must allow the FinSpace role access. To do that, you first need to configure the IAM policy on S3 bucket. For more information, see Loading data from an Amazon S3 Bucket using the FinSpace API section.
         public let sourceParams: [String: String]
 
+        @inlinable
         public init(changeType: ChangeType, clientToken: String? = CreateChangesetRequest.idempotencyToken(), datasetId: String, formatParams: [String: String], sourceParams: [String: String]) {
             self.changeType = changeType
             self.clientToken = clientToken
@@ -397,6 +404,7 @@ extension FinspaceData {
         /// The unique identifier for the FinSpace Dataset where the Changeset is created.
         public let datasetId: String?
 
+        @inlinable
         public init(changesetId: String? = nil, datasetId: String? = nil) {
             self.changesetId = changesetId
             self.datasetId = datasetId
@@ -424,6 +432,7 @@ extension FinspaceData {
         /// Columns to be used for sorting the data.
         public let sortColumns: [String]?
 
+        @inlinable
         public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, clientToken: String? = CreateDataViewRequest.idempotencyToken(), datasetId: String, destinationTypeParams: DataViewDestinationTypeParams, partitionColumns: [String]? = nil, sortColumns: [String]? = nil) {
             self.asOfTimestamp = asOfTimestamp
             self.autoUpdate = autoUpdate
@@ -481,6 +490,7 @@ extension FinspaceData {
         /// The unique identifier for the created Dataview.
         public let dataViewId: String?
 
+        @inlinable
         public init(datasetId: String? = nil, dataViewId: String? = nil) {
             self.datasetId = datasetId
             self.dataViewId = dataViewId
@@ -510,6 +520,7 @@ extension FinspaceData {
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetTitle: String, kind: DatasetKind, ownerInfo: DatasetOwnerInfo? = nil, permissionGroupParams: PermissionGroupParams, schemaDefinition: SchemaUnion? = nil) {
             self.alias = alias
             self.clientToken = clientToken
@@ -554,6 +565,7 @@ extension FinspaceData {
         /// The unique identifier for the created Dataset.
         public let datasetId: String?
 
+        @inlinable
         public init(datasetId: String? = nil) {
             self.datasetId = datasetId
         }
@@ -573,6 +585,7 @@ extension FinspaceData {
         /// The name of the permission group.
         public let name: String
 
+        @inlinable
         public init(applicationPermissions: [ApplicationPermission], clientToken: String? = CreatePermissionGroupRequest.idempotencyToken(), description: String? = nil, name: String) {
             self.applicationPermissions = applicationPermissions
             self.clientToken = clientToken
@@ -604,6 +617,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group.
         public let permissionGroupId: String?
 
+        @inlinable
         public init(permissionGroupId: String? = nil) {
             self.permissionGroupId = permissionGroupId
         }
@@ -629,6 +643,7 @@ extension FinspaceData {
         /// The option to indicate the type of user. Use one of the following options to specify this parameter:    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType
 
+        @inlinable
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, clientToken: String? = CreateUserRequest.idempotencyToken(), emailAddress: String, firstName: String? = nil, lastName: String? = nil, type: UserType) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn
@@ -672,6 +687,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -689,6 +705,7 @@ extension FinspaceData {
         /// The session token.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
@@ -710,6 +727,7 @@ extension FinspaceData {
         /// Format Options for S3 Destination type. Here is an example of how you could specify the s3DestinationExportFileFormatOptions    { "header": "true", "delimiter": ",", "compression": "gzip" }
         public let s3DestinationExportFileFormatOptions: [String: String]?
 
+        @inlinable
         public init(destinationType: String, s3DestinationExportFileFormat: ExportFileFormat? = nil, s3DestinationExportFileFormatOptions: [String: String]? = nil) {
             self.destinationType = destinationType
             self.s3DestinationExportFileFormat = s3DestinationExportFileFormat
@@ -738,6 +756,7 @@ extension FinspaceData {
         /// The text of the error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCategory: ErrorCategory? = nil, errorMessage: String? = nil) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
@@ -775,6 +794,7 @@ extension FinspaceData {
         /// The status of a Dataview creation.    RUNNING – Dataview creation is running.    STARTING – Dataview creation is starting.    FAILED – Dataview creation has failed.    CANCELLED – Dataview creation has been cancelled.    TIMEOUT – Dataview creation has timed out.    SUCCESS – Dataview creation has succeeded.    PENDING – Dataview creation is pending.    FAILED_CLEANUP_FAILED – Dataview creation failed and resource cleanup failed.
         public let status: DataViewStatus?
 
+        @inlinable
         public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeProperties: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
             self.asOfTimestamp = asOfTimestamp
             self.autoUpdate = autoUpdate
@@ -828,6 +848,7 @@ extension FinspaceData {
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
 
+        @inlinable
         public init(alias: String? = nil, createTime: Int64? = nil, datasetArn: String? = nil, datasetDescription: String? = nil, datasetId: String? = nil, datasetTitle: String? = nil, kind: DatasetKind? = nil, lastModifiedTime: Int64? = nil, ownerInfo: DatasetOwnerInfo? = nil, schemaDefinition: SchemaUnion? = nil) {
             self.alias = alias
             self.createTime = createTime
@@ -863,6 +884,7 @@ extension FinspaceData {
         /// Phone number for the Dataset owner.
         public let phoneNumber: String?
 
+        @inlinable
         public init(email: String? = nil, name: String? = nil, phoneNumber: String? = nil) {
             self.email = email
             self.name = name
@@ -894,6 +916,7 @@ extension FinspaceData {
         /// The unique identifier of the Dataset to be deleted.
         public let datasetId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetId: String) {
             self.clientToken = clientToken
             self.datasetId = datasetId
@@ -921,6 +944,7 @@ extension FinspaceData {
         /// The unique identifier for the deleted Dataset.
         public let datasetId: String?
 
+        @inlinable
         public init(datasetId: String? = nil) {
             self.datasetId = datasetId
         }
@@ -936,6 +960,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group that you want to delete.
         public let permissionGroupId: String
 
+        @inlinable
         public init(clientToken: String? = DeletePermissionGroupRequest.idempotencyToken(), permissionGroupId: String) {
             self.clientToken = clientToken
             self.permissionGroupId = permissionGroupId
@@ -964,6 +989,7 @@ extension FinspaceData {
         /// The unique identifier for the deleted permission group.
         public let permissionGroupId: String?
 
+        @inlinable
         public init(permissionGroupId: String? = nil) {
             self.permissionGroupId = permissionGroupId
         }
@@ -979,6 +1005,7 @@ extension FinspaceData {
         /// The unique identifier for the user that you want to deactivate.
         public let userId: String
 
+        @inlinable
         public init(clientToken: String? = DisableUserRequest.idempotencyToken(), userId: String) {
             self.clientToken = clientToken
             self.userId = userId
@@ -1009,6 +1036,7 @@ extension FinspaceData {
         /// The unique identifier for the deactivated user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -1026,6 +1054,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String
 
+        @inlinable
         public init(clientToken: String? = DisassociateUserFromPermissionGroupRequest.idempotencyToken(), permissionGroupId: String, userId: String) {
             self.clientToken = clientToken
             self.permissionGroupId = permissionGroupId
@@ -1059,6 +1088,7 @@ extension FinspaceData {
         /// The returned status code of the response.
         public let statusCode: Int?
 
+        @inlinable
         public init(statusCode: Int? = nil) {
             self.statusCode = statusCode
         }
@@ -1077,6 +1107,7 @@ extension FinspaceData {
         /// The unique identifier for the user that you want to activate.
         public let userId: String
 
+        @inlinable
         public init(clientToken: String? = EnableUserRequest.idempotencyToken(), userId: String) {
             self.clientToken = clientToken
             self.userId = userId
@@ -1107,6 +1138,7 @@ extension FinspaceData {
         /// The unique identifier for the active user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -1122,6 +1154,7 @@ extension FinspaceData {
         /// The unique identifier for the FinSpace Dataset where the Changeset is created.
         public let datasetId: String
 
+        @inlinable
         public init(changesetId: String, datasetId: String) {
             self.changesetId = changesetId
             self.datasetId = datasetId
@@ -1172,6 +1205,7 @@ extension FinspaceData {
         /// The unique identifier of the Changeset that is being updated.
         public let updatesChangesetId: String?
 
+        @inlinable
         public init(activeFromTimestamp: Int64? = nil, activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
             self.activeFromTimestamp = activeFromTimestamp
             self.activeUntilTimestamp = activeUntilTimestamp
@@ -1211,6 +1245,7 @@ extension FinspaceData {
         /// The unique identifier for the Dataview.
         public let dataViewId: String
 
+        @inlinable
         public init(datasetId: String, dataViewId: String) {
             self.datasetId = datasetId
             self.dataViewId = dataViewId
@@ -1259,6 +1294,7 @@ extension FinspaceData {
         /// The status of a Dataview creation.    RUNNING – Dataview creation is running.    STARTING – Dataview creation is starting.    FAILED – Dataview creation has failed.    CANCELLED – Dataview creation has been cancelled.    TIMEOUT – Dataview creation has timed out.    SUCCESS – Dataview creation has succeeded.    PENDING – Dataview creation is pending.    FAILED_CLEANUP_FAILED – Dataview creation failed and resource cleanup failed.
         public let status: DataViewStatus?
 
+        @inlinable
         public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeParams: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
             self.asOfTimestamp = asOfTimestamp
             self.autoUpdate = autoUpdate
@@ -1294,6 +1330,7 @@ extension FinspaceData {
         /// The unique identifier for a Dataset.
         public let datasetId: String
 
+        @inlinable
         public init(datasetId: String) {
             self.datasetId = datasetId
         }
@@ -1335,6 +1372,7 @@ extension FinspaceData {
         /// Status of the Dataset creation.    PENDING – Dataset is pending creation.    FAILED – Dataset creation has failed.    SUCCESS – Dataset creation has succeeded.    RUNNING – Dataset creation is running.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(alias: String? = nil, createTime: Int64? = nil, datasetArn: String? = nil, datasetDescription: String? = nil, datasetId: String? = nil, datasetTitle: String? = nil, kind: DatasetKind? = nil, lastModifiedTime: Int64? = nil, schemaDefinition: SchemaUnion? = nil, status: DatasetStatus? = nil) {
             self.alias = alias
             self.createTime = createTime
@@ -1368,6 +1406,7 @@ extension FinspaceData {
         /// The unique identifier for the Dataview that you want to access.
         public let dataViewId: String
 
+        @inlinable
         public init(datasetId: String, dataViewId: String) {
             self.datasetId = datasetId
             self.dataViewId = dataViewId
@@ -1396,6 +1435,7 @@ extension FinspaceData {
         /// The location where the external Dataview is stored.
         public let s3Location: S3Location?
 
+        @inlinable
         public init(credentials: AwsCredentials? = nil, s3Location: S3Location? = nil) {
             self.credentials = credentials
             self.s3Location = s3Location
@@ -1411,6 +1451,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group.
         public let permissionGroupId: String
 
+        @inlinable
         public init(permissionGroupId: String) {
             self.permissionGroupId = permissionGroupId
         }
@@ -1433,6 +1474,7 @@ extension FinspaceData {
     public struct GetPermissionGroupResponse: AWSDecodableShape {
         public let permissionGroup: PermissionGroup?
 
+        @inlinable
         public init(permissionGroup: PermissionGroup? = nil) {
             self.permissionGroup = permissionGroup
         }
@@ -1448,6 +1490,7 @@ extension FinspaceData {
         /// The FinSpace environment identifier.
         public let environmentId: String
 
+        @inlinable
         public init(durationInMinutes: Int64? = nil, environmentId: String) {
             self.durationInMinutes = durationInMinutes
             self.environmentId = environmentId
@@ -1476,6 +1519,7 @@ extension FinspaceData {
         /// Returns the duration in which the credentials will remain valid.
         public let durationInMinutes: Int64?
 
+        @inlinable
         public init(credentials: Credentials? = nil, durationInMinutes: Int64? = nil) {
             self.credentials = credentials
             self.durationInMinutes = durationInMinutes
@@ -1491,6 +1535,7 @@ extension FinspaceData {
         /// The unique identifier of the user to get data for.
         public let userId: String
 
+        @inlinable
         public init(userId: String) {
             self.userId = userId
         }
@@ -1538,6 +1583,7 @@ extension FinspaceData {
         /// The unique identifier for the user that is retrieved.
         public let userId: String?
 
+        @inlinable
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, createTime: Int64? = nil, emailAddress: String? = nil, firstName: String? = nil, lastDisabledTime: Int64? = nil, lastEnabledTime: Int64? = nil, lastLoginTime: Int64? = nil, lastModifiedTime: Int64? = nil, lastName: String? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn
@@ -1575,6 +1621,7 @@ extension FinspaceData {
         /// Specify the type of the working location.    SAGEMAKER – Use the Amazon S3 location as a temporary location to store data content when working with FinSpace Notebooks that run on SageMaker studio.    INGESTION – Use the Amazon S3 location as a staging location to copy your data content and then use the location with the Changeset creation operation.
         public let locationType: LocationType?
 
+        @inlinable
         public init(locationType: LocationType? = nil) {
             self.locationType = locationType
         }
@@ -1592,6 +1639,7 @@ extension FinspaceData {
         /// Returns the Amazon S3 URI for the working location.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Path: String? = nil, s3Uri: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Path = s3Path
@@ -1613,6 +1661,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetId = datasetId
             self.maxResults = maxResults
@@ -1643,6 +1692,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(changesets: [ChangesetSummary]? = nil, nextToken: String? = nil) {
             self.changesets = changesets
             self.nextToken = nextToken
@@ -1662,6 +1712,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetId = datasetId
             self.maxResults = maxResults
@@ -1692,6 +1743,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(dataViews: [DataViewSummary]? = nil, nextToken: String? = nil) {
             self.dataViews = dataViews
             self.nextToken = nextToken
@@ -1709,6 +1761,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1735,6 +1788,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(datasets: [Dataset]? = nil, nextToken: String? = nil) {
             self.datasets = datasets
             self.nextToken = nextToken
@@ -1754,6 +1808,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil, userId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1785,6 +1840,7 @@ extension FinspaceData {
         /// A list of returned permission groups.
         public let permissionGroups: [PermissionGroupByUser]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissionGroups: [PermissionGroupByUser]? = nil) {
             self.nextToken = nextToken
             self.permissionGroups = permissionGroups
@@ -1802,6 +1858,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1828,6 +1885,7 @@ extension FinspaceData {
         /// A list of all the permission groups.
         public let permissionGroups: [PermissionGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissionGroups: [PermissionGroup]? = nil) {
             self.nextToken = nextToken
             self.permissionGroups = permissionGroups
@@ -1847,6 +1905,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group.
         public let permissionGroupId: String
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil, permissionGroupId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1878,6 +1937,7 @@ extension FinspaceData {
         /// Lists details of all users in a specific permission group.
         public let users: [UserByPermissionGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [UserByPermissionGroup]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -1895,6 +1955,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1921,6 +1982,7 @@ extension FinspaceData {
         /// A list of all the users.
         public let users: [User]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -1948,6 +2010,7 @@ extension FinspaceData {
         ///  The unique identifier for the permission group.
         public let permissionGroupId: String?
 
+        @inlinable
         public init(applicationPermissions: [ApplicationPermission]? = nil, createTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, membershipStatus: PermissionGroupMembershipStatus? = nil, name: String? = nil, permissionGroupId: String? = nil) {
             self.applicationPermissions = applicationPermissions
             self.createTime = createTime
@@ -1977,6 +2040,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group.
         public let permissionGroupId: String?
 
+        @inlinable
         public init(membershipStatus: PermissionGroupMembershipStatus? = nil, name: String? = nil, permissionGroupId: String? = nil) {
             self.membershipStatus = membershipStatus
             self.name = name
@@ -1996,6 +2060,7 @@ extension FinspaceData {
         /// The unique identifier for the PermissionGroup.
         public let permissionGroupId: String?
 
+        @inlinable
         public init(datasetPermissions: [ResourcePermission]? = nil, permissionGroupId: String? = nil) {
             self.datasetPermissions = datasetPermissions
             self.permissionGroupId = permissionGroupId
@@ -2022,6 +2087,7 @@ extension FinspaceData {
         /// The unique identifier of the user that a temporary password is requested for.
         public let userId: String
 
+        @inlinable
         public init(clientToken: String? = ResetUserPasswordRequest.idempotencyToken(), userId: String) {
             self.clientToken = clientToken
             self.userId = userId
@@ -2054,6 +2120,7 @@ extension FinspaceData {
         /// The unique identifier of the user that a new password is generated for.
         public let userId: String?
 
+        @inlinable
         public init(temporaryPassword: String? = nil, userId: String? = nil) {
             self.temporaryPassword = temporaryPassword
             self.userId = userId
@@ -2069,6 +2136,7 @@ extension FinspaceData {
         /// Permission for a resource.
         public let permission: String?
 
+        @inlinable
         public init(permission: String? = nil) {
             self.permission = permission
         }
@@ -2090,6 +2158,7 @@ extension FinspaceData {
         ///  The path of the folder, within the S3 bucket that contains the Dataset.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -2107,6 +2176,7 @@ extension FinspaceData {
         /// List of column names used for primary key.
         public let primaryKeyColumns: [String]?
 
+        @inlinable
         public init(columns: [ColumnDefinition]? = nil, primaryKeyColumns: [String]? = nil) {
             self.columns = columns
             self.primaryKeyColumns = primaryKeyColumns
@@ -2132,6 +2202,7 @@ extension FinspaceData {
         /// The configuration for a schema on a tabular Dataset.
         public let tabularSchemaConfig: SchemaDefinition?
 
+        @inlinable
         public init(tabularSchemaConfig: SchemaDefinition? = nil) {
             self.tabularSchemaConfig = tabularSchemaConfig
         }
@@ -2157,6 +2228,7 @@ extension FinspaceData {
         /// Options that define the location of the data being ingested (s3SourcePath) and the source of the changeset (sourceType). Both s3SourcePath and sourceType are required attributes. Here is an example of how you could specify the sourceParams:   "sourceParams":  { "s3SourcePath": "s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv", "sourceType": "S3" }   The S3 path that you specify must allow the FinSpace role access. To do that, you first need to configure the IAM policy on S3 bucket. For more information, see Loading data from an Amazon S3 Bucket using the FinSpace APIsection.
         public let sourceParams: [String: String]
 
+        @inlinable
         public init(changesetId: String, clientToken: String? = UpdateChangesetRequest.idempotencyToken(), datasetId: String, formatParams: [String: String], sourceParams: [String: String]) {
             self.changesetId = changesetId
             self.clientToken = clientToken
@@ -2210,6 +2282,7 @@ extension FinspaceData {
         /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
         public let datasetId: String?
 
+        @inlinable
         public init(changesetId: String? = nil, datasetId: String? = nil) {
             self.changesetId = changesetId
             self.datasetId = datasetId
@@ -2237,6 +2310,7 @@ extension FinspaceData {
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String, datasetTitle: String, kind: DatasetKind, schemaDefinition: SchemaUnion? = nil) {
             self.alias = alias
             self.clientToken = clientToken
@@ -2290,6 +2364,7 @@ extension FinspaceData {
         /// The unique identifier for updated Dataset.
         public let datasetId: String?
 
+        @inlinable
         public init(datasetId: String? = nil) {
             self.datasetId = datasetId
         }
@@ -2311,6 +2386,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group to update.
         public let permissionGroupId: String
 
+        @inlinable
         public init(applicationPermissions: [ApplicationPermission]? = nil, clientToken: String? = UpdatePermissionGroupRequest.idempotencyToken(), description: String? = nil, name: String? = nil, permissionGroupId: String) {
             self.applicationPermissions = applicationPermissions
             self.clientToken = clientToken
@@ -2356,6 +2432,7 @@ extension FinspaceData {
         /// The unique identifier for the updated permission group.
         public let permissionGroupId: String?
 
+        @inlinable
         public init(permissionGroupId: String? = nil) {
             self.permissionGroupId = permissionGroupId
         }
@@ -2381,6 +2458,7 @@ extension FinspaceData {
         /// The unique identifier for the user that you want to update.
         public let userId: String
 
+        @inlinable
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, clientToken: String? = UpdateUserRequest.idempotencyToken(), firstName: String? = nil, lastName: String? = nil, type: UserType? = nil, userId: String) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn
@@ -2435,6 +2513,7 @@ extension FinspaceData {
         /// The unique identifier of the updated user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -2472,6 +2551,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String?
 
+        @inlinable
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, createTime: Int64? = nil, emailAddress: String? = nil, firstName: String? = nil, lastDisabledTime: Int64? = nil, lastEnabledTime: Int64? = nil, lastLoginTime: Int64? = nil, lastModifiedTime: Int64? = nil, lastName: String? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn
@@ -2525,6 +2605,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String?
 
+        @inlinable
         public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil, membershipStatus: PermissionGroupMembershipStatus? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
             self.apiAccess = apiAccess
             self.apiAccessPrincipalArn = apiAccessPrincipalArn

@@ -225,6 +225,7 @@ extension Finspace {
         /// The duration in seconds that FinSpace will wait after a scale out event before initiating another scaling event.
         public let scaleOutCooldownSeconds: Double?
 
+        @inlinable
         public init(autoScalingMetric: AutoScalingMetric? = nil, maxNodeCount: Int? = nil, metricTarget: Double? = nil, minNodeCount: Int? = nil, scaleInCooldownSeconds: Double? = nil, scaleOutCooldownSeconds: Double? = nil) {
             self.autoScalingMetric = autoScalingMetric
             self.maxNodeCount = maxNodeCount
@@ -261,6 +262,7 @@ extension Finspace {
         /// The type that determines the hardware of the host computer used for your cluster instance. Each node type offers different memory and storage capabilities. Choose a node type based on the requirements of the application or software that you plan to run on your instance. You can only specify one of the following values:    kx.s.large – The node type with a configuration of 12 GiB memory and 2 vCPUs.    kx.s.xlarge – The node type with a configuration of 27 GiB memory and 4 vCPUs.    kx.s.2xlarge – The node type with a configuration of 54 GiB memory and 8 vCPUs.    kx.s.4xlarge – The node type with a configuration of 108 GiB memory and 16 vCPUs.    kx.s.8xlarge – The node type with a configuration of 216 GiB memory and 32 vCPUs.    kx.s.16xlarge – The node type with a configuration of 432 GiB memory and 64 vCPUs.    kx.s.32xlarge – The node type with a configuration of 864 GiB memory and 128 vCPUs.
         public let nodeType: String?
 
+        @inlinable
         public init(nodeCount: Int? = nil, nodeType: String? = nil) {
             self.nodeCount = nodeCount
             self.nodeType = nodeType
@@ -287,6 +289,7 @@ extension Finspace {
         /// Defines the S3 path of the source file that is required to add or update files in a database.
         public let s3Path: String?
 
+        @inlinable
         public init(changeType: ChangeType, dbPath: String, s3Path: String? = nil) {
             self.changeType = changeType
             self.dbPath = dbPath
@@ -317,6 +320,7 @@ extension Finspace {
         /// The version of an S3 object.
         public let s3ObjectVersion: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -359,6 +363,7 @@ extension Finspace {
         /// Add tags to your FinSpace environment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(dataBundles: [String]? = nil, description: String? = nil, federationMode: FederationMode? = nil, federationParameters: FederationParameters? = nil, kmsKeyId: String? = nil, name: String, superuserParameters: SuperuserParameters? = nil, tags: [String: String]? = nil) {
             self.dataBundles = dataBundles
             self.description = description
@@ -419,6 +424,7 @@ extension Finspace {
         /// The sign-in URL for the web application of the FinSpace environment you created.
         public let environmentUrl: String?
 
+        @inlinable
         public init(environmentArn: String? = nil, environmentId: String? = nil, environmentUrl: String? = nil) {
             self.environmentArn = environmentArn
             self.environmentId = environmentId
@@ -442,6 +448,7 @@ extension Finspace {
         /// A unique identifier of the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(changeRequests: [ChangeRequest], clientToken: String = CreateKxChangesetRequest.idempotencyToken(), databaseName: String, environmentId: String) {
             self.changeRequests = changeRequests
             self.clientToken = clientToken
@@ -499,6 +506,7 @@ extension Finspace {
         /// Status of the changeset creation process.   Pending – Changeset creation is pending.   Processing – Changeset creation is running.   Failed – Changeset creation has failed.   Complete – Changeset creation has succeeded.
         public let status: ChangesetStatus?
 
+        @inlinable
         public init(changeRequests: [ChangeRequest]? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, databaseName: String? = nil, environmentId: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedTimestamp: Date? = nil, status: ChangesetStatus? = nil) {
             self.changeRequests = changeRequests
             self.changesetId = changesetId
@@ -567,6 +575,7 @@ extension Finspace {
         /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
         public let vpcConfiguration: VpcConfiguration
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode, cacheStorageConfigurations: [KxCacheStorageConfiguration]? = nil, capacityConfiguration: CapacityConfiguration? = nil, clientToken: String? = CreateKxClusterRequest.idempotencyToken(), clusterDescription: String? = nil, clusterName: String, clusterType: KxClusterType, code: CodeConfiguration? = nil, commandLineArguments: [KxCommandLineArgument]? = nil, databases: [KxDatabaseConfiguration]? = nil, environmentId: String, executionRole: String? = nil, initializationScript: String? = nil, releaseLabel: String, savedownStorageConfiguration: KxSavedownStorageConfiguration? = nil, scalingGroupConfiguration: KxScalingGroupConfiguration? = nil, tags: [String: String]? = nil, tickerplantLogConfiguration: TickerplantLogConfiguration? = nil, vpcConfiguration: VpcConfiguration) {
             self.autoScalingConfiguration = autoScalingConfiguration
             self.availabilityZoneId = availabilityZoneId
@@ -743,6 +752,7 @@ extension Finspace {
         /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, cacheStorageConfigurations: [KxCacheStorageConfiguration]? = nil, capacityConfiguration: CapacityConfiguration? = nil, clusterDescription: String? = nil, clusterName: String? = nil, clusterType: KxClusterType? = nil, code: CodeConfiguration? = nil, commandLineArguments: [KxCommandLineArgument]? = nil, createdTimestamp: Date? = nil, databases: [KxDatabaseConfiguration]? = nil, environmentId: String? = nil, executionRole: String? = nil, initializationScript: String? = nil, lastModifiedTimestamp: Date? = nil, releaseLabel: String? = nil, savedownStorageConfiguration: KxSavedownStorageConfiguration? = nil, scalingGroupConfiguration: KxScalingGroupConfiguration? = nil, status: KxClusterStatus? = nil, statusReason: String? = nil, tickerplantLogConfiguration: TickerplantLogConfiguration? = nil, volumes: [Volume]? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.autoScalingConfiguration = autoScalingConfiguration
             self.availabilityZoneId = availabilityZoneId
@@ -810,6 +820,7 @@ extension Finspace {
         /// A list of key-value pairs to label the kdb database. You can add up to 50 tags to your kdb database
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateKxDatabaseRequest.idempotencyToken(), databaseName: String, description: String? = nil, environmentId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.databaseName = databaseName
@@ -875,6 +886,7 @@ extension Finspace {
         /// The last time that the database was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, databaseArn: String? = nil, databaseName: String? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.databaseArn = databaseArn
@@ -920,6 +932,7 @@ extension Finspace {
         /// A list of key-value pairs to label the dataview. You can add up to 50 tags to a dataview.
         public let tags: [String: String]?
 
+        @inlinable
         public init(autoUpdate: Bool? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode, changesetId: String? = nil, clientToken: String = CreateKxDataviewRequest.idempotencyToken(), databaseName: String, dataviewName: String, description: String? = nil, environmentId: String, readWrite: Bool? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil, tags: [String: String]? = nil) {
             self.autoUpdate = autoUpdate
             self.availabilityZoneId = availabilityZoneId
@@ -1032,6 +1045,7 @@ extension Finspace {
         /// The status of dataview creation.    CREATING – The dataview creation is in progress.    UPDATING – The dataview is in the process of being updated.    ACTIVE – The dataview is active.
         public let status: KxDataviewStatus?
 
+        @inlinable
         public init(autoUpdate: Bool? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, databaseName: String? = nil, dataviewName: String? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil, readWrite: Bool? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil, status: KxDataviewStatus? = nil) {
             self.autoUpdate = autoUpdate
             self.availabilityZoneId = availabilityZoneId
@@ -1077,6 +1091,7 @@ extension Finspace {
         /// A list of key-value pairs to label the kdb environment. You can add up to 50 tags to your kdb environment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateKxEnvironmentRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1135,6 +1150,7 @@ extension Finspace {
         /// The status of the kdb environment.
         public let status: EnvironmentStatus?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, description: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, kmsKeyId: String? = nil, name: String? = nil, status: EnvironmentStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.description = description
@@ -1170,6 +1186,7 @@ extension Finspace {
         /// A list of key-value pairs to label the scaling group. You can add up to 50 tags to a scaling group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(availabilityZoneId: String, clientToken: String = CreateKxScalingGroupRequest.idempotencyToken(), environmentId: String, hostType: String, scalingGroupName: String, tags: [String: String]? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.clientToken = clientToken
@@ -1243,6 +1260,7 @@ extension Finspace {
         /// The status of scaling group.   CREATING – The scaling group creation is in progress.   CREATE_FAILED – The scaling group creation has failed.   ACTIVE – The scaling group is active.   UPDATING – The scaling group is in the process of being updated.   UPDATE_FAILED – The update action failed.   DELETING – The scaling group is in the process of being deleted.   DELETE_FAILED – The system failed to delete the scaling group.   DELETED – The scaling group is successfully deleted.
         public let status: KxScalingGroupStatus?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, createdTimestamp: Date? = nil, environmentId: String? = nil, hostType: String? = nil, lastModifiedTimestamp: Date? = nil, scalingGroupName: String? = nil, status: KxScalingGroupStatus? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.createdTimestamp = createdTimestamp
@@ -1276,6 +1294,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String
 
+        @inlinable
         public init(clientToken: String? = CreateKxUserRequest.idempotencyToken(), environmentId: String, iamRole: String, tags: [String: String]? = nil, userName: String) {
             self.clientToken = clientToken
             self.environmentId = environmentId
@@ -1337,6 +1356,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String?
 
+        @inlinable
         public init(environmentId: String? = nil, iamRole: String? = nil, userArn: String? = nil, userName: String? = nil) {
             self.environmentId = environmentId
             self.iamRole = iamRole
@@ -1372,6 +1392,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration.
         public let volumeType: KxVolumeType
 
+        @inlinable
         public init(availabilityZoneIds: [String], azMode: KxAzMode, clientToken: String? = CreateKxVolumeRequest.idempotencyToken(), description: String? = nil, environmentId: String, nas1Configuration: KxNAS1Configuration? = nil, tags: [String: String]? = nil, volumeName: String, volumeType: KxVolumeType) {
             self.availabilityZoneIds = availabilityZoneIds
             self.azMode = azMode
@@ -1465,6 +1486,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
         public let volumeType: KxVolumeType?
 
+        @inlinable
         public init(availabilityZoneIds: [String]? = nil, azMode: KxAzMode? = nil, createdTimestamp: Date? = nil, description: String? = nil, environmentId: String? = nil, nas1Configuration: KxNAS1Configuration? = nil, status: KxVolumeStatus? = nil, statusReason: String? = nil, volumeArn: String? = nil, volumeName: String? = nil, volumeType: KxVolumeType? = nil) {
             self.availabilityZoneIds = availabilityZoneIds
             self.azMode = azMode
@@ -1500,6 +1522,7 @@ extension Finspace {
         /// The name of the DNS server.
         public let customDNSServerName: String
 
+        @inlinable
         public init(customDNSServerIP: String, customDNSServerName: String) {
             self.customDNSServerIP = customDNSServerIP
             self.customDNSServerName = customDNSServerName
@@ -1522,6 +1545,7 @@ extension Finspace {
         /// The identifier for the FinSpace environment.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -1553,6 +1577,7 @@ extension Finspace {
         /// A unique identifier for the node that you want to delete.
         public let nodeId: String
 
+        @inlinable
         public init(clusterName: String, environmentId: String, nodeId: String) {
             self.clusterName = clusterName
             self.environmentId = environmentId
@@ -1593,6 +1618,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteKxClusterRequest.idempotencyToken(), clusterName: String, environmentId: String) {
             self.clientToken = clientToken
             self.clusterName = clusterName
@@ -1634,6 +1660,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(clientToken: String = DeleteKxDatabaseRequest.idempotencyToken(), databaseName: String, environmentId: String) {
             self.clientToken = clientToken
             self.databaseName = databaseName
@@ -1677,6 +1704,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment, from where you want to delete the dataview.
         public let environmentId: String
 
+        @inlinable
         public init(clientToken: String = DeleteKxDataviewRequest.idempotencyToken(), databaseName: String, dataviewName: String, environmentId: String) {
             self.clientToken = clientToken
             self.databaseName = databaseName
@@ -1721,6 +1749,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteKxEnvironmentRequest.idempotencyToken(), environmentId: String) {
             self.clientToken = clientToken
             self.environmentId = environmentId
@@ -1757,6 +1786,7 @@ extension Finspace {
         /// A unique identifier for the kdb scaling group.
         public let scalingGroupName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteKxScalingGroupRequest.idempotencyToken(), environmentId: String, scalingGroupName: String) {
             self.clientToken = clientToken
             self.environmentId = environmentId
@@ -1798,6 +1828,7 @@ extension Finspace {
         /// A unique identifier for the user that you want to delete.
         public let userName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteKxUserRequest.idempotencyToken(), environmentId: String, userName: String) {
             self.clientToken = clientToken
             self.environmentId = environmentId
@@ -1839,6 +1870,7 @@ extension Finspace {
         /// The name of the volume that you want to delete.
         public let volumeName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteKxVolumeRequest.idempotencyToken(), environmentId: String, volumeName: String) {
             self.clientToken = clientToken
             self.environmentId = environmentId
@@ -1898,6 +1930,7 @@ extension Finspace {
         /// The current status of creation of the FinSpace environment.
         public let status: EnvironmentStatus?
 
+        @inlinable
         public init(awsAccountId: String? = nil, dedicatedServiceAccountId: String? = nil, description: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentUrl: String? = nil, federationMode: FederationMode? = nil, federationParameters: FederationParameters? = nil, kmsKeyId: String? = nil, name: String? = nil, sageMakerStudioDomainUrl: String? = nil, status: EnvironmentStatus? = nil) {
             self.awsAccountId = awsAccountId
             self.dedicatedServiceAccountId = dedicatedServiceAccountId
@@ -1935,6 +1968,7 @@ extension Finspace {
         /// Specifies the type of error.
         public let errorType: ErrorDetails?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: ErrorDetails? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -1960,6 +1994,7 @@ extension Finspace {
         /// Provide the metadata URL from your SAML 2.0 compliant identity provider (IdP).
         public let samlMetadataURL: String?
 
+        @inlinable
         public init(applicationCallBackURL: String? = nil, attributeMap: [String: String]? = nil, federationProviderName: String? = nil, federationURN: String? = nil, samlMetadataDocument: String? = nil, samlMetadataURL: String? = nil) {
             self.applicationCallBackURL = applicationCallBackURL
             self.attributeMap = attributeMap
@@ -2009,6 +2044,7 @@ extension Finspace {
         /// The identifier of the FinSpace environment.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -2032,6 +2068,7 @@ extension Finspace {
         /// The name of the FinSpace environment.
         public let environment: Environment?
 
+        @inlinable
         public init(environment: Environment? = nil) {
             self.environment = environment
         }
@@ -2049,6 +2086,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(changesetId: String, databaseName: String, environmentId: String) {
             self.changesetId = changesetId
             self.databaseName = databaseName
@@ -2098,6 +2136,7 @@ extension Finspace {
         /// Status of the changeset creation process.   Pending – Changeset creation is pending.   Processing – Changeset creation is running.   Failed – Changeset creation has failed.   Complete – Changeset creation has succeeded.
         public let status: ChangesetStatus?
 
+        @inlinable
         public init(activeFromTimestamp: Date? = nil, changeRequests: [ChangeRequest]? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, databaseName: String? = nil, environmentId: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedTimestamp: Date? = nil, status: ChangesetStatus? = nil) {
             self.activeFromTimestamp = activeFromTimestamp
             self.changeRequests = changeRequests
@@ -2129,6 +2168,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(clusterName: String, environmentId: String) {
             self.clusterName = clusterName
             self.environmentId = environmentId
@@ -2199,6 +2239,7 @@ extension Finspace {
         /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, cacheStorageConfigurations: [KxCacheStorageConfiguration]? = nil, capacityConfiguration: CapacityConfiguration? = nil, clusterDescription: String? = nil, clusterName: String? = nil, clusterType: KxClusterType? = nil, code: CodeConfiguration? = nil, commandLineArguments: [KxCommandLineArgument]? = nil, createdTimestamp: Date? = nil, databases: [KxDatabaseConfiguration]? = nil, executionRole: String? = nil, initializationScript: String? = nil, lastModifiedTimestamp: Date? = nil, releaseLabel: String? = nil, savedownStorageConfiguration: KxSavedownStorageConfiguration? = nil, scalingGroupConfiguration: KxScalingGroupConfiguration? = nil, status: KxClusterStatus? = nil, statusReason: String? = nil, tickerplantLogConfiguration: TickerplantLogConfiguration? = nil, volumes: [Volume]? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.autoScalingConfiguration = autoScalingConfiguration
             self.availabilityZoneId = availabilityZoneId
@@ -2260,6 +2301,7 @@ extension Finspace {
         ///  The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the IAM User Guide.
         public let userArn: String
 
+        @inlinable
         public init(clusterName: String, environmentId: String, userArn: String) {
             self.clusterName = clusterName
             self.environmentId = environmentId
@@ -2293,6 +2335,7 @@ extension Finspace {
         /// The signed connection string that you can use to connect to clusters.
         public let signedConnectionString: String?
 
+        @inlinable
         public init(signedConnectionString: String? = nil) {
             self.signedConnectionString = signedConnectionString
         }
@@ -2308,6 +2351,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(databaseName: String, environmentId: String) {
             self.databaseName = databaseName
             self.environmentId = environmentId
@@ -2354,6 +2398,7 @@ extension Finspace {
         /// The total number of files in the database.
         public let numFiles: Int?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, databaseArn: String? = nil, databaseName: String? = nil, description: String? = nil, environmentId: String? = nil, lastCompletedChangesetId: String? = nil, lastModifiedTimestamp: Date? = nil, numBytes: Int64? = nil, numChangesets: Int? = nil, numFiles: Int? = nil) {
             self.createdTimestamp = createdTimestamp
             self.databaseArn = databaseArn
@@ -2389,6 +2434,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment, from where you want to retrieve the dataview details.
         public let environmentId: String
 
+        @inlinable
         public init(databaseName: String, dataviewName: String, environmentId: String) {
             self.databaseName = databaseName
             self.dataviewName = dataviewName
@@ -2450,6 +2496,7 @@ extension Finspace {
         /// The error message when a failed state occurs.
         public let statusReason: String?
 
+        @inlinable
         public init(activeVersions: [KxDataviewActiveVersion]? = nil, autoUpdate: Bool? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, databaseName: String? = nil, dataviewName: String? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil, readWrite: Bool? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil, status: KxDataviewStatus? = nil, statusReason: String? = nil) {
             self.activeVersions = activeVersions
             self.autoUpdate = autoUpdate
@@ -2491,6 +2538,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -2545,6 +2593,7 @@ extension Finspace {
         /// The timestamp at which the kdb environment was updated.
         public let updateTimestamp: Date?
 
+        @inlinable
         public init(availabilityZoneIds: [String]? = nil, awsAccountId: String? = nil, certificateAuthorityArn: String? = nil, creationTimestamp: Date? = nil, customDNSConfiguration: [CustomDNSServer]? = nil, dedicatedServiceAccountId: String? = nil, description: String? = nil, dnsStatus: DnsStatus? = nil, environmentArn: String? = nil, environmentId: String? = nil, errorMessage: String? = nil, kmsKeyId: String? = nil, name: String? = nil, status: EnvironmentStatus? = nil, tgwStatus: TgwStatus? = nil, transitGatewayConfiguration: TransitGatewayConfiguration? = nil, updateTimestamp: Date? = nil) {
             self.availabilityZoneIds = availabilityZoneIds
             self.awsAccountId = awsAccountId
@@ -2592,6 +2641,7 @@ extension Finspace {
         /// A unique identifier for the kdb scaling group.
         public let scalingGroupName: String
 
+        @inlinable
         public init(environmentId: String, scalingGroupName: String) {
             self.environmentId = environmentId
             self.scalingGroupName = scalingGroupName
@@ -2636,6 +2686,7 @@ extension Finspace {
         /// The error message when a failed state occurs.
         public let statusReason: String?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, clusters: [String]? = nil, createdTimestamp: Date? = nil, hostType: String? = nil, lastModifiedTimestamp: Date? = nil, scalingGroupArn: String? = nil, scalingGroupName: String? = nil, status: KxScalingGroupStatus? = nil, statusReason: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.clusters = clusters
@@ -2667,6 +2718,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String
 
+        @inlinable
         public init(environmentId: String, userName: String) {
             self.environmentId = environmentId
             self.userName = userName
@@ -2701,6 +2753,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String?
 
+        @inlinable
         public init(environmentId: String? = nil, iamRole: String? = nil, userArn: String? = nil, userName: String? = nil) {
             self.environmentId = environmentId
             self.iamRole = iamRole
@@ -2722,6 +2775,7 @@ extension Finspace {
         /// A unique identifier for the volume.
         public let volumeName: String
 
+        @inlinable
         public init(environmentId: String, volumeName: String) {
             self.environmentId = environmentId
             self.volumeName = volumeName
@@ -2774,6 +2828,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
         public let volumeType: KxVolumeType?
 
+        @inlinable
         public init(attachedClusters: [KxAttachedCluster]? = nil, availabilityZoneIds: [String]? = nil, azMode: KxAzMode? = nil, createdTimestamp: Date? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil, nas1Configuration: KxNAS1Configuration? = nil, status: KxVolumeStatus? = nil, statusReason: String? = nil, volumeArn: String? = nil, volumeName: String? = nil, volumeType: KxVolumeType? = nil) {
             self.attachedClusters = attachedClusters
             self.availabilityZoneIds = availabilityZoneIds
@@ -2813,6 +2868,7 @@ extension Finspace {
         /// The ICMP type. A value of -1 means all types.
         public let type: Int
 
+        @inlinable
         public init(code: Int, type: Int) {
             self.code = code
             self.type = type
@@ -2832,6 +2888,7 @@ extension Finspace {
         /// Specifies the type of cluster. The volume for TP and RDB cluster types will be used for TP logs.
         public let clusterType: KxClusterType?
 
+        @inlinable
         public init(clusterName: String? = nil, clusterStatus: KxClusterStatus? = nil, clusterType: KxClusterType? = nil) {
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
@@ -2851,6 +2908,7 @@ extension Finspace {
         /// The type of cache storage. The valid values are:    CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.    CACHE_250 – This type provides at least 250 MB/s disk access throughput.    CACHE_12 – This type provides at least 12 MB/s disk access throughput.    For cache type CACHE_1000 and CACHE_250 you can select cache size as 1200 GB or increments of 2400 GB. For cache type CACHE_12 you can select the cache size in increments of 6000 GB.
         public let type: String
 
+        @inlinable
         public init(size: Int, type: String) {
             self.size = size
             self.type = type
@@ -2879,6 +2937,7 @@ extension Finspace {
         ///  Status of the changeset.   Pending – Changeset creation is pending.   Processing – Changeset creation is running.   Failed – Changeset creation has failed.   Complete – Changeset creation has succeeded.
         public let status: ChangesetStatus?
 
+        @inlinable
         public init(activeFromTimestamp: Date? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, lastModifiedTimestamp: Date? = nil, status: ChangesetStatus? = nil) {
             self.activeFromTimestamp = activeFromTimestamp
             self.changesetId = changesetId
@@ -2924,6 +2983,7 @@ extension Finspace {
         /// A list of volumes attached to the cluster.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, clusterDescription: String? = nil, clusterName: String? = nil, clusterType: KxClusterType? = nil, createdTimestamp: Date? = nil, executionRole: String? = nil, initializationScript: String? = nil, lastModifiedTimestamp: Date? = nil, releaseLabel: String? = nil, status: KxClusterStatus? = nil, statusReason: String? = nil, volumes: [Volume]? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.azMode = azMode
@@ -2961,6 +3021,7 @@ extension Finspace {
         ///  The type of deployment that you want on a cluster.     ROLLING – This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration.   NO_RESTART – This option updates the cluster without stopping the running q process. It is only available for GP type cluster. This option is quicker as it reduces the turn around time to update configuration on a cluster.  With this deployment mode, you cannot update the initializationScript and commandLineArguments parameters.   FORCE – This option updates the cluster by immediately stopping all the running processes before starting up new ones with the updated configuration.
         public let deploymentStrategy: KxClusterCodeDeploymentStrategy
 
+        @inlinable
         public init(deploymentStrategy: KxClusterCodeDeploymentStrategy) {
             self.deploymentStrategy = deploymentStrategy
         }
@@ -2976,6 +3037,7 @@ extension Finspace {
         /// The value of the key.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3004,6 +3066,7 @@ extension Finspace {
         /// Specifies the portions of database that will be loaded into the cache for access.
         public let dbPaths: [String]
 
+        @inlinable
         public init(cacheType: String, dataviewName: String? = nil, dbPaths: [String]) {
             self.cacheType = cacheType
             self.dataviewName = dataviewName
@@ -3042,6 +3105,7 @@ extension Finspace {
         ///  The name of the dataview to be used for caching historical data on disk.
         public let dataviewName: String?
 
+        @inlinable
         public init(cacheConfigurations: [KxDatabaseCacheConfiguration]? = nil, changesetId: String? = nil, databaseName: String, dataviewConfiguration: KxDataviewConfiguration? = nil, dataviewName: String? = nil) {
             self.cacheConfigurations = cacheConfigurations
             self.changesetId = changesetId
@@ -3083,6 +3147,7 @@ extension Finspace {
         /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, databaseName: String? = nil, lastModifiedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.databaseName = databaseName
@@ -3108,6 +3173,7 @@ extension Finspace {
         /// A unique identifier of the active version.
         public let versionId: String?
 
+        @inlinable
         public init(attachedClusters: [String]? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil, versionId: String? = nil) {
             self.attachedClusters = attachedClusters
             self.changesetId = changesetId
@@ -3135,6 +3201,7 @@ extension Finspace {
         /// The db path and volume configuration for the segmented database.
         public let segmentConfigurations: [KxDataviewSegmentConfiguration]?
 
+        @inlinable
         public init(changesetId: String? = nil, dataviewName: String? = nil, dataviewVersionId: String? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil) {
             self.changesetId = changesetId
             self.dataviewName = dataviewName
@@ -3197,6 +3264,7 @@ extension Finspace {
         /// The error message when a failed state occurs.
         public let statusReason: String?
 
+        @inlinable
         public init(activeVersions: [KxDataviewActiveVersion]? = nil, autoUpdate: Bool? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, databaseName: String? = nil, dataviewName: String? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil, readWrite: Bool? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil, status: KxDataviewStatus? = nil, statusReason: String? = nil) {
             self.activeVersions = activeVersions
             self.autoUpdate = autoUpdate
@@ -3242,6 +3310,7 @@ extension Finspace {
         /// The name of the volume where you want to add data.
         public let volumeName: String
 
+        @inlinable
         public init(dbPaths: [String], onDemand: Bool? = nil, volumeName: String) {
             self.dbPaths = dbPaths
             self.onDemand = onDemand
@@ -3272,6 +3341,7 @@ extension Finspace {
         ///  The type of deployment that you want on a cluster.     ROLLING – This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration.   NO_RESTART – This option updates the cluster without stopping the running q process. It is only available for HDB type cluster. This option is quicker as it reduces the turn around time to update configuration on a cluster.  With this deployment mode, you cannot update the initializationScript and commandLineArguments parameters.
         public let deploymentStrategy: KxDeploymentStrategy
 
+        @inlinable
         public init(deploymentStrategy: KxDeploymentStrategy) {
             self.deploymentStrategy = deploymentStrategy
         }
@@ -3317,6 +3387,7 @@ extension Finspace {
         /// The timestamp at which the kdb environment was modified in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let updateTimestamp: Date?
 
+        @inlinable
         public init(availabilityZoneIds: [String]? = nil, awsAccountId: String? = nil, certificateAuthorityArn: String? = nil, creationTimestamp: Date? = nil, customDNSConfiguration: [CustomDNSServer]? = nil, dedicatedServiceAccountId: String? = nil, description: String? = nil, dnsStatus: DnsStatus? = nil, environmentArn: String? = nil, environmentId: String? = nil, errorMessage: String? = nil, kmsKeyId: String? = nil, name: String? = nil, status: EnvironmentStatus? = nil, tgwStatus: TgwStatus? = nil, transitGatewayConfiguration: TransitGatewayConfiguration? = nil, updateTimestamp: Date? = nil) {
             self.availabilityZoneIds = availabilityZoneIds
             self.awsAccountId = awsAccountId
@@ -3364,6 +3435,7 @@ extension Finspace {
         /// The type of the network attached storage.
         public let type: KxNAS1Type?
 
+        @inlinable
         public init(size: Int? = nil, type: KxNAS1Type? = nil) {
             self.size = size
             self.type = type
@@ -3389,6 +3461,7 @@ extension Finspace {
         ///  Specifies the status of the cluster nodes.       RUNNING – The node is actively serving.    PROVISIONING – The node is being prepared.
         public let status: KxNodeStatus?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, launchTime: Date? = nil, nodeId: String? = nil, status: KxNodeStatus? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.launchTime = launchTime
@@ -3412,6 +3485,7 @@ extension Finspace {
         ///  The name of the kdb volume that you want to use as writeable save-down storage for clusters.
         public let volumeName: String?
 
+        @inlinable
         public init(size: Int? = nil, type: KxSavedownStorageType? = nil, volumeName: String? = nil) {
             self.size = size
             self.type = type
@@ -3451,6 +3525,7 @@ extension Finspace {
         /// The error message when a failed state occurs.
         public let statusReason: String?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, clusters: [String]? = nil, createdTimestamp: Date? = nil, hostType: String? = nil, lastModifiedTimestamp: Date? = nil, scalingGroupName: String? = nil, status: KxScalingGroupStatus? = nil, statusReason: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.clusters = clusters
@@ -3486,6 +3561,7 @@ extension Finspace {
         /// A unique identifier for the kdb scaling group.
         public let scalingGroupName: String
 
+        @inlinable
         public init(cpu: Double? = nil, memoryLimit: Int? = nil, memoryReservation: Int, nodeCount: Int, scalingGroupName: String) {
             self.cpu = cpu
             self.memoryLimit = memoryLimit
@@ -3525,6 +3601,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String?
 
+        @inlinable
         public init(createTimestamp: Date? = nil, iamRole: String? = nil, updateTimestamp: Date? = nil, userArn: String? = nil, userName: String? = nil) {
             self.createTimestamp = createTimestamp
             self.iamRole = iamRole
@@ -3562,6 +3639,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
         public let volumeType: KxVolumeType?
 
+        @inlinable
         public init(availabilityZoneIds: [String]? = nil, azMode: KxAzMode? = nil, createdTimestamp: Date? = nil, description: String? = nil, lastModifiedTimestamp: Date? = nil, status: KxVolumeStatus? = nil, statusReason: String? = nil, volumeName: String? = nil, volumeType: KxVolumeType? = nil) {
             self.availabilityZoneIds = availabilityZoneIds
             self.azMode = azMode
@@ -3593,6 +3671,7 @@ extension Finspace {
         /// A token generated by FinSpace that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the nextTokennextToken value from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3622,6 +3701,7 @@ extension Finspace {
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [Environment]? = nil, nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -3643,6 +3723,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(databaseName: String, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.databaseName = databaseName
             self.environmentId = environmentId
@@ -3682,6 +3763,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(kxChangesets: [KxChangesetListEntry]? = nil, nextToken: String? = nil) {
             self.kxChangesets = kxChangesets
             self.nextToken = nextToken
@@ -3703,6 +3785,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterName: String, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterName = clusterName
             self.environmentId = environmentId
@@ -3742,6 +3825,7 @@ extension Finspace {
         /// A list of nodes associated with the cluster.
         public let nodes: [KxNode]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodes: [KxNode]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -3763,6 +3847,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterType: KxClusterType? = nil, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterType = clusterType
             self.environmentId = environmentId
@@ -3799,6 +3884,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(kxClusterSummaries: [KxCluster]? = nil, nextToken: String? = nil) {
             self.kxClusterSummaries = kxClusterSummaries
             self.nextToken = nextToken
@@ -3818,6 +3904,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
@@ -3852,6 +3939,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(kxDatabases: [KxDatabaseListEntry]? = nil, nextToken: String? = nil) {
             self.kxDatabases = kxDatabases
             self.nextToken = nextToken
@@ -3873,6 +3961,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(databaseName: String, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.databaseName = databaseName
             self.environmentId = environmentId
@@ -3912,6 +4001,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(kxDataviews: [KxDataviewListEntry]? = nil, nextToken: String? = nil) {
             self.kxDataviews = kxDataviews
             self.nextToken = nextToken
@@ -3929,6 +4019,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3956,6 +4047,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [KxEnvironment]? = nil, nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -3975,6 +4067,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
@@ -4009,6 +4102,7 @@ extension Finspace {
         /// A list of scaling groups available in a kdb environment.
         public let scalingGroups: [KxScalingGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, scalingGroups: [KxScalingGroup]? = nil) {
             self.nextToken = nextToken
             self.scalingGroups = scalingGroups
@@ -4028,6 +4122,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
@@ -4062,6 +4157,7 @@ extension Finspace {
         /// A list of users in a kdb environment.
         public let users: [KxUser]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [KxUser]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -4083,6 +4179,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
         public let volumeType: KxVolumeType?
 
+        @inlinable
         public init(environmentId: String, maxResults: Int? = nil, nextToken: String? = nil, volumeType: KxVolumeType? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
@@ -4119,6 +4216,7 @@ extension Finspace {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
+        @inlinable
         public init(kxVolumeSummaries: [KxVolume]? = nil, nextToken: String? = nil) {
             self.kxVolumeSummaries = kxVolumeSummaries
             self.nextToken = nextToken
@@ -4134,6 +4232,7 @@ extension Finspace {
         /// The Amazon Resource Name of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4157,6 +4256,7 @@ extension Finspace {
         /// A list of all tags for a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4180,6 +4280,7 @@ extension Finspace {
         ///  The rule number for the entry. For example 100. All the network ACL entries are processed in ascending order by rule number.
         public let ruleNumber: Int
 
+        @inlinable
         public init(cidrBlock: String, icmpTypeCode: IcmpTypeCode? = nil, portRange: PortRange? = nil, protocol: String, ruleAction: RuleAction, ruleNumber: Int) {
             self.cidrBlock = cidrBlock
             self.icmpTypeCode = icmpTypeCode
@@ -4217,6 +4318,7 @@ extension Finspace {
         ///  The last port in the range.
         public let to: Int
 
+        @inlinable
         public init(from: Int, to: Int) {
             self.from = from
             self.to = to
@@ -4243,6 +4345,7 @@ extension Finspace {
         /// The last name of the superuser.
         public let lastName: String
 
+        @inlinable
         public init(emailAddress: String, firstName: String, lastName: String) {
             self.emailAddress = emailAddress
             self.firstName = firstName
@@ -4274,6 +4377,7 @@ extension Finspace {
         /// One or more tags to be assigned to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4315,6 +4419,7 @@ extension Finspace {
         /// The name of the volumes for tickerplant logs.
         public let tickerplantLogVolumes: [String]?
 
+        @inlinable
         public init(tickerplantLogVolumes: [String]? = nil) {
             self.tickerplantLogVolumes = tickerplantLogVolumes
         }
@@ -4340,6 +4445,7 @@ extension Finspace {
         /// The identifier of the transit gateway created by the customer to connect outbound traffics from kdb network to your internal network.
         public let transitGatewayID: String
 
+        @inlinable
         public init(attachmentNetworkAclConfiguration: [NetworkACLEntry]? = nil, routableCIDRSpace: String, transitGatewayID: String) {
             self.attachmentNetworkAclConfiguration = attachmentNetworkAclConfiguration
             self.routableCIDRSpace = routableCIDRSpace
@@ -4369,6 +4475,7 @@ extension Finspace {
         /// The tag keys (names) of one or more tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4412,6 +4519,7 @@ extension Finspace {
         /// The name of the environment.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, environmentId: String, federationMode: FederationMode? = nil, federationParameters: FederationParameters? = nil, name: String? = nil) {
             self.description = description
             self.environmentId = environmentId
@@ -4455,6 +4563,7 @@ extension Finspace {
         /// Returns the FinSpace environment object.
         public let environment: Environment?
 
+        @inlinable
         public init(environment: Environment? = nil) {
             self.environment = environment
         }
@@ -4479,6 +4588,7 @@ extension Finspace {
         /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q. You cannot update this parameter for a NO_RESTART deployment.
         public let initializationScript: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateKxClusterCodeConfigurationRequest.idempotencyToken(), clusterName: String, code: CodeConfiguration, commandLineArguments: [KxCommandLineArgument]? = nil, deploymentConfiguration: KxClusterCodeDeploymentConfiguration? = nil, environmentId: String, initializationScript: String? = nil) {
             self.clientToken = clientToken
             self.clusterName = clusterName
@@ -4545,6 +4655,7 @@ extension Finspace {
         /// The unique identifier of a kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateKxClusterDatabasesRequest.idempotencyToken(), clusterName: String, databases: [KxDatabaseConfiguration], deploymentConfiguration: KxDeploymentConfiguration? = nil, environmentId: String) {
             self.clientToken = clientToken
             self.clusterName = clusterName
@@ -4599,6 +4710,7 @@ extension Finspace {
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
+        @inlinable
         public init(clientToken: String = UpdateKxDatabaseRequest.idempotencyToken(), databaseName: String, description: String? = nil, environmentId: String) {
             self.clientToken = clientToken
             self.databaseName = databaseName
@@ -4646,6 +4758,7 @@ extension Finspace {
         /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTimestamp: Date?
 
+        @inlinable
         public init(databaseName: String? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil) {
             self.databaseName = databaseName
             self.description = description
@@ -4677,6 +4790,7 @@ extension Finspace {
         ///  The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
         public let segmentConfigurations: [KxDataviewSegmentConfiguration]?
 
+        @inlinable
         public init(changesetId: String? = nil, clientToken: String = UpdateKxDataviewRequest.idempotencyToken(), databaseName: String, dataviewName: String, description: String? = nil, environmentId: String, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil) {
             self.changesetId = changesetId
             self.clientToken = clientToken
@@ -4762,6 +4876,7 @@ extension Finspace {
         ///  The status of dataview creation.    CREATING – The dataview creation is in progress.    UPDATING – The dataview is in the process of being updated.    ACTIVE – The dataview is active.
         public let status: KxDataviewStatus?
 
+        @inlinable
         public init(activeVersions: [KxDataviewActiveVersion]? = nil, autoUpdate: Bool? = nil, availabilityZoneId: String? = nil, azMode: KxAzMode? = nil, changesetId: String? = nil, createdTimestamp: Date? = nil, databaseName: String? = nil, dataviewName: String? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil, readWrite: Bool? = nil, segmentConfigurations: [KxDataviewSegmentConfiguration]? = nil, status: KxDataviewStatus? = nil) {
             self.activeVersions = activeVersions
             self.autoUpdate = autoUpdate
@@ -4807,6 +4922,7 @@ extension Finspace {
         /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network.
         public let transitGatewayConfiguration: TransitGatewayConfiguration?
 
+        @inlinable
         public init(clientToken: String? = UpdateKxEnvironmentNetworkRequest.idempotencyToken(), customDNSConfiguration: [CustomDNSServer]? = nil, environmentId: String, transitGatewayConfiguration: TransitGatewayConfiguration? = nil) {
             self.clientToken = clientToken
             self.customDNSConfiguration = customDNSConfiguration
@@ -4876,6 +4992,7 @@ extension Finspace {
         /// The timestamp at which the kdb environment was updated.
         public let updateTimestamp: Date?
 
+        @inlinable
         public init(availabilityZoneIds: [String]? = nil, awsAccountId: String? = nil, creationTimestamp: Date? = nil, customDNSConfiguration: [CustomDNSServer]? = nil, dedicatedServiceAccountId: String? = nil, description: String? = nil, dnsStatus: DnsStatus? = nil, environmentArn: String? = nil, environmentId: String? = nil, errorMessage: String? = nil, kmsKeyId: String? = nil, name: String? = nil, status: EnvironmentStatus? = nil, tgwStatus: TgwStatus? = nil, transitGatewayConfiguration: TransitGatewayConfiguration? = nil, updateTimestamp: Date? = nil) {
             self.availabilityZoneIds = availabilityZoneIds
             self.awsAccountId = awsAccountId
@@ -4925,6 +5042,7 @@ extension Finspace {
         /// The name of the kdb environment.
         public let name: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateKxEnvironmentRequest.idempotencyToken(), description: String? = nil, environmentId: String, name: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -4996,6 +5114,7 @@ extension Finspace {
         /// The timestamp at which the kdb environment was updated.
         public let updateTimestamp: Date?
 
+        @inlinable
         public init(availabilityZoneIds: [String]? = nil, awsAccountId: String? = nil, creationTimestamp: Date? = nil, customDNSConfiguration: [CustomDNSServer]? = nil, dedicatedServiceAccountId: String? = nil, description: String? = nil, dnsStatus: DnsStatus? = nil, environmentArn: String? = nil, environmentId: String? = nil, errorMessage: String? = nil, kmsKeyId: String? = nil, name: String? = nil, status: EnvironmentStatus? = nil, tgwStatus: TgwStatus? = nil, transitGatewayConfiguration: TransitGatewayConfiguration? = nil, updateTimestamp: Date? = nil) {
             self.availabilityZoneIds = availabilityZoneIds
             self.awsAccountId = awsAccountId
@@ -5045,6 +5164,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateKxUserRequest.idempotencyToken(), environmentId: String, iamRole: String, userName: String) {
             self.clientToken = clientToken
             self.environmentId = environmentId
@@ -5092,6 +5212,7 @@ extension Finspace {
         /// A unique identifier for the user.
         public let userName: String?
 
+        @inlinable
         public init(environmentId: String? = nil, iamRole: String? = nil, userArn: String? = nil, userName: String? = nil) {
             self.environmentId = environmentId
             self.iamRole = iamRole
@@ -5119,6 +5240,7 @@ extension Finspace {
         /// A unique identifier for the volume.
         public let volumeName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateKxVolumeRequest.idempotencyToken(), description: String? = nil, environmentId: String, nas1Configuration: KxNAS1Configuration? = nil, volumeName: String) {
             self.clientToken = clientToken
             self.description = description
@@ -5188,6 +5310,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
         public let volumeType: KxVolumeType?
 
+        @inlinable
         public init(attachedClusters: [KxAttachedCluster]? = nil, availabilityZoneIds: [String]? = nil, azMode: KxAzMode? = nil, createdTimestamp: Date? = nil, description: String? = nil, environmentId: String? = nil, lastModifiedTimestamp: Date? = nil, nas1Configuration: KxNAS1Configuration? = nil, status: KxVolumeStatus? = nil, statusReason: String? = nil, volumeArn: String? = nil, volumeName: String? = nil, volumeType: KxVolumeType? = nil) {
             self.attachedClusters = attachedClusters
             self.availabilityZoneIds = availabilityZoneIds
@@ -5227,6 +5350,7 @@ extension Finspace {
         ///  The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(volumeName: String? = nil, volumeType: VolumeType? = nil) {
             self.volumeName = volumeName
             self.volumeType = volumeType
@@ -5248,6 +5372,7 @@ extension Finspace {
         /// The identifier of the VPC endpoint.
         public let vpcId: String?
 
+        @inlinable
         public init(ipAddressType: IPAddressType? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.ipAddressType = ipAddressType
             self.securityGroupIds = securityGroupIds

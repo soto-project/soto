@@ -432,6 +432,7 @@ extension PinpointSMSVoiceV2 {
         /// The value associated with the account attribute name.
         public let value: String
 
+        @inlinable
         public init(name: AccountAttributeName, value: String) {
             self.name = name
             self.value = value
@@ -451,6 +452,7 @@ extension PinpointSMSVoiceV2 {
         /// The current amount that has been spent, in US dollars.
         public let used: Int64
 
+        @inlinable
         public init(max: Int64, name: AccountLimitName, used: Int64) {
             self.max = max
             self.name = name
@@ -474,6 +476,7 @@ extension PinpointSMSVoiceV2 {
         /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.
         public let poolId: String
 
+        @inlinable
         public init(clientToken: String? = AssociateOriginationIdentityRequest.idempotencyToken(), isoCountryCode: String, originationIdentity: String, poolId: String) {
             self.clientToken = clientToken
             self.isoCountryCode = isoCountryCode
@@ -516,6 +519,7 @@ extension PinpointSMSVoiceV2 {
         /// The PoolId of the pool that is now associated with the origination identity.
         public let poolId: String?
 
+        @inlinable
         public init(isoCountryCode: String? = nil, originationIdentity: String? = nil, originationIdentityArn: String? = nil, poolArn: String? = nil, poolId: String? = nil) {
             self.isoCountryCode = isoCountryCode
             self.originationIdentity = originationIdentity
@@ -539,6 +543,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(configurationSetName: String, protectConfigurationId: String) {
             self.configurationSetName = configurationSetName
             self.protectConfigurationId = protectConfigurationId
@@ -569,6 +574,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(configurationSetArn: String, configurationSetName: String, protectConfigurationArn: String, protectConfigurationId: String) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -590,6 +596,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the Amazon CloudWatch log group that you want to record events in.
         public let logGroupArn: String
 
+        @inlinable
         public init(iamRoleArn: String, logGroupArn: String) {
             self.iamRoleArn = iamRoleArn
             self.logGroupArn = logGroupArn
@@ -616,6 +623,7 @@ extension PinpointSMSVoiceV2 {
         /// An array values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: ConfigurationSetFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -653,6 +661,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String?
 
+        @inlinable
         public init(configurationSetArn: String, configurationSetName: String, createdTimestamp: Date, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination], protectConfigurationId: String? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -682,6 +691,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of key and value pair tags that's associated with the new configuration set.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateConfigurationSetRequest.idempotencyToken(), configurationSetName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.configurationSetName = configurationSetName
@@ -718,6 +728,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of key and value pair tags that's associated with the configuration set.
         public let tags: [Tag]?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, createdTimestamp: Date? = nil, tags: [Tag]? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -749,6 +760,7 @@ extension PinpointSMSVoiceV2 {
         /// An object that contains information about an event destination for logging to Amazon SNS.
         public let snsDestination: SnsDestination?
 
+        @inlinable
         public init(clientToken: String? = CreateEventDestinationRequest.idempotencyToken(), cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, configurationSetName: String, eventDestinationName: String, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], snsDestination: SnsDestination? = nil) {
             self.clientToken = clientToken
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
@@ -795,6 +807,7 @@ extension PinpointSMSVoiceV2 {
         /// The details of the destination where events are logged.
         public let eventDestination: EventDestination?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, eventDestination: EventDestination? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -816,6 +829,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the new OptOutList.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateOptOutListRequest.idempotencyToken(), optOutListName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.optOutListName = optOutListName
@@ -852,6 +866,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) associated with the new OptOutList.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, optOutListArn: String? = nil, optOutListName: String? = nil, tags: [Tag]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.optOutListArn = optOutListArn
@@ -881,6 +896,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) associated with the pool.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreatePoolRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, originationIdentity: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -944,6 +960,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -985,6 +1002,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of key and value pair tags that are associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateProtectConfigurationRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -1022,6 +1040,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of key and value pair tags that are associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String, tags: [Tag]? = nil) {
             self.accountDefault = accountDefault
             self.createdTimestamp = createdTimestamp
@@ -1047,6 +1066,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the origination identity. For example this could be a PhoneNumberId or SenderId.
         public let resourceId: String
 
+        @inlinable
         public init(registrationId: String, resourceId: String) {
             self.registrationId = registrationId
             self.resourceId = resourceId
@@ -1085,6 +1105,7 @@ extension PinpointSMSVoiceV2 {
         /// The registration type or origination identity type.
         public let resourceType: String
 
+        @inlinable
         public init(isoCountryCode: String? = nil, phoneNumber: String? = nil, registrationArn: String, registrationId: String, registrationType: String, resourceArn: String, resourceId: String, resourceType: String) {
             self.isoCountryCode = isoCountryCode
             self.phoneNumber = phoneNumber
@@ -1118,6 +1139,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the registration attachment.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attachmentBody: AWSBase64Data? = nil, attachmentUrl: String? = nil, clientToken: String? = CreateRegistrationAttachmentRequest.idempotencyToken(), tags: [Tag]? = nil) {
             self.attachmentBody = attachmentBody
             self.attachmentUrl = attachmentUrl
@@ -1160,6 +1182,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the registration attachment.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attachmentStatus: AttachmentStatus, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String, tags: [Tag]? = nil) {
             self.attachmentStatus = attachmentStatus
             self.createdTimestamp = createdTimestamp
@@ -1185,6 +1208,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the registration.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateRegistrationRequest.idempotencyToken(), registrationType: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.registrationType = registrationType
@@ -1229,6 +1253,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the registration.
         public let tags: [Tag]?
 
+        @inlinable
         public init(additionalAttributes: [String: String]? = nil, createdTimestamp: Date, currentVersionNumber: Int64, registrationArn: String, registrationId: String, registrationStatus: RegistrationStatus, registrationType: String, tags: [Tag]? = nil) {
             self.additionalAttributes = additionalAttributes
             self.createdTimestamp = createdTimestamp
@@ -1256,6 +1281,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration.
         public let registrationId: String
 
+        @inlinable
         public init(registrationId: String) {
             self.registrationId = registrationId
         }
@@ -1283,6 +1309,7 @@ extension PinpointSMSVoiceV2 {
         /// The new version number of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(registrationArn: String, registrationId: String, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
             self.registrationArn = registrationArn
             self.registrationId = registrationId
@@ -1308,6 +1335,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the destination number.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateVerifiedDestinationNumberRequest.idempotencyToken(), destinationPhoneNumber: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -1348,6 +1376,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verified destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, tags: [Tag]? = nil, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -1377,6 +1406,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier of the account default protect configuration.
         public let defaultProtectConfigurationId: String
 
+        @inlinable
         public init(defaultProtectConfigurationArn: String, defaultProtectConfigurationId: String) {
             self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
             self.defaultProtectConfigurationId = defaultProtectConfigurationId
@@ -1392,6 +1422,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the configuration set or the configuration set ARN that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -1421,6 +1452,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of any EventDestination objects that were associated with the deleted configuration set.
         public let eventDestinations: [EventDestination]?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, createdTimestamp: Date? = nil, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination]? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -1444,6 +1476,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default message type from. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -1467,6 +1500,7 @@ extension PinpointSMSVoiceV2 {
         /// The current message type for the configuration set.
         public let messageType: MessageType?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, messageType: MessageType? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -1484,6 +1518,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the configuration set or the configuration set Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -1507,6 +1542,7 @@ extension PinpointSMSVoiceV2 {
         /// The current sender ID for the configuration set.
         public let senderId: String?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, senderId: String? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -1526,6 +1562,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the event destination to delete.
         public let eventDestinationName: String
 
+        @inlinable
         public init(configurationSetName: String, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
@@ -1554,6 +1591,7 @@ extension PinpointSMSVoiceV2 {
         /// The event destination object that was deleted.
         public let eventDestination: EventDestination?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, eventDestination: EventDestination? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -1573,6 +1611,7 @@ extension PinpointSMSVoiceV2 {
         /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.
         public let originationIdentity: String
 
+        @inlinable
         public init(keyword: String, originationIdentity: String) {
             self.keyword = keyword
             self.originationIdentity = originationIdentity
@@ -1605,6 +1644,7 @@ extension PinpointSMSVoiceV2 {
         /// The PhoneNumberArn or PoolArn that the keyword was associated with.
         public let originationIdentityArn: String?
 
+        @inlinable
         public init(keyword: String? = nil, keywordAction: KeywordAction? = nil, keywordMessage: String? = nil, originationIdentity: String? = nil, originationIdentityArn: String? = nil) {
             self.keyword = keyword
             self.keywordAction = keywordAction
@@ -1630,6 +1670,7 @@ extension PinpointSMSVoiceV2 {
         /// The current monthly limit, in US dollars.
         public let monthlyLimit: Int64?
 
+        @inlinable
         public init(monthlyLimit: Int64? = nil) {
             self.monthlyLimit = monthlyLimit
         }
@@ -1643,6 +1684,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
         public let optOutListName: String
 
+        @inlinable
         public init(optOutListName: String) {
             self.optOutListName = optOutListName
         }
@@ -1666,6 +1708,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the OptOutList that was removed.
         public let optOutListName: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, optOutListArn: String? = nil, optOutListName: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.optOutListArn = optOutListArn
@@ -1685,6 +1728,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutListName or OptOutListArn to remove the phone number from.
         public let optOutListName: String
 
+        @inlinable
         public init(optedOutNumber: String, optOutListName: String) {
             self.optedOutNumber = optedOutNumber
             self.optOutListName = optOutListName
@@ -1717,6 +1761,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutListName that the phone number was removed from.
         public let optOutListName: String?
 
+        @inlinable
         public init(endUserOptedOut: Bool? = nil, optedOutNumber: String? = nil, optedOutTimestamp: Date? = nil, optOutListArn: String? = nil, optOutListName: String? = nil) {
             self.endUserOptedOut = endUserOptedOut
             self.optedOutNumber = optedOutNumber
@@ -1738,6 +1783,7 @@ extension PinpointSMSVoiceV2 {
         /// The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn .
         public let poolId: String
 
+        @inlinable
         public init(poolId: String) {
             self.poolId = poolId
         }
@@ -1777,6 +1823,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.messageType = messageType
@@ -1810,6 +1857,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(protectConfigurationId: String) {
             self.protectConfigurationId = protectConfigurationId
         }
@@ -1837,6 +1885,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String) {
             self.accountDefault = accountDefault
             self.createdTimestamp = createdTimestamp
@@ -1858,6 +1907,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration attachment.
         public let registrationAttachmentId: String
 
+        @inlinable
         public init(registrationAttachmentId: String) {
             self.registrationAttachmentId = registrationAttachmentId
         }
@@ -1885,6 +1935,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration attachment.
         public let registrationAttachmentId: String
 
+        @inlinable
         public init(attachmentStatus: AttachmentStatus, attachmentUploadErrorReason: AttachmentUploadErrorReason? = nil, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String) {
             self.attachmentStatus = attachmentStatus
             self.attachmentUploadErrorReason = attachmentUploadErrorReason
@@ -1908,6 +1959,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration.
         public let registrationId: String
 
+        @inlinable
         public init(fieldPath: String, registrationId: String) {
             self.fieldPath = fieldPath
             self.registrationId = registrationId
@@ -1944,6 +1996,7 @@ extension PinpointSMSVoiceV2 {
         /// The version number of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(fieldPath: String, registrationArn: String, registrationAttachmentId: String? = nil, registrationId: String, selectChoices: [String]? = nil, textValue: String? = nil, versionNumber: Int64) {
             self.fieldPath = fieldPath
             self.registrationArn = registrationArn
@@ -1969,6 +2022,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration.
         public let registrationId: String
 
+        @inlinable
         public init(registrationId: String) {
             self.registrationId = registrationId
         }
@@ -2004,6 +2058,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
 
+        @inlinable
         public init(additionalAttributes: [String: String]? = nil, approvedVersionNumber: Int64? = nil, createdTimestamp: Date, currentVersionNumber: Int64, latestDeniedVersionNumber: Int64? = nil, registrationArn: String, registrationId: String, registrationStatus: RegistrationStatus, registrationType: String) {
             self.additionalAttributes = additionalAttributes
             self.approvedVersionNumber = approvedVersionNumber
@@ -2037,6 +2092,7 @@ extension PinpointSMSVoiceV2 {
         /// The current monthly limit, in US dollars.
         public let monthlyLimit: Int64?
 
+        @inlinable
         public init(monthlyLimit: Int64? = nil) {
             self.monthlyLimit = monthlyLimit
         }
@@ -2050,6 +2106,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verified destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(verifiedDestinationNumberId: String) {
             self.verifiedDestinationNumberId = verifiedDestinationNumberId
         }
@@ -2075,6 +2132,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verified destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(createdTimestamp: Date, destinationPhoneNumber: String, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -2098,6 +2156,7 @@ extension PinpointSMSVoiceV2 {
         /// The current monthly limit, in US dollars.
         public let monthlyLimit: Int64?
 
+        @inlinable
         public init(monthlyLimit: Int64? = nil) {
             self.monthlyLimit = monthlyLimit
         }
@@ -2113,6 +2172,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2138,6 +2198,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountAttributes: [AccountAttribute]? = nil, nextToken: String? = nil) {
             self.accountAttributes = accountAttributes
             self.nextToken = nextToken
@@ -2155,6 +2216,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2180,6 +2242,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountLimits: [AccountLimit]? = nil, nextToken: String? = nil) {
             self.accountLimits = accountLimits
             self.nextToken = nextToken
@@ -2201,6 +2264,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationSetNames: [String]? = nil, filters: [ConfigurationSetFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurationSetNames = configurationSetNames
             self.filters = filters
@@ -2240,6 +2304,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationSets: [ConfigurationSetInformation]? = nil, nextToken: String? = nil) {
             self.configurationSets = configurationSets
             self.nextToken = nextToken
@@ -2263,6 +2328,7 @@ extension PinpointSMSVoiceV2 {
         /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
         public let originationIdentity: String
 
+        @inlinable
         public init(filters: [KeywordFilter]? = nil, keywords: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, originationIdentity: String) {
             self.filters = filters
             self.keywords = keywords
@@ -2311,6 +2377,7 @@ extension PinpointSMSVoiceV2 {
         /// The PhoneNumberArn or PoolArn that is associated with the OriginationIdentity.
         public let originationIdentityArn: String?
 
+        @inlinable
         public init(keywords: [KeywordInformation]? = nil, nextToken: String? = nil, originationIdentity: String? = nil, originationIdentityArn: String? = nil) {
             self.keywords = keywords
             self.nextToken = nextToken
@@ -2334,6 +2401,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn.
         public let optOutListNames: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, optOutListNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2367,6 +2435,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of OptOutListInformation objects that contain the details for the requested OptOutLists.
         public let optOutLists: [OptOutListInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, optOutLists: [OptOutListInformation]? = nil) {
             self.nextToken = nextToken
             self.optOutLists = optOutLists
@@ -2390,6 +2459,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
         public let optOutListName: String
 
+        @inlinable
         public init(filters: [OptedOutFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, optedOutNumbers: [String]? = nil, optOutListName: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2438,6 +2508,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the OptOutList.
         public let optOutListName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, optedOutNumbers: [OptedOutNumberInformation]? = nil, optOutListArn: String? = nil, optOutListName: String? = nil) {
             self.nextToken = nextToken
             self.optedOutNumbers = optedOutNumbers
@@ -2463,6 +2534,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.
         public let phoneNumberIds: [String]?
 
+        @inlinable
         public init(filters: [PhoneNumberFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2502,6 +2574,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of PhoneNumberInformation objects that contain the details for the requested phone numbers.
         public let phoneNumbers: [PhoneNumberInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumbers: [PhoneNumberInformation]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -2523,6 +2596,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn.
         public let poolIds: [String]?
 
+        @inlinable
         public init(filters: [PoolFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2562,6 +2636,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of PoolInformation objects that contain the details for the requested pools.
         public let pools: [PoolInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, pools: [PoolInformation]? = nil) {
             self.nextToken = nextToken
             self.pools = pools
@@ -2583,6 +2658,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of protect configuration identifiers to search for.
         public let protectConfigurationIds: [String]?
 
+        @inlinable
         public init(filters: [ProtectConfigurationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, protectConfigurationIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2622,6 +2698,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of ProtectConfigurationInformation objects that contain the details for the request.
         public let protectConfigurations: [ProtectConfigurationInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, protectConfigurations: [ProtectConfigurationInformation]? = nil) {
             self.nextToken = nextToken
             self.protectConfigurations = protectConfigurations
@@ -2643,6 +2720,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier of registration attachments to find. This is an array of RegistrationAttachmentId.
         public let registrationAttachmentIds: [String]?
 
+        @inlinable
         public init(filters: [RegistrationAttachmentFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationAttachmentIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2682,6 +2760,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of RegistrationAttachments objects that contain the details for the requested registration attachments.
         public let registrationAttachments: [RegistrationAttachmentsInformation]
 
+        @inlinable
         public init(nextToken: String? = nil, registrationAttachments: [RegistrationAttachmentsInformation]) {
             self.nextToken = nextToken
             self.registrationAttachments = registrationAttachments
@@ -2705,6 +2784,7 @@ extension PinpointSMSVoiceV2 {
         /// The path to the section of the registration.
         public let sectionPath: String?
 
+        @inlinable
         public init(fieldPaths: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationType: String, sectionPath: String? = nil) {
             self.fieldPaths = fieldPaths
             self.maxResults = maxResults
@@ -2750,6 +2830,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
 
+        @inlinable
         public init(nextToken: String? = nil, registrationFieldDefinitions: [RegistrationFieldDefinition], registrationType: String) {
             self.nextToken = nextToken
             self.registrationFieldDefinitions = registrationFieldDefinitions
@@ -2777,6 +2858,7 @@ extension PinpointSMSVoiceV2 {
         /// The version number of the registration.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(fieldPaths: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationId: String, sectionPath: String? = nil, versionNumber: Int64? = nil) {
             self.fieldPaths = fieldPaths
             self.maxResults = maxResults
@@ -2830,6 +2912,7 @@ extension PinpointSMSVoiceV2 {
         /// The current version of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(nextToken: String? = nil, registrationArn: String, registrationFieldValues: [RegistrationFieldValueInformation], registrationId: String, versionNumber: Int64) {
             self.nextToken = nextToken
             self.registrationArn = registrationArn
@@ -2857,6 +2940,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of paths for the registration form section.
         public let sectionPaths: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, registrationType: String, sectionPaths: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2897,6 +2981,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
 
+        @inlinable
         public init(nextToken: String? = nil, registrationSectionDefinitions: [RegistrationSectionDefinition], registrationType: String) {
             self.nextToken = nextToken
             self.registrationSectionDefinitions = registrationSectionDefinitions
@@ -2920,6 +3005,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationTypes: [String]?
 
+        @inlinable
         public init(filters: [RegistrationTypeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationTypes: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2959,6 +3045,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationTypeDefinitions: [RegistrationTypeDefinition]
 
+        @inlinable
         public init(nextToken: String? = nil, registrationTypeDefinitions: [RegistrationTypeDefinition]) {
             self.nextToken = nextToken
             self.registrationTypeDefinitions = registrationTypeDefinitions
@@ -2982,6 +3069,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of registration version numbers.
         public let versionNumbers: [Int64]?
 
+        @inlinable
         public init(filters: [RegistrationVersionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationId: String, versionNumbers: [Int64]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3029,6 +3117,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of RegistrationVersions objects.
         public let registrationVersions: [RegistrationVersionInformation]
 
+        @inlinable
         public init(nextToken: String? = nil, registrationArn: String, registrationId: String, registrationVersions: [RegistrationVersionInformation]) {
             self.nextToken = nextToken
             self.registrationArn = registrationArn
@@ -3054,6 +3143,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of unique identifiers for each registration.
         public let registrationIds: [String]?
 
+        @inlinable
         public init(filters: [RegistrationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3093,6 +3183,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of RegistrationInformation objects.
         public let registrations: [RegistrationInformation]
 
+        @inlinable
         public init(nextToken: String? = nil, registrations: [RegistrationInformation]) {
             self.nextToken = nextToken
             self.registrations = registrations
@@ -3114,6 +3205,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of SenderIdAndCountry objects to search for.
         public let senderIds: [SenderIdAndCountry]?
 
+        @inlinable
         public init(filters: [SenderIdFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, senderIds: [SenderIdAndCountry]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3151,6 +3243,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of SernderIdInformation objects that contain the details for the requested SenderIds.
         public let senderIds: [SenderIdInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, senderIds: [SenderIdInformation]? = nil) {
             self.nextToken = nextToken
             self.senderIds = senderIds
@@ -3168,6 +3261,7 @@ extension PinpointSMSVoiceV2 {
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3193,6 +3287,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of SpendLimit objects that contain the details for the requested spend limits.
         public let spendLimits: [SpendLimit]?
 
+        @inlinable
         public init(nextToken: String? = nil, spendLimits: [SpendLimit]? = nil) {
             self.nextToken = nextToken
             self.spendLimits = spendLimits
@@ -3216,6 +3311,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of VerifiedDestinationNumberid to retreive.
         public let verifiedDestinationNumberIds: [String]?
 
+        @inlinable
         public init(destinationPhoneNumbers: [String]? = nil, filters: [VerifiedDestinationNumberFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedDestinationNumberIds: [String]? = nil) {
             self.destinationPhoneNumbers = destinationPhoneNumbers
             self.filters = filters
@@ -3263,6 +3359,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of VerifiedDestinationNumberInformation objects
         public let verifiedDestinationNumbers: [VerifiedDestinationNumberInformation]
 
+        @inlinable
         public init(nextToken: String? = nil, verifiedDestinationNumbers: [VerifiedDestinationNumberInformation]) {
             self.nextToken = nextToken
             self.verifiedDestinationNumbers = verifiedDestinationNumbers
@@ -3284,6 +3381,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.
         public let poolId: String
 
+        @inlinable
         public init(clientToken: String? = DisassociateOriginationIdentityRequest.idempotencyToken(), isoCountryCode: String, originationIdentity: String, poolId: String) {
             self.clientToken = clientToken
             self.isoCountryCode = isoCountryCode
@@ -3326,6 +3424,7 @@ extension PinpointSMSVoiceV2 {
         /// The PoolId of the pool no longer associated with the origination identity.
         public let poolId: String?
 
+        @inlinable
         public init(isoCountryCode: String? = nil, originationIdentity: String? = nil, originationIdentityArn: String? = nil, poolArn: String? = nil, poolId: String? = nil) {
             self.isoCountryCode = isoCountryCode
             self.originationIdentity = originationIdentity
@@ -3349,6 +3448,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(configurationSetName: String, protectConfigurationId: String) {
             self.configurationSetName = configurationSetName
             self.protectConfigurationId = protectConfigurationId
@@ -3379,6 +3479,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(configurationSetArn: String, configurationSetName: String, protectConfigurationArn: String, protectConfigurationId: String) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -3398,6 +3499,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration.
         public let registrationId: String
 
+        @inlinable
         public init(registrationId: String) {
             self.registrationId = registrationId
         }
@@ -3425,6 +3527,7 @@ extension PinpointSMSVoiceV2 {
         /// The version number of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(registrationArn: String, registrationId: String, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
             self.registrationArn = registrationArn
             self.registrationId = registrationId
@@ -3456,6 +3559,7 @@ extension PinpointSMSVoiceV2 {
         /// An object that contains information about an event destination that sends logging events to Amazon SNS.
         public let snsDestination: SnsDestination?
 
+        @inlinable
         public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, enabled: Bool, eventDestinationName: String, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], snsDestination: SnsDestination? = nil) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
@@ -3481,6 +3585,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(numberCapability: NumberCapability, protectConfigurationId: String) {
             self.numberCapability = numberCapability
             self.protectConfigurationId = protectConfigurationId
@@ -3508,6 +3613,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation], numberCapability: NumberCapability, protectConfigurationArn: String, protectConfigurationId: String) {
             self.countryRuleSet = countryRuleSet
             self.numberCapability = numberCapability
@@ -3529,6 +3635,7 @@ extension PinpointSMSVoiceV2 {
         /// An array values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: KeywordFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -3558,6 +3665,7 @@ extension PinpointSMSVoiceV2 {
         /// A custom message that can be used with the keyword.
         public let keywordMessage: String
 
+        @inlinable
         public init(keyword: String, keywordAction: KeywordAction, keywordMessage: String) {
             self.keyword = keyword
             self.keywordAction = keywordAction
@@ -3577,6 +3685,7 @@ extension PinpointSMSVoiceV2 {
         /// The ARN of an Identity and Access Management role that is able to write event data to an Amazon Data Firehose destination.
         public let iamRoleArn: String
 
+        @inlinable
         public init(deliveryStreamArn: String, iamRoleArn: String) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
@@ -3607,6 +3716,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the pool. This value can be either the PoolId or PoolArn.
         public let poolId: String
 
+        @inlinable
         public init(filters: [PoolOriginationIdentitiesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3647,6 +3757,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique PoolId of the pool.
         public let poolId: String?
 
+        @inlinable
         public init(nextToken: String? = nil, originationIdentities: [OriginationIdentityMetadata]? = nil, poolArn: String? = nil, poolId: String? = nil) {
             self.nextToken = nextToken
             self.originationIdentities = originationIdentities
@@ -3672,6 +3783,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration.
         public let registrationId: String
 
+        @inlinable
         public init(filters: [RegistrationAssociationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registrationId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3714,6 +3826,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
 
+        @inlinable
         public init(nextToken: String? = nil, registrationArn: String, registrationAssociations: [RegistrationAssociationMetadata], registrationId: String, registrationType: String) {
             self.nextToken = nextToken
             self.registrationArn = registrationArn
@@ -3735,6 +3848,7 @@ extension PinpointSMSVoiceV2 {
         /// The Amazon Resource Name (ARN) of the resource to query for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3756,6 +3870,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of key and value pair tags that are associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3775,6 +3890,7 @@ extension PinpointSMSVoiceV2 {
         /// The name of the OptOutList.
         public let optOutListName: String
 
+        @inlinable
         public init(createdTimestamp: Date, optOutListArn: String, optOutListName: String) {
             self.createdTimestamp = createdTimestamp
             self.optOutListArn = optOutListArn
@@ -3794,6 +3910,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: OptedOutFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -3823,6 +3940,7 @@ extension PinpointSMSVoiceV2 {
         /// The time that the op tout occurred, in UNIX epoch time format.
         public let optedOutTimestamp: Date
 
+        @inlinable
         public init(endUserOptedOut: Bool, optedOutNumber: String, optedOutTimestamp: Date) {
             self.endUserOptedOut = endUserOptedOut
             self.optedOutNumber = optedOutNumber
@@ -3848,6 +3966,7 @@ extension PinpointSMSVoiceV2 {
         /// The phone number in E.164 format.
         public let phoneNumber: String?
 
+        @inlinable
         public init(isoCountryCode: String, numberCapabilities: [NumberCapability], originationIdentity: String, originationIdentityArn: String, phoneNumber: String? = nil) {
             self.isoCountryCode = isoCountryCode
             self.numberCapabilities = numberCapabilities
@@ -3871,6 +3990,7 @@ extension PinpointSMSVoiceV2 {
         /// An array values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: PhoneNumberFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -3930,6 +4050,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         public let twoWayEnabled: Bool
 
+        @inlinable
         public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, isoCountryCode: String, messageType: MessageType, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -3979,6 +4100,7 @@ extension PinpointSMSVoiceV2 {
         /// An array values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: PoolFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4026,6 +4148,7 @@ extension PinpointSMSVoiceV2 {
         /// When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         public let twoWayEnabled: Bool
 
+        @inlinable
         public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, messageType: MessageType, optOutListName: String, poolArn: String, poolId: String, selfManagedOptOutsEnabled: Bool, sharedRoutesEnabled: Bool, status: PoolStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -4063,6 +4186,7 @@ extension PinpointSMSVoiceV2 {
         /// An array values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: PoolOriginationIdentitiesFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4088,6 +4212,7 @@ extension PinpointSMSVoiceV2 {
         /// The types of protection that can be used.
         public let protectStatus: ProtectStatus
 
+        @inlinable
         public init(protectStatus: ProtectStatus) {
             self.protectStatus = protectStatus
         }
@@ -4103,6 +4228,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: ProtectConfigurationFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4136,6 +4262,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String) {
             self.accountDefault = accountDefault
             self.createdTimestamp = createdTimestamp
@@ -4163,6 +4290,7 @@ extension PinpointSMSVoiceV2 {
         /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
         public let originationIdentity: String
 
+        @inlinable
         public init(keyword: String, keywordAction: KeywordAction? = nil, keywordMessage: String, originationIdentity: String) {
             self.keyword = keyword
             self.keywordAction = keywordAction
@@ -4202,6 +4330,7 @@ extension PinpointSMSVoiceV2 {
         /// The PhoneNumberArn or PoolArn that the keyword was associated with.
         public let originationIdentityArn: String?
 
+        @inlinable
         public init(keyword: String? = nil, keywordAction: KeywordAction? = nil, keywordMessage: String? = nil, originationIdentity: String? = nil, originationIdentityArn: String? = nil) {
             self.keyword = keyword
             self.keywordAction = keywordAction
@@ -4225,6 +4354,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutListName or OptOutListArn to add the phone number to.
         public let optOutListName: String
 
+        @inlinable
         public init(optedOutNumber: String, optOutListName: String) {
             self.optedOutNumber = optedOutNumber
             self.optOutListName = optOutListName
@@ -4257,6 +4387,7 @@ extension PinpointSMSVoiceV2 {
         /// The OptOutListName that the phone number was removed from.
         public let optOutListName: String?
 
+        @inlinable
         public init(endUserOptedOut: Bool? = nil, optedOutNumber: String? = nil, optedOutTimestamp: Date? = nil, optOutListArn: String? = nil, optOutListName: String? = nil) {
             self.endUserOptedOut = endUserOptedOut
             self.optedOutNumber = optedOutNumber
@@ -4286,6 +4417,7 @@ extension PinpointSMSVoiceV2 {
         /// The text data for a free form field.
         public let textValue: String?
 
+        @inlinable
         public init(fieldPath: String, registrationAttachmentId: String? = nil, registrationId: String, selectChoices: [String]? = nil, textValue: String? = nil) {
             self.fieldPath = fieldPath
             self.registrationAttachmentId = registrationAttachmentId
@@ -4338,6 +4470,7 @@ extension PinpointSMSVoiceV2 {
         /// The version number of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(fieldPath: String, registrationArn: String, registrationAttachmentId: String? = nil, registrationId: String, selectChoices: [String]? = nil, textValue: String? = nil, versionNumber: Int64) {
             self.fieldPath = fieldPath
             self.registrationArn = registrationArn
@@ -4365,6 +4498,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: RegistrationAssociationFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4398,6 +4532,7 @@ extension PinpointSMSVoiceV2 {
         /// The origination identity type.
         public let resourceType: String
 
+        @inlinable
         public init(isoCountryCode: String? = nil, phoneNumber: String? = nil, resourceArn: String, resourceId: String, resourceType: String) {
             self.isoCountryCode = isoCountryCode
             self.phoneNumber = phoneNumber
@@ -4421,6 +4556,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter on.
         public let values: [String]
 
+        @inlinable
         public init(name: RegistrationAttachmentFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4454,6 +4590,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration attachment.
         public let registrationAttachmentId: String
 
+        @inlinable
         public init(attachmentStatus: AttachmentStatus, attachmentUploadErrorReason: AttachmentUploadErrorReason? = nil, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String) {
             self.attachmentStatus = attachmentStatus
             self.attachmentUploadErrorReason = attachmentUploadErrorReason
@@ -4483,6 +4620,7 @@ extension PinpointSMSVoiceV2 {
         /// A short description of the rejection reason.
         public let shortDescription: String
 
+        @inlinable
         public init(documentationLink: String? = nil, documentationTitle: String? = nil, longDescription: String? = nil, reason: String, shortDescription: String) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
@@ -4516,6 +4654,7 @@ extension PinpointSMSVoiceV2 {
         /// The validation rules for a text field.
         public let textValidation: TextValidation?
 
+        @inlinable
         public init(displayHints: RegistrationFieldDisplayHints, fieldPath: String, fieldRequirement: FieldRequirement, fieldType: FieldType, sectionPath: String, selectValidation: SelectValidation? = nil, textValidation: TextValidation? = nil) {
             self.displayHints = displayHints
             self.fieldPath = fieldPath
@@ -4555,6 +4694,7 @@ extension PinpointSMSVoiceV2 {
         /// The title of the display hint.
         public let title: String
 
+        @inlinable
         public init(documentationLink: String? = nil, documentationTitle: String? = nil, exampleTextValue: String? = nil, longDescription: String? = nil, selectOptionDescriptions: [SelectOptionDescription]? = nil, shortDescription: String, textValidationDescription: String? = nil, title: String) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
@@ -4590,6 +4730,7 @@ extension PinpointSMSVoiceV2 {
         /// The text data for a free form field.
         public let textValue: String?
 
+        @inlinable
         public init(deniedReason: String? = nil, fieldPath: String, registrationAttachmentId: String? = nil, selectChoices: [String]? = nil, textValue: String? = nil) {
             self.deniedReason = deniedReason
             self.fieldPath = fieldPath
@@ -4613,6 +4754,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter on.
         public let values: [String]
 
+        @inlinable
         public init(name: RegistrationFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4654,6 +4796,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
 
+        @inlinable
         public init(additionalAttributes: [String: String]? = nil, approvedVersionNumber: Int64? = nil, createdTimestamp: Date, currentVersionNumber: Int64, latestDeniedVersionNumber: Int64? = nil, registrationArn: String, registrationId: String, registrationStatus: RegistrationStatus, registrationType: String) {
             self.additionalAttributes = additionalAttributes
             self.approvedVersionNumber = approvedVersionNumber
@@ -4685,6 +4828,7 @@ extension PinpointSMSVoiceV2 {
         /// The path to the section of the registration.
         public let sectionPath: String
 
+        @inlinable
         public init(displayHints: RegistrationSectionDisplayHints, sectionPath: String) {
             self.displayHints = displayHints
             self.sectionPath = sectionPath
@@ -4708,6 +4852,7 @@ extension PinpointSMSVoiceV2 {
         /// The title of the display hint.
         public let title: String
 
+        @inlinable
         public init(documentationLink: String? = nil, documentationTitle: String? = nil, longDescription: String? = nil, shortDescription: String, title: String) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
@@ -4733,6 +4878,7 @@ extension PinpointSMSVoiceV2 {
         /// The supported association behavior for the registration type.
         public let supportedAssociations: [SupportedAssociation]?
 
+        @inlinable
         public init(displayHints: RegistrationTypeDisplayHints, registrationType: String, supportedAssociations: [SupportedAssociation]? = nil) {
             self.displayHints = displayHints
             self.registrationType = registrationType
@@ -4758,6 +4904,7 @@ extension PinpointSMSVoiceV2 {
         /// The title of the display hint.
         public let title: String
 
+        @inlinable
         public init(documentationLink: String? = nil, documentationTitle: String? = nil, longDescription: String? = nil, shortDescription: String? = nil, title: String) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
@@ -4781,6 +4928,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter on.
         public let values: [String]
 
+        @inlinable
         public init(name: RegistrationTypeFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4808,6 +4956,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter on.
         public let values: [String]
 
+        @inlinable
         public init(name: RegistrationVersionFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -4839,6 +4988,7 @@ extension PinpointSMSVoiceV2 {
         /// The version number of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(deniedReasons: [RegistrationDeniedReasonInformation]? = nil, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
             self.deniedReasons = deniedReasons
             self.registrationVersionStatus = registrationVersionStatus
@@ -4872,6 +5022,7 @@ extension PinpointSMSVoiceV2 {
         /// The time when the registration was in the submitted state, in UNIX epoch time format.
         public let submittedTimestamp: Date?
 
+        @inlinable
         public init(approvedTimestamp: Date? = nil, archivedTimestamp: Date? = nil, deniedTimestamp: Date? = nil, discardedTimestamp: Date? = nil, draftTimestamp: Date, reviewingTimestamp: Date? = nil, revokedTimestamp: Date? = nil, submittedTimestamp: Date? = nil) {
             self.approvedTimestamp = approvedTimestamp
             self.archivedTimestamp = archivedTimestamp
@@ -4899,6 +5050,7 @@ extension PinpointSMSVoiceV2 {
         /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -4948,6 +5100,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.isoCountryCode = isoCountryCode
@@ -4993,6 +5146,7 @@ extension PinpointSMSVoiceV2 {
         /// The sender ID to release.
         public let senderId: String
 
+        @inlinable
         public init(isoCountryCode: String, senderId: String) {
             self.isoCountryCode = isoCountryCode
             self.senderId = senderId
@@ -5029,6 +5183,7 @@ extension PinpointSMSVoiceV2 {
         /// The Amazon Resource Name (ARN) associated with the SenderId.
         public let senderIdArn: String
 
+        @inlinable
         public init(isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
@@ -5072,6 +5227,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) associate with the requested phone number.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = RequestPhoneNumberRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, numberCapabilities: [NumberCapability], numberType: RequestableNumberType, optOutListName: String? = nil, poolId: String? = nil, registrationId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -5163,6 +5319,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: RequestableNumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -5222,6 +5379,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the sender ID.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = RequestSenderIdRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, messageTypes: [MessageType]? = nil, senderId: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -5276,6 +5434,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tags (key and value pairs) to associate with the sender ID.
         public let tags: [Tag]?
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, senderId: String, senderIdArn: String, tags: [Tag]? = nil) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -5307,6 +5466,7 @@ extension PinpointSMSVoiceV2 {
         /// The title of the select option.
         public let title: String?
 
+        @inlinable
         public init(description: String? = nil, option: String, title: String? = nil) {
             self.description = description
             self.option = option
@@ -5328,6 +5488,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of strings for the possible selection options.
         public let options: [String]
 
+        @inlinable
         public init(maxChoices: Int, minChoices: Int, options: [String]) {
             self.maxChoices = maxChoices
             self.minChoices = minChoices
@@ -5357,6 +5518,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verified destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, languageCode: LanguageCode? = nil, originationIdentity: String? = nil, verificationChannel: VerificationChannel, verifiedDestinationNumberId: String) {
             self.configurationSetName = configurationSetName
             self.context = context
@@ -5409,6 +5571,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the message.
         public let messageId: String
 
+        @inlinable
         public init(messageId: String) {
             self.messageId = messageId
         }
@@ -5440,6 +5603,7 @@ extension PinpointSMSVoiceV2 {
         /// How long the text message is valid for. By default this is 72 hours.
         public let timeToLive: Int?
 
+        @inlinable
         public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPrice: String? = nil, mediaUrls: [String]? = nil, messageBody: String? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
@@ -5510,6 +5674,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the message.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -5545,6 +5710,7 @@ extension PinpointSMSVoiceV2 {
         /// How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event.
         public let timeToLive: Int?
 
+        @inlinable
         public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, keyword: String? = nil, maxPrice: String? = nil, messageBody: String? = nil, messageType: MessageType? = nil, originationIdentity: String? = nil, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
@@ -5621,6 +5787,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the message.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -5654,6 +5821,7 @@ extension PinpointSMSVoiceV2 {
         /// The voice for the Amazon Polly service to use. By default this is set to "MATTHEW".
         public let voiceId: VoiceId?
 
+        @inlinable
         public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPricePerMinute: String? = nil, messageBody: String? = nil, messageBodyTextType: VoiceMessageBodyTextType? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil, voiceId: VoiceId? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
@@ -5719,6 +5887,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the message.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -5734,6 +5903,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier of the sender.
         public let senderId: String
 
+        @inlinable
         public init(isoCountryCode: String, senderId: String) {
             self.isoCountryCode = isoCountryCode
             self.senderId = senderId
@@ -5760,6 +5930,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter for.
         public let values: [String]
 
+        @inlinable
         public init(name: SenderIdFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -5799,6 +5970,7 @@ extension PinpointSMSVoiceV2 {
         /// The Amazon Resource Name (ARN) associated with the SenderId.
         public let senderIdArn: String
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -5826,6 +5998,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(protectConfigurationId: String) {
             self.protectConfigurationId = protectConfigurationId
         }
@@ -5847,6 +6020,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier of the account default protect configuration.
         public let defaultProtectConfigurationId: String
 
+        @inlinable
         public init(defaultProtectConfigurationArn: String, defaultProtectConfigurationId: String) {
             self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
             self.defaultProtectConfigurationId = defaultProtectConfigurationId
@@ -5864,6 +6038,7 @@ extension PinpointSMSVoiceV2 {
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType
 
+        @inlinable
         public init(configurationSetName: String, messageType: MessageType) {
             self.configurationSetName = configurationSetName
             self.messageType = messageType
@@ -5889,6 +6064,7 @@ extension PinpointSMSVoiceV2 {
         /// The new default message type of the configuration set.
         public let messageType: MessageType?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, messageType: MessageType? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -5908,6 +6084,7 @@ extension PinpointSMSVoiceV2 {
         /// The current sender ID for the configuration set. When sending a text message to a destination country which supports SenderIds, the default sender ID on the configuration set specified on SendTextMessage will be used if no dedicated origination phone numbers or registered SenderIds are available in your account, instead of a generic sender ID, such as 'NOTICE'.
         public let senderId: String
 
+        @inlinable
         public init(configurationSetName: String, senderId: String) {
             self.configurationSetName = configurationSetName
             self.senderId = senderId
@@ -5936,6 +6113,7 @@ extension PinpointSMSVoiceV2 {
         /// The default sender ID to set for the ConfigurationSet.
         public let senderId: String?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, senderId: String? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -5953,6 +6131,7 @@ extension PinpointSMSVoiceV2 {
         /// The new monthly limit to enforce on text messages.
         public let monthlyLimit: Int64
 
+        @inlinable
         public init(monthlyLimit: Int64) {
             self.monthlyLimit = monthlyLimit
         }
@@ -5971,6 +6150,7 @@ extension PinpointSMSVoiceV2 {
         /// The current monthly limit to enforce on sending text messages.
         public let monthlyLimit: Int64?
 
+        @inlinable
         public init(monthlyLimit: Int64? = nil) {
             self.monthlyLimit = monthlyLimit
         }
@@ -5984,6 +6164,7 @@ extension PinpointSMSVoiceV2 {
         /// The new monthly limit to enforce on text messages.
         public let monthlyLimit: Int64
 
+        @inlinable
         public init(monthlyLimit: Int64) {
             self.monthlyLimit = monthlyLimit
         }
@@ -6002,6 +6183,7 @@ extension PinpointSMSVoiceV2 {
         /// The current monthly limit to enforce on sending text messages.
         public let monthlyLimit: Int64?
 
+        @inlinable
         public init(monthlyLimit: Int64? = nil) {
             self.monthlyLimit = monthlyLimit
         }
@@ -6015,6 +6197,7 @@ extension PinpointSMSVoiceV2 {
         /// The new monthly limit to enforce on voice messages.
         public let monthlyLimit: Int64
 
+        @inlinable
         public init(monthlyLimit: Int64) {
             self.monthlyLimit = monthlyLimit
         }
@@ -6033,6 +6216,7 @@ extension PinpointSMSVoiceV2 {
         /// The current monthly limit to enforce on sending voice messages.
         public let monthlyLimit: Int64?
 
+        @inlinable
         public init(monthlyLimit: Int64? = nil) {
             self.monthlyLimit = monthlyLimit
         }
@@ -6046,6 +6230,7 @@ extension PinpointSMSVoiceV2 {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         public let topicArn: String
 
+        @inlinable
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -6071,6 +6256,7 @@ extension PinpointSMSVoiceV2 {
         /// When set to True, the value that has been specified in the EnforcedLimit is used to determine the maximum amount in US dollars that can be spent to send messages each month, in US dollars.
         public let overridden: Bool
 
+        @inlinable
         public init(enforcedLimit: Int64, maxLimit: Int64, name: SpendLimitName, overridden: Bool) {
             self.enforcedLimit = enforcedLimit
             self.maxLimit = maxLimit
@@ -6090,6 +6276,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the registration.
         public let registrationId: String
 
+        @inlinable
         public init(registrationId: String) {
             self.registrationId = registrationId
         }
@@ -6117,6 +6304,7 @@ extension PinpointSMSVoiceV2 {
         /// The version number of the registration.
         public let versionNumber: Int64
 
+        @inlinable
         public init(registrationArn: String, registrationId: String, registrationVersionStatus: RegistrationVersionStatus, registrationVersionStatusHistory: RegistrationVersionStatusHistory, versionNumber: Int64) {
             self.registrationArn = registrationArn
             self.registrationId = registrationId
@@ -6144,6 +6332,7 @@ extension PinpointSMSVoiceV2 {
         /// Defines the behavior of when an origination identity and registration can be associated with each other.
         public let resourceType: String
 
+        @inlinable
         public init(associationBehavior: RegistrationAssociationBehavior, disassociationBehavior: RegistrationDisassociationBehavior, isoCountryCode: String? = nil, resourceType: String) {
             self.associationBehavior = associationBehavior
             self.disassociationBehavior = disassociationBehavior
@@ -6165,6 +6354,7 @@ extension PinpointSMSVoiceV2 {
         /// The string value associated with the key of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -6190,6 +6380,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of key and value pair tags that are associated with the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6224,6 +6415,7 @@ extension PinpointSMSVoiceV2 {
         /// The regular expression used to validate the text field.
         public let pattern: String
 
+        @inlinable
         public init(maxLength: Int, minLength: Int, pattern: String) {
             self.maxLength = maxLength
             self.minLength = minLength
@@ -6243,6 +6435,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of tag key values to unassociate with the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -6287,6 +6480,7 @@ extension PinpointSMSVoiceV2 {
         /// An object that contains information about an event destination that sends data to Amazon SNS.
         public let snsDestination: SnsDestination?
 
+        @inlinable
         public init(cloudWatchLogsDestination: CloudWatchLogsDestination? = nil, configurationSetName: String, enabled: Bool? = nil, eventDestinationName: String, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.configurationSetName = configurationSetName
@@ -6330,6 +6524,7 @@ extension PinpointSMSVoiceV2 {
         /// An EventDestination object containing the details of where events will be logged.
         public let eventDestination: EventDestination?
 
+        @inlinable
         public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, eventDestination: EventDestination? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
@@ -6359,6 +6554,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, phoneNumberId: String, selfManagedOptOutsEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.optOutListName = optOutListName
@@ -6431,6 +6627,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType? = nil, monthlyLeasingPrice: String? = nil, numberCapabilities: [NumberCapability]? = nil, numberType: NumberType? = nil, optOutListName: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, status: NumberStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -6490,6 +6687,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, poolId: String, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.optOutListName = optOutListName
@@ -6554,6 +6752,7 @@ extension PinpointSMSVoiceV2 {
         /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
         public let twoWayEnabled: Bool?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, deletionProtectionEnabled: Bool? = nil, messageType: MessageType? = nil, optOutListName: String? = nil, poolArn: String? = nil, poolId: String? = nil, selfManagedOptOutsEnabled: Bool? = nil, sharedRoutesEnabled: Bool? = nil, status: PoolStatus? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -6593,6 +6792,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(countryRuleSetUpdates: [String: ProtectConfigurationCountryRuleSetInformation], numberCapability: NumberCapability, protectConfigurationId: String) {
             self.countryRuleSetUpdates = countryRuleSetUpdates
             self.numberCapability = numberCapability
@@ -6629,6 +6829,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation], numberCapability: NumberCapability, protectConfigurationArn: String, protectConfigurationId: String) {
             self.countryRuleSet = countryRuleSet
             self.numberCapability = numberCapability
@@ -6650,6 +6851,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool? = nil, protectConfigurationId: String) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.protectConfigurationId = protectConfigurationId
@@ -6679,6 +6881,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String
 
+        @inlinable
         public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String) {
             self.accountDefault = accountDefault
             self.createdTimestamp = createdTimestamp
@@ -6704,6 +6907,7 @@ extension PinpointSMSVoiceV2 {
         /// The sender ID to update.
         public let senderId: String
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, senderId: String) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -6744,6 +6948,7 @@ extension PinpointSMSVoiceV2 {
         /// The Amazon Resource Name (ARN) associated with the SenderId.
         public let senderIdArn: String
 
+        @inlinable
         public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -6773,6 +6978,7 @@ extension PinpointSMSVoiceV2 {
         /// An array of values to filter on.
         public let values: [String]
 
+        @inlinable
         public init(name: VerifiedDestinationNumberFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -6806,6 +7012,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verified destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -6829,6 +7036,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verififed destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(verificationCode: String, verifiedDestinationNumberId: String) {
             self.verificationCode = verificationCode
             self.verifiedDestinationNumberId = verifiedDestinationNumberId
@@ -6861,6 +7069,7 @@ extension PinpointSMSVoiceV2 {
         /// The unique identifier for the verified destination phone number.
         public let verifiedDestinationNumberId: String
 
+        @inlinable
         public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber

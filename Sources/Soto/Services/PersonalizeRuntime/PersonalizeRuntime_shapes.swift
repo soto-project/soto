@@ -40,6 +40,7 @@ extension PersonalizeRuntime {
         /// The user ID of the user to provide action recommendations for.
         public let userId: String?
 
+        @inlinable
         public init(campaignArn: String? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, numResults: Int? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.filterArn = filterArn
@@ -78,6 +79,7 @@ extension PersonalizeRuntime {
         /// The ID of the recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(actionList: [PredictedAction]? = nil, recommendationId: String? = nil) {
             self.actionList = actionList
             self.recommendationId = recommendationId
@@ -105,6 +107,7 @@ extension PersonalizeRuntime {
         /// The user for which you want the campaign to provide a personalized ranking.
         public let userId: String
 
+        @inlinable
         public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, inputList: [String], metadataColumns: [String: [String]]? = nil, userId: String) {
             self.campaignArn = campaignArn
             self.context = context
@@ -160,6 +163,7 @@ extension PersonalizeRuntime {
         /// The ID of the recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(personalizedRanking: [PredictedItem]? = nil, recommendationId: String? = nil) {
             self.personalizedRanking = personalizedRanking
             self.recommendationId = recommendationId
@@ -193,6 +197,7 @@ extension PersonalizeRuntime {
         /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
         public let userId: String?
 
+        @inlinable
         public init(campaignArn: String? = nil, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, itemId: String? = nil, metadataColumns: [String: [String]]? = nil, numResults: Int? = nil, promotions: [Promotion]? = nil, recommenderArn: String? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.context = context
@@ -259,6 +264,7 @@ extension PersonalizeRuntime {
         /// The ID of the recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(itemList: [PredictedItem]? = nil, recommendationId: String? = nil) {
             self.itemList = itemList
             self.recommendationId = recommendationId
@@ -276,6 +282,7 @@ extension PersonalizeRuntime {
         /// The score of the recommended action. For information about action scores, see How action recommendation scoring works.
         public let score: Double?
 
+        @inlinable
         public init(actionId: String? = nil, score: Double? = nil) {
             self.actionId = actionId
             self.score = score
@@ -299,6 +306,7 @@ extension PersonalizeRuntime {
         /// A numeric representation of the model's certainty that the item will be the next user selection. For more information on scoring logic, see how-scores-work.
         public let score: Double?
 
+        @inlinable
         public init(itemId: String? = nil, metadata: [String: String]? = nil, promotionName: String? = nil, reason: [String]? = nil, score: Double? = nil) {
             self.itemId = itemId
             self.metadata = metadata
@@ -326,6 +334,7 @@ extension PersonalizeRuntime {
         /// The percentage of recommended items to apply the promotion to.
         public let percentPromotedItems: Int?
 
+        @inlinable
         public init(filterArn: String? = nil, filterValues: [String: String]? = nil, name: String? = nil, percentPromotedItems: Int? = nil) {
             self.filterArn = filterArn
             self.filterValues = filterValues

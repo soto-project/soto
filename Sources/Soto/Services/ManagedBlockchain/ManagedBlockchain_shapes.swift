@@ -149,6 +149,7 @@ extension ManagedBlockchain {
         /// The type of the accessor.  Currently, accessor type is restricted to BILLING_TOKEN.
         public let type: AccessorType?
 
+        @inlinable
         public init(arn: String? = nil, billingToken: String? = nil, creationDate: Date? = nil, id: String? = nil, networkType: AccessorNetworkType? = nil, status: AccessorStatus? = nil, tags: [String: String]? = nil, type: AccessorType? = nil) {
             self.arn = arn
             self.billingToken = billingToken
@@ -187,6 +188,7 @@ extension ManagedBlockchain {
         /// The type of the accessor.  Currently accessor type is restricted to BILLING_TOKEN.
         public let type: AccessorType?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, id: String? = nil, networkType: AccessorNetworkType? = nil, status: AccessorStatus? = nil, type: AccessorType? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -214,6 +216,7 @@ extension ManagedBlockchain {
         /// The percentage of votes among all members that must be YES for a proposal to be approved. For example, a ThresholdPercentage value of 50 indicates 50%. The ThresholdComparator determines the precise comparison. If a ThresholdPercentage value of 50 is specified on a network with 10 members, along with a ThresholdComparator value of GREATER_THAN, this indicates that 6 YES votes are required for the proposal to be approved.
         public let thresholdPercentage: Int?
 
+        @inlinable
         public init(proposalDurationInHours: Int? = nil, thresholdComparator: ThresholdComparator? = nil, thresholdPercentage: Int? = nil) {
             self.proposalDurationInHours = proposalDurationInHours
             self.thresholdComparator = thresholdComparator
@@ -244,6 +247,7 @@ extension ManagedBlockchain {
         /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessorType: AccessorType, clientRequestToken: String = CreateAccessorInput.idempotencyToken(), networkType: AccessorNetworkType? = nil, tags: [String: String]? = nil) {
             self.accessorType = accessorType
             self.clientRequestToken = clientRequestToken
@@ -278,6 +282,7 @@ extension ManagedBlockchain {
         /// The blockchain network that the accessor token is created for.
         public let networkType: AccessorNetworkType?
 
+        @inlinable
         public init(accessorId: String? = nil, billingToken: String? = nil, networkType: AccessorNetworkType? = nil) {
             self.accessorId = accessorId
             self.billingToken = billingToken
@@ -301,6 +306,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the network in which the member is created.
         public let networkId: String
 
+        @inlinable
         public init(clientRequestToken: String = CreateMemberInput.idempotencyToken(), invitationId: String, memberConfiguration: MemberConfiguration, networkId: String) {
             self.clientRequestToken = clientRequestToken
             self.invitationId = invitationId
@@ -338,6 +344,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the member.
         public let memberId: String?
 
+        @inlinable
         public init(memberId: String? = nil) {
             self.memberId = memberId
         }
@@ -367,6 +374,7 @@ extension ManagedBlockchain {
         ///  The voting rules used by the network to determine if a proposal is approved.
         public let votingPolicy: VotingPolicy
 
+        @inlinable
         public init(clientRequestToken: String = CreateNetworkInput.idempotencyToken(), description: String? = nil, framework: Framework, frameworkConfiguration: NetworkFrameworkConfiguration? = nil, frameworkVersion: String, memberConfiguration: MemberConfiguration, name: String, tags: [String: String]? = nil, votingPolicy: VotingPolicy) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -417,6 +425,7 @@ extension ManagedBlockchain {
         /// The unique identifier for the network.
         public let networkId: String?
 
+        @inlinable
         public init(memberId: String? = nil, networkId: String? = nil) {
             self.memberId = memberId
             self.networkId = networkId
@@ -440,6 +449,7 @@ extension ManagedBlockchain {
         /// Tags to assign to the node. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String? = nil, networkId: String, nodeConfiguration: NodeConfiguration, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.memberId = memberId
@@ -485,6 +495,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the node.
         public let nodeId: String?
 
+        @inlinable
         public init(nodeId: String? = nil) {
             self.nodeId = nodeId
         }
@@ -508,6 +519,7 @@ extension ManagedBlockchain {
         /// Tags to assign to the proposal. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(actions: ProposalActions, clientRequestToken: String = CreateProposalInput.idempotencyToken(), description: String? = nil, memberId: String, networkId: String, tags: [String: String]? = nil) {
             self.actions = actions
             self.clientRequestToken = clientRequestToken
@@ -558,6 +570,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the proposal.
         public let proposalId: String?
 
+        @inlinable
         public init(proposalId: String? = nil) {
             self.proposalId = proposalId
         }
@@ -571,6 +584,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the accessor.
         public let accessorId: String
 
+        @inlinable
         public init(accessorId: String) {
             self.accessorId = accessorId
         }
@@ -599,6 +613,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the network from which the member is removed.
         public let networkId: String
 
+        @inlinable
         public init(memberId: String, networkId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -633,6 +648,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the node.
         public let nodeId: String
 
+        @inlinable
         public init(memberId: String? = nil, networkId: String, nodeId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -667,6 +683,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the accessor.
         public let accessorId: String
 
+        @inlinable
         public init(accessorId: String) {
             self.accessorId = accessorId
         }
@@ -689,6 +706,7 @@ extension ManagedBlockchain {
         /// The properties of the accessor.
         public let accessor: Accessor?
 
+        @inlinable
         public init(accessor: Accessor? = nil) {
             self.accessor = accessor
         }
@@ -704,6 +722,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the network to which the member belongs.
         public let networkId: String
 
+        @inlinable
         public init(memberId: String, networkId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -730,6 +749,7 @@ extension ManagedBlockchain {
         /// The properties of a member.
         public let member: Member?
 
+        @inlinable
         public init(member: Member? = nil) {
             self.member = member
         }
@@ -743,6 +763,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the network to get information about.
         public let networkId: String
 
+        @inlinable
         public init(networkId: String) {
             self.networkId = networkId
         }
@@ -765,6 +786,7 @@ extension ManagedBlockchain {
         /// An object containing network configuration parameters.
         public let network: Network?
 
+        @inlinable
         public init(network: Network? = nil) {
             self.network = network
         }
@@ -782,6 +804,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the node.
         public let nodeId: String
 
+        @inlinable
         public init(memberId: String? = nil, networkId: String, nodeId: String) {
             self.memberId = memberId
             self.networkId = networkId
@@ -812,6 +835,7 @@ extension ManagedBlockchain {
         /// Properties of the node configuration.
         public let node: Node?
 
+        @inlinable
         public init(node: Node? = nil) {
             self.node = node
         }
@@ -827,6 +851,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the proposal.
         public let proposalId: String
 
+        @inlinable
         public init(networkId: String, proposalId: String) {
             self.networkId = networkId
             self.proposalId = proposalId
@@ -853,6 +878,7 @@ extension ManagedBlockchain {
         /// Information about a proposal.
         public let proposal: Proposal?
 
+        @inlinable
         public init(proposal: Proposal? = nil) {
             self.proposal = proposal
         }
@@ -877,6 +903,7 @@ extension ManagedBlockchain {
         /// The status of the invitation:    PENDING - The invitee hasn't created a member to join the network, and the invitation hasn't yet expired.    ACCEPTING - The invitee has begun creating a member, and creation hasn't yet completed.    ACCEPTED - The invitee created a member and joined the network using the InvitationID.    REJECTED - The invitee rejected the invitation.    EXPIRED - The invitee neither created a member nor rejected the invitation before the ExpirationDate.
         public let status: InvitationStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, expirationDate: Date? = nil, invitationId: String? = nil, networkSummary: NetworkSummary? = nil, status: InvitationStatus? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -900,6 +927,7 @@ extension ManagedBlockchain {
         /// The Amazon Web Services account ID to invite.
         public let principal: String
 
+        @inlinable
         public init(principal: String) {
             self.principal = principal
         }
@@ -917,6 +945,7 @@ extension ManagedBlockchain {
         ///  The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, networkType: AccessorNetworkType? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.networkType = networkType
@@ -946,6 +975,7 @@ extension ManagedBlockchain {
         ///  The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(accessors: [AccessorSummary]? = nil, nextToken: String? = nil) {
             self.accessors = accessors
             self.nextToken = nextToken
@@ -963,6 +993,7 @@ extension ManagedBlockchain {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -990,6 +1021,7 @@ extension ManagedBlockchain {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -1015,6 +1047,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only members currently in this status are listed.
         public let status: MemberStatus?
 
+        @inlinable
         public init(isOwned: Bool? = nil, maxResults: Int? = nil, name: String? = nil, networkId: String, nextToken: String? = nil, status: MemberStatus? = nil) {
             self.isOwned = isOwned
             self.maxResults = maxResults
@@ -1052,6 +1085,7 @@ extension ManagedBlockchain {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [MemberSummary]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -1075,6 +1109,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only networks currently in this status are listed. Applies only to Hyperledger Fabric.
         public let status: NetworkStatus?
 
+        @inlinable
         public init(framework: Framework? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: NetworkStatus? = nil) {
             self.framework = framework
             self.maxResults = maxResults
@@ -1108,6 +1143,7 @@ extension ManagedBlockchain {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(networks: [NetworkSummary]? = nil, nextToken: String? = nil) {
             self.networks = networks
             self.nextToken = nextToken
@@ -1131,6 +1167,7 @@ extension ManagedBlockchain {
         /// An optional status specifier. If provided, only nodes currently in this status are listed.
         public let status: NodeStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, memberId: String? = nil, networkId: String, nextToken: String? = nil, status: NodeStatus? = nil) {
             self.maxResults = maxResults
             self.memberId = memberId
@@ -1168,6 +1205,7 @@ extension ManagedBlockchain {
         /// An array of NodeSummary objects that contain configuration properties for each node.
         public let nodes: [NodeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodes: [NodeSummary]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -1189,6 +1227,7 @@ extension ManagedBlockchain {
         ///  The unique identifier of the proposal.
         public let proposalId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, networkId: String, nextToken: String? = nil, proposalId: String) {
             self.maxResults = maxResults
             self.networkId = networkId
@@ -1224,6 +1263,7 @@ extension ManagedBlockchain {
         ///  The list of votes.
         public let proposalVotes: [VoteSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proposalVotes: [VoteSummary]? = nil) {
             self.nextToken = nextToken
             self.proposalVotes = proposalVotes
@@ -1243,6 +1283,7 @@ extension ManagedBlockchain {
         ///  The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, networkId: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.networkId = networkId
@@ -1274,6 +1315,7 @@ extension ManagedBlockchain {
         /// The summary of each proposal made on the network.
         public let proposals: [ProposalSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proposals: [ProposalSummary]? = nil) {
             self.nextToken = nextToken
             self.proposals = proposals
@@ -1289,6 +1331,7 @@ extension ManagedBlockchain {
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1312,6 +1355,7 @@ extension ManagedBlockchain {
         /// The tags assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1325,6 +1369,7 @@ extension ManagedBlockchain {
         /// Indicates whether logging is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -1338,6 +1383,7 @@ extension ManagedBlockchain {
         /// Parameters for publishing logs to Amazon CloudWatch Logs.
         public let cloudwatch: LogConfiguration?
 
+        @inlinable
         public init(cloudwatch: LogConfiguration? = nil) {
             self.cloudwatch = cloudwatch
         }
@@ -1372,6 +1418,7 @@ extension ManagedBlockchain {
         /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, kmsKeyArn: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1415,6 +1462,7 @@ extension ManagedBlockchain {
         /// Tags assigned to the member. Tags consist of a key and optional value.  When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, kmsKeyArn: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String, tags: [String: String]? = nil) {
             self.description = description
             self.frameworkConfiguration = frameworkConfiguration
@@ -1457,6 +1505,7 @@ extension ManagedBlockchain {
         /// The endpoint used to access the member's certificate authority.
         public let caEndpoint: String?
 
+        @inlinable
         public init(adminUsername: String? = nil, caEndpoint: String? = nil) {
             self.adminUsername = adminUsername
             self.caEndpoint = caEndpoint
@@ -1474,6 +1523,7 @@ extension ManagedBlockchain {
         /// The user name for the member's initial administrative user.
         public let adminUsername: String
 
+        @inlinable
         public init(adminPassword: String, adminUsername: String) {
             self.adminPassword = adminPassword
             self.adminUsername = adminUsername
@@ -1498,6 +1548,7 @@ extension ManagedBlockchain {
         /// Configuration properties for logging events associated with a member's Certificate Authority (CA). CA logs help you determine when a member in your account joins the network, or when new peers register with a member CA.
         public let caLogs: LogConfigurations?
 
+        @inlinable
         public init(caLogs: LogConfigurations? = nil) {
             self.caLogs = caLogs
         }
@@ -1511,6 +1562,7 @@ extension ManagedBlockchain {
         /// Attributes of Hyperledger Fabric relevant to a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricAttributes?
 
+        @inlinable
         public init(fabric: MemberFabricAttributes? = nil) {
             self.fabric = fabric
         }
@@ -1524,6 +1576,7 @@ extension ManagedBlockchain {
         /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: MemberFabricConfiguration?
 
+        @inlinable
         public init(fabric: MemberFabricConfiguration? = nil) {
             self.fabric = fabric
         }
@@ -1541,6 +1594,7 @@ extension ManagedBlockchain {
         /// Configuration properties for logging events associated with a member of a Managed Blockchain network using the Hyperledger Fabric framework.
         public let fabric: MemberFabricLogPublishingConfiguration?
 
+        @inlinable
         public init(fabric: MemberFabricLogPublishingConfiguration? = nil) {
             self.fabric = fabric
         }
@@ -1567,6 +1621,7 @@ extension ManagedBlockchain {
         /// The status of the member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in Key Management Service (KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1615,6 +1670,7 @@ extension ManagedBlockchain {
         /// The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.
         public let vpcEndpointServiceName: String?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkAttributes: NetworkFrameworkAttributes? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil, tags: [String: String]? = nil, votingPolicy: VotingPolicy? = nil, vpcEndpointServiceName: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1650,6 +1706,7 @@ extension ManagedBlockchain {
         /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1
         public let chainId: String?
 
+        @inlinable
         public init(chainId: String? = nil) {
             self.chainId = chainId
         }
@@ -1665,6 +1722,7 @@ extension ManagedBlockchain {
         /// The endpoint of the ordering service for the network.
         public let orderingServiceEndpoint: String?
 
+        @inlinable
         public init(edition: Edition? = nil, orderingServiceEndpoint: String? = nil) {
             self.edition = edition
             self.orderingServiceEndpoint = orderingServiceEndpoint
@@ -1680,6 +1738,7 @@ extension ManagedBlockchain {
         /// The edition of Amazon Managed Blockchain that the network uses. For more information, see Amazon Managed Blockchain Pricing.
         public let edition: Edition
 
+        @inlinable
         public init(edition: Edition) {
             self.edition = edition
         }
@@ -1695,6 +1754,7 @@ extension ManagedBlockchain {
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
 
+        @inlinable
         public init(ethereum: NetworkEthereumAttributes? = nil, fabric: NetworkFabricAttributes? = nil) {
             self.ethereum = ethereum
             self.fabric = fabric
@@ -1710,6 +1770,7 @@ extension ManagedBlockchain {
         ///  Hyperledger Fabric configuration properties for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricConfiguration?
 
+        @inlinable
         public init(fabric: NetworkFabricConfiguration? = nil) {
             self.fabric = fabric
         }
@@ -1738,6 +1799,7 @@ extension ManagedBlockchain {
         /// The current status of the network.
         public let status: NetworkStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, id: String? = nil, name: String? = nil, status: NetworkStatus? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1790,6 +1852,7 @@ extension ManagedBlockchain {
         /// Tags assigned to the node. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, kmsKeyArn: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, stateDB: StateDBType? = nil, status: NodeStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1833,6 +1896,7 @@ extension ManagedBlockchain {
         /// The state database that the node uses. Values are LevelDB or CouchDB. When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB. Applies only to Hyperledger Fabric.
         public let stateDB: StateDBType?
 
+        @inlinable
         public init(availabilityZone: String? = nil, instanceType: String, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, stateDB: StateDBType? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
@@ -1854,6 +1918,7 @@ extension ManagedBlockchain {
         /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC methods over WebSocket connections from a client. Use this endpoint in client code for smart contracts when using a WebSocket connection. Connections to this endpoint are authenticated using Signature Version 4.
         public let webSocketEndpoint: String?
 
+        @inlinable
         public init(httpEndpoint: String? = nil, webSocketEndpoint: String? = nil) {
             self.httpEndpoint = httpEndpoint
             self.webSocketEndpoint = webSocketEndpoint
@@ -1871,6 +1936,7 @@ extension ManagedBlockchain {
         /// The endpoint that identifies the peer node for peer channel-based event services.
         public let peerEventEndpoint: String?
 
+        @inlinable
         public init(peerEndpoint: String? = nil, peerEventEndpoint: String? = nil) {
             self.peerEndpoint = peerEndpoint
             self.peerEventEndpoint = peerEventEndpoint
@@ -1888,6 +1954,7 @@ extension ManagedBlockchain {
         /// Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node.
         public let peerLogs: LogConfigurations?
 
+        @inlinable
         public init(chaincodeLogs: LogConfigurations? = nil, peerLogs: LogConfigurations? = nil) {
             self.chaincodeLogs = chaincodeLogs
             self.peerLogs = peerLogs
@@ -1905,6 +1972,7 @@ extension ManagedBlockchain {
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
 
+        @inlinable
         public init(ethereum: NodeEthereumAttributes? = nil, fabric: NodeFabricAttributes? = nil) {
             self.ethereum = ethereum
             self.fabric = fabric
@@ -1920,6 +1988,7 @@ extension ManagedBlockchain {
         /// Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework.
         public let fabric: NodeFabricLogPublishingConfiguration?
 
+        @inlinable
         public init(fabric: NodeFabricLogPublishingConfiguration? = nil) {
             self.fabric = fabric
         }
@@ -1944,6 +2013,7 @@ extension ManagedBlockchain {
         /// The status of the node.
         public let status: NodeStatus?
 
+        @inlinable
         public init(arn: String? = nil, availabilityZone: String? = nil, creationDate: Date? = nil, id: String? = nil, instanceType: String? = nil, status: NodeStatus? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1995,6 +2065,7 @@ extension ManagedBlockchain {
         ///  The current total of YES votes cast on the proposal by members.
         public let yesVoteCount: Int?
 
+        @inlinable
         public init(actions: ProposalActions? = nil, arn: String? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, networkId: String? = nil, noVoteCount: Int? = nil, outstandingVoteCount: Int? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil, tags: [String: String]? = nil, yesVoteCount: Int? = nil) {
             self.actions = actions
             self.arn = arn
@@ -2036,6 +2107,7 @@ extension ManagedBlockchain {
         ///  The actions to perform for an APPROVED proposal to remove a member from the network, which deletes the member and all associated member resources from the network.
         public let removals: [RemoveAction]?
 
+        @inlinable
         public init(invitations: [InviteAction]? = nil, removals: [RemoveAction]? = nil) {
             self.invitations = invitations
             self.removals = removals
@@ -2073,6 +2145,7 @@ extension ManagedBlockchain {
         /// The status of the proposal. Values are as follows:    IN_PROGRESS - The proposal is active and open for member voting.    APPROVED - The proposal was approved with sufficient YES votes among members according to the VotingPolicy specified for the Network. The specified proposal actions are carried out.    REJECTED - The proposal was rejected with insufficient YES votes among members according to the VotingPolicy specified for the Network. The specified ProposalActions aren't carried out.    EXPIRED - Members didn't cast the number of votes required to determine the proposal outcome before the proposal expired. The specified ProposalActions aren't carried out.    ACTION_FAILED - One or more of the specified ProposalActions in a proposal that was approved couldn't be completed because of an error.
         public let status: ProposalStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, proposalId: String? = nil, proposedByMemberId: String? = nil, proposedByMemberName: String? = nil, status: ProposalStatus? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -2100,6 +2173,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the invitation to reject.
         public let invitationId: String
 
+        @inlinable
         public init(invitationId: String) {
             self.invitationId = invitationId
         }
@@ -2126,6 +2200,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the member to remove.
         public let memberId: String
 
+        @inlinable
         public init(memberId: String) {
             self.memberId = memberId
         }
@@ -2146,6 +2221,7 @@ extension ManagedBlockchain {
         /// The tags to assign to the specified resource. Tag values can be empty, for example, "MyTagKey" : "". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2185,6 +2261,7 @@ extension ManagedBlockchain {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2223,6 +2300,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the Managed Blockchain network to which the member belongs.
         public let networkId: String
 
+        @inlinable
         public init(logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, memberId: String, networkId: String) {
             self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
@@ -2263,6 +2341,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the node.
         public let nodeId: String
 
+        @inlinable
         public init(logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String, nodeId: String) {
             self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
@@ -2308,6 +2387,7 @@ extension ManagedBlockchain {
         /// The unique identifier of the member casting the vote.
         public let voterMemberId: String
 
+        @inlinable
         public init(networkId: String, proposalId: String, vote: VoteValue, voterMemberId: String) {
             self.networkId = networkId
             self.proposalId = proposalId
@@ -2351,6 +2431,7 @@ extension ManagedBlockchain {
         ///  The vote value, either YES or NO.
         public let vote: VoteValue?
 
+        @inlinable
         public init(memberId: String? = nil, memberName: String? = nil, vote: VoteValue? = nil) {
             self.memberId = memberId
             self.memberName = memberName
@@ -2368,6 +2449,7 @@ extension ManagedBlockchain {
         /// Defines the rules for the network for voting on proposals, such as the percentage of YES votes required for the proposal to be approved and the duration of the proposal. The policy applies to all proposals and is specified when the network is created.
         public let approvalThresholdPolicy: ApprovalThresholdPolicy?
 
+        @inlinable
         public init(approvalThresholdPolicy: ApprovalThresholdPolicy? = nil) {
             self.approvalThresholdPolicy = approvalThresholdPolicy
         }

@@ -386,6 +386,7 @@ extension IoTWireless {
         /// Session keys for ABP v1.0.x
         public let sessionKeys: SessionKeysAbpV10X?
 
+        @inlinable
         public init(devAddr: String? = nil, fCntStart: Int? = nil, sessionKeys: SessionKeysAbpV10X? = nil) {
             self.devAddr = devAddr
             self.fCntStart = fCntStart
@@ -414,6 +415,7 @@ extension IoTWireless {
         /// Session keys for ABP v1.1
         public let sessionKeys: SessionKeysAbpV11?
 
+        @inlinable
         public init(devAddr: String? = nil, fCntStart: Int? = nil, sessionKeys: SessionKeysAbpV11? = nil) {
             self.devAddr = devAddr
             self.fCntStart = fCntStart
@@ -440,6 +442,7 @@ extension IoTWireless {
         /// The vertical accuracy of the estimated position, which is the difference between the estimated altitude and actual device latitude in meters.
         public let verticalAccuracy: Float?
 
+        @inlinable
         public init(horizontalAccuracy: Float? = nil, verticalAccuracy: Float? = nil) {
             self.horizontalAccuracy = horizontalAccuracy
             self.verticalAccuracy = verticalAccuracy
@@ -458,6 +461,7 @@ extension IoTWireless {
         /// Application type, which can be specified to obtain real-time position information of your LoRaWAN device.
         public let type: ApplicationConfigType?
 
+        @inlinable
         public init(destinationName: String? = nil, fPort: Int? = nil, type: ApplicationConfigType? = nil) {
             self.destinationName = destinationName
             self.fPort = fPort
@@ -486,6 +490,7 @@ extension IoTWireless {
         /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = AssociateAwsAccountWithPartnerAccountRequest.idempotencyToken(), sidewalk: SidewalkAccountInfo, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.sidewalk = sidewalk
@@ -516,6 +521,7 @@ extension IoTWireless {
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkAccountInfo?
 
+        @inlinable
         public init(arn: String? = nil, sidewalk: SidewalkAccountInfo? = nil) {
             self.arn = arn
             self.sidewalk = sidewalk
@@ -531,6 +537,7 @@ extension IoTWireless {
         public let id: String
         public let multicastGroupId: String
 
+        @inlinable
         public init(id: String, multicastGroupId: String) {
             self.id = id
             self.multicastGroupId = multicastGroupId
@@ -561,6 +568,7 @@ extension IoTWireless {
         public let id: String
         public let wirelessDeviceId: String
 
+        @inlinable
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
@@ -591,6 +599,7 @@ extension IoTWireless {
         public let id: String
         public let wirelessDeviceId: String
 
+        @inlinable
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
@@ -623,6 +632,7 @@ extension IoTWireless {
         /// The ARN of the thing to associate with the wireless device.
         public let thingArn: String
 
+        @inlinable
         public init(id: String, thingArn: String) {
             self.id = id
             self.thingArn = thingArn
@@ -654,6 +664,7 @@ extension IoTWireless {
         /// The ID of the certificate to associate with the wireless gateway.
         public let iotCertificateId: String
 
+        @inlinable
         public init(id: String, iotCertificateId: String) {
             self.id = id
             self.iotCertificateId = iotCertificateId
@@ -681,6 +692,7 @@ extension IoTWireless {
         /// The ID of the certificate associated with the wireless gateway.
         public let iotCertificateId: String?
 
+        @inlinable
         public init(iotCertificateId: String? = nil) {
             self.iotCertificateId = iotCertificateId
         }
@@ -696,6 +708,7 @@ extension IoTWireless {
         /// The ARN of the thing to associate with the wireless gateway.
         public let thingArn: String
 
+        @inlinable
         public init(id: String, thingArn: String) {
             self.id = id
             self.thingArn = thingArn
@@ -727,6 +740,7 @@ extension IoTWireless {
         /// The frequency list for the gateways to send the beacons.
         public let frequencies: [Int]?
 
+        @inlinable
         public init(dataRate: Int? = nil, frequencies: [Int]? = nil) {
             self.dataRate = dataRate
             self.frequencies = frequencies
@@ -751,6 +765,7 @@ extension IoTWireless {
     public struct CancelMulticastGroupSessionRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -778,6 +793,7 @@ extension IoTWireless {
         /// Pseudo-noise offset, which is a characteristic of the signal from a cell on a radio tower.
         public let pnOffset: Int
 
+        @inlinable
         public init(cdmaChannel: Int, pnOffset: Int) {
             self.cdmaChannel = cdmaChannel
             self.pnOffset = pnOffset
@@ -806,6 +822,7 @@ extension IoTWireless {
         /// Pseudo-noise offset, which is a characteristic of the signal from a cell on a radio tower.
         public let pnOffset: Int
 
+        @inlinable
         public init(baseStationId: Int? = nil, cdmaChannel: Int, pilotPower: Int? = nil, pnOffset: Int) {
             self.baseStationId = baseStationId
             self.cdmaChannel = cdmaChannel
@@ -852,6 +869,7 @@ extension IoTWireless {
         /// CDMA system ID (SID).
         public let systemId: Int
 
+        @inlinable
         public init(baseLat: Float? = nil, baseLng: Float? = nil, baseStationId: Int, cdmaLocalId: CdmaLocalId? = nil, cdmaNmr: [CdmaNmrObj]? = nil, networkId: Int, pilotPower: Int? = nil, registrationZone: Int? = nil, systemId: Int) {
             self.baseLat = baseLat
             self.baseLng = baseLng
@@ -912,6 +930,7 @@ extension IoTWireless {
         /// WCDMA object information.
         public let wcdma: [WcdmaObj]?
 
+        @inlinable
         public init(cdma: [CdmaObj]? = nil, gsm: [GsmObj]? = nil, lte: [LteObj]? = nil, tdscdma: [TdscdmaObj]? = nil, wcdma: [WcdmaObj]? = nil) {
             self.cdma = cdma
             self.gsm = gsm
@@ -963,6 +982,7 @@ extension IoTWireless {
         /// The value of the chosen sidewalk certificate.
         public let value: String
 
+        @inlinable
         public init(signingAlg: SigningAlg, value: String) {
             self.signingAlg = signingAlg
             self.value = value
@@ -980,6 +1000,7 @@ extension IoTWireless {
         /// Denotes whether the wireless gateway ID connection status event topic is enabled or disabled.
         public let wirelessGatewayIdEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations? = nil, wirelessGatewayIdEventTopic: EventNotificationTopicStatus? = nil) {
             self.loRaWAN = loRaWAN
             self.wirelessGatewayIdEventTopic = wirelessGatewayIdEventTopic
@@ -995,6 +1016,7 @@ extension IoTWireless {
         /// Connection status resource type event configuration object for enabling or disabling LoRaWAN related event topics.
         public let loRaWAN: LoRaWANConnectionStatusResourceTypeEventConfiguration?
 
+        @inlinable
         public init(loRaWAN: LoRaWANConnectionStatusResourceTypeEventConfiguration? = nil) {
             self.loRaWAN = loRaWAN
         }
@@ -1020,6 +1042,7 @@ extension IoTWireless {
         /// The tags to attach to the new destination. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateDestinationRequest.idempotencyToken(), description: String? = nil, expression: String, expressionType: ExpressionType, name: String, roleArn: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1063,6 +1086,7 @@ extension IoTWireless {
         /// The name of the new resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1086,6 +1110,7 @@ extension IoTWireless {
         /// The tags to attach to the new device profile. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateDeviceProfileRequest.idempotencyToken(), loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil, sidewalk: SidewalkCreateDeviceProfile? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.loRaWAN = loRaWAN
@@ -1121,6 +1146,7 @@ extension IoTWireless {
         /// The ID of the new device profile.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1144,6 +1170,7 @@ extension IoTWireless {
         public let redundancyPercent: Int?
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(), description: String? = nil, firmwareUpdateImage: String, firmwareUpdateRole: String, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1195,6 +1222,7 @@ extension IoTWireless {
         public let arn: String?
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1215,6 +1243,7 @@ extension IoTWireless {
         public let name: String?
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMulticastGroupRequest.idempotencyToken(), description: String? = nil, loRaWAN: LoRaWANMulticast, name: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1248,6 +1277,7 @@ extension IoTWireless {
         public let arn: String?
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1272,6 +1302,7 @@ extension IoTWireless {
         /// Wireless gateway resources to add to the network analyzer configuration. Provide the WirelessGatewayId of the resource to add in the input array.
         public let wirelessGateways: [String]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateNetworkAnalyzerConfigurationRequest.idempotencyToken(), description: String? = nil, multicastGroups: [String]? = nil, name: String, tags: [Tag]? = nil, traceContent: TraceContent? = nil, wirelessDevices: [String]? = nil, wirelessGateways: [String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1325,6 +1356,7 @@ extension IoTWireless {
         public let arn: String?
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1346,6 +1378,7 @@ extension IoTWireless {
         /// The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateServiceProfileRequest.idempotencyToken(), loRaWAN: LoRaWANServiceProfile? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.loRaWAN = loRaWAN
@@ -1379,6 +1412,7 @@ extension IoTWireless {
         /// The ID of the new service profile.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1410,6 +1444,7 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType
 
+        @inlinable
         public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil, sidewalk: SidewalkCreateWirelessDevice? = nil, tags: [Tag]? = nil, type: WirelessDeviceType) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1457,6 +1492,7 @@ extension IoTWireless {
         /// The ID of the new wireless device.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1480,6 +1516,7 @@ extension IoTWireless {
         /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateWirelessGatewayRequest.idempotencyToken(), description: String? = nil, loRaWAN: LoRaWANGateway, name: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1516,6 +1553,7 @@ extension IoTWireless {
         /// The ID of the new wireless gateway.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1539,6 +1577,7 @@ extension IoTWireless {
         /// Information about the gateways to update.
         public let update: UpdateWirelessGatewayTaskCreate?
 
+        @inlinable
         public init(autoCreateTasks: Bool = false, clientRequestToken: String? = CreateWirelessGatewayTaskDefinitionRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
             self.autoCreateTasks = autoCreateTasks
             self.clientRequestToken = clientRequestToken
@@ -1575,6 +1614,7 @@ extension IoTWireless {
         /// The ID of the new wireless gateway task definition.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1592,6 +1632,7 @@ extension IoTWireless {
         /// The ID of the WirelessGatewayTaskDefinition.
         public let wirelessGatewayTaskDefinitionId: String
 
+        @inlinable
         public init(id: String, wirelessGatewayTaskDefinitionId: String) {
             self.id = id
             self.wirelessGatewayTaskDefinitionId = wirelessGatewayTaskDefinitionId
@@ -1621,6 +1662,7 @@ extension IoTWireless {
         /// The ID of the WirelessGatewayTaskDefinition.
         public let wirelessGatewayTaskDefinitionId: String?
 
+        @inlinable
         public init(status: WirelessGatewayTaskStatus? = nil, wirelessGatewayTaskDefinitionId: String? = nil) {
             self.status = status
             self.wirelessGatewayTaskDefinitionId = wirelessGatewayTaskDefinitionId
@@ -1644,6 +1686,7 @@ extension IoTWireless {
         /// The maximum number of signatures that the DAK can sign. A value of -1 indicates that there's no device limit.
         public let maxAllowedSignature: Int?
 
+        @inlinable
         public init(apId: String? = nil, certificateId: String, deviceTypeId: String? = nil, factorySupport: Bool? = nil, maxAllowedSignature: Int? = nil) {
             self.apId = apId
             self.certificateId = certificateId
@@ -1665,6 +1708,7 @@ extension IoTWireless {
         /// The name of the resource to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1691,6 +1735,7 @@ extension IoTWireless {
         /// The ID of the resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1715,6 +1760,7 @@ extension IoTWireless {
     public struct DeleteFuotaTaskRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1739,6 +1785,7 @@ extension IoTWireless {
     public struct DeleteMulticastGroupRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1763,6 +1810,7 @@ extension IoTWireless {
     public struct DeleteNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
         public let configurationName: String
 
+        @inlinable
         public init(configurationName: String) {
             self.configurationName = configurationName
         }
@@ -1794,6 +1842,7 @@ extension IoTWireless {
         /// The wireless device type, which can be either Sidewalk or LoRaWAN.
         public let wirelessDeviceType: WirelessDeviceType?
 
+        @inlinable
         public init(id: String, messageId: String, wirelessDeviceType: WirelessDeviceType? = nil) {
             self.id = id
             self.messageId = messageId
@@ -1823,6 +1872,7 @@ extension IoTWireless {
         /// The ID of the resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1848,6 +1898,7 @@ extension IoTWireless {
         /// The unique identifier of the import task to be deleted.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1873,6 +1924,7 @@ extension IoTWireless {
         /// The ID of the resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1898,6 +1950,7 @@ extension IoTWireless {
         /// The ID of the resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1923,6 +1976,7 @@ extension IoTWireless {
         /// The ID of the resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1949,6 +2003,7 @@ extension IoTWireless {
         /// The ID of the resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1976,6 +2031,7 @@ extension IoTWireless {
         /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN or Sidewalk.
         public let wirelessDeviceType: WirelessDeviceType?
 
+        @inlinable
         public init(identifier: String, wirelessDeviceType: WirelessDeviceType? = nil) {
             self.identifier = identifier
             self.wirelessDeviceType = wirelessDeviceType
@@ -2013,6 +2069,7 @@ extension IoTWireless {
         /// The ARN of the IAM Role that authorizes the destination.
         public let roleArn: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, expression: String? = nil, expressionType: ExpressionType? = nil, name: String? = nil, roleArn: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2040,6 +2097,7 @@ extension IoTWireless {
         /// The name of the resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2059,6 +2117,7 @@ extension IoTWireless {
         /// Denotes whether the wireless device ID device registration state event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
             self.sidewalk = sidewalk
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
@@ -2074,6 +2133,7 @@ extension IoTWireless {
         /// Device registration resource type state event configuration object for enabling or disabling Sidewalk related event topics.
         public let sidewalk: SidewalkResourceTypeEventConfiguration?
 
+        @inlinable
         public init(sidewalk: SidewalkResourceTypeEventConfiguration? = nil) {
             self.sidewalk = sidewalk
         }
@@ -2089,6 +2149,7 @@ extension IoTWireless {
         /// The dimension's value.
         public let value: String?
 
+        @inlinable
         public init(name: DimensionName? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2110,6 +2171,7 @@ extension IoTWireless {
         /// The partner type.
         public let partnerType: PartnerType
 
+        @inlinable
         public init(partnerAccountId: String, partnerType: PartnerType) {
             self.partnerAccountId = partnerAccountId
             self.partnerType = partnerType
@@ -2137,6 +2199,7 @@ extension IoTWireless {
         public let id: String
         public let multicastGroupId: String
 
+        @inlinable
         public init(id: String, multicastGroupId: String) {
             self.id = id
             self.multicastGroupId = multicastGroupId
@@ -2165,6 +2228,7 @@ extension IoTWireless {
         public let id: String
         public let wirelessDeviceId: String
 
+        @inlinable
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
@@ -2193,6 +2257,7 @@ extension IoTWireless {
         public let id: String
         public let wirelessDeviceId: String
 
+        @inlinable
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
@@ -2221,6 +2286,7 @@ extension IoTWireless {
         /// The ID of the resource to update.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2246,6 +2312,7 @@ extension IoTWireless {
         /// The ID of the resource to update.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2271,6 +2338,7 @@ extension IoTWireless {
         /// The ID of the resource to update.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2301,6 +2369,7 @@ extension IoTWireless {
         /// The transmit mode to use for sending data to the wireless device. This can be 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
         public let transmitMode: Int?
 
+        @inlinable
         public init(loRaWAN: LoRaWANSendDataToDevice? = nil, messageId: String? = nil, receivedAt: String? = nil, transmitMode: Int? = nil) {
             self.loRaWAN = loRaWAN
             self.messageId = messageId
@@ -2325,6 +2394,7 @@ extension IoTWireless {
         /// Partner type of the resource if the identifier type is PartnerAccountId.
         public let partnerType: EventNotificationPartnerType?
 
+        @inlinable
         public init(events: EventNotificationItemConfigurations? = nil, identifier: String? = nil, identifierType: IdentifierType? = nil, partnerType: EventNotificationPartnerType? = nil) {
             self.events = events
             self.identifier = identifier
@@ -2352,6 +2422,7 @@ extension IoTWireless {
         /// Proximity event configuration for an event configuration item.
         public let proximity: ProximityEventConfiguration?
 
+        @inlinable
         public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
@@ -2378,6 +2449,7 @@ extension IoTWireless {
         /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
         public let positioning: Positioning?
 
+        @inlinable
         public init(applications: [ApplicationConfig]? = nil, clockSync: Int? = nil, fuota: Int? = nil, multicast: Int? = nil, positioning: Positioning? = nil) {
             self.applications = applications
             self.clockSync = clockSync
@@ -2413,6 +2485,7 @@ extension IoTWireless {
         public let id: String?
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2432,6 +2505,7 @@ extension IoTWireless {
         /// The ID of the wireless gateways that you want to add to the list of gateways when sending downlink messages.
         public let gatewayId: String
 
+        @inlinable
         public init(downlinkFrequency: Int, gatewayId: String) {
             self.downlinkFrequency = downlinkFrequency
             self.gatewayId = gatewayId
@@ -2453,6 +2527,7 @@ extension IoTWireless {
         /// The name of the resource to get.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2485,6 +2560,7 @@ extension IoTWireless {
         /// The ARN of the IAM Role that authorizes the destination.
         public let roleArn: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, expression: String? = nil, expressionType: ExpressionType? = nil, name: String? = nil, roleArn: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2508,6 +2584,7 @@ extension IoTWireless {
         /// The ID of the resource to get.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2537,6 +2614,7 @@ extension IoTWireless {
         /// Information about the Sidewalk parameters in the device profile.
         public let sidewalk: SidewalkGetDeviceProfile?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil, sidewalk: SidewalkGetDeviceProfile? = nil) {
             self.arn = arn
             self.id = id
@@ -2570,6 +2648,7 @@ extension IoTWireless {
         /// Resource type event configuration for the proximity event.
         public let proximity: ProximityResourceTypeEventConfiguration?
 
+        @inlinable
         public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
@@ -2590,6 +2669,7 @@ extension IoTWireless {
     public struct GetFuotaTaskRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2621,6 +2701,7 @@ extension IoTWireless {
         public let redundancyPercent: Int?
         public let status: FuotaTaskStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String? = nil, loRaWAN: LoRaWANFuotaTaskGetInfo? = nil, name: String? = nil, redundancyPercent: Int? = nil, status: FuotaTaskStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2661,6 +2742,7 @@ extension IoTWireless {
         public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
         public let wirelessGatewayLogOptions: [WirelessGatewayLogOption]?
 
+        @inlinable
         public init(defaultLogLevel: LogLevel? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
             self.defaultLogLevel = defaultLogLevel
             self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
@@ -2682,6 +2764,7 @@ extension IoTWireless {
         /// The configuration status of the AWS account for summary metric aggregation.
         public let summaryMetric: SummaryMetricConfiguration?
 
+        @inlinable
         public init(summaryMetric: SummaryMetricConfiguration? = nil) {
             self.summaryMetric = summaryMetric
         }
@@ -2695,6 +2778,7 @@ extension IoTWireless {
         /// The list of queries to retrieve the summary metrics.
         public let summaryMetricQueries: [SummaryMetricQuery]?
 
+        @inlinable
         public init(summaryMetricQueries: [SummaryMetricQuery]? = nil) {
             self.summaryMetricQueries = summaryMetricQueries
         }
@@ -2714,6 +2798,7 @@ extension IoTWireless {
         /// The list of summary metrics that were retrieved.
         public let summaryMetricQueryResults: [SummaryMetricQueryResult]?
 
+        @inlinable
         public init(summaryMetricQueryResults: [SummaryMetricQueryResult]? = nil) {
             self.summaryMetricQueryResults = summaryMetricQueryResults
         }
@@ -2726,6 +2811,7 @@ extension IoTWireless {
     public struct GetMulticastGroupRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2752,6 +2838,7 @@ extension IoTWireless {
         public let name: String?
         public let status: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, loRaWAN: LoRaWANMulticastGet? = nil, name: String? = nil, status: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2776,6 +2863,7 @@ extension IoTWireless {
     public struct GetMulticastGroupSessionRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2796,6 +2884,7 @@ extension IoTWireless {
     public struct GetMulticastGroupSessionResponse: AWSDecodableShape {
         public let loRaWAN: LoRaWANMulticastSession?
 
+        @inlinable
         public init(loRaWAN: LoRaWANMulticastSession? = nil) {
             self.loRaWAN = loRaWAN
         }
@@ -2808,6 +2897,7 @@ extension IoTWireless {
     public struct GetNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
         public let configurationName: String
 
+        @inlinable
         public init(configurationName: String) {
             self.configurationName = configurationName
         }
@@ -2840,6 +2930,7 @@ extension IoTWireless {
         /// List of wireless gateway resources that have been added to the network analyzer configuration.
         public let wirelessGateways: [String]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, multicastGroups: [String]? = nil, name: String? = nil, traceContent: TraceContent? = nil, wirelessDevices: [String]? = nil, wirelessGateways: [String]? = nil) {
             self.arn = arn
             self.description = description
@@ -2867,6 +2958,7 @@ extension IoTWireless {
         /// The partner type.
         public let partnerType: PartnerType
 
+        @inlinable
         public init(partnerAccountId: String, partnerType: PartnerType) {
             self.partnerAccountId = partnerAccountId
             self.partnerType = partnerType
@@ -2892,6 +2984,7 @@ extension IoTWireless {
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkAccountInfoWithFingerprint?
 
+        @inlinable
         public init(accountLinked: Bool? = nil, sidewalk: SidewalkAccountInfoWithFingerprint? = nil) {
             self.accountLinked = accountLinked
             self.sidewalk = sidewalk
@@ -2909,6 +3002,7 @@ extension IoTWireless {
         /// Resource type of the resource for which position configuration is retrieved.
         public let resourceType: PositionResourceType
 
+        @inlinable
         public init(resourceIdentifier: String, resourceType: PositionResourceType) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -2934,6 +3028,7 @@ extension IoTWireless {
         /// The wrapper for the solver configuration details object.
         public let solvers: PositionSolverDetails?
 
+        @inlinable
         public init(destination: String? = nil, solvers: PositionSolverDetails? = nil) {
             self.destination = destination
             self.solvers = solvers
@@ -2957,6 +3052,7 @@ extension IoTWireless {
         /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver.
         public let wiFiAccessPoints: [WiFiAccessPoint]?
 
+        @inlinable
         public init(cellTowers: CellTowers? = nil, gnss: Gnss? = nil, ip: Ip? = nil, timestamp: Date? = nil, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
             self.cellTowers = cellTowers
             self.gnss = gnss
@@ -2987,6 +3083,7 @@ extension IoTWireless {
         /// The position information of the resource, displayed as a JSON payload. The payload is of type blob and uses the GeoJSON format, which a format that's used to encode geographic data structures. A sample payload contains the timestamp information, the WGS84 coordinates of the location, and the accuracy and confidence level. For more information and examples, see Resolve device location (console).
         public let geoJsonPayload: AWSHTTPBody
 
+        @inlinable
         public init(geoJsonPayload: AWSHTTPBody) {
             self.geoJsonPayload = geoJsonPayload
         }
@@ -3005,6 +3102,7 @@ extension IoTWireless {
         /// Resource type of the resource for which position information is retrieved.
         public let resourceType: PositionResourceType
 
+        @inlinable
         public init(resourceIdentifier: String, resourceType: PositionResourceType) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -3038,6 +3136,7 @@ extension IoTWireless {
         /// The timestamp at which the device's position was determined.
         public let timestamp: String?
 
+        @inlinable
         public init(accuracy: Accuracy? = nil, position: [Float]? = nil, solverProvider: PositionSolverProvider? = nil, solverType: PositionSolverType? = nil, solverVersion: String? = nil, timestamp: String? = nil) {
             self.accuracy = accuracy
             self.position = position
@@ -3065,6 +3164,7 @@ extension IoTWireless {
         /// Partner type of the resource if the identifier type is PartnerAccountId.
         public let partnerType: EventNotificationPartnerType?
 
+        @inlinable
         public init(identifier: String, identifierType: IdentifierType, partnerType: EventNotificationPartnerType? = nil) {
             self.identifier = identifier
             self.identifierType = identifierType
@@ -3098,6 +3198,7 @@ extension IoTWireless {
         /// Event configuration for the proximity event.
         public let proximity: ProximityEventConfiguration?
 
+        @inlinable
         public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
@@ -3120,6 +3221,7 @@ extension IoTWireless {
         /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
 
+        @inlinable
         public init(resourceIdentifier: String, resourceType: String) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -3142,6 +3244,7 @@ extension IoTWireless {
     public struct GetResourceLogLevelResponse: AWSDecodableShape {
         public let logLevel: LogLevel?
 
+        @inlinable
         public init(logLevel: LogLevel? = nil) {
             self.logLevel = logLevel
         }
@@ -3157,6 +3260,7 @@ extension IoTWireless {
         /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway.
         public let resourceType: PositionResourceType
 
+        @inlinable
         public init(resourceIdentifier: String, resourceType: PositionResourceType) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -3181,6 +3285,7 @@ extension IoTWireless {
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
         public let geoJsonPayload: AWSHTTPBody
 
+        @inlinable
         public init(geoJsonPayload: AWSHTTPBody) {
             self.geoJsonPayload = geoJsonPayload
         }
@@ -3197,6 +3302,7 @@ extension IoTWireless {
         /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
         public let serviceType: WirelessGatewayServiceType?
 
+        @inlinable
         public init(serviceType: WirelessGatewayServiceType? = nil) {
             self.serviceType = serviceType
         }
@@ -3218,6 +3324,7 @@ extension IoTWireless {
         /// The endpoint's service type.
         public let serviceType: WirelessGatewayServiceType?
 
+        @inlinable
         public init(serverTrust: String? = nil, serviceEndpoint: String? = nil, serviceType: WirelessGatewayServiceType? = nil) {
             self.serverTrust = serverTrust
             self.serviceEndpoint = serviceEndpoint
@@ -3235,6 +3342,7 @@ extension IoTWireless {
         /// The ID of the resource to get.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3262,6 +3370,7 @@ extension IoTWireless {
         /// The name of the resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, loRaWAN: LoRaWANGetServiceProfileInfo? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -3281,6 +3390,7 @@ extension IoTWireless {
         /// The identifier of the import task for which information is requested.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3323,6 +3433,7 @@ extension IoTWireless {
         /// The reason for the provided status information, such as a validation error that causes the import task to fail.
         public let statusReason: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, destinationName: String? = nil, failedImportedDeviceCount: Int64? = nil, id: String? = nil, initializedImportedDeviceCount: Int64? = nil, onboardedImportedDeviceCount: Int64? = nil, pendingImportedDeviceCount: Int64? = nil, sidewalk: SidewalkGetStartImportInfo? = nil, status: ImportTaskStatus? = nil, statusReason: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3358,6 +3469,7 @@ extension IoTWireless {
         /// The type of identifier used in identifier.
         public let identifierType: WirelessDeviceIdType
 
+        @inlinable
         public init(identifier: String, identifierType: WirelessDeviceIdType) {
             self.identifier = identifier
             self.identifierType = identifierType
@@ -3401,6 +3513,7 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, destinationName: String? = nil, id: String? = nil, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil, sidewalk: SidewalkDevice? = nil, thingArn: String? = nil, thingName: String? = nil, type: WirelessDeviceType? = nil) {
             self.arn = arn
             self.description = description
@@ -3434,6 +3547,7 @@ extension IoTWireless {
         /// The ID of the wireless device for which to get the data.
         public let wirelessDeviceId: String
 
+        @inlinable
         public init(wirelessDeviceId: String) {
             self.wirelessDeviceId = wirelessDeviceId
         }
@@ -3461,6 +3575,7 @@ extension IoTWireless {
         /// The ID of the wireless device.
         public let wirelessDeviceId: String?
 
+        @inlinable
         public init(lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANDeviceMetadata? = nil, sidewalk: SidewalkDeviceMetadata? = nil, wirelessDeviceId: String? = nil) {
             self.lastUplinkReceivedAt = lastUplinkReceivedAt
             self.loRaWAN = loRaWAN
@@ -3480,6 +3595,7 @@ extension IoTWireless {
         /// The ID of the resource to get.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3503,6 +3619,7 @@ extension IoTWireless {
         /// The ID of the certificate that is associated with the wireless gateway and used for the LoRaWANNetworkServer endpoint.
         public let loRaWANNetworkServerCertificateId: String?
 
+        @inlinable
         public init(iotCertificateId: String? = nil, loRaWANNetworkServerCertificateId: String? = nil) {
             self.iotCertificateId = iotCertificateId
             self.loRaWANNetworkServerCertificateId = loRaWANNetworkServerCertificateId
@@ -3518,6 +3635,7 @@ extension IoTWireless {
         /// The ID of the resource to get.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3539,6 +3657,7 @@ extension IoTWireless {
         /// Information about the wireless gateway's firmware.
         public let loRaWAN: LoRaWANGatewayCurrentVersion?
 
+        @inlinable
         public init(loRaWAN: LoRaWANGatewayCurrentVersion? = nil) {
             self.loRaWAN = loRaWAN
         }
@@ -3554,6 +3673,7 @@ extension IoTWireless {
         /// The type of identifier used in identifier.
         public let identifierType: WirelessGatewayIdType
 
+        @inlinable
         public init(identifier: String, identifierType: WirelessGatewayIdType) {
             self.identifier = identifier
             self.identifierType = identifierType
@@ -3589,6 +3709,7 @@ extension IoTWireless {
         /// The name of the thing associated with the wireless gateway. The value is empty if a thing isn't associated with the gateway.
         public let thingName: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, loRaWAN: LoRaWANGateway? = nil, name: String? = nil, thingArn: String? = nil, thingName: String? = nil) {
             self.arn = arn
             self.description = description
@@ -3614,6 +3735,7 @@ extension IoTWireless {
         /// The ID of the wireless gateway for which to get the data.
         public let wirelessGatewayId: String
 
+        @inlinable
         public init(wirelessGatewayId: String) {
             self.wirelessGatewayId = wirelessGatewayId
         }
@@ -3639,6 +3761,7 @@ extension IoTWireless {
         /// The ID of the wireless gateway.
         public let wirelessGatewayId: String?
 
+        @inlinable
         public init(connectionStatus: ConnectionStatus? = nil, lastUplinkReceivedAt: String? = nil, wirelessGatewayId: String? = nil) {
             self.connectionStatus = connectionStatus
             self.lastUplinkReceivedAt = lastUplinkReceivedAt
@@ -3656,6 +3779,7 @@ extension IoTWireless {
         /// The ID of the resource to get.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3684,6 +3808,7 @@ extension IoTWireless {
         /// Information about the gateways to update.
         public let update: UpdateWirelessGatewayTaskCreate?
 
+        @inlinable
         public init(arn: String? = nil, autoCreateTasks: Bool? = nil, name: String? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
             self.arn = arn
             self.autoCreateTasks = autoCreateTasks
@@ -3703,6 +3828,7 @@ extension IoTWireless {
         /// The ID of the resource to get.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3732,6 +3858,7 @@ extension IoTWireless {
         /// The ID of the WirelessGatewayTask.
         public let wirelessGatewayTaskDefinitionId: String?
 
+        @inlinable
         public init(lastUplinkReceivedAt: String? = nil, status: WirelessGatewayTaskStatus? = nil, taskCreatedAt: String? = nil, wirelessGatewayId: String? = nil, wirelessGatewayTaskDefinitionId: String? = nil) {
             self.lastUplinkReceivedAt = lastUplinkReceivedAt
             self.status = status
@@ -3755,6 +3882,7 @@ extension IoTWireless {
         /// Location area code of the global identity.
         public let lac: Int
 
+        @inlinable
         public init(geranCid: Int, lac: Int) {
             self.geranCid = geranCid
             self.lac = lac
@@ -3787,6 +3915,7 @@ extension IoTWireless {
         /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
         public let use2DSolver: Bool?
 
+        @inlinable
         public init(assistAltitude: Float? = nil, assistPosition: [Float]? = nil, captureTime: Float? = nil, captureTimeAccuracy: Float? = nil, payload: String, use2DSolver: Bool? = nil) {
             self.assistAltitude = assistAltitude
             self.assistPosition = assistPosition
@@ -3818,6 +3947,7 @@ extension IoTWireless {
         /// GSM base station identity code (BSIC).
         public let bsic: Int
 
+        @inlinable
         public init(bcch: Int, bsic: Int) {
             self.bcch = bcch
             self.bsic = bsic
@@ -3846,6 +3976,7 @@ extension IoTWireless {
         /// Rx level, which is the received signal power, measured in dBm (decibel-milliwatts).
         public let rxLevel: Int?
 
+        @inlinable
         public init(bcch: Int, bsic: Int, globalIdentity: GlobalIdentity? = nil, rxLevel: Int? = nil) {
             self.bcch = bcch
             self.bsic = bsic
@@ -3889,6 +4020,7 @@ extension IoTWireless {
         /// Rx level, which is the received signal power, measured in dBm (decibel-milliwatts).
         public let rxLevel: Int?
 
+        @inlinable
         public init(geranCid: Int, gsmLocalId: GsmLocalId? = nil, gsmNmr: [GsmNmrObj]? = nil, gsmTimingAdvance: Int? = nil, lac: Int, mcc: Int, mnc: Int, rxLevel: Int? = nil) {
             self.geranCid = geranCid
             self.gsmLocalId = gsmLocalId
@@ -3944,6 +4076,7 @@ extension IoTWireless {
         /// The Sidewalk manufacturing serial number (SMSN) of the Sidewalk device.
         public let sidewalkManufacturingSn: String?
 
+        @inlinable
         public init(lastUpdateTime: Date? = nil, onboardingStatus: OnboardStatus? = nil, onboardingStatusReason: String? = nil, sidewalkManufacturingSn: String? = nil) {
             self.lastUpdateTime = lastUpdateTime
             self.onboardingStatus = onboardingStatus
@@ -3963,6 +4096,7 @@ extension IoTWireless {
         /// The Sidewalk-related information about a device that has been added to an import task.
         public let sidewalk: ImportedSidewalkDevice?
 
+        @inlinable
         public init(sidewalk: ImportedSidewalkDevice? = nil) {
             self.sidewalk = sidewalk
         }
@@ -3976,6 +4110,7 @@ extension IoTWireless {
         /// IP address information.
         public let ipAddress: String
 
+        @inlinable
         public init(ipAddress: String) {
             self.ipAddress = ipAddress
         }
@@ -3991,6 +4126,7 @@ extension IoTWireless {
         /// Denotes whether the wireless device ID join event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(loRaWAN: LoRaWANJoinEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
             self.loRaWAN = loRaWAN
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
@@ -4006,6 +4142,7 @@ extension IoTWireless {
         /// Join resource type event configuration object for enabling or disabling LoRaWAN related event topics.
         public let loRaWAN: LoRaWANJoinResourceTypeEventConfiguration?
 
+        @inlinable
         public init(loRaWAN: LoRaWANJoinResourceTypeEventConfiguration? = nil) {
             self.loRaWAN = loRaWAN
         }
@@ -4021,6 +4158,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4048,6 +4186,7 @@ extension IoTWireless {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(destinationList: [Destinations]? = nil, nextToken: String? = nil) {
             self.destinationList = destinationList
             self.nextToken = nextToken
@@ -4067,6 +4206,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceProfileType: DeviceProfileType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceProfileType = deviceProfileType
             self.maxResults = maxResults
@@ -4096,6 +4236,7 @@ extension IoTWireless {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceProfileList: [DeviceProfile]? = nil, nextToken: String? = nil) {
             self.deviceProfileList = deviceProfileList
             self.nextToken = nextToken
@@ -4116,6 +4257,7 @@ extension IoTWireless {
         /// The status of the devices in the import task.
         public let status: OnboardStatus?
 
+        @inlinable
         public init(id: String, maxResults: Int? = nil, nextToken: String? = nil, status: OnboardStatus? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -4150,6 +4292,7 @@ extension IoTWireless {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(destinationName: String? = nil, importedWirelessDeviceList: [ImportedWirelessDevice]? = nil, nextToken: String? = nil) {
             self.destinationName = destinationName
             self.importedWirelessDeviceList = importedWirelessDeviceList
@@ -4170,6 +4313,7 @@ extension IoTWireless {
         /// Resource type to filter event configurations.
         public let resourceType: EventNotificationResourceType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: EventNotificationResourceType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4199,6 +4343,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventConfigurationsList: [EventConfigurationItem]? = nil, nextToken: String? = nil) {
             self.eventConfigurationsList = eventConfigurationsList
             self.nextToken = nextToken
@@ -4215,6 +4360,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4241,6 +4387,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(fuotaTaskList: [FuotaTask]? = nil, nextToken: String? = nil) {
             self.fuotaTaskList = fuotaTaskList
             self.nextToken = nextToken
@@ -4258,6 +4405,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -4287,6 +4435,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(multicastGroupList: [MulticastGroupByFuotaTask]? = nil, nextToken: String? = nil) {
             self.multicastGroupList = multicastGroupList
             self.nextToken = nextToken
@@ -4303,6 +4452,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4329,6 +4479,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(multicastGroupList: [MulticastGroup]? = nil, nextToken: String? = nil) {
             self.multicastGroupList = multicastGroupList
             self.nextToken = nextToken
@@ -4345,6 +4496,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4372,6 +4524,7 @@ extension IoTWireless {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkAnalyzerConfigurationList: [NetworkAnalyzerConfigurations]? = nil, nextToken: String? = nil) {
             self.networkAnalyzerConfigurationList = networkAnalyzerConfigurationList
             self.nextToken = nextToken
@@ -4389,6 +4542,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4416,6 +4570,7 @@ extension IoTWireless {
         /// The Sidewalk account credentials.
         public let sidewalk: [SidewalkAccountInfoWithFingerprint]?
 
+        @inlinable
         public init(nextToken: String? = nil, sidewalk: [SidewalkAccountInfoWithFingerprint]? = nil) {
             self.nextToken = nextToken
             self.sidewalk = sidewalk
@@ -4434,6 +4589,7 @@ extension IoTWireless {
         /// Resource type for which position configurations are listed.
         public let resourceType: PositionResourceType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: PositionResourceType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4463,6 +4619,7 @@ extension IoTWireless {
         /// A list of position configurations.
         public let positionConfigurationList: [PositionConfigurationItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, positionConfigurationList: [PositionConfigurationItem]? = nil) {
             self.nextToken = nextToken
             self.positionConfigurationList = positionConfigurationList
@@ -4484,6 +4641,7 @@ extension IoTWireless {
         /// The wireless device type, whic can be either Sidewalk or LoRaWAN.
         public let wirelessDeviceType: WirelessDeviceType?
 
+        @inlinable
         public init(id: String, maxResults: Int? = nil, nextToken: String? = nil, wirelessDeviceType: WirelessDeviceType? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -4516,6 +4674,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(downlinkQueueMessagesList: [DownlinkQueueMessage]? = nil, nextToken: String? = nil) {
             self.downlinkQueueMessagesList = downlinkQueueMessagesList
             self.nextToken = nextToken
@@ -4533,6 +4692,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4560,6 +4720,7 @@ extension IoTWireless {
         /// The list of service profiles.
         public let serviceProfileList: [ServiceProfile]?
 
+        @inlinable
         public init(nextToken: String? = nil, serviceProfileList: [ServiceProfile]? = nil) {
             self.nextToken = nextToken
             self.serviceProfileList = serviceProfileList
@@ -4575,6 +4736,7 @@ extension IoTWireless {
         /// The ARN of the resource for which you want to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4597,6 +4759,7 @@ extension IoTWireless {
         /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -4611,6 +4774,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4638,6 +4802,7 @@ extension IoTWireless {
         /// List of import tasks and summary information of onboarding status of devices in each import task.
         public let wirelessDeviceImportTaskList: [WirelessDeviceImportTask]?
 
+        @inlinable
         public init(nextToken: String? = nil, wirelessDeviceImportTaskList: [WirelessDeviceImportTask]? = nil) {
             self.nextToken = nextToken
             self.wirelessDeviceImportTaskList = wirelessDeviceImportTaskList
@@ -4665,6 +4830,7 @@ extension IoTWireless {
         /// A filter to list only the wireless devices that use this wireless device type.
         public let wirelessDeviceType: WirelessDeviceType?
 
+        @inlinable
         public init(destinationName: String? = nil, deviceProfileId: String? = nil, fuotaTaskId: String? = nil, maxResults: Int? = nil, multicastGroupId: String? = nil, nextToken: String? = nil, serviceProfileId: String? = nil, wirelessDeviceType: WirelessDeviceType? = nil) {
             self.destinationName = destinationName
             self.deviceProfileId = deviceProfileId
@@ -4710,6 +4876,7 @@ extension IoTWireless {
         /// The ID of the wireless device.
         public let wirelessDeviceList: [WirelessDeviceStatistics]?
 
+        @inlinable
         public init(nextToken: String? = nil, wirelessDeviceList: [WirelessDeviceStatistics]? = nil) {
             self.nextToken = nextToken
             self.wirelessDeviceList = wirelessDeviceList
@@ -4729,6 +4896,7 @@ extension IoTWireless {
         /// A filter to list only the wireless gateway task definitions that use this task definition type.
         public let taskDefinitionType: WirelessGatewayTaskDefinitionType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, taskDefinitionType: WirelessGatewayTaskDefinitionType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4758,6 +4926,7 @@ extension IoTWireless {
         /// The list of task definitions.
         public let taskDefinitions: [UpdateWirelessGatewayTaskEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, taskDefinitions: [UpdateWirelessGatewayTaskEntry]? = nil) {
             self.nextToken = nextToken
             self.taskDefinitions = taskDefinitions
@@ -4775,6 +4944,7 @@ extension IoTWireless {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4802,6 +4972,7 @@ extension IoTWireless {
         /// The ID of the wireless gateway.
         public let wirelessGatewayList: [WirelessGatewayStatistics]?
 
+        @inlinable
         public init(nextToken: String? = nil, wirelessGatewayList: [WirelessGatewayStatistics]? = nil) {
             self.nextToken = nextToken
             self.wirelessGatewayList = wirelessGatewayList
@@ -4817,6 +4988,7 @@ extension IoTWireless {
         /// Denotes whether the gateway EUI connection status event topic is enabled or disabled.
         public let gatewayEuiEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(gatewayEuiEventTopic: EventNotificationTopicStatus? = nil) {
             self.gatewayEuiEventTopic = gatewayEuiEventTopic
         }
@@ -4830,6 +5002,7 @@ extension IoTWireless {
         /// Denotes whether the wireless gateway connection status event topic is enabled or disabled.
         public let wirelessGatewayEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(wirelessGatewayEventTopic: EventNotificationTopicStatus? = nil) {
             self.wirelessGatewayEventTopic = wirelessGatewayEventTopic
         }
@@ -4856,6 +5029,7 @@ extension IoTWireless {
         /// The ID of the service profile.
         public let serviceProfileId: String?
 
+        @inlinable
         public init(abpV10X: AbpV10X? = nil, abpV11: AbpV11? = nil, devEui: String? = nil, deviceProfileId: String? = nil, fPorts: FPorts? = nil, otaaV10X: OtaaV10X? = nil, otaaV11: OtaaV11? = nil, serviceProfileId: String? = nil) {
             self.abpV10X = abpV10X
             self.abpV11 = abpV11
@@ -4906,6 +5080,7 @@ extension IoTWireless {
         /// The date and time of the metadata.
         public let timestamp: String?
 
+        @inlinable
         public init(dataRate: Int? = nil, devEui: String? = nil, fPort: Int? = nil, frequency: Int? = nil, gateways: [LoRaWANGatewayMetadata]? = nil, publicGateways: [LoRaWANPublicGatewayMetadata]? = nil, timestamp: String? = nil) {
             self.dataRate = dataRate
             self.devEui = devEui
@@ -4967,6 +5142,7 @@ extension IoTWireless {
         /// The SupportsJoin value.
         public let supportsJoin: Bool?
 
+        @inlinable
         public init(classBTimeout: Int? = nil, classCTimeout: Int? = nil, factoryPresetFreqsList: [Int]? = nil, macVersion: String? = nil, maxDutyCycle: Int? = nil, maxEirp: Int? = nil, pingSlotDr: Int? = nil, pingSlotFreq: Int? = nil, pingSlotPeriod: Int? = nil, regParamsRevision: String? = nil, rfRegion: String? = nil, rxDataRate2: Int? = nil, rxDelay1: Int? = nil, rxDrOffset1: Int? = nil, rxFreq2: Int? = nil, supports32BitFCnt: Bool? = nil, supportsClassB: Bool? = nil, supportsClassC: Bool? = nil, supportsJoin: Bool? = nil) {
             self.classBTimeout = classBTimeout
             self.classCTimeout = classCTimeout
@@ -5048,6 +5224,7 @@ extension IoTWireless {
     public struct LoRaWANFuotaTask: AWSEncodableShape {
         public let rfRegion: SupportedRfRegion?
 
+        @inlinable
         public init(rfRegion: SupportedRfRegion? = nil) {
             self.rfRegion = rfRegion
         }
@@ -5062,6 +5239,7 @@ extension IoTWireless {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(rfRegion: String? = nil, startTime: Date? = nil) {
             self.rfRegion = rfRegion
             self.startTime = startTime
@@ -5086,6 +5264,7 @@ extension IoTWireless {
         public let rfRegion: String?
         public let subBands: [Int]?
 
+        @inlinable
         public init(beaconing: Beaconing? = nil, gatewayEui: String? = nil, joinEuiFilters: [[String]]? = nil, maxEirp: Float? = nil, netIdFilters: [String]? = nil, rfRegion: String? = nil, subBands: [Int]? = nil) {
             self.beaconing = beaconing
             self.gatewayEui = gatewayEui
@@ -5133,6 +5312,7 @@ extension IoTWireless {
         /// The version of the gateways that should receive the update.
         public let currentVersion: LoRaWANGatewayVersion?
 
+        @inlinable
         public init(currentVersion: LoRaWANGatewayVersion? = nil) {
             self.currentVersion = currentVersion
         }
@@ -5150,6 +5330,7 @@ extension IoTWireless {
         /// The SNR value.
         public let snr: Double?
 
+        @inlinable
         public init(gatewayEui: String? = nil, rssi: Double? = nil, snr: Double? = nil) {
             self.gatewayEui = gatewayEui
             self.rssi = rssi
@@ -5171,6 +5352,7 @@ extension IoTWireless {
         /// The basic station version of the wireless gateway.
         public let station: String?
 
+        @inlinable
         public init(model: String? = nil, packageVersion: String? = nil, station: String? = nil) {
             self.model = model
             self.packageVersion = packageVersion
@@ -5233,6 +5415,7 @@ extension IoTWireless {
         /// The ULRatePolicy value.
         public let ulRatePolicy: String?
 
+        @inlinable
         public init(addGwMetadata: Bool? = nil, channelMask: String? = nil, devStatusReqFreq: Int? = nil, dlBucketSize: Int? = nil, dlRate: Int? = nil, dlRatePolicy: String? = nil, drMax: Int? = nil, drMin: Int? = nil, hrAllowed: Bool? = nil, minGwDiversity: Int? = nil, nwkGeoLoc: Bool? = nil, prAllowed: Bool? = nil, raAllowed: Bool? = nil, reportDevStatusBattery: Bool? = nil, reportDevStatusMargin: Bool? = nil, targetPer: Int? = nil, ulBucketSize: Int? = nil, ulRate: Int? = nil, ulRatePolicy: String? = nil) {
             self.addGwMetadata = addGwMetadata
             self.channelMask = channelMask
@@ -5282,6 +5465,7 @@ extension IoTWireless {
         /// Denotes whether the Dev EUI join event topic is enabled or disabled.
         public let devEuiEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(devEuiEventTopic: EventNotificationTopicStatus? = nil) {
             self.devEuiEventTopic = devEuiEventTopic
         }
@@ -5295,6 +5479,7 @@ extension IoTWireless {
         /// Denotes whether the wireless device join event topic is enabled or disabled.
         public let wirelessDeviceEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(wirelessDeviceEventTopic: EventNotificationTopicStatus? = nil) {
             self.wirelessDeviceEventTopic = wirelessDeviceEventTopic
         }
@@ -5308,6 +5493,7 @@ extension IoTWireless {
         /// The DevEUI value.
         public let devEui: String?
 
+        @inlinable
         public init(devEui: String? = nil) {
             self.devEui = devEui
         }
@@ -5321,6 +5507,7 @@ extension IoTWireless {
         public let dlClass: DlClass?
         public let rfRegion: SupportedRfRegion?
 
+        @inlinable
         public init(dlClass: DlClass? = nil, rfRegion: SupportedRfRegion? = nil) {
             self.dlClass = dlClass
             self.rfRegion = rfRegion
@@ -5338,6 +5525,7 @@ extension IoTWireless {
         public let numberOfDevicesRequested: Int?
         public let rfRegion: SupportedRfRegion?
 
+        @inlinable
         public init(dlClass: DlClass? = nil, numberOfDevicesInGroup: Int? = nil, numberOfDevicesRequested: Int? = nil, rfRegion: SupportedRfRegion? = nil) {
             self.dlClass = dlClass
             self.numberOfDevicesInGroup = numberOfDevicesInGroup
@@ -5356,6 +5544,7 @@ extension IoTWireless {
     public struct LoRaWANMulticastMetadata: AWSEncodableShape {
         public let fPort: Int?
 
+        @inlinable
         public init(fPort: Int? = nil) {
             self.fPort = fPort
         }
@@ -5379,6 +5568,7 @@ extension IoTWireless {
         public var sessionStartTime: Date?
         public let sessionTimeout: Int?
 
+        @inlinable
         public init(dlDr: Int? = nil, dlFreq: Int? = nil, pingSlotPeriod: Int? = nil, sessionStartTime: Date? = nil, sessionTimeout: Int? = nil) {
             self.dlDr = dlDr
             self.dlFreq = dlFreq
@@ -5420,6 +5610,7 @@ extension IoTWireless {
         /// The SNR (signal to noise ratio) value.
         public let snr: Double?
 
+        @inlinable
         public init(dlAllowed: Bool? = nil, id: String? = nil, providerNetId: String? = nil, rfRegion: String? = nil, rssi: Double? = nil, snr: Double? = nil) {
             self.dlAllowed = dlAllowed
             self.id = id
@@ -5444,6 +5635,7 @@ extension IoTWireless {
         /// Choose the gateways that you want to use for the downlink data traffic when the wireless device is running in class B or class C mode.
         public let participatingGateways: ParticipatingGateways?
 
+        @inlinable
         public init(fPort: Int? = nil, participatingGateways: ParticipatingGateways? = nil) {
             self.fPort = fPort
             self.participatingGateways = participatingGateways
@@ -5473,6 +5665,7 @@ extension IoTWireless {
         /// The RAAllowed value that describes whether roaming activation is allowed.
         public let raAllowed: Bool?
 
+        @inlinable
         public init(addGwMetadata: Bool? = nil, drMax: Int? = nil, drMin: Int? = nil, prAllowed: Bool? = nil, raAllowed: Bool? = nil) {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
@@ -5501,6 +5694,7 @@ extension IoTWireless {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(startTime: Date? = nil) {
             self.startTime = startTime
         }
@@ -5522,6 +5716,7 @@ extension IoTWireless {
         /// The ID of the service profile.
         public let serviceProfileId: String?
 
+        @inlinable
         public init(abpV10X: UpdateAbpV10X? = nil, abpV11: UpdateAbpV11? = nil, deviceProfileId: String? = nil, fPorts: UpdateFPorts? = nil, serviceProfileId: String? = nil) {
             self.abpV10X = abpV10X
             self.abpV11 = abpV11
@@ -5557,6 +5752,7 @@ extension IoTWireless {
         /// The firmware version to update the gateway to.
         public let updateVersion: LoRaWANGatewayVersion?
 
+        @inlinable
         public init(currentVersion: LoRaWANGatewayVersion? = nil, sigKeyCrc: Int64? = nil, updateSignature: String? = nil, updateVersion: LoRaWANGatewayVersion? = nil) {
             self.currentVersion = currentVersion
             self.sigKeyCrc = sigKeyCrc
@@ -5587,6 +5783,7 @@ extension IoTWireless {
         /// The firmware version to update the gateway to.
         public let updateVersion: LoRaWANGatewayVersion?
 
+        @inlinable
         public init(currentVersion: LoRaWANGatewayVersion? = nil, updateVersion: LoRaWANGatewayVersion? = nil) {
             self.currentVersion = currentVersion
             self.updateVersion = updateVersion
@@ -5604,6 +5801,7 @@ extension IoTWireless {
         /// Physical cell ID.
         public let pci: Int
 
+        @inlinable
         public init(earfcn: Int, pci: Int) {
             self.earfcn = earfcn
             self.pci = pci
@@ -5634,6 +5832,7 @@ extension IoTWireless {
         /// Signal quality of the reference Signal received, measured in decibels (dB).
         public let rsrq: Float?
 
+        @inlinable
         public init(earfcn: Int, eutranCid: Int, pci: Int, rsrp: Int? = nil, rsrq: Float? = nil) {
             self.earfcn = earfcn
             self.eutranCid = eutranCid
@@ -5686,6 +5885,7 @@ extension IoTWireless {
         /// LTE tracking area code.
         public let tac: Int?
 
+        @inlinable
         public init(eutranCid: Int, lteLocalId: LteLocalId? = nil, lteNmr: [LteNmrObj]? = nil, lteTimingAdvance: Int? = nil, mcc: Int, mnc: Int, nrCapable: Bool? = nil, rsrp: Int? = nil, rsrq: Float? = nil, tac: Int? = nil) {
             self.eutranCid = eutranCid
             self.lteLocalId = lteLocalId
@@ -5741,6 +5941,7 @@ extension IoTWireless {
         /// Denotes whether the wireless device ID message delivery status event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
             self.sidewalk = sidewalk
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
@@ -5755,6 +5956,7 @@ extension IoTWireless {
     public struct MessageDeliveryStatusResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let sidewalk: SidewalkResourceTypeEventConfiguration?
 
+        @inlinable
         public init(sidewalk: SidewalkResourceTypeEventConfiguration? = nil) {
             self.sidewalk = sidewalk
         }
@@ -5778,6 +5980,7 @@ extension IoTWireless {
         /// The sum of the values of all data points collected during the aggregation period.
         public let sum: Double?
 
+        @inlinable
         public init(avg: Double? = nil, max: Double? = nil, min: Double? = nil, p90: Double? = nil, std: Double? = nil, sum: Double? = nil) {
             self.avg = avg
             self.max = max
@@ -5802,6 +6005,7 @@ extension IoTWireless {
         public let id: String?
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -5818,6 +6022,7 @@ extension IoTWireless {
     public struct MulticastGroupByFuotaTask: AWSDecodableShape {
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -5830,6 +6035,7 @@ extension IoTWireless {
     public struct MulticastWirelessMetadata: AWSEncodableShape {
         public let loRaWAN: LoRaWANMulticastMetadata?
 
+        @inlinable
         public init(loRaWAN: LoRaWANMulticastMetadata? = nil) {
             self.loRaWAN = loRaWAN
         }
@@ -5848,6 +6054,7 @@ extension IoTWireless {
         public let arn: String?
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -5869,6 +6076,7 @@ extension IoTWireless {
         /// The JoinEUI value. You specify this value instead of the AppEUI when using LoRaWAN version v1.0.4.
         public let joinEui: String?
 
+        @inlinable
         public init(appEui: String? = nil, appKey: String? = nil, genAppKey: String? = nil, joinEui: String? = nil) {
             self.appEui = appEui
             self.appKey = appKey
@@ -5899,6 +6107,7 @@ extension IoTWireless {
         /// The NwkKey value.
         public let nwkKey: String?
 
+        @inlinable
         public init(appKey: String? = nil, joinEui: String? = nil, nwkKey: String? = nil) {
             self.appKey = appKey
             self.joinEui = joinEui
@@ -5926,6 +6135,7 @@ extension IoTWireless {
         /// The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the payload to the next gateway.
         public let transmissionInterval: Int
 
+        @inlinable
         public init(downlinkMode: DownlinkMode, gatewayList: [GatewayListItem], transmissionInterval: Int) {
             self.downlinkMode = downlinkMode
             self.gatewayList = gatewayList
@@ -5957,6 +6167,7 @@ extension IoTWireless {
         /// The details of the positioning solver object used to compute the location.
         public let solvers: PositionSolverDetails?
 
+        @inlinable
         public init(destination: String? = nil, resourceIdentifier: String? = nil, resourceType: PositionResourceType? = nil, solvers: PositionSolverDetails? = nil) {
             self.destination = destination
             self.resourceIdentifier = resourceIdentifier
@@ -5976,6 +6187,7 @@ extension IoTWireless {
         /// The Semtech GNSS solver configuration object.
         public let semtechGnss: SemtechGnssConfiguration?
 
+        @inlinable
         public init(semtechGnss: SemtechGnssConfiguration? = nil) {
             self.semtechGnss = semtechGnss
         }
@@ -5989,6 +6201,7 @@ extension IoTWireless {
         /// The Semtech GNSS solver object details.
         public let semtechGnss: SemtechGnssDetail?
 
+        @inlinable
         public init(semtechGnss: SemtechGnssDetail? = nil) {
             self.semtechGnss = semtechGnss
         }
@@ -6003,6 +6216,7 @@ extension IoTWireless {
         public let gnss: Int?
         public let stream: Int?
 
+        @inlinable
         public init(clockSync: Int? = nil, gnss: Int? = nil, stream: Int? = nil) {
             self.clockSync = clockSync
             self.gnss = gnss
@@ -6031,6 +6245,7 @@ extension IoTWireless {
         /// Denotes whether the wireless device ID proximity event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
             self.sidewalk = sidewalk
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
@@ -6046,6 +6261,7 @@ extension IoTWireless {
         /// Proximity resource type event configuration object for enabling and disabling wireless device topic.
         public let sidewalk: SidewalkResourceTypeEventConfiguration?
 
+        @inlinable
         public init(sidewalk: SidewalkResourceTypeEventConfiguration? = nil) {
             self.sidewalk = sidewalk
         }
@@ -6065,6 +6281,7 @@ extension IoTWireless {
         /// The positioning solvers used to update the position configuration of the resource.
         public let solvers: PositionSolverConfigurations?
 
+        @inlinable
         public init(destination: String? = nil, resourceIdentifier: String, resourceType: PositionResourceType, solvers: PositionSolverConfigurations? = nil) {
             self.destination = destination
             self.resourceIdentifier = resourceIdentifier
@@ -6103,6 +6320,7 @@ extension IoTWireless {
         /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
 
+        @inlinable
         public init(logLevel: LogLevel, resourceIdentifier: String, resourceType: String) {
             self.logLevel = logLevel
             self.resourceIdentifier = resourceIdentifier
@@ -6143,6 +6361,7 @@ extension IoTWireless {
         /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
 
+        @inlinable
         public init(resourceIdentifier: String, resourceType: String) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -6172,6 +6391,7 @@ extension IoTWireless {
         /// The status indicating whether the solver is enabled.
         public let status: PositionConfigurationStatus
 
+        @inlinable
         public init(fec: PositionConfigurationFec, status: PositionConfigurationStatus) {
             self.fec = fec
             self.status = status
@@ -6193,6 +6413,7 @@ extension IoTWireless {
         /// The type of positioning solver used.
         public let type: PositionSolverType?
 
+        @inlinable
         public init(fec: PositionConfigurationFec? = nil, provider: PositionSolverProvider? = nil, status: PositionConfigurationStatus? = nil, type: PositionSolverType? = nil) {
             self.fec = fec
             self.provider = provider
@@ -6213,6 +6434,7 @@ extension IoTWireless {
         public let payloadData: String
         public let wirelessMetadata: MulticastWirelessMetadata
 
+        @inlinable
         public init(id: String, payloadData: String, wirelessMetadata: MulticastWirelessMetadata) {
             self.id = id
             self.payloadData = payloadData
@@ -6243,6 +6465,7 @@ extension IoTWireless {
     public struct SendDataToMulticastGroupResponse: AWSDecodableShape {
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -6261,6 +6484,7 @@ extension IoTWireless {
         /// Metadata about the message request.
         public let wirelessMetadata: WirelessMetadata?
 
+        @inlinable
         public init(id: String, payloadData: String, transmitMode: Int, wirelessMetadata: WirelessMetadata? = nil) {
             self.id = id
             self.payloadData = payloadData
@@ -6297,6 +6521,7 @@ extension IoTWireless {
         /// The ID of the message sent to the wireless device.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -6314,6 +6539,7 @@ extension IoTWireless {
         /// The name of the resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -6333,6 +6559,7 @@ extension IoTWireless {
         /// The NwkSKey value.
         public let nwkSKey: String?
 
+        @inlinable
         public init(appSKey: String? = nil, nwkSKey: String? = nil) {
             self.appSKey = appSKey
             self.nwkSKey = nwkSKey
@@ -6359,6 +6586,7 @@ extension IoTWireless {
         /// The SNwkSIntKey value.
         public let sNwkSIntKey: String?
 
+        @inlinable
         public init(appSKey: String? = nil, fNwkSIntKey: String? = nil, nwkSEncKey: String? = nil, sNwkSIntKey: String? = nil) {
             self.appSKey = appSKey
             self.fNwkSIntKey = fNwkSIntKey
@@ -6387,6 +6615,7 @@ extension IoTWireless {
         /// The Sidewalk application server private key.
         public let appServerPrivateKey: String?
 
+        @inlinable
         public init(amazonId: String? = nil, appServerPrivateKey: String? = nil) {
             self.amazonId = amazonId
             self.appServerPrivateKey = appServerPrivateKey
@@ -6413,6 +6642,7 @@ extension IoTWireless {
         /// The fingerprint of the Sidewalk application server private key.
         public let fingerprint: String?
 
+        @inlinable
         public init(amazonId: String? = nil, arn: String? = nil, fingerprint: String? = nil) {
             self.amazonId = amazonId
             self.arn = arn
@@ -6434,6 +6664,7 @@ extension IoTWireless {
         /// The ID of the Sidewalk device profile.
         public let deviceProfileId: String?
 
+        @inlinable
         public init(deviceProfileId: String? = nil) {
             self.deviceProfileId = deviceProfileId
         }
@@ -6464,6 +6695,7 @@ extension IoTWireless {
         /// The Sidewalk device status, such as provisioned or registered.
         public let status: WirelessDeviceSidewalkStatus?
 
+        @inlinable
         public init(amazonId: String? = nil, certificateId: String? = nil, deviceCertificates: [CertificateList]? = nil, deviceProfileId: String? = nil, privateKeys: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil, status: WirelessDeviceSidewalkStatus? = nil) {
             self.amazonId = amazonId
             self.certificateId = certificateId
@@ -6497,6 +6729,7 @@ extension IoTWireless {
         /// The RSSI value.
         public let rssi: Int?
 
+        @inlinable
         public init(batteryLevel: BatteryLevel? = nil, deviceState: DeviceState? = nil, event: Event? = nil, rssi: Int? = nil) {
             self.batteryLevel = batteryLevel
             self.deviceState = deviceState
@@ -6516,6 +6749,7 @@ extension IoTWireless {
         /// Denotes whether the Amazon ID event topic is enabled or disabled.
         public let amazonIdEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(amazonIdEventTopic: EventNotificationTopicStatus? = nil) {
             self.amazonIdEventTopic = amazonIdEventTopic
         }
@@ -6533,6 +6767,7 @@ extension IoTWireless {
         /// Gets information about the certification status of a Sidewalk device profile.
         public let qualificationStatus: Bool?
 
+        @inlinable
         public init(applicationServerPublicKey: String? = nil, dakCertificateMetadata: [DakCertificateMetadata]? = nil, qualificationStatus: Bool? = nil) {
             self.applicationServerPublicKey = applicationServerPublicKey
             self.dakCertificateMetadata = dakCertificateMetadata
@@ -6552,6 +6787,7 @@ extension IoTWireless {
         /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
         public let role: String?
 
+        @inlinable
         public init(deviceCreationFileList: [String]? = nil, role: String? = nil) {
             self.deviceCreationFileList = deviceCreationFileList
             self.role = role
@@ -6577,6 +6813,7 @@ extension IoTWireless {
         /// The status of the Sidewalk devices, such as provisioned or registered.
         public let status: WirelessDeviceSidewalkStatus?
 
+        @inlinable
         public init(amazonId: String? = nil, deviceCertificates: [CertificateList]? = nil, deviceProfileId: String? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil, status: WirelessDeviceSidewalkStatus? = nil) {
             self.amazonId = amazonId
             self.deviceCertificates = deviceCertificates
@@ -6600,6 +6837,7 @@ extension IoTWireless {
         /// Denotes whether the wireless device join event topic is enabled or disabled.
         public let wirelessDeviceEventTopic: EventNotificationTopicStatus?
 
+        @inlinable
         public init(wirelessDeviceEventTopic: EventNotificationTopicStatus? = nil) {
             self.wirelessDeviceEventTopic = wirelessDeviceEventTopic
         }
@@ -6616,6 +6854,7 @@ extension IoTWireless {
         /// The sequence number.
         public let seq: Int?
 
+        @inlinable
         public init(ackModeRetryDurationSecs: Int? = nil, messageType: MessageType? = nil, seq: Int? = nil) {
             self.ackModeRetryDurationSecs = ackModeRetryDurationSecs
             self.messageType = messageType
@@ -6640,6 +6879,7 @@ extension IoTWireless {
         /// The Sidewalk manufacturing serial number (SMSN) of the device added to the import task.
         public let sidewalkManufacturingSn: String?
 
+        @inlinable
         public init(sidewalkManufacturingSn: String? = nil) {
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
         }
@@ -6659,6 +6899,7 @@ extension IoTWireless {
         /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
         public let role: String?
 
+        @inlinable
         public init(deviceCreationFile: String? = nil, role: String? = nil) {
             self.deviceCreationFile = deviceCreationFile
             self.role = role
@@ -6679,6 +6920,7 @@ extension IoTWireless {
         /// The new Sidewalk application server private key.
         public let appServerPrivateKey: String?
 
+        @inlinable
         public init(appServerPrivateKey: String? = nil) {
             self.appServerPrivateKey = appServerPrivateKey
         }
@@ -6698,6 +6940,7 @@ extension IoTWireless {
         /// The CSV file contained in an S3 bucket that's used for appending devices to an existing import task.
         public let deviceCreationFile: String?
 
+        @inlinable
         public init(deviceCreationFile: String? = nil) {
             self.deviceCreationFile = deviceCreationFile
         }
@@ -6716,6 +6959,7 @@ extension IoTWireless {
         public let queryString: String?
         public let tags: [Tag]?
 
+        @inlinable
         public init(id: String, queryString: String? = nil, tags: [Tag]? = nil) {
             self.id = id
             self.queryString = queryString
@@ -6754,6 +6998,7 @@ extension IoTWireless {
         public let queryString: String?
         public let tags: [Tag]?
 
+        @inlinable
         public init(id: String, queryString: String? = nil, tags: [Tag]? = nil) {
             self.id = id
             self.queryString = queryString
@@ -6791,6 +7036,7 @@ extension IoTWireless {
         public let id: String
         public let loRaWAN: LoRaWANStartFuotaTask?
 
+        @inlinable
         public init(id: String, loRaWAN: LoRaWANStartFuotaTask? = nil) {
             self.id = id
             self.loRaWAN = loRaWAN
@@ -6820,6 +7066,7 @@ extension IoTWireless {
         public let id: String
         public let loRaWAN: LoRaWANMulticastSession
 
+        @inlinable
         public init(id: String, loRaWAN: LoRaWANMulticastSession) {
             self.id = id
             self.loRaWAN = loRaWAN
@@ -6856,6 +7103,7 @@ extension IoTWireless {
         public let sidewalk: SidewalkSingleStartImportInfo
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = StartSingleWirelessDeviceImportTaskRequest.idempotencyToken(), destinationName: String, deviceName: String? = nil, sidewalk: SidewalkSingleStartImportInfo, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.destinationName = destinationName
@@ -6892,6 +7140,7 @@ extension IoTWireless {
         /// The import task ID.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -6911,6 +7160,7 @@ extension IoTWireless {
         public let sidewalk: SidewalkStartImportInfo
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = StartWirelessDeviceImportTaskRequest.idempotencyToken(), destinationName: String, sidewalk: SidewalkStartImportInfo, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.destinationName = destinationName
@@ -6945,6 +7195,7 @@ extension IoTWireless {
         /// The import task ID.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -6960,6 +7211,7 @@ extension IoTWireless {
         /// The status of the configuration of summary metrics.
         public let status: SummaryMetricConfigurationStatus?
 
+        @inlinable
         public init(status: SummaryMetricConfigurationStatus? = nil) {
             self.status = status
         }
@@ -6983,6 +7235,7 @@ extension IoTWireless {
         /// The start timestamp for the summary metric query.
         public let startTimestamp: Date?
 
+        @inlinable
         public init(aggregationPeriod: AggregationPeriod? = nil, dimensions: [Dimension]? = nil, endTimestamp: Date? = nil, metricName: MetricName? = nil, queryId: String? = nil, startTimestamp: Date? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.dimensions = dimensions
@@ -7033,6 +7286,7 @@ extension IoTWireless {
         /// The list of aggregated summary metric query results.
         public let values: [MetricQueryValue]?
 
+        @inlinable
         public init(aggregationPeriod: AggregationPeriod? = nil, dimensions: [Dimension]? = nil, endTimestamp: Date? = nil, error: String? = nil, metricName: MetricName? = nil, queryId: String? = nil, queryStatus: MetricQueryStatus? = nil, startTimestamp: Date? = nil, timestamps: [Date]? = nil, unit: String? = nil, values: [MetricQueryValue]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.dimensions = dimensions
@@ -7068,6 +7322,7 @@ extension IoTWireless {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -7091,6 +7346,7 @@ extension IoTWireless {
         /// Adds to or modifies the tags of the given resource. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -7127,6 +7383,7 @@ extension IoTWireless {
         /// TD-SCDMA UTRA (Universal Terrestrial Radio Access Network) absolute RF channel number (UARFCN).
         public let uarfcn: Int
 
+        @inlinable
         public init(cellParams: Int, uarfcn: Int) {
             self.cellParams = cellParams
             self.uarfcn = uarfcn
@@ -7157,6 +7414,7 @@ extension IoTWireless {
         /// UTRAN (UMTS Terrestrial Radio Access Network) cell global identifier.
         public let utranCid: Int?
 
+        @inlinable
         public init(cellParams: Int, pathLoss: Int? = nil, rscp: Int? = nil, uarfcn: Int, utranCid: Int? = nil) {
             self.cellParams = cellParams
             self.pathLoss = pathLoss
@@ -7207,6 +7465,7 @@ extension IoTWireless {
         /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
         public let utranCid: Int
 
+        @inlinable
         public init(lac: Int? = nil, mcc: Int, mnc: Int, pathLoss: Int? = nil, rscp: Int? = nil, tdscdmaLocalId: TdscdmaLocalId? = nil, tdscdmaNmr: [TdscdmaNmrObj]? = nil, tdscdmaTimingAdvance: Int? = nil, utranCid: Int) {
             self.lac = lac
             self.mcc = mcc
@@ -7259,6 +7518,7 @@ extension IoTWireless {
         /// The ID of the wireless device to test.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -7280,6 +7540,7 @@ extension IoTWireless {
         /// The result returned by the test.
         public let result: String?
 
+        @inlinable
         public init(result: String? = nil) {
             self.result = result
         }
@@ -7294,6 +7555,7 @@ extension IoTWireless {
         public let multicastFrameInfo: MulticastFrameInfo?
         public let wirelessDeviceFrameInfo: WirelessDeviceFrameInfo?
 
+        @inlinable
         public init(logLevel: LogLevel? = nil, multicastFrameInfo: MulticastFrameInfo? = nil, wirelessDeviceFrameInfo: WirelessDeviceFrameInfo? = nil) {
             self.logLevel = logLevel
             self.multicastFrameInfo = multicastFrameInfo
@@ -7313,6 +7575,7 @@ extension IoTWireless {
         /// A list of the keys of the tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7346,6 +7609,7 @@ extension IoTWireless {
         /// The FCnt init value.
         public let fCntStart: Int?
 
+        @inlinable
         public init(fCntStart: Int? = nil) {
             self.fCntStart = fCntStart
         }
@@ -7364,6 +7628,7 @@ extension IoTWireless {
         /// The FCnt init value.
         public let fCntStart: Int?
 
+        @inlinable
         public init(fCntStart: Int? = nil) {
             self.fCntStart = fCntStart
         }
@@ -7390,6 +7655,7 @@ extension IoTWireless {
         /// The ARN of the IAM Role that authorizes the destination.
         public let roleArn: String?
 
+        @inlinable
         public init(description: String? = nil, expression: String? = nil, expressionType: ExpressionType? = nil, name: String, roleArn: String? = nil) {
             self.description = description
             self.expression = expression
@@ -7441,6 +7707,7 @@ extension IoTWireless {
         /// Proximity resource type event configuration object for enabling and disabling wireless gateway topic.
         public let proximity: ProximityResourceTypeEventConfiguration?
 
+        @inlinable
         public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
@@ -7468,6 +7735,7 @@ extension IoTWireless {
         /// Positioning FPorts for the ClockSync, Stream, and GNSS functions.
         public let positioning: Positioning?
 
+        @inlinable
         public init(applications: [ApplicationConfig]? = nil, positioning: Positioning? = nil) {
             self.applications = applications
             self.positioning = positioning
@@ -7497,6 +7765,7 @@ extension IoTWireless {
         public let name: String?
         public let redundancyPercent: Int?
 
+        @inlinable
         public init(description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil) {
             self.description = description
             self.firmwareUpdateImage = firmwareUpdateImage
@@ -7558,6 +7827,7 @@ extension IoTWireless {
         public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
         public let wirelessGatewayLogOptions: [WirelessGatewayLogOption]?
 
+        @inlinable
         public init(defaultLogLevel: LogLevel? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
             self.defaultLogLevel = defaultLogLevel
             self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
@@ -7579,6 +7849,7 @@ extension IoTWireless {
         /// The value to be used to set summary metric configuration.
         public let summaryMetric: SummaryMetricConfiguration?
 
+        @inlinable
         public init(summaryMetric: SummaryMetricConfiguration? = nil) {
             self.summaryMetric = summaryMetric
         }
@@ -7598,6 +7869,7 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANMulticast?
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, id: String, loRaWAN: LoRaWANMulticast? = nil, name: String? = nil) {
             self.description = description
             self.id = id
@@ -7648,6 +7920,7 @@ extension IoTWireless {
         /// Wireless gateway resources to remove from the network analyzer configuration. Provide the WirelessGatewayId of the resources to remove in the input array.
         public let wirelessGatewaysToRemove: [String]?
 
+        @inlinable
         public init(configurationName: String, description: String? = nil, multicastGroupsToAdd: [String]? = nil, multicastGroupsToRemove: [String]? = nil, traceContent: TraceContent? = nil, wirelessDevicesToAdd: [String]? = nil, wirelessDevicesToRemove: [String]? = nil, wirelessGatewaysToAdd: [String]? = nil, wirelessGatewaysToRemove: [String]? = nil) {
             self.configurationName = configurationName
             self.description = description
@@ -7727,6 +8000,7 @@ extension IoTWireless {
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkUpdateAccount
 
+        @inlinable
         public init(partnerAccountId: String, partnerType: PartnerType, sidewalk: SidewalkUpdateAccount) {
             self.partnerAccountId = partnerAccountId
             self.partnerType = partnerType
@@ -7763,6 +8037,7 @@ extension IoTWireless {
         /// Resource type of the resource for which position is updated.
         public let resourceType: PositionResourceType
 
+        @inlinable
         public init(position: [Float], resourceIdentifier: String, resourceType: PositionResourceType) {
             self.position = position
             self.resourceIdentifier = resourceIdentifier
@@ -7808,6 +8083,7 @@ extension IoTWireless {
         /// Event configuration for the proximity event.
         public let proximity: ProximityEventConfiguration?
 
+        @inlinable
         public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, identifier: String, identifierType: IdentifierType, join: JoinEventConfiguration? = nil, messageDeliveryStatus: MessageDeliveryStatusEventConfiguration? = nil, partnerType: EventNotificationPartnerType? = nil, proximity: ProximityEventConfiguration? = nil) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
@@ -7857,6 +8133,7 @@ extension IoTWireless {
         /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.
         public let resourceType: PositionResourceType
 
+        @inlinable
         public init(geoJsonPayload: AWSHTTPBody? = nil, resourceIdentifier: String, resourceType: PositionResourceType) {
             self.geoJsonPayload = geoJsonPayload
             self.resourceIdentifier = resourceIdentifier
@@ -7888,6 +8165,7 @@ extension IoTWireless {
         /// The Sidewalk-related parameters of the import task to be updated.
         public let sidewalk: SidewalkUpdateImportInfo
 
+        @inlinable
         public init(id: String, sidewalk: SidewalkUpdateImportInfo) {
             self.id = id
             self.sidewalk = sidewalk
@@ -7928,6 +8206,7 @@ extension IoTWireless {
         /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
         public let positioning: PositioningConfigStatus?
 
+        @inlinable
         public init(description: String? = nil, destinationName: String? = nil, id: String, loRaWAN: LoRaWANUpdateDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil) {
             self.description = description
             self.destinationName = destinationName
@@ -7982,6 +8261,7 @@ extension IoTWireless {
         public let name: String?
         public let netIdFilters: [String]?
 
+        @inlinable
         public init(description: String? = nil, id: String, joinEuiFilters: [[String]]? = nil, maxEirp: Float? = nil, name: String? = nil, netIdFilters: [String]? = nil) {
             self.description = description
             self.id = id
@@ -8040,6 +8320,7 @@ extension IoTWireless {
         /// The link to the S3 bucket.
         public let updateDataSource: String?
 
+        @inlinable
         public init(loRaWAN: LoRaWANUpdateGatewayTaskCreate? = nil, updateDataRole: String? = nil, updateDataSource: String? = nil) {
             self.loRaWAN = loRaWAN
             self.updateDataRole = updateDataRole
@@ -8069,6 +8350,7 @@ extension IoTWireless {
         /// The properties that relate to the LoRaWAN wireless gateway.
         public let loRaWAN: LoRaWANUpdateGatewayTaskEntry?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, loRaWAN: LoRaWANUpdateGatewayTaskEntry? = nil) {
             self.arn = arn
             self.id = id
@@ -8088,6 +8370,7 @@ extension IoTWireless {
         /// WCDMA UTRA Absolute RF Channel Number downlink.
         public let uarfcndl: Int
 
+        @inlinable
         public init(psc: Int, uarfcndl: Int) {
             self.psc = psc
             self.uarfcndl = uarfcndl
@@ -8118,6 +8401,7 @@ extension IoTWireless {
         /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
         public let utranCid: Int
 
+        @inlinable
         public init(pathLoss: Int? = nil, psc: Int, rscp: Int? = nil, uarfcndl: Int, utranCid: Int) {
             self.pathLoss = pathLoss
             self.psc = psc
@@ -8166,6 +8450,7 @@ extension IoTWireless {
         /// WCDMA object for network measurement reports.
         public let wcdmaNmr: [WcdmaNmrObj]?
 
+        @inlinable
         public init(lac: Int? = nil, mcc: Int, mnc: Int, pathLoss: Int? = nil, rscp: Int? = nil, utranCid: Int, wcdmaLocalId: WcdmaLocalId? = nil, wcdmaNmr: [WcdmaNmrObj]? = nil) {
             self.lac = lac
             self.mcc = mcc
@@ -8216,6 +8501,7 @@ extension IoTWireless {
         /// Received signal strength (dBm) of the WLAN measurement data.
         public let rss: Int
 
+        @inlinable
         public init(macAddress: String, rss: Int) {
             self.macAddress = macAddress
             self.rss = rss
@@ -8239,6 +8525,7 @@ extension IoTWireless {
         public let event: WirelessDeviceEvent
         public let logLevel: LogLevel
 
+        @inlinable
         public init(event: WirelessDeviceEvent, logLevel: LogLevel) {
             self.event = event
             self.logLevel = logLevel
@@ -8275,6 +8562,7 @@ extension IoTWireless {
         /// The reason that provides additional information about the import task status.
         public let statusReason: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, destinationName: String? = nil, failedImportedDeviceCount: Int64? = nil, id: String? = nil, initializedImportedDeviceCount: Int64? = nil, onboardedImportedDeviceCount: Int64? = nil, pendingImportedDeviceCount: Int64? = nil, sidewalk: SidewalkGetStartImportInfo? = nil, status: ImportTaskStatus? = nil, statusReason: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -8310,6 +8598,7 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType
 
+        @inlinable
         public init(events: [WirelessDeviceEventLogOption]? = nil, logLevel: LogLevel, type: WirelessDeviceType) {
             self.events = events
             self.logLevel = logLevel
@@ -8345,6 +8634,7 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType?
 
+        @inlinable
         public init(arn: String? = nil, destinationName: String? = nil, fuotaDeviceStatus: FuotaDeviceStatus? = nil, id: String? = nil, lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANListDevice? = nil, mcGroupId: Int? = nil, multicastDeviceStatus: String? = nil, name: String? = nil, sidewalk: SidewalkListDevice? = nil, type: WirelessDeviceType? = nil) {
             self.arn = arn
             self.destinationName = destinationName
@@ -8378,6 +8668,7 @@ extension IoTWireless {
         public let event: WirelessGatewayEvent
         public let logLevel: LogLevel
 
+        @inlinable
         public init(event: WirelessGatewayEvent, logLevel: LogLevel) {
             self.event = event
             self.logLevel = logLevel
@@ -8394,6 +8685,7 @@ extension IoTWireless {
         public let logLevel: LogLevel
         public let type: WirelessGatewayType
 
+        @inlinable
         public init(events: [WirelessGatewayEventLogOption]? = nil, logLevel: LogLevel, type: WirelessGatewayType) {
             self.events = events
             self.logLevel = logLevel
@@ -8421,6 +8713,7 @@ extension IoTWireless {
         /// The name of the resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANGateway? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -8446,6 +8739,7 @@ extension IoTWireless {
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkSendDataToDevice?
 
+        @inlinable
         public init(loRaWAN: LoRaWANSendDataToDevice? = nil, sidewalk: SidewalkSendDataToDevice? = nil) {
             self.loRaWAN = loRaWAN
             self.sidewalk = sidewalk

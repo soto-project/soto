@@ -53,6 +53,7 @@ extension SageMakerA2IRuntime {
         /// The name of the human loop that you want to delete.
         public let humanLoopName: String
 
+        @inlinable
         public init(humanLoopName: String) {
             self.humanLoopName = humanLoopName
         }
@@ -80,6 +81,7 @@ extension SageMakerA2IRuntime {
         /// The name of the human loop that you want information about.
         public let humanLoopName: String
 
+        @inlinable
         public init(humanLoopName: String) {
             self.humanLoopName = humanLoopName
         }
@@ -118,6 +120,7 @@ extension SageMakerA2IRuntime {
         /// The status of the human loop.
         public let humanLoopStatus: HumanLoopStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureCode: String? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, humanLoopArn: String? = nil, humanLoopName: String? = nil, humanLoopOutput: HumanLoopOutput? = nil, humanLoopStatus: HumanLoopStatus? = nil) {
             self.creationTime = creationTime
             self.failureCode = failureCode
@@ -145,6 +148,7 @@ extension SageMakerA2IRuntime {
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]?
 
+        @inlinable
         public init(contentClassifiers: [ContentClassifier]? = nil) {
             self.contentClassifiers = contentClassifiers
         }
@@ -162,6 +166,7 @@ extension SageMakerA2IRuntime {
         /// Serialized input from the human loop. The input must be a string representation of a file in JSON format.
         public let inputContent: String?
 
+        @inlinable
         public init(inputContent: String? = nil) {
             self.inputContent = inputContent
         }
@@ -179,6 +184,7 @@ extension SageMakerA2IRuntime {
         /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output.
         public let outputS3Uri: String?
 
+        @inlinable
         public init(outputS3Uri: String? = nil) {
             self.outputS3Uri = outputS3Uri
         }
@@ -201,6 +207,7 @@ extension SageMakerA2IRuntime {
         /// The status of the human loop.
         public let humanLoopStatus: HumanLoopStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, humanLoopName: String? = nil, humanLoopStatus: HumanLoopStatus? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -234,6 +241,7 @@ extension SageMakerA2IRuntime {
         /// Optional. The order for displaying results. Valid values: Ascending and Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, flowDefinitionArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -272,6 +280,7 @@ extension SageMakerA2IRuntime {
         /// A token to display the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(humanLoopSummaries: [HumanLoopSummary]? = nil, nextToken: String? = nil) {
             self.humanLoopSummaries = humanLoopSummaries
             self.nextToken = nextToken
@@ -293,6 +302,7 @@ extension SageMakerA2IRuntime {
         /// The name of the human loop.
         public let humanLoopName: String?
 
+        @inlinable
         public init(dataAttributes: HumanLoopDataAttributes? = nil, flowDefinitionArn: String? = nil, humanLoopInput: HumanLoopInput? = nil, humanLoopName: String? = nil) {
             self.dataAttributes = dataAttributes
             self.flowDefinitionArn = flowDefinitionArn
@@ -322,6 +332,7 @@ extension SageMakerA2IRuntime {
         /// The Amazon Resource Name (ARN) of the human loop.
         public let humanLoopArn: String?
 
+        @inlinable
         public init(humanLoopArn: String? = nil) {
             self.humanLoopArn = humanLoopArn
         }
@@ -335,6 +346,7 @@ extension SageMakerA2IRuntime {
         /// The name of the human loop that you want to stop.
         public let humanLoopName: String?
 
+        @inlinable
         public init(humanLoopName: String? = nil) {
             self.humanLoopName = humanLoopName
         }

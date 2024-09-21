@@ -60,6 +60,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int?
 
+        @inlinable
         public init(assertedControls: [String]? = nil, controlPanelArn: String? = nil, name: String? = nil, owner: String? = nil, ruleConfig: RuleConfig? = nil, safetyRuleArn: String? = nil, status: Status? = nil, waitPeriodMs: Int? = nil) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
@@ -91,6 +92,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int?
 
+        @inlinable
         public init(name: String? = nil, safetyRuleArn: String? = nil, waitPeriodMs: Int? = nil) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
@@ -125,6 +127,7 @@ extension Route53RecoveryControlConfig {
         /// Deployment status of a resource. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterEndpoints: [ClusterEndpoint]? = nil, name: String? = nil, owner: String? = nil, status: Status? = nil) {
             self.clusterArn = clusterArn
             self.clusterEndpoints = clusterEndpoints
@@ -148,6 +151,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Web Services Region for a cluster endpoint.
         public let region: String?
 
+        @inlinable
         public init(endpoint: String? = nil, region: String? = nil) {
             self.endpoint = endpoint
             self.region = region
@@ -175,6 +179,7 @@ extension Route53RecoveryControlConfig {
         /// The deployment status of control panel. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
+        @inlinable
         public init(clusterArn: String? = nil, controlPanelArn: String? = nil, defaultControlPanel: Bool? = nil, name: String? = nil, owner: String? = nil, routingControlCount: Int? = nil, status: Status? = nil) {
             self.clusterArn = clusterArn
             self.controlPanelArn = controlPanelArn
@@ -204,6 +209,7 @@ extension Route53RecoveryControlConfig {
         /// The tags associated with the cluster.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterName = clusterName
@@ -234,6 +240,7 @@ extension Route53RecoveryControlConfig {
         /// The cluster that was created.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -253,6 +260,7 @@ extension Route53RecoveryControlConfig {
         /// The tags associated with the control panel.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateControlPanelRequest.idempotencyToken(), clusterArn: String? = nil, controlPanelName: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterArn = clusterArn
@@ -288,6 +296,7 @@ extension Route53RecoveryControlConfig {
         /// Information about a control panel.
         public let controlPanel: ControlPanel?
 
+        @inlinable
         public init(controlPanel: ControlPanel? = nil) {
             self.controlPanel = controlPanel
         }
@@ -307,6 +316,7 @@ extension Route53RecoveryControlConfig {
         /// The name of the routing control.
         public let routingControlName: String?
 
+        @inlinable
         public init(clientToken: String? = CreateRoutingControlRequest.idempotencyToken(), clusterArn: String? = nil, controlPanelArn: String? = nil, routingControlName: String? = nil) {
             self.clientToken = clientToken
             self.clusterArn = clusterArn
@@ -341,6 +351,7 @@ extension Route53RecoveryControlConfig {
         /// The routing control that is created.
         public let routingControl: RoutingControl?
 
+        @inlinable
         public init(routingControl: RoutingControl? = nil) {
             self.routingControl = routingControl
         }
@@ -360,6 +371,7 @@ extension Route53RecoveryControlConfig {
         /// The tags associated with the safety rule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assertionRule: NewAssertionRule? = nil, clientToken: String? = CreateSafetyRuleRequest.idempotencyToken(), gatingRule: NewGatingRule? = nil, tags: [String: String]? = nil) {
             self.assertionRule = assertionRule
             self.clientToken = clientToken
@@ -393,6 +405,7 @@ extension Route53RecoveryControlConfig {
         /// The gating rule created.
         public let gatingRule: GatingRule?
 
+        @inlinable
         public init(assertionRule: AssertionRule? = nil, gatingRule: GatingRule? = nil) {
             self.assertionRule = assertionRule
             self.gatingRule = gatingRule
@@ -408,6 +421,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the cluster that you're deleting.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -429,6 +443,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
 
+        @inlinable
         public init(controlPanelArn: String) {
             self.controlPanelArn = controlPanelArn
         }
@@ -450,6 +465,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the routing control that you're deleting.
         public let routingControlArn: String
 
+        @inlinable
         public init(routingControlArn: String) {
             self.routingControlArn = routingControlArn
         }
@@ -471,6 +487,7 @@ extension Route53RecoveryControlConfig {
         /// The ARN of the safety rule.
         public let safetyRuleArn: String
 
+        @inlinable
         public init(safetyRuleArn: String) {
             self.safetyRuleArn = safetyRuleArn
         }
@@ -492,6 +509,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -509,6 +527,7 @@ extension Route53RecoveryControlConfig {
         /// The cluster for the DescribeCluster request.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -522,6 +541,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
 
+        @inlinable
         public init(controlPanelArn: String) {
             self.controlPanelArn = controlPanelArn
         }
@@ -539,6 +559,7 @@ extension Route53RecoveryControlConfig {
         /// Information about the control panel.
         public let controlPanel: ControlPanel?
 
+        @inlinable
         public init(controlPanel: ControlPanel? = nil) {
             self.controlPanel = controlPanel
         }
@@ -552,6 +573,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the routing control.
         public let routingControlArn: String
 
+        @inlinable
         public init(routingControlArn: String) {
             self.routingControlArn = routingControlArn
         }
@@ -569,6 +591,7 @@ extension Route53RecoveryControlConfig {
         /// Information about the routing control.
         public let routingControl: RoutingControl?
 
+        @inlinable
         public init(routingControl: RoutingControl? = nil) {
             self.routingControl = routingControl
         }
@@ -582,6 +605,7 @@ extension Route53RecoveryControlConfig {
         /// The ARN of the safety rule.
         public let safetyRuleArn: String
 
+        @inlinable
         public init(safetyRuleArn: String) {
             self.safetyRuleArn = safetyRuleArn
         }
@@ -601,6 +625,7 @@ extension Route53RecoveryControlConfig {
         /// The gating rule in the response.
         public let gatingRule: GatingRule?
 
+        @inlinable
         public init(assertionRule: AssertionRule? = nil, gatingRule: GatingRule? = nil) {
             self.assertionRule = assertionRule
             self.gatingRule = gatingRule
@@ -632,6 +657,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int?
 
+        @inlinable
         public init(controlPanelArn: String? = nil, gatingControls: [String]? = nil, name: String? = nil, owner: String? = nil, ruleConfig: RuleConfig? = nil, safetyRuleArn: String? = nil, status: Status? = nil, targetControls: [String]? = nil, waitPeriodMs: Int? = nil) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
@@ -665,6 +691,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int?
 
+        @inlinable
         public init(name: String? = nil, safetyRuleArn: String? = nil, waitPeriodMs: Int? = nil) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
@@ -691,6 +718,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -708,6 +736,7 @@ extension Route53RecoveryControlConfig {
         /// The resource policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -725,6 +754,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) of the routing control.
         public let routingControlArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, routingControlArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -753,6 +783,7 @@ extension Route53RecoveryControlConfig {
         /// Next token for listing health checks.
         public let nextToken: String?
 
+        @inlinable
         public init(healthCheckIds: [String]? = nil, nextToken: String? = nil) {
             self.healthCheckIds = healthCheckIds
             self.nextToken = nextToken
@@ -770,6 +801,7 @@ extension Route53RecoveryControlConfig {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -796,6 +828,7 @@ extension Route53RecoveryControlConfig {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(clusters: [Cluster]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -815,6 +848,7 @@ extension Route53RecoveryControlConfig {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -843,6 +877,7 @@ extension Route53RecoveryControlConfig {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(controlPanels: [ControlPanel]? = nil, nextToken: String? = nil) {
             self.controlPanels = controlPanels
             self.nextToken = nextToken
@@ -862,6 +897,7 @@ extension Route53RecoveryControlConfig {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(controlPanelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.controlPanelArn = controlPanelArn
             self.maxResults = maxResults
@@ -890,6 +926,7 @@ extension Route53RecoveryControlConfig {
         /// An array of routing controls.
         public let routingControls: [RoutingControl]?
 
+        @inlinable
         public init(nextToken: String? = nil, routingControls: [RoutingControl]? = nil) {
             self.nextToken = nextToken
             self.routingControls = routingControls
@@ -909,6 +946,7 @@ extension Route53RecoveryControlConfig {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(controlPanelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.controlPanelArn = controlPanelArn
             self.maxResults = maxResults
@@ -937,6 +975,7 @@ extension Route53RecoveryControlConfig {
         /// The list of safety rules in a control panel.
         public let safetyRules: [Rule]?
 
+        @inlinable
         public init(nextToken: String? = nil, safetyRules: [Rule]? = nil) {
             self.nextToken = nextToken
             self.safetyRules = safetyRules
@@ -952,6 +991,7 @@ extension Route53RecoveryControlConfig {
         /// The Amazon Resource Name (ARN) for the resource that's tagged.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -969,6 +1009,7 @@ extension Route53RecoveryControlConfig {
         /// The tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -990,6 +1031,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int?
 
+        @inlinable
         public init(assertedControls: [String]? = nil, controlPanelArn: String? = nil, name: String? = nil, ruleConfig: RuleConfig? = nil, waitPeriodMs: Int? = nil) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
@@ -1035,6 +1077,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int?
 
+        @inlinable
         public init(controlPanelArn: String? = nil, gatingControls: [String]? = nil, name: String? = nil, ruleConfig: RuleConfig? = nil, targetControls: [String]? = nil, waitPeriodMs: Int? = nil) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
@@ -1085,6 +1128,7 @@ extension Route53RecoveryControlConfig {
         /// The deployment status of a routing control. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
+        @inlinable
         public init(controlPanelArn: String? = nil, name: String? = nil, owner: String? = nil, routingControlArn: String? = nil, status: Status? = nil) {
             self.controlPanelArn = controlPanelArn
             self.name = name
@@ -1108,6 +1152,7 @@ extension Route53RecoveryControlConfig {
         /// A gating rule verifies that a gating routing control or set of gating routing controls, evaluates as true, based on a rule configuration that you specify, which allows a set of routing control state changes to complete. For example, if you specify one gating routing control and you set the Type in the rule configuration to OR, that indicates that you must set the gating routing control to On for the rule to evaluate as true; that is, for the gating control "switch" to be "On". When you do that, then you can update the routing control states for the target routing controls that you specify in the gating rule.
         public let gating: GatingRule?
 
+        @inlinable
         public init(assertion: AssertionRule? = nil, gating: GatingRule? = nil) {
             self.assertion = assertion
             self.gating = gating
@@ -1127,6 +1172,7 @@ extension Route53RecoveryControlConfig {
         /// A rule can be one of the following: ATLEAST, AND, or OR.
         public let type: RuleType?
 
+        @inlinable
         public init(inverted: Bool? = nil, threshold: Int? = nil, type: RuleType? = nil) {
             self.inverted = inverted
             self.threshold = threshold
@@ -1146,6 +1192,7 @@ extension Route53RecoveryControlConfig {
         /// The tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1180,6 +1227,7 @@ extension Route53RecoveryControlConfig {
         /// Keys for the tags to be removed.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1205,6 +1253,7 @@ extension Route53RecoveryControlConfig {
         /// The name of the control panel.
         public let controlPanelName: String?
 
+        @inlinable
         public init(controlPanelArn: String? = nil, controlPanelName: String? = nil) {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
@@ -1229,6 +1278,7 @@ extension Route53RecoveryControlConfig {
         /// The control panel to update.
         public let controlPanel: ControlPanel?
 
+        @inlinable
         public init(controlPanel: ControlPanel? = nil) {
             self.controlPanel = controlPanel
         }
@@ -1244,6 +1294,7 @@ extension Route53RecoveryControlConfig {
         /// The name of the routing control.
         public let routingControlName: String?
 
+        @inlinable
         public init(routingControlArn: String? = nil, routingControlName: String? = nil) {
             self.routingControlArn = routingControlArn
             self.routingControlName = routingControlName
@@ -1268,6 +1319,7 @@ extension Route53RecoveryControlConfig {
         /// The routing control that was updated.
         public let routingControl: RoutingControl?
 
+        @inlinable
         public init(routingControl: RoutingControl? = nil) {
             self.routingControl = routingControl
         }
@@ -1283,6 +1335,7 @@ extension Route53RecoveryControlConfig {
         /// The gating rule to update.
         public let gatingRuleUpdate: GatingRuleUpdate?
 
+        @inlinable
         public init(assertionRuleUpdate: AssertionRuleUpdate? = nil, gatingRuleUpdate: GatingRuleUpdate? = nil) {
             self.assertionRuleUpdate = assertionRuleUpdate
             self.gatingRuleUpdate = gatingRuleUpdate
@@ -1305,6 +1358,7 @@ extension Route53RecoveryControlConfig {
         /// The gating rule updated.
         public let gatingRule: GatingRule?
 
+        @inlinable
         public init(assertionRule: AssertionRule? = nil, gatingRule: GatingRule? = nil) {
             self.assertionRule = assertionRule
             self.gatingRule = gatingRule

@@ -93,6 +93,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
             self.awsRegion = awsRegion
             self.quotaCode = quotaCode
@@ -136,6 +137,7 @@ extension ServiceQuotas {
         /// The error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -153,6 +155,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(quotaCode: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
@@ -177,6 +180,7 @@ extension ServiceQuotas {
         /// Information about the quota.
         public let quota: ServiceQuota?
 
+        @inlinable
         public init(quota: ServiceQuota? = nil) {
             self.quota = quota
         }
@@ -194,6 +198,7 @@ extension ServiceQuotas {
         /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
 
+        @inlinable
         public init(serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus? = nil) {
             self.serviceQuotaTemplateAssociationStatus = serviceQuotaTemplateAssociationStatus
         }
@@ -207,6 +212,7 @@ extension ServiceQuotas {
         /// Specifies the ID of the quota increase request.
         public let requestId: String
 
+        @inlinable
         public init(requestId: String) {
             self.requestId = requestId
         }
@@ -226,6 +232,7 @@ extension ServiceQuotas {
         /// Information about the quota increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
 
+        @inlinable
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
             self.requestedQuota = requestedQuota
         }
@@ -243,6 +250,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(awsRegion: String, quotaCode: String, serviceCode: String) {
             self.awsRegion = awsRegion
             self.quotaCode = quotaCode
@@ -272,6 +280,7 @@ extension ServiceQuotas {
         /// Information about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
 
+        @inlinable
         public init(serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate? = nil) {
             self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
         }
@@ -289,6 +298,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(contextId: String? = nil, quotaCode: String, serviceCode: String) {
             self.contextId = contextId
             self.quotaCode = quotaCode
@@ -315,6 +325,7 @@ extension ServiceQuotas {
         /// Information about the quota.
         public let quota: ServiceQuota?
 
+        @inlinable
         public init(quota: ServiceQuota? = nil) {
             self.quota = quota
         }
@@ -332,6 +343,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -361,6 +373,7 @@ extension ServiceQuotas {
         /// Information about the quotas.
         public let quotas: [ServiceQuota]?
 
+        @inlinable
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
             self.nextToken = nextToken
             self.quotas = quotas
@@ -386,6 +399,7 @@ extension ServiceQuotas {
         /// Specifies that you want to filter the results to only the requests with the matching status.
         public let status: RequestStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, quotaCode: String, quotaRequestedAtLevel: AppliedLevelEnum? = nil, serviceCode: String, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -424,6 +438,7 @@ extension ServiceQuotas {
         /// Information about the quota increase requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
             self.nextToken = nextToken
             self.requestedQuotas = requestedQuotas
@@ -447,6 +462,7 @@ extension ServiceQuotas {
         /// Specifies that you want to filter the results to only the requests with the matching status.
         public let status: RequestStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, quotaRequestedAtLevel: AppliedLevelEnum? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -480,6 +496,7 @@ extension ServiceQuotas {
         /// Information about the quota increase requests.
         public let requestedQuotas: [RequestedServiceQuotaChange]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestedQuotas: [RequestedServiceQuotaChange]? = nil) {
             self.nextToken = nextToken
             self.requestedQuotas = requestedQuotas
@@ -501,6 +518,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
 
+        @inlinable
         public init(awsRegion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.awsRegion = awsRegion
             self.maxResults = maxResults
@@ -535,6 +553,7 @@ extension ServiceQuotas {
         /// Information about the quota increase requests.
         public let serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]?
 
+        @inlinable
         public init(nextToken: String? = nil, serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotaIncreaseRequestInTemplate]? = nil) {
             self.nextToken = nextToken
             self.serviceQuotaIncreaseRequestInTemplateList = serviceQuotaIncreaseRequestInTemplateList
@@ -558,6 +577,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, quotaAppliedAtLevel: AppliedLevelEnum? = nil, quotaCode: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -594,6 +614,7 @@ extension ServiceQuotas {
         /// Information about the quotas.
         public let quotas: [ServiceQuota]?
 
+        @inlinable
         public init(nextToken: String? = nil, quotas: [ServiceQuota]? = nil) {
             self.nextToken = nextToken
             self.quotas = quotas
@@ -611,6 +632,7 @@ extension ServiceQuotas {
         /// Specifies a value for receiving additional results after you  receive a NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -635,6 +657,7 @@ extension ServiceQuotas {
         /// The list of the Amazon Web Service names and service codes.
         public let services: [ServiceInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, services: [ServiceInfo]? = nil) {
             self.nextToken = nextToken
             self.services = services
@@ -650,6 +673,7 @@ extension ServiceQuotas {
         /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the list-service-quotas CLI command or the ListServiceQuotas Amazon Web Services API operation.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -669,6 +693,7 @@ extension ServiceQuotas {
         /// A complex data type that contains zero or more tag elements.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -688,6 +713,7 @@ extension ServiceQuotas {
         /// The metric statistic that we recommend you use when determining quota usage.
         public let metricStatisticRecommendation: String?
 
+        @inlinable
         public init(metricDimensions: [String: String]? = nil, metricName: String? = nil, metricNamespace: String? = nil, metricStatisticRecommendation: String? = nil) {
             self.metricDimensions = metricDimensions
             self.metricName = metricName
@@ -713,6 +739,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(awsRegion: String, desiredValue: Double, quotaCode: String, serviceCode: String) {
             self.awsRegion = awsRegion
             self.desiredValue = desiredValue
@@ -746,6 +773,7 @@ extension ServiceQuotas {
         /// Information about the quota increase request.
         public let serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate?
 
+        @inlinable
         public init(serviceQuotaIncreaseRequestInTemplate: ServiceQuotaIncreaseRequestInTemplate? = nil) {
             self.serviceQuotaIncreaseRequestInTemplate = serviceQuotaIncreaseRequestInTemplate
         }
@@ -763,6 +791,7 @@ extension ServiceQuotas {
         /// When the ContextScope is RESOURCE, then this specifies the resource type of the specified resource.
         public let contextScopeType: String?
 
+        @inlinable
         public init(contextId: String? = nil, contextScope: QuotaContextScope? = nil, contextScopeType: String? = nil) {
             self.contextId = contextId
             self.contextScope = contextScope
@@ -782,6 +811,7 @@ extension ServiceQuotas {
         /// The value associated with the reported PeriodUnit.
         public let periodValue: Int?
 
+        @inlinable
         public init(periodUnit: PeriodUnit? = nil, periodValue: Int? = nil) {
             self.periodUnit = periodUnit
             self.periodValue = periodValue
@@ -803,6 +833,7 @@ extension ServiceQuotas {
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String
 
+        @inlinable
         public init(contextId: String? = nil, desiredValue: Double, quotaCode: String, serviceCode: String) {
             self.contextId = contextId
             self.desiredValue = desiredValue
@@ -833,6 +864,7 @@ extension ServiceQuotas {
         /// Information about the quota increase request.
         public let requestedQuota: RequestedServiceQuotaChange?
 
+        @inlinable
         public init(requestedQuota: RequestedServiceQuotaChange? = nil) {
             self.requestedQuota = requestedQuota
         }
@@ -876,6 +908,7 @@ extension ServiceQuotas {
         /// The unit of measurement.
         public let unit: String?
 
+        @inlinable
         public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, quotaRequestedAtLevel: AppliedLevelEnum? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
             self.caseId = caseId
             self.created = created
@@ -921,6 +954,7 @@ extension ServiceQuotas {
         /// Specifies the service name.
         public let serviceName: String?
 
+        @inlinable
         public init(serviceCode: String? = nil, serviceName: String? = nil) {
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -962,6 +996,7 @@ extension ServiceQuotas {
         /// The quota value.
         public let value: Double?
 
+        @inlinable
         public init(adjustable: Bool? = nil, errorReason: ErrorReason? = nil, globalQuota: Bool? = nil, period: QuotaPeriod? = nil, quotaAppliedAtLevel: AppliedLevelEnum? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil, usageMetric: MetricInfo? = nil, value: Double? = nil) {
             self.adjustable = adjustable
             self.errorReason = errorReason
@@ -1015,6 +1050,7 @@ extension ServiceQuotas {
         /// The unit of measurement.
         public let unit: String?
 
+        @inlinable
         public init(awsRegion: String? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, unit: String? = nil) {
             self.awsRegion = awsRegion
             self.desiredValue = desiredValue
@@ -1044,6 +1080,7 @@ extension ServiceQuotas {
         /// A string that contains an optional tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1069,6 +1106,7 @@ extension ServiceQuotas {
         /// The tags that you want to add to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1100,6 +1138,7 @@ extension ServiceQuotas {
         /// The keys of the tags that you want to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys

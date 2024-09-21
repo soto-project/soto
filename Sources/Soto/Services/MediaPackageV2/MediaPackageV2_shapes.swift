@@ -156,6 +156,7 @@ extension MediaPackageV2 {
         /// The date and time the channel group was modified.
         public let modifiedAt: Date
 
+        @inlinable
         public init(arn: String, channelGroupName: String, createdAt: Date, description: String? = nil, modifiedAt: Date) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -189,6 +190,7 @@ extension MediaPackageV2 {
         /// The date and time the channel was modified.
         public let modifiedAt: Date
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, inputType: InputType? = nil, modifiedAt: Date) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -220,6 +222,7 @@ extension MediaPackageV2 {
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
+        @inlinable
         public init(channelGroupName: String, clientToken: String? = CreateChannelGroupRequest.idempotencyToken(), description: String? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.clientToken = clientToken
@@ -271,6 +274,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the channel group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, createdAt: Date, description: String? = nil, egressDomain: String, eTag: String? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -308,6 +312,7 @@ extension MediaPackageV2 {
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputType: InputType? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -370,6 +375,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -420,6 +426,7 @@ extension MediaPackageV2 {
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public let utcTiming: DashUtcTiming?
 
+        @inlinable
         public init(drmSignaling: DashDrmSignaling? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: DashUtcTiming? = nil) {
             self.drmSignaling = drmSignaling
             self.filterConfiguration = filterConfiguration
@@ -468,6 +475,7 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
 
+        @inlinable
         public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -508,6 +516,7 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
 
+        @inlinable
         public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -564,6 +573,7 @@ extension MediaPackageV2 {
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -672,6 +682,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -717,6 +728,7 @@ extension MediaPackageV2 {
         /// The the method that the player uses to synchronize to coordinated universal time (UTC) wall clock time.
         public let timingSource: String?
 
+        @inlinable
         public init(timingMode: DashUtcTimingMode? = nil, timingSource: String? = nil) {
             self.timingMode = timingMode
             self.timingSource = timingSource
@@ -732,6 +744,7 @@ extension MediaPackageV2 {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
 
+        @inlinable
         public init(channelGroupName: String) {
             self.channelGroupName = channelGroupName
         }
@@ -761,6 +774,7 @@ extension MediaPackageV2 {
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
         public let channelName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -795,6 +809,7 @@ extension MediaPackageV2 {
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
         public let channelName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -831,6 +846,7 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, originEndpointName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -872,6 +888,7 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, originEndpointName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -915,6 +932,7 @@ extension MediaPackageV2 {
         /// The parameters for the SPEKE key provider.
         public let spekeKeyProvider: SpekeKeyProvider
 
+        @inlinable
         public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -936,6 +954,7 @@ extension MediaPackageV2 {
         /// A collection of video encryption presets. Value description:    PRESET-VIDEO-1 - Use one content key to encrypt all of the video tracks in your stream.   PRESET-VIDEO-2 - Use one content key to encrypt all of the SD video tracks and one content key for all HD and higher resolutions video tracks.   PRESET-VIDEO-3 - Use one content key to encrypt all of the SD video tracks, one content key for HD video tracks and one content key for all UHD video tracks.   PRESET-VIDEO-4 - Use one content key to encrypt all of the SD video tracks, one content key for HD video tracks, one content key for all UHD1 video tracks and one content key for all UHD2 video tracks.   PRESET-VIDEO-5 - Use one content key to encrypt all of the SD video tracks, one content key for HD1 video tracks, one content key for HD2 video tracks, one content key for all UHD1 video tracks and one content key for all UHD2 video tracks.   PRESET-VIDEO-6 - Use one content key to encrypt all of the SD video tracks, one content key for HD1 video tracks, one content key for HD2 video tracks and one content key for all UHD video tracks.   PRESET-VIDEO-7 - Use one content key to encrypt all of the SD+HD1 video tracks, one content key for HD2 video tracks and one content key for all UHD video tracks.   PRESET-VIDEO-8 - Use one content key to encrypt all of the SD+HD1 video tracks, one content key for HD2 video tracks, one content key for all UHD1 video tracks and one content key for all UHD2 video tracks.   SHARED - Use the same content key for all of the video and audio tracks in your stream.   UNENCRYPTED - Don't encrypt any of the video tracks in your stream.
         public let presetSpeke20Video: PresetSpeke20Video
 
+        @inlinable
         public init(presetSpeke20Audio: PresetSpeke20Audio, presetSpeke20Video: PresetSpeke20Video) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
@@ -953,6 +972,7 @@ extension MediaPackageV2 {
         /// The encryption method to use.
         public let tsEncryptionMethod: TsEncryptionMethod?
 
+        @inlinable
         public init(cmafEncryptionMethod: CmafEncryptionMethod? = nil, tsEncryptionMethod: TsEncryptionMethod? = nil) {
             self.cmafEncryptionMethod = cmafEncryptionMethod
             self.tsEncryptionMethod = tsEncryptionMethod
@@ -974,6 +994,7 @@ extension MediaPackageV2 {
         /// Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.
         public let timeDelaySeconds: Int?
 
+        @inlinable
         public init(end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
             self.end = end
             self.manifestFilter = manifestFilter
@@ -993,6 +1014,7 @@ extension MediaPackageV2 {
         /// The failover conditions for the endpoint. The options are:    STALE_MANIFEST - The manifest stalled and there are no new segments or parts.    INCOMPLETE_MANIFEST - There is a gap in the manifest.    MISSING_DRM_KEY - Key rotation is enabled but we're unable to fetch the key for the current key period.    SLATE_INPUT - The segments which contain slate content are considered to be missing content.
         public let endpointErrorConditions: [EndpointErrorCondition]?
 
+        @inlinable
         public init(endpointErrorConditions: [EndpointErrorCondition]? = nil) {
             self.endpointErrorConditions = endpointErrorConditions
         }
@@ -1006,6 +1028,7 @@ extension MediaPackageV2 {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
 
+        @inlinable
         public init(channelGroupName: String) {
             self.channelGroupName = channelGroupName
         }
@@ -1043,6 +1066,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the channel group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, createdAt: Date, description: String? = nil, egressDomain: String, eTag: String? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -1072,6 +1096,7 @@ extension MediaPackageV2 {
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
         public let channelName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1104,6 +1129,7 @@ extension MediaPackageV2 {
         /// The policy assigned to the channel.
         public let policy: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, policy: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1123,6 +1149,7 @@ extension MediaPackageV2 {
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
         public let channelName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1168,6 +1195,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -1220,6 +1248,7 @@ extension MediaPackageV2 {
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public let utcTiming: DashUtcTiming?
 
+        @inlinable
         public init(drmSignaling: DashDrmSignaling? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, suggestedPresentationDelaySeconds: Int? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
             self.drmSignaling = drmSignaling
             self.filterConfiguration = filterConfiguration
@@ -1265,6 +1294,7 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
 
+        @inlinable
         public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -1300,6 +1330,7 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
 
+        @inlinable
         public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -1329,6 +1360,7 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, originEndpointName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1368,6 +1400,7 @@ extension MediaPackageV2 {
         /// The policy assigned to the origin endpoint.
         public let policy: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, originEndpointName: String, policy: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1391,6 +1424,7 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, originEndpointName: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1453,6 +1487,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -1498,6 +1533,7 @@ extension MediaPackageV2 {
         /// The ingest domain URL where the source stream should be sent.
         public let url: String?
 
+        @inlinable
         public init(id: String? = nil, url: String? = nil) {
             self.id = id
             self.url = url
@@ -1515,6 +1551,7 @@ extension MediaPackageV2 {
         /// The pagination token from the GET list request. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1541,6 +1578,7 @@ extension MediaPackageV2 {
         /// The pagination token from the GET list request. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ChannelGroupListConfiguration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1560,6 +1598,7 @@ extension MediaPackageV2 {
         /// The pagination token from the GET list request. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(channelGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelGroupName = channelGroupName
             self.maxResults = maxResults
@@ -1591,6 +1630,7 @@ extension MediaPackageV2 {
         /// The pagination token from the GET list request.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ChannelListConfiguration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1608,6 +1648,7 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String?
 
+        @inlinable
         public init(manifestName: String, url: String? = nil) {
             self.manifestName = manifestName
             self.url = url
@@ -1627,6 +1668,7 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String?
 
+        @inlinable
         public init(childManifestName: String? = nil, manifestName: String, url: String? = nil) {
             self.childManifestName = childManifestName
             self.manifestName = manifestName
@@ -1648,6 +1690,7 @@ extension MediaPackageV2 {
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String?
 
+        @inlinable
         public init(childManifestName: String? = nil, manifestName: String, url: String? = nil) {
             self.childManifestName = childManifestName
             self.manifestName = manifestName
@@ -1671,6 +1714,7 @@ extension MediaPackageV2 {
         /// The pagination token from the GET list request. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1707,6 +1751,7 @@ extension MediaPackageV2 {
         /// The pagination token from the GET list request. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [OriginEndpointListConfiguration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1722,6 +1767,7 @@ extension MediaPackageV2 {
         /// The ARN of the CloudWatch resource that you want to view tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1739,6 +1785,7 @@ extension MediaPackageV2 {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1774,6 +1821,7 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, originEndpointName: String) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -1813,6 +1861,7 @@ extension MediaPackageV2 {
         /// The policy to attach to the specified channel.
         public let policy: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, policy: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1856,6 +1905,7 @@ extension MediaPackageV2 {
         /// The policy to attach to the specified origin endpoint.
         public let policy: String
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, originEndpointName: String, policy: String) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1898,6 +1948,7 @@ extension MediaPackageV2 {
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public let scteFilter: [ScteFilter]?
 
+        @inlinable
         public init(scteFilter: [ScteFilter]? = nil) {
             self.scteFilter = scteFilter
         }
@@ -1915,6 +1966,7 @@ extension MediaPackageV2 {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:    Binary - The SCTE-35 marker is expressed as a hex-string (Base64 string) rather than full XML.    XML - The SCTE marker is expressed fully in XML.
         public let adMarkerDash: AdMarkerDash?
 
+        @inlinable
         public init(adMarkerDash: AdMarkerDash? = nil) {
             self.adMarkerDash = adMarkerDash
         }
@@ -1928,6 +1980,7 @@ extension MediaPackageV2 {
         /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:    DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see SCTE-35 Ad Marker EXT-X-DATERANGE.
         public let adMarkerHls: AdMarkerHls?
 
+        @inlinable
         public init(adMarkerHls: AdMarkerHls? = nil) {
             self.adMarkerHls = adMarkerHls
         }
@@ -1952,6 +2005,7 @@ extension MediaPackageV2 {
         /// When selected, MediaPackage bundles all audio tracks in a rendition group. All other tracks in the stream can be used with any audio rendition from the group.
         public let tsUseAudioRenditionGroup: Bool?
 
+        @inlinable
         public init(encryption: Encryption? = nil, includeIframeOnlyStreams: Bool? = nil, scte: Scte? = nil, segmentDurationSeconds: Int? = nil, segmentName: String? = nil, tsIncludeDvbSubtitles: Bool? = nil, tsUseAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.includeIframeOnlyStreams = includeIframeOnlyStreams
@@ -1989,6 +2043,7 @@ extension MediaPackageV2 {
         /// The URL of the API Gateway proxy that you set up to talk to your key server. The API Gateway proxy must reside in the same AWS Region as MediaPackage and must start with https://. The following example shows a URL: https://1wm2dx1f33.execute-api.us-west-2.amazonaws.com/SpekeSample/copyProtection
         public let url: String
 
+        @inlinable
         public init(drmSystems: [DrmSystem], encryptionContractConfiguration: EncryptionContractConfiguration, resourceId: String, roleArn: String, url: String) {
             self.drmSystems = drmSystems
             self.encryptionContractConfiguration = encryptionContractConfiguration
@@ -2012,6 +2067,7 @@ extension MediaPackageV2 {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2035,6 +2091,7 @@ extension MediaPackageV2 {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2058,6 +2115,7 @@ extension MediaPackageV2 {
         /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
         public let eTag: String?
 
+        @inlinable
         public init(channelGroupName: String, description: String? = nil, eTag: String? = nil) {
             self.channelGroupName = channelGroupName
             self.description = description
@@ -2105,6 +2163,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the channel group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, createdAt: Date, description: String? = nil, egressDomain: String, eTag: String? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -2138,6 +2197,7 @@ extension MediaPackageV2 {
         /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
         public let eTag: String?
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, description: String? = nil, eTag: String? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2193,6 +2253,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -2246,6 +2307,7 @@ extension MediaPackageV2 {
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
 
+        @inlinable
         public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2350,6 +2412,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName

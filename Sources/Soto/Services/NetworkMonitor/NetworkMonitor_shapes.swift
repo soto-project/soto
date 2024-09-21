@@ -71,6 +71,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs created and assigned to the monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(aggregationPeriod: Int64? = nil, clientToken: String? = CreateMonitorInput.idempotencyToken(), monitorName: String, probes: [CreateMonitorProbeInput]? = nil, tags: [String: String]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.clientToken = clientToken
@@ -116,6 +117,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs assigned to the monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(aggregationPeriod: Int64? = nil, monitorArn: String, monitorName: String, state: MonitorState, tags: [String: String]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.monitorArn = monitorArn
@@ -147,6 +149,7 @@ extension NetworkMonitor {
         /// The ARN of the subnet.
         public let sourceArn: String
 
+        @inlinable
         public init(destination: String, destinationPort: Int? = nil, packetSize: Int? = nil, probeTags: [String: String]? = nil, protocol: `Protocol`, sourceArn: String) {
             self.destination = destination
             self.destinationPort = destinationPort
@@ -194,6 +197,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs created and assigned to the probe.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateProbeInput.idempotencyToken(), monitorName: String, probe: ProbeInput, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.monitorName = monitorName
@@ -258,6 +262,7 @@ extension NetworkMonitor {
         /// The ID of the source VPC or subnet.
         public let vpcId: String?
 
+        @inlinable
         public init(addressFamily: AddressFamily? = nil, createdAt: Date? = nil, destination: String, destinationPort: Int? = nil, modifiedAt: Date? = nil, packetSize: Int? = nil, probeArn: String? = nil, probeId: String? = nil, protocol: `Protocol`, sourceArn: String, state: ProbeState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.addressFamily = addressFamily
             self.createdAt = createdAt
@@ -295,6 +300,7 @@ extension NetworkMonitor {
         /// The name of the monitor to delete.
         public let monitorName: String
 
+        @inlinable
         public init(monitorName: String) {
             self.monitorName = monitorName
         }
@@ -324,6 +330,7 @@ extension NetworkMonitor {
         /// The ID of the probe to delete.
         public let probeId: String
 
+        @inlinable
         public init(monitorName: String, probeId: String) {
             self.monitorName = monitorName
             self.probeId = probeId
@@ -354,6 +361,7 @@ extension NetworkMonitor {
         /// The name of the monitor that details are returned for.
         public let monitorName: String
 
+        @inlinable
         public init(monitorName: String) {
             self.monitorName = monitorName
         }
@@ -391,6 +399,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs assigned to the monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(aggregationPeriod: Int64, createdAt: Date, modifiedAt: Date, monitorArn: String, monitorName: String, probes: [Probe]? = nil, state: MonitorState, tags: [String: String]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.createdAt = createdAt
@@ -420,6 +429,7 @@ extension NetworkMonitor {
         /// The ID of the probe to get information about. Run GetMonitor action to get a list of probes and probe IDs for the  monitor.
         public let probeId: String
 
+        @inlinable
         public init(monitorName: String, probeId: String) {
             self.monitorName = monitorName
             self.probeId = probeId
@@ -470,6 +480,7 @@ extension NetworkMonitor {
         /// The ID of the source VPC or subnet.
         public let vpcId: String?
 
+        @inlinable
         public init(addressFamily: AddressFamily? = nil, createdAt: Date? = nil, destination: String, destinationPort: Int? = nil, modifiedAt: Date? = nil, packetSize: Int? = nil, probeArn: String? = nil, probeId: String? = nil, protocol: `Protocol`, sourceArn: String, state: ProbeState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.addressFamily = addressFamily
             self.createdAt = createdAt
@@ -512,6 +523,7 @@ extension NetworkMonitor {
         /// The list of all monitors and their states.
         public let state: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, state: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -541,6 +553,7 @@ extension NetworkMonitor {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(monitors: [MonitorSummary], nextToken: String? = nil) {
             self.monitors = monitors
             self.nextToken = nextToken
@@ -556,6 +569,7 @@ extension NetworkMonitor {
         /// The
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -579,6 +593,7 @@ extension NetworkMonitor {
         /// Lists the tags assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -600,6 +615,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs assigned to the monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(aggregationPeriod: Int64? = nil, monitorArn: String, monitorName: String, state: MonitorState, tags: [String: String]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.monitorArn = monitorArn
@@ -645,6 +661,7 @@ extension NetworkMonitor {
         /// The ID of the source VPC subnet.
         public let vpcId: String?
 
+        @inlinable
         public init(addressFamily: AddressFamily? = nil, createdAt: Date? = nil, destination: String, destinationPort: Int? = nil, modifiedAt: Date? = nil, packetSize: Int? = nil, probeArn: String? = nil, probeId: String? = nil, protocol: `Protocol`, sourceArn: String, state: ProbeState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.addressFamily = addressFamily
             self.createdAt = createdAt
@@ -692,6 +709,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs created and assigned to the monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(destination: String, destinationPort: Int? = nil, packetSize: Int? = nil, protocol: `Protocol`, sourceArn: String, tags: [String: String]? = nil) {
             self.destination = destination
             self.destinationPort = destinationPort
@@ -735,6 +753,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs assigned to the monitor or probe.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -774,6 +793,7 @@ extension NetworkMonitor {
         /// The key-value pa
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -810,6 +830,7 @@ extension NetworkMonitor {
         /// The name of the monitor to update.
         public let monitorName: String
 
+        @inlinable
         public init(aggregationPeriod: Int64, monitorName: String) {
             self.aggregationPeriod = aggregationPeriod
             self.monitorName = monitorName
@@ -846,6 +867,7 @@ extension NetworkMonitor {
         /// The list of key-value pairs associated with the monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(aggregationPeriod: Int64? = nil, monitorArn: String, monitorName: String, state: MonitorState, tags: [String: String]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.monitorArn = monitorArn
@@ -879,6 +901,7 @@ extension NetworkMonitor {
         /// The state of the probe update.
         public let state: ProbeState?
 
+        @inlinable
         public init(destination: String? = nil, destinationPort: Int? = nil, monitorName: String, packetSize: Int? = nil, probeId: String, protocol: `Protocol`? = nil, state: ProbeState? = nil) {
             self.destination = destination
             self.destinationPort = destinationPort
@@ -951,6 +974,7 @@ extension NetworkMonitor {
         /// The updated ID of the source VPC subnet ID.
         public let vpcId: String?
 
+        @inlinable
         public init(addressFamily: AddressFamily? = nil, createdAt: Date? = nil, destination: String, destinationPort: Int? = nil, modifiedAt: Date? = nil, packetSize: Int? = nil, probeArn: String? = nil, probeId: String? = nil, protocol: `Protocol`, sourceArn: String, state: ProbeState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.addressFamily = addressFamily
             self.createdAt = createdAt

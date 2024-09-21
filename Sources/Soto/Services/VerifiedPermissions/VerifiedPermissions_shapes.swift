@@ -525,6 +525,7 @@ extension VerifiedPermissions {
         /// The type of an action.
         public let actionType: String
 
+        @inlinable
         public init(actionId: String, actionType: String) {
             self.actionId = actionId
             self.actionType = actionType
@@ -553,6 +554,7 @@ extension VerifiedPermissions {
         /// An array of up to 30 requests that you want Verified Permissions to evaluate.
         public let requests: [BatchIsAuthorizedInputItem]
 
+        @inlinable
         public init(entities: EntitiesDefinition? = nil, policyStoreId: String, requests: [BatchIsAuthorizedInputItem]) {
             self.entities = entities
             self.policyStoreId = policyStoreId
@@ -587,6 +589,7 @@ extension VerifiedPermissions {
         /// Specifies the resource that you want an authorization decision for. For example, PhotoFlash::Photo.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(action: ActionIdentifier? = nil, context: ContextDefinition? = nil, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.action = action
             self.context = context
@@ -613,6 +616,7 @@ extension VerifiedPermissions {
         /// A series of Allow or Deny decisions for each request, and the policies that produced them.
         public let results: [BatchIsAuthorizedOutputItem]
 
+        @inlinable
         public init(results: [BatchIsAuthorizedOutputItem]) {
             self.results = results
         }
@@ -632,6 +636,7 @@ extension VerifiedPermissions {
         /// The authorization request that initiated the decision.
         public let request: BatchIsAuthorizedInputItem
 
+        @inlinable
         public init(decision: Decision, determiningPolicies: [DeterminingPolicyItem], errors: [EvaluationErrorItem], request: BatchIsAuthorizedInputItem) {
             self.decision = decision
             self.determiningPolicies = determiningPolicies
@@ -659,6 +664,7 @@ extension VerifiedPermissions {
         /// An array of up to 30 requests that you want Verified Permissions to evaluate.
         public let requests: [BatchIsAuthorizedWithTokenInputItem]
 
+        @inlinable
         public init(accessToken: String? = nil, entities: EntitiesDefinition? = nil, identityToken: String? = nil, policyStoreId: String, requests: [BatchIsAuthorizedWithTokenInputItem]) {
             self.accessToken = accessToken
             self.entities = entities
@@ -701,6 +707,7 @@ extension VerifiedPermissions {
         /// Specifies the resource that you want an authorization decision for. For example, PhotoFlash::Photo.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(action: ActionIdentifier? = nil, context: ContextDefinition? = nil, resource: EntityIdentifier? = nil) {
             self.action = action
             self.context = context
@@ -726,6 +733,7 @@ extension VerifiedPermissions {
         /// A series of Allow or Deny decisions for each request, and the policies that produced them.
         public let results: [BatchIsAuthorizedWithTokenOutputItem]
 
+        @inlinable
         public init(principal: EntityIdentifier? = nil, results: [BatchIsAuthorizedWithTokenOutputItem]) {
             self.principal = principal
             self.results = results
@@ -747,6 +755,7 @@ extension VerifiedPermissions {
         /// The authorization request that initiated the decision.
         public let request: BatchIsAuthorizedWithTokenInputItem
 
+        @inlinable
         public init(decision: Decision, determiningPolicies: [DeterminingPolicyItem], errors: [EvaluationErrorItem], request: BatchIsAuthorizedWithTokenInputItem) {
             self.decision = decision
             self.determiningPolicies = determiningPolicies
@@ -766,6 +775,7 @@ extension VerifiedPermissions {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         public let groupEntityType: String
 
+        @inlinable
         public init(groupEntityType: String) {
             self.groupEntityType = groupEntityType
         }
@@ -785,6 +795,7 @@ extension VerifiedPermissions {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         public let groupEntityType: String?
 
+        @inlinable
         public init(groupEntityType: String? = nil) {
             self.groupEntityType = groupEntityType
         }
@@ -798,6 +809,7 @@ extension VerifiedPermissions {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         public let groupEntityType: String?
 
+        @inlinable
         public init(groupEntityType: String? = nil) {
             self.groupEntityType = groupEntityType
         }
@@ -815,6 +827,7 @@ extension VerifiedPermissions {
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         public let userPoolArn: String
 
+        @inlinable
         public init(clientIds: [String]? = nil, groupConfiguration: CognitoGroupConfiguration? = nil, userPoolArn: String) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
@@ -851,6 +864,7 @@ extension VerifiedPermissions {
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "userPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         public let userPoolArn: String
 
+        @inlinable
         public init(clientIds: [String], groupConfiguration: CognitoGroupConfigurationDetail? = nil, issuer: String, userPoolArn: String) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
@@ -876,6 +890,7 @@ extension VerifiedPermissions {
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "userPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         public let userPoolArn: String
 
+        @inlinable
         public init(clientIds: [String], groupConfiguration: CognitoGroupConfigurationItem? = nil, issuer: String, userPoolArn: String) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
@@ -901,6 +916,7 @@ extension VerifiedPermissions {
         /// Specifies the namespace and data type of the principals generated for identities authenticated by the new identity source.
         public let principalEntityType: String?
 
+        @inlinable
         public init(clientToken: String? = CreateIdentitySourceInput.idempotencyToken(), configuration: Configuration, policyStoreId: String, principalEntityType: String? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -941,6 +957,7 @@ extension VerifiedPermissions {
         /// The ID of the policy store that contains the identity source.
         public let policyStoreId: String
 
+        @inlinable
         public init(createdDate: Date, identitySourceId: String, lastUpdatedDate: Date, policyStoreId: String) {
             self.createdDate = createdDate
             self.identitySourceId = identitySourceId
@@ -964,6 +981,7 @@ extension VerifiedPermissions {
         /// Specifies the PolicyStoreId of the policy store you want to store the policy in.
         public let policyStoreId: String
 
+        @inlinable
         public init(clientToken: String? = CreatePolicyInput.idempotencyToken(), definition: PolicyDefinition, policyStoreId: String) {
             self.clientToken = clientToken
             self.definition = definition
@@ -1012,6 +1030,7 @@ extension VerifiedPermissions {
         /// The resource specified in the new policy's scope. This response element isn't present when the resource isn't specified in the policy content.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(actions: [ActionIdentifier]? = nil, createdDate: Date, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.actions = actions
             self.createdDate = createdDate
@@ -1045,6 +1064,7 @@ extension VerifiedPermissions {
         /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
         public let validationSettings: ValidationSettings
 
+        @inlinable
         public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), description: String? = nil, validationSettings: ValidationSettings) {
             self.clientToken = clientToken
             self.description = description
@@ -1077,6 +1097,7 @@ extension VerifiedPermissions {
         /// The unique ID of the new policy store.
         public let policyStoreId: String
 
+        @inlinable
         public init(arn: String, createdDate: Date, lastUpdatedDate: Date, policyStoreId: String) {
             self.arn = arn
             self.createdDate = createdDate
@@ -1102,6 +1123,7 @@ extension VerifiedPermissions {
         /// Specifies the content that you want to use for the new policy template, written in the Cedar policy language.
         public let statement: String
 
+        @inlinable
         public init(clientToken: String? = CreatePolicyTemplateInput.idempotencyToken(), description: String? = nil, policyStoreId: String, statement: String) {
             self.clientToken = clientToken
             self.description = description
@@ -1141,6 +1163,7 @@ extension VerifiedPermissions {
         /// The unique ID of the new policy template.
         public let policyTemplateId: String
 
+        @inlinable
         public init(createdDate: Date, lastUpdatedDate: Date, policyStoreId: String, policyTemplateId: String) {
             self.createdDate = createdDate
             self.lastUpdatedDate = lastUpdatedDate
@@ -1162,6 +1185,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the identity source that you want to delete.
         public let policyStoreId: String
 
+        @inlinable
         public init(identitySourceId: String, policyStoreId: String) {
             self.identitySourceId = identitySourceId
             self.policyStoreId = policyStoreId
@@ -1192,6 +1216,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the policy that you want to delete.
         public let policyStoreId: String
 
+        @inlinable
         public init(policyId: String, policyStoreId: String) {
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -1220,6 +1245,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that you want to delete.
         public let policyStoreId: String
 
+        @inlinable
         public init(policyStoreId: String) {
             self.policyStoreId = policyStoreId
         }
@@ -1245,6 +1271,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy template that you want to delete.
         public let policyTemplateId: String
 
+        @inlinable
         public init(policyStoreId: String, policyTemplateId: String) {
             self.policyStoreId = policyStoreId
             self.policyTemplateId = policyTemplateId
@@ -1273,6 +1300,7 @@ extension VerifiedPermissions {
         /// The Id of a policy that determined to an authorization decision. Example: "policyId":"SPEXAMPLEabcdefg111111"
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -1288,6 +1316,7 @@ extension VerifiedPermissions {
         /// The type of an entity. Example: "entityType":"typeName"
         public let entityType: String
 
+        @inlinable
         public init(entityId: String, entityType: String) {
             self.entityId = entityId
             self.entityType = entityType
@@ -1316,6 +1345,7 @@ extension VerifiedPermissions {
         /// The parent entities in the hierarchy that contains the entity. A principal or resource entity can be defined with at most 99 transitive parents per authorization request.  A transitive parent is an entity in the hierarchy of entities including all direct parents, and parents of parents. For example, a user can be a member of 91 groups if one of those groups is a member of eight groups, for a total of 100: one entity, 91 entity parents, and eight parents of parents.
         public let parents: [EntityIdentifier]?
 
+        @inlinable
         public init(attributes: [String: AttributeValue]? = nil, identifier: EntityIdentifier, parents: [EntityIdentifier]? = nil) {
             self.attributes = attributes
             self.identifier = identifier
@@ -1343,6 +1373,7 @@ extension VerifiedPermissions {
         /// The error description.
         public let errorDescription: String
 
+        @inlinable
         public init(errorDescription: String) {
             self.errorDescription = errorDescription
         }
@@ -1358,6 +1389,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the identity source you want information about.
         public let policyStoreId: String
 
+        @inlinable
         public init(identitySourceId: String, policyStoreId: String) {
             self.identitySourceId = identitySourceId
             self.policyStoreId = policyStoreId
@@ -1396,6 +1428,7 @@ extension VerifiedPermissions {
         /// The data type of principals generated for identities authenticated by this identity source.
         public let principalEntityType: String
 
+        @inlinable
         public init(configuration: ConfigurationDetail? = nil, createdDate: Date, identitySourceId: String, lastUpdatedDate: Date, policyStoreId: String, principalEntityType: String) {
             self.configuration = configuration
             self.createdDate = createdDate
@@ -1407,6 +1440,7 @@ extension VerifiedPermissions {
         }
 
         @available(*, deprecated, message: "Members details have been deprecated")
+        @inlinable
         public init(configuration: ConfigurationDetail? = nil, createdDate: Date, details: IdentitySourceDetails? = nil, identitySourceId: String, lastUpdatedDate: Date, policyStoreId: String, principalEntityType: String) {
             self.configuration = configuration
             self.createdDate = createdDate
@@ -1434,6 +1468,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the policy that you want information about.
         public let policyStoreId: String
 
+        @inlinable
         public init(policyId: String, policyStoreId: String) {
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -1481,6 +1516,7 @@ extension VerifiedPermissions {
         /// The resource specified in the policy's scope. This element isn't included in the response when Resource isn't present in the policy content.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionDetail, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.actions = actions
             self.createdDate = createdDate
@@ -1512,6 +1548,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that you want information about.
         public let policyStoreId: String
 
+        @inlinable
         public init(policyStoreId: String) {
             self.policyStoreId = policyStoreId
         }
@@ -1543,6 +1580,7 @@ extension VerifiedPermissions {
         /// The current validation settings for the policy store.
         public let validationSettings: ValidationSettings
 
+        @inlinable
         public init(arn: String, createdDate: Date, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, validationSettings: ValidationSettings) {
             self.arn = arn
             self.createdDate = createdDate
@@ -1568,6 +1606,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy template that you want information about.
         public let policyTemplateId: String
 
+        @inlinable
         public init(policyStoreId: String, policyTemplateId: String) {
             self.policyStoreId = policyStoreId
             self.policyTemplateId = policyTemplateId
@@ -1604,6 +1643,7 @@ extension VerifiedPermissions {
         /// The content of the body of the policy template written in the Cedar policy language.
         public let statement: String
 
+        @inlinable
         public init(createdDate: Date, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, policyTemplateId: String, statement: String) {
             self.createdDate = createdDate
             self.description = description
@@ -1627,6 +1667,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the schema.
         public let policyStoreId: String
 
+        @inlinable
         public init(policyStoreId: String) {
             self.policyStoreId = policyStoreId
         }
@@ -1656,6 +1697,7 @@ extension VerifiedPermissions {
         /// The body of the schema, written in Cedar schema JSON.
         public let schema: String
 
+        @inlinable
         public init(createdDate: Date, lastUpdatedDate: Date, namespaces: [String]? = nil, policyStoreId: String, schema: String) {
             self.createdDate = createdDate
             self.lastUpdatedDate = lastUpdatedDate
@@ -1683,6 +1725,7 @@ extension VerifiedPermissions {
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool whose identities are accessible to this Verified Permissions policy store.
         public let userPoolArn: String?
 
+        @inlinable
         public init() {
             self.clientIds = nil
             self.discoveryUrl = nil
@@ -1691,6 +1734,7 @@ extension VerifiedPermissions {
         }
 
         @available(*, deprecated, message: "Members clientIds, discoveryUrl, openIdIssuer, userPoolArn have been deprecated")
+        @inlinable
         public init(clientIds: [String]? = nil, discoveryUrl: String? = nil, openIdIssuer: OpenIdIssuer? = nil, userPoolArn: String? = nil) {
             self.clientIds = clientIds
             self.discoveryUrl = discoveryUrl
@@ -1710,6 +1754,7 @@ extension VerifiedPermissions {
         /// The Cedar entity type of the principals returned by the identity provider (IdP) associated with this identity source.
         public let principalEntityType: String?
 
+        @inlinable
         public init(principalEntityType: String? = nil) {
             self.principalEntityType = principalEntityType
         }
@@ -1743,6 +1788,7 @@ extension VerifiedPermissions {
         /// The Cedar entity type of the principals returned from the IdP associated with this identity source.
         public let principalEntityType: String
 
+        @inlinable
         public init(configuration: ConfigurationItem? = nil, createdDate: Date, identitySourceId: String, lastUpdatedDate: Date, policyStoreId: String, principalEntityType: String) {
             self.configuration = configuration
             self.createdDate = createdDate
@@ -1754,6 +1800,7 @@ extension VerifiedPermissions {
         }
 
         @available(*, deprecated, message: "Members details have been deprecated")
+        @inlinable
         public init(configuration: ConfigurationItem? = nil, createdDate: Date, details: IdentitySourceItemDetails? = nil, identitySourceId: String, lastUpdatedDate: Date, policyStoreId: String, principalEntityType: String) {
             self.configuration = configuration
             self.createdDate = createdDate
@@ -1785,6 +1832,7 @@ extension VerifiedPermissions {
         /// The Amazon Cognito user pool whose identities are accessible to this Verified Permissions policy store.
         public let userPoolArn: String?
 
+        @inlinable
         public init() {
             self.clientIds = nil
             self.discoveryUrl = nil
@@ -1793,6 +1841,7 @@ extension VerifiedPermissions {
         }
 
         @available(*, deprecated, message: "Members clientIds, discoveryUrl, openIdIssuer, userPoolArn have been deprecated")
+        @inlinable
         public init(clientIds: [String]? = nil, discoveryUrl: String? = nil, openIdIssuer: OpenIdIssuer? = nil, userPoolArn: String? = nil) {
             self.clientIds = clientIds
             self.discoveryUrl = discoveryUrl
@@ -1822,6 +1871,7 @@ extension VerifiedPermissions {
         /// Specifies the resource for which the authorization decision is to be made.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(action: ActionIdentifier? = nil, context: ContextDefinition? = nil, entities: EntitiesDefinition? = nil, policyStoreId: String, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.action = action
             self.context = context
@@ -1860,6 +1910,7 @@ extension VerifiedPermissions {
         /// Errors that occurred while making an authorization decision, for example, a policy references an Entity or entity Attribute that does not exist in the slice.
         public let errors: [EvaluationErrorItem]
 
+        @inlinable
         public init(decision: Decision, determiningPolicies: [DeterminingPolicyItem], errors: [EvaluationErrorItem]) {
             self.decision = decision
             self.determiningPolicies = determiningPolicies
@@ -1889,6 +1940,7 @@ extension VerifiedPermissions {
         /// Specifies the resource for which the authorization decision is made. For example, is the principal allowed to perform the action on the resource?
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(accessToken: String? = nil, action: ActionIdentifier? = nil, context: ContextDefinition? = nil, entities: EntitiesDefinition? = nil, identityToken: String? = nil, policyStoreId: String, resource: EntityIdentifier? = nil) {
             self.accessToken = accessToken
             self.action = action
@@ -1936,6 +1988,7 @@ extension VerifiedPermissions {
         /// The identifier of the principal in the ID or access token.
         public let principal: EntityIdentifier?
 
+        @inlinable
         public init(decision: Decision, determiningPolicies: [DeterminingPolicyItem], errors: [EvaluationErrorItem], principal: EntityIdentifier? = nil) {
             self.decision = decision
             self.determiningPolicies = determiningPolicies
@@ -1961,6 +2014,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the identity sources that you want to list.
         public let policyStoreId: String
 
+        @inlinable
         public init(filters: [IdentitySourceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, policyStoreId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1996,6 +2050,7 @@ extension VerifiedPermissions {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(identitySources: [IdentitySourceItem], nextToken: String? = nil) {
             self.identitySources = identitySources
             self.nextToken = nextToken
@@ -2017,6 +2072,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store you want to list policies from.
         public let policyStoreId: String
 
+        @inlinable
         public init(filter: PolicyFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, policyStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2049,6 +2105,7 @@ extension VerifiedPermissions {
         /// Lists all policies that are available in the specified policy store.
         public let policies: [PolicyItem]
 
+        @inlinable
         public init(nextToken: String? = nil, policies: [PolicyItem]) {
             self.nextToken = nextToken
             self.policies = policies
@@ -2066,6 +2123,7 @@ extension VerifiedPermissions {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2090,6 +2148,7 @@ extension VerifiedPermissions {
         /// The list of policy stores in the account.
         public let policyStores: [PolicyStoreItem]
 
+        @inlinable
         public init(nextToken: String? = nil, policyStores: [PolicyStoreItem]) {
             self.nextToken = nextToken
             self.policyStores = policyStores
@@ -2109,6 +2168,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the policy templates you want to list.
         public let policyStoreId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, policyStoreId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2138,6 +2198,7 @@ extension VerifiedPermissions {
         /// The list of the policy templates in the specified policy store.
         public let policyTemplates: [PolicyTemplateItem]
 
+        @inlinable
         public init(nextToken: String? = nil, policyTemplates: [PolicyTemplateItem]) {
             self.nextToken = nextToken
             self.policyTemplates = policyTemplates
@@ -2155,6 +2216,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
@@ -2182,6 +2244,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
@@ -2199,6 +2262,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
@@ -2220,6 +2284,7 @@ extension VerifiedPermissions {
         /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
         public let tokenSelection: OpenIdConnectTokenSelection
 
+        @inlinable
         public init(entityIdPrefix: String? = nil, groupConfiguration: OpenIdConnectGroupConfiguration? = nil, issuer: String, tokenSelection: OpenIdConnectTokenSelection) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
@@ -2255,6 +2320,7 @@ extension VerifiedPermissions {
         /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
         public let tokenSelection: OpenIdConnectTokenSelectionDetail
 
+        @inlinable
         public init(entityIdPrefix: String? = nil, groupConfiguration: OpenIdConnectGroupConfigurationDetail? = nil, issuer: String, tokenSelection: OpenIdConnectTokenSelectionDetail) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
@@ -2280,6 +2346,7 @@ extension VerifiedPermissions {
         /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
         public let tokenSelection: OpenIdConnectTokenSelectionItem
 
+        @inlinable
         public init(entityIdPrefix: String? = nil, groupConfiguration: OpenIdConnectGroupConfigurationItem? = nil, issuer: String, tokenSelection: OpenIdConnectTokenSelectionItem) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
@@ -2301,6 +2368,7 @@ extension VerifiedPermissions {
         /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
         public let groupEntityType: String
 
+        @inlinable
         public init(groupClaim: String, groupEntityType: String) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
@@ -2325,6 +2393,7 @@ extension VerifiedPermissions {
         /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
         public let groupEntityType: String
 
+        @inlinable
         public init(groupClaim: String, groupEntityType: String) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
@@ -2342,6 +2411,7 @@ extension VerifiedPermissions {
         /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
         public let groupEntityType: String
 
+        @inlinable
         public init(groupClaim: String, groupEntityType: String) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
@@ -2359,6 +2429,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
@@ -2386,6 +2457,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
@@ -2403,6 +2475,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
@@ -2424,6 +2497,7 @@ extension VerifiedPermissions {
         /// Filters the output to only policies that reference the specified resource.
         public let resource: EntityReference?
 
+        @inlinable
         public init(policyTemplateId: String? = nil, policyType: PolicyType? = nil, principal: EntityReference? = nil, resource: EntityReference? = nil) {
             self.policyTemplateId = policyTemplateId
             self.policyType = policyType
@@ -2474,6 +2548,7 @@ extension VerifiedPermissions {
         /// The resource associated with the policy.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionItem, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.actions = actions
             self.createdDate = createdDate
@@ -2515,6 +2590,7 @@ extension VerifiedPermissions {
         /// The unique identifier of the policy store.
         public let policyStoreId: String
 
+        @inlinable
         public init(arn: String, createdDate: Date, description: String? = nil, lastUpdatedDate: Date? = nil, policyStoreId: String) {
             self.arn = arn
             self.createdDate = createdDate
@@ -2546,6 +2622,7 @@ extension VerifiedPermissions {
         /// The unique identifier of the policy template.
         public let policyTemplateId: String
 
+        @inlinable
         public init(createdDate: Date, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, policyTemplateId: String) {
             self.createdDate = createdDate
             self.description = description
@@ -2569,6 +2646,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store in which to place the schema.
         public let policyStoreId: String
 
+        @inlinable
         public init(definition: SchemaDefinition, policyStoreId: String) {
             self.definition = definition
             self.policyStoreId = policyStoreId
@@ -2599,6 +2677,7 @@ extension VerifiedPermissions {
         /// The unique ID of the policy store that contains the schema.
         public let policyStoreId: String
 
+        @inlinable
         public init(createdDate: Date, lastUpdatedDate: Date, namespaces: [String], policyStoreId: String) {
             self.createdDate = createdDate
             self.lastUpdatedDate = lastUpdatedDate
@@ -2620,6 +2699,7 @@ extension VerifiedPermissions {
         /// The policy content of the static policy, written in the Cedar policy language.
         public let statement: String
 
+        @inlinable
         public init(description: String? = nil, statement: String) {
             self.description = description
             self.statement = statement
@@ -2643,6 +2723,7 @@ extension VerifiedPermissions {
         /// The content of the static policy written in the Cedar policy language.
         public let statement: String
 
+        @inlinable
         public init(description: String? = nil, statement: String) {
             self.description = description
             self.statement = statement
@@ -2658,6 +2739,7 @@ extension VerifiedPermissions {
         /// A description of the static policy.
         public let description: String?
 
+        @inlinable
         public init(description: String? = nil) {
             self.description = description
         }
@@ -2675,6 +2757,7 @@ extension VerifiedPermissions {
         /// The resource associated with this template-linked policy. Verified Permissions substitutes this resource for the ?resource placeholder in the policy template when it evaluates an authorization request.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(policyTemplateId: String, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.policyTemplateId = policyTemplateId
             self.principal = principal
@@ -2704,6 +2787,7 @@ extension VerifiedPermissions {
         /// The resource associated with this template-linked policy. Verified Permissions substitutes this resource for the ?resource placeholder in the policy template when it evaluates an authorization request.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(policyTemplateId: String, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.policyTemplateId = policyTemplateId
             self.principal = principal
@@ -2725,6 +2809,7 @@ extension VerifiedPermissions {
         /// The resource associated with this template-linked policy. Verified Permissions substitutes this resource for the ?resource placeholder in the policy template when it evaluates an authorization request.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(policyTemplateId: String, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.policyTemplateId = policyTemplateId
             self.principal = principal
@@ -2742,6 +2827,7 @@ extension VerifiedPermissions {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
         public let groupEntityType: String
 
+        @inlinable
         public init(groupEntityType: String) {
             self.groupEntityType = groupEntityType
         }
@@ -2765,6 +2851,7 @@ extension VerifiedPermissions {
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool associated with this identity source.
         public let userPoolArn: String
 
+        @inlinable
         public init(clientIds: [String]? = nil, groupConfiguration: UpdateCognitoGroupConfiguration? = nil, userPoolArn: String) {
             self.clientIds = clientIds
             self.groupConfiguration = groupConfiguration
@@ -2801,6 +2888,7 @@ extension VerifiedPermissions {
         /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.  At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a userPoolArn, and optionally, a ClientId.
         public let updateConfiguration: UpdateConfiguration
 
+        @inlinable
         public init(identitySourceId: String, policyStoreId: String, principalEntityType: String? = nil, updateConfiguration: UpdateConfiguration) {
             self.identitySourceId = identitySourceId
             self.policyStoreId = policyStoreId
@@ -2841,6 +2929,7 @@ extension VerifiedPermissions {
         /// The ID of the policy store that contains the updated identity source.
         public let policyStoreId: String
 
+        @inlinable
         public init(createdDate: Date, identitySourceId: String, lastUpdatedDate: Date, policyStoreId: String) {
             self.createdDate = createdDate
             self.identitySourceId = identitySourceId
@@ -2862,6 +2951,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
             self.audiences = audiences
             self.principalIdClaim = principalIdClaim
@@ -2893,6 +2983,7 @@ extension VerifiedPermissions {
         /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
         public let tokenSelection: UpdateOpenIdConnectTokenSelection
 
+        @inlinable
         public init(entityIdPrefix: String? = nil, groupConfiguration: UpdateOpenIdConnectGroupConfiguration? = nil, issuer: String, tokenSelection: UpdateOpenIdConnectTokenSelection) {
             self.entityIdPrefix = entityIdPrefix
             self.groupConfiguration = groupConfiguration
@@ -2924,6 +3015,7 @@ extension VerifiedPermissions {
         /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
         public let groupEntityType: String
 
+        @inlinable
         public init(groupClaim: String, groupEntityType: String) {
             self.groupClaim = groupClaim
             self.groupEntityType = groupEntityType
@@ -2948,6 +3040,7 @@ extension VerifiedPermissions {
         /// The claim that determines the principal in OIDC access tokens. For example, sub.
         public let principalIdClaim: String?
 
+        @inlinable
         public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
             self.clientIds = clientIds
             self.principalIdClaim = principalIdClaim
@@ -2977,6 +3070,7 @@ extension VerifiedPermissions {
         /// Specifies the ID of the policy store that contains the policy that you want to update.
         public let policyStoreId: String
 
+        @inlinable
         public init(definition: UpdatePolicyDefinition, policyId: String, policyStoreId: String) {
             self.definition = definition
             self.policyId = policyId
@@ -3025,6 +3119,7 @@ extension VerifiedPermissions {
         /// The resource specified in the policy's scope. This element isn't included in the response when Resource isn't present in the policy content.
         public let resource: EntityIdentifier?
 
+        @inlinable
         public init(actions: [ActionIdentifier]? = nil, createdDate: Date, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.actions = actions
             self.createdDate = createdDate
@@ -3058,6 +3153,7 @@ extension VerifiedPermissions {
         /// A structure that defines the validation settings that want to enable for the policy store.
         public let validationSettings: ValidationSettings
 
+        @inlinable
         public init(description: String? = nil, policyStoreId: String, validationSettings: ValidationSettings) {
             self.description = description
             self.policyStoreId = policyStoreId
@@ -3090,6 +3186,7 @@ extension VerifiedPermissions {
         /// The ID of the updated policy store.
         public let policyStoreId: String
 
+        @inlinable
         public init(arn: String, createdDate: Date, lastUpdatedDate: Date, policyStoreId: String) {
             self.arn = arn
             self.createdDate = createdDate
@@ -3115,6 +3212,7 @@ extension VerifiedPermissions {
         /// Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body:   The action referenced by the policy template.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   The effect (permit or forbid) of the policy template.   The principal referenced by the policy template.   The resource referenced by the policy template.
         public let statement: String
 
+        @inlinable
         public init(description: String? = nil, policyStoreId: String, policyTemplateId: String, statement: String) {
             self.description = description
             self.policyStoreId = policyStoreId
@@ -3154,6 +3252,7 @@ extension VerifiedPermissions {
         /// The ID of the updated policy template.
         public let policyTemplateId: String
 
+        @inlinable
         public init(createdDate: Date, lastUpdatedDate: Date, policyStoreId: String, policyTemplateId: String) {
             self.createdDate = createdDate
             self.lastUpdatedDate = lastUpdatedDate
@@ -3175,6 +3274,7 @@ extension VerifiedPermissions {
         /// Specifies the Cedar policy language text to be added to or replaced on the static policy.  You can change only the following elements from the original content:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from StaticPolicy to TemplateLinkedPolicy.   The effect (permit or forbid) of the policy.   The principal referenced by the policy.   The resource referenced by the policy.
         public let statement: String
 
+        @inlinable
         public init(description: String? = nil, statement: String) {
             self.description = description
             self.statement = statement
@@ -3196,6 +3296,7 @@ extension VerifiedPermissions {
         /// The validation mode currently configured for this policy store. The valid values are:    OFF – Neither Verified Permissions nor Cedar perform any validation on policies. No validation errors are reported by either service.    STRICT – Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated static policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store.    If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against.  To submit a static policy or policy template without a schema, you must turn off validation.
         public let mode: ValidationMode
 
+        @inlinable
         public init(mode: ValidationMode) {
             self.mode = mode
         }
@@ -3209,6 +3310,7 @@ extension VerifiedPermissions {
         /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}
         public let contextMap: [String: AttributeValue]?
 
+        @inlinable
         public init(contextMap: [String: AttributeValue]? = nil) {
             self.contextMap = contextMap
         }
@@ -3228,6 +3330,7 @@ extension VerifiedPermissions {
         /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.
         public let entityList: [EntityItem]?
 
+        @inlinable
         public init(entityList: [EntityItem]? = nil) {
             self.entityList = entityList
         }
@@ -3247,6 +3350,7 @@ extension VerifiedPermissions {
         /// A JSON string representation of the schema supported by applications that use this policy store. For more information, see Policy store schema in the Amazon Verified Permissions User Guide.
         public let cedarJson: String?
 
+        @inlinable
         public init(cedarJson: String? = nil) {
             self.cedarJson = cedarJson
         }
@@ -3265,6 +3369,7 @@ extension VerifiedPermissions {
         /// Contains details about the updates to be applied to a static policy.
         public let `static`: UpdateStaticPolicyDefinition?
 
+        @inlinable
         public init(static: UpdateStaticPolicyDefinition? = nil) {
             self.`static` = `static`
         }

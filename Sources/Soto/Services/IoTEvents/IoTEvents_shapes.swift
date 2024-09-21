@@ -102,6 +102,7 @@ extension IoTEvents {
         /// The value must be TRUE or FALSE. If TRUE, you receive a notification when the alarm state changes. You must choose to acknowledge the notification before the alarm state can return to NORMAL. If FALSE, you won't receive notifications. The alarm automatically changes to the NORMAL state when the input property value returns to the specified range.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -139,6 +140,7 @@ extension IoTEvents {
         /// Sends information about the detector model instance and the event that triggered the action to an Amazon SQS queue.
         public let sqs: SqsAction?
 
+        @inlinable
         public init(clearTimer: ClearTimerAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
             self.clearTimer = clearTimer
             self.dynamoDB = dynamoDB
@@ -198,6 +200,7 @@ extension IoTEvents {
         public let sns: SNSTopicPublishAction?
         public let sqs: SqsAction?
 
+        @inlinable
         public init(dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
             self.dynamoDB = dynamoDB
             self.dynamoDBv2 = dynamoDBv2
@@ -241,6 +244,7 @@ extension IoTEvents {
         /// The configuration applies to all alarms that were created based on this alarm model.
         public let initializationConfiguration: InitializationConfiguration?
 
+        @inlinable
         public init(acknowledgeFlow: AcknowledgeFlow? = nil, initializationConfiguration: InitializationConfiguration? = nil) {
             self.acknowledgeFlow = acknowledgeFlow
             self.initializationConfiguration = initializationConfiguration
@@ -256,6 +260,7 @@ extension IoTEvents {
         /// Specifies one or more supported actions to receive notifications when the alarm state changes.
         public let alarmActions: [AlarmAction]?
 
+        @inlinable
         public init(alarmActions: [AlarmAction]? = nil) {
             self.alarmActions = alarmActions
         }
@@ -279,6 +284,7 @@ extension IoTEvents {
         /// The time the alarm model was created, in the Unix epoch format.
         public let creationTime: Date?
 
+        @inlinable
         public init(alarmModelDescription: String? = nil, alarmModelName: String? = nil, creationTime: Date? = nil) {
             self.alarmModelDescription = alarmModelDescription
             self.alarmModelName = alarmModelName
@@ -311,6 +317,7 @@ extension IoTEvents {
         ///  Contains information about the status of the alarm model version.
         public let statusMessage: String?
 
+        @inlinable
         public init(alarmModelArn: String? = nil, alarmModelName: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, status: AlarmModelVersionStatus? = nil, statusMessage: String? = nil) {
             self.alarmModelArn = alarmModelArn
             self.alarmModelName = alarmModelName
@@ -339,6 +346,7 @@ extension IoTEvents {
         /// The settings apply to all alarms that were created based on this alarm model.
         public let notificationActions: [NotificationAction]?
 
+        @inlinable
         public init(notificationActions: [NotificationAction]? = nil) {
             self.notificationActions = notificationActions
         }
@@ -359,6 +367,7 @@ extension IoTEvents {
         /// A rule that compares an input property value to a threshold value with a comparison operator.
         public let simpleRule: SimpleRule?
 
+        @inlinable
         public init(simpleRule: SimpleRule? = nil) {
             self.simpleRule = simpleRule
         }
@@ -382,6 +391,7 @@ extension IoTEvents {
         /// The type of the analysis result. Analyses fall into the following types based on the validators used to generate the analysis result:    supported-actions - You must specify AWS IoT Events supported actions that work with other AWS services in a supported AWS Region.    service-limits - Resources or API operations can't exceed service quotas (also known as limits). Update your detector model or request a quota increase.    structure - The detector model must follow a structure that AWS IoT Events supports.     expression-syntax - Your expression must follow the required syntax.    data-type - Data types referenced in the detector model must be compatible.    referenced-data - You must define the data referenced in your detector model before you can use the data.    referenced-resource - Resources that the detector model uses must be available.   For more information, see Running detector model analyses in the AWS IoT Events Developer Guide.
         public let type: String?
 
+        @inlinable
         public init(level: AnalysisResultLevel? = nil, locations: [AnalysisResultLocation]? = nil, message: String? = nil, type: String? = nil) {
             self.level = level
             self.locations = locations
@@ -401,6 +411,7 @@ extension IoTEvents {
         /// A JsonPath expression that identifies the error field in your detector model.
         public let path: String?
 
+        @inlinable
         public init(path: String? = nil) {
             self.path = path
         }
@@ -416,6 +427,7 @@ extension IoTEvents {
         /// The timestamp, in seconds, in the Unix epoch format. The valid range is between 1-31556889864403199.
         public let timeInSeconds: String
 
+        @inlinable
         public init(offsetInNanos: String? = nil, timeInSeconds: String) {
             self.offsetInNanos = offsetInNanos
             self.timeInSeconds = timeInSeconds
@@ -435,6 +447,7 @@ extension IoTEvents {
         /// The value to send to an asset property.
         public let value: AssetPropertyVariant?
 
+        @inlinable
         public init(quality: String? = nil, timestamp: AssetPropertyTimestamp? = nil, value: AssetPropertyVariant? = nil) {
             self.quality = quality
             self.timestamp = timestamp
@@ -458,6 +471,7 @@ extension IoTEvents {
         /// The asset property value is a string. You must use an expression, and the evaluated result should be a string.
         public let stringValue: String?
 
+        @inlinable
         public init(booleanValue: String? = nil, doubleValue: String? = nil, integerValue: String? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
@@ -477,6 +491,7 @@ extension IoTEvents {
         /// An expression that specifies an attribute-value pair in a JSON structure. Use this to specify an attribute from the JSON payload that is made available by the input. Inputs are derived from messages sent to AWS IoT Events (BatchPutMessage). Each such message contains a JSON payload. The attribute (and its paired value) specified here are available for use in the condition expressions used by detectors.  Syntax: ....
         public let jsonPath: String
 
+        @inlinable
         public init(jsonPath: String) {
             self.jsonPath = jsonPath
         }
@@ -496,6 +511,7 @@ extension IoTEvents {
         /// The name of the timer to clear.
         public let timerName: String
 
+        @inlinable
         public init(timerName: String) {
             self.timerName = timerName
         }
@@ -534,6 +550,7 @@ extension IoTEvents {
         /// A list of key-value pairs that contain metadata for the alarm model. The tags help you manage the alarm model. For more information, see Tagging your AWS IoT Events resources in the AWS IoT Events Developer Guide. You can create up to 50 tags for one alarm model.
         public let tags: [Tag]?
 
+        @inlinable
         public init(alarmCapabilities: AlarmCapabilities? = nil, alarmEventActions: AlarmEventActions? = nil, alarmModelDescription: String? = nil, alarmModelName: String, alarmNotification: AlarmNotification? = nil, alarmRule: AlarmRule, key: String? = nil, roleArn: String, severity: Int? = nil, tags: [Tag]? = nil) {
             self.alarmCapabilities = alarmCapabilities
             self.alarmEventActions = alarmEventActions
@@ -594,6 +611,7 @@ extension IoTEvents {
         /// 	  Check your alarm model information and update the alarm model.    FAILED - You couldn't create or update the alarm model. Check your alarm model information  and try again.
         public let status: AlarmModelVersionStatus?
 
+        @inlinable
         public init(alarmModelArn: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, status: AlarmModelVersionStatus? = nil) {
             self.alarmModelArn = alarmModelArn
             self.alarmModelVersion = alarmModelVersion
@@ -627,6 +645,7 @@ extension IoTEvents {
         /// Metadata that can be used to manage the detector model.
         public let tags: [Tag]?
 
+        @inlinable
         public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, evaluationMethod: EvaluationMethod? = nil, key: String? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.detectorModelDefinition = detectorModelDefinition
             self.detectorModelDescription = detectorModelDescription
@@ -668,6 +687,7 @@ extension IoTEvents {
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
 
+        @inlinable
         public init(detectorModelConfiguration: DetectorModelConfiguration? = nil) {
             self.detectorModelConfiguration = detectorModelConfiguration
         }
@@ -687,6 +707,7 @@ extension IoTEvents {
         /// Metadata that can be used to manage the input.
         public let tags: [Tag]?
 
+        @inlinable
         public init(inputDefinition: InputDefinition, inputDescription: String? = nil, inputName: String, tags: [Tag]? = nil) {
             self.inputDefinition = inputDefinition
             self.inputDescription = inputDescription
@@ -717,6 +738,7 @@ extension IoTEvents {
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?
 
+        @inlinable
         public init(inputConfiguration: InputConfiguration? = nil) {
             self.inputConfiguration = inputConfiguration
         }
@@ -730,6 +752,7 @@ extension IoTEvents {
         /// The name of the alarm model.
         public let alarmModelName: String
 
+        @inlinable
         public init(alarmModelName: String) {
             self.alarmModelName = alarmModelName
         }
@@ -757,6 +780,7 @@ extension IoTEvents {
         /// The name of the detector model to be deleted.
         public let detectorModelName: String
 
+        @inlinable
         public init(detectorModelName: String) {
             self.detectorModelName = detectorModelName
         }
@@ -784,6 +808,7 @@ extension IoTEvents {
         /// The name of the input to delete.
         public let inputName: String
 
+        @inlinable
         public init(inputName: String) {
             self.inputName = inputName
         }
@@ -813,6 +838,7 @@ extension IoTEvents {
         /// The version of the alarm model.
         public let alarmModelVersion: String?
 
+        @inlinable
         public init(alarmModelName: String, alarmModelVersion: String? = nil) {
             self.alarmModelName = alarmModelName
             self.alarmModelVersion = alarmModelVersion
@@ -871,6 +897,7 @@ extension IoTEvents {
         ///  Contains information about the status of the alarm model.
         public let statusMessage: String?
 
+        @inlinable
         public init(alarmCapabilities: AlarmCapabilities? = nil, alarmEventActions: AlarmEventActions? = nil, alarmModelArn: String? = nil, alarmModelDescription: String? = nil, alarmModelName: String? = nil, alarmModelVersion: String? = nil, alarmNotification: AlarmNotification? = nil, alarmRule: AlarmRule? = nil, creationTime: Date? = nil, key: String? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, severity: Int? = nil, status: AlarmModelVersionStatus? = nil, statusMessage: String? = nil) {
             self.alarmCapabilities = alarmCapabilities
             self.alarmEventActions = alarmEventActions
@@ -912,6 +939,7 @@ extension IoTEvents {
         /// The ID of the analysis result that you want to retrieve.
         public let analysisId: String
 
+        @inlinable
         public init(analysisId: String) {
             self.analysisId = analysisId
         }
@@ -929,6 +957,7 @@ extension IoTEvents {
         /// The status of the analysis activity. The status can be one of the following values:    RUNNING - AWS IoT Events is analyzing your detector model. This process can take several minutes to complete.    COMPLETE - AWS IoT Events finished analyzing your detector model.    FAILED - AWS IoT Events couldn't analyze your detector model. Try again later.
         public let status: AnalysisStatus?
 
+        @inlinable
         public init(status: AnalysisStatus? = nil) {
             self.status = status
         }
@@ -944,6 +973,7 @@ extension IoTEvents {
         /// The version of the detector model.
         public let detectorModelVersion: String?
 
+        @inlinable
         public init(detectorModelName: String, detectorModelVersion: String? = nil) {
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
@@ -971,6 +1001,7 @@ extension IoTEvents {
         /// Information about the detector model.
         public let detectorModel: DetectorModel?
 
+        @inlinable
         public init(detectorModel: DetectorModel? = nil) {
             self.detectorModel = detectorModel
         }
@@ -984,6 +1015,7 @@ extension IoTEvents {
         /// The name of the input.
         public let inputName: String
 
+        @inlinable
         public init(inputName: String) {
             self.inputName = inputName
         }
@@ -1007,6 +1039,7 @@ extension IoTEvents {
         /// Information about the input.
         public let input: Input?
 
+        @inlinable
         public init(input: Input? = nil) {
             self.input = input
         }
@@ -1024,6 +1057,7 @@ extension IoTEvents {
         /// The current settings of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions?
 
+        @inlinable
         public init(loggingOptions: LoggingOptions? = nil) {
             self.loggingOptions = loggingOptions
         }
@@ -1039,6 +1073,7 @@ extension IoTEvents {
         /// The value of the input attribute key used to create the detector (the instance of the detector model).
         public let keyValue: String?
 
+        @inlinable
         public init(detectorModelName: String, keyValue: String? = nil) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -1065,6 +1100,7 @@ extension IoTEvents {
         /// Information that defines how a detector operates.
         public let detectorModelDefinition: DetectorModelDefinition?
 
+        @inlinable
         public init(detectorModelConfiguration: DetectorModelConfiguration? = nil, detectorModelDefinition: DetectorModelDefinition? = nil) {
             self.detectorModelConfiguration = detectorModelConfiguration
             self.detectorModelDefinition = detectorModelDefinition
@@ -1098,6 +1134,7 @@ extension IoTEvents {
         /// The status of the detector model.
         public let status: DetectorModelVersionStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, detectorModelArn: String? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, key: String? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
@@ -1131,6 +1168,7 @@ extension IoTEvents {
         /// Information about the states of the detector.
         public let states: [State]
 
+        @inlinable
         public init(initialStateName: String, states: [State]) {
             self.initialStateName = initialStateName
             self.states = states
@@ -1159,6 +1197,7 @@ extension IoTEvents {
         /// The name of the detector model.
         public let detectorModelName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil) {
             self.creationTime = creationTime
             self.detectorModelDescription = detectorModelDescription
@@ -1190,6 +1229,7 @@ extension IoTEvents {
         /// The status of the detector model version.
         public let status: DetectorModelVersionStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, detectorModelArn: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
@@ -1234,6 +1274,7 @@ extension IoTEvents {
         /// The name of the DynamoDB table. The tableName value must match the table name of the target DynamoDB table.
         public let tableName: String
 
+        @inlinable
         public init(hashKeyField: String, hashKeyType: String? = nil, hashKeyValue: String, operation: String? = nil, payload: Payload? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, tableName: String) {
             self.hashKeyField = hashKeyField
             self.hashKeyType = hashKeyType
@@ -1270,6 +1311,7 @@ extension IoTEvents {
         /// The name of the DynamoDB table.
         public let tableName: String
 
+        @inlinable
         public init(payload: Payload? = nil, tableName: String) {
             self.payload = payload
             self.tableName = tableName
@@ -1293,6 +1335,7 @@ extension IoTEvents {
         /// Contains the information of one or more recipients who receive the emails.  You must add the users that receive emails to your AWS SSO store.
         public let recipients: EmailRecipients
 
+        @inlinable
         public init(content: EmailContent? = nil, from: String, recipients: EmailRecipients) {
             self.content = content
             self.from = from
@@ -1316,6 +1359,7 @@ extension IoTEvents {
         /// The subject of the email.
         public let subject: String?
 
+        @inlinable
         public init(additionalMessage: String? = nil, subject: String? = nil) {
             self.additionalMessage = additionalMessage
             self.subject = subject
@@ -1331,6 +1375,7 @@ extension IoTEvents {
         /// Specifies one or more recipients who receive the email.
         public let to: [RecipientDetail]?
 
+        @inlinable
         public init(to: [RecipientDetail]? = nil) {
             self.to = to
         }
@@ -1352,6 +1397,7 @@ extension IoTEvents {
         /// The name of the event.
         public let eventName: String
 
+        @inlinable
         public init(actions: [Action]? = nil, condition: String? = nil, eventName: String) {
             self.actions = actions
             self.condition = condition
@@ -1381,6 +1427,7 @@ extension IoTEvents {
         /// A character separator that is used to separate records written to the Kinesis Data Firehose delivery stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
         public let separator: String?
 
+        @inlinable
         public init(deliveryStreamName: String, payload: Payload? = nil, separator: String? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.payload = payload
@@ -1407,6 +1454,7 @@ extension IoTEvents {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.analysisId = analysisId
             self.maxResults = maxResults
@@ -1431,6 +1479,7 @@ extension IoTEvents {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisResults: [AnalysisResult]? = nil, nextToken: String? = nil) {
             self.analysisResults = analysisResults
             self.nextToken = nextToken
@@ -1446,6 +1495,7 @@ extension IoTEvents {
         /// The value must be TRUE or FALSE. If FALSE, all alarm instances created based on the alarm model are activated. The default value is TRUE.
         public let disabledOnInitialization: Bool
 
+        @inlinable
         public init(disabledOnInitialization: Bool) {
             self.disabledOnInitialization = disabledOnInitialization
         }
@@ -1461,6 +1511,7 @@ extension IoTEvents {
         /// The definition of the input.
         public let inputDefinition: InputDefinition?
 
+        @inlinable
         public init(inputConfiguration: InputConfiguration? = nil, inputDefinition: InputDefinition? = nil) {
             self.inputConfiguration = inputConfiguration
             self.inputDefinition = inputDefinition
@@ -1486,6 +1537,7 @@ extension IoTEvents {
         /// The status of the input.
         public let status: InputStatus
 
+        @inlinable
         public init(creationTime: Date, inputArn: String, inputDescription: String? = nil, inputName: String, lastUpdateTime: Date, status: InputStatus) {
             self.creationTime = creationTime
             self.inputArn = inputArn
@@ -1509,6 +1561,7 @@ extension IoTEvents {
         /// The attributes from the JSON payload that are made available by the input. Inputs are derived from messages sent to the AWS IoT Events system using BatchPutMessage. Each such message contains a JSON payload, and those attributes (and their paired values) specified here are available for use in the condition expressions used by detectors that monitor this input.
         public let attributes: [Attribute]
 
+        @inlinable
         public init(attributes: [Attribute]) {
             self.attributes = attributes
         }
@@ -1532,6 +1585,7 @@ extension IoTEvents {
         ///  The identifer of the input routed from AWS IoT SiteWise.
         public let iotSiteWiseInputIdentifier: IotSiteWiseInputIdentifier?
 
+        @inlinable
         public init(iotEventsInputIdentifier: IotEventsInputIdentifier? = nil, iotSiteWiseInputIdentifier: IotSiteWiseInputIdentifier? = nil) {
             self.iotEventsInputIdentifier = iotEventsInputIdentifier
             self.iotSiteWiseInputIdentifier = iotSiteWiseInputIdentifier
@@ -1561,6 +1615,7 @@ extension IoTEvents {
         /// The status of the input.
         public let status: InputStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, inputArn: String? = nil, inputDescription: String? = nil, inputName: String? = nil, lastUpdateTime: Date? = nil, status: InputStatus? = nil) {
             self.creationTime = creationTime
             self.inputArn = inputArn
@@ -1586,6 +1641,7 @@ extension IoTEvents {
         /// You can configure the action payload when you send a message to an AWS IoT Events input.
         public let payload: Payload?
 
+        @inlinable
         public init(inputName: String, payload: Payload? = nil) {
             self.inputName = inputName
             self.payload = payload
@@ -1608,6 +1664,7 @@ extension IoTEvents {
         ///  The name of the input routed to AWS IoT Events.
         public let inputName: String
 
+        @inlinable
         public init(inputName: String) {
             self.inputName = inputName
         }
@@ -1635,6 +1692,7 @@ extension IoTEvents {
         /// The value to send to the asset property. This value contains timestamp, quality, and value (TQV) information.
         public let propertyValue: AssetPropertyValue?
 
+        @inlinable
         public init(assetId: String? = nil, entryId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, propertyValue: AssetPropertyValue? = nil) {
             self.assetId = assetId
             self.entryId = entryId
@@ -1658,6 +1716,7 @@ extension IoTEvents {
         ///  The ID of the AWS IoT SiteWise asset property.
         public let propertyId: String
 
+        @inlinable
         public init(assetModelId: String, propertyId: String) {
             self.assetModelId = assetModelId
             self.propertyId = propertyId
@@ -1673,6 +1732,7 @@ extension IoTEvents {
         ///  The identifier of the AWS IoT SiteWise asset model property.
         public let iotSiteWiseAssetModelPropertyIdentifier: IotSiteWiseAssetModelPropertyIdentifier?
 
+        @inlinable
         public init(iotSiteWiseAssetModelPropertyIdentifier: IotSiteWiseAssetModelPropertyIdentifier? = nil) {
             self.iotSiteWiseAssetModelPropertyIdentifier = iotSiteWiseAssetModelPropertyIdentifier
         }
@@ -1688,6 +1748,7 @@ extension IoTEvents {
         /// You can configure the action payload when you publish a message to an AWS IoT Core topic.
         public let payload: Payload?
 
+        @inlinable
         public init(mqttTopic: String, payload: Payload? = nil) {
             self.mqttTopic = mqttTopic
             self.payload = payload
@@ -1711,6 +1772,7 @@ extension IoTEvents {
         /// You can configure the action payload when you send a message to a Lambda function.
         public let payload: Payload?
 
+        @inlinable
         public init(functionArn: String, payload: Payload? = nil) {
             self.functionArn = functionArn
             self.payload = payload
@@ -1736,6 +1798,7 @@ extension IoTEvents {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.alarmModelName = alarmModelName
             self.maxResults = maxResults
@@ -1768,6 +1831,7 @@ extension IoTEvents {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmModelVersionSummaries: [AlarmModelVersionSummary]? = nil, nextToken: String? = nil) {
             self.alarmModelVersionSummaries = alarmModelVersionSummaries
             self.nextToken = nextToken
@@ -1785,6 +1849,7 @@ extension IoTEvents {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1812,6 +1877,7 @@ extension IoTEvents {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmModelSummaries: [AlarmModelSummary]? = nil, nextToken: String? = nil) {
             self.alarmModelSummaries = alarmModelSummaries
             self.nextToken = nextToken
@@ -1831,6 +1897,7 @@ extension IoTEvents {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorModelName = detectorModelName
             self.maxResults = maxResults
@@ -1863,6 +1930,7 @@ extension IoTEvents {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorModelVersionSummaries: [DetectorModelVersionSummary]? = nil, nextToken: String? = nil) {
             self.detectorModelVersionSummaries = detectorModelVersionSummaries
             self.nextToken = nextToken
@@ -1880,6 +1948,7 @@ extension IoTEvents {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1907,6 +1976,7 @@ extension IoTEvents {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorModelSummaries: [DetectorModelSummary]? = nil, nextToken: String? = nil) {
             self.detectorModelSummaries = detectorModelSummaries
             self.nextToken = nextToken
@@ -1926,6 +1996,7 @@ extension IoTEvents {
         ///  The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(inputIdentifier: InputIdentifier, maxResults: Int? = nil, nextToken: String? = nil) {
             self.inputIdentifier = inputIdentifier
             self.maxResults = maxResults
@@ -1952,6 +2023,7 @@ extension IoTEvents {
         ///  Summary information about the routed resources.
         public let routedResources: [RoutedResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, routedResources: [RoutedResource]? = nil) {
             self.nextToken = nextToken
             self.routedResources = routedResources
@@ -1969,6 +2041,7 @@ extension IoTEvents {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1996,6 +2069,7 @@ extension IoTEvents {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(inputSummaries: [InputSummary]? = nil, nextToken: String? = nil) {
             self.inputSummaries = inputSummaries
             self.nextToken = nextToken
@@ -2011,6 +2085,7 @@ extension IoTEvents {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2033,6 +2108,7 @@ extension IoTEvents {
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2052,6 +2128,7 @@ extension IoTEvents {
         /// The ARN of the role that grants permission to AWS IoT Events to perform logging.
         public let roleArn: String
 
+        @inlinable
         public init(detectorDebugOptions: [DetectorDebugOption]? = nil, enabled: Bool, level: LoggingLevel, roleArn: String) {
             self.detectorDebugOptions = detectorDebugOptions
             self.enabled = enabled
@@ -2085,6 +2162,7 @@ extension IoTEvents {
         /// Contains the configuration information of SMS notifications.
         public let smsConfigurations: [SMSConfiguration]?
 
+        @inlinable
         public init(action: NotificationTargetActions, emailConfigurations: [EmailConfiguration]? = nil, smsConfigurations: [SMSConfiguration]? = nil) {
             self.action = action
             self.emailConfigurations = emailConfigurations
@@ -2113,6 +2191,7 @@ extension IoTEvents {
     public struct NotificationTargetActions: AWSEncodableShape & AWSDecodableShape {
         public let lambdaAction: LambdaAction?
 
+        @inlinable
         public init(lambdaAction: LambdaAction? = nil) {
             self.lambdaAction = lambdaAction
         }
@@ -2130,6 +2209,7 @@ extension IoTEvents {
         /// Specifies the actions that are performed when the state is entered and the condition is TRUE.
         public let events: [Event]?
 
+        @inlinable
         public init(events: [Event]? = nil) {
             self.events = events
         }
@@ -2149,6 +2229,7 @@ extension IoTEvents {
         /// Specifies the actions that are performed when the state is exited and the condition is TRUE.
         public let events: [Event]?
 
+        @inlinable
         public init(events: [Event]? = nil) {
             self.events = events
         }
@@ -2170,6 +2251,7 @@ extension IoTEvents {
         /// Specifies the actions performed, and the next state entered, when a condition evaluates to TRUE.
         public let transitionEvents: [TransitionEvent]?
 
+        @inlinable
         public init(events: [Event]? = nil, transitionEvents: [TransitionEvent]? = nil) {
             self.events = events
             self.transitionEvents = transitionEvents
@@ -2196,6 +2278,7 @@ extension IoTEvents {
         /// The value of the payload type can be either STRING or JSON.
         public let type: PayloadType
 
+        @inlinable
         public init(contentExpression: String, type: PayloadType) {
             self.contentExpression = contentExpression
             self.type = type
@@ -2215,6 +2298,7 @@ extension IoTEvents {
         /// The new values of the AWS IoT Events logging options.
         public let loggingOptions: LoggingOptions
 
+        @inlinable
         public init(loggingOptions: LoggingOptions) {
             self.loggingOptions = loggingOptions
         }
@@ -2232,6 +2316,7 @@ extension IoTEvents {
         /// The AWS Single Sign-On (AWS SSO) authentication information.
         public let ssoIdentity: SSOIdentity?
 
+        @inlinable
         public init(ssoIdentity: SSOIdentity? = nil) {
             self.ssoIdentity = ssoIdentity
         }
@@ -2245,6 +2330,7 @@ extension IoTEvents {
         /// The name of the timer to reset.
         public let timerName: String
 
+        @inlinable
         public init(timerName: String) {
             self.timerName = timerName
         }
@@ -2265,6 +2351,7 @@ extension IoTEvents {
         ///  The name of the routed resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -2284,6 +2371,7 @@ extension IoTEvents {
         /// The sender ID.
         public let senderId: String?
 
+        @inlinable
         public init(additionalMessage: String? = nil, recipients: [RecipientDetail], senderId: String? = nil) {
             self.additionalMessage = additionalMessage
             self.recipients = recipients
@@ -2307,6 +2395,7 @@ extension IoTEvents {
         /// The ARN of the Amazon SNS target where the message is sent.
         public let targetArn: String
 
+        @inlinable
         public init(payload: Payload? = nil, targetArn: String) {
             self.payload = payload
             self.targetArn = targetArn
@@ -2330,6 +2419,7 @@ extension IoTEvents {
         /// The user ID.
         public let userId: String?
 
+        @inlinable
         public init(identityStoreId: String, userId: String? = nil) {
             self.identityStoreId = identityStoreId
             self.userId = userId
@@ -2349,6 +2439,7 @@ extension IoTEvents {
         /// The name of the timer.
         public let timerName: String
 
+        @inlinable
         public init(durationExpression: String? = nil, timerName: String) {
             self.durationExpression = durationExpression
             self.seconds = nil
@@ -2356,6 +2447,7 @@ extension IoTEvents {
         }
 
         @available(*, deprecated, message: "Members seconds have been deprecated")
+        @inlinable
         public init(durationExpression: String? = nil, seconds: Int? = nil, timerName: String) {
             self.durationExpression = durationExpression
             self.seconds = seconds
@@ -2384,6 +2476,7 @@ extension IoTEvents {
         /// The name of the variable.
         public let variableName: String
 
+        @inlinable
         public init(value: String, variableName: String) {
             self.value = value
             self.variableName = variableName
@@ -2411,6 +2504,7 @@ extension IoTEvents {
         /// The value on the right side of the comparison operator. You can enter a number or specify an AWS IoT Events input attribute.
         public let threshold: String
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator, inputProperty: String, threshold: String) {
             self.comparisonOperator = comparisonOperator
             self.inputProperty = inputProperty
@@ -2439,6 +2533,7 @@ extension IoTEvents {
         /// Set this to TRUE if you want the data to be base-64 encoded before it is written to the queue. Otherwise, set this to FALSE.
         public let useBase64: Bool?
 
+        @inlinable
         public init(payload: Payload? = nil, queueUrl: String, useBase64: Bool? = nil) {
             self.payload = payload
             self.queueUrl = queueUrl
@@ -2459,6 +2554,7 @@ extension IoTEvents {
     public struct StartDetectorModelAnalysisRequest: AWSEncodableShape {
         public let detectorModelDefinition: DetectorModelDefinition
 
+        @inlinable
         public init(detectorModelDefinition: DetectorModelDefinition) {
             self.detectorModelDefinition = detectorModelDefinition
         }
@@ -2476,6 +2572,7 @@ extension IoTEvents {
         /// The ID that you can use to retrieve the analysis result.
         public let analysisId: String?
 
+        @inlinable
         public init(analysisId: String? = nil) {
             self.analysisId = analysisId
         }
@@ -2495,6 +2592,7 @@ extension IoTEvents {
         /// The name of the state.
         public let stateName: String
 
+        @inlinable
         public init(onEnter: OnEnterLifecycle? = nil, onExit: OnExitLifecycle? = nil, onInput: OnInputLifecycle? = nil, stateName: String) {
             self.onEnter = onEnter
             self.onExit = onExit
@@ -2524,6 +2622,7 @@ extension IoTEvents {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2547,6 +2646,7 @@ extension IoTEvents {
         /// The new or modified tags for the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2586,6 +2686,7 @@ extension IoTEvents {
         /// The next state to enter.
         public let nextState: String
 
+        @inlinable
         public init(actions: [Action]? = nil, condition: String, eventName: String, nextState: String) {
             self.actions = actions
             self.condition = condition
@@ -2617,6 +2718,7 @@ extension IoTEvents {
         /// A list of the keys of the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2663,6 +2765,7 @@ extension IoTEvents {
         /// A non-negative integer that reflects the severity level of the alarm.
         public let severity: Int?
 
+        @inlinable
         public init(alarmCapabilities: AlarmCapabilities? = nil, alarmEventActions: AlarmEventActions? = nil, alarmModelDescription: String? = nil, alarmModelName: String, alarmNotification: AlarmNotification? = nil, alarmRule: AlarmRule, roleArn: String, severity: Int? = nil) {
             self.alarmCapabilities = alarmCapabilities
             self.alarmEventActions = alarmEventActions
@@ -2725,6 +2828,7 @@ extension IoTEvents {
         /// 	  Check your alarm model information and update the alarm model.    FAILED - You couldn't create or update the alarm model. Check your alarm model information  and try again.
         public let status: AlarmModelVersionStatus?
 
+        @inlinable
         public init(alarmModelArn: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, status: AlarmModelVersionStatus? = nil) {
             self.alarmModelArn = alarmModelArn
             self.alarmModelVersion = alarmModelVersion
@@ -2754,6 +2858,7 @@ extension IoTEvents {
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
 
+        @inlinable
         public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, evaluationMethod: EvaluationMethod? = nil, roleArn: String) {
             self.detectorModelDefinition = detectorModelDefinition
             self.detectorModelDescription = detectorModelDescription
@@ -2794,6 +2899,7 @@ extension IoTEvents {
         /// Information about how the detector model is configured.
         public let detectorModelConfiguration: DetectorModelConfiguration?
 
+        @inlinable
         public init(detectorModelConfiguration: DetectorModelConfiguration? = nil) {
             self.detectorModelConfiguration = detectorModelConfiguration
         }
@@ -2811,6 +2917,7 @@ extension IoTEvents {
         /// The name of the input you want to update.
         public let inputName: String
 
+        @inlinable
         public init(inputDefinition: InputDefinition, inputDescription: String? = nil, inputName: String) {
             self.inputDefinition = inputDefinition
             self.inputDescription = inputDescription
@@ -2843,6 +2950,7 @@ extension IoTEvents {
         /// Information about the configuration of the input.
         public let inputConfiguration: InputConfiguration?
 
+        @inlinable
         public init(inputConfiguration: InputConfiguration? = nil) {
             self.inputConfiguration = inputConfiguration
         }

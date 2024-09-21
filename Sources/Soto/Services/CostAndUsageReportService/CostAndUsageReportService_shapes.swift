@@ -111,6 +111,7 @@ extension CostAndUsageReportService {
         /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
         public let reportName: String
 
+        @inlinable
         public init(reportName: String) {
             self.reportName = reportName
         }
@@ -128,6 +129,7 @@ extension CostAndUsageReportService {
     public struct DeleteReportDefinitionResponse: AWSDecodableShape {
         public let responseMessage: String?
 
+        @inlinable
         public init(responseMessage: String? = nil) {
             self.responseMessage = responseMessage
         }
@@ -141,6 +143,7 @@ extension CostAndUsageReportService {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -164,6 +167,7 @@ extension CostAndUsageReportService {
         /// An Amazon Web Services Cost and Usage Report list owned by the account.
         public let reportDefinitions: [ReportDefinition]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
             self.nextToken = nextToken
             self.reportDefinitions = reportDefinitions
@@ -179,6 +183,7 @@ extension CostAndUsageReportService {
         /// The report name of the report definition that tags are to be returned for.
         public let reportName: String
 
+        @inlinable
         public init(reportName: String) {
             self.reportName = reportName
         }
@@ -197,6 +202,7 @@ extension CostAndUsageReportService {
         /// The tags assigned to the report definition resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -210,6 +216,7 @@ extension CostAndUsageReportService {
         public let reportDefinition: ReportDefinition
         public let reportName: String
 
+        @inlinable
         public init(reportDefinition: ReportDefinition, reportName: String) {
             self.reportDefinition = reportDefinition
             self.reportName = reportName
@@ -237,6 +244,7 @@ extension CostAndUsageReportService {
         /// The tags to be assigned to the report definition resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(reportDefinition: ReportDefinition, tags: [Tag]? = nil) {
             self.reportDefinition = reportDefinition
             self.tags = tags
@@ -281,6 +289,7 @@ extension CostAndUsageReportService {
         public let s3Region: AWSRegion
         public let timeUnit: TimeUnit
 
+        @inlinable
         public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], billingViewArn: String? = nil, compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportStatus: ReportStatus? = nil, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
             self.additionalArtifacts = additionalArtifacts
             self.additionalSchemaElements = additionalSchemaElements
@@ -332,6 +341,7 @@ extension CostAndUsageReportService {
         /// An enum that gives the status of a report delivery.
         public let lastStatus: LastStatus?
 
+        @inlinable
         public init(lastDelivery: String? = nil, lastStatus: LastStatus? = nil) {
             self.lastDelivery = lastDelivery
             self.lastStatus = lastStatus
@@ -355,6 +365,7 @@ extension CostAndUsageReportService {
         /// The value of the tag. Tag values are case-sensitive. This can be an empty string.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -380,6 +391,7 @@ extension CostAndUsageReportService {
         /// The tags to be assigned to the report definition resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(reportName: String, tags: [Tag]) {
             self.reportName = reportName
             self.tags = tags
@@ -410,6 +422,7 @@ extension CostAndUsageReportService {
         /// The tags to be disassociated from the report definition resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(reportName: String, tagKeys: [String]) {
             self.reportName = reportName
             self.tagKeys = tagKeys

@@ -103,6 +103,7 @@ extension CodeConnections {
         /// The name of the external provider where your third-party code repository is configured.
         public let providerType: ProviderType?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionName: String? = nil, connectionStatus: ConnectionStatus? = nil, hostArn: String? = nil, ownerAccountId: String? = nil, providerType: ProviderType? = nil) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
@@ -132,6 +133,7 @@ extension CodeConnections {
         /// The key-value pair to use when tagging the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectionName: String, hostArn: String? = nil, providerType: ProviderType? = nil, tags: [Tag]? = nil) {
             self.connectionName = connectionName
             self.hostArn = hostArn
@@ -165,6 +167,7 @@ extension CodeConnections {
         /// Specifies the tags applied to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectionArn: String, tags: [Tag]? = nil) {
             self.connectionArn = connectionArn
             self.tags = tags
@@ -188,6 +191,7 @@ extension CodeConnections {
         /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(name: String, providerEndpoint: String, providerType: ProviderType, tags: [Tag]? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.name = name
             self.providerEndpoint = providerEndpoint
@@ -225,6 +229,7 @@ extension CodeConnections {
         /// Tags for the created host.
         public let tags: [Tag]?
 
+        @inlinable
         public init(hostArn: String? = nil, tags: [Tag]? = nil) {
             self.hostArn = hostArn
             self.tags = tags
@@ -248,6 +253,7 @@ extension CodeConnections {
         /// The tags for the repository to be associated with the repository link.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectionArn: String, encryptionKeyArn: String? = nil, ownerId: String, repositoryName: String, tags: [Tag]? = nil) {
             self.connectionArn = connectionArn
             self.encryptionKeyArn = encryptionKeyArn
@@ -287,6 +293,7 @@ extension CodeConnections {
         /// The returned information about the created repository link.
         public let repositoryLinkInfo: RepositoryLinkInfo
 
+        @inlinable
         public init(repositoryLinkInfo: RepositoryLinkInfo) {
             self.repositoryLinkInfo = repositoryLinkInfo
         }
@@ -314,6 +321,7 @@ extension CodeConnections {
         /// When to trigger Git sync to begin the stack update.
         public let triggerResourceUpdateOn: TriggerResourceUpdateOn?
 
+        @inlinable
         public init(branch: String, configFile: String, publishDeploymentStatus: PublishDeploymentStatus? = nil, repositoryLinkId: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
             self.branch = branch
             self.configFile = configFile
@@ -354,6 +362,7 @@ extension CodeConnections {
         /// The created sync configuration for the connection. A sync configuration allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource.
         public let syncConfiguration: SyncConfiguration
 
+        @inlinable
         public init(syncConfiguration: SyncConfiguration) {
             self.syncConfiguration = syncConfiguration
         }
@@ -367,6 +376,7 @@ extension CodeConnections {
         /// The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String
 
+        @inlinable
         public init(connectionArn: String) {
             self.connectionArn = connectionArn
         }
@@ -389,6 +399,7 @@ extension CodeConnections {
         /// The Amazon Resource Name (ARN) of the host to be deleted.
         public let hostArn: String
 
+        @inlinable
         public init(hostArn: String) {
             self.hostArn = hostArn
         }
@@ -411,6 +422,7 @@ extension CodeConnections {
         /// The ID of the repository link to be deleted.
         public let repositoryLinkId: String
 
+        @inlinable
         public init(repositoryLinkId: String) {
             self.repositoryLinkId = repositoryLinkId
         }
@@ -434,6 +446,7 @@ extension CodeConnections {
         /// The type of sync configuration to be deleted.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(resourceName: String, syncType: SyncConfigurationType) {
             self.resourceName = resourceName
             self.syncType = syncType
@@ -459,6 +472,7 @@ extension CodeConnections {
         /// The Amazon Resource Name (ARN) of a connection.
         public let connectionArn: String
 
+        @inlinable
         public init(connectionArn: String) {
             self.connectionArn = connectionArn
         }
@@ -477,6 +491,7 @@ extension CodeConnections {
         /// The connection details, such as status, owner, and provider type.
         public let connection: Connection?
 
+        @inlinable
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -490,6 +505,7 @@ extension CodeConnections {
         /// The Amazon Resource Name (ARN) of the requested host.
         public let hostArn: String
 
+        @inlinable
         public init(hostArn: String) {
             self.hostArn = hostArn
         }
@@ -516,6 +532,7 @@ extension CodeConnections {
         /// The VPC configuration of the requested host.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(name: String? = nil, providerEndpoint: String? = nil, providerType: ProviderType? = nil, status: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.name = name
             self.providerEndpoint = providerEndpoint
@@ -537,6 +554,7 @@ extension CodeConnections {
         /// The ID of the repository link to get.
         public let repositoryLinkId: String
 
+        @inlinable
         public init(repositoryLinkId: String) {
             self.repositoryLinkId = repositoryLinkId
         }
@@ -554,6 +572,7 @@ extension CodeConnections {
         /// The information returned for a specified repository link.
         public let repositoryLinkInfo: RepositoryLinkInfo
 
+        @inlinable
         public init(repositoryLinkInfo: RepositoryLinkInfo) {
             self.repositoryLinkInfo = repositoryLinkInfo
         }
@@ -571,6 +590,7 @@ extension CodeConnections {
         /// The sync type of the requested sync status.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(branch: String, repositoryLinkId: String, syncType: SyncConfigurationType) {
             self.branch = branch
             self.repositoryLinkId = repositoryLinkId
@@ -595,6 +615,7 @@ extension CodeConnections {
         /// The status of the latest sync returned for a specified repository and branch.
         public let latestSync: RepositorySyncAttempt
 
+        @inlinable
         public init(latestSync: RepositorySyncAttempt) {
             self.latestSync = latestSync
         }
@@ -610,6 +631,7 @@ extension CodeConnections {
         /// The sync type for the sync status with the Git repository.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(resourceName: String, syncType: SyncConfigurationType) {
             self.resourceName = resourceName
             self.syncType = syncType
@@ -635,6 +657,7 @@ extension CodeConnections {
         /// The latest sync for the sync status with the Git repository, whether successful or not.
         public let latestSync: ResourceSyncAttempt
 
+        @inlinable
         public init(desiredState: Revision? = nil, latestSuccessfulSync: ResourceSyncAttempt? = nil, latestSync: ResourceSyncAttempt) {
             self.desiredState = desiredState
             self.latestSuccessfulSync = latestSuccessfulSync
@@ -654,6 +677,7 @@ extension CodeConnections {
         /// The sync type for the sync blocker summary.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(resourceName: String, syncType: SyncConfigurationType) {
             self.resourceName = resourceName
             self.syncType = syncType
@@ -675,6 +699,7 @@ extension CodeConnections {
         /// The list of sync blockers for a specified resource.
         public let syncBlockerSummary: SyncBlockerSummary
 
+        @inlinable
         public init(syncBlockerSummary: SyncBlockerSummary) {
             self.syncBlockerSummary = syncBlockerSummary
         }
@@ -690,6 +715,7 @@ extension CodeConnections {
         /// The sync type for the sync configuration for which you want to retrieve information.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(resourceName: String, syncType: SyncConfigurationType) {
             self.resourceName = resourceName
             self.syncType = syncType
@@ -711,6 +737,7 @@ extension CodeConnections {
         /// The details about the sync configuration for which you want to retrieve information.
         public let syncConfiguration: SyncConfiguration
 
+        @inlinable
         public init(syncConfiguration: SyncConfiguration) {
             self.syncConfiguration = syncConfiguration
         }
@@ -736,6 +763,7 @@ extension CodeConnections {
         /// The VPC configuration provisioned for the host.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(hostArn: String? = nil, name: String? = nil, providerEndpoint: String? = nil, providerType: ProviderType? = nil, status: String? = nil, statusMessage: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.hostArn = hostArn
             self.name = name
@@ -767,6 +795,7 @@ extension CodeConnections {
         /// Filters the list of connections to those associated with a specified provider, such as Bitbucket.
         public let providerTypeFilter: ProviderType?
 
+        @inlinable
         public init(hostArnFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, providerTypeFilter: ProviderType? = nil) {
             self.hostArnFilter = hostArnFilter
             self.maxResults = maxResults
@@ -798,6 +827,7 @@ extension CodeConnections {
         /// A token that can be used in the next ListConnections call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(connections: [Connection]? = nil, nextToken: String? = nil) {
             self.connections = connections
             self.nextToken = nextToken
@@ -815,6 +845,7 @@ extension CodeConnections {
         /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -840,6 +871,7 @@ extension CodeConnections {
         /// A token that can be used in the next ListHosts call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(hosts: [Host]? = nil, nextToken: String? = nil) {
             self.hosts = hosts
             self.nextToken = nextToken
@@ -857,6 +889,7 @@ extension CodeConnections {
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -882,6 +915,7 @@ extension CodeConnections {
         /// Lists the repository links called by the list repository links operation.
         public let repositoryLinks: [RepositoryLinkInfo]
 
+        @inlinable
         public init(nextToken: String? = nil, repositoryLinks: [RepositoryLinkInfo]) {
             self.nextToken = nextToken
             self.repositoryLinks = repositoryLinks
@@ -899,6 +933,7 @@ extension CodeConnections {
         /// The sync type of the repository link for the the sync definition for which you want to retrieve information.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(repositoryLinkId: String, syncType: SyncConfigurationType) {
             self.repositoryLinkId = repositoryLinkId
             self.syncType = syncType
@@ -920,6 +955,7 @@ extension CodeConnections {
         /// The list of repository sync definitions returned by the request. A RepositorySyncDefinition is a mapping from a repository branch to all the Amazon Web Services resources that are being synced from that branch.
         public let repositorySyncDefinitions: [RepositorySyncDefinition]
 
+        @inlinable
         public init(nextToken: String? = nil, repositorySyncDefinitions: [RepositorySyncDefinition]) {
             self.nextToken = nextToken
             self.repositorySyncDefinitions = repositorySyncDefinitions
@@ -941,6 +977,7 @@ extension CodeConnections {
         /// The sync type for the requested list of sync configurations.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, repositoryLinkId: String, syncType: SyncConfigurationType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -971,6 +1008,7 @@ extension CodeConnections {
         /// The list of repository sync definitions returned by the request.
         public let syncConfigurations: [SyncConfiguration]
 
+        @inlinable
         public init(nextToken: String? = nil, syncConfigurations: [SyncConfiguration]) {
             self.nextToken = nextToken
             self.syncConfigurations = syncConfigurations
@@ -986,6 +1024,7 @@ extension CodeConnections {
         /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1005,6 +1044,7 @@ extension CodeConnections {
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1030,6 +1070,7 @@ extension CodeConnections {
         /// The name of the repository associated with the repository link.
         public let repositoryName: String
 
+        @inlinable
         public init(connectionArn: String, encryptionKeyArn: String? = nil, ownerId: String, providerType: ProviderType, repositoryLinkArn: String, repositoryLinkId: String, repositoryName: String) {
             self.connectionArn = connectionArn
             self.encryptionKeyArn = encryptionKeyArn
@@ -1059,6 +1100,7 @@ extension CodeConnections {
         /// The status of a specific sync attempt. The following are valid statuses:   INITIATED - A repository sync attempt has been created and will begin soon.   IN_PROGRESS - A repository sync attempt has started and work is being done to reconcile the branch.   SUCCEEDED - The repository sync attempt has completed successfully.   FAILED - The repository sync attempt has failed.   QUEUED - The repository sync attempt didn't execute and was queued.
         public let status: RepositorySyncStatus
 
+        @inlinable
         public init(events: [RepositorySyncEvent], startedAt: Date, status: RepositorySyncStatus) {
             self.events = events
             self.startedAt = startedAt
@@ -1082,6 +1124,7 @@ extension CodeConnections {
         /// The target resource specified for a repository sync definition. In some cases, such as CFN_STACK_SYNC, the parent and target resource are the same.
         public let target: String
 
+        @inlinable
         public init(branch: String, directory: String, parent: String, target: String) {
             self.branch = branch
             self.directory = directory
@@ -1107,6 +1150,7 @@ extension CodeConnections {
         /// The event type for a repository sync event.
         public let type: String
 
+        @inlinable
         public init(event: String, externalId: String? = nil, time: Date, type: String) {
             self.event = event
             self.externalId = externalId
@@ -1136,6 +1180,7 @@ extension CodeConnections {
         /// The desired state of the resource as defined in the resource's config-file in the linked repository. Git sync attempts to update the resource to this state.
         public let targetRevision: Revision
 
+        @inlinable
         public init(events: [ResourceSyncEvent], initialRevision: Revision, startedAt: Date, status: ResourceSyncStatus, target: String, targetRevision: Revision) {
             self.events = events
             self.initialRevision = initialRevision
@@ -1165,6 +1210,7 @@ extension CodeConnections {
         /// The type of resource sync event.
         public let type: String
 
+        @inlinable
         public init(event: String, externalId: String? = nil, time: Date, type: String) {
             self.event = event
             self.externalId = externalId
@@ -1194,6 +1240,7 @@ extension CodeConnections {
         /// The SHA, such as the commit ID, for a specific revision.
         public let sha: String
 
+        @inlinable
         public init(branch: String, directory: String, ownerId: String, providerType: ProviderType, repositoryName: String, sha: String) {
             self.branch = branch
             self.directory = directory
@@ -1231,6 +1278,7 @@ extension CodeConnections {
         /// The sync blocker type.
         public let type: BlockerType
 
+        @inlinable
         public init(contexts: [SyncBlockerContext]? = nil, createdAt: Date, createdReason: String, id: String, resolvedAt: Date? = nil, resolvedReason: String? = nil, status: BlockerStatus, type: BlockerType) {
             self.contexts = contexts
             self.createdAt = createdAt
@@ -1260,6 +1308,7 @@ extension CodeConnections {
         /// The value provided for a context key-value pair for a specific sync blocker.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1279,6 +1328,7 @@ extension CodeConnections {
         /// The resource name for sync blocker summary.
         public let resourceName: String
 
+        @inlinable
         public init(latestBlockers: [SyncBlocker]? = nil, parentResourceName: String? = nil, resourceName: String) {
             self.latestBlockers = latestBlockers
             self.parentResourceName = parentResourceName
@@ -1316,6 +1366,7 @@ extension CodeConnections {
         /// When to trigger Git sync to begin the stack update.
         public let triggerResourceUpdateOn: TriggerResourceUpdateOn?
 
+        @inlinable
         public init(branch: String, configFile: String? = nil, ownerId: String, providerType: ProviderType, publishDeploymentStatus: PublishDeploymentStatus? = nil, repositoryLinkId: String, repositoryName: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
             self.branch = branch
             self.configFile = configFile
@@ -1351,6 +1402,7 @@ extension CodeConnections {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1376,6 +1428,7 @@ extension CodeConnections {
         /// The tags you want to modify or add to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1407,6 +1460,7 @@ extension CodeConnections {
         /// The list of keys for the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1442,6 +1496,7 @@ extension CodeConnections {
         /// The VPC configuration of the host to be updated. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(hostArn: String, providerEndpoint: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.hostArn = hostArn
             self.providerEndpoint = providerEndpoint
@@ -1476,6 +1531,7 @@ extension CodeConnections {
         /// The ID of the repository link to be updated.
         public let repositoryLinkId: String
 
+        @inlinable
         public init(connectionArn: String? = nil, encryptionKeyArn: String? = nil, repositoryLinkId: String) {
             self.connectionArn = connectionArn
             self.encryptionKeyArn = encryptionKeyArn
@@ -1502,6 +1558,7 @@ extension CodeConnections {
         /// Information about the repository link to be updated.
         public let repositoryLinkInfo: RepositoryLinkInfo
 
+        @inlinable
         public init(repositoryLinkInfo: RepositoryLinkInfo) {
             self.repositoryLinkInfo = repositoryLinkInfo
         }
@@ -1521,6 +1578,7 @@ extension CodeConnections {
         /// The sync type of the sync blocker to be updated.
         public let syncType: SyncConfigurationType
 
+        @inlinable
         public init(id: String, resolvedReason: String, resourceName: String, syncType: SyncConfigurationType) {
             self.id = id
             self.resolvedReason = resolvedReason
@@ -1554,6 +1612,7 @@ extension CodeConnections {
         /// Information about the sync blocker to be updated.
         public let syncBlocker: SyncBlocker
 
+        @inlinable
         public init(parentResourceName: String? = nil, resourceName: String, syncBlocker: SyncBlocker) {
             self.parentResourceName = parentResourceName
             self.resourceName = resourceName
@@ -1585,6 +1644,7 @@ extension CodeConnections {
         /// When to trigger Git sync to begin the stack update.
         public let triggerResourceUpdateOn: TriggerResourceUpdateOn?
 
+        @inlinable
         public init(branch: String? = nil, configFile: String? = nil, publishDeploymentStatus: PublishDeploymentStatus? = nil, repositoryLinkId: String? = nil, resourceName: String, roleArn: String? = nil, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
             self.branch = branch
             self.configFile = configFile
@@ -1625,6 +1685,7 @@ extension CodeConnections {
         /// The information returned for the sync configuration to be updated.
         public let syncConfiguration: SyncConfiguration
 
+        @inlinable
         public init(syncConfiguration: SyncConfiguration) {
             self.syncConfiguration = syncConfiguration
         }
@@ -1644,6 +1705,7 @@ extension CodeConnections {
         /// The ID of the Amazon VPC connected to the infrastructure where your provider type is installed.
         public let vpcId: String
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String], tlsCertificate: String? = nil, vpcId: String) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds

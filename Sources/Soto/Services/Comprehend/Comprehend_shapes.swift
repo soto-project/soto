@@ -368,6 +368,7 @@ extension Comprehend {
         /// The purpose of the data you've provided in the augmented manifest. You can either train or test this data. If you don't specify, the default is train. TRAIN - all of the documents in the manifest will be used for training. If no test documents are provided, Amazon Comprehend will automatically reserve a portion of the training documents for testing. TEST - all of the documents in the manifest will be used for testing.
         public let split: Split?
 
+        @inlinable
         public init(annotationDataS3Uri: String? = nil, attributeNames: [String], documentType: AugmentedManifestsDocumentTypeFormat? = nil, s3Uri: String, sourceDocumentsS3Uri: String? = nil, split: Split? = nil) {
             self.annotationDataS3Uri = annotationDataS3Uri
             self.attributeNames = attributeNames
@@ -407,6 +408,7 @@ extension Comprehend {
         /// One or more DominantLanguage objects describing the dominant languages in the document.
         public let languages: [DominantLanguage]?
 
+        @inlinable
         public init(index: Int? = nil, languages: [DominantLanguage]? = nil) {
             self.index = index
             self.languages = languages
@@ -422,6 +424,7 @@ extension Comprehend {
         /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters. The maximum size of each document is 5 KB.
         public let textList: [String]
 
+        @inlinable
         public init(textList: [String]) {
             self.textList = textList
         }
@@ -444,6 +447,7 @@ extension Comprehend {
         /// A list of  objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
         public let resultList: [BatchDetectDominantLanguageItemResult]
 
+        @inlinable
         public init(errorList: [BatchItemError], resultList: [BatchDetectDominantLanguageItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
@@ -461,6 +465,7 @@ extension Comprehend {
         /// The zero-based index of the document in the input list.
         public let index: Int?
 
+        @inlinable
         public init(entities: [Entity]? = nil, index: Int? = nil) {
             self.entities = entities
             self.index = index
@@ -478,6 +483,7 @@ extension Comprehend {
         /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
         public let textList: [String]
 
+        @inlinable
         public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
             self.textList = textList
@@ -502,6 +508,7 @@ extension Comprehend {
         /// A list of  objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
         public let resultList: [BatchDetectEntitiesItemResult]
 
+        @inlinable
         public init(errorList: [BatchItemError], resultList: [BatchDetectEntitiesItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
@@ -519,6 +526,7 @@ extension Comprehend {
         /// One or more KeyPhrase objects, one for each key phrase detected in the document.
         public let keyPhrases: [KeyPhrase]?
 
+        @inlinable
         public init(index: Int? = nil, keyPhrases: [KeyPhrase]? = nil) {
             self.index = index
             self.keyPhrases = keyPhrases
@@ -536,6 +544,7 @@ extension Comprehend {
         /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
         public let textList: [String]
 
+        @inlinable
         public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
             self.textList = textList
@@ -560,6 +569,7 @@ extension Comprehend {
         /// A list of  objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
         public let resultList: [BatchDetectKeyPhrasesItemResult]
 
+        @inlinable
         public init(errorList: [BatchItemError], resultList: [BatchDetectKeyPhrasesItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
@@ -579,6 +589,7 @@ extension Comprehend {
         /// The level of confidence that Amazon Comprehend has in the accuracy of its sentiment detection.
         public let sentimentScore: SentimentScore?
 
+        @inlinable
         public init(index: Int? = nil, sentiment: SentimentType? = nil, sentimentScore: SentimentScore? = nil) {
             self.index = index
             self.sentiment = sentiment
@@ -598,6 +609,7 @@ extension Comprehend {
         /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
         public let textList: [String]
 
+        @inlinable
         public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
             self.textList = textList
@@ -622,6 +634,7 @@ extension Comprehend {
         /// A list of  objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
         public let resultList: [BatchDetectSentimentItemResult]
 
+        @inlinable
         public init(errorList: [BatchItemError], resultList: [BatchDetectSentimentItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
@@ -639,6 +652,7 @@ extension Comprehend {
         /// The syntax tokens for the words in the document, one token for each word.
         public let syntaxTokens: [SyntaxToken]?
 
+        @inlinable
         public init(index: Int? = nil, syntaxTokens: [SyntaxToken]? = nil) {
             self.index = index
             self.syntaxTokens = syntaxTokens
@@ -656,6 +670,7 @@ extension Comprehend {
         /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size for each document is 5 KB.
         public let textList: [String]
 
+        @inlinable
         public init(languageCode: SyntaxLanguageCode, textList: [String]) {
             self.languageCode = languageCode
             self.textList = textList
@@ -680,6 +695,7 @@ extension Comprehend {
         /// A list of  objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
         public let resultList: [BatchDetectSyntaxItemResult]
 
+        @inlinable
         public init(errorList: [BatchItemError], resultList: [BatchDetectSyntaxItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
@@ -697,6 +713,7 @@ extension Comprehend {
         /// The zero-based index of this result in the input list.
         public let index: Int?
 
+        @inlinable
         public init(entities: [TargetedSentimentEntity]? = nil, index: Int? = nil) {
             self.entities = entities
             self.index = index
@@ -714,6 +731,7 @@ extension Comprehend {
         /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
         public let textList: [String]
 
+        @inlinable
         public init(languageCode: LanguageCode, textList: [String]) {
             self.languageCode = languageCode
             self.textList = textList
@@ -738,6 +756,7 @@ extension Comprehend {
         /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
         public let resultList: [BatchDetectTargetedSentimentItemResult]
 
+        @inlinable
         public init(errorList: [BatchItemError], resultList: [BatchDetectTargetedSentimentItemResult]) {
             self.errorList = errorList
             self.resultList = resultList
@@ -757,6 +776,7 @@ extension Comprehend {
         /// The zero-based index of the document in the input list.
         public let index: Int?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, index: Int? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -784,6 +804,7 @@ extension Comprehend {
         /// The word or line of text extracted from the block.
         public let text: String?
 
+        @inlinable
         public init(blockType: BlockType? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int? = nil, relationships: [RelationshipsListItem]? = nil, text: String? = nil) {
             self.blockType = blockType
             self.geometry = geometry
@@ -813,6 +834,7 @@ extension Comprehend {
         /// Offset of the end of the block within its parent block.
         public let endOffset: Int?
 
+        @inlinable
         public init(beginOffset: Int? = nil, blockId: String? = nil, childBlocks: [ChildBlock]? = nil, endOffset: Int? = nil) {
             self.beginOffset = beginOffset
             self.blockId = blockId
@@ -838,6 +860,7 @@ extension Comprehend {
         /// The width of the bounding box as a ratio of the overall document page width.
         public let width: Float?
 
+        @inlinable
         public init(height: Float? = nil, left: Float? = nil, top: Float? = nil, width: Float? = nil) {
             self.height = height
             self.left = left
@@ -861,6 +884,7 @@ extension Comprehend {
         /// Offset of the end of the child block within its parent block.
         public let endOffset: Int?
 
+        @inlinable
         public init(beginOffset: Int? = nil, childBlockId: String? = nil, endOffset: Int? = nil) {
             self.beginOffset = beginOffset
             self.childBlockId = childBlockId
@@ -892,6 +916,7 @@ extension Comprehend {
         /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results.
         public let recall: Double?
 
+        @inlinable
         public init(accuracy: Double? = nil, f1Score: Double? = nil, hammingLoss: Double? = nil, microF1Score: Double? = nil, microPrecision: Double? = nil, microRecall: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
             self.accuracy = accuracy
             self.f1Score = f1Score
@@ -925,6 +950,7 @@ extension Comprehend {
         /// The number of documents in the input data that were used to train the classifier. Typically this is 80 to 90 percent of the input documents.
         public let numberOfTrainedDocuments: Int?
 
+        @inlinable
         public init(evaluationMetrics: ClassifierEvaluationMetrics? = nil, numberOfLabels: Int? = nil, numberOfTestDocuments: Int? = nil, numberOfTrainedDocuments: Int? = nil) {
             self.evaluationMetrics = evaluationMetrics
             self.numberOfLabels = numberOfLabels
@@ -950,6 +976,7 @@ extension Comprehend {
         /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter.
         public let text: String?
 
+        @inlinable
         public init(bytes: AWSBase64Data? = nil, documentReaderConfig: DocumentReaderConfig? = nil, endpointArn: String, text: String? = nil) {
             self.bytes = bytes
             self.documentReaderConfig = documentReaderConfig
@@ -987,6 +1014,7 @@ extension Comprehend {
         /// Warnings detected while processing the input document. The response includes a warning if there is a mismatch between the input document type  and the model type associated with the endpoint that you specified. The response can also include warnings for individual pages that have a mismatch.  The field is empty if the system generated no warnings.
         public let warnings: [WarningsListItem]?
 
+        @inlinable
         public init(classes: [DocumentClass]? = nil, documentMetadata: DocumentMetadata? = nil, documentType: [DocumentTypeListItem]? = nil, errors: [ErrorsListItem]? = nil, labels: [DocumentLabel]? = nil, warnings: [WarningsListItem]? = nil) {
             self.classes = classes
             self.documentMetadata = documentMetadata
@@ -1012,6 +1040,7 @@ extension Comprehend {
         /// A UTF-8 text string. The maximum string size is 100 KB.
         public let text: String
 
+        @inlinable
         public init(languageCode: LanguageCode, text: String) {
             self.languageCode = languageCode
             self.text = text
@@ -1031,6 +1060,7 @@ extension Comprehend {
         /// The labels used in the document being analyzed. Individual labels represent personally identifiable information (PII) entity types.
         public let labels: [EntityLabel]?
 
+        @inlinable
         public init(labels: [EntityLabel]? = nil) {
             self.labels = labels
         }
@@ -1056,6 +1086,7 @@ extension Comprehend {
         /// Tags for the dataset.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateDatasetRequest.idempotencyToken(), datasetName: String, datasetType: DatasetType? = nil, description: String? = nil, flywheelArn: String, inputDataConfig: DatasetInputDataConfig, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.datasetName = datasetName
@@ -1097,6 +1128,7 @@ extension Comprehend {
         /// The ARN of the dataset.
         public let datasetArn: String?
 
+        @inlinable
         public init(datasetArn: String? = nil) {
             self.datasetArn = datasetArn
         }
@@ -1134,6 +1166,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, modelPolicy: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1197,6 +1230,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public let documentClassifierArn: String?
 
+        @inlinable
         public init(documentClassifierArn: String? = nil) {
             self.documentClassifierArn = documentClassifierArn
         }
@@ -1222,6 +1256,7 @@ extension Comprehend {
         /// Tags to associate with the endpoint. A tag is a key-value pair that adds metadata to the endpoint. For example, a tag with "Sales" as the key might be added to an endpoint to indicate its use by the sales department.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateEndpointRequest.idempotencyToken(), dataAccessRoleArn: String? = nil, desiredInferenceUnits: Int, endpointName: String, flywheelArn: String? = nil, modelArn: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1268,6 +1303,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
         public let modelArn: String?
 
+        @inlinable
         public init(endpointArn: String? = nil, modelArn: String? = nil) {
             self.endpointArn = endpointArn
             self.modelArn = modelArn
@@ -1303,6 +1339,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, modelKmsKeyId: String? = nil, modelPolicy: String? = nil, recognizerName: String, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1361,6 +1398,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String?
 
+        @inlinable
         public init(entityRecognizerArn: String? = nil) {
             self.entityRecognizerArn = entityRecognizerArn
         }
@@ -1390,6 +1428,7 @@ extension Comprehend {
         /// Configuration about the model associated with the flywheel. You need to set TaskConfig if you are creating a flywheel for a new model.
         public let taskConfig: TaskConfig?
 
+        @inlinable
         public init(activeModelArn: String? = nil, clientRequestToken: String? = CreateFlywheelRequest.idempotencyToken(), dataAccessRoleArn: String, dataLakeS3Uri: String, dataSecurityConfig: DataSecurityConfig? = nil, flywheelName: String, modelType: ModelType? = nil, tags: [Tag]? = nil, taskConfig: TaskConfig? = nil) {
             self.activeModelArn = activeModelArn
             self.clientRequestToken = clientRequestToken
@@ -1441,6 +1480,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the flywheel.
         public let flywheelArn: String?
 
+        @inlinable
         public init(activeModelArn: String? = nil, flywheelArn: String? = nil) {
             self.activeModelArn = activeModelArn
             self.flywheelArn = flywheelArn
@@ -1461,6 +1501,7 @@ extension Comprehend {
         public let volumeKmsKeyId: String?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataLakeKmsKeyId: String? = nil, modelKmsKeyId: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataLakeKmsKeyId = dataLakeKmsKeyId
             self.modelKmsKeyId = modelKmsKeyId
@@ -1498,6 +1539,7 @@ extension Comprehend {
         /// The S3 prefix to the source files (PDFs) that are referred to in the augmented manifest file.
         public let sourceDocumentsS3Uri: String?
 
+        @inlinable
         public init(annotationDataS3Uri: String? = nil, attributeNames: [String], documentType: AugmentedManifestsDocumentTypeFormat? = nil, s3Uri: String, sourceDocumentsS3Uri: String? = nil) {
             self.annotationDataS3Uri = annotationDataS3Uri
             self.attributeNames = attributeNames
@@ -1535,6 +1577,7 @@ extension Comprehend {
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public let s3Uri: String
 
+        @inlinable
         public init(labelDelimiter: String? = nil, s3Uri: String) {
             self.labelDelimiter = labelDelimiter
             self.s3Uri = s3Uri
@@ -1558,6 +1601,7 @@ extension Comprehend {
         ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -1578,6 +1622,7 @@ extension Comprehend {
         ///  Specifies the Amazon S3 location where the documents for the dataset are located.
         public let s3Uri: String
 
+        @inlinable
         public init(inputFormat: InputFormat? = nil, s3Uri: String) {
             self.inputFormat = inputFormat
             self.s3Uri = s3Uri
@@ -1598,6 +1643,7 @@ extension Comprehend {
         /// Specifies the Amazon S3 location where the entity list is located.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -1620,6 +1666,7 @@ extension Comprehend {
         /// The S3 location of the entity list for your custom entity recognizer.
         public let entityList: DatasetEntityRecognizerEntityList?
 
+        @inlinable
         public init(annotations: DatasetEntityRecognizerAnnotations? = nil, documents: DatasetEntityRecognizerDocuments, entityList: DatasetEntityRecognizerEntityList? = nil) {
             self.annotations = annotations
             self.documents = documents
@@ -1649,6 +1696,7 @@ extension Comprehend {
         /// Filter the datasets based on the dataset status.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, datasetType: DatasetType? = nil, status: DatasetStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -1674,6 +1722,7 @@ extension Comprehend {
         /// The input properties for training an entity recognizer model.
         public let entityRecognizerInputDataConfig: DatasetEntityRecognizerInputDataConfig?
 
+        @inlinable
         public init(augmentedManifests: [DatasetAugmentedManifestsListItem]? = nil, dataFormat: DatasetDataFormat? = nil, documentClassifierInputDataConfig: DatasetDocumentClassifierInputDataConfig? = nil, entityRecognizerInputDataConfig: DatasetEntityRecognizerInputDataConfig? = nil) {
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
@@ -1719,6 +1768,7 @@ extension Comprehend {
         /// The dataset status. While the system creates the dataset, the status is CREATING. When the dataset is ready to use, the status changes to COMPLETED.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetS3Uri: String? = nil, datasetType: DatasetType? = nil, description: String? = nil, endTime: Date? = nil, message: String? = nil, numberOfDocuments: Int64? = nil, status: DatasetStatus? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
@@ -1750,6 +1800,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public let documentClassifierArn: String
 
+        @inlinable
         public init(documentClassifierArn: String) {
             self.documentClassifierArn = documentClassifierArn
         }
@@ -1772,6 +1823,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the endpoint being deleted.
         public let endpointArn: String
 
+        @inlinable
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -1794,6 +1846,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String
 
+        @inlinable
         public init(entityRecognizerArn: String) {
             self.entityRecognizerArn = entityRecognizerArn
         }
@@ -1816,6 +1869,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the flywheel to delete.
         public let flywheelArn: String
 
+        @inlinable
         public init(flywheelArn: String) {
             self.flywheelArn = flywheelArn
         }
@@ -1840,6 +1894,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) of the custom model version that has the policy to delete.
         public let resourceArn: String
 
+        @inlinable
         public init(policyRevisionId: String? = nil, resourceArn: String) {
             self.policyRevisionId = policyRevisionId
             self.resourceArn = resourceArn
@@ -1866,6 +1921,7 @@ extension Comprehend {
         /// The ARN of the dataset.
         public let datasetArn: String
 
+        @inlinable
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -1884,6 +1940,7 @@ extension Comprehend {
         /// The dataset properties.
         public let datasetProperties: DatasetProperties?
 
+        @inlinable
         public init(datasetProperties: DatasetProperties? = nil) {
             self.datasetProperties = datasetProperties
         }
@@ -1897,6 +1954,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The   StartDocumentClassificationJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1916,6 +1974,7 @@ extension Comprehend {
         /// An object that describes the properties associated with the document classification job.
         public let documentClassificationJobProperties: DocumentClassificationJobProperties?
 
+        @inlinable
         public init(documentClassificationJobProperties: DocumentClassificationJobProperties? = nil) {
             self.documentClassificationJobProperties = documentClassificationJobProperties
         }
@@ -1929,6 +1988,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the document classifier. The   CreateDocumentClassifier operation returns this identifier in its response.
         public let documentClassifierArn: String
 
+        @inlinable
         public init(documentClassifierArn: String) {
             self.documentClassifierArn = documentClassifierArn
         }
@@ -1947,6 +2007,7 @@ extension Comprehend {
         /// An object that contains the properties associated with a document classifier.
         public let documentClassifierProperties: DocumentClassifierProperties?
 
+        @inlinable
         public init(documentClassifierProperties: DocumentClassifierProperties? = nil) {
             self.documentClassifierProperties = documentClassifierProperties
         }
@@ -1960,6 +2021,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The   StartDominantLanguageDetectionJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1979,6 +2041,7 @@ extension Comprehend {
         /// An object that contains the properties associated with a dominant language detection job.
         public let dominantLanguageDetectionJobProperties: DominantLanguageDetectionJobProperties?
 
+        @inlinable
         public init(dominantLanguageDetectionJobProperties: DominantLanguageDetectionJobProperties? = nil) {
             self.dominantLanguageDetectionJobProperties = dominantLanguageDetectionJobProperties
         }
@@ -1992,6 +2055,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the endpoint being described.
         public let endpointArn: String
 
+        @inlinable
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -2010,6 +2074,7 @@ extension Comprehend {
         /// Describes information associated with the specific endpoint.
         public let endpointProperties: EndpointProperties?
 
+        @inlinable
         public init(endpointProperties: EndpointProperties? = nil) {
             self.endpointProperties = endpointProperties
         }
@@ -2023,6 +2088,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The  StartEntitiesDetectionJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2042,6 +2108,7 @@ extension Comprehend {
         /// An object that contains the properties associated with an entities detection job.
         public let entitiesDetectionJobProperties: EntitiesDetectionJobProperties?
 
+        @inlinable
         public init(entitiesDetectionJobProperties: EntitiesDetectionJobProperties? = nil) {
             self.entitiesDetectionJobProperties = entitiesDetectionJobProperties
         }
@@ -2055,6 +2122,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String
 
+        @inlinable
         public init(entityRecognizerArn: String) {
             self.entityRecognizerArn = entityRecognizerArn
         }
@@ -2073,6 +2141,7 @@ extension Comprehend {
         /// Describes information associated with an entity recognizer.
         public let entityRecognizerProperties: EntityRecognizerProperties?
 
+        @inlinable
         public init(entityRecognizerProperties: EntityRecognizerProperties? = nil) {
             self.entityRecognizerProperties = entityRecognizerProperties
         }
@@ -2086,6 +2155,7 @@ extension Comprehend {
         /// The identifier of the events detection job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2105,6 +2175,7 @@ extension Comprehend {
         /// An object that contains the properties associated with an event detection job.
         public let eventsDetectionJobProperties: EventsDetectionJobProperties?
 
+        @inlinable
         public init(eventsDetectionJobProperties: EventsDetectionJobProperties? = nil) {
             self.eventsDetectionJobProperties = eventsDetectionJobProperties
         }
@@ -2118,6 +2189,7 @@ extension Comprehend {
         public let flywheelArn: String
         public let flywheelIterationId: String
 
+        @inlinable
         public init(flywheelArn: String, flywheelIterationId: String) {
             self.flywheelArn = flywheelArn
             self.flywheelIterationId = flywheelIterationId
@@ -2140,6 +2212,7 @@ extension Comprehend {
         /// The configuration properties of a flywheel iteration.
         public let flywheelIterationProperties: FlywheelIterationProperties?
 
+        @inlinable
         public init(flywheelIterationProperties: FlywheelIterationProperties? = nil) {
             self.flywheelIterationProperties = flywheelIterationProperties
         }
@@ -2153,6 +2226,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the flywheel.
         public let flywheelArn: String
 
+        @inlinable
         public init(flywheelArn: String) {
             self.flywheelArn = flywheelArn
         }
@@ -2171,6 +2245,7 @@ extension Comprehend {
         /// The flywheel properties.
         public let flywheelProperties: FlywheelProperties?
 
+        @inlinable
         public init(flywheelProperties: FlywheelProperties? = nil) {
             self.flywheelProperties = flywheelProperties
         }
@@ -2184,6 +2259,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The  StartKeyPhrasesDetectionJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2203,6 +2279,7 @@ extension Comprehend {
         /// An object that contains the properties associated with a key phrases detection job.
         public let keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties?
 
+        @inlinable
         public init(keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties? = nil) {
             self.keyPhrasesDetectionJobProperties = keyPhrasesDetectionJobProperties
         }
@@ -2216,6 +2293,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The  operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2234,6 +2312,7 @@ extension Comprehend {
     public struct DescribePiiEntitiesDetectionJobResponse: AWSDecodableShape {
         public let piiEntitiesDetectionJobProperties: PiiEntitiesDetectionJobProperties?
 
+        @inlinable
         public init(piiEntitiesDetectionJobProperties: PiiEntitiesDetectionJobProperties? = nil) {
             self.piiEntitiesDetectionJobProperties = piiEntitiesDetectionJobProperties
         }
@@ -2247,6 +2326,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) of the custom model version that has the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2271,6 +2351,7 @@ extension Comprehend {
         /// The JSON body of the resource-based policy.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, policyRevisionId: String? = nil, resourcePolicy: String? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -2290,6 +2371,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The  operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2309,6 +2391,7 @@ extension Comprehend {
         /// An object that contains the properties associated with a sentiment detection job.
         public let sentimentDetectionJobProperties: SentimentDetectionJobProperties?
 
+        @inlinable
         public init(sentimentDetectionJobProperties: SentimentDetectionJobProperties? = nil) {
             self.sentimentDetectionJobProperties = sentimentDetectionJobProperties
         }
@@ -2322,6 +2405,7 @@ extension Comprehend {
         /// The identifier that Amazon Comprehend generated for the job. The   StartTargetedSentimentDetectionJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2341,6 +2425,7 @@ extension Comprehend {
         /// An object that contains the properties associated with a targeted sentiment detection job.
         public let targetedSentimentDetectionJobProperties: TargetedSentimentDetectionJobProperties?
 
+        @inlinable
         public init(targetedSentimentDetectionJobProperties: TargetedSentimentDetectionJobProperties? = nil) {
             self.targetedSentimentDetectionJobProperties = targetedSentimentDetectionJobProperties
         }
@@ -2354,6 +2439,7 @@ extension Comprehend {
         /// The identifier assigned by the user to the detection job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2373,6 +2459,7 @@ extension Comprehend {
         /// The list of properties for the requested job.
         public let topicsDetectionJobProperties: TopicsDetectionJobProperties?
 
+        @inlinable
         public init(topicsDetectionJobProperties: TopicsDetectionJobProperties? = nil) {
             self.topicsDetectionJobProperties = topicsDetectionJobProperties
         }
@@ -2386,6 +2473,7 @@ extension Comprehend {
         /// A UTF-8 text string. The string must contain at least 20 characters. The maximum string size is 100 KB.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2403,6 +2491,7 @@ extension Comprehend {
         /// Array of languages that Amazon Comprehend detected in the input text.  The array is sorted in descending order of the score  (the dominant language is always the first element in the array). For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
         public let languages: [DominantLanguage]?
 
+        @inlinable
         public init(languages: [DominantLanguage]? = nil) {
             self.languages = languages
         }
@@ -2424,6 +2513,7 @@ extension Comprehend {
         /// A UTF-8 text string. The maximum string size is 100 KB. If you enter text using this parameter, do not use the Bytes parameter.
         public let text: String?
 
+        @inlinable
         public init(bytes: AWSBase64Data? = nil, documentReaderConfig: DocumentReaderConfig? = nil, endpointArn: String? = nil, languageCode: LanguageCode? = nil, text: String? = nil) {
             self.bytes = bytes
             self.documentReaderConfig = documentReaderConfig
@@ -2461,6 +2551,7 @@ extension Comprehend {
         /// Page-level errors that the system detected while processing the input document. The field is empty if the system encountered no errors.
         public let errors: [ErrorsListItem]?
 
+        @inlinable
         public init(blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil, documentType: [DocumentTypeListItem]? = nil, entities: [Entity]? = nil, errors: [ErrorsListItem]? = nil) {
             self.blocks = blocks
             self.documentMetadata = documentMetadata
@@ -2484,6 +2575,7 @@ extension Comprehend {
         /// A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded characters.
         public let text: String
 
+        @inlinable
         public init(languageCode: LanguageCode, text: String) {
             self.languageCode = languageCode
             self.text = text
@@ -2503,6 +2595,7 @@ extension Comprehend {
         /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let keyPhrases: [KeyPhrase]?
 
+        @inlinable
         public init(keyPhrases: [KeyPhrase]? = nil) {
             self.keyPhrases = keyPhrases
         }
@@ -2518,6 +2611,7 @@ extension Comprehend {
         /// A UTF-8 text string. The maximum string size is 100 KB.
         public let text: String
 
+        @inlinable
         public init(languageCode: LanguageCode, text: String) {
             self.languageCode = languageCode
             self.text = text
@@ -2537,6 +2631,7 @@ extension Comprehend {
         /// A collection of PII entities identified in the input text. For each entity, the response provides the entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.
         public let entities: [PiiEntity]?
 
+        @inlinable
         public init(entities: [PiiEntity]? = nil) {
             self.entities = entities
         }
@@ -2552,6 +2647,7 @@ extension Comprehend {
         /// A UTF-8 text string. The maximum string size is 5 KB.
         public let text: String
 
+        @inlinable
         public init(languageCode: LanguageCode, text: String) {
             self.languageCode = languageCode
             self.text = text
@@ -2573,6 +2669,7 @@ extension Comprehend {
         /// An object that lists the sentiments, and their corresponding confidence levels.
         public let sentimentScore: SentimentScore?
 
+        @inlinable
         public init(sentiment: SentimentType? = nil, sentimentScore: SentimentScore? = nil) {
             self.sentiment = sentiment
             self.sentimentScore = sentimentScore
@@ -2590,6 +2687,7 @@ extension Comprehend {
         /// A UTF-8 string. The maximum string size is 5 KB.
         public let text: String
 
+        @inlinable
         public init(languageCode: SyntaxLanguageCode, text: String) {
             self.languageCode = languageCode
             self.text = text
@@ -2609,6 +2707,7 @@ extension Comprehend {
         /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see Syntax in the Comprehend Developer Guide.
         public let syntaxTokens: [SyntaxToken]?
 
+        @inlinable
         public init(syntaxTokens: [SyntaxToken]? = nil) {
             self.syntaxTokens = syntaxTokens
         }
@@ -2624,6 +2723,7 @@ extension Comprehend {
         /// A UTF-8 text string. The maximum string length is 5 KB.
         public let text: String
 
+        @inlinable
         public init(languageCode: LanguageCode, text: String) {
             self.languageCode = languageCode
             self.text = text
@@ -2643,6 +2743,7 @@ extension Comprehend {
         /// Targeted sentiment analysis for each of the entities identified in the input text.
         public let entities: [TargetedSentimentEntity]?
 
+        @inlinable
         public init(entities: [TargetedSentimentEntity]? = nil) {
             self.entities = entities
         }
@@ -2658,6 +2759,7 @@ extension Comprehend {
         /// A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB.
         public let textSegments: [TextSegment]
 
+        @inlinable
         public init(languageCode: LanguageCode, textSegments: [TextSegment]) {
             self.languageCode = languageCode
             self.textSegments = textSegments
@@ -2680,6 +2782,7 @@ extension Comprehend {
         /// Results of the content moderation analysis. Each entry in the results list contains a list of toxic content types identified in  the text, along with a confidence score for each content type.  The results list also includes a toxicity score for each entry in the results list.
         public let resultList: [ToxicLabels]?
 
+        @inlinable
         public init(resultList: [ToxicLabels]? = nil) {
             self.resultList = resultList
         }
@@ -2697,6 +2800,7 @@ extension Comprehend {
         /// The confidence score that Amazon Comprehend has this class correctly attributed.
         public let score: Float?
 
+        @inlinable
         public init(name: String? = nil, page: Int? = nil, score: Float? = nil) {
             self.name = name
             self.page = page
@@ -2716,6 +2820,7 @@ extension Comprehend {
         /// Classification mode indicates whether the documents are MULTI_CLASS or MULTI_LABEL.
         public let mode: DocumentClassifierMode
 
+        @inlinable
         public init(labels: [String]? = nil, mode: DocumentClassifierMode) {
             self.labels = labels
             self.mode = mode
@@ -2745,6 +2850,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -2796,6 +2902,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, flywheelArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -2837,6 +2944,7 @@ extension Comprehend {
         /// The S3 URI location of the test documents included in the TestS3Uri CSV file. This field is not required if you do not specify a test CSV file.
         public let testS3Uri: String?
 
+        @inlinable
         public init(s3Uri: String, testS3Uri: String? = nil) {
             self.s3Uri = s3Uri
             self.testS3Uri = testS3Uri
@@ -2865,6 +2973,7 @@ extension Comprehend {
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted before the specified time. Classifiers are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(documentClassifierName: String? = nil, status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.documentClassifierName = documentClassifierName
             self.status = status
@@ -2902,6 +3011,7 @@ extension Comprehend {
         /// This specifies the Amazon S3 location that contains the test annotations for the document classifier.  The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
+        @inlinable
         public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, documentReaderConfig: DocumentReaderConfig? = nil, documents: DocumentClassifierDocuments? = nil, documentType: DocumentClassifierDocumentTypeFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil, testS3Uri: String? = nil) {
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
@@ -2948,6 +3058,7 @@ extension Comprehend {
         /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix and other output files. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
         public let s3Uri: String?
 
+        @inlinable
         public init(flywheelStatsS3Prefix: String? = nil, kmsKeyId: String? = nil, s3Uri: String? = nil) {
             self.flywheelStatsS3Prefix = flywheelStatsS3Prefix
             self.kmsKeyId = kmsKeyId
@@ -3010,6 +3121,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, flywheelArn: String? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, sourceModelArn: String? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -3067,6 +3179,7 @@ extension Comprehend {
         /// The number of versions you created.
         public let numberOfVersions: Int?
 
+        @inlinable
         public init(documentClassifierName: String? = nil, latestVersionCreatedAt: Date? = nil, latestVersionName: String? = nil, latestVersionStatus: ModelStatus? = nil, numberOfVersions: Int? = nil) {
             self.documentClassifierName = documentClassifierName
             self.latestVersionCreatedAt = latestVersionCreatedAt
@@ -3092,6 +3205,7 @@ extension Comprehend {
         /// The confidence score that Amazon Comprehend has this label correctly attributed.
         public let score: Float?
 
+        @inlinable
         public init(name: String? = nil, page: Int? = nil, score: Float? = nil) {
             self.name = name
             self.page = page
@@ -3111,6 +3225,7 @@ extension Comprehend {
         /// Number of pages in the document.
         public let pages: Int?
 
+        @inlinable
         public init(extractedCharacters: [ExtractedCharactersListItem]? = nil, pages: Int? = nil) {
             self.extractedCharacters = extractedCharacters
             self.pages = pages
@@ -3130,6 +3245,7 @@ extension Comprehend {
         /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:    TABLES - Returns additional information about any tables that are detected in the input document.     FORMS - Returns additional information about any forms that are detected in the input document.
         public let featureTypes: [DocumentReadFeatureTypes]?
 
+        @inlinable
         public init(documentReadAction: DocumentReadAction, documentReadMode: DocumentReadMode? = nil, featureTypes: [DocumentReadFeatureTypes]? = nil) {
             self.documentReadAction = documentReadAction
             self.documentReadMode = documentReadMode
@@ -3154,6 +3270,7 @@ extension Comprehend {
         /// Document type.
         public let type: DocumentType?
 
+        @inlinable
         public init(page: Int? = nil, type: DocumentType? = nil) {
             self.page = page
             self.type = type
@@ -3171,6 +3288,7 @@ extension Comprehend {
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
 
+        @inlinable
         public init(languageCode: String? = nil, score: Float? = nil) {
             self.languageCode = languageCode
             self.score = score
@@ -3192,6 +3310,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -3239,6 +3358,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -3280,6 +3400,7 @@ extension Comprehend {
         /// Specifies the status of the endpoint being returned. Possible values are: Creating, Ready, Updating, Deleting, Failed.
         public let status: EndpointStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3326,6 +3447,7 @@ extension Comprehend {
         /// Specifies the status of the endpoint. Because the endpoint updates and creation are asynchronous, so customers will need to wait for the endpoint to be Ready status before making inference requests.
         public let status: EndpointStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, currentInferenceUnits: Int? = nil, dataAccessRoleArn: String? = nil, desiredDataAccessRoleArn: String? = nil, desiredInferenceUnits: Int? = nil, desiredModelArn: String? = nil, endpointArn: String? = nil, flywheelArn: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelArn: String? = nil, status: EndpointStatus? = nil) {
             self.creationTime = creationTime
             self.currentInferenceUnits = currentInferenceUnits
@@ -3367,6 +3489,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -3420,6 +3543,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, flywheelArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -3471,6 +3595,7 @@ extension Comprehend {
         /// The entity type. For entity detection using the built-in model, this field contains one of the standard entity types listed below. For custom entity detection, this field contains one of the entity types that you specified when you trained your custom model.
         public let type: EntityType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, blockReferences: [BlockReference]? = nil, endOffset: Int? = nil, score: Float? = nil, text: String? = nil, type: EntityType? = nil) {
             self.beginOffset = beginOffset
             self.blockReferences = blockReferences
@@ -3496,6 +3621,7 @@ extension Comprehend {
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
 
+        @inlinable
         public init(name: PiiEntityType? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -3511,6 +3637,7 @@ extension Comprehend {
         /// Up to 25 entity types that the model is trained to recognize.
         public let entityTypes: [EntityTypesListItem]
 
+        @inlinable
         public init(entityTypes: [EntityTypesListItem]) {
             self.entityTypes = entityTypes
         }
@@ -3532,6 +3659,7 @@ extension Comprehend {
         ///  Specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
+        @inlinable
         public init(s3Uri: String, testS3Uri: String? = nil) {
             self.s3Uri = s3Uri
             self.testS3Uri = testS3Uri
@@ -3558,6 +3686,7 @@ extension Comprehend {
         ///  Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
+        @inlinable
         public init(inputFormat: InputFormat? = nil, s3Uri: String, testS3Uri: String? = nil) {
             self.inputFormat = inputFormat
             self.s3Uri = s3Uri
@@ -3582,6 +3711,7 @@ extension Comprehend {
         /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same Region as the API endpoint that you are calling.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -3604,6 +3734,7 @@ extension Comprehend {
         /// A measure of how complete the recognizer results are for the test data. High recall means that the recognizer returned most of the relevant results.
         public let recall: Double?
 
+        @inlinable
         public init(f1Score: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
             self.f1Score = f1Score
             self.precision = precision
@@ -3627,6 +3758,7 @@ extension Comprehend {
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(recognizerName: String? = nil, status: ModelStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.recognizerName = recognizerName
             self.status = status
@@ -3661,6 +3793,7 @@ extension Comprehend {
         /// The entity types in the labeled training data that Amazon Comprehend uses to train the custom entity recognizer. Any entity types that you don't specify are ignored. A maximum of 25 entity types can be used at one time to train an entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break), \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
         public let entityTypes: [EntityTypesListItem]
 
+        @inlinable
         public init(annotations: EntityRecognizerAnnotations? = nil, augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: EntityRecognizerDataFormat? = nil, documents: EntityRecognizerDocuments? = nil, entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem]) {
             self.annotations = annotations
             self.augmentedManifests = augmentedManifests
@@ -3702,6 +3835,7 @@ extension Comprehend {
         ///  The number of documents in the input data that were used to train the entity recognizer. Typically this is 80 to 90 percent of the input documents.
         public let numberOfTrainedDocuments: Int?
 
+        @inlinable
         public init(entityTypes: [EntityRecognizerMetadataEntityTypesListItem]? = nil, evaluationMetrics: EntityRecognizerEvaluationMetrics? = nil, numberOfTestDocuments: Int? = nil, numberOfTrainedDocuments: Int? = nil) {
             self.entityTypes = entityTypes
             self.evaluationMetrics = evaluationMetrics
@@ -3725,6 +3859,7 @@ extension Comprehend {
         /// Type of entity from the list of entity types in the metadata of an entity recognizer.
         public let type: String?
 
+        @inlinable
         public init(evaluationMetrics: EntityTypesEvaluationMetrics? = nil, numberOfTrainMentions: Int? = nil, type: String? = nil) {
             self.evaluationMetrics = evaluationMetrics
             self.numberOfTrainMentions = numberOfTrainMentions
@@ -3742,6 +3877,7 @@ extension Comprehend {
         /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
         public let flywheelStatsS3Prefix: String?
 
+        @inlinable
         public init(flywheelStatsS3Prefix: String? = nil) {
             self.flywheelStatsS3Prefix = flywheelStatsS3Prefix
         }
@@ -3789,6 +3925,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, flywheelArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, modelKmsKeyId: String? = nil, outputDataConfig: EntityRecognizerOutputDataConfig? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, sourceModelArn: String? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -3844,6 +3981,7 @@ extension Comprehend {
         ///  The name that you assigned the entity recognizer.
         public let recognizerName: String?
 
+        @inlinable
         public init(latestVersionCreatedAt: Date? = nil, latestVersionName: String? = nil, latestVersionStatus: ModelStatus? = nil, numberOfVersions: Int? = nil, recognizerName: String? = nil) {
             self.latestVersionCreatedAt = latestVersionCreatedAt
             self.latestVersionName = latestVersionName
@@ -3869,6 +4007,7 @@ extension Comprehend {
         /// A measure of how complete the recognizer results are for a specific entity type in the test data. High recall means that the recognizer returned most of the relevant results.
         public let recall: Double?
 
+        @inlinable
         public init(f1Score: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
             self.f1Score = f1Score
             self.precision = precision
@@ -3886,6 +4025,7 @@ extension Comprehend {
         /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), and , (comma).
         public let type: String
 
+        @inlinable
         public init(type: String) {
             self.type = type
         }
@@ -3908,6 +4048,7 @@ extension Comprehend {
         /// Page number where the error occurred.
         public let page: Int?
 
+        @inlinable
         public init(errorCode: PageBasedErrorCode? = nil, errorMessage: String? = nil, page: Int? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3931,6 +4072,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -3978,6 +4120,7 @@ extension Comprehend {
         /// The types of events that are detected by the job.
         public let targetEventTypes: [String]?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, targetEventTypes: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -4015,6 +4158,7 @@ extension Comprehend {
         /// Page number.
         public let page: Int?
 
+        @inlinable
         public init(count: Int? = nil, page: Int? = nil) {
             self.count = count
             self.page = page
@@ -4034,6 +4178,7 @@ extension Comprehend {
         /// Filter the flywheels based on the flywheel status.
         public let status: FlywheelStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, status: FlywheelStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -4053,6 +4198,7 @@ extension Comprehend {
         /// Filter the flywheel iterations to include iterations created before the specified time.
         public let creationTimeBefore: Date?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -4084,6 +4230,7 @@ extension Comprehend {
         /// The metrics associated with the trained model.
         public let trainedModelMetrics: FlywheelModelEvaluationMetrics?
 
+        @inlinable
         public init(creationTime: Date? = nil, endTime: Date? = nil, evaluatedModelArn: String? = nil, evaluatedModelMetrics: FlywheelModelEvaluationMetrics? = nil, evaluationManifestS3Prefix: String? = nil, flywheelArn: String? = nil, flywheelIterationId: String? = nil, message: String? = nil, status: FlywheelIterationStatus? = nil, trainedModelArn: String? = nil, trainedModelMetrics: FlywheelModelEvaluationMetrics? = nil) {
             self.creationTime = creationTime
             self.endTime = endTime
@@ -4123,6 +4270,7 @@ extension Comprehend {
         /// Average recall metric for the model.
         public let averageRecall: Double?
 
+        @inlinable
         public init(averageAccuracy: Double? = nil, averageF1Score: Double? = nil, averagePrecision: Double? = nil, averageRecall: Double? = nil) {
             self.averageAccuracy = averageAccuracy
             self.averageF1Score = averageF1Score
@@ -4164,6 +4312,7 @@ extension Comprehend {
         /// Configuration about the model associated with a flywheel.
         public let taskConfig: TaskConfig?
 
+        @inlinable
         public init(activeModelArn: String? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, dataLakeS3Uri: String? = nil, dataSecurityConfig: DataSecurityConfig? = nil, flywheelArn: String? = nil, lastModifiedTime: Date? = nil, latestFlywheelIteration: String? = nil, message: String? = nil, modelType: ModelType? = nil, status: FlywheelStatus? = nil, taskConfig: TaskConfig? = nil) {
             self.activeModelArn = activeModelArn
             self.creationTime = creationTime
@@ -4215,6 +4364,7 @@ extension Comprehend {
         /// The status of the flywheel.
         public let status: FlywheelStatus?
 
+        @inlinable
         public init(activeModelArn: String? = nil, creationTime: Date? = nil, dataLakeS3Uri: String? = nil, flywheelArn: String? = nil, lastModifiedTime: Date? = nil, latestFlywheelIteration: String? = nil, message: String? = nil, modelType: ModelType? = nil, status: FlywheelStatus? = nil) {
             self.activeModelArn = activeModelArn
             self.creationTime = creationTime
@@ -4246,6 +4396,7 @@ extension Comprehend {
         /// Within the bounding box, a fine-grained polygon around the recognized item.
         public let polygon: [Point]?
 
+        @inlinable
         public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
             self.boundingBox = boundingBox
             self.polygon = polygon
@@ -4271,6 +4422,7 @@ extension Comprehend {
         /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/Region.
         public let versionName: String?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, modelKmsKeyId: String? = nil, modelName: String? = nil, sourceModelArn: String, tags: [Tag]? = nil, versionName: String? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.modelKmsKeyId = modelKmsKeyId
@@ -4311,6 +4463,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) of the custom model being imported.
         public let modelArn: String?
 
+        @inlinable
         public init(modelArn: String? = nil) {
             self.modelArn = modelArn
         }
@@ -4328,6 +4481,7 @@ extension Comprehend {
         /// The Amazon S3 URI for the input data. The URI must be in same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files.  For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
         public let s3Uri: String
 
+        @inlinable
         public init(documentReaderConfig: DocumentReaderConfig? = nil, inputFormat: InputFormat? = nil, s3Uri: String) {
             self.documentReaderConfig = documentReaderConfig
             self.inputFormat = inputFormat
@@ -4357,6 +4511,7 @@ extension Comprehend {
         /// The text of a key noun phrase.
         public let text: String?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, score: Float? = nil, text: String? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -4382,6 +4537,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -4431,6 +4587,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -4474,6 +4631,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DatasetFilter? = nil, flywheelArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.flywheelArn = flywheelArn
@@ -4503,6 +4661,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetPropertiesList: [DatasetProperties]? = nil, nextToken: String? = nil) {
             self.datasetPropertiesList = datasetPropertiesList
             self.nextToken = nextToken
@@ -4522,6 +4681,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DocumentClassificationJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4548,6 +4708,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]? = nil, nextToken: String? = nil) {
             self.documentClassificationJobPropertiesList = documentClassificationJobPropertiesList
             self.nextToken = nextToken
@@ -4565,6 +4726,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4588,6 +4750,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(documentClassifierSummariesList: [DocumentClassifierSummary]? = nil, nextToken: String? = nil) {
             self.documentClassifierSummariesList = documentClassifierSummariesList
             self.nextToken = nextToken
@@ -4607,6 +4770,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DocumentClassifierFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4633,6 +4797,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(documentClassifierPropertiesList: [DocumentClassifierProperties]? = nil, nextToken: String? = nil) {
             self.documentClassifierPropertiesList = documentClassifierPropertiesList
             self.nextToken = nextToken
@@ -4652,6 +4817,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DominantLanguageDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4678,6 +4844,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]? = nil, nextToken: String? = nil) {
             self.dominantLanguageDetectionJobPropertiesList = dominantLanguageDetectionJobPropertiesList
             self.nextToken = nextToken
@@ -4697,6 +4864,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EndpointFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4723,6 +4891,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(endpointPropertiesList: [EndpointProperties]? = nil, nextToken: String? = nil) {
             self.endpointPropertiesList = endpointPropertiesList
             self.nextToken = nextToken
@@ -4742,6 +4911,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EntitiesDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4768,6 +4938,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]? = nil, nextToken: String? = nil) {
             self.entitiesDetectionJobPropertiesList = entitiesDetectionJobPropertiesList
             self.nextToken = nextToken
@@ -4785,6 +4956,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4808,6 +4980,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(entityRecognizerSummariesList: [EntityRecognizerSummary]? = nil, nextToken: String? = nil) {
             self.entityRecognizerSummariesList = entityRecognizerSummariesList
             self.nextToken = nextToken
@@ -4827,6 +5000,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EntityRecognizerFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4853,6 +5027,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(entityRecognizerPropertiesList: [EntityRecognizerProperties]? = nil, nextToken: String? = nil) {
             self.entityRecognizerPropertiesList = entityRecognizerPropertiesList
             self.nextToken = nextToken
@@ -4872,6 +5047,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EventsDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4898,6 +5074,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(eventsDetectionJobPropertiesList: [EventsDetectionJobProperties]? = nil, nextToken: String? = nil) {
             self.eventsDetectionJobPropertiesList = eventsDetectionJobPropertiesList
             self.nextToken = nextToken
@@ -4919,6 +5096,7 @@ extension Comprehend {
         /// Next token
         public let nextToken: String?
 
+        @inlinable
         public init(filter: FlywheelIterationFilter? = nil, flywheelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.flywheelArn = flywheelArn
@@ -4948,6 +5126,7 @@ extension Comprehend {
         /// Next token
         public let nextToken: String?
 
+        @inlinable
         public init(flywheelIterationPropertiesList: [FlywheelIterationProperties]? = nil, nextToken: String? = nil) {
             self.flywheelIterationPropertiesList = flywheelIterationPropertiesList
             self.nextToken = nextToken
@@ -4967,6 +5146,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: FlywheelFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4992,6 +5172,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(flywheelSummaryList: [FlywheelSummary]? = nil, nextToken: String? = nil) {
             self.flywheelSummaryList = flywheelSummaryList
             self.nextToken = nextToken
@@ -5011,6 +5192,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: KeyPhrasesDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -5037,6 +5219,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]? = nil, nextToken: String? = nil) {
             self.keyPhrasesDetectionJobPropertiesList = keyPhrasesDetectionJobPropertiesList
             self.nextToken = nextToken
@@ -5056,6 +5239,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: PiiEntitiesDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -5082,6 +5266,7 @@ extension Comprehend {
         /// A list containing the properties of each job that is returned.
         public let piiEntitiesDetectionJobPropertiesList: [PiiEntitiesDetectionJobProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, piiEntitiesDetectionJobPropertiesList: [PiiEntitiesDetectionJobProperties]? = nil) {
             self.nextToken = nextToken
             self.piiEntitiesDetectionJobPropertiesList = piiEntitiesDetectionJobPropertiesList
@@ -5101,6 +5286,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: SentimentDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -5127,6 +5313,7 @@ extension Comprehend {
         /// A list containing the properties of each job that is returned.
         public let sentimentDetectionJobPropertiesList: [SentimentDetectionJobProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, sentimentDetectionJobPropertiesList: [SentimentDetectionJobProperties]? = nil) {
             self.nextToken = nextToken
             self.sentimentDetectionJobPropertiesList = sentimentDetectionJobPropertiesList
@@ -5142,6 +5329,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5162,6 +5350,7 @@ extension Comprehend {
         /// Tags associated with the Amazon Comprehend resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5181,6 +5370,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: TargetedSentimentDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -5207,6 +5397,7 @@ extension Comprehend {
         /// A list containing the properties of each job that is returned.
         public let targetedSentimentDetectionJobPropertiesList: [TargetedSentimentDetectionJobProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, targetedSentimentDetectionJobPropertiesList: [TargetedSentimentDetectionJobProperties]? = nil) {
             self.nextToken = nextToken
             self.targetedSentimentDetectionJobPropertiesList = targetedSentimentDetectionJobPropertiesList
@@ -5226,6 +5417,7 @@ extension Comprehend {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: TopicsDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -5252,6 +5444,7 @@ extension Comprehend {
         /// A list containing the properties of each job that is returned.
         public let topicsDetectionJobPropertiesList: [TopicsDetectionJobProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, topicsDetectionJobPropertiesList: [TopicsDetectionJobProperties]? = nil) {
             self.nextToken = nextToken
             self.topicsDetectionJobPropertiesList = topicsDetectionJobPropertiesList
@@ -5268,6 +5461,7 @@ extension Comprehend {
         public let sentiment: SentimentType?
         public let sentimentScore: SentimentScore?
 
+        @inlinable
         public init(sentiment: SentimentType? = nil, sentimentScore: SentimentScore? = nil) {
             self.sentiment = sentiment
             self.sentimentScore = sentimentScore
@@ -5285,6 +5479,7 @@ extension Comprehend {
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.  For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -5309,6 +5504,7 @@ extension Comprehend {
         /// Identifies the part of speech that the token represents.
         public let tag: PartOfSpeechTagType?
 
+        @inlinable
         public init(score: Float? = nil, tag: PartOfSpeechTagType? = nil) {
             self.score = score
             self.tag = tag
@@ -5330,6 +5526,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -5379,6 +5576,7 @@ extension Comprehend {
         /// The time that the PII entities detection job was submitted for processing.
         public let submitTime: Date?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: PiiEntitiesDetectionMode? = nil, outputDataConfig: PiiOutputDataConfig? = nil, redactionConfig: RedactionConfig? = nil, submitTime: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -5422,6 +5620,7 @@ extension Comprehend {
         /// The entity's type.
         public let type: PiiEntityType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, score: Float? = nil, type: PiiEntityType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -5443,6 +5642,7 @@ extension Comprehend {
         /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data.   For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -5460,6 +5660,7 @@ extension Comprehend {
         /// The value of the Y coordinate for a point on a polygon
         public let y: Float?
 
+        @inlinable
         public init(x: Float? = nil, y: Float? = nil) {
             self.x = x
             self.y = y
@@ -5479,6 +5680,7 @@ extension Comprehend {
         /// The JSON resource-based policy to attach to your custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy:  "{\"attribute\": \"value\", \"attribute\": [\"value\"]}"  To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values:  '{"attribute": "value", "attribute": ["value"]}'
         public let resourcePolicy: String
 
+        @inlinable
         public init(policyRevisionId: String? = nil, resourceArn: String, resourcePolicy: String) {
             self.policyRevisionId = policyRevisionId
             self.resourceArn = resourceArn
@@ -5506,6 +5708,7 @@ extension Comprehend {
         /// The revision ID of the policy. Each time you modify a policy, Amazon Comprehend assigns a new revision ID, and it deletes the prior version of the policy.
         public let policyRevisionId: String?
 
+        @inlinable
         public init(policyRevisionId: String? = nil) {
             self.policyRevisionId = policyRevisionId
         }
@@ -5523,6 +5726,7 @@ extension Comprehend {
         /// An array of the types of PII entities that Amazon Comprehend detects in the input text for your request.
         public let piiEntityTypes: [PiiEntityType]?
 
+        @inlinable
         public init(maskCharacter: String? = nil, maskMode: PiiEntitiesDetectionMaskMode? = nil, piiEntityTypes: [PiiEntityType]? = nil) {
             self.maskCharacter = maskCharacter
             self.maskMode = maskMode
@@ -5548,6 +5752,7 @@ extension Comprehend {
         /// Only supported relationship is a child relationship.
         public let type: RelationshipType?
 
+        @inlinable
         public init(ids: [String]? = nil, type: RelationshipType? = nil) {
             self.ids = ids
             self.type = type
@@ -5569,6 +5774,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -5618,6 +5824,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -5661,6 +5868,7 @@ extension Comprehend {
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the POSITIVE sentiment.
         public let positive: Float?
 
+        @inlinable
         public init(mixed: Float? = nil, negative: Float? = nil, neutral: Float? = nil, positive: Float? = nil) {
             self.mixed = mixed
             self.negative = negative
@@ -5698,6 +5906,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartDocumentClassificationJobRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierArn: String? = nil, flywheelArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -5759,6 +5968,7 @@ extension Comprehend {
         /// The status of the job:   SUBMITTED - The job has been received and queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. For details, use the  DescribeDocumentClassificationJob operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(documentClassifierArn: String? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.documentClassifierArn = documentClassifierArn
             self.jobArn = jobArn
@@ -5792,6 +6002,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartDominantLanguageDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -5843,6 +6054,7 @@ extension Comprehend {
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the  operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -5880,6 +6092,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, entityRecognizerArn: String? = nil, flywheelArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -5943,6 +6156,7 @@ extension Comprehend {
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the  operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(entityRecognizerArn: String? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.entityRecognizerArn = entityRecognizerArn
             self.jobArn = jobArn
@@ -5976,6 +6190,7 @@ extension Comprehend {
         /// The types of events to detect in the input documents.
         public let targetEventTypes: [String]
 
+        @inlinable
         public init(clientRequestToken: String? = StartEventsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, targetEventTypes: [String]) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -6030,6 +6245,7 @@ extension Comprehend {
         /// The status of the events detection job.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6049,6 +6265,7 @@ extension Comprehend {
         /// The ARN of the flywheel.
         public let flywheelArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, flywheelArn: String) {
             self.clientRequestToken = clientRequestToken
             self.flywheelArn = flywheelArn
@@ -6072,6 +6289,7 @@ extension Comprehend {
         public let flywheelArn: String?
         public let flywheelIterationId: String?
 
+        @inlinable
         public init(flywheelArn: String? = nil, flywheelIterationId: String? = nil) {
             self.flywheelArn = flywheelArn
             self.flywheelIterationId = flywheelIterationId
@@ -6103,6 +6321,7 @@ extension Comprehend {
         ///  Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartKeyPhrasesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -6156,6 +6375,7 @@ extension Comprehend {
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the  operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6189,6 +6409,7 @@ extension Comprehend {
         /// Tags to associate with the PII entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = StartPiiEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, mode: PiiEntitiesDetectionMode, outputDataConfig: OutputDataConfig, redactionConfig: RedactionConfig? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -6240,6 +6461,7 @@ extension Comprehend {
         /// The status of the job.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6273,6 +6495,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -6326,6 +6549,7 @@ extension Comprehend {
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the  operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6357,6 +6581,7 @@ extension Comprehend {
         public let volumeKmsKeyId: String?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartTargetedSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -6410,6 +6635,7 @@ extension Comprehend {
         /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the  DescribeTargetedSentimentDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6443,6 +6669,7 @@ extension Comprehend {
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = StartTopicsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -6498,6 +6725,7 @@ extension Comprehend {
         /// The status of the job:    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the DescribeTopicDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -6515,6 +6743,7 @@ extension Comprehend {
         /// The identifier of the dominant language detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6536,6 +6765,7 @@ extension Comprehend {
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopDominantLanguageDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6551,6 +6781,7 @@ extension Comprehend {
         /// The identifier of the entities detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6572,6 +6803,7 @@ extension Comprehend {
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopEntitiesDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6587,6 +6819,7 @@ extension Comprehend {
         /// The identifier of the events detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6608,6 +6841,7 @@ extension Comprehend {
         /// The status of the events detection job.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6623,6 +6857,7 @@ extension Comprehend {
         /// The identifier of the key phrases detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6644,6 +6879,7 @@ extension Comprehend {
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopKeyPhrasesDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6659,6 +6895,7 @@ extension Comprehend {
         /// The identifier of the PII entities detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6680,6 +6917,7 @@ extension Comprehend {
         /// The status of the PII entities detection job.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6695,6 +6933,7 @@ extension Comprehend {
         /// The identifier of the sentiment detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6716,6 +6955,7 @@ extension Comprehend {
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6731,6 +6971,7 @@ extension Comprehend {
         /// The identifier of the targeted sentiment detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6752,6 +6993,7 @@ extension Comprehend {
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6767,6 +7009,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained.
         public let documentClassifierArn: String
 
+        @inlinable
         public init(documentClassifierArn: String) {
             self.documentClassifierArn = documentClassifierArn
         }
@@ -6789,6 +7032,7 @@ extension Comprehend {
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer currently being trained.
         public let entityRecognizerArn: String
 
+        @inlinable
         public init(entityRecognizerArn: String) {
             self.entityRecognizerArn = entityRecognizerArn
         }
@@ -6819,6 +7063,7 @@ extension Comprehend {
         /// A unique identifier for a token.
         public let tokenId: Int?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, partOfSpeech: PartOfSpeechTag? = nil, text: String? = nil, tokenId: Int? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -6842,6 +7087,7 @@ extension Comprehend {
         ///  The second part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the initial (key) portion of the pair, with a value of “sales” to indicate the sales department.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -6865,6 +7111,7 @@ extension Comprehend {
         /// Tags being associated with a specific Amazon Comprehend resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6898,6 +7145,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -6944,6 +7192,7 @@ extension Comprehend {
         public let volumeKmsKeyId: String?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -6983,6 +7232,7 @@ extension Comprehend {
         /// An array of mentions of the entity in the document. The array represents a co-reference group. See  Co-reference group for an example.
         public let mentions: [TargetedSentimentMention]?
 
+        @inlinable
         public init(descriptiveMentionIndex: [Int]? = nil, mentions: [TargetedSentimentMention]? = nil) {
             self.descriptiveMentionIndex = descriptiveMentionIndex
             self.mentions = mentions
@@ -7010,6 +7260,7 @@ extension Comprehend {
         /// The type of the entity. Amazon Comprehend supports a variety of entity types.
         public let type: TargetedSentimentEntityType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, groupScore: Float? = nil, mentionSentiment: MentionSentiment? = nil, score: Float? = nil, text: String? = nil, type: TargetedSentimentEntityType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -7039,6 +7290,7 @@ extension Comprehend {
         /// Language code for the language that the model supports.
         public let languageCode: LanguageCode
 
+        @inlinable
         public init(documentClassificationConfig: DocumentClassificationConfig? = nil, entityRecognitionConfig: EntityRecognitionConfig? = nil, languageCode: LanguageCode) {
             self.documentClassificationConfig = documentClassificationConfig
             self.entityRecognitionConfig = entityRecognitionConfig
@@ -7061,6 +7313,7 @@ extension Comprehend {
         /// The text content.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -7083,6 +7336,7 @@ extension Comprehend {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -7132,6 +7386,7 @@ extension Comprehend {
         /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -7171,6 +7426,7 @@ extension Comprehend {
         ///   Model confidence in the detected content type. Value range is zero to one, where one is highest confidence.
         public let score: Float?
 
+        @inlinable
         public init(name: ToxicContentType? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -7188,6 +7444,7 @@ extension Comprehend {
         /// Overall toxicity score for the string. Value range is zero to one, where one is the highest confidence.
         public let toxicity: Float?
 
+        @inlinable
         public init(labels: [ToxicContent]? = nil, toxicity: Float? = nil) {
             self.labels = labels
             self.toxicity = toxicity
@@ -7205,6 +7462,7 @@ extension Comprehend {
         /// The initial part of a key-value pair that forms a tag being removed from a given resource. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. Keys must be unique and cannot be duplicated for a particular resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7236,6 +7494,7 @@ extension Comprehend {
         public let volumeKmsKeyId: String?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(modelKmsKeyId: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.modelKmsKeyId = modelKmsKeyId
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -7269,6 +7528,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the flywheel
         public let flywheelArn: String?
 
+        @inlinable
         public init(desiredDataAccessRoleArn: String? = nil, desiredInferenceUnits: Int? = nil, desiredModelArn: String? = nil, endpointArn: String, flywheelArn: String? = nil) {
             self.desiredDataAccessRoleArn = desiredDataAccessRoleArn
             self.desiredInferenceUnits = desiredInferenceUnits
@@ -7303,6 +7563,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the new model.
         public let desiredModelArn: String?
 
+        @inlinable
         public init(desiredModelArn: String? = nil) {
             self.desiredModelArn = desiredModelArn
         }
@@ -7322,6 +7583,7 @@ extension Comprehend {
         /// The Amazon Resource Number (ARN) of the flywheel to update.
         public let flywheelArn: String
 
+        @inlinable
         public init(activeModelArn: String? = nil, dataAccessRoleArn: String? = nil, dataSecurityConfig: UpdateDataSecurityConfig? = nil, flywheelArn: String) {
             self.activeModelArn = activeModelArn
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -7352,6 +7614,7 @@ extension Comprehend {
         /// The flywheel properties.
         public let flywheelProperties: FlywheelProperties?
 
+        @inlinable
         public init(flywheelProperties: FlywheelProperties? = nil) {
             self.flywheelProperties = flywheelProperties
         }
@@ -7367,6 +7630,7 @@ extension Comprehend {
         /// The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPC’s Region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets.
         public let subnets: [String]
 
+        @inlinable
         public init(securityGroupIds: [String], subnets: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -7403,6 +7667,7 @@ extension Comprehend {
         /// Text message associated with the warning.
         public let warnMessage: String?
 
+        @inlinable
         public init(page: Int? = nil, warnCode: PageBasedWarningCode? = nil, warnMessage: String? = nil) {
             self.page = page
             self.warnCode = warnCode

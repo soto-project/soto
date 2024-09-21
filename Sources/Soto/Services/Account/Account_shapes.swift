@@ -58,6 +58,7 @@ extension Account {
         /// The new primary email address for use with the specified account. This must match the PrimaryEmail from the StartPrimaryEmailUpdate API call.
         public let primaryEmail: String
 
+        @inlinable
         public init(accountId: String, otp: String, primaryEmail: String) {
             self.accountId = accountId
             self.otp = otp
@@ -82,6 +83,7 @@ extension Account {
         /// Retrieves the status of the accepted primary email update request.
         public let status: PrimaryEmailUpdateStatus?
 
+        @inlinable
         public init(status: PrimaryEmailUpdateStatus? = nil) {
             self.status = status
         }
@@ -103,6 +105,7 @@ extension Account {
         /// The title associated with this alternate contact.
         public let title: String?
 
+        @inlinable
         public init(alternateContactType: AlternateContactType? = nil, emailAddress: String? = nil, name: String? = nil, phoneNumber: String? = nil, title: String? = nil) {
             self.alternateContactType = alternateContactType
             self.emailAddress = emailAddress
@@ -146,6 +149,7 @@ extension Account {
         /// The URL of the website associated with the primary contact information, if any.
         public let websiteUrl: String?
 
+        @inlinable
         public init(addressLine1: String, addressLine2: String? = nil, addressLine3: String? = nil, city: String, companyName: String? = nil, countryCode: String, districtOrCounty: String? = nil, fullName: String, phoneNumber: String, postalCode: String, stateOrRegion: String? = nil, websiteUrl: String? = nil) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
@@ -211,6 +215,7 @@ extension Account {
         /// Specifies which of the alternate contacts to delete.
         public let alternateContactType: AlternateContactType
 
+        @inlinable
         public init(accountId: String? = nil, alternateContactType: AlternateContactType) {
             self.accountId = accountId
             self.alternateContactType = alternateContactType
@@ -232,6 +237,7 @@ extension Account {
         /// Specifies the Region-code for a given Region name (for example, af-south-1). When you disable a Region, Amazon Web Services performs actions to deactivate that Region in your account, such as destroying IAM resources in the Region. This process takes a few minutes for most accounts, but this can take several hours. You cannot enable the Region until the disabling process is fully completed.
         public let regionName: String
 
+        @inlinable
         public init(accountId: String? = nil, regionName: String) {
             self.accountId = accountId
             self.regionName = regionName
@@ -255,6 +261,7 @@ extension Account {
         /// Specifies the Region-code for a given Region name (for example, af-south-1). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed.
         public let regionName: String
 
+        @inlinable
         public init(accountId: String? = nil, regionName: String) {
             self.accountId = accountId
             self.regionName = regionName
@@ -278,6 +285,7 @@ extension Account {
         /// Specifies which alternate contact you want to retrieve.
         public let alternateContactType: AlternateContactType
 
+        @inlinable
         public init(accountId: String? = nil, alternateContactType: AlternateContactType) {
             self.accountId = accountId
             self.alternateContactType = alternateContactType
@@ -297,6 +305,7 @@ extension Account {
         /// A structure that contains the details for the specified alternate contact.
         public let alternateContact: AlternateContact?
 
+        @inlinable
         public init(alternateContact: AlternateContact? = nil) {
             self.alternateContact = alternateContact
         }
@@ -310,6 +319,7 @@ extension Account {
         /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -327,6 +337,7 @@ extension Account {
         /// Contains the details of the primary contact information associated with an Amazon Web Services account.
         public let contactInformation: ContactInformation?
 
+        @inlinable
         public init(contactInformation: ContactInformation? = nil) {
             self.contactInformation = contactInformation
         }
@@ -340,6 +351,7 @@ extension Account {
         /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -357,6 +369,7 @@ extension Account {
         /// Retrieves the primary email address associated with the specified account.
         public let primaryEmail: String?
 
+        @inlinable
         public init(primaryEmail: String? = nil) {
             self.primaryEmail = primaryEmail
         }
@@ -372,6 +385,7 @@ extension Account {
         /// Specifies the Region-code for a given Region name (for example, af-south-1). This function will return the status of whatever Region you pass into this parameter.
         public let regionName: String
 
+        @inlinable
         public init(accountId: String? = nil, regionName: String) {
             self.accountId = accountId
             self.regionName = regionName
@@ -395,6 +409,7 @@ extension Account {
         /// One of the potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
         public let regionOptStatus: RegionOptStatus?
 
+        @inlinable
         public init(regionName: String? = nil, regionOptStatus: RegionOptStatus? = nil) {
             self.regionName = regionName
             self.regionOptStatus = regionOptStatus
@@ -416,6 +431,7 @@ extension Account {
         /// A list of Region statuses (Enabling, Enabled, Disabling, Disabled, Enabled_by_default) to use to filter the list of Regions for a given account. For example, passing in a value of ENABLING will only return a list of Regions with a Region status of ENABLING.
         public let regionOptStatusContains: [RegionOptStatus]?
 
+        @inlinable
         public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionOptStatusContains: [RegionOptStatus]? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -441,6 +457,7 @@ extension Account {
         /// This is a list of Regions for a given account, or if the filtered parameter was used, a list of Regions that match the filter criteria set in the filter parameter.
         public let regions: [Region]?
 
+        @inlinable
         public init(nextToken: String? = nil, regions: [Region]? = nil) {
             self.nextToken = nextToken
             self.regions = regions
@@ -466,6 +483,7 @@ extension Account {
         /// Specifies a title for the alternate contact.
         public let title: String
 
+        @inlinable
         public init(accountId: String? = nil, alternateContactType: AlternateContactType, emailAddress: String, name: String, phoneNumber: String, title: String) {
             self.accountId = accountId
             self.alternateContactType = alternateContactType
@@ -505,6 +523,7 @@ extension Account {
         /// Contains the details of the primary contact information associated with an Amazon Web Services account.
         public let contactInformation: ContactInformation
 
+        @inlinable
         public init(accountId: String? = nil, contactInformation: ContactInformation) {
             self.accountId = accountId
             self.contactInformation = contactInformation
@@ -527,6 +546,7 @@ extension Account {
         /// One of potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
         public let regionOptStatus: RegionOptStatus?
 
+        @inlinable
         public init(regionName: String? = nil, regionOptStatus: RegionOptStatus? = nil) {
             self.regionName = regionName
             self.regionOptStatus = regionOptStatus
@@ -544,6 +564,7 @@ extension Account {
         /// The new primary email address (also known as the root user email address) to use in the specified account.
         public let primaryEmail: String
 
+        @inlinable
         public init(accountId: String, primaryEmail: String) {
             self.accountId = accountId
             self.primaryEmail = primaryEmail
@@ -565,6 +586,7 @@ extension Account {
         /// The status of the primary email update request.
         public let status: PrimaryEmailUpdateStatus?
 
+        @inlinable
         public init(status: PrimaryEmailUpdateStatus? = nil) {
             self.status = status
         }

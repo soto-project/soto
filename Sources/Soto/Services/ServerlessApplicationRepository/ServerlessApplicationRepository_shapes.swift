@@ -49,6 +49,7 @@ extension ServerlessApplicationRepository {
         /// The semantic version of the nested application.
         public let semanticVersion: String?
 
+        @inlinable
         public init(applicationId: String? = nil, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -70,6 +71,7 @@ extension ServerlessApplicationRepository {
         /// A unique ID for the statement.
         public let statementId: String?
 
+        @inlinable
         public init(actions: [String]? = nil, principalOrgIDs: [String]? = nil, principals: [String]? = nil, statementId: String? = nil) {
             self.actions = actions
             self.principalOrgIDs = principalOrgIDs
@@ -103,6 +105,7 @@ extension ServerlessApplicationRepository {
         /// A valid identifier from https://spdx.org/licenses/.
         public let spdxLicenseId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, name: String? = nil, spdxLicenseId: String? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -158,6 +161,7 @@ extension ServerlessApplicationRepository {
         /// A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
         public let templateUrl: String?
 
+        @inlinable
         public init(author: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseBody: String? = nil, licenseUrl: String? = nil, name: String? = nil, readmeBody: String? = nil, readmeUrl: String? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, spdxLicenseId: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.author = author
             self.description = description
@@ -223,6 +227,7 @@ extension ServerlessApplicationRepository {
         /// Version information about the application.
         public let version: Version?
 
+        @inlinable
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, isVerifiedAuthor: Bool? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, verifiedAuthorUrl: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -270,6 +275,7 @@ extension ServerlessApplicationRepository {
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String?
 
+        @inlinable
         public init(applicationId: String, semanticVersion: String, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateBody: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -318,6 +324,7 @@ extension ServerlessApplicationRepository {
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String?
 
+        @inlinable
         public init(applicationId: String? = nil, creationTime: String? = nil, parameterDefinitions: [ParameterDefinition]? = nil, requiredCapabilities: [Capability]? = nil, resourcesSupported: Bool? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -371,6 +378,7 @@ extension ServerlessApplicationRepository {
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
         public let templateId: String?
 
+        @inlinable
         public init(applicationId: String, capabilities: [String]? = nil, changeSetName: String? = nil, clientToken: String? = nil, description: String? = nil, notificationArns: [String]? = nil, parameterOverrides: [ParameterValue]? = nil, resourceTypes: [String]? = nil, rollbackConfiguration: RollbackConfiguration? = nil, semanticVersion: String? = nil, stackName: String? = nil, tags: [Tag]? = nil, templateId: String? = nil) {
             self.applicationId = applicationId
             self.capabilities = capabilities
@@ -431,6 +439,7 @@ extension ServerlessApplicationRepository {
         /// The unique ID of the stack.
         public let stackId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, changeSetId: String? = nil, semanticVersion: String? = nil, stackId: String? = nil) {
             self.applicationId = applicationId
             self.changeSetId = changeSetId
@@ -452,6 +461,7 @@ extension ServerlessApplicationRepository {
         /// The semantic version of the application: https://semver.org/
         public let semanticVersion: String?
 
+        @inlinable
         public init(applicationId: String, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -485,6 +495,7 @@ extension ServerlessApplicationRepository {
         /// A link to the template that can be used to deploy the application using AWS CloudFormation.
         public let templateUrl: String?
 
+        @inlinable
         public init(applicationId: String? = nil, creationTime: String? = nil, expirationTime: String? = nil, semanticVersion: String? = nil, status: Status? = nil, templateId: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -510,6 +521,7 @@ extension ServerlessApplicationRepository {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -527,6 +539,7 @@ extension ServerlessApplicationRepository {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -544,6 +557,7 @@ extension ServerlessApplicationRepository {
         /// An array of policy statements applied to the application.
         public let statements: [ApplicationPolicyStatement]?
 
+        @inlinable
         public init(statements: [ApplicationPolicyStatement]? = nil) {
             self.statements = statements
         }
@@ -559,6 +573,7 @@ extension ServerlessApplicationRepository {
         /// The semantic version of the application to get.
         public let semanticVersion: String?
 
+        @inlinable
         public init(applicationId: String, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
@@ -602,6 +617,7 @@ extension ServerlessApplicationRepository {
         /// Version information about the application.
         public let version: Version?
 
+        @inlinable
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, isVerifiedAuthor: Bool? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, verifiedAuthorUrl: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -641,6 +657,7 @@ extension ServerlessApplicationRepository {
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
         public let templateId: String
 
+        @inlinable
         public init(applicationId: String, templateId: String) {
             self.applicationId = applicationId
             self.templateId = templateId
@@ -672,6 +689,7 @@ extension ServerlessApplicationRepository {
         /// A link to the template that can be used to deploy the application using AWS CloudFormation.
         public let templateUrl: String?
 
+        @inlinable
         public init(applicationId: String? = nil, creationTime: String? = nil, expirationTime: String? = nil, semanticVersion: String? = nil, status: Status? = nil, templateId: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -703,6 +721,7 @@ extension ServerlessApplicationRepository {
         /// The semantic version of the application to get.
         public let semanticVersion: String?
 
+        @inlinable
         public init(applicationId: String, maxItems: Int? = nil, nextToken: String? = nil, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.maxItems = maxItems
@@ -733,6 +752,7 @@ extension ServerlessApplicationRepository {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dependencies: [ApplicationDependencySummary]? = nil, nextToken: String? = nil) {
             self.dependencies = dependencies
             self.nextToken = nextToken
@@ -752,6 +772,7 @@ extension ServerlessApplicationRepository {
         /// A token to specify where to start paginating.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxItems: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxItems = maxItems
@@ -780,6 +801,7 @@ extension ServerlessApplicationRepository {
         /// An array of version summaries for the application.
         public let versions: [VersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, versions: [VersionSummary]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -797,6 +819,7 @@ extension ServerlessApplicationRepository {
         /// A token to specify where to start paginating.
         public let nextToken: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -823,6 +846,7 @@ extension ServerlessApplicationRepository {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -862,6 +886,7 @@ extension ServerlessApplicationRepository {
         /// The type of the parameter.Valid values: String | Number | List&lt;Number> | CommaDelimitedList  String: A literal string.For example, users can specify "MyUserName". Number: An integer or float. AWS CloudFormation validates the parameter value as a number. However, when you use the parameter elsewhere in your template (for example, by using the Ref intrinsic function), the parameter value becomes a string.For example, users might specify "8888". List&lt;Number>: An array of integers or floats that are separated by commas. AWS CloudFormation validates the parameter value as numbers. However, when you use the parameter elsewhere in your template (for example, by using the Ref intrinsic function), the parameter value becomes a list of strings.For example, users might specify "80,20", and then Ref results in ["80","20"]. CommaDelimitedList: An array of literal strings that are separated by commas. The total number of strings should be one more than the total number of commas. Also, each member string is space-trimmed.For example, users might specify "test,dev,prod", and then Ref results in ["test","dev","prod"].
         public let type: String?
 
+        @inlinable
         public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minLength: Int? = nil, minValue: Int? = nil, name: String? = nil, noEcho: Bool? = nil, referencedByResources: [String]? = nil, type: String? = nil) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
@@ -901,6 +926,7 @@ extension ServerlessApplicationRepository {
         /// The input value associated with the parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -918,6 +944,7 @@ extension ServerlessApplicationRepository {
         /// An array of policy statements applied to the application.
         public let statements: [ApplicationPolicyStatement]?
 
+        @inlinable
         public init(applicationId: String, statements: [ApplicationPolicyStatement]? = nil) {
             self.applicationId = applicationId
             self.statements = statements
@@ -939,6 +966,7 @@ extension ServerlessApplicationRepository {
         /// An array of policy statements applied to the application.
         public let statements: [ApplicationPolicyStatement]?
 
+        @inlinable
         public init(statements: [ApplicationPolicyStatement]? = nil) {
             self.statements = statements
         }
@@ -954,6 +982,7 @@ extension ServerlessApplicationRepository {
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration Data Type.
         public let rollbackTriggers: [RollbackTrigger]?
 
+        @inlinable
         public init(monitoringTimeInMinutes: Int? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
@@ -971,6 +1000,7 @@ extension ServerlessApplicationRepository {
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger Data Type.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, type: String? = nil) {
             self.arn = arn
             self.type = type
@@ -988,6 +1018,7 @@ extension ServerlessApplicationRepository {
         /// This property corresponds to the content of the same name for the AWS CloudFormation  Tag  Data Type.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1005,6 +1036,7 @@ extension ServerlessApplicationRepository {
         /// The AWS Organization ID to unshare the application from.
         public let organizationId: String?
 
+        @inlinable
         public init(applicationId: String, organizationId: String? = nil) {
             self.applicationId = applicationId
             self.organizationId = organizationId
@@ -1038,6 +1070,7 @@ extension ServerlessApplicationRepository {
         /// A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
         public let readmeUrl: String?
 
+        @inlinable
         public init(applicationId: String, author: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, readmeBody: String? = nil, readmeUrl: String? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -1098,6 +1131,7 @@ extension ServerlessApplicationRepository {
         /// Version information about the application.
         public let version: Version?
 
+        @inlinable
         public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, isVerifiedAuthor: Bool? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, verifiedAuthorUrl: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
@@ -1151,6 +1185,7 @@ extension ServerlessApplicationRepository {
         /// A link to the packaged AWS SAM template of your application.
         public let templateUrl: String?
 
+        @inlinable
         public init(applicationId: String? = nil, creationTime: String? = nil, parameterDefinitions: [ParameterDefinition]? = nil, requiredCapabilities: [Capability]? = nil, resourcesSupported: Bool? = nil, semanticVersion: String? = nil, sourceCodeArchiveUrl: String? = nil, sourceCodeUrl: String? = nil, templateUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -1186,6 +1221,7 @@ extension ServerlessApplicationRepository {
         /// A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
         public let sourceCodeUrl: String?
 
+        @inlinable
         public init(applicationId: String? = nil, creationTime: String? = nil, semanticVersion: String? = nil, sourceCodeUrl: String? = nil) {
             self.applicationId = applicationId
             self.creationTime = creationTime

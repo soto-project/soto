@@ -133,6 +133,7 @@ extension MachineLearning {
         /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceId: String, resourceType: TaggableResourceType, tags: [Tag]) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -162,6 +163,7 @@ extension MachineLearning {
         /// The type of the ML object that was tagged.
         public let resourceType: TaggableResourceType?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -202,6 +204,7 @@ extension MachineLearning {
         public let status: EntityStatus?
         public let totalRecordCount: Int64?
 
+        @inlinable
         public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
@@ -253,6 +256,7 @@ extension MachineLearning {
         /// The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.  Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide.
         public let outputUri: String
 
+        @inlinable
         public init(batchPredictionDataSourceId: String, batchPredictionId: String, batchPredictionName: String? = nil, mlModelId: String, outputUri: String) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
@@ -290,6 +294,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the  BatchPredictionId in the request.
         public let batchPredictionId: String?
 
+        @inlinable
         public init(batchPredictionId: String? = nil) {
             self.batchPredictionId = batchPredictionId
         }
@@ -313,6 +318,7 @@ extension MachineLearning {
         /// The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.
         public let roleARN: String
 
+        @inlinable
         public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, rdsData: RDSDataSpec, roleARN: String) {
             self.computeStatistics = computeStatistics
             self.dataSourceId = dataSourceId
@@ -345,6 +351,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the  DataSourceID in the request.
         public let dataSourceId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
         }
@@ -367,6 +374,7 @@ extension MachineLearning {
         /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:    A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster   An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation
         public let roleARN: String
 
+        @inlinable
         public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, dataSpec: RedshiftDataSpec, roleARN: String) {
             self.computeStatistics = computeStatistics
             self.dataSourceId = dataSourceId
@@ -399,6 +407,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the  DataSourceID in the request.
         public let dataSourceId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
         }
@@ -418,6 +427,7 @@ extension MachineLearning {
         /// The data specification of a DataSource:   DataLocationS3 - The Amazon S3 location of the observation data.   DataSchemaLocationS3 - The Amazon S3 location of the DataSchema.   DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.    DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
         public let dataSpec: S3DataSpec
 
+        @inlinable
         public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, dataSpec: S3DataSpec) {
             self.computeStatistics = computeStatistics
             self.dataSourceId = dataSourceId
@@ -446,6 +456,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the  DataSourceID in the request.
         public let dataSourceId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
         }
@@ -465,6 +476,7 @@ extension MachineLearning {
         /// The ID of the MLModel to evaluate.  The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation.
         public let mlModelId: String
 
+        @inlinable
         public init(evaluationDataSourceId: String, evaluationId: String, evaluationName: String? = nil, mlModelId: String) {
             self.evaluationDataSourceId = evaluationDataSourceId
             self.evaluationId = evaluationId
@@ -498,6 +510,7 @@ extension MachineLearning {
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the  EvaluationId in the request.
         public let evaluationId: String?
 
+        @inlinable
         public init(evaluationId: String? = nil) {
             self.evaluationId = evaluationId
         }
@@ -523,6 +536,7 @@ extension MachineLearning {
         /// The DataSource that points to the training data.
         public let trainingDataSourceId: String
 
+        @inlinable
         public init(mlModelId: String, mlModelName: String? = nil, mlModelType: MLModelType, parameters: [String: String]? = nil, recipe: String? = nil, recipeUri: String? = nil, trainingDataSourceId: String) {
             self.mlModelId = mlModelId
             self.mlModelName = mlModelName
@@ -562,6 +576,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the  MLModelId in the request.
         public let mlModelId: String?
 
+        @inlinable
         public init(mlModelId: String? = nil) {
             self.mlModelId = mlModelId
         }
@@ -575,6 +590,7 @@ extension MachineLearning {
         /// The ID assigned to the MLModel during creation.
         public let mlModelId: String
 
+        @inlinable
         public init(mlModelId: String) {
             self.mlModelId = mlModelId
         }
@@ -596,6 +612,7 @@ extension MachineLearning {
         /// The endpoint information of the MLModel
         public let realtimeEndpointInfo: RealtimeEndpointInfo?
 
+        @inlinable
         public init(mlModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
             self.mlModelId = mlModelId
             self.realtimeEndpointInfo = realtimeEndpointInfo
@@ -639,6 +656,7 @@ extension MachineLearning {
         /// The current status of the DataSource. This element can have one of the following values:    PENDING	- Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource.   INPROGRESS - The creation process is underway.   FAILED - The request to create a DataSource did not run to completion. It is not usable.   COMPLETED - The creation process completed successfully.   DELETED	- The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
+        @inlinable
         public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rdsMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
@@ -686,6 +704,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
         public let batchPredictionId: String
 
+        @inlinable
         public init(batchPredictionId: String) {
             self.batchPredictionId = batchPredictionId
         }
@@ -705,6 +724,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
         public let batchPredictionId: String?
 
+        @inlinable
         public init(batchPredictionId: String? = nil) {
             self.batchPredictionId = batchPredictionId
         }
@@ -718,6 +738,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
 
+        @inlinable
         public init(dataSourceId: String) {
             self.dataSourceId = dataSourceId
         }
@@ -737,6 +758,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
         }
@@ -750,6 +772,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
         public let evaluationId: String
 
+        @inlinable
         public init(evaluationId: String) {
             self.evaluationId = evaluationId
         }
@@ -769,6 +792,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
 
+        @inlinable
         public init(evaluationId: String? = nil) {
             self.evaluationId = evaluationId
         }
@@ -782,6 +806,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mlModelId: String
 
+        @inlinable
         public init(mlModelId: String) {
             self.mlModelId = mlModelId
         }
@@ -801,6 +826,7 @@ extension MachineLearning {
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
         public let mlModelId: String?
 
+        @inlinable
         public init(mlModelId: String? = nil) {
             self.mlModelId = mlModelId
         }
@@ -814,6 +840,7 @@ extension MachineLearning {
         /// The ID assigned to the MLModel during creation.
         public let mlModelId: String
 
+        @inlinable
         public init(mlModelId: String) {
             self.mlModelId = mlModelId
         }
@@ -835,6 +862,7 @@ extension MachineLearning {
         /// The endpoint information of the MLModel
         public let realtimeEndpointInfo: RealtimeEndpointInfo?
 
+        @inlinable
         public init(mlModelId: String? = nil, realtimeEndpointInfo: RealtimeEndpointInfo? = nil) {
             self.mlModelId = mlModelId
             self.realtimeEndpointInfo = realtimeEndpointInfo
@@ -854,6 +882,7 @@ extension MachineLearning {
         /// One or more tags to delete.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceId: String, resourceType: TaggableResourceType, tagKeys: [String]) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -885,6 +914,7 @@ extension MachineLearning {
         /// The type of the ML object from which tags were deleted.
         public let resourceType: TaggableResourceType?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -920,6 +950,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of MLModels.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(eq: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
@@ -974,6 +1005,7 @@ extension MachineLearning {
         /// A list of BatchPrediction objects that meet the search criteria.
         public let results: [BatchPrediction]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [BatchPrediction]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -1009,6 +1041,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of DataSource.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(eq: String? = nil, filterVariable: DataSourceFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
@@ -1063,6 +1096,7 @@ extension MachineLearning {
         /// A list of DataSource that meet the search criteria.
         public let results: [DataSource]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [DataSource]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -1098,6 +1132,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of Evaluation.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(eq: String? = nil, filterVariable: EvaluationFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
@@ -1152,6 +1187,7 @@ extension MachineLearning {
         /// A list of Evaluation that meet the search criteria.
         public let results: [Evaluation]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [Evaluation]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -1187,6 +1223,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of MLModel.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(eq: String? = nil, filterVariable: MLModelFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
@@ -1241,6 +1278,7 @@ extension MachineLearning {
         /// A list of MLModel that meet the search criteria.
         public let results: [MLModel]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [MLModel]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -1258,6 +1296,7 @@ extension MachineLearning {
         /// The type of the ML object.
         public let resourceType: TaggableResourceType
 
+        @inlinable
         public init(resourceId: String, resourceType: TaggableResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1283,6 +1322,7 @@ extension MachineLearning {
         /// A list of tags associated with the ML object.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil, tags: [Tag]? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1323,6 +1363,7 @@ extension MachineLearning {
         /// The status of the evaluation. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.    INPROGRESS - The evaluation is underway.    FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.    COMPLETED - The evaluation process completed successfully.    DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
+        @inlinable
         public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1362,6 +1403,7 @@ extension MachineLearning {
         /// An ID assigned to the BatchPrediction at creation.
         public let batchPredictionId: String
 
+        @inlinable
         public init(batchPredictionId: String) {
             self.batchPredictionId = batchPredictionId
         }
@@ -1413,6 +1455,7 @@ extension MachineLearning {
         /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
         public let totalRecordCount: Int64?
 
+        @inlinable
         public init(batchPredictionDataSourceId: String? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, invalidRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, outputUri: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, totalRecordCount: Int64? = nil) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
@@ -1460,6 +1503,7 @@ extension MachineLearning {
         /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
         public let verbose: Bool?
 
+        @inlinable
         public init(dataSourceId: String, verbose: Bool? = nil) {
             self.dataSourceId = dataSourceId
             self.verbose = verbose
@@ -1516,6 +1560,7 @@ extension MachineLearning {
         /// The current status of the DataSource. This element can have one of the following values:    PENDING - Amazon ML submitted a request to create a DataSource.    INPROGRESS - The creation process is underway.    FAILED - The request to create a DataSource did not run to completion. It is not usable.    COMPLETED - The creation process completed successfully.    DELETED - The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
+        @inlinable
         public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rdsMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
@@ -1567,6 +1612,7 @@ extension MachineLearning {
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information.
         public let evaluationId: String
 
+        @inlinable
         public init(evaluationId: String) {
             self.evaluationId = evaluationId
         }
@@ -1614,6 +1660,7 @@ extension MachineLearning {
         /// The status of the evaluation. This element can have one of the following values:    PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.    INPROGRESS - The evaluation is underway.    FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.    COMPLETED - The evaluation process completed successfully.    DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
+        @inlinable
         public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mlModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1657,6 +1704,7 @@ extension MachineLearning {
         /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
         public let verbose: Bool?
 
+        @inlinable
         public init(mlModelId: String, verbose: Bool? = nil) {
             self.mlModelId = mlModelId
             self.verbose = verbose
@@ -1717,6 +1765,7 @@ extension MachineLearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
+        @inlinable
         public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mlModelId: String? = nil, mlModelType: MLModelType? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1801,6 +1850,7 @@ extension MachineLearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
+        @inlinable
         public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mlModelId: String? = nil, mlModelType: MLModelType? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithm = algorithm
             self.computeTime = computeTime
@@ -1849,6 +1899,7 @@ extension MachineLearning {
     public struct PerformanceMetrics: AWSDecodableShape {
         public let properties: [String: String]?
 
+        @inlinable
         public init(properties: [String: String]? = nil) {
             self.properties = properties
         }
@@ -1864,6 +1915,7 @@ extension MachineLearning {
         public let predictEndpoint: String
         public let record: [String: String]
 
+        @inlinable
         public init(mlModelId: String, predictEndpoint: String, record: [String: String]) {
             self.mlModelId = mlModelId
             self.predictEndpoint = predictEndpoint
@@ -1888,6 +1940,7 @@ extension MachineLearning {
     public struct PredictOutput: AWSDecodableShape {
         public let prediction: Prediction?
 
+        @inlinable
         public init(prediction: Prediction? = nil) {
             self.prediction = prediction
         }
@@ -1905,6 +1958,7 @@ extension MachineLearning {
         /// The prediction value for REGRESSION  MLModel.
         public let predictedValue: Float?
 
+        @inlinable
         public init(details: [DetailsAttributes: String]? = nil, predictedLabel: String? = nil, predictedScores: [String: Float]? = nil, predictedValue: Float? = nil) {
             self.details = details
             self.predictedLabel = predictedLabel
@@ -1948,6 +2002,7 @@ extension MachineLearning {
         /// The subnet ID to be used to access a VPC-based RDS DB instance. This attribute is used by Data Pipeline to carry out the copy task from Amazon RDS to Amazon S3.
         public let subnetId: String
 
+        @inlinable
         public init(databaseCredentials: RDSDatabaseCredentials, databaseInformation: RDSDatabase, dataRearrangement: String? = nil, dataSchema: String? = nil, dataSchemaUri: String? = nil, resourceRole: String, s3StagingLocation: String, securityGroupIds: [String], selectSqlQuery: String, serviceRole: String, subnetId: String) {
             self.databaseCredentials = databaseCredentials
             self.databaseInformation = databaseInformation
@@ -2004,6 +2059,7 @@ extension MachineLearning {
         /// The ID of an RDS DB instance.
         public let instanceIdentifier: String
 
+        @inlinable
         public init(databaseName: String, instanceIdentifier: String) {
             self.databaseName = databaseName
             self.instanceIdentifier = instanceIdentifier
@@ -2027,6 +2083,7 @@ extension MachineLearning {
         public let password: String
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -2058,6 +2115,7 @@ extension MachineLearning {
         /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.
         public let serviceRole: String?
 
+        @inlinable
         public init(database: RDSDatabase? = nil, databaseUserName: String? = nil, dataPipelineId: String? = nil, resourceRole: String? = nil, selectSqlQuery: String? = nil, serviceRole: String? = nil) {
             self.database = database
             self.databaseUserName = databaseUserName
@@ -2087,6 +2145,7 @@ extension MachineLearning {
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
         public let peakRequestsPerSecond: Int?
 
+        @inlinable
         public init(createdAt: Date? = nil, endpointStatus: RealtimeEndpointStatus? = nil, endpointUrl: String? = nil, peakRequestsPerSecond: Int? = nil) {
             self.createdAt = createdAt
             self.endpointStatus = endpointStatus
@@ -2122,6 +2181,7 @@ extension MachineLearning {
         /// Describes the SQL Query to execute on an Amazon Redshift database for an Amazon Redshift DataSource.
         public let selectSqlQuery: String
 
+        @inlinable
         public init(databaseCredentials: RedshiftDatabaseCredentials, databaseInformation: RedshiftDatabase, dataRearrangement: String? = nil, dataSchema: String? = nil, dataSchemaUri: String? = nil, s3StagingLocation: String, selectSqlQuery: String) {
             self.databaseCredentials = databaseCredentials
             self.databaseInformation = databaseInformation
@@ -2159,6 +2219,7 @@ extension MachineLearning {
         public let clusterIdentifier: String
         public let databaseName: String
 
+        @inlinable
         public init(clusterIdentifier: String, databaseName: String) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseName = databaseName
@@ -2183,6 +2244,7 @@ extension MachineLearning {
         public let password: String
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -2207,6 +2269,7 @@ extension MachineLearning {
         ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput.
         public let selectSqlQuery: String?
 
+        @inlinable
         public init(databaseUserName: String? = nil, redshiftDatabase: RedshiftDatabase? = nil, selectSqlQuery: String? = nil) {
             self.databaseUserName = databaseUserName
             self.redshiftDatabase = redshiftDatabase
@@ -2234,6 +2297,7 @@ extension MachineLearning {
         /// Describes the schema location in Amazon S3. You must provide either the  DataSchema or the DataSchemaLocationS3.
         public let dataSchemaLocationS3: String?
 
+        @inlinable
         public init(dataLocationS3: String, dataRearrangement: String? = nil, dataSchema: String? = nil, dataSchemaLocationS3: String? = nil) {
             self.dataLocationS3 = dataLocationS3
             self.dataRearrangement = dataRearrangement
@@ -2263,6 +2327,7 @@ extension MachineLearning {
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2288,6 +2353,7 @@ extension MachineLearning {
         /// A new user-supplied name or description of the BatchPrediction.
         public let batchPredictionName: String
 
+        @inlinable
         public init(batchPredictionId: String, batchPredictionName: String) {
             self.batchPredictionId = batchPredictionId
             self.batchPredictionName = batchPredictionName
@@ -2311,6 +2377,7 @@ extension MachineLearning {
         /// The ID assigned to the BatchPrediction during creation.  This value should be identical to the value  of the BatchPredictionId in the request.
         public let batchPredictionId: String?
 
+        @inlinable
         public init(batchPredictionId: String? = nil) {
             self.batchPredictionId = batchPredictionId
         }
@@ -2326,6 +2393,7 @@ extension MachineLearning {
         /// A new user-supplied name or description of the DataSource that will replace the current description.
         public let dataSourceName: String
 
+        @inlinable
         public init(dataSourceId: String, dataSourceName: String) {
             self.dataSourceId = dataSourceId
             self.dataSourceName = dataSourceName
@@ -2349,6 +2417,7 @@ extension MachineLearning {
         /// The ID assigned to the DataSource during creation.  This value should be identical to the value  of the DataSourceID in the request.
         public let dataSourceId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil) {
             self.dataSourceId = dataSourceId
         }
@@ -2364,6 +2433,7 @@ extension MachineLearning {
         /// A new user-supplied name or description of the Evaluation that will replace the current content.
         public let evaluationName: String
 
+        @inlinable
         public init(evaluationId: String, evaluationName: String) {
             self.evaluationId = evaluationId
             self.evaluationName = evaluationName
@@ -2387,6 +2457,7 @@ extension MachineLearning {
         /// The ID assigned to the Evaluation during creation.  This value should be identical to the value  of the Evaluation in the request.
         public let evaluationId: String?
 
+        @inlinable
         public init(evaluationId: String? = nil) {
             self.evaluationId = evaluationId
         }
@@ -2404,6 +2475,7 @@ extension MachineLearning {
         /// The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
         public let scoreThreshold: Float?
 
+        @inlinable
         public init(mlModelId: String, mlModelName: String? = nil, scoreThreshold: Float? = nil) {
             self.mlModelId = mlModelId
             self.mlModelName = mlModelName
@@ -2429,6 +2501,7 @@ extension MachineLearning {
         /// The ID assigned to the MLModel during creation.  This value should be identical to the value  of the MLModelID in the request.
         public let mlModelId: String?
 
+        @inlinable
         public init(mlModelId: String? = nil) {
             self.mlModelId = mlModelId
         }

@@ -34,6 +34,7 @@ extension PersonalizeEvents {
         /// A string map of action-specific metadata. Each element in the map consists of a key-value pair.  For example, {"value": "100"}. The keys use camel case names that match the fields in the schema for the Actions dataset. In the previous example, the value matches the 'VALUE' field defined in the Actions schema. For categorical string data, to include multiple categories for a single action,  separate each category with a pipe separator (|). For example, \"Deluxe|Premium\".
         public let properties: String?
 
+        @inlinable
         public init(actionId: String, properties: String? = nil) {
             self.actionId = actionId
             self.properties = properties
@@ -72,6 +73,7 @@ extension PersonalizeEvents {
         /// The ID of the user who interacted with the action. This corresponds to the USER_ID  field of the Action interaction schema.
         public let userId: String?
 
+        @inlinable
         public init(actionId: String, eventId: String? = nil, eventType: String, impression: [String]? = nil, properties: String? = nil, recommendationId: String? = nil, sessionId: String, timestamp: Date, userId: String? = nil) {
             self.actionId = actionId
             self.eventId = eventId
@@ -140,6 +142,7 @@ extension PersonalizeEvents {
         /// The timestamp (in Unix time) on the client side when the event occurred.
         public let sentAt: Date
 
+        @inlinable
         public init(eventId: String? = nil, eventType: String, eventValue: Float? = nil, impression: [String]? = nil, itemId: String? = nil, metricAttribution: MetricAttribution? = nil, properties: String? = nil, recommendationId: String? = nil, sentAt: Date) {
             self.eventId = eventId
             self.eventType = eventType
@@ -191,6 +194,7 @@ extension PersonalizeEvents {
         /// A string map of item-specific metadata. Each element in the map consists of a key-value pair.  For example, {"numberOfRatings": "12"}. The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item,  separate each category with a pipe separator (|). For example, \"Horror|Action\".
         public let properties: String?
 
+        @inlinable
         public init(itemId: String, properties: String? = nil) {
             self.itemId = itemId
             self.properties = properties
@@ -213,6 +217,7 @@ extension PersonalizeEvents {
         /// The source of the event, such as a third party.
         public let eventAttributionSource: String
 
+        @inlinable
         public init(eventAttributionSource: String) {
             self.eventAttributionSource = eventAttributionSource
         }
@@ -233,6 +238,7 @@ extension PersonalizeEvents {
         /// The ID of your action interaction event tracker. When you create an Action interactions dataset, Amazon Personalize creates an action interaction event tracker for you. For more information, see Action interaction event tracker ID.
         public let trackingId: String
 
+        @inlinable
         public init(actionInteractions: [ActionInteraction], trackingId: String) {
             self.actionInteractions = actionInteractions
             self.trackingId = trackingId
@@ -260,6 +266,7 @@ extension PersonalizeEvents {
         /// The Amazon Resource Name (ARN) of the Actions dataset you are adding the action or actions to.
         public let datasetArn: String
 
+        @inlinable
         public init(actions: [Action], datasetArn: String) {
             self.actions = actions
             self.datasetArn = datasetArn
@@ -291,6 +298,7 @@ extension PersonalizeEvents {
         /// The user associated with the event.
         public let userId: String?
 
+        @inlinable
         public init(eventList: [Event], sessionId: String, trackingId: String, userId: String? = nil) {
             self.eventList = eventList
             self.sessionId = sessionId
@@ -326,6 +334,7 @@ extension PersonalizeEvents {
         /// A list of item data.
         public let items: [Item]
 
+        @inlinable
         public init(datasetArn: String, items: [Item]) {
             self.datasetArn = datasetArn
             self.items = items
@@ -353,6 +362,7 @@ extension PersonalizeEvents {
         /// A list of user data.
         public let users: [User]
 
+        @inlinable
         public init(datasetArn: String, users: [User]) {
             self.datasetArn = datasetArn
             self.users = users
@@ -380,6 +390,7 @@ extension PersonalizeEvents {
         /// The ID associated with the user.
         public let userId: String
 
+        @inlinable
         public init(properties: String? = nil, userId: String) {
             self.properties = properties
             self.userId = userId

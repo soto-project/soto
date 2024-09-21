@@ -38,6 +38,7 @@ extension Route53RecoveryCluster {
         /// The Amazon Resource Name (ARN) for the routing control that you want to get the state for.
         public let routingControlArn: String
 
+        @inlinable
         public init(routingControlArn: String) {
             self.routingControlArn = routingControlArn
         }
@@ -61,6 +62,7 @@ extension Route53RecoveryCluster {
         /// The state of the routing control.
         public let routingControlState: RoutingControlState
 
+        @inlinable
         public init(routingControlArn: String, routingControlName: String? = nil, routingControlState: RoutingControlState) {
             self.routingControlArn = routingControlArn
             self.routingControlName = routingControlName
@@ -82,6 +84,7 @@ extension Route53RecoveryCluster {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(controlPanelArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.controlPanelArn = controlPanelArn
             self.maxResults = maxResults
@@ -111,6 +114,7 @@ extension Route53RecoveryCluster {
         /// The list of routing controls.
         public let routingControls: [RoutingControl]
 
+        @inlinable
         public init(nextToken: String? = nil, routingControls: [RoutingControl]) {
             self.nextToken = nextToken
             self.routingControls = routingControls
@@ -138,6 +142,7 @@ extension Route53RecoveryCluster {
         /// 			the state is set to OFF, traffic does not flow.
         public let routingControlState: RoutingControlState?
 
+        @inlinable
         public init(controlPanelArn: String? = nil, controlPanelName: String? = nil, owner: String? = nil, routingControlArn: String? = nil, routingControlName: String? = nil, routingControlState: RoutingControlState? = nil) {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
@@ -163,6 +168,7 @@ extension Route53RecoveryCluster {
         /// The routing control state in a set of routing control state entries.
         public let routingControlState: RoutingControlState
 
+        @inlinable
         public init(routingControlArn: String, routingControlState: RoutingControlState) {
             self.routingControlArn = routingControlArn
             self.routingControlState = routingControlState
@@ -191,6 +197,7 @@ extension Route53RecoveryCluster {
         /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
         public let safetyRulesToOverride: [String]?
 
+        @inlinable
         public init(routingControlArn: String, routingControlState: RoutingControlState, safetyRulesToOverride: [String]? = nil) {
             self.routingControlArn = routingControlArn
             self.routingControlState = routingControlState
@@ -228,6 +235,7 @@ extension Route53RecoveryCluster {
         /// A set of routing control entries that you want to update.
         public let updateRoutingControlStateEntries: [UpdateRoutingControlStateEntry]
 
+        @inlinable
         public init(safetyRulesToOverride: [String]? = nil, updateRoutingControlStateEntries: [UpdateRoutingControlStateEntry]) {
             self.safetyRulesToOverride = safetyRulesToOverride
             self.updateRoutingControlStateEntries = updateRoutingControlStateEntries

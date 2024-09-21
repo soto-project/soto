@@ -116,6 +116,7 @@ extension ControlTower {
         /// A status message that gives more information about the operation's status, if applicable.
         public let statusMessage: String?
 
+        @inlinable
         public init(endTime: Date? = nil, operationIdentifier: String? = nil, operationType: BaselineOperationType? = nil, startTime: Date? = nil, status: BaselineOperationStatus? = nil, statusMessage: String? = nil) {
             self.endTime = endTime
             self.operationIdentifier = operationIdentifier
@@ -143,6 +144,7 @@ extension ControlTower {
         /// The human-readable name of a Baseline.
         public let name: String
 
+        @inlinable
         public init(arn: String, description: String? = nil, name: String) {
             self.arn = arn
             self.description = description
@@ -178,6 +180,7 @@ extension ControlTower {
         /// The target upon which the control operation is working.
         public let targetIdentifier: String?
 
+        @inlinable
         public init(controlIdentifier: String? = nil, enabledControlIdentifier: String? = nil, endTime: Date? = nil, operationIdentifier: String? = nil, operationType: ControlOperationType? = nil, startTime: Date? = nil, status: ControlOperationStatus? = nil, statusMessage: String? = nil, targetIdentifier: String? = nil) {
             self.controlIdentifier = controlIdentifier
             self.enabledControlIdentifier = enabledControlIdentifier
@@ -215,6 +218,7 @@ extension ControlTower {
         /// The set of targetIdentifier objects returned by the filter.
         public let targetIdentifiers: [String]?
 
+        @inlinable
         public init(controlIdentifiers: [String]? = nil, controlOperationTypes: [ControlOperationType]? = nil, enabledControlIdentifiers: [String]? = nil, statuses: [ControlOperationStatus]? = nil, targetIdentifiers: [String]? = nil) {
             self.controlIdentifiers = controlIdentifiers
             self.controlOperationTypes = controlOperationTypes
@@ -282,6 +286,7 @@ extension ControlTower {
         /// The unique identifier of the target of a control operation.
         public let targetIdentifier: String?
 
+        @inlinable
         public init(controlIdentifier: String? = nil, enabledControlIdentifier: String? = nil, endTime: Date? = nil, operationIdentifier: String? = nil, operationType: ControlOperationType? = nil, startTime: Date? = nil, status: ControlOperationStatus? = nil, statusMessage: String? = nil, targetIdentifier: String? = nil) {
             self.controlIdentifier = controlIdentifier
             self.enabledControlIdentifier = enabledControlIdentifier
@@ -315,6 +320,7 @@ extension ControlTower {
         /// The landing zone version, for example, 3.0.
         public let version: String
 
+        @inlinable
         public init(manifest: String, tags: [String: String]? = nil, version: String) {
             self.manifest = manifest
             self.tags = tags
@@ -346,6 +352,7 @@ extension ControlTower {
         /// A unique identifier assigned to a CreateLandingZone operation. You can use this  identifier as an input of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
+        @inlinable
         public init(arn: String, operationIdentifier: String) {
             self.arn = arn
             self.operationIdentifier = operationIdentifier
@@ -361,6 +368,7 @@ extension ControlTower {
         /// The unique identifier of the landing zone.
         public let landingZoneIdentifier: String
 
+        @inlinable
         public init(landingZoneIdentifier: String) {
             self.landingZoneIdentifier = landingZoneIdentifier
         }
@@ -374,6 +382,7 @@ extension ControlTower {
         /// &gt;A unique identifier assigned to a DeleteLandingZone operation. You can use this  identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -387,6 +396,7 @@ extension ControlTower {
         /// Identifier of the EnabledBaseline resource to be deactivated, in ARN format.
         public let enabledBaselineIdentifier: String
 
+        @inlinable
         public init(enabledBaselineIdentifier: String) {
             self.enabledBaselineIdentifier = enabledBaselineIdentifier
         }
@@ -406,6 +416,7 @@ extension ControlTower {
         /// The ID (in UUID format) of the asynchronous DisableBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -421,6 +432,7 @@ extension ControlTower {
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
         public let targetIdentifier: String
 
+        @inlinable
         public init(controlIdentifier: String, targetIdentifier: String) {
             self.controlIdentifier = controlIdentifier
             self.targetIdentifier = targetIdentifier
@@ -445,6 +457,7 @@ extension ControlTower {
         /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -458,6 +471,7 @@ extension ControlTower {
         ///  The drift status of the enabled control. Valid values:    DRIFTED: The enabledControl deployed in this configuration doesn’t match the configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The enabledControl deployed in this configuration matches the configuration that Amazon Web Services Control Tower expected.    NOT_CHECKING: Amazon Web Services Control Tower does not check drift for this enabled control. Drift is not supported for the control type.    UNKNOWN: Amazon Web Services Control Tower is not able to check the drift status for the enabled control.
         public let driftStatus: DriftStatus?
 
+        @inlinable
         public init(driftStatus: DriftStatus? = nil) {
             self.driftStatus = driftStatus
         }
@@ -479,6 +493,7 @@ extension ControlTower {
         /// The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets.
         public let targetIdentifier: String
 
+        @inlinable
         public init(baselineIdentifier: String, baselineVersion: String, parameters: [EnabledBaselineParameter]? = nil, tags: [String: String]? = nil, targetIdentifier: String) {
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
@@ -520,6 +535,7 @@ extension ControlTower {
         /// The ID (in UUID format) of the asynchronous EnableBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
         public let operationIdentifier: String
 
+        @inlinable
         public init(arn: String, operationIdentifier: String) {
             self.arn = arn
             self.operationIdentifier = operationIdentifier
@@ -541,6 +557,7 @@ extension ControlTower {
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
         public let targetIdentifier: String
 
+        @inlinable
         public init(controlIdentifier: String, parameters: [EnabledControlParameter]? = nil, tags: [String: String]? = nil, targetIdentifier: String) {
             self.controlIdentifier = controlIdentifier
             self.parameters = parameters
@@ -577,6 +594,7 @@ extension ControlTower {
         /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
         public let operationIdentifier: String
 
+        @inlinable
         public init(arn: String? = nil, operationIdentifier: String) {
             self.arn = arn
             self.operationIdentifier = operationIdentifier
@@ -601,6 +619,7 @@ extension ControlTower {
         /// The target on which to enable the Baseline.
         public let targetIdentifier: String
 
+        @inlinable
         public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, parameters: [EnabledBaselineParameterSummary]? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
@@ -626,6 +645,7 @@ extension ControlTower {
         /// Identifiers for the targets of the Baseline filter operation.
         public let targetIdentifiers: [String]?
 
+        @inlinable
         public init(baselineIdentifiers: [String]? = nil, targetIdentifiers: [String]? = nil) {
             self.baselineIdentifiers = baselineIdentifiers
             self.targetIdentifiers = targetIdentifiers
@@ -660,6 +680,7 @@ extension ControlTower {
         /// A low-level Document object of any type (for example, a Java Object).
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -677,6 +698,7 @@ extension ControlTower {
         /// A low-level document object of any type (for example, a Java Object).
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -699,6 +721,7 @@ extension ControlTower {
         /// The target upon which the baseline is enabled.
         public let targetIdentifier: String
 
+        @inlinable
         public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
@@ -732,6 +755,7 @@ extension ControlTower {
         /// Target Amazon Web Services Regions for the enabled control.
         public let targetRegions: [Region]?
 
+        @inlinable
         public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, parameters: [EnabledControlParameterSummary]? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil, targetRegions: [Region]? = nil) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
@@ -761,6 +785,7 @@ extension ControlTower {
         /// A list of EnablementStatus items.
         public let statuses: [EnablementStatus]?
 
+        @inlinable
         public init(controlIdentifiers: [String]? = nil, driftStatuses: [DriftStatus]? = nil, statuses: [EnablementStatus]? = nil) {
             self.controlIdentifiers = controlIdentifiers
             self.driftStatuses = driftStatuses
@@ -794,6 +819,7 @@ extension ControlTower {
         /// The value of a key/value pair.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -811,6 +837,7 @@ extension ControlTower {
         /// The value of a key/value pair.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -834,6 +861,7 @@ extension ControlTower {
         /// The ARN of the organizational unit.
         public let targetIdentifier: String?
 
+        @inlinable
         public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
@@ -857,6 +885,7 @@ extension ControlTower {
         ///  The deployment status of the enabled resource. Valid values:    SUCCEEDED: The EnabledControl or EnabledBaseline configuration was deployed successfully.    UNDER_CHANGE: The EnabledControl or EnabledBaseline configuration is changing.     FAILED: The EnabledControl or EnabledBaseline configuration failed to deploy.
         public let status: EnablementStatus?
 
+        @inlinable
         public init(lastOperationIdentifier: String? = nil, status: EnablementStatus? = nil) {
             self.lastOperationIdentifier = lastOperationIdentifier
             self.status = status
@@ -872,6 +901,7 @@ extension ControlTower {
         /// The ARN of the Baseline resource to be retrieved.
         public let baselineIdentifier: String
 
+        @inlinable
         public init(baselineIdentifier: String) {
             self.baselineIdentifier = baselineIdentifier
         }
@@ -889,6 +919,7 @@ extension ControlTower {
         /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset).
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -908,6 +939,7 @@ extension ControlTower {
         /// A baselineOperation object that shows information about the specified operation ID.
         public let baselineOperation: BaselineOperation
 
+        @inlinable
         public init(baselineOperation: BaselineOperation) {
             self.baselineOperation = baselineOperation
         }
@@ -925,6 +957,7 @@ extension ControlTower {
         /// A user-friendly name for the baseline.
         public let name: String
 
+        @inlinable
         public init(arn: String, description: String? = nil, name: String) {
             self.arn = arn
             self.description = description
@@ -942,6 +975,7 @@ extension ControlTower {
         /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -961,6 +995,7 @@ extension ControlTower {
         /// An operation performed by the control.
         public let controlOperation: ControlOperation
 
+        @inlinable
         public init(controlOperation: ControlOperation) {
             self.controlOperation = controlOperation
         }
@@ -974,6 +1009,7 @@ extension ControlTower {
         /// Identifier of the EnabledBaseline resource to be retrieved, in ARN format.
         public let enabledBaselineIdentifier: String
 
+        @inlinable
         public init(enabledBaselineIdentifier: String) {
             self.enabledBaselineIdentifier = enabledBaselineIdentifier
         }
@@ -993,6 +1029,7 @@ extension ControlTower {
         /// Details of the EnabledBaseline resource.
         public let enabledBaselineDetails: EnabledBaselineDetails?
 
+        @inlinable
         public init(enabledBaselineDetails: EnabledBaselineDetails? = nil) {
             self.enabledBaselineDetails = enabledBaselineDetails
         }
@@ -1006,6 +1043,7 @@ extension ControlTower {
         /// The controlIdentifier of the enabled control.
         public let enabledControlIdentifier: String
 
+        @inlinable
         public init(enabledControlIdentifier: String) {
             self.enabledControlIdentifier = enabledControlIdentifier
         }
@@ -1025,6 +1063,7 @@ extension ControlTower {
         /// Information about the enabled control.
         public let enabledControlDetails: EnabledControlDetails
 
+        @inlinable
         public init(enabledControlDetails: EnabledControlDetails) {
             self.enabledControlDetails = enabledControlDetails
         }
@@ -1038,6 +1077,7 @@ extension ControlTower {
         /// The unique identifier of the landing zone.
         public let landingZoneIdentifier: String
 
+        @inlinable
         public init(landingZoneIdentifier: String) {
             self.landingZoneIdentifier = landingZoneIdentifier
         }
@@ -1051,6 +1091,7 @@ extension ControlTower {
         /// A unique identifier assigned to a landing zone operation.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -1070,6 +1111,7 @@ extension ControlTower {
         /// Details about a landing zone operation.
         public let operationDetails: LandingZoneOperationDetail
 
+        @inlinable
         public init(operationDetails: LandingZoneOperationDetail) {
             self.operationDetails = operationDetails
         }
@@ -1083,6 +1125,7 @@ extension ControlTower {
         /// Information about the landing zone.
         public let landingZone: LandingZoneDetail
 
+        @inlinable
         public init(landingZone: LandingZoneDetail) {
             self.landingZone = landingZone
         }
@@ -1106,6 +1149,7 @@ extension ControlTower {
         /// The landing zone's current deployed version.
         public let version: String
 
+        @inlinable
         public init(arn: String? = nil, driftStatus: LandingZoneDriftStatusSummary? = nil, latestAvailableVersion: String? = nil, manifest: String, status: LandingZoneStatus? = nil, version: String) {
             self.arn = arn
             self.driftStatus = driftStatus
@@ -1129,6 +1173,7 @@ extension ControlTower {
         /// The drift status of the landing zone.  Valid values:    DRIFTED: The landing zone deployed in this configuration does not match the  configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The landing zone deployed in this configuration matches the  configuration that Amazon Web Services Control Tower expected.
         public let status: LandingZoneDriftStatus?
 
+        @inlinable
         public init(status: LandingZoneDriftStatus? = nil) {
             self.status = status
         }
@@ -1154,6 +1199,7 @@ extension ControlTower {
         /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
         public let statusMessage: String?
 
+        @inlinable
         public init(endTime: Date? = nil, operationIdentifier: String? = nil, operationType: LandingZoneOperationType? = nil, startTime: Date? = nil, status: LandingZoneOperationStatus? = nil, statusMessage: String? = nil) {
             self.endTime = endTime
             self.operationIdentifier = operationIdentifier
@@ -1179,6 +1225,7 @@ extension ControlTower {
         /// The set of landing zone operation types selected by the filter.
         public let types: [LandingZoneOperationType]?
 
+        @inlinable
         public init(statuses: [LandingZoneOperationStatus]? = nil, types: [LandingZoneOperationType]? = nil) {
             self.statuses = statuses
             self.types = types
@@ -1205,6 +1252,7 @@ extension ControlTower {
         /// The status of the landing zone operation.
         public let status: LandingZoneOperationStatus?
 
+        @inlinable
         public init(operationIdentifier: String? = nil, operationType: LandingZoneOperationType? = nil, status: LandingZoneOperationStatus? = nil) {
             self.operationIdentifier = operationIdentifier
             self.operationType = operationType
@@ -1222,6 +1270,7 @@ extension ControlTower {
         /// The ARN of the landing zone.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1237,6 +1286,7 @@ extension ControlTower {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1259,6 +1309,7 @@ extension ControlTower {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(baselines: [BaselineSummary], nextToken: String? = nil) {
             self.baselines = baselines
             self.nextToken = nextToken
@@ -1278,6 +1329,7 @@ extension ControlTower {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ControlOperationFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1304,6 +1356,7 @@ extension ControlTower {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(controlOperations: [ControlOperationSummary], nextToken: String? = nil) {
             self.controlOperations = controlOperations
             self.nextToken = nextToken
@@ -1323,6 +1376,7 @@ extension ControlTower {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EnabledBaselineFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1349,6 +1403,7 @@ extension ControlTower {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(enabledBaselines: [EnabledBaselineSummary], nextToken: String? = nil) {
             self.enabledBaselines = enabledBaselines
             self.nextToken = nextToken
@@ -1370,6 +1425,7 @@ extension ControlTower {
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
         public let targetIdentifier: String?
 
+        @inlinable
         public init(filter: EnabledControlFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, targetIdentifier: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1400,6 +1456,7 @@ extension ControlTower {
         /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(enabledControls: [EnabledControlSummary], nextToken: String? = nil) {
             self.enabledControls = enabledControls
             self.nextToken = nextToken
@@ -1419,6 +1476,7 @@ extension ControlTower {
         /// The token to continue the list from a previous API call with the same parameters.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: LandingZoneOperationFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1444,6 +1502,7 @@ extension ControlTower {
         /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(landingZoneOperations: [LandingZoneOperationSummary], nextToken: String? = nil) {
             self.landingZoneOperations = landingZoneOperations
             self.nextToken = nextToken
@@ -1461,6 +1520,7 @@ extension ControlTower {
         /// The token to continue the list from a previous API call with the same parameters.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1483,6 +1543,7 @@ extension ControlTower {
         /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(landingZones: [LandingZoneSummary], nextToken: String? = nil) {
             self.landingZones = landingZones
             self.nextToken = nextToken
@@ -1498,6 +1559,7 @@ extension ControlTower {
         ///  The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1521,6 +1583,7 @@ extension ControlTower {
         /// A list of tags, as key:value strings.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1534,6 +1597,7 @@ extension ControlTower {
         /// The Amazon Web Services Region name.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1547,6 +1611,7 @@ extension ControlTower {
         /// Specifies the ID of the EnabledBaseline resource to be re-enabled, in ARN format.
         public let enabledBaselineIdentifier: String
 
+        @inlinable
         public init(enabledBaselineIdentifier: String) {
             self.enabledBaselineIdentifier = enabledBaselineIdentifier
         }
@@ -1566,6 +1631,7 @@ extension ControlTower {
         /// The ID (in UUID format) of the asynchronous ResetEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -1579,6 +1645,7 @@ extension ControlTower {
         /// The unique identifier of the landing zone.
         public let landingZoneIdentifier: String
 
+        @inlinable
         public init(landingZoneIdentifier: String) {
             self.landingZoneIdentifier = landingZoneIdentifier
         }
@@ -1592,6 +1659,7 @@ extension ControlTower {
         /// A unique identifier assigned to a ResetLandingZone operation. You can use this  identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -1607,6 +1675,7 @@ extension ControlTower {
         /// Tags to be applied to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1646,6 +1715,7 @@ extension ControlTower {
         /// Tag keys to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1684,6 +1754,7 @@ extension ControlTower {
         /// Parameters to apply when making an update.
         public let parameters: [EnabledBaselineParameter]?
 
+        @inlinable
         public init(baselineVersion: String, enabledBaselineIdentifier: String, parameters: [EnabledBaselineParameter]? = nil) {
             self.baselineVersion = baselineVersion
             self.enabledBaselineIdentifier = enabledBaselineIdentifier
@@ -1710,6 +1781,7 @@ extension ControlTower {
         /// The ID (in UUID format) of the asynchronous UpdateEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -1725,6 +1797,7 @@ extension ControlTower {
         /// A key/value pair, where Key is of type String and Value is of type Document.
         public let parameters: [EnabledControlParameter]
 
+        @inlinable
         public init(enabledControlIdentifier: String, parameters: [EnabledControlParameter]) {
             self.enabledControlIdentifier = enabledControlIdentifier
             self.parameters = parameters
@@ -1746,6 +1819,7 @@ extension ControlTower {
         ///  The operation identifier for this UpdateEnabledControl operation.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }
@@ -1763,6 +1837,7 @@ extension ControlTower {
         /// The landing zone version, for example, 3.2.
         public let version: String
 
+        @inlinable
         public init(landingZoneIdentifier: String, manifest: String, version: String) {
             self.landingZoneIdentifier = landingZoneIdentifier
             self.manifest = manifest
@@ -1786,6 +1861,7 @@ extension ControlTower {
         /// A unique identifier assigned to a UpdateLandingZone operation. You can use this  identifier as an input of GetLandingZoneOperation to check the operation's status.
         public let operationIdentifier: String
 
+        @inlinable
         public init(operationIdentifier: String) {
             self.operationIdentifier = operationIdentifier
         }

@@ -41,6 +41,7 @@ extension MigrationHubConfig {
         /// The account for which this command sets up a home region control. The Target is always of type ACCOUNT.
         public let target: Target
 
+        @inlinable
         public init(dryRun: Bool? = nil, homeRegion: String, target: Target) {
             self.dryRun = dryRun
             self.homeRegion = homeRegion
@@ -65,6 +66,7 @@ extension MigrationHubConfig {
         /// This object is the HomeRegionControl object that's returned by a successful call to CreateHomeRegionControl.
         public let homeRegionControl: HomeRegionControl?
 
+        @inlinable
         public init(homeRegionControl: HomeRegionControl? = nil) {
             self.homeRegionControl = homeRegionControl
         }
@@ -78,6 +80,7 @@ extension MigrationHubConfig {
         /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
         public let controlId: String
 
+        @inlinable
         public init(controlId: String) {
             self.controlId = controlId
         }
@@ -109,6 +112,7 @@ extension MigrationHubConfig {
         /// The target parameter specifies the identifier to which the home region is applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
         public let target: Target?
 
+        @inlinable
         public init(controlId: String? = nil, homeRegion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, target: Target? = nil) {
             self.controlId = controlId
             self.homeRegion = homeRegion
@@ -146,6 +150,7 @@ extension MigrationHubConfig {
         /// If a NextToken was returned by a previous call, more results are available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
 
+        @inlinable
         public init(homeRegionControls: [HomeRegionControl]? = nil, nextToken: String? = nil) {
             self.homeRegionControls = homeRegionControls
             self.nextToken = nextToken
@@ -165,6 +170,7 @@ extension MigrationHubConfig {
         /// The name of the home region of the calling account.
         public let homeRegion: String?
 
+        @inlinable
         public init(homeRegion: String? = nil) {
             self.homeRegion = homeRegion
         }
@@ -184,6 +190,7 @@ extension MigrationHubConfig {
         /// The target parameter specifies the identifier to which the home region is applied, which is always an ACCOUNT. It applies the home region to the current ACCOUNT.
         public let target: Target?
 
+        @inlinable
         public init(controlId: String? = nil, homeRegion: String? = nil, requestedTime: Date? = nil, target: Target? = nil) {
             self.controlId = controlId
             self.homeRegion = homeRegion
@@ -205,6 +212,7 @@ extension MigrationHubConfig {
         /// The target type is always an ACCOUNT.
         public let type: TargetType
 
+        @inlinable
         public init(id: String? = nil, type: TargetType) {
             self.id = id
             self.type = type

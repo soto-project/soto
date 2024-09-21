@@ -132,6 +132,7 @@ extension MediaTailor {
         /// AWS Secrets Manager access token configuration parameters.
         public let secretsManagerAccessTokenConfiguration: SecretsManagerAccessTokenConfiguration?
 
+        @inlinable
         public init(accessType: AccessType? = nil, secretsManagerAccessTokenConfiguration: SecretsManagerAccessTokenConfiguration? = nil) {
             self.accessType = accessType
             self.secretsManagerAccessTokenConfiguration = secretsManagerAccessTokenConfiguration
@@ -157,6 +158,7 @@ extension MediaTailor {
         /// Defines the SCTE-35 time_signal message inserted around the ad. Programs on a channel's schedule can be configured with one or more ad breaks. You can attach a splice_insert SCTE-35 message to the ad break. This message provides basic metadata about the ad break. See section 9.7.4 of the 2022 SCTE-35 specification for more information.
         public let timeSignalMessage: TimeSignalMessage?
 
+        @inlinable
         public init(adBreakMetadata: [KeyValuePair]? = nil, messageType: MessageType? = nil, offsetMillis: Int64, slate: SlateSource? = nil, spliceInsertMessage: SpliceInsertMessage? = nil, timeSignalMessage: TimeSignalMessage? = nil) {
             self.adBreakMetadata = adBreakMetadata
             self.messageType = messageType
@@ -180,6 +182,7 @@ extension MediaTailor {
         /// The offset in milliseconds from the start of the VOD source at which an ad marker was detected.
         public let offsetMillis: Int64
 
+        @inlinable
         public init(offsetMillis: Int64) {
             self.offsetMillis = offsetMillis
         }
@@ -193,6 +196,7 @@ extension MediaTailor {
         /// Enables ad marker passthrough for your configuration.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -217,6 +221,7 @@ extension MediaTailor {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(alertCode: String, alertMessage: String, category: AlertCategory? = nil, lastModifiedTime: Date, relatedResourceArns: [String], resourceArn: String) {
             self.alertCode = alertCode
             self.alertMessage = alertMessage
@@ -251,6 +256,7 @@ extension MediaTailor {
         /// The name of the VOD source for alternateMedia.
         public let vodSourceName: String?
 
+        @inlinable
         public init(adBreaks: [AdBreak]? = nil, clipRange: ClipRange? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, scheduledStartTimeMillis: Int64? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.clipRange = clipRange
@@ -278,6 +284,7 @@ extension MediaTailor {
         /// The Audience defined in AudienceMedia.
         public let audience: String?
 
+        @inlinable
         public init(alternateMedia: [AlternateMedia]? = nil, audience: String? = nil) {
             self.alternateMedia = alternateMedia
             self.audience = audience
@@ -295,6 +302,7 @@ extension MediaTailor {
         /// For the DynamicVariable specified in AvailMatchingCriteria, the Operator that is used for the comparison.
         public let `operator`: Operator
 
+        @inlinable
         public init(dynamicVariable: String, operator: Operator) {
             self.dynamicVariable = dynamicVariable
             self.`operator` = `operator`
@@ -314,6 +322,7 @@ extension MediaTailor {
         /// A live edge offset time in HH:MM:SS. MediaTailor won't fill ad breaks on or behind this time in the manifest lookback window. If Value is set to 00:00:00, it is in sync with the live edge, and MediaTailor won't fill any ad breaks on or behind the live edge. If you set a Value time, MediaTailor won't fill any ad breaks on or behind this time in the manifest lookback window. For example, if you set 00:45:00, then MediaTailor will fill ad breaks that occur within 45 minutes behind the live edge, but won't fill ad breaks on or behind 45 minutes behind the live edge.
         public let value: String?
 
+        @inlinable
         public init(fillPolicy: FillPolicy? = nil, mode: Mode? = nil, value: String? = nil) {
             self.fillPolicy = fillPolicy
             self.mode = mode
@@ -333,6 +342,7 @@ extension MediaTailor {
         /// The URL for the start bumper asset.
         public let startUrl: String?
 
+        @inlinable
         public init(endUrl: String? = nil, startUrl: String? = nil) {
             self.endUrl = endUrl
             self.startUrl = startUrl
@@ -350,6 +360,7 @@ extension MediaTailor {
         /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
         public let contentSegmentUrlPrefix: String?
 
+        @inlinable
         public init(adSegmentUrlPrefix: String? = nil, contentSegmentUrlPrefix: String? = nil) {
             self.adSegmentUrlPrefix = adSegmentUrlPrefix
             self.contentSegmentUrlPrefix = contentSegmentUrlPrefix
@@ -389,6 +400,7 @@ extension MediaTailor {
         /// The tier for this channel. STANDARD tier channels can contain live programs.
         public let tier: String
 
+        @inlinable
         public init(arn: String, audiences: [String]? = nil, channelName: String, channelState: String, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, logConfiguration: LogConfigurationForChannel, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil, tier: String) {
             self.arn = arn
             self.audiences = audiences
@@ -426,6 +438,7 @@ extension MediaTailor {
         /// The start offset of the clip range, in milliseconds. This offset truncates the start at the number of milliseconds into the duration of the VOD source.
         public let startOffsetMillis: Int64?
 
+        @inlinable
         public init(endOffsetMillis: Int64? = nil, startOffsetMillis: Int64? = nil) {
             self.endOffsetMillis = endOffsetMillis
             self.startOffsetMillis = startOffsetMillis
@@ -443,6 +456,7 @@ extension MediaTailor {
         /// The types of logs to collect.
         public let logTypes: [LogType]
 
+        @inlinable
         public init(channelName: String, logTypes: [LogType]) {
             self.channelName = channelName
             self.logTypes = logTypes
@@ -460,6 +474,7 @@ extension MediaTailor {
         /// The types of logs collected.
         public let logTypes: [LogType]?
 
+        @inlinable
         public init(channelName: String? = nil, logTypes: [LogType]? = nil) {
             self.channelName = channelName
             self.logTypes = logTypes
@@ -477,6 +492,7 @@ extension MediaTailor {
         /// The name of the playback configuration.
         public let playbackConfigurationName: String
 
+        @inlinable
         public init(percentEnabled: Int = 0, playbackConfigurationName: String) {
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
@@ -494,6 +510,7 @@ extension MediaTailor {
         /// The name of the playback configuration.
         public let playbackConfigurationName: String?
 
+        @inlinable
         public init(percentEnabled: Int, playbackConfigurationName: String? = nil) {
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
@@ -523,6 +540,7 @@ extension MediaTailor {
         ///  The time-shifted viewing configuration you want to associate to the channel.
         public let timeShiftConfiguration: TimeShiftConfiguration?
 
+        @inlinable
         public init(audiences: [String]? = nil, channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem], playbackMode: PlaybackMode, tags: [String: String]? = nil, tier: Tier? = nil, timeShiftConfiguration: TimeShiftConfiguration? = nil) {
             self.audiences = audiences
             self.channelName = channelName
@@ -586,6 +604,7 @@ extension MediaTailor {
         ///  The time-shifted viewing configuration assigned to the channel.
         public let timeShiftConfiguration: TimeShiftConfiguration?
 
+        @inlinable
         public init(arn: String? = nil, audiences: [String]? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil, timeShiftConfiguration: TimeShiftConfiguration? = nil) {
             self.arn = arn
             self.audiences = audiences
@@ -627,6 +646,7 @@ extension MediaTailor {
         /// The tags to assign to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(httpPackageConfigurations: [HttpPackageConfiguration], liveSourceName: String, sourceLocationName: String, tags: [String: String]? = nil) {
             self.httpPackageConfigurations = httpPackageConfigurations
             self.liveSourceName = liveSourceName
@@ -667,6 +687,7 @@ extension MediaTailor {
         /// The tags to assign to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -700,6 +721,7 @@ extension MediaTailor {
         /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
 
+        @inlinable
         public init(consumption: PrefetchConsumption, name: String, playbackConfigurationName: String, retrieval: PrefetchRetrieval, streamId: String? = nil) {
             self.consumption = consumption
             self.name = name
@@ -739,6 +761,7 @@ extension MediaTailor {
         /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
 
+        @inlinable
         public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
             self.arn = arn
             self.consumption = consumption
@@ -776,6 +799,7 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(adBreaks: [AdBreak]? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String, liveSourceName: String? = nil, programName: String, scheduleConfiguration: ScheduleConfiguration, sourceLocationName: String, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.audienceMedia = audienceMedia
@@ -838,6 +862,7 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
@@ -883,6 +908,7 @@ extension MediaTailor {
         /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
@@ -934,6 +960,7 @@ extension MediaTailor {
         /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
@@ -969,6 +996,7 @@ extension MediaTailor {
         /// The name associated with the VOD source.&gt;
         public let vodSourceName: String
 
+        @inlinable
         public init(httpPackageConfigurations: [HttpPackageConfiguration], sourceLocationName: String, tags: [String: String]? = nil, vodSourceName: String) {
             self.httpPackageConfigurations = httpPackageConfigurations
             self.sourceLocationName = sourceLocationName
@@ -1009,6 +1037,7 @@ extension MediaTailor {
         /// The name to assign to the VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1038,6 +1067,7 @@ extension MediaTailor {
         /// The setting that controls whether MediaTailor handles manifests from the origin server as multi-period manifests or single-period manifests. If your origin server produces single-period manifests, set this to SINGLE_PERIOD. The default setting is MULTI_PERIOD. For multi-period manifests, omit this setting or set it to MULTI_PERIOD.
         public let originManifestType: OriginManifestType?
 
+        @inlinable
         public init(manifestEndpointPrefix: String? = nil, mpdLocation: String? = nil, originManifestType: OriginManifestType? = nil) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
             self.mpdLocation = mpdLocation
@@ -1057,6 +1087,7 @@ extension MediaTailor {
         /// The setting that controls whether MediaTailor handles manifests from the origin server as multi-period manifests or single-period manifests. If your origin server produces single-period manifests, set this to SINGLE_PERIOD. The default setting is MULTI_PERIOD. For multi-period manifests, omit this setting or set it to MULTI_PERIOD.
         public let originManifestType: OriginManifestType?
 
+        @inlinable
         public init(mpdLocation: String? = nil, originManifestType: OriginManifestType? = nil) {
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
@@ -1078,6 +1109,7 @@ extension MediaTailor {
         /// Amount of time (in seconds) that the player should be from the live point at the end of the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds.
         public let suggestedPresentationDelaySeconds: Int?
 
+        @inlinable
         public init(manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, suggestedPresentationDelaySeconds: Int? = nil) {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
@@ -1097,6 +1129,7 @@ extension MediaTailor {
         /// The hostname of the server that will be used to serve segments. This string must include the protocol, such as https://.
         public let baseUrl: String?
 
+        @inlinable
         public init(baseUrl: String? = nil) {
             self.baseUrl = baseUrl
         }
@@ -1110,6 +1143,7 @@ extension MediaTailor {
         /// The name of the channel associated with this channel policy.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -1131,6 +1165,7 @@ extension MediaTailor {
         /// The name of the channel.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -1154,6 +1189,7 @@ extension MediaTailor {
         /// The name of the source location associated with this Live Source.
         public let sourceLocationName: String
 
+        @inlinable
         public init(liveSourceName: String, sourceLocationName: String) {
             self.liveSourceName = liveSourceName
             self.sourceLocationName = sourceLocationName
@@ -1177,6 +1213,7 @@ extension MediaTailor {
         /// The name of the playback configuration.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1200,6 +1237,7 @@ extension MediaTailor {
         /// The name of the playback configuration for this prefetch schedule.
         public let playbackConfigurationName: String
 
+        @inlinable
         public init(name: String, playbackConfigurationName: String) {
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
@@ -1225,6 +1263,7 @@ extension MediaTailor {
         /// The name of the program.
         public let programName: String
 
+        @inlinable
         public init(channelName: String, programName: String) {
             self.channelName = channelName
             self.programName = programName
@@ -1248,6 +1287,7 @@ extension MediaTailor {
         /// The name of the source location.
         public let sourceLocationName: String
 
+        @inlinable
         public init(sourceLocationName: String) {
             self.sourceLocationName = sourceLocationName
         }
@@ -1271,6 +1311,7 @@ extension MediaTailor {
         /// The name of the VOD source.
         public let vodSourceName: String
 
+        @inlinable
         public init(sourceLocationName: String, vodSourceName: String) {
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
@@ -1294,6 +1335,7 @@ extension MediaTailor {
         /// The name of the channel.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -1337,6 +1379,7 @@ extension MediaTailor {
         ///  The time-shifted viewing configuration for the channel.
         public let timeShiftConfiguration: TimeShiftConfiguration?
 
+        @inlinable
         public init(arn: String? = nil, audiences: [String]? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, logConfiguration: LogConfigurationForChannel, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil, timeShiftConfiguration: TimeShiftConfiguration? = nil) {
             self.arn = arn
             self.audiences = audiences
@@ -1376,6 +1419,7 @@ extension MediaTailor {
         /// The name of the source location associated with this Live Source.
         public let sourceLocationName: String
 
+        @inlinable
         public init(liveSourceName: String, sourceLocationName: String) {
             self.liveSourceName = liveSourceName
             self.sourceLocationName = sourceLocationName
@@ -1409,6 +1453,7 @@ extension MediaTailor {
         /// The tags assigned to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1436,6 +1481,7 @@ extension MediaTailor {
         /// The name of the program.
         public let programName: String
 
+        @inlinable
         public init(channelName: String, programName: String) {
             self.channelName = channelName
             self.programName = programName
@@ -1479,6 +1525,7 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
@@ -1514,6 +1561,7 @@ extension MediaTailor {
         /// The name of the source location.
         public let sourceLocationName: String
 
+        @inlinable
         public init(sourceLocationName: String) {
             self.sourceLocationName = sourceLocationName
         }
@@ -1549,6 +1597,7 @@ extension MediaTailor {
         /// The tags assigned to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
@@ -1580,6 +1629,7 @@ extension MediaTailor {
         /// The name of the VOD Source.
         public let vodSourceName: String
 
+        @inlinable
         public init(sourceLocationName: String, vodSourceName: String) {
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
@@ -1615,6 +1665,7 @@ extension MediaTailor {
         /// The name of the VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(adBreakOpportunities: [AdBreakOpportunity]? = nil, arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.adBreakOpportunities = adBreakOpportunities
             self.arn = arn
@@ -1642,6 +1693,7 @@ extension MediaTailor {
         /// The name of the channel associated with this Channel Policy.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -1659,6 +1711,7 @@ extension MediaTailor {
         /// The IAM policy for the channel. IAM policies are used to control access to your channel.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1680,6 +1733,7 @@ extension MediaTailor {
         /// (Optional) If the playback configuration has more than MaxResults channel schedules, use NextToken to get the second and subsequent pages of results. For the first GetChannelScheduleRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more channel schedules to get.
         public let nextToken: String?
 
+        @inlinable
         public init(audience: String? = nil, channelName: String, durationMinutes: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.audience = audience
             self.channelName = channelName
@@ -1712,6 +1766,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ScheduleEntry]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1727,6 +1782,7 @@ extension MediaTailor {
         /// The identifier for the playback configuration.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1782,6 +1838,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
+        @inlinable
         public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
@@ -1835,6 +1892,7 @@ extension MediaTailor {
         /// Returns information about the prefetch schedule for a specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
         public let playbackConfigurationName: String
 
+        @inlinable
         public init(name: String, playbackConfigurationName: String) {
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
@@ -1864,6 +1922,7 @@ extension MediaTailor {
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public let streamId: String?
 
+        @inlinable
         public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, retrieval: PrefetchRetrieval? = nil, streamId: String? = nil) {
             self.arn = arn
             self.consumption = consumption
@@ -1887,6 +1946,7 @@ extension MediaTailor {
         /// The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
         public let manifestEndpointPrefix: String?
 
+        @inlinable
         public init(manifestEndpointPrefix: String? = nil) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
         }
@@ -1902,6 +1962,7 @@ extension MediaTailor {
         /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
         public let manifestWindowSeconds: Int?
 
+        @inlinable
         public init(adMarkupType: [AdMarkupType]? = nil, manifestWindowSeconds: Int? = nil) {
             self.adMarkupType = adMarkupType
             self.manifestWindowSeconds = manifestWindowSeconds
@@ -1917,6 +1978,7 @@ extension MediaTailor {
         /// The base URL for the source location host server. This string must include the protocol, such as https://.
         public let baseUrl: String
 
+        @inlinable
         public init(baseUrl: String) {
             self.baseUrl = baseUrl
         }
@@ -1934,6 +1996,7 @@ extension MediaTailor {
         /// The streaming protocol for this package configuration. Supported values are HLS and DASH.
         public let type: `Type`
 
+        @inlinable
         public init(path: String, sourceGroup: String, type: `Type`) {
             self.path = path
             self.sourceGroup = sourceGroup
@@ -1953,6 +2016,7 @@ extension MediaTailor {
         /// For SCTE35_ENHANCED output, defines a value. MediaTailor; takes this value, and its associated key, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a value, you must also specify a corresponding key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1972,6 +2036,7 @@ extension MediaTailor {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2000,6 +2065,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Alert]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2017,6 +2083,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2043,6 +2110,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Channel]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2062,6 +2130,7 @@ extension MediaTailor {
         /// The name of the source location associated with this Live Sources list.
         public let sourceLocationName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2090,6 +2159,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [LiveSource]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2107,6 +2177,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2133,6 +2204,7 @@ extension MediaTailor {
         /// Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [PlaybackConfiguration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2154,6 +2226,7 @@ extension MediaTailor {
         /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
         public let streamId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, playbackConfigurationName: String, streamId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2188,6 +2261,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [PrefetchSchedule]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2205,6 +2279,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2231,6 +2306,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SourceLocation]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2246,6 +2322,7 @@ extension MediaTailor {
         /// The Amazon Resource Name (ARN) associated with this resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2263,6 +2340,7 @@ extension MediaTailor {
         /// The tags associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2280,6 +2358,7 @@ extension MediaTailor {
         /// The name of the source location associated with this VOD Source list.
         public let sourceLocationName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2308,6 +2387,7 @@ extension MediaTailor {
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [VodSource]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2325,6 +2405,7 @@ extension MediaTailor {
         /// The maximum allowed duration for the pre-roll ad avail. AWS Elemental MediaTailor won't play pre-roll ads to exceed this duration, regardless of the total duration of ads that the ADS returns.
         public let maxDurationSeconds: Int?
 
+        @inlinable
         public init(adDecisionServerUrl: String? = nil, maxDurationSeconds: Int? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.maxDurationSeconds = maxDurationSeconds
@@ -2354,6 +2435,7 @@ extension MediaTailor {
         /// The tags assigned to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration], lastModifiedTime: Date? = nil, liveSourceName: String, sourceLocationName: String, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2379,6 +2461,7 @@ extension MediaTailor {
         /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
         public let percentEnabled: Int
 
+        @inlinable
         public init(percentEnabled: Int) {
             self.percentEnabled = percentEnabled
         }
@@ -2392,6 +2475,7 @@ extension MediaTailor {
         /// The log types.
         public let logTypes: [LogType]?
 
+        @inlinable
         public init(logTypes: [LogType]? = nil) {
             self.logTypes = logTypes
         }
@@ -2405,6 +2489,7 @@ extension MediaTailor {
         /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN, EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin manifest to the MediaTailor personalized manifest. No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a value of 60, but no ads are filled for that ad break, MediaTailor will not set the value to 0.
         public let adMarkerPassthrough: AdMarkerPassthrough?
 
+        @inlinable
         public init(adMarkerPassthrough: AdMarkerPassthrough? = nil) {
             self.adMarkerPassthrough = adMarkerPassthrough
         }
@@ -2456,6 +2541,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
+        @inlinable
         public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
@@ -2513,6 +2599,7 @@ extension MediaTailor {
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(availMatchingCriteria: [AvailMatchingCriteria]? = nil, endTime: Date, startTime: Date? = nil) {
             self.availMatchingCriteria = availMatchingCriteria
             self.endTime = endTime
@@ -2536,6 +2623,7 @@ extension MediaTailor {
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(dynamicVariables: [String: String]? = nil, endTime: Date, startTime: Date? = nil) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
@@ -2563,6 +2651,7 @@ extension MediaTailor {
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public let streamId: String?
 
+        @inlinable
         public init(arn: String, consumption: PrefetchConsumption, name: String, playbackConfigurationName: String, retrieval: PrefetchRetrieval, streamId: String? = nil) {
             self.arn = arn
             self.consumption = consumption
@@ -2588,6 +2677,7 @@ extension MediaTailor {
         /// Adds an IAM role that determines the permissions of your channel.
         public let policy: String
 
+        @inlinable
         public init(channelName: String, policy: String) {
             self.channelName = channelName
             self.policy = policy
@@ -2641,6 +2731,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
+        @inlinable
         public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
@@ -2724,6 +2815,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
+        @inlinable
         public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
@@ -2781,6 +2873,7 @@ extension MediaTailor {
         /// A string used to match which HttpPackageConfiguration is used for each VodSource.
         public let sourceGroup: String
 
+        @inlinable
         public init(dashPlaylistSettings: DashPlaylistSettings? = nil, hlsPlaylistSettings: HlsPlaylistSettings? = nil, manifestName: String, sourceGroup: String) {
             self.dashPlaylistSettings = dashPlaylistSettings
             self.hlsPlaylistSettings = hlsPlaylistSettings
@@ -2808,6 +2901,7 @@ extension MediaTailor {
         /// A string used to associate a package configuration source group with a channel output.
         public let sourceGroup: String
 
+        @inlinable
         public init(dashPlaylistSettings: DashPlaylistSettings? = nil, hlsPlaylistSettings: HlsPlaylistSettings? = nil, manifestName: String, playbackUrl: String, sourceGroup: String) {
             self.dashPlaylistSettings = dashPlaylistSettings
             self.hlsPlaylistSettings = hlsPlaylistSettings
@@ -2836,6 +2930,7 @@ extension MediaTailor {
         /// The name of the VOD source used for the ad break.
         public let vodSourceName: String?
 
+        @inlinable
         public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
@@ -2857,6 +2952,7 @@ extension MediaTailor {
         /// Program transition configurations.
         public let transition: Transition
 
+        @inlinable
         public init(clipRange: ClipRange? = nil, transition: Transition) {
             self.clipRange = clipRange
             self.transition = transition
@@ -2893,6 +2989,7 @@ extension MediaTailor {
         /// The name of the VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, audiences: [String]? = nil, channelName: String, liveSourceName: String? = nil, programName: String, scheduleAdBreaks: [ScheduleAdBreak]? = nil, scheduleEntryType: ScheduleEntryType? = nil, sourceLocationName: String, vodSourceName: String? = nil) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
@@ -2930,6 +3027,7 @@ extension MediaTailor {
         /// The AWS Secrets Manager SecretString key associated with the access token. MediaTailor uses the key to look up SecretString key and value pair containing the access token.
         public let secretStringKey: String?
 
+        @inlinable
         public init(headerName: String? = nil, secretArn: String? = nil, secretStringKey: String? = nil) {
             self.headerName = headerName
             self.secretArn = secretArn
@@ -2949,6 +3047,7 @@ extension MediaTailor {
         /// A unique identifier used to distinguish between multiple segment delivery configurations in a source location.
         public let name: String?
 
+        @inlinable
         public init(baseUrl: String? = nil, name: String? = nil) {
             self.baseUrl = baseUrl
             self.name = name
@@ -2978,6 +3077,7 @@ extension MediaTailor {
         /// The number of sub-segments expected, which is assigned to the segmentation_descriptor.sub_segments_expected message, as defined in section 10.3.3.1 of the 2022 SCTE-35 specification. Values must be between 0 and 256, inclusive. The default value is null.
         public let subSegmentsExpected: Int?
 
+        @inlinable
         public init(segmentationEventId: Int? = nil, segmentationTypeId: Int? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int? = nil, segmentNum: Int? = nil, segmentsExpected: Int? = nil, subSegmentNum: Int? = nil, subSegmentsExpected: Int? = nil) {
             self.segmentationEventId = segmentationEventId
             self.segmentationTypeId = segmentationTypeId
@@ -3007,6 +3107,7 @@ extension MediaTailor {
         /// The slate VOD source name. The VOD source must already exist in a source location before it can be used for slate.
         public let vodSourceName: String?
 
+        @inlinable
         public init(sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
@@ -3040,6 +3141,7 @@ extension MediaTailor {
         /// The tags assigned to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
@@ -3075,6 +3177,7 @@ extension MediaTailor {
         /// This is written to splice_insert.unique_program_id, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0. Values must be between 0 and 256, inclusive.
         public let uniqueProgramId: Int?
 
+        @inlinable
         public init(availNum: Int? = nil, availsExpected: Int? = nil, spliceEventId: Int? = nil, uniqueProgramId: Int? = nil) {
             self.availNum = availNum
             self.availsExpected = availsExpected
@@ -3094,6 +3197,7 @@ extension MediaTailor {
         /// The name of the channel.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -3115,6 +3219,7 @@ extension MediaTailor {
         /// The name of the channel.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -3138,6 +3243,7 @@ extension MediaTailor {
         /// The tags to assign to the resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3159,6 +3265,7 @@ extension MediaTailor {
         ///  The maximum time delay for time-shifted viewing. The minimum allowed maximum time delay is 0 seconds,  and the maximum allowed maximum time delay is 21600 seconds (6 hours).
         public let maxTimeDelaySeconds: Int
 
+        @inlinable
         public init(maxTimeDelaySeconds: Int) {
             self.maxTimeDelaySeconds = maxTimeDelaySeconds
         }
@@ -3172,6 +3279,7 @@ extension MediaTailor {
         /// The configurations for the SCTE-35 segmentation_descriptor message(s) sent with the time_signal message.
         public let segmentationDescriptors: [SegmentationDescriptor]?
 
+        @inlinable
         public init(segmentationDescriptors: [SegmentationDescriptor]? = nil) {
             self.segmentationDescriptors = segmentationDescriptors
         }
@@ -3193,6 +3301,7 @@ extension MediaTailor {
         /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE.  ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel.  RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
         public let type: String
 
+        @inlinable
         public init(durationMillis: Int64? = nil, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
             self.durationMillis = durationMillis
             self.relativePosition = relativePosition
@@ -3216,6 +3325,7 @@ extension MediaTailor {
         /// The tag keys associated with the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3243,6 +3353,7 @@ extension MediaTailor {
         ///  The time-shifted viewing configuration you want to associate to the channel.
         public let timeShiftConfiguration: TimeShiftConfiguration?
 
+        @inlinable
         public init(audiences: [String]? = nil, channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem], timeShiftConfiguration: TimeShiftConfiguration? = nil) {
             self.audiences = audiences
             self.channelName = channelName
@@ -3297,6 +3408,7 @@ extension MediaTailor {
         ///  The time-shifted viewing configuration for the channel.
         public let timeShiftConfiguration: TimeShiftConfiguration?
 
+        @inlinable
         public init(arn: String? = nil, audiences: [String]? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil, timeShiftConfiguration: TimeShiftConfiguration? = nil) {
             self.arn = arn
             self.audiences = audiences
@@ -3336,6 +3448,7 @@ extension MediaTailor {
         /// The name of the source location associated with this Live Source.
         public let sourceLocationName: String
 
+        @inlinable
         public init(httpPackageConfigurations: [HttpPackageConfiguration], liveSourceName: String, sourceLocationName: String) {
             self.httpPackageConfigurations = httpPackageConfigurations
             self.liveSourceName = liveSourceName
@@ -3373,6 +3486,7 @@ extension MediaTailor {
         /// The tags to assign to the live source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3406,6 +3520,7 @@ extension MediaTailor {
         /// The schedule configuration settings.
         public let scheduleConfiguration: UpdateProgramScheduleConfiguration
 
+        @inlinable
         public init(adBreaks: [AdBreak]? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String, programName: String, scheduleConfiguration: UpdateProgramScheduleConfiguration) {
             self.adBreaks = adBreaks
             self.audienceMedia = audienceMedia
@@ -3459,6 +3574,7 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
@@ -3496,6 +3612,7 @@ extension MediaTailor {
         /// Program transition configuration.
         public let transition: UpdateProgramTransition?
 
+        @inlinable
         public init(clipRange: ClipRange? = nil, transition: UpdateProgramTransition? = nil) {
             self.clipRange = clipRange
             self.transition = transition
@@ -3513,6 +3630,7 @@ extension MediaTailor {
         /// The date and time that the program is scheduled to start, in epoch milliseconds.
         public let scheduledStartTimeMillis: Int64?
 
+        @inlinable
         public init(durationMillis: Int64? = nil, scheduledStartTimeMillis: Int64? = nil) {
             self.durationMillis = durationMillis
             self.scheduledStartTimeMillis = scheduledStartTimeMillis
@@ -3536,6 +3654,7 @@ extension MediaTailor {
         /// The name of the source location.
         public let sourceLocationName: String
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String) {
             self.accessConfiguration = accessConfiguration
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
@@ -3584,6 +3703,7 @@ extension MediaTailor {
         /// The tags to assign to the source location. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
@@ -3617,6 +3737,7 @@ extension MediaTailor {
         /// The name of the VOD source.
         public let vodSourceName: String
 
+        @inlinable
         public init(httpPackageConfigurations: [HttpPackageConfiguration], sourceLocationName: String, vodSourceName: String) {
             self.httpPackageConfigurations = httpPackageConfigurations
             self.sourceLocationName = sourceLocationName
@@ -3654,6 +3775,7 @@ extension MediaTailor {
         /// The name of the VOD source.
         public let vodSourceName: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3693,6 +3815,7 @@ extension MediaTailor {
         /// The name of the VOD source.
         public let vodSourceName: String
 
+        @inlinable
         public init(arn: String, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration], lastModifiedTime: Date? = nil, sourceLocationName: String, tags: [String: String]? = nil, vodSourceName: String) {
             self.arn = arn
             self.creationTime = creationTime

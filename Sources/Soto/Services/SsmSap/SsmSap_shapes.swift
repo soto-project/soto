@@ -206,6 +206,7 @@ extension SsmSap {
         /// The type of the application.
         public let type: ApplicationType?
 
+        @inlinable
         public init(appRegistryArn: String? = nil, arn: String? = nil, associatedApplicationArns: [String]? = nil, components: [String]? = nil, discoveryStatus: ApplicationDiscoveryStatus? = nil, id: String? = nil, lastUpdated: Date? = nil, status: ApplicationStatus? = nil, statusMessage: String? = nil, type: ApplicationType? = nil) {
             self.appRegistryArn = appRegistryArn
             self.arn = arn
@@ -241,6 +242,7 @@ extension SsmSap {
         /// The secret ID created in AWS Secrets Manager to store the credentials of the SAP application.
         public let secretId: String
 
+        @inlinable
         public init(credentialType: CredentialType, databaseName: String, secretId: String) {
             self.credentialType = credentialType
             self.databaseName = databaseName
@@ -273,6 +275,7 @@ extension SsmSap {
         /// The type of the application.
         public let type: ApplicationType?
 
+        @inlinable
         public init(arn: String? = nil, discoveryStatus: ApplicationDiscoveryStatus? = nil, id: String? = nil, tags: [String: String]? = nil, type: ApplicationType? = nil) {
             self.arn = arn
             self.discoveryStatus = discoveryStatus
@@ -300,6 +303,7 @@ extension SsmSap {
         /// The version of the operating system.
         public let osVersion: String?
 
+        @inlinable
         public init(ec2InstanceId: String? = nil, hostname: String? = nil, ipAddresses: [IpAddressMember]? = nil, osVersion: String? = nil) {
             self.ec2InstanceId = ec2InstanceId
             self.hostname = hostname
@@ -320,6 +324,7 @@ extension SsmSap {
         public let backintMode: BackintMode
         public let ensureNoBackupInProcess: Bool
 
+        @inlinable
         public init(backintMode: BackintMode, ensureNoBackupInProcess: Bool) {
             self.backintMode = backintMode
             self.ensureNoBackupInProcess = ensureNoBackupInProcess
@@ -373,6 +378,7 @@ extension SsmSap {
         /// The SAP system number of the application component.
         public let systemNumber: String?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, associatedHost: AssociatedHost? = nil, childComponents: [String]? = nil, componentId: String? = nil, componentType: ComponentType? = nil, databaseConnection: DatabaseConnection? = nil, databases: [String]? = nil, hdbVersion: String? = nil, lastUpdated: Date? = nil, parentComponent: String? = nil, resilience: Resilience? = nil, sapFeature: String? = nil, sapHostname: String? = nil, sapKernelVersion: String? = nil, sid: String? = nil, status: ComponentStatus? = nil, systemNumber: String? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -397,6 +403,7 @@ extension SsmSap {
         }
 
         @available(*, deprecated, message: "Members hosts, primaryHost have been deprecated")
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, associatedHost: AssociatedHost? = nil, childComponents: [String]? = nil, componentId: String? = nil, componentType: ComponentType? = nil, databaseConnection: DatabaseConnection? = nil, databases: [String]? = nil, hdbVersion: String? = nil, hosts: [Host]? = nil, lastUpdated: Date? = nil, parentComponent: String? = nil, primaryHost: String? = nil, resilience: Resilience? = nil, sapFeature: String? = nil, sapHostname: String? = nil, sapKernelVersion: String? = nil, sid: String? = nil, status: ComponentStatus? = nil, systemNumber: String? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -456,6 +463,7 @@ extension SsmSap {
         /// The tags of the component.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, componentType: ComponentType? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -499,6 +507,7 @@ extension SsmSap {
         /// The status of the database.
         public let status: DatabaseStatus?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, connectedComponentArns: [String]? = nil, credentials: [ApplicationCredential]? = nil, databaseId: String? = nil, databaseName: String? = nil, databaseType: DatabaseType? = nil, lastUpdated: Date? = nil, primaryHost: String? = nil, sqlPort: Int? = nil, status: DatabaseStatus? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -538,6 +547,7 @@ extension SsmSap {
         /// The method of connection.
         public let databaseConnectionMethod: DatabaseConnectionMethod?
 
+        @inlinable
         public init(connectionIp: String? = nil, databaseArn: String? = nil, databaseConnectionMethod: DatabaseConnectionMethod? = nil) {
             self.connectionIp = connectionIp
             self.databaseArn = databaseArn
@@ -565,6 +575,7 @@ extension SsmSap {
         /// The tags of the database.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, databaseId: String? = nil, databaseType: DatabaseType? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -592,6 +603,7 @@ extension SsmSap {
         /// The Amazon Resource Name (ARN) of the source resource.
         public let sourceResourceArn: String?
 
+        @inlinable
         public init(actionType: PermissionActionType? = nil, resourceArn: String, sourceResourceArn: String? = nil) {
             self.actionType = actionType
             self.resourceArn = resourceArn
@@ -614,6 +626,7 @@ extension SsmSap {
         /// The policy that removes permissions on the target database.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -627,6 +640,7 @@ extension SsmSap {
         /// The ID of the application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -654,6 +668,7 @@ extension SsmSap {
         /// The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values
         public let value: String
 
+        @inlinable
         public init(name: String, operator: FilterOperator, value: String) {
             self.name = name
             self.`operator` = `operator`
@@ -682,6 +697,7 @@ extension SsmSap {
         /// The Amazon Resource Name (ARN) of the application registry.
         public let appRegistryArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, applicationId: String? = nil, appRegistryArn: String? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -709,6 +725,7 @@ extension SsmSap {
         /// The tags of a registered application.
         public let tags: [String: String]?
 
+        @inlinable
         public init(application: Application? = nil, tags: [String: String]? = nil) {
             self.application = application
             self.tags = tags
@@ -726,6 +743,7 @@ extension SsmSap {
         /// The ID of the component.
         public let componentId: String
 
+        @inlinable
         public init(applicationId: String, componentId: String) {
             self.applicationId = applicationId
             self.componentId = componentId
@@ -752,6 +770,7 @@ extension SsmSap {
         /// The tags of a component.
         public let tags: [String: String]?
 
+        @inlinable
         public init(component: Component? = nil, tags: [String: String]? = nil) {
             self.component = component
             self.tags = tags
@@ -773,6 +792,7 @@ extension SsmSap {
         /// The ID of the database.
         public let databaseId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, componentId: String? = nil, databaseArn: String? = nil, databaseId: String? = nil) {
             self.applicationId = applicationId
             self.componentId = componentId
@@ -807,6 +827,7 @@ extension SsmSap {
         /// The tags of a database.
         public let tags: [String: String]?
 
+        @inlinable
         public init(database: Database? = nil, tags: [String: String]? = nil) {
             self.database = database
             self.tags = tags
@@ -822,6 +843,7 @@ extension SsmSap {
         /// The ID of the operation.
         public let operationId: String
 
+        @inlinable
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -839,6 +861,7 @@ extension SsmSap {
         /// Returns the details of an operation.
         public let operation: Operation?
 
+        @inlinable
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -853,6 +876,7 @@ extension SsmSap {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(actionType: PermissionActionType? = nil, resourceArn: String) {
             self.actionType = actionType
             self.resourceArn = resourceArn
@@ -871,6 +895,7 @@ extension SsmSap {
     public struct GetResourcePermissionOutput: AWSDecodableShape {
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -894,6 +919,7 @@ extension SsmSap {
         /// The version of the operating system.
         public let osVersion: String?
 
+        @inlinable
         public init(ec2InstanceId: String? = nil, hostIp: String? = nil, hostName: String? = nil, hostRole: HostRole? = nil, instanceId: String? = nil, osVersion: String? = nil) {
             self.ec2InstanceId = ec2InstanceId
             self.hostIp = hostIp
@@ -921,6 +947,7 @@ extension SsmSap {
         /// The primary IP address.
         public let primary: Bool?
 
+        @inlinable
         public init(allocationType: AllocationType? = nil, ipAddress: String? = nil, primary: Bool? = nil) {
             self.allocationType = allocationType
             self.ipAddress = ipAddress
@@ -942,6 +969,7 @@ extension SsmSap {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -972,6 +1000,7 @@ extension SsmSap {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -991,6 +1020,7 @@ extension SsmSap {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -1019,6 +1049,7 @@ extension SsmSap {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(components: [ComponentSummary]? = nil, nextToken: String? = nil) {
             self.components = components
             self.nextToken = nextToken
@@ -1040,6 +1071,7 @@ extension SsmSap {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String? = nil, componentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.componentId = componentId
@@ -1073,6 +1105,7 @@ extension SsmSap {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(databases: [DatabaseSummary]? = nil, nextToken: String? = nil) {
             self.databases = databases
             self.nextToken = nextToken
@@ -1094,6 +1127,7 @@ extension SsmSap {
         /// The ID of the operation.
         public let operationId: String
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1127,6 +1161,7 @@ extension SsmSap {
         /// A returned list of operation events that meet the filter criteria.
         public let operationEvents: [OperationEvent]?
 
+        @inlinable
         public init(nextToken: String? = nil, operationEvents: [OperationEvent]? = nil) {
             self.nextToken = nextToken
             self.operationEvents = operationEvents
@@ -1148,6 +1183,7 @@ extension SsmSap {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.filters = filters
@@ -1183,6 +1219,7 @@ extension SsmSap {
         /// List of operations performed by AWS Systems Manager for SAP.
         public let operations: [Operation]?
 
+        @inlinable
         public init(nextToken: String? = nil, operations: [Operation]? = nil) {
             self.nextToken = nextToken
             self.operations = operations
@@ -1198,6 +1235,7 @@ extension SsmSap {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1218,6 +1256,7 @@ extension SsmSap {
     public struct ListTagsForResourceResponse: AWSDecodableShape {
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1251,6 +1290,7 @@ extension SsmSap {
         /// The type of the operation.
         public let type: String?
 
+        @inlinable
         public init(endTime: Date? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, properties: [String: String]? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil, startTime: Date? = nil, status: OperationStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.endTime = endTime
             self.id = id
@@ -1292,6 +1332,7 @@ extension SsmSap {
         /// The timestamp of the specified operation event.
         public let timestamp: Date?
 
+        @inlinable
         public init(description: String? = nil, resource: Resource? = nil, status: OperationEventStatus? = nil, statusMessage: String? = nil, timestamp: Date? = nil) {
             self.description = description
             self.resource = resource
@@ -1314,6 +1355,7 @@ extension SsmSap {
         public let resourceArn: String
         public let sourceResourceArn: String
 
+        @inlinable
         public init(actionType: PermissionActionType, resourceArn: String, sourceResourceArn: String) {
             self.actionType = actionType
             self.resourceArn = resourceArn
@@ -1335,6 +1377,7 @@ extension SsmSap {
     public struct PutResourcePermissionOutput: AWSDecodableShape {
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1362,6 +1405,7 @@ extension SsmSap {
         /// The tags to be attached to the SAP application.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationId: String, applicationType: ApplicationType, credentials: [ApplicationCredential]? = nil, databaseArn: String? = nil, instances: [String], sapInstanceNumber: String? = nil, sid: String? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.applicationType = applicationType
@@ -1414,6 +1458,7 @@ extension SsmSap {
         /// The ID of the operation.
         public let operationId: String?
 
+        @inlinable
         public init(application: Application? = nil, operationId: String? = nil) {
             self.application = application
             self.operationId = operationId
@@ -1437,6 +1482,7 @@ extension SsmSap {
         /// The tier of the component.
         public let hsrTier: String?
 
+        @inlinable
         public init(clusterStatus: ClusterStatus? = nil, enqueueReplication: Bool? = nil, hsrOperationMode: OperationMode? = nil, hsrReplicationMode: ReplicationMode? = nil, hsrTier: String? = nil) {
             self.clusterStatus = clusterStatus
             self.enqueueReplication = enqueueReplication
@@ -1460,6 +1506,7 @@ extension SsmSap {
         /// The resource type. Example of ResourceType: "AWS::SystemsManagerSAP::Component" or "AWS::EC2::Instance".
         public let resourceType: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, resourceType: String? = nil) {
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -1475,6 +1522,7 @@ extension SsmSap {
         /// The ID of the application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1494,6 +1542,7 @@ extension SsmSap {
         /// The ID of the operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1507,6 +1556,7 @@ extension SsmSap {
         /// The ID of the application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1526,6 +1576,7 @@ extension SsmSap {
         /// The ID of the operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1543,6 +1594,7 @@ extension SsmSap {
         /// Specify the ConnectedEntityType. Accepted type is DBMS. If this parameter is included, the connected DBMS (Database Management System) will be stopped.
         public let stopConnectedEntity: ConnectedEntityType?
 
+        @inlinable
         public init(applicationId: String, includeEc2InstanceShutdown: Bool? = nil, stopConnectedEntity: ConnectedEntityType? = nil) {
             self.applicationId = applicationId
             self.includeEc2InstanceShutdown = includeEc2InstanceShutdown
@@ -1566,6 +1618,7 @@ extension SsmSap {
         /// The ID of the operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1581,6 +1634,7 @@ extension SsmSap {
         /// The tags on a resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1617,6 +1671,7 @@ extension SsmSap {
         /// Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1655,6 +1710,7 @@ extension SsmSap {
         /// The Amazon Resource Name of the SAP HANA database that replaces the current SAP HANA connection with the SAP_ABAP application.
         public let databaseArn: String?
 
+        @inlinable
         public init(applicationId: String, backint: BackintConfig? = nil, credentialsToAddOrUpdate: [ApplicationCredential]? = nil, credentialsToRemove: [ApplicationCredential]? = nil, databaseArn: String? = nil) {
             self.applicationId = applicationId
             self.backint = backint
@@ -1693,6 +1749,7 @@ extension SsmSap {
         /// The IDs of the operations.
         public let operationIds: [String]?
 
+        @inlinable
         public init(message: String? = nil, operationIds: [String]? = nil) {
             self.message = message
             self.operationIds = operationIds

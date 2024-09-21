@@ -169,6 +169,7 @@ extension AmplifyBackend {
         /// The OpenID provider name, if OpenID was used as an authentication mechanism to access your data models.
         public let openIDProviderName: String?
 
+        @inlinable
         public init(cognitoUserPoolId: String? = nil, description: String? = nil, expirationTime: Double? = nil, openIDAuthTTL: String? = nil, openIDClientId: String? = nil, openIDIatTTL: String? = nil, openIDIssueURL: String? = nil, openIDProviderName: String? = nil) {
             self.cognitoUserPoolId = cognitoUserPoolId
             self.description = description
@@ -198,6 +199,7 @@ extension AmplifyBackend {
         /// Describes settings for the authentication mode.
         public let settings: BackendAPIAppSyncAuthSettings?
 
+        @inlinable
         public init(mode: Mode? = nil, settings: BackendAPIAppSyncAuthSettings? = nil) {
             self.mode = mode
             self.settings = settings
@@ -213,6 +215,7 @@ extension AmplifyBackend {
         /// The strategy for conflict resolution.
         public let resolutionStrategy: ResolutionStrategy?
 
+        @inlinable
         public init(resolutionStrategy: ResolutionStrategy? = nil) {
             self.resolutionStrategy = resolutionStrategy
         }
@@ -236,6 +239,7 @@ extension AmplifyBackend {
         /// The definition of the data model in the annotated transform of the GraphQL schema.
         public let transformSchema: String?
 
+        @inlinable
         public init(additionalAuthTypes: [BackendAPIAuthType]? = nil, apiName: String? = nil, conflictResolution: BackendAPIConflictResolution? = nil, defaultAuthType: BackendAPIAuthType? = nil, service: String? = nil, transformSchema: String? = nil) {
             self.additionalAuthTypes = additionalAuthTypes
             self.apiName = apiName
@@ -265,6 +269,7 @@ extension AmplifyBackend {
         /// Describes the team_id that comes from Apple.
         public let teamId: String?
 
+        @inlinable
         public init(clientId: String? = nil, keyId: String? = nil, privateKey: String? = nil, teamId: String? = nil) {
             self.clientId = clientId
             self.keyId = keyId
@@ -286,6 +291,7 @@ extension AmplifyBackend {
         /// Describes the client_secret, which can be obtained from third-party social federation providers.
         public let clientSecret: String?
 
+        @inlinable
         public init(clientId: String? = nil, clientSecret: String? = nil) {
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -315,6 +321,7 @@ extension AmplifyBackend {
         /// The time when the job was last updated.
         public let updateTime: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, createTime: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil, updateTime: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -344,6 +351,7 @@ extension AmplifyBackend {
         /// Lists all unauthenticated user read, write, and delete permissions for your S3 bucket.
         public let unAuthenticated: [UnAuthenticatedElement]?
 
+        @inlinable
         public init(authenticated: [AuthenticatedElement]? = nil, unAuthenticated: [UnAuthenticatedElement]? = nil) {
             self.authenticated = authenticated
             self.unAuthenticated = unAuthenticated
@@ -363,6 +371,7 @@ extension AmplifyBackend {
         /// The name of the destination backend environment to be created.
         public let targetEnvironmentName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, targetEnvironmentName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -396,6 +405,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -425,6 +435,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String? = nil, resourceConfig: BackendAPIResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -462,6 +473,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -489,6 +501,7 @@ extension AmplifyBackend {
         /// (DEPRECATED) The configuration for the SMS message sent when an app user forgets their password.
         public let smsSettings: SmsSettings?
 
+        @inlinable
         public init(deliveryMethod: DeliveryMethod? = nil, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
@@ -508,6 +521,7 @@ extension AmplifyBackend {
         /// Set to true or false based on whether you want to enable guest authorization to your Amplify app.
         public let unauthenticatedLogin: Bool?
 
+        @inlinable
         public init(identityPoolName: String? = nil, unauthenticatedLogin: Bool? = nil) {
             self.identityPoolName = identityPoolName
             self.unauthenticatedLogin = unauthenticatedLogin
@@ -525,6 +539,7 @@ extension AmplifyBackend {
         /// Describes the configuration settings and methods for your Amplify app users to use MFA.
         public let settings: Settings?
 
+        @inlinable
         public init(mfaMode: MFAMode? = nil, settings: Settings? = nil) {
             self.mfaMode = mfaMode
             self.settings = settings
@@ -550,6 +565,7 @@ extension AmplifyBackend {
         /// The settings for using social providers to access your Amplify app.
         public let socialProviderSettings: SocialProviderSettings?
 
+        @inlinable
         public init(domainPrefix: String? = nil, oAuthGrantType: OAuthGrantType? = nil, oAuthScopes: [OAuthScopesElement]? = nil, redirectSignInURIs: [String]? = nil, redirectSignOutURIs: [String]? = nil, socialProviderSettings: SocialProviderSettings? = nil) {
             self.domainPrefix = domainPrefix
             self.oAuthGrantType = oAuthGrantType
@@ -575,6 +591,7 @@ extension AmplifyBackend {
         /// The minimum length of the password used to access the backend of your Amplify project.
         public let minimumLength: Double?
 
+        @inlinable
         public init(additionalConstraints: [AdditionalConstraintsElement]? = nil, minimumLength: Double? = nil) {
             self.additionalConstraints = additionalConstraints
             self.minimumLength = minimumLength
@@ -596,6 +613,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String? = nil, resourceConfig: CreateBackendAuthResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -629,6 +647,7 @@ extension AmplifyBackend {
         /// Describes authentication configuration for the Amazon Cognito user pool, provisioned as a part of your auth resource in the Amplify project.
         public let userPoolConfigs: CreateBackendAuthUserPoolConfig?
 
+        @inlinable
         public init(authResources: AuthResources? = nil, identityPoolConfigs: CreateBackendAuthIdentityPoolConfig? = nil, service: Service? = nil, userPoolConfigs: CreateBackendAuthUserPoolConfig? = nil) {
             self.authResources = authResources
             self.identityPoolConfigs = identityPoolConfigs
@@ -658,6 +677,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -695,6 +715,7 @@ extension AmplifyBackend {
         /// Describes the email or SMS verification message for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let verificationMessage: CreateBackendAuthVerificationMessageConfig?
 
+        @inlinable
         public init(forgotPassword: CreateBackendAuthForgotPasswordConfig? = nil, mfa: CreateBackendAuthMFAConfig? = nil, oAuth: CreateBackendAuthOAuthConfig? = nil, passwordPolicy: CreateBackendAuthPasswordPolicyConfig? = nil, requiredSignUpAttributes: [RequiredSignUpAttributesElement]? = nil, signInMethod: SignInMethod? = nil, userPoolName: String? = nil, verificationMessage: CreateBackendAuthVerificationMessageConfig? = nil) {
             self.forgotPassword = forgotPassword
             self.mfa = mfa
@@ -726,6 +747,7 @@ extension AmplifyBackend {
         /// The settings for the SMS message.
         public let smsSettings: SmsSettings?
 
+        @inlinable
         public init(deliveryMethod: DeliveryMethod? = nil, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
@@ -745,6 +767,7 @@ extension AmplifyBackend {
         /// The app ID for the backend manager.
         public let backendManagerAppId: String?
 
+        @inlinable
         public init(appId: String, backendManagerAppId: String? = nil) {
             self.appId = appId
             self.backendManagerAppId = backendManagerAppId
@@ -772,6 +795,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -799,6 +823,7 @@ extension AmplifyBackend {
         /// The name of the resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String? = nil, appName: String? = nil, backendEnvironmentName: String? = nil, resourceConfig: ResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.appName = appName
@@ -830,6 +855,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -859,6 +885,7 @@ extension AmplifyBackend {
         /// The name of the storage resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String? = nil, resourceConfig: CreateBackendStorageResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -890,6 +917,7 @@ extension AmplifyBackend {
         /// The name of the storage service.
         public let serviceName: ServiceName?
 
+        @inlinable
         public init(bucketName: String? = nil, permissions: BackendStoragePermissions? = nil, serviceName: ServiceName? = nil) {
             self.bucketName = bucketName
             self.permissions = permissions
@@ -913,6 +941,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -932,6 +961,7 @@ extension AmplifyBackend {
         /// The app ID.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -955,6 +985,7 @@ extension AmplifyBackend {
         /// The expiry time for the one-time generated token code.
         public let ttl: String?
 
+        @inlinable
         public init(appId: String? = nil, challengeCode: String? = nil, sessionId: String? = nil, ttl: String? = nil) {
             self.appId = appId
             self.challengeCode = challengeCode
@@ -980,6 +1011,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceConfig: BackendAPIResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1016,6 +1048,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1043,6 +1076,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1076,6 +1110,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1101,6 +1136,7 @@ extension AmplifyBackend {
         /// The name of the backend environment.
         public let backendEnvironmentName: String
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1130,6 +1166,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1159,6 +1196,7 @@ extension AmplifyBackend {
         /// The name of the storage service.
         public let serviceName: ServiceName?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceName: String? = nil, serviceName: ServiceName? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1191,6 +1229,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1212,6 +1251,7 @@ extension AmplifyBackend {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(appId: String, sessionId: String) {
             self.appId = appId
             self.sessionId = sessionId
@@ -1231,6 +1271,7 @@ extension AmplifyBackend {
         /// Indicates whether the request succeeded or failed.
         public let isSuccess: Bool?
 
+        @inlinable
         public init(isSuccess: Bool? = nil) {
             self.isSuccess = isSuccess
         }
@@ -1246,6 +1287,7 @@ extension AmplifyBackend {
         /// The contents of the subject line of the email message.
         public let emailSubject: String?
 
+        @inlinable
         public init(emailMessage: String? = nil, emailSubject: String? = nil) {
             self.emailMessage = emailMessage
             self.emailSubject = emailSubject
@@ -1265,6 +1307,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1298,6 +1341,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1325,6 +1369,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1352,6 +1397,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: Status?
 
+        @inlinable
         public init(modelIntrospectionSchema: String? = nil, models: String? = nil, status: Status? = nil) {
             self.modelIntrospectionSchema = modelIntrospectionSchema
             self.models = models
@@ -1375,6 +1421,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceConfig: BackendAPIResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1409,6 +1456,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, resourceConfig: BackendAPIResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1434,6 +1482,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1465,6 +1514,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, resourceConfig: CreateBackendAuthResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1490,6 +1540,7 @@ extension AmplifyBackend {
         /// The ID for the job.
         public let jobId: String
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, jobId: String) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1525,6 +1576,7 @@ extension AmplifyBackend {
         /// The time when the job was last updated.
         public let updateTime: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, createTime: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil, updateTime: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1554,6 +1606,7 @@ extension AmplifyBackend {
         /// The name of the backend environment.
         public let backendEnvironmentName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1587,6 +1640,7 @@ extension AmplifyBackend {
         /// If the request failed, this is the returned error.
         public let error: String?
 
+        @inlinable
         public init(amplifyFeatureFlags: String? = nil, amplifyMetaConfig: String? = nil, appId: String? = nil, appName: String? = nil, backendEnvironmentList: [String]? = nil, backendEnvironmentName: String? = nil, error: String? = nil) {
             self.amplifyFeatureFlags = amplifyFeatureFlags
             self.amplifyMetaConfig = amplifyMetaConfig
@@ -1616,6 +1670,7 @@ extension AmplifyBackend {
         /// The name of the storage resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1645,6 +1700,7 @@ extension AmplifyBackend {
         /// The name of the storage service.
         public let serviceName: ServiceName?
 
+        @inlinable
         public init(bucketName: String? = nil, imported: Bool? = nil, permissions: BackendStoragePermissions? = nil, serviceName: ServiceName? = nil) {
             self.bucketName = bucketName
             self.imported = imported
@@ -1670,6 +1726,7 @@ extension AmplifyBackend {
         /// The name of the storage resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, resourceConfig: GetBackendStorageResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1691,6 +1748,7 @@ extension AmplifyBackend {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(appId: String, sessionId: String) {
             self.appId = appId
             self.sessionId = sessionId
@@ -1716,6 +1774,7 @@ extension AmplifyBackend {
         /// The expiry time for the one-time generated token code.
         public let ttl: String?
 
+        @inlinable
         public init(appId: String? = nil, challengeCode: String? = nil, sessionId: String? = nil, ttl: String? = nil) {
             self.appId = appId
             self.challengeCode = challengeCode
@@ -1745,6 +1804,7 @@ extension AmplifyBackend {
         /// The ID of the Amazon Cognito web client.
         public let webClientId: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, identityPoolId: String? = nil, nativeClientId: String? = nil, userPoolId: String? = nil, webClientId: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1787,6 +1847,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1816,6 +1877,7 @@ extension AmplifyBackend {
         /// The name of the storage service.
         public let serviceName: ServiceName?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, bucketName: String? = nil, serviceName: ServiceName? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1848,6 +1910,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1879,6 +1942,7 @@ extension AmplifyBackend {
         /// Filters the list of response objects to include only those with the specified status.
         public let status: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, jobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -1921,6 +1985,7 @@ extension AmplifyBackend {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [BackendJobRespObj]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -1936,6 +2001,7 @@ extension AmplifyBackend {
         /// Reserved for future use.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1951,6 +2017,7 @@ extension AmplifyBackend {
         /// Reserved for future use.
         public let nextToken: String?
 
+        @inlinable
         public init(buckets: [S3BucketInfo]? = nil, nextToken: String? = nil) {
             self.buckets = buckets
             self.nextToken = nextToken
@@ -1972,6 +2039,7 @@ extension AmplifyBackend {
         /// The web client ID for the Amazon Cognito user pools.
         public let awsUserPoolsWebClientId: String?
 
+        @inlinable
         public init(awsCognitoIdentityPoolId: String? = nil, awsCognitoRegion: String? = nil, awsUserPoolsId: String? = nil, awsUserPoolsWebClientId: String? = nil) {
             self.awsCognitoIdentityPoolId = awsCognitoIdentityPoolId
             self.awsCognitoRegion = awsCognitoRegion
@@ -1993,6 +2061,7 @@ extension AmplifyBackend {
         /// Cleans up the Amplify Console app if this value is set to true.
         public let cleanAmplifyApp: Bool?
 
+        @inlinable
         public init(appId: String, cleanAmplifyApp: Bool? = nil) {
             self.appId = appId
             self.cleanAmplifyApp = cleanAmplifyApp
@@ -2022,6 +2091,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.error = error
@@ -2043,6 +2113,7 @@ extension AmplifyBackend {
         /// The app ID.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -2060,6 +2131,7 @@ extension AmplifyBackend {
         /// If the request fails, this error is returned.
         public let error: String?
 
+        @inlinable
         public init(error: String? = nil) {
             self.error = error
         }
@@ -2079,6 +2151,7 @@ extension AmplifyBackend {
         /// The name of the S3 bucket.
         public let name: String?
 
+        @inlinable
         public init(creationDate: String? = nil, name: String? = nil) {
             self.creationDate = creationDate
             self.name = name
@@ -2096,6 +2169,7 @@ extension AmplifyBackend {
         /// The body of the SMS message.
         public let smsMessage: String?
 
+        @inlinable
         public init(mfaTypes: [MfaTypesElement]? = nil, smsMessage: String? = nil) {
             self.mfaTypes = mfaTypes
             self.smsMessage = smsMessage
@@ -2111,6 +2185,7 @@ extension AmplifyBackend {
         /// The contents of the SMS message.
         public let smsMessage: String?
 
+        @inlinable
         public init(smsMessage: String? = nil) {
             self.smsMessage = smsMessage
         }
@@ -2126,6 +2201,7 @@ extension AmplifyBackend {
         public let loginWithAmazon: BackendAuthSocialProviderConfig?
         public let signInWithApple: BackendAuthAppleProviderConfig?
 
+        @inlinable
         public init(facebook: BackendAuthSocialProviderConfig? = nil, google: BackendAuthSocialProviderConfig? = nil, loginWithAmazon: BackendAuthSocialProviderConfig? = nil, signInWithApple: BackendAuthAppleProviderConfig? = nil) {
             self.facebook = facebook
             self.google = google
@@ -2151,6 +2227,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceConfig: BackendAPIResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2187,6 +2264,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2214,6 +2292,7 @@ extension AmplifyBackend {
         /// (DEPRECATED) The configuration for the SMS message sent when an Amplify app user forgets their password.
         public let smsSettings: SmsSettings?
 
+        @inlinable
         public init(deliveryMethod: DeliveryMethod? = nil, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
@@ -2231,6 +2310,7 @@ extension AmplifyBackend {
         /// A boolean value that can be set to allow or disallow guest-level authorization into your Amplify app.
         public let unauthenticatedLogin: Bool?
 
+        @inlinable
         public init(unauthenticatedLogin: Bool? = nil) {
             self.unauthenticatedLogin = unauthenticatedLogin
         }
@@ -2246,6 +2326,7 @@ extension AmplifyBackend {
         /// The settings of your MFA configuration for the backend of your Amplify project.
         public let settings: Settings?
 
+        @inlinable
         public init(mfaMode: MFAMode? = nil, settings: Settings? = nil) {
             self.mfaMode = mfaMode
             self.settings = settings
@@ -2271,6 +2352,7 @@ extension AmplifyBackend {
         /// Describes third-party social federation configurations for allowing your users to sign in with OAuth.
         public let socialProviderSettings: SocialProviderSettings?
 
+        @inlinable
         public init(domainPrefix: String? = nil, oAuthGrantType: OAuthGrantType? = nil, oAuthScopes: [OAuthScopesElement]? = nil, redirectSignInURIs: [String]? = nil, redirectSignOutURIs: [String]? = nil, socialProviderSettings: SocialProviderSettings? = nil) {
             self.domainPrefix = domainPrefix
             self.oAuthGrantType = oAuthGrantType
@@ -2296,6 +2378,7 @@ extension AmplifyBackend {
         /// Describes the minimum length of the password required to sign in to the auth resource, configured as a part of your Amplify project.
         public let minimumLength: Double?
 
+        @inlinable
         public init(additionalConstraints: [AdditionalConstraintsElement]? = nil, minimumLength: Double? = nil) {
             self.additionalConstraints = additionalConstraints
             self.minimumLength = minimumLength
@@ -2317,6 +2400,7 @@ extension AmplifyBackend {
         /// The name of this resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceConfig: UpdateBackendAuthResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2349,6 +2433,7 @@ extension AmplifyBackend {
         /// Describes the authentication configuration for the Amazon Cognito user pool, provisioned as a part of your auth resource in the Amplify project.
         public let userPoolConfigs: UpdateBackendAuthUserPoolConfig?
 
+        @inlinable
         public init(authResources: AuthResources? = nil, identityPoolConfigs: UpdateBackendAuthIdentityPoolConfig? = nil, service: Service? = nil, userPoolConfigs: UpdateBackendAuthUserPoolConfig? = nil) {
             self.authResources = authResources
             self.identityPoolConfigs = identityPoolConfigs
@@ -2378,6 +2463,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2409,6 +2495,7 @@ extension AmplifyBackend {
         /// Describes the email or SMS verification message for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let verificationMessage: UpdateBackendAuthVerificationMessageConfig?
 
+        @inlinable
         public init(forgotPassword: UpdateBackendAuthForgotPasswordConfig? = nil, mfa: UpdateBackendAuthMFAConfig? = nil, oAuth: UpdateBackendAuthOAuthConfig? = nil, passwordPolicy: UpdateBackendAuthPasswordPolicyConfig? = nil, verificationMessage: UpdateBackendAuthVerificationMessageConfig? = nil) {
             self.forgotPassword = forgotPassword
             self.mfa = mfa
@@ -2434,6 +2521,7 @@ extension AmplifyBackend {
         /// The settings for the SMS message.
         public let smsSettings: SmsSettings?
 
+        @inlinable
         public init(deliveryMethod: DeliveryMethod? = nil, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
@@ -2453,6 +2541,7 @@ extension AmplifyBackend {
         /// Describes the Amazon Cognito configuration for Admin UI access.
         public let loginAuthConfig: LoginAuthConfigReqObj?
 
+        @inlinable
         public init(appId: String, loginAuthConfig: LoginAuthConfigReqObj? = nil) {
             self.appId = appId
             self.loginAuthConfig = loginAuthConfig
@@ -2480,6 +2569,7 @@ extension AmplifyBackend {
         /// Describes the Amazon Cognito configurations for the Admin UI auth resource to log in with.
         public let loginAuthConfig: LoginAuthConfigReqObj?
 
+        @inlinable
         public init(appId: String? = nil, backendManagerAppId: String? = nil, error: String? = nil, loginAuthConfig: LoginAuthConfigReqObj? = nil) {
             self.appId = appId
             self.backendManagerAppId = backendManagerAppId
@@ -2507,6 +2597,7 @@ extension AmplifyBackend {
         /// Filters the list of response objects to include only those with the specified status.
         public let status: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, jobId: String, operation: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2549,6 +2640,7 @@ extension AmplifyBackend {
         /// The time when the job was last updated.
         public let updateTime: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, createTime: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil, updateTime: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2582,6 +2674,7 @@ extension AmplifyBackend {
         /// The name of the storage resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appId: String, backendEnvironmentName: String, resourceConfig: UpdateBackendStorageResourceConfig? = nil, resourceName: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
@@ -2610,6 +2703,7 @@ extension AmplifyBackend {
         /// The name of the storage service.
         public let serviceName: ServiceName?
 
+        @inlinable
         public init(permissions: BackendStoragePermissions? = nil, serviceName: ServiceName? = nil) {
             self.permissions = permissions
             self.serviceName = serviceName
@@ -2631,6 +2725,7 @@ extension AmplifyBackend {
         /// The current status of the request.
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, backendEnvironmentName: String? = nil, jobId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName

@@ -764,6 +764,7 @@ extension BedrockAgentRuntime {
     public struct AccessDeniedException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -791,6 +792,7 @@ extension BedrockAgentRuntime {
         /// The API method being used, based off the action group.
         public let verb: String?
 
+        @inlinable
         public init(actionGroupName: String? = nil, apiPath: String? = nil, executionType: ExecutionType? = nil, function: String? = nil, invocationId: String? = nil, parameters: [Parameter]? = nil, requestBody: RequestBody? = nil, verb: String? = nil) {
             self.actionGroupName = actionGroupName
             self.apiPath = apiPath
@@ -818,6 +820,7 @@ extension BedrockAgentRuntime {
         /// The JSON-formatted string returned by the API invoked by the action group.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -841,6 +844,7 @@ extension BedrockAgentRuntime {
         /// The request body to provide for the API request, as the agent elicited from the user.
         public let requestBody: ApiRequestBody?
 
+        @inlinable
         public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, apiPath: String? = nil, httpMethod: String? = nil, parameters: [ApiParameter]? = nil, requestBody: ApiRequestBody? = nil) {
             self.actionGroup = actionGroup
             self.actionInvocationType = actionInvocationType
@@ -868,6 +872,7 @@ extension BedrockAgentRuntime {
         /// The value of the parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.type = type
@@ -885,6 +890,7 @@ extension BedrockAgentRuntime {
         /// The content of the request body. The key of the object in this field is a media type defining the format of the request body.
         public let content: [String: PropertyParameters]?
 
+        @inlinable
         public init(content: [String: PropertyParameters]? = nil) {
             self.content = content
         }
@@ -910,6 +916,7 @@ extension BedrockAgentRuntime {
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
 
+        @inlinable
         public init(actionGroup: String, apiPath: String? = nil, confirmationState: ConfirmationState? = nil, httpMethod: String? = nil, httpStatusCode: Int? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
             self.actionGroup = actionGroup
             self.apiPath = apiPath
@@ -935,6 +942,7 @@ extension BedrockAgentRuntime {
         /// A list of citations and related information for a part of an agent response.
         public let citations: [Citation]?
 
+        @inlinable
         public init(citations: [Citation]? = nil) {
             self.citations = citations
         }
@@ -949,6 +957,7 @@ extension BedrockAgentRuntime {
         /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public let resourceName: String?
 
+        @inlinable
         public init(message: String? = nil, resourceName: String? = nil) {
             self.message = message
             self.resourceName = resourceName
@@ -968,6 +977,7 @@ extension BedrockAgentRuntime {
         /// The file name of the document contained in the wrapper object.
         public let identifier: String
 
+        @inlinable
         public init(contentType: String, data: AWSBase64Data, identifier: String) {
             self.contentType = contentType
             self.data = data
@@ -995,6 +1005,7 @@ extension BedrockAgentRuntime {
         /// The MIME type of data contained in the file used for chat.
         public let mediaType: String
 
+        @inlinable
         public init(data: AWSBase64Data, mediaType: String) {
             self.data = data
             self.mediaType = mediaType
@@ -1017,6 +1028,7 @@ extension BedrockAgentRuntime {
         /// Contains metadata about the sources cited for the generated response.
         public let retrievedReferences: [RetrievedReference]?
 
+        @inlinable
         public init(generatedResponsePart: GeneratedResponsePart? = nil, retrievedReferences: [RetrievedReference]? = nil) {
             self.generatedResponsePart = generatedResponsePart
             self.retrievedReferences = retrievedReferences
@@ -1034,6 +1046,7 @@ extension BedrockAgentRuntime {
         /// Files that are uploaded for code interpreter to use.
         public let files: [String]?
 
+        @inlinable
         public init(code: String? = nil, files: [String]? = nil) {
             self.code = code
             self.files = files
@@ -1055,6 +1068,7 @@ extension BedrockAgentRuntime {
         /// Contains output files, if generated by code execution.
         public let files: [String]?
 
+        @inlinable
         public init(executionError: String? = nil, executionOutput: String? = nil, executionTimeout: Bool? = nil, files: [String]? = nil) {
             self.executionError = executionError
             self.executionOutput = executionOutput
@@ -1073,6 +1087,7 @@ extension BedrockAgentRuntime {
     public struct ConflictException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1086,6 +1101,7 @@ extension BedrockAgentRuntime {
         /// The body of the API response.
         public let body: String?
 
+        @inlinable
         public init(body: String? = nil) {
             self.body = body
         }
@@ -1103,6 +1119,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the memory.
         public let memoryId: String?
 
+        @inlinable
         public init(agentAliasId: String, agentId: String, memoryId: String? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
@@ -1139,6 +1156,7 @@ extension BedrockAgentRuntime {
         /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public let resourceName: String?
 
+        @inlinable
         public init(message: String? = nil, resourceName: String? = nil) {
             self.message = message
             self.resourceName = resourceName
@@ -1158,6 +1176,7 @@ extension BedrockAgentRuntime {
         /// The source type of the external source wrapper object.
         public let sourceType: ExternalSourceType
 
+        @inlinable
         public init(byteContent: ByteContentDoc? = nil, s3Location: S3ObjectDoc? = nil, sourceType: ExternalSourceType) {
             self.byteContent = byteContent
             self.s3Location = s3Location
@@ -1186,6 +1205,7 @@ extension BedrockAgentRuntime {
         /// Contain the textPromptTemplate string for the external source wrapper object.
         public let promptTemplate: PromptTemplate?
 
+        @inlinable
         public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
@@ -1218,6 +1238,7 @@ extension BedrockAgentRuntime {
         /// The document used with the external source wrapper object in the retrieveAndGenerate function.
         public let sources: [ExternalSource]
 
+        @inlinable
         public init(generationConfiguration: ExternalSourcesGenerationConfiguration? = nil, modelArn: String, sources: [ExternalSource]) {
             self.generationConfiguration = generationConfiguration
             self.modelArn = modelArn
@@ -1249,6 +1270,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the trace.
         public let traceId: String?
 
+        @inlinable
         public init(failureReason: String? = nil, traceId: String? = nil) {
             self.failureReason = failureReason
             self.traceId = traceId
@@ -1264,6 +1286,7 @@ extension BedrockAgentRuntime {
         /// Files containing intermediate response for the user.
         public let files: [OutputFile]?
 
+        @inlinable
         public init(files: [OutputFile]? = nil) {
             self.files = files
         }
@@ -1281,6 +1304,7 @@ extension BedrockAgentRuntime {
         /// The source type of the files to attach.
         public let sourceType: FileSourceType
 
+        @inlinable
         public init(byteContent: ByteContentFile? = nil, s3Location: S3ObjectFile? = nil, sourceType: FileSourceType) {
             self.byteContent = byteContent
             self.s3Location = s3Location
@@ -1305,6 +1329,7 @@ extension BedrockAgentRuntime {
         /// The value to whcih to compare the value of the metadata attribute.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1325,6 +1350,7 @@ extension BedrockAgentRuntime {
         /// The text in the response to the user.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -1338,6 +1364,7 @@ extension BedrockAgentRuntime {
         /// The reason that the flow completed.
         public let completionReason: FlowCompletionReason
 
+        @inlinable
         public init(completionReason: FlowCompletionReason) {
             self.completionReason = completionReason
         }
@@ -1355,6 +1382,7 @@ extension BedrockAgentRuntime {
         /// The name of the output from the flow input node that begins the prompt flow.
         public let nodeOutputName: String
 
+        @inlinable
         public init(content: FlowInputContent, nodeName: String, nodeOutputName: String) {
             self.content = content
             self.nodeName = nodeName
@@ -1381,6 +1409,7 @@ extension BedrockAgentRuntime {
         /// The type of the node that the output is from.
         public let nodeType: NodeType
 
+        @inlinable
         public init(content: FlowOutputContent, nodeName: String, nodeType: NodeType) {
             self.content = content
             self.nodeName = nodeName
@@ -1404,6 +1433,7 @@ extension BedrockAgentRuntime {
         /// A list of parameters of the function.
         public let parameters: [FunctionParameter]?
 
+        @inlinable
         public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, function: String? = nil, parameters: [FunctionParameter]? = nil) {
             self.actionGroup = actionGroup
             self.actionInvocationType = actionInvocationType
@@ -1427,6 +1457,7 @@ extension BedrockAgentRuntime {
         /// The value of the parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.type = type
@@ -1452,6 +1483,7 @@ extension BedrockAgentRuntime {
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
 
+        @inlinable
         public init(actionGroup: String, confirmationState: ConfirmationState? = nil, function: String? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
             self.actionGroup = actionGroup
             self.confirmationState = confirmationState
@@ -1473,6 +1505,7 @@ extension BedrockAgentRuntime {
         /// Contains metadata about a textual part of the generated response that is accompanied by a citation.
         public let textResponsePart: TextResponsePart?
 
+        @inlinable
         public init(textResponsePart: TextResponsePart? = nil) {
             self.textResponsePart = textResponsePart
         }
@@ -1492,6 +1525,7 @@ extension BedrockAgentRuntime {
         /// Contains the template for the prompt that's sent to the model for response generation.
         public let promptTemplate: PromptTemplate?
 
+        @inlinable
         public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
@@ -1530,6 +1564,7 @@ extension BedrockAgentRuntime {
         /// If the total number of results is greater than the maxItems value provided in the request, enter the token returned  in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentAliasId: String, agentId: String, maxItems: Int? = nil, memoryId: String, memoryType: MemoryType, nextToken: String? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
@@ -1574,6 +1609,7 @@ extension BedrockAgentRuntime {
         /// If the total number of results is greater than the maxItems value provided in the request, use this token  when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(memoryContents: [Memory]? = nil, nextToken: String? = nil) {
             self.memoryContents = memoryContents
             self.nextToken = nextToken
@@ -1595,6 +1631,7 @@ extension BedrockAgentRuntime {
         /// Word policy details of the Guardrail.
         public let wordPolicy: GuardrailWordPolicyAssessment?
 
+        @inlinable
         public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
             self.contentPolicy = contentPolicy
             self.sensitiveInformationPolicy = sensitiveInformationPolicy
@@ -1616,6 +1653,7 @@ extension BedrockAgentRuntime {
         /// The version of the guardrail.
         public let guardrailVersion: String
 
+        @inlinable
         public init(guardrailId: String, guardrailVersion: String) {
             self.guardrailId = guardrailId
             self.guardrailVersion = guardrailVersion
@@ -1635,6 +1673,7 @@ extension BedrockAgentRuntime {
         /// The type of content detected in the filter by the Guardrail.
         public let type: GuardrailContentFilterType?
 
+        @inlinable
         public init(action: GuardrailContentPolicyAction? = nil, confidence: GuardrailContentFilterConfidence? = nil, type: GuardrailContentFilterType? = nil) {
             self.action = action
             self.confidence = confidence
@@ -1652,6 +1691,7 @@ extension BedrockAgentRuntime {
         /// The filter details of the policy assessment used in the Guardrails filter.
         public let filters: [GuardrailContentFilter]?
 
+        @inlinable
         public init(filters: [GuardrailContentFilter]? = nil) {
             self.filters = filters
         }
@@ -1667,6 +1707,7 @@ extension BedrockAgentRuntime {
         /// The match details for the custom word filter in the Guardrail.
         public let match: String?
 
+        @inlinable
         public init(action: GuardrailWordPolicyAction? = nil, match: String? = nil) {
             self.action = action
             self.match = match
@@ -1686,6 +1727,7 @@ extension BedrockAgentRuntime {
         /// The type details for the managed word filter in the Guardrail.
         public let type: GuardrailManagedWordType?
 
+        @inlinable
         public init(action: GuardrailWordPolicyAction? = nil, match: String? = nil, type: GuardrailManagedWordType? = nil) {
             self.action = action
             self.match = match
@@ -1707,6 +1749,7 @@ extension BedrockAgentRuntime {
         /// The type of PII the Guardrail filter has identified and removed.
         public let type: GuardrailPiiEntityType?
 
+        @inlinable
         public init(action: GuardrailSensitiveInformationPolicyAction? = nil, match: String? = nil, type: GuardrailPiiEntityType? = nil) {
             self.action = action
             self.match = match
@@ -1730,6 +1773,7 @@ extension BedrockAgentRuntime {
         /// The regex details for the regex filter used in the Guardrail.
         public let regex: String?
 
+        @inlinable
         public init(action: GuardrailSensitiveInformationPolicyAction? = nil, match: String? = nil, name: String? = nil, regex: String? = nil) {
             self.action = action
             self.match = match
@@ -1751,6 +1795,7 @@ extension BedrockAgentRuntime {
         /// The details of the regexes used in the sensitive policy assessment for the Guardrail.
         public let regexes: [GuardrailRegexFilter]?
 
+        @inlinable
         public init(piiEntities: [GuardrailPiiEntityFilter]? = nil, regexes: [GuardrailRegexFilter]? = nil) {
             self.piiEntities = piiEntities
             self.regexes = regexes
@@ -1770,6 +1815,7 @@ extension BedrockAgentRuntime {
         /// The type details on a specific topic in the Guardrail.
         public let type: GuardrailTopicType?
 
+        @inlinable
         public init(action: GuardrailTopicPolicyAction? = nil, name: String? = nil, type: GuardrailTopicType? = nil) {
             self.action = action
             self.name = name
@@ -1787,6 +1833,7 @@ extension BedrockAgentRuntime {
         /// The topic details of the policy assessment used in the Guardrail.
         public let topics: [GuardrailTopic]?
 
+        @inlinable
         public init(topics: [GuardrailTopic]? = nil) {
             self.topics = topics
         }
@@ -1806,6 +1853,7 @@ extension BedrockAgentRuntime {
         /// The details of the trace Id used in the Guardrail Trace.
         public let traceId: String?
 
+        @inlinable
         public init(action: GuardrailAction? = nil, inputAssessments: [GuardrailAssessment]? = nil, outputAssessments: [GuardrailAssessment]? = nil, traceId: String? = nil) {
             self.action = action
             self.inputAssessments = inputAssessments
@@ -1827,6 +1875,7 @@ extension BedrockAgentRuntime {
         /// The managed word lists for words defined in the Guardrail filter.
         public let managedWordLists: [GuardrailManagedWord]?
 
+        @inlinable
         public init(customWords: [GuardrailCustomWord]? = nil, managedWordLists: [GuardrailManagedWord]? = nil) {
             self.customWords = customWords
             self.managedWordLists = managedWordLists
@@ -1842,6 +1891,7 @@ extension BedrockAgentRuntime {
         ///  Configuration settings specific to text generation while generating responses using RetrieveAndGenerate.
         public let textInferenceConfig: TextInferenceConfig?
 
+        @inlinable
         public init(textInferenceConfig: TextInferenceConfig? = nil) {
             self.textInferenceConfig = textInferenceConfig
         }
@@ -1867,6 +1917,7 @@ extension BedrockAgentRuntime {
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public let topP: Float?
 
+        @inlinable
         public init(maximumLength: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
             self.maximumLength = maximumLength
             self.stopSequences = stopSequences
@@ -1892,6 +1943,7 @@ extension BedrockAgentRuntime {
         /// Specifies how the source files will be used by the code interpreter.
         public let useCase: FileUseCase
 
+        @inlinable
         public init(name: String, source: FileSource, useCase: FileUseCase) {
             self.name = name
             self.source = source
@@ -1912,6 +1964,7 @@ extension BedrockAgentRuntime {
     public struct InternalServerException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1933,6 +1986,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the trace.
         public let traceId: String?
 
+        @inlinable
         public init(actionGroupInvocationInput: ActionGroupInvocationInput? = nil, codeInterpreterInvocationInput: CodeInterpreterInvocationInput? = nil, invocationType: InvocationType? = nil, knowledgeBaseLookupInput: KnowledgeBaseLookupInput? = nil, traceId: String? = nil) {
             self.actionGroupInvocationInput = actionGroupInvocationInput
             self.codeInterpreterInvocationInput = codeInterpreterInvocationInput
@@ -1968,6 +2022,7 @@ extension BedrockAgentRuntime {
         /// Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
         public let sessionState: SessionState?
 
+        @inlinable
         public init(agentAliasId: String, agentId: String, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, sessionId: String, sessionState: SessionState? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
@@ -2027,6 +2082,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the session with the agent.
         public let sessionId: String
 
+        @inlinable
         public init(completion: AWSEventStream<ResponseStream>, contentType: String, memoryId: String? = nil, sessionId: String) {
             self.completion = completion
             self.contentType = contentType
@@ -2054,6 +2110,7 @@ extension BedrockAgentRuntime {
         /// A list of objects, each containing information about an input into the flow.
         public let inputs: [FlowInput]
 
+        @inlinable
         public init(flowAliasIdentifier: String, flowIdentifier: String, inputs: [FlowInput]) {
             self.flowAliasIdentifier = flowAliasIdentifier
             self.flowIdentifier = flowIdentifier
@@ -2090,6 +2147,7 @@ extension BedrockAgentRuntime {
         /// The output of the flow, returned as a stream. If there's an error, the error is returned.
         public let responseStream: AWSEventStream<FlowResponseStream>
 
+        @inlinable
         public init(responseStream: AWSEventStream<FlowResponseStream>) {
             self.responseStream = responseStream
         }
@@ -2108,6 +2166,7 @@ extension BedrockAgentRuntime {
         /// The configurations to apply to the knowledge base during query. For more information, see Query configurations.
         public let retrievalConfiguration: KnowledgeBaseRetrievalConfiguration
 
+        @inlinable
         public init(knowledgeBaseId: String, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration) {
             self.knowledgeBaseId = knowledgeBaseId
             self.retrievalConfiguration = retrievalConfiguration
@@ -2131,6 +2190,7 @@ extension BedrockAgentRuntime {
         /// The query made to the knowledge base.
         public let text: String?
 
+        @inlinable
         public init(knowledgeBaseId: String? = nil, text: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
             self.text = text
@@ -2146,6 +2206,7 @@ extension BedrockAgentRuntime {
         /// Contains metadata about the sources cited for the generated response.
         public let retrievedReferences: [RetrievedReference]?
 
+        @inlinable
         public init(retrievedReferences: [RetrievedReference]? = nil) {
             self.retrievedReferences = retrievedReferences
         }
@@ -2159,6 +2220,7 @@ extension BedrockAgentRuntime {
         /// The text of the query made to the knowledge base.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2172,6 +2234,7 @@ extension BedrockAgentRuntime {
         /// Contains details about how the results from the vector search should be returned. For more information, see Query configurations.
         public let vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration
 
+        @inlinable
         public init(vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration) {
             self.vectorSearchConfiguration = vectorSearchConfiguration
         }
@@ -2195,6 +2258,7 @@ extension BedrockAgentRuntime {
         /// The level of relevance of the result to the query.
         public let score: Double?
 
+        @inlinable
         public init(content: RetrievalResultContent, location: RetrievalResultLocation? = nil, metadata: [String: String]? = nil, score: Double? = nil) {
             self.content = content
             self.location = location
@@ -2222,6 +2286,7 @@ extension BedrockAgentRuntime {
         /// Contains configurations for how to retrieve and return the knowledge base query.
         public let retrievalConfiguration: KnowledgeBaseRetrievalConfiguration?
 
+        @inlinable
         public init(generationConfiguration: GenerationConfiguration? = nil, knowledgeBaseId: String, modelArn: String, orchestrationConfiguration: OrchestrationConfiguration? = nil, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil) {
             self.generationConfiguration = generationConfiguration
             self.knowledgeBaseId = knowledgeBaseId
@@ -2257,6 +2322,7 @@ extension BedrockAgentRuntime {
         /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available. For more information, see Test a knowledge base.
         public let overrideSearchType: SearchType?
 
+        @inlinable
         public init(filter: RetrievalFilter? = nil, numberOfResults: Int? = nil, overrideSearchType: SearchType? = nil) {
             self.filter = filter
             self.numberOfResults = numberOfResults
@@ -2288,6 +2354,7 @@ extension BedrockAgentRuntime {
         /// The summarized text for this session.
         public let summaryText: String?
 
+        @inlinable
         public init(memoryId: String? = nil, sessionExpiryTime: Date? = nil, sessionId: String? = nil, sessionStartTime: Date? = nil, summaryText: String? = nil) {
             self.memoryId = memoryId
             self.sessionExpiryTime = sessionExpiryTime
@@ -2309,6 +2376,7 @@ extension BedrockAgentRuntime {
         /// Contains details of the foundation model usage.
         public let usage: Usage?
 
+        @inlinable
         public init(usage: Usage? = nil) {
             self.usage = usage
         }
@@ -2334,6 +2402,7 @@ extension BedrockAgentRuntime {
         /// The step in the agent sequence.
         public let type: PromptType?
 
+        @inlinable
         public init(inferenceConfiguration: InferenceConfiguration? = nil, overrideLambda: String? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, text: String? = nil, traceId: String? = nil, type: PromptType? = nil) {
             self.inferenceConfiguration = inferenceConfiguration
             self.overrideLambda = overrideLambda
@@ -2371,6 +2440,7 @@ extension BedrockAgentRuntime {
         /// Specifies what kind of information the agent returns in the observation. The following values are possible.    ACTION_GROUP – The agent returns the result of an action group.    KNOWLEDGE_BASE – The agent returns information from a knowledge base.    FINISH – The agent returns a final response to the user with no follow-up.    ASK_USER – The agent asks the user a question.    REPROMPT – The agent prompts the user again for the same information.
         public let type: `Type`?
 
+        @inlinable
         public init(actionGroupInvocationOutput: ActionGroupInvocationOutput? = nil, codeInterpreterInvocationOutput: CodeInterpreterInvocationOutput? = nil, finalResponse: FinalResponse? = nil, knowledgeBaseLookupOutput: KnowledgeBaseLookupOutput? = nil, repromptResponse: RepromptResponse? = nil, traceId: String? = nil, type: `Type`? = nil) {
             self.actionGroupInvocationOutput = actionGroupInvocationOutput
             self.codeInterpreterInvocationOutput = codeInterpreterInvocationOutput
@@ -2396,6 +2466,7 @@ extension BedrockAgentRuntime {
         /// To split up the prompt and retrieve multiple sources, set the transformation type to QUERY_DECOMPOSITION.
         public let queryTransformationConfiguration: QueryTransformationConfiguration
 
+        @inlinable
         public init(queryTransformationConfiguration: QueryTransformationConfiguration) {
             self.queryTransformationConfiguration = queryTransformationConfiguration
         }
@@ -2413,6 +2484,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the trace.
         public let traceId: String?
 
+        @inlinable
         public init(metadata: Metadata? = nil, rawResponse: RawResponse? = nil, traceId: String? = nil) {
             self.metadata = metadata
             self.rawResponse = rawResponse
@@ -2434,6 +2506,7 @@ extension BedrockAgentRuntime {
         /// The type of file that contains response from the code interpreter.
         public let type: String?
 
+        @inlinable
         public init(bytes: AWSBase64Data? = nil, name: String? = nil, type: String? = nil) {
             self.bytes = bytes
             self.name = name
@@ -2455,6 +2528,7 @@ extension BedrockAgentRuntime {
         /// The value of the parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.type = type
@@ -2474,6 +2548,7 @@ extension BedrockAgentRuntime {
         /// A part of the agent response in bytes.
         public let bytes: AWSBase64Data?
 
+        @inlinable
         public init(attribution: Attribution? = nil, bytes: AWSBase64Data? = nil) {
             self.attribution = attribution
             self.bytes = bytes
@@ -2491,6 +2566,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the trace.
         public let traceId: String?
 
+        @inlinable
         public init(parsedResponse: PostProcessingParsedResponse? = nil, traceId: String? = nil) {
             self.parsedResponse = parsedResponse
             self.traceId = traceId
@@ -2506,6 +2582,7 @@ extension BedrockAgentRuntime {
         /// The text returned by the parser.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -2521,6 +2598,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the trace.
         public let traceId: String?
 
+        @inlinable
         public init(parsedResponse: PreProcessingParsedResponse? = nil, traceId: String? = nil) {
             self.parsedResponse = parsedResponse
             self.traceId = traceId
@@ -2538,6 +2616,7 @@ extension BedrockAgentRuntime {
         /// The text returned by the parsing of the pre-processing step, explaining the steps that the agent plans to take in orchestration, if the user input is valid.
         public let rationale: String?
 
+        @inlinable
         public init(isValid: Bool? = nil, rationale: String? = nil) {
             self.isValid = isValid
             self.rationale = rationale
@@ -2553,6 +2632,7 @@ extension BedrockAgentRuntime {
         /// The template for the prompt that's sent to the model for response generation. You can include prompt placeholders, which become replaced before the prompt is sent to the model to provide instructions and context to the model. In addition, you can include XML tags to delineate meaningful sections of the prompt template. For more information, see the following resources:    Knowledge base prompt templates     Use XML tags with Anthropic Claude models
         public let textPromptTemplate: String?
 
+        @inlinable
         public init(textPromptTemplate: String? = nil) {
             self.textPromptTemplate = textPromptTemplate
         }
@@ -2571,6 +2651,7 @@ extension BedrockAgentRuntime {
         /// A list of parameters in the request body.
         public let properties: [Parameter]?
 
+        @inlinable
         public init(properties: [Parameter]? = nil) {
             self.properties = properties
         }
@@ -2584,6 +2665,7 @@ extension BedrockAgentRuntime {
         /// The type of transformation to apply to the prompt.
         public let type: QueryTransformationType
 
+        @inlinable
         public init(type: QueryTransformationType) {
             self.type = type
         }
@@ -2599,6 +2681,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the trace step.
         public let traceId: String?
 
+        @inlinable
         public init(text: String? = nil, traceId: String? = nil) {
             self.text = text
             self.traceId = traceId
@@ -2614,6 +2697,7 @@ extension BedrockAgentRuntime {
         /// The foundation model's raw output content.
         public let content: String?
 
+        @inlinable
         public init(content: String? = nil) {
             self.content = content
         }
@@ -2629,6 +2713,7 @@ extension BedrockAgentRuntime {
         /// The text reprompting the input.
         public let text: String?
 
+        @inlinable
         public init(source: Source? = nil, text: String? = nil) {
             self.source = source
             self.text = text
@@ -2644,6 +2729,7 @@ extension BedrockAgentRuntime {
         /// The content in the request body.
         public let content: [String: [Parameter]]?
 
+        @inlinable
         public init(content: [String: [Parameter]]? = nil) {
             self.content = content
         }
@@ -2656,6 +2742,7 @@ extension BedrockAgentRuntime {
     public struct ResourceNotFoundException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -2669,6 +2756,7 @@ extension BedrockAgentRuntime {
         /// The Confluence host URL for the data source location.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2682,6 +2770,7 @@ extension BedrockAgentRuntime {
         /// The cited text from the data source.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2705,6 +2794,7 @@ extension BedrockAgentRuntime {
         /// The web URL/URLs data source location.
         public let webLocation: RetrievalResultWebLocation?
 
+        @inlinable
         public init(confluenceLocation: RetrievalResultConfluenceLocation? = nil, s3Location: RetrievalResultS3Location? = nil, salesforceLocation: RetrievalResultSalesforceLocation? = nil, sharePointLocation: RetrievalResultSharePointLocation? = nil, type: RetrievalResultLocationType, webLocation: RetrievalResultWebLocation? = nil) {
             self.confluenceLocation = confluenceLocation
             self.s3Location = s3Location
@@ -2728,6 +2818,7 @@ extension BedrockAgentRuntime {
         /// The S3 URI for the data source location.
         public let uri: String?
 
+        @inlinable
         public init(uri: String? = nil) {
             self.uri = uri
         }
@@ -2741,6 +2832,7 @@ extension BedrockAgentRuntime {
         /// The Salesforce host URL for the data source location.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2754,6 +2846,7 @@ extension BedrockAgentRuntime {
         /// The SharePoint site URL for the data source location.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2767,6 +2860,7 @@ extension BedrockAgentRuntime {
         /// The web URL/URLs for the data source location.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2784,6 +2878,7 @@ extension BedrockAgentRuntime {
         /// The type of resource that is queried by the request.
         public let type: RetrieveAndGenerateType
 
+        @inlinable
         public init(externalSourcesConfiguration: ExternalSourcesRetrieveAndGenerateConfiguration? = nil, knowledgeBaseConfiguration: KnowledgeBaseRetrieveAndGenerateConfiguration? = nil, type: RetrieveAndGenerateType) {
             self.externalSourcesConfiguration = externalSourcesConfiguration
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
@@ -2806,6 +2901,7 @@ extension BedrockAgentRuntime {
         /// The query made to the knowledge base.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2819,6 +2915,7 @@ extension BedrockAgentRuntime {
         /// The response generated from querying the knowledge base.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2838,6 +2935,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
         public let sessionId: String?
 
+        @inlinable
         public init(input: RetrieveAndGenerateInput, retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil, sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil, sessionId: String? = nil) {
             self.input = input
             self.retrieveAndGenerateConfiguration = retrieveAndGenerateConfiguration
@@ -2871,6 +2969,7 @@ extension BedrockAgentRuntime {
         /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
         public let sessionId: String
 
+        @inlinable
         public init(citations: [Citation]? = nil, guardrailAction: GuadrailAction? = nil, output: RetrieveAndGenerateOutput, sessionId: String) {
             self.citations = citations
             self.guardrailAction = guardrailAction
@@ -2890,6 +2989,7 @@ extension BedrockAgentRuntime {
         /// The ARN of the KMS key encrypting the session.
         public let kmsKeyArn: String
 
+        @inlinable
         public init(kmsKeyArn: String) {
             self.kmsKeyArn = kmsKeyArn
         }
@@ -2915,6 +3015,7 @@ extension BedrockAgentRuntime {
         /// Contains the query to send the knowledge base.
         public let retrievalQuery: KnowledgeBaseQuery
 
+        @inlinable
         public init(knowledgeBaseId: String, nextToken: String? = nil, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil, retrievalQuery: KnowledgeBaseQuery) {
             self.knowledgeBaseId = knowledgeBaseId
             self.nextToken = nextToken
@@ -2953,6 +3054,7 @@ extension BedrockAgentRuntime {
         /// A list of results from querying the knowledge base.
         public let retrievalResults: [KnowledgeBaseRetrievalResult]
 
+        @inlinable
         public init(nextToken: String? = nil, retrievalResults: [KnowledgeBaseRetrievalResult]) {
             self.nextToken = nextToken
             self.retrievalResults = retrievalResults
@@ -2972,6 +3074,7 @@ extension BedrockAgentRuntime {
         /// Contains metadata attributes and their values for the file in the data source. For more information, see Metadata and filtering.
         public let metadata: [String: String]?
 
+        @inlinable
         public init(content: RetrievalResultContent? = nil, location: RetrievalResultLocation? = nil, metadata: [String: String]? = nil) {
             self.content = content
             self.location = location
@@ -2991,6 +3094,7 @@ extension BedrockAgentRuntime {
         /// A list of objects that contain information about the parameters and inputs that need to be sent into the API operation or function, based on what the agent determines from its session with the user.
         public let invocationInputs: [InvocationInputMember]?
 
+        @inlinable
         public init(invocationId: String? = nil, invocationInputs: [InvocationInputMember]? = nil) {
             self.invocationId = invocationId
             self.invocationInputs = invocationInputs
@@ -3006,6 +3110,7 @@ extension BedrockAgentRuntime {
         /// The file location of the S3 wrapper object.
         public let uri: String
 
+        @inlinable
         public init(uri: String) {
             self.uri = uri
         }
@@ -3025,6 +3130,7 @@ extension BedrockAgentRuntime {
         /// The uri of the s3 object.
         public let uri: String
 
+        @inlinable
         public init(uri: String) {
             self.uri = uri
         }
@@ -3043,6 +3149,7 @@ extension BedrockAgentRuntime {
     public struct ServiceQuotaExceededException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -3066,6 +3173,7 @@ extension BedrockAgentRuntime {
         /// Contains attributes that persist across a session and the values of those attributes.
         public let sessionAttributes: [String: String]?
 
+        @inlinable
         public init(files: [InputFile]? = nil, invocationId: String? = nil, knowledgeBaseConfigurations: [KnowledgeBaseConfiguration]? = nil, promptSessionAttributes: [String: String]? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil, sessionAttributes: [String: String]? = nil) {
             self.files = files
             self.invocationId = invocationId
@@ -3103,6 +3211,7 @@ extension BedrockAgentRuntime {
         /// Where the text with a citation starts in the generated output.
         public let start: Int?
 
+        @inlinable
         public init(end: Int? = nil, start: Int? = nil) {
             self.end = end
             self.start = start
@@ -3124,6 +3233,7 @@ extension BedrockAgentRuntime {
         ///  A probability distribution threshold which controls what the model considers for the set of possible next tokens. The model will only consider the top p% of the probability distribution when generating the next token.
         public let topP: Float?
 
+        @inlinable
         public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topP: Float? = nil) {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
@@ -3155,6 +3265,7 @@ extension BedrockAgentRuntime {
         /// The part of the generated text that contains a citation.
         public let text: String?
 
+        @inlinable
         public init(span: Span? = nil, text: String? = nil) {
             self.span = span
             self.text = text
@@ -3169,6 +3280,7 @@ extension BedrockAgentRuntime {
     public struct ThrottlingException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -3190,6 +3302,7 @@ extension BedrockAgentRuntime {
         /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see Trace enablement.
         public let trace: Trace?
 
+        @inlinable
         public init(agentAliasId: String? = nil, agentId: String? = nil, agentVersion: String? = nil, sessionId: String? = nil, trace: Trace? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
@@ -3213,6 +3326,7 @@ extension BedrockAgentRuntime {
         /// Contains information about the output tokens from the foundation model usage.
         public let outputTokens: Int?
 
+        @inlinable
         public init(inputTokens: Int? = nil, outputTokens: Int? = nil) {
             self.inputTokens = inputTokens
             self.outputTokens = outputTokens
@@ -3227,6 +3341,7 @@ extension BedrockAgentRuntime {
     public struct ValidationException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -3240,6 +3355,7 @@ extension BedrockAgentRuntime {
         /// The input to send to the prompt flow input node.
         public let document: String?
 
+        @inlinable
         public init(document: String? = nil) {
             self.document = document
         }
@@ -3253,6 +3369,7 @@ extension BedrockAgentRuntime {
         /// The content in the output.
         public let document: String?
 
+        @inlinable
         public init(document: String? = nil) {
             self.document = document
         }
@@ -3266,6 +3383,7 @@ extension BedrockAgentRuntime {
         /// Contains summary of a session.
         public let sessionSummary: MemorySessionSummary?
 
+        @inlinable
         public init(sessionSummary: MemorySessionSummary? = nil) {
             self.sessionSummary = sessionSummary
         }

@@ -113,6 +113,7 @@ extension PI {
         /// The status of the created analysis report.
         public let status: AnalysisStatus?
 
+        @inlinable
         public init(analysisReportId: String, createTime: Date? = nil, endTime: Date? = nil, identifier: String? = nil, insights: [Insight]? = nil, serviceType: ServiceType? = nil, startTime: Date? = nil, status: AnalysisStatus? = nil) {
             self.analysisReportId = analysisReportId
             self.createTime = createTime
@@ -150,6 +151,7 @@ extension PI {
         /// List of all the tags added to the analysis report.
         public let tags: [Tag]?
 
+        @inlinable
         public init(analysisReportId: String? = nil, createTime: Date? = nil, endTime: Date? = nil, startTime: Date? = nil, status: AnalysisStatus? = nil, tags: [Tag]? = nil) {
             self.analysisReportId = analysisReportId
             self.createTime = createTime
@@ -181,6 +183,7 @@ extension PI {
         /// The metadata assigned to the analysis report consisting of a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(endTime: Date, identifier: String, serviceType: ServiceType, startTime: Date, tags: [Tag]? = nil) {
             self.endTime = endTime
             self.identifier = identifier
@@ -211,6 +214,7 @@ extension PI {
         /// A unique identifier for the created analysis report.
         public let analysisReportId: String?
 
+        @inlinable
         public init(analysisReportId: String? = nil) {
             self.analysisReportId = analysisReportId
         }
@@ -224,6 +228,7 @@ extension PI {
         /// This field determines the Performance Insights metric to render  for the insight. The name field refers to a Performance Insights metric.
         public let performanceInsightsMetric: PerformanceInsightsMetric?
 
+        @inlinable
         public init(performanceInsightsMetric: PerformanceInsightsMetric? = nil) {
             self.performanceInsightsMetric = performanceInsightsMetric
         }
@@ -239,6 +244,7 @@ extension PI {
         /// The actual value associated with a particular Timestamp.
         public let value: Double
 
+        @inlinable
         public init(timestamp: Date, value: Double) {
             self.timestamp = timestamp
             self.value = value
@@ -258,6 +264,7 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(analysisReportId: String, identifier: String, serviceType: ServiceType) {
             self.analysisReportId = analysisReportId
             self.identifier = identifier
@@ -309,6 +316,7 @@ extension PI {
         /// The date and time specifying the beginning of the requested time series data. You must specify a StartTime within the past 7 days. The value specified is inclusive,  which means that data points equal to or greater than StartTime are returned.  The value for StartTime must be earlier than the value for EndTime.
         public let startTime: Date
 
+        @inlinable
         public init(additionalMetrics: [String]? = nil, endTime: Date, filter: [String: String]? = nil, groupBy: DimensionGroup, identifier: String, maxResults: Int? = nil, metric: String, nextToken: String? = nil, partitionBy: DimensionGroup? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
             self.additionalMetrics = additionalMetrics
             self.endTime = endTime
@@ -378,6 +386,7 @@ extension PI {
         /// If PartitionBy was present in the request, PartitionKeys contains the breakdown of dimension keys by the specified partitions.
         public let partitionKeys: [ResponsePartitionKey]?
 
+        @inlinable
         public init(alignedEndTime: Date? = nil, alignedStartTime: Date? = nil, keys: [DimensionKeyDescription]? = nil, nextToken: String? = nil, partitionKeys: [ResponsePartitionKey]? = nil) {
             self.alignedEndTime = alignedEndTime
             self.alignedStartTime = alignedStartTime
@@ -399,6 +408,7 @@ extension PI {
         /// The identifier of a dimension.
         public let identifier: String?
 
+        @inlinable
         public init(identifier: String? = nil) {
             self.identifier = identifier
         }
@@ -416,6 +426,7 @@ extension PI {
         /// The maximum number of items to fetch for this dimension group.
         public let limit: Int?
 
+        @inlinable
         public init(dimensions: [String]? = nil, group: String, limit: Int? = nil) {
             self.dimensions = dimensions
             self.group = group
@@ -448,6 +459,7 @@ extension PI {
         /// The name of the dimension group.
         public let group: String?
 
+        @inlinable
         public init(dimensions: [DimensionDetail]? = nil, group: String? = nil) {
             self.dimensions = dimensions
             self.group = group
@@ -469,6 +481,7 @@ extension PI {
         /// The aggregated metric value for the dimensions, over the requested time range.
         public let total: Double?
 
+        @inlinable
         public init(additionalMetrics: [String: Double]? = nil, dimensions: [String: String]? = nil, partitions: [Double]? = nil, total: Double? = nil) {
             self.additionalMetrics = additionalMetrics
             self.dimensions = dimensions
@@ -492,6 +505,7 @@ extension PI {
         /// The value of the dimension detail data. Depending on the return status, this value is either the  full or truncated SQL query for the following dimensions:    db.query.statement (Amazon DocumentDB)    db.sql.statement (Amazon RDS and Aurora)
         public let value: String?
 
+        @inlinable
         public init(dimension: String? = nil, status: DetailStatus? = nil, value: String? = nil) {
             self.dimension = dimension
             self.status = status
@@ -509,6 +523,7 @@ extension PI {
         /// The status of the feature on the DB instance. Possible values include the following:    ENABLED - The feature is enabled on the instance.    DISABLED - The feature is disabled on the instance.    UNSUPPORTED - The feature isn't supported on the instance.    ENABLED_PENDING_REBOOT - The feature is enabled on the instance but requires a reboot to take effect.    DISABLED_PENDING_REBOOT - The feature is disabled on the instance but requires a reboot to take effect.    UNKNOWN - The feature status couldn't be determined.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(status: FeatureStatus? = nil) {
             self.status = status
         }
@@ -530,6 +545,7 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights returns data. The only valid value is RDS.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(group: String, groupIdentifier: String, identifier: String, requestedDimensions: [String]? = nil, serviceType: ServiceType) {
             self.group = group
             self.groupIdentifier = groupIdentifier
@@ -566,6 +582,7 @@ extension PI {
         /// The details for the requested dimensions.
         public let dimensions: [DimensionKeyDetail]?
 
+        @inlinable
         public init(dimensions: [DimensionKeyDetail]? = nil) {
             self.dimensions = dimensions
         }
@@ -587,6 +604,7 @@ extension PI {
         /// Indicates the text format in the report. The options are PLAIN_TEXT or MARKDOWN. The default value is plain text.
         public let textFormat: TextFormat?
 
+        @inlinable
         public init(acceptLanguage: AcceptLanguage? = nil, analysisReportId: String, identifier: String, serviceType: ServiceType, textFormat: TextFormat? = nil) {
             self.acceptLanguage = acceptLanguage
             self.analysisReportId = analysisReportId
@@ -616,6 +634,7 @@ extension PI {
         /// The summary of the performance analysis report created for a time period.
         public let analysisReport: AnalysisReport?
 
+        @inlinable
         public init(analysisReport: AnalysisReport? = nil) {
             self.analysisReport = analysisReport
         }
@@ -631,6 +650,7 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights returns metrics.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(identifier: String, serviceType: ServiceType) {
             self.identifier = identifier
             self.serviceType = serviceType
@@ -653,6 +673,7 @@ extension PI {
         /// An immutable identifier for a data source that is unique for an Amazon Web Services Region.   Performance Insights gathers metrics from this data source. To use a DB instance as a data source,  specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
         public let identifier: String?
 
+        @inlinable
         public init(features: [String: FeatureMetadata]? = nil, identifier: String? = nil) {
             self.features = features
             self.identifier = identifier
@@ -684,6 +705,7 @@ extension PI {
         /// The date and time specifying the beginning of the requested time series query range. You can't specify a StartTime that is earlier than 7 days ago. By default, Performance Insights has 7 days of  retention, but you can extend this range up to 2 years. The value specified is inclusive. Thus, the command returns data points equal to or greater  than StartTime. The value for StartTime must be earlier than the value for EndTime.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, identifier: String, maxResults: Int? = nil, metricQueries: [MetricQuery], nextToken: String? = nil, periodAlignment: PeriodAlignment? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
             self.endTime = endTime
             self.identifier = identifier
@@ -736,6 +758,7 @@ extension PI {
         /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
 
+        @inlinable
         public init(alignedEndTime: Date? = nil, alignedStartTime: Date? = nil, identifier: String? = nil, metricList: [MetricKeyDataPoints]? = nil, nextToken: String? = nil) {
             self.alignedEndTime = alignedEndTime
             self.alignedStartTime = alignedStartTime
@@ -777,6 +800,7 @@ extension PI {
         /// List of supporting insights that provide additional factors for the insight.
         public let supportingInsights: [Insight]?
 
+        @inlinable
         public init(baselineData: [Data]? = nil, context: ContextType? = nil, description: String? = nil, endTime: Date? = nil, insightData: [Data]? = nil, insightId: String, insightType: String? = nil, recommendations: [Recommendation]? = nil, severity: Severity? = nil, startTime: Date? = nil, supportingInsights: [Insight]? = nil) {
             self.baselineData = baselineData
             self.context = context
@@ -820,6 +844,7 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights returns metrics.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(authorizedActions: [FineGrainedAction]? = nil, identifier: String, maxResults: Int? = nil, metrics: [String], nextToken: String? = nil, serviceType: ServiceType) {
             self.authorizedActions = authorizedActions
             self.identifier = identifier
@@ -862,6 +887,7 @@ extension PI {
         /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
 
+        @inlinable
         public init(metricDimensions: [MetricDimensionGroups]? = nil, nextToken: String? = nil) {
             self.metricDimensions = metricDimensions
             self.nextToken = nextToken
@@ -885,6 +911,7 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights returns metrics.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(identifier: String, maxResults: Int? = nil, metricTypes: [String], nextToken: String? = nil, serviceType: ServiceType) {
             self.identifier = identifier
             self.maxResults = maxResults
@@ -922,6 +949,7 @@ extension PI {
         /// A pagination token that indicates the response didn’t return all available records because MaxRecords was specified in the previous request. To get the remaining records, specify NextToken in a separate request with this value.
         public let nextToken: String?
 
+        @inlinable
         public init(metrics: [ResponseResourceMetric]? = nil, nextToken: String? = nil) {
             self.metrics = metrics
             self.nextToken = nextToken
@@ -945,6 +973,7 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(identifier: String, listTags: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceType: ServiceType) {
             self.identifier = identifier
             self.listTags = listTags
@@ -978,6 +1007,7 @@ extension PI {
         /// An optional pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond the token,  up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisReports: [AnalysisReportSummary]? = nil, nextToken: String? = nil) {
             self.analysisReports = analysisReports
             self.nextToken = nextToken
@@ -995,6 +1025,7 @@ extension PI {
         /// List the tags for the Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
         public let serviceType: ServiceType
 
+        @inlinable
         public init(resourceARN: String, serviceType: ServiceType) {
             self.resourceARN = resourceARN
             self.serviceType = serviceType
@@ -1016,6 +1047,7 @@ extension PI {
         /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1031,6 +1063,7 @@ extension PI {
         /// The metric type to which the dimension information belongs.
         public let metric: String?
 
+        @inlinable
         public init(groups: [DimensionGroupDetail]? = nil, metric: String? = nil) {
             self.groups = groups
             self.metric = metric
@@ -1048,6 +1081,7 @@ extension PI {
         /// The dimensions to which the data points apply.
         public let key: ResponseResourceMetricKey?
 
+        @inlinable
         public init(dataPoints: [DataPoint]? = nil, key: ResponseResourceMetricKey? = nil) {
             self.dataPoints = dataPoints
             self.key = key
@@ -1067,6 +1101,7 @@ extension PI {
         /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - A scaled representation of the number of active sessions for the  database engine.    db.sampledload.avg - The raw number of active sessions for the database engine.   The counter metrics listed in Performance Insights operating system counters in the Amazon Aurora User Guide.   The counter metrics listed in Performance Insights operating system counters in the Amazon RDS User Guide.   If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and db.sampledload.avg are the same value. If the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with db.load.avg showing the scaled values, db.sampledload.avg showing the raw values, and db.sampledload.avg less than db.load.avg. For most use cases, you can query db.load.avg only.
         public let metric: String
 
+        @inlinable
         public init(filter: [String: String]? = nil, groupBy: DimensionGroup? = nil, metric: String) {
             self.filter = filter
             self.groupBy = groupBy
@@ -1102,6 +1137,7 @@ extension PI {
         /// The value of the metric. For example, 9 for db.load.avg.
         public let value: Double?
 
+        @inlinable
         public init(dimensions: [String: String]? = nil, displayName: String? = nil, metric: String? = nil, value: Double? = nil) {
             self.dimensions = dimensions
             self.displayName = displayName
@@ -1123,6 +1159,7 @@ extension PI {
         /// The unique identifier for the recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(recommendationDescription: String? = nil, recommendationId: String? = nil) {
             self.recommendationDescription = recommendationDescription
             self.recommendationId = recommendationId
@@ -1138,6 +1175,7 @@ extension PI {
         /// A dimension map that contains the dimensions for this partition.
         public let dimensions: [String: String]
 
+        @inlinable
         public init(dimensions: [String: String]) {
             self.dimensions = dimensions
         }
@@ -1155,6 +1193,7 @@ extension PI {
         /// The unit of the metric.
         public let unit: String?
 
+        @inlinable
         public init(description: String? = nil, metric: String? = nil, unit: String? = nil) {
             self.description = description
             self.metric = metric
@@ -1174,6 +1213,7 @@ extension PI {
         /// The name of a Performance Insights metric to be measured. Valid values for Metric are:    db.load.avg - A scaled representation of the number of active sessions for the database engine.    db.sampledload.avg - The raw number of active sessions for the database engine.   The counter metrics listed in Performance Insights operating system counters in the Amazon Aurora User Guide.   The counter metrics listed in Performance Insights operating system counters in the Amazon RDS User Guide.   If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and  db.sampledload.avg are the same value. If the number of active sessions is greater than the  internal threshold, Performance Insights samples the active sessions, with db.load.avg showing the scaled values,  db.sampledload.avg showing the raw values, and db.sampledload.avg less  than db.load.avg. For most use cases, you can query db.load.avg only.
         public let metric: String
 
+        @inlinable
         public init(dimensions: [String: String]? = nil, metric: String) {
             self.dimensions = dimensions
             self.metric = metric
@@ -1191,6 +1231,7 @@ extension PI {
         /// A value is the optional value of the tag. The string value can be from 1 to 256  Unicode characters in length and can't be prefixed with aws: or rds:.  The string can only contain only the set of Unicode letters, digits,  white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1218,6 +1259,7 @@ extension PI {
         /// The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, serviceType: ServiceType, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.serviceType = serviceType
@@ -1253,6 +1295,7 @@ extension PI {
         /// The metadata assigned to an Amazon RDS Performance Insights resource consisting of a key-value pair.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, serviceType: ServiceType, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.serviceType = serviceType

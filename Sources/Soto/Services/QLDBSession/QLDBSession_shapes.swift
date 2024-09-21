@@ -36,6 +36,7 @@ extension QLDBSession {
         /// Contains server-side performance information for the command.
         public let timingInformation: TimingInformation?
 
+        @inlinable
         public init(timingInformation: TimingInformation? = nil) {
             self.timingInformation = timingInformation
         }
@@ -51,6 +52,7 @@ extension QLDBSession {
         /// Specifies the transaction ID of the transaction to commit.
         public let transactionId: String
 
+        @inlinable
         public init(commitDigest: AWSBase64Data, transactionId: String) {
             self.commitDigest = commitDigest
             self.transactionId = transactionId
@@ -78,6 +80,7 @@ extension QLDBSession {
         /// The transaction ID of the committed transaction.
         public let transactionId: String?
 
+        @inlinable
         public init(commitDigest: AWSBase64Data? = nil, consumedIOs: IOUsage? = nil, timingInformation: TimingInformation? = nil, transactionId: String? = nil) {
             self.commitDigest = commitDigest
             self.consumedIOs = consumedIOs
@@ -101,6 +104,7 @@ extension QLDBSession {
         /// Contains server-side performance information for the command.
         public let timingInformation: TimingInformation?
 
+        @inlinable
         public init(timingInformation: TimingInformation? = nil) {
             self.timingInformation = timingInformation
         }
@@ -118,6 +122,7 @@ extension QLDBSession {
         /// Specifies the transaction ID of the request.
         public let transactionId: String
 
+        @inlinable
         public init(parameters: [ValueHolder]? = nil, statement: String, transactionId: String) {
             self.parameters = parameters
             self.statement = statement
@@ -150,6 +155,7 @@ extension QLDBSession {
         /// Contains server-side performance information for the command.
         public let timingInformation: TimingInformation?
 
+        @inlinable
         public init(consumedIOs: IOUsage? = nil, firstPage: Page? = nil, timingInformation: TimingInformation? = nil) {
             self.consumedIOs = consumedIOs
             self.firstPage = firstPage
@@ -169,6 +175,7 @@ extension QLDBSession {
         /// Specifies the transaction ID of the page to be fetched.
         public let transactionId: String
 
+        @inlinable
         public init(nextPageToken: String, transactionId: String) {
             self.nextPageToken = nextPageToken
             self.transactionId = transactionId
@@ -197,6 +204,7 @@ extension QLDBSession {
         /// Contains server-side performance information for the command.
         public let timingInformation: TimingInformation?
 
+        @inlinable
         public init(consumedIOs: IOUsage? = nil, page: Page? = nil, timingInformation: TimingInformation? = nil) {
             self.consumedIOs = consumedIOs
             self.page = page
@@ -216,6 +224,7 @@ extension QLDBSession {
         /// The number of write I/O requests that the command made.
         public let writeIOs: Int64?
 
+        @inlinable
         public init(readIOs: Int64? = nil, writeIOs: Int64? = nil) {
             self.readIOs = readIOs
             self.writeIOs = writeIOs
@@ -233,6 +242,7 @@ extension QLDBSession {
         /// A structure that contains values in multiple encoding formats.
         public let values: [ValueHolder]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, values: [ValueHolder]? = nil) {
             self.nextPageToken = nextPageToken
             self.values = values
@@ -262,6 +272,7 @@ extension QLDBSession {
         /// Command to start a new transaction.
         public let startTransaction: StartTransactionRequest?
 
+        @inlinable
         public init(abortTransaction: AbortTransactionRequest? = nil, commitTransaction: CommitTransactionRequest? = nil, endSession: EndSessionRequest? = nil, executeStatement: ExecuteStatementRequest? = nil, fetchPage: FetchPageRequest? = nil, sessionToken: String? = nil, startSession: StartSessionRequest? = nil, startTransaction: StartTransactionRequest? = nil) {
             self.abortTransaction = abortTransaction
             self.commitTransaction = commitTransaction
@@ -311,6 +322,7 @@ extension QLDBSession {
         /// Contains the details of the started transaction.
         public let startTransaction: StartTransactionResult?
 
+        @inlinable
         public init(abortTransaction: AbortTransactionResult? = nil, commitTransaction: CommitTransactionResult? = nil, endSession: EndSessionResult? = nil, executeStatement: ExecuteStatementResult? = nil, fetchPage: FetchPageResult? = nil, startSession: StartSessionResult? = nil, startTransaction: StartTransactionResult? = nil) {
             self.abortTransaction = abortTransaction
             self.commitTransaction = commitTransaction
@@ -336,6 +348,7 @@ extension QLDBSession {
         /// The name of the ledger to start a new session against.
         public let ledgerName: String
 
+        @inlinable
         public init(ledgerName: String) {
             self.ledgerName = ledgerName
         }
@@ -357,6 +370,7 @@ extension QLDBSession {
         /// Contains server-side performance information for the command.
         public let timingInformation: TimingInformation?
 
+        @inlinable
         public init(sessionToken: String? = nil, timingInformation: TimingInformation? = nil) {
             self.sessionToken = sessionToken
             self.timingInformation = timingInformation
@@ -378,6 +392,7 @@ extension QLDBSession {
         /// The transaction ID of the started transaction.
         public let transactionId: String?
 
+        @inlinable
         public init(timingInformation: TimingInformation? = nil, transactionId: String? = nil) {
             self.timingInformation = timingInformation
             self.transactionId = transactionId
@@ -393,6 +408,7 @@ extension QLDBSession {
         /// The amount of time that QLDB spent on processing the command, measured in milliseconds.
         public let processingTimeMilliseconds: Int64?
 
+        @inlinable
         public init(processingTimeMilliseconds: Int64? = nil) {
             self.processingTimeMilliseconds = processingTimeMilliseconds
         }
@@ -408,6 +424,7 @@ extension QLDBSession {
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?
 
+        @inlinable
         public init(ionBinary: AWSBase64Data? = nil, ionText: String? = nil) {
             self.ionBinary = ionBinary
             self.ionText = ionText

@@ -50,6 +50,7 @@ extension DocDB {
         /// The name of the Amazon DocumentDB event notification subscription that you want to add a source identifier to.
         public let subscriptionName: String?
 
+        @inlinable
         public init(sourceIdentifier: String? = nil, subscriptionName: String? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
@@ -64,6 +65,7 @@ extension DocDB {
     public struct AddSourceIdentifierToSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -82,6 +84,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceName: String? = nil, tags: [Tag]? = nil) {
             self.resourceName = resourceName
             self.tags = tags
@@ -101,6 +104,7 @@ extension DocDB {
         /// The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to.
         public let resourceIdentifier: String?
 
+        @inlinable
         public init(applyAction: String? = nil, optInType: String? = nil, resourceIdentifier: String? = nil) {
             self.applyAction = applyAction
             self.optInType = optInType
@@ -117,6 +121,7 @@ extension DocDB {
     public struct ApplyPendingMaintenanceActionResult: AWSDecodableShape {
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
+        @inlinable
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
@@ -130,6 +135,7 @@ extension DocDB {
         /// The name of the Availability Zone.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -153,6 +159,7 @@ extension DocDB {
         /// The date-time after which the certificate is no longer valid. Example: 2024-07-31T17:57:09Z
         public let validTill: Date?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, thumbprint: String? = nil, validFrom: Date? = nil, validTill: Date? = nil) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
@@ -178,6 +185,7 @@ extension DocDB {
         /// The expiration date of the DB instance’s server certificate.
         public let validTill: Date?
 
+        @inlinable
         public init(caIdentifier: String? = nil, validTill: Date? = nil) {
             self.caIdentifier = caIdentifier
             self.validTill = validTill
@@ -198,6 +206,7 @@ extension DocDB {
         /// An optional pagination token provided if the number of records retrieved is greater than MaxRecords. If this parameter is specified, the marker specifies the next record in the list. Including the value of Marker in the next call to DescribeCertificates results in the next page of certificates.
         public let marker: String?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil, marker: String? = nil) {
             self.certificates = certificates
             self.marker = marker
@@ -217,6 +226,7 @@ extension DocDB {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableLogTypes: [String]?
 
+        @inlinable
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
@@ -241,6 +251,7 @@ extension DocDB {
         /// The identifier for the copied cluster parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-param-group1
         public let targetDBClusterParameterGroupIdentifier: String?
 
+        @inlinable
         public init(sourceDBClusterParameterGroupIdentifier: String? = nil, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String? = nil, targetDBClusterParameterGroupIdentifier: String? = nil) {
             self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
             self.tags = tags
@@ -259,6 +270,7 @@ extension DocDB {
     public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
         public let dbClusterParameterGroup: DBClusterParameterGroup?
 
+        @inlinable
         public init(dbClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dbClusterParameterGroup = dbClusterParameterGroup
         }
@@ -285,6 +297,7 @@ extension DocDB {
         /// The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot2
         public let targetDBClusterSnapshotIdentifier: String?
 
+        @inlinable
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String? = nil, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String? = nil) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
@@ -307,6 +320,7 @@ extension DocDB {
     public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
         public let dbClusterSnapshot: DBClusterSnapshot?
 
+        @inlinable
         public init(dbClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dbClusterSnapshot = dbClusterSnapshot
         }
@@ -368,6 +382,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -436,6 +451,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil, dbParameterGroupFamily: String? = nil, description: String? = nil, tags: [Tag]? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -454,6 +470,7 @@ extension DocDB {
     public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
         public let dbClusterParameterGroup: DBClusterParameterGroup?
 
+        @inlinable
         public init(dbClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dbClusterParameterGroup = dbClusterParameterGroup
         }
@@ -466,6 +483,7 @@ extension DocDB {
     public struct CreateDBClusterResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -486,6 +504,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
@@ -502,6 +521,7 @@ extension DocDB {
     public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
         public let dbClusterSnapshot: DBClusterSnapshot?
 
+        @inlinable
         public init(dbClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dbClusterSnapshot = dbClusterSnapshot
         }
@@ -542,6 +562,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -578,6 +599,7 @@ extension DocDB {
     public struct CreateDBInstanceResult: AWSDecodableShape {
         public let dbInstance: DBInstance?
 
+        @inlinable
         public init(dbInstance: DBInstance? = nil) {
             self.dbInstance = dbInstance
         }
@@ -602,6 +624,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -620,6 +643,7 @@ extension DocDB {
     public struct CreateDBSubnetGroupResult: AWSDecodableShape {
         public let dbSubnetGroup: DBSubnetGroup?
 
+        @inlinable
         public init(dbSubnetGroup: DBSubnetGroup? = nil) {
             self.dbSubnetGroup = dbSubnetGroup
         }
@@ -652,6 +676,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String? = nil, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -676,6 +701,7 @@ extension DocDB {
     public struct CreateEventSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -701,6 +727,7 @@ extension DocDB {
         /// The storage encryption setting for the new global cluster.
         public let storageEncrypted: Bool?
 
+        @inlinable
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
@@ -731,6 +758,7 @@ extension DocDB {
     public struct CreateGlobalClusterResult: AWSDecodableShape {
         public let globalCluster: GlobalCluster?
 
+        @inlinable
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -820,6 +848,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
+        @inlinable
         public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
@@ -903,6 +932,7 @@ extension DocDB {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public let promotionTier: Int?
 
+        @inlinable
         public init(dbClusterParameterGroupStatus: String? = nil, dbInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -927,6 +957,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(dbClusters: [DBCluster]? = nil, marker: String? = nil) {
             self.dbClusters = dbClusters
             self.marker = marker
@@ -948,6 +979,7 @@ extension DocDB {
         /// Provides the customer-specified description for this cluster parameter group.
         public let description: String?
 
+        @inlinable
         public init(dbClusterParameterGroupArn: String? = nil, dbClusterParameterGroupName: String? = nil, dbParameterGroupFamily: String? = nil, description: String? = nil) {
             self.dbClusterParameterGroupArn = dbClusterParameterGroupArn
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -972,6 +1004,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
+        @inlinable
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -987,6 +1020,7 @@ extension DocDB {
         /// The name of a cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string.
         public let dbClusterParameterGroupName: String?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
         }
@@ -1005,6 +1039,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(dbClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
             self.dbClusterParameterGroups = dbClusterParameterGroups
             self.marker = marker
@@ -1022,6 +1057,7 @@ extension DocDB {
         /// Describes the state of association between the IAMrole and the cluster. The Status property returns one of the following values:    ACTIVE - The IAMrole ARN is associated with the cluster and can be used to access other Amazon Web Services services on your behalf.    PENDING - The IAMrole ARN is being associated with the cluster.    INVALID - The IAMrole ARN is associated with the cluster, but the cluster cannot assume the IAMrole to access other Amazon Web Services services on your behalf.
         public let status: String?
 
+        @inlinable
         public init(roleArn: String? = nil, status: String? = nil) {
             self.roleArn = roleArn
             self.status = status
@@ -1074,6 +1110,7 @@ extension DocDB {
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, clusterCreateTime: Date? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotArn: String? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: Date? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -1126,6 +1163,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_AttributeValuesEncoding, String>>
         public var attributeValues: [String]?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -1146,6 +1184,7 @@ extension DocDB {
         /// The identifier of the cluster snapshot that the attributes apply to.
         public let dbClusterSnapshotIdentifier: String?
 
+        @inlinable
         public init(dbClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil, dbClusterSnapshotIdentifier: String? = nil) {
             self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
@@ -1166,6 +1205,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(dbClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
             self.dbClusterSnapshots = dbClusterSnapshots
             self.marker = marker
@@ -1204,6 +1244,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
         public var validUpgradeTarget: [UpgradeTarget]?
 
+        @inlinable
         public init(dbEngineDescription: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dbEngineDescription = dbEngineDescription
             self.dbEngineVersionDescription = dbEngineVersionDescription
@@ -1240,6 +1281,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(dbEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
             self.dbEngineVersions = dbEngineVersions
             self.marker = marker
@@ -1319,6 +1361,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
+        @inlinable
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1395,6 +1438,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(dbInstances: [DBInstance]? = nil, marker: String? = nil) {
             self.dbInstances = dbInstances
             self.marker = marker
@@ -1416,6 +1460,7 @@ extension DocDB {
         /// This value is currently "read replication."
         public let statusType: String?
 
+        @inlinable
         public init(message: String? = nil, normal: Bool? = nil, status: String? = nil, statusType: String? = nil) {
             self.message = message
             self.normal = normal
@@ -1448,6 +1493,7 @@ extension DocDB {
         /// Provides the virtual private cloud (VPC) ID of the subnet group.
         public let vpcId: String?
 
+        @inlinable
         public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
@@ -1476,6 +1522,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(dbSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
             self.dbSubnetGroups = dbSubnetGroups
             self.marker = marker
@@ -1495,6 +1542,7 @@ extension DocDB {
         ///  Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted.   If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.  Default: false
         public let skipFinalSnapshot: Bool?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -1512,6 +1560,7 @@ extension DocDB {
         /// The name of the cluster parameter group. Constraints:   Must be the name of an existing cluster parameter group.   You can't delete a default cluster parameter group.   Cannot be associated with any clusters.
         public let dbClusterParameterGroupName: String?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
         }
@@ -1524,6 +1573,7 @@ extension DocDB {
     public struct DeleteDBClusterResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -1537,6 +1587,7 @@ extension DocDB {
         /// The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
         public let dbClusterSnapshotIdentifier: String?
 
+        @inlinable
         public init(dbClusterSnapshotIdentifier: String? = nil) {
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
@@ -1549,6 +1600,7 @@ extension DocDB {
     public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
         public let dbClusterSnapshot: DBClusterSnapshot?
 
+        @inlinable
         public init(dbClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dbClusterSnapshot = dbClusterSnapshot
         }
@@ -1562,6 +1614,7 @@ extension DocDB {
         /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing instance.
         public let dbInstanceIdentifier: String?
 
+        @inlinable
         public init(dbInstanceIdentifier: String? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
         }
@@ -1574,6 +1627,7 @@ extension DocDB {
     public struct DeleteDBInstanceResult: AWSDecodableShape {
         public let dbInstance: DBInstance?
 
+        @inlinable
         public init(dbInstance: DBInstance? = nil) {
             self.dbInstance = dbInstance
         }
@@ -1587,6 +1641,7 @@ extension DocDB {
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dbSubnetGroupName: String?
 
+        @inlinable
         public init(dbSubnetGroupName: String? = nil) {
             self.dbSubnetGroupName = dbSubnetGroupName
         }
@@ -1600,6 +1655,7 @@ extension DocDB {
         /// The name of the Amazon DocumentDB event notification subscription that you want to delete.
         public let subscriptionName: String?
 
+        @inlinable
         public init(subscriptionName: String? = nil) {
             self.subscriptionName = subscriptionName
         }
@@ -1612,6 +1668,7 @@ extension DocDB {
     public struct DeleteEventSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -1625,6 +1682,7 @@ extension DocDB {
         /// The cluster identifier of the global cluster being deleted.
         public let globalClusterIdentifier: String?
 
+        @inlinable
         public init(globalClusterIdentifier: String? = nil) {
             self.globalClusterIdentifier = globalClusterIdentifier
         }
@@ -1643,6 +1701,7 @@ extension DocDB {
     public struct DeleteGlobalClusterResult: AWSDecodableShape {
         public let globalCluster: GlobalCluster?
 
+        @inlinable
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -1665,6 +1724,7 @@ extension DocDB {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints:   Minimum: 20   Maximum: 100
         public let maxRecords: Int?
 
+        @inlinable
         public init(certificateIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.certificateIdentifier = certificateIdentifier
             self.filters = filters
@@ -1693,6 +1753,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.filters = filters
@@ -1723,6 +1784,7 @@ extension DocDB {
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
         public let source: String?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.filters = filters
@@ -1744,6 +1806,7 @@ extension DocDB {
         /// The identifier for the cluster snapshot to describe the attributes for.
         public let dbClusterSnapshotIdentifier: String?
 
+        @inlinable
         public init(dbClusterSnapshotIdentifier: String? = nil) {
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
@@ -1756,6 +1819,7 @@ extension DocDB {
     public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
         public let dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
+        @inlinable
         public init(dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
         }
@@ -1786,6 +1850,7 @@ extension DocDB {
         /// The type of cluster snapshots to be returned. You can specify one of the following values:    automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your Amazon Web Services account.    manual - Return all cluster snapshots that you have manually created for your Amazon Web Services account.    shared - Return all manual cluster snapshots that have been shared to your Amazon Web Services account.    public - Return all cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual cluster snapshots are returned. You can include shared cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public cluster snapshots with these results by setting theIncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
@@ -1822,6 +1887,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.filters = filters
@@ -1860,6 +1926,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dbParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil, listSupportedTimezones: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.defaultOnly = defaultOnly
@@ -1898,6 +1965,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dbInstanceIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.filters = filters
@@ -1926,6 +1994,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dbSubnetGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbSubnetGroupName = dbSubnetGroupName
             self.filters = filters
@@ -1954,6 +2023,7 @@ extension DocDB {
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dbParameterGroupFamily: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.filters = filters
@@ -1972,6 +2042,7 @@ extension DocDB {
     public struct DescribeEngineDefaultClusterParametersResult: AWSDecodableShape {
         public let engineDefaults: EngineDefaults?
 
+        @inlinable
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
@@ -1990,6 +2061,7 @@ extension DocDB {
         /// The type of source that is generating the events. Valid values: db-instance, db-parameter-group, db-security-group
         public let sourceType: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
             self.filters = filters
             self.sourceType = sourceType
@@ -2014,6 +2086,7 @@ extension DocDB {
         /// The name of the Amazon DocumentDB event notification subscription that you want to describe.
         public let subscriptionName: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, subscriptionName: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -2054,6 +2127,7 @@ extension DocDB {
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
         public let startTime: Date?
 
+        @inlinable
         public init(duration: Int? = nil, endTime: Date? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -2092,6 +2166,7 @@ extension DocDB {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
 
+        @inlinable
         public init(filters: [Filter]? = nil, globalClusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -2134,6 +2209,7 @@ extension DocDB {
         /// The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
         public let vpc: Bool?
 
+        @inlinable
         public init(dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, filters: [Filter]? = nil, licenseModel: String? = nil, marker: String? = nil, maxRecords: Int? = nil, vpc: Bool? = nil) {
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
@@ -2170,6 +2246,7 @@ extension DocDB {
         /// The ARN of a resource to return pending maintenance actions for.
         public let resourceIdentifier: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, resourceIdentifier: String? = nil) {
             self.filters = filters
             self.marker = marker
@@ -2193,6 +2270,7 @@ extension DocDB {
         /// Specifies the port that the database engine is listening on.
         public let port: Int?
 
+        @inlinable
         public init(address: String? = nil, hostedZoneId: String? = nil, port: Int? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
@@ -2217,6 +2295,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
+        @inlinable
         public init(dbParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.marker = marker
@@ -2247,6 +2326,7 @@ extension DocDB {
         /// Specifies the source type for this event.
         public let sourceType: SourceType?
 
+        @inlinable
         public init(date: Date? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceArn: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -2275,6 +2355,7 @@ extension DocDB {
         /// The source type that the returned categories belong to.
         public let sourceType: String?
 
+        @inlinable
         public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
@@ -2293,6 +2374,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
         public var eventCategoriesMapList: [EventCategoriesMap]?
 
+        @inlinable
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
@@ -2329,6 +2411,7 @@ extension DocDB {
         /// The time at which the Amazon DocumentDB event notification subscription was created.
         public let subscriptionCreationTime: String?
 
+        @inlinable
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, eventSubscriptionArn: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -2365,6 +2448,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
@@ -2385,6 +2469,7 @@ extension DocDB {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
+        @inlinable
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -2402,6 +2487,7 @@ extension DocDB {
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, targetDBInstanceIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
@@ -2416,6 +2502,7 @@ extension DocDB {
     public struct FailoverDBClusterResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -2435,6 +2522,7 @@ extension DocDB {
         /// The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster.  Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints:   Must match the identifier of an existing secondary cluster.   Minimum length of 1. Maximum length of 255.   Pattern: [A-Za-z][0-9A-Za-z-:._]*
         public let targetDbClusterIdentifier: String?
 
+        @inlinable
         public init(allowDataLoss: Bool? = nil, globalClusterIdentifier: String? = nil, switchover: Bool? = nil, targetDbClusterIdentifier: String? = nil) {
             self.allowDataLoss = allowDataLoss
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -2462,6 +2550,7 @@ extension DocDB {
     public struct FailoverGlobalClusterResult: AWSDecodableShape {
         public let globalCluster: GlobalCluster?
 
+        @inlinable
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -2480,6 +2569,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ValuesEncoding, String>>
         public var values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -2516,6 +2606,7 @@ extension DocDB {
         /// The storage encryption setting for the global cluster.
         public let storageEncrypted: Bool?
 
+        @inlinable
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
@@ -2552,6 +2643,7 @@ extension DocDB {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var readers: [String]?
 
+        @inlinable
         public init(dbClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
             self.dbClusterArn = dbClusterArn
             self.isWriter = isWriter
@@ -2572,6 +2664,7 @@ extension DocDB {
         public var globalClusters: [GlobalCluster]?
         public let marker: String?
 
+        @inlinable
         public init(globalClusters: [GlobalCluster]? = nil, marker: String? = nil) {
             self.globalClusters = globalClusters
             self.marker = marker
@@ -2592,6 +2685,7 @@ extension DocDB {
         /// The Amazon DocumentDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceName: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, resourceName: String? = nil) {
             self.filters = filters
             self.resourceName = resourceName
@@ -2638,6 +2732,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -2684,6 +2779,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil, parameters: [Parameter]? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
@@ -2698,6 +2794,7 @@ extension DocDB {
     public struct ModifyDBClusterResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -2722,6 +2819,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_ValuesToRemoveEncoding, String>>
         public var valuesToRemove: [String]?
 
+        @inlinable
         public init(attributeName: String? = nil, dbClusterSnapshotIdentifier: String? = nil, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
@@ -2740,6 +2838,7 @@ extension DocDB {
     public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
         public let dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
+        @inlinable
         public init(dbClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
         }
@@ -2775,6 +2874,7 @@ extension DocDB {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
 
+        @inlinable
         public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, copyTagsToSnapshot: Bool? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, enablePerformanceInsights: Bool? = nil, newDBInstanceIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2809,6 +2909,7 @@ extension DocDB {
     public struct ModifyDBInstanceResult: AWSDecodableShape {
         public let dbInstance: DBInstance?
 
+        @inlinable
         public init(dbInstance: DBInstance? = nil) {
             self.dbInstance = dbInstance
         }
@@ -2829,6 +2930,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
+        @inlinable
         public init(dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetIds: [String]? = nil) {
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -2845,6 +2947,7 @@ extension DocDB {
     public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
         public let dbSubnetGroup: DBSubnetGroup?
 
+        @inlinable
         public init(dbSubnetGroup: DBSubnetGroup? = nil) {
             self.dbSubnetGroup = dbSubnetGroup
         }
@@ -2869,6 +2972,7 @@ extension DocDB {
         /// The name of the Amazon DocumentDB event notification subscription.
         public let subscriptionName: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String? = nil, sourceType: String? = nil, subscriptionName: String? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -2889,6 +2993,7 @@ extension DocDB {
     public struct ModifyEventSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -2906,6 +3011,7 @@ extension DocDB {
         /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string.   Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newGlobalClusterIdentifier: String?
 
+        @inlinable
         public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String? = nil, newGlobalClusterIdentifier: String? = nil) {
             self.deletionProtection = deletionProtection
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -2931,6 +3037,7 @@ extension DocDB {
     public struct ModifyGlobalClusterResult: AWSDecodableShape {
         public let globalCluster: GlobalCluster?
 
+        @inlinable
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -2959,6 +3066,7 @@ extension DocDB {
         /// Indicates whether an instance is in a virtual private cloud (VPC).
         public let vpc: Bool?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, storageType: String? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dbInstanceClass = dbInstanceClass
@@ -2989,6 +3097,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_OrderableDBInstanceOptionsEncoding, OrderableDBInstanceOption>>
         public var orderableDBInstanceOptions: [OrderableDBInstanceOption]?
 
+        @inlinable
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
             self.marker = marker
             self.orderableDBInstanceOptions = orderableDBInstanceOptions
@@ -3022,6 +3131,7 @@ extension DocDB {
         /// Indicates the source of the parameter value.
         public let source: String?
 
+        @inlinable
         public init(allowedValues: String? = nil, applyMethod: ApplyMethod? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
@@ -3057,6 +3167,7 @@ extension DocDB {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToEnable: [String]?
 
+        @inlinable
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
@@ -3082,6 +3193,7 @@ extension DocDB {
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
 
+        @inlinable
         public init(action: String? = nil, autoAppliedAfterDate: Date? = nil, currentApplyDate: Date? = nil, description: String? = nil, forcedApplyDate: Date? = nil, optInStatus: String? = nil) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
@@ -3110,6 +3222,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_PendingMaintenanceActionsEncoding, ResourcePendingMaintenanceActions>>
         public var pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
 
+        @inlinable
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
             self.pendingMaintenanceActions = pendingMaintenanceActions
@@ -3151,6 +3264,7 @@ extension DocDB {
         /// Specifies the storage type to be associated with the instance.
         public let storageType: String?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -3192,6 +3306,7 @@ extension DocDB {
         ///  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
         public let forceFailover: Bool?
 
+        @inlinable
         public init(dbInstanceIdentifier: String? = nil, forceFailover: Bool? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.forceFailover = forceFailover
@@ -3206,6 +3321,7 @@ extension DocDB {
     public struct RebootDBInstanceResult: AWSDecodableShape {
         public let dbInstance: DBInstance?
 
+        @inlinable
         public init(dbInstance: DBInstance? = nil) {
             self.dbInstance = dbInstance
         }
@@ -3221,6 +3337,7 @@ extension DocDB {
         /// The cluster identifier to detach from the Amazon DocumentDB global cluster.
         public let globalClusterIdentifier: String?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, globalClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.globalClusterIdentifier = globalClusterIdentifier
@@ -3241,6 +3358,7 @@ extension DocDB {
     public struct RemoveFromGlobalClusterResult: AWSDecodableShape {
         public let globalCluster: GlobalCluster?
 
+        @inlinable
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -3256,6 +3374,7 @@ extension DocDB {
         /// The name of the Amazon DocumentDB event notification subscription that you want to remove a source identifier from.
         public let subscriptionName: String?
 
+        @inlinable
         public init(sourceIdentifier: String? = nil, subscriptionName: String? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.subscriptionName = subscriptionName
@@ -3270,6 +3389,7 @@ extension DocDB {
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -3286,6 +3406,7 @@ extension DocDB {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]?
 
+        @inlinable
         public init(resourceName: String? = nil, tagKeys: [String]? = nil) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -3308,6 +3429,7 @@ extension DocDB {
         /// A value that is set to true to reset all parameters in the cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
 
+        @inlinable
         public init(dbClusterParameterGroupName: String? = nil, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.parameters = parameters
@@ -3330,6 +3452,7 @@ extension DocDB {
         /// The Amazon Resource Name (ARN) of the resource that has pending maintenance actions.
         public let resourceIdentifier: String?
 
+        @inlinable
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
@@ -3379,6 +3502,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -3417,6 +3541,7 @@ extension DocDB {
     public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -3460,6 +3585,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -3496,6 +3622,7 @@ extension DocDB {
     public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -3509,6 +3636,7 @@ extension DocDB {
         /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52
         public let dbClusterIdentifier: String?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
         }
@@ -3521,6 +3649,7 @@ extension DocDB {
     public struct StartDBClusterResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -3534,6 +3663,7 @@ extension DocDB {
         /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52
         public let dbClusterIdentifier: String?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
         }
@@ -3546,6 +3676,7 @@ extension DocDB {
     public struct StopDBClusterResult: AWSDecodableShape {
         public let dbCluster: DBCluster?
 
+        @inlinable
         public init(dbCluster: DBCluster? = nil) {
             self.dbCluster = dbCluster
         }
@@ -3563,6 +3694,7 @@ extension DocDB {
         /// Specifies the status of the subnet.
         public let subnetStatus: String?
 
+        @inlinable
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -3582,6 +3714,7 @@ extension DocDB {
         /// The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster.  Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints:   Must match the identifier of an existing secondary cluster.   Minimum length of 1. Maximum length of 255.   Pattern: [A-Za-z][0-9A-Za-z-:._]*
         public let targetDbClusterIdentifier: String?
 
+        @inlinable
         public init(globalClusterIdentifier: String? = nil, targetDbClusterIdentifier: String? = nil) {
             self.globalClusterIdentifier = globalClusterIdentifier
             self.targetDbClusterIdentifier = targetDbClusterIdentifier
@@ -3605,6 +3738,7 @@ extension DocDB {
     public struct SwitchoverGlobalClusterResult: AWSDecodableShape {
         public let globalCluster: GlobalCluster?
 
+        @inlinable
         public init(globalCluster: GlobalCluster? = nil) {
             self.globalCluster = globalCluster
         }
@@ -3620,6 +3754,7 @@ extension DocDB {
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3638,6 +3773,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
         public var tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -3659,6 +3795,7 @@ extension DocDB {
         /// A value that indicates whether a database engine is upgraded to a major version.
         public let isMajorVersionUpgrade: Bool?
 
+        @inlinable
         public init(autoUpgrade: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, isMajorVersionUpgrade: Bool? = nil) {
             self.autoUpgrade = autoUpgrade
             self.description = description
@@ -3682,6 +3819,7 @@ extension DocDB {
         /// The name of the VPC security group.
         public let vpcSecurityGroupId: String?
 
+        @inlinable
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId

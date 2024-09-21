@@ -136,6 +136,7 @@ extension CloudSearch {
         public let options: String
         public let status: OptionStatus
 
+        @inlinable
         public init(options: String, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -159,6 +160,7 @@ extension CloudSearch {
         /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
         public let synonyms: String?
 
+        @inlinable
         public init(algorithmicStemming: AlgorithmicStemming? = nil, japaneseTokenizationDictionary: String? = nil, stemmingDictionary: String? = nil, stopwords: String? = nil, synonyms: String? = nil) {
             self.algorithmicStemming = algorithmicStemming
             self.japaneseTokenizationDictionary = japaneseTokenizationDictionary
@@ -181,6 +183,7 @@ extension CloudSearch {
         public let analysisSchemeLanguage: AnalysisSchemeLanguage
         public let analysisSchemeName: String
 
+        @inlinable
         public init(analysisOptions: AnalysisOptions? = nil, analysisSchemeLanguage: AnalysisSchemeLanguage, analysisSchemeName: String) {
             self.analysisOptions = analysisOptions
             self.analysisSchemeLanguage = analysisSchemeLanguage
@@ -204,6 +207,7 @@ extension CloudSearch {
         public let options: AnalysisScheme
         public let status: OptionStatus
 
+        @inlinable
         public init(options: AnalysisScheme, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -220,6 +224,7 @@ extension CloudSearch {
         public let options: Bool
         public let status: OptionStatus
 
+        @inlinable
         public init(options: Bool, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -234,6 +239,7 @@ extension CloudSearch {
     public struct BuildSuggestersRequest: AWSEncodableShape {
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -253,6 +259,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var fieldNames: [String]?
 
+        @inlinable
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
         }
@@ -266,6 +273,7 @@ extension CloudSearch {
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -284,6 +292,7 @@ extension CloudSearch {
     public struct CreateDomainResponse: AWSDecodableShape {
         public let domainStatus: DomainStatus?
 
+        @inlinable
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -305,6 +314,7 @@ extension CloudSearch {
         /// A list of source fields to map to the field.
         public let sourceFields: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -340,6 +350,7 @@ extension CloudSearch {
         public let sortEnabled: Bool?
         public let sourceField: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -370,6 +381,7 @@ extension CloudSearch {
         public let analysisScheme: AnalysisScheme
         public let domainName: String
 
+        @inlinable
         public init(analysisScheme: AnalysisScheme, domainName: String) {
             self.analysisScheme = analysisScheme
             self.domainName = domainName
@@ -391,6 +403,7 @@ extension CloudSearch {
     public struct DefineAnalysisSchemeResponse: AWSDecodableShape {
         public let analysisScheme: AnalysisSchemeStatus
 
+        @inlinable
         public init(analysisScheme: AnalysisSchemeStatus) {
             self.analysisScheme = analysisScheme
         }
@@ -404,6 +417,7 @@ extension CloudSearch {
         public let domainName: String
         public let expression: Expression
 
+        @inlinable
         public init(domainName: String, expression: Expression) {
             self.domainName = domainName
             self.expression = expression
@@ -425,6 +439,7 @@ extension CloudSearch {
     public struct DefineExpressionResponse: AWSDecodableShape {
         public let expression: ExpressionStatus
 
+        @inlinable
         public init(expression: ExpressionStatus) {
             self.expression = expression
         }
@@ -439,6 +454,7 @@ extension CloudSearch {
         /// The index field and field options you want to configure.
         public let indexField: IndexField
 
+        @inlinable
         public init(domainName: String, indexField: IndexField) {
             self.domainName = domainName
             self.indexField = indexField
@@ -460,6 +476,7 @@ extension CloudSearch {
     public struct DefineIndexFieldResponse: AWSDecodableShape {
         public let indexField: IndexFieldStatus
 
+        @inlinable
         public init(indexField: IndexFieldStatus) {
             self.indexField = indexField
         }
@@ -473,6 +490,7 @@ extension CloudSearch {
         public let domainName: String
         public let suggester: Suggester
 
+        @inlinable
         public init(domainName: String, suggester: Suggester) {
             self.domainName = domainName
             self.suggester = suggester
@@ -494,6 +512,7 @@ extension CloudSearch {
     public struct DefineSuggesterResponse: AWSDecodableShape {
         public let suggester: SuggesterStatus
 
+        @inlinable
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
         }
@@ -508,6 +527,7 @@ extension CloudSearch {
         public let analysisSchemeName: String
         public let domainName: String
 
+        @inlinable
         public init(analysisSchemeName: String, domainName: String) {
             self.analysisSchemeName = analysisSchemeName
             self.domainName = domainName
@@ -532,6 +552,7 @@ extension CloudSearch {
         /// The status of the analysis scheme being deleted.
         public let analysisScheme: AnalysisSchemeStatus
 
+        @inlinable
         public init(analysisScheme: AnalysisSchemeStatus) {
             self.analysisScheme = analysisScheme
         }
@@ -545,6 +566,7 @@ extension CloudSearch {
         /// The name of the domain you want to permanently delete.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -563,6 +585,7 @@ extension CloudSearch {
     public struct DeleteDomainResponse: AWSDecodableShape {
         public let domainStatus: DomainStatus?
 
+        @inlinable
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -577,6 +600,7 @@ extension CloudSearch {
         /// The name of the Expression to delete.
         public let expressionName: String
 
+        @inlinable
         public init(domainName: String, expressionName: String) {
             self.domainName = domainName
             self.expressionName = expressionName
@@ -601,6 +625,7 @@ extension CloudSearch {
         /// The status of the expression being deleted.
         public let expression: ExpressionStatus
 
+        @inlinable
         public init(expression: ExpressionStatus) {
             self.expression = expression
         }
@@ -615,6 +640,7 @@ extension CloudSearch {
         /// The name of the index field your want to remove from the domain's indexing options.
         public let indexFieldName: String
 
+        @inlinable
         public init(domainName: String, indexFieldName: String) {
             self.domainName = domainName
             self.indexFieldName = indexFieldName
@@ -639,6 +665,7 @@ extension CloudSearch {
         /// The status of the index field being deleted.
         public let indexField: IndexFieldStatus
 
+        @inlinable
         public init(indexField: IndexFieldStatus) {
             self.indexField = indexField
         }
@@ -653,6 +680,7 @@ extension CloudSearch {
         /// Specifies the name of the suggester you want to delete.
         public let suggesterName: String
 
+        @inlinable
         public init(domainName: String, suggesterName: String) {
             self.domainName = domainName
             self.suggesterName = suggesterName
@@ -677,6 +705,7 @@ extension CloudSearch {
         /// The status of the suggester being deleted.
         public let suggester: SuggesterStatus
 
+        @inlinable
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
         }
@@ -695,6 +724,7 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
 
+        @inlinable
         public init(analysisSchemeNames: [String]? = nil, deployed: Bool? = nil, domainName: String) {
             self.analysisSchemeNames = analysisSchemeNames
             self.deployed = deployed
@@ -724,6 +754,7 @@ extension CloudSearch {
         @CustomCoding<StandardArrayCoder<AnalysisSchemeStatus>>
         public var analysisSchemes: [AnalysisSchemeStatus]
 
+        @inlinable
         public init(analysisSchemes: [AnalysisSchemeStatus]) {
             self.analysisSchemes = analysisSchemes
         }
@@ -739,6 +770,7 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
 
+        @inlinable
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
             self.domainName = domainName
@@ -760,6 +792,7 @@ extension CloudSearch {
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain.
         public let availabilityOptions: AvailabilityOptionsStatus?
 
+        @inlinable
         public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
             self.availabilityOptions = availabilityOptions
         }
@@ -775,6 +808,7 @@ extension CloudSearch {
         /// A string that represents the name of a domain.
         public let domainName: String
 
+        @inlinable
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
             self.domainName = domainName
@@ -796,6 +830,7 @@ extension CloudSearch {
         /// The status and configuration of a search domain's endpoint options.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
 
+        @inlinable
         public init(domainEndpointOptions: DomainEndpointOptionsStatus? = nil) {
             self.domainEndpointOptions = domainEndpointOptions
         }
@@ -810,6 +845,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var domainNames: [String]?
 
+        @inlinable
         public init(domainNames: [String]? = nil) {
             self.domainNames = domainNames
         }
@@ -831,6 +867,7 @@ extension CloudSearch {
         @CustomCoding<StandardArrayCoder<DomainStatus>>
         public var domainStatusList: [DomainStatus]
 
+        @inlinable
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
         }
@@ -849,6 +886,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var expressionNames: [String]?
 
+        @inlinable
         public init(deployed: Bool? = nil, domainName: String, expressionNames: [String]? = nil) {
             self.deployed = deployed
             self.domainName = domainName
@@ -878,6 +916,7 @@ extension CloudSearch {
         @CustomCoding<StandardArrayCoder<ExpressionStatus>>
         public var expressions: [ExpressionStatus]
 
+        @inlinable
         public init(expressions: [ExpressionStatus]) {
             self.expressions = expressions
         }
@@ -896,6 +935,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var fieldNames: [String]?
 
+        @inlinable
         public init(deployed: Bool? = nil, domainName: String, fieldNames: [String]? = nil) {
             self.deployed = deployed
             self.domainName = domainName
@@ -925,6 +965,7 @@ extension CloudSearch {
         @CustomCoding<StandardArrayCoder<IndexFieldStatus>>
         public var indexFields: [IndexFieldStatus]
 
+        @inlinable
         public init(indexFields: [IndexFieldStatus]) {
             self.indexFields = indexFields
         }
@@ -937,6 +978,7 @@ extension CloudSearch {
     public struct DescribeScalingParametersRequest: AWSEncodableShape {
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -955,6 +997,7 @@ extension CloudSearch {
     public struct DescribeScalingParametersResponse: AWSDecodableShape {
         public let scalingParameters: ScalingParametersStatus
 
+        @inlinable
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
         }
@@ -970,6 +1013,7 @@ extension CloudSearch {
         /// The name of the domain you want to describe.
         public let domainName: String
 
+        @inlinable
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
             self.domainName = domainName
@@ -991,6 +1035,7 @@ extension CloudSearch {
         /// The access rules configured for the domain specified in the request.
         public let accessPolicies: AccessPoliciesStatus
 
+        @inlinable
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
         }
@@ -1009,6 +1054,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var suggesterNames: [String]?
 
+        @inlinable
         public init(deployed: Bool? = nil, domainName: String, suggesterNames: [String]? = nil) {
             self.deployed = deployed
             self.domainName = domainName
@@ -1038,6 +1084,7 @@ extension CloudSearch {
         @CustomCoding<StandardArrayCoder<SuggesterStatus>>
         public var suggesters: [SuggesterStatus]
 
+        @inlinable
         public init(suggesters: [SuggesterStatus]) {
             self.suggesters = suggesters
         }
@@ -1055,6 +1102,7 @@ extension CloudSearch {
         /// The name of the index field you want to use for suggestions.
         public let sourceField: String
 
+        @inlinable
         public init(fuzzyMatching: SuggesterFuzzyMatching? = nil, sortExpression: String? = nil, sourceField: String) {
             self.fuzzyMatching = fuzzyMatching
             self.sortExpression = sortExpression
@@ -1080,6 +1128,7 @@ extension CloudSearch {
         /// The minimum required TLS version
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
+        @inlinable
         public init(enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
             self.enforceHTTPS = enforceHTTPS
             self.tlsSecurityPolicy = tlsSecurityPolicy
@@ -1097,6 +1146,7 @@ extension CloudSearch {
         /// The status of the configured domain endpoint options.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: DomainEndpointOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1132,6 +1182,7 @@ extension CloudSearch {
         /// The service endpoint for requesting search results from a search domain.
         public let searchService: ServiceEndpoint?
 
+        @inlinable
         public init(arn: String? = nil, created: Bool? = nil, deleted: Bool? = nil, docService: ServiceEndpoint? = nil, domainId: String, domainName: String, limits: Limits? = nil, processing: Bool? = nil, requiresIndexDocuments: Bool, searchInstanceCount: Int? = nil, searchInstanceType: String? = nil, searchPartitionCount: Int? = nil, searchService: ServiceEndpoint? = nil) {
             self.arn = arn
             self.created = created
@@ -1177,6 +1228,7 @@ extension CloudSearch {
         /// A list of source fields to map to the field.
         public let sourceFields: String?
 
+        @inlinable
         public init(defaultValue: Double? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1212,6 +1264,7 @@ extension CloudSearch {
         /// The name of the source field to map to the field.
         public let sourceField: String?
 
+        @inlinable
         public init(defaultValue: Double? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1241,6 +1294,7 @@ extension CloudSearch {
         public let expressionName: String
         public let expressionValue: String
 
+        @inlinable
         public init(expressionName: String, expressionValue: String) {
             self.expressionName = expressionName
             self.expressionValue = expressionValue
@@ -1265,6 +1319,7 @@ extension CloudSearch {
         public let options: Expression
         public let status: OptionStatus
 
+        @inlinable
         public init(options: Expression, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1279,6 +1334,7 @@ extension CloudSearch {
     public struct IndexDocumentsRequest: AWSEncodableShape {
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1299,6 +1355,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var fieldNames: [String]?
 
+        @inlinable
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
         }
@@ -1324,6 +1381,7 @@ extension CloudSearch {
         public let textArrayOptions: TextArrayOptions?
         public let textOptions: TextOptions?
 
+        @inlinable
         public init(dateArrayOptions: DateArrayOptions? = nil, dateOptions: DateOptions? = nil, doubleArrayOptions: DoubleArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, indexFieldName: String, indexFieldType: IndexFieldType, intArrayOptions: IntArrayOptions? = nil, intOptions: IntOptions? = nil, latLonOptions: LatLonOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, literalOptions: LiteralOptions? = nil, textArrayOptions: TextArrayOptions? = nil, textOptions: TextOptions? = nil) {
             self.dateArrayOptions = dateArrayOptions
             self.dateOptions = dateOptions
@@ -1378,6 +1436,7 @@ extension CloudSearch {
         public let options: IndexField
         public let status: OptionStatus
 
+        @inlinable
         public init(options: IndexField, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1401,6 +1460,7 @@ extension CloudSearch {
         /// A list of source fields to map to the field.
         public let sourceFields: String?
 
+        @inlinable
         public init(defaultValue: Int64? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1436,6 +1496,7 @@ extension CloudSearch {
         /// The name of the source field to map to the field.
         public let sourceField: String?
 
+        @inlinable
         public init(defaultValue: Int64? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1474,6 +1535,7 @@ extension CloudSearch {
         public let sortEnabled: Bool?
         public let sourceField: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1504,6 +1566,7 @@ extension CloudSearch {
         public let maximumPartitionCount: Int
         public let maximumReplicationCount: Int
 
+        @inlinable
         public init(maximumPartitionCount: Int, maximumReplicationCount: Int) {
             self.maximumPartitionCount = maximumPartitionCount
             self.maximumReplicationCount = maximumReplicationCount
@@ -1520,6 +1583,7 @@ extension CloudSearch {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var domainNames: [String: String]?
 
+        @inlinable
         public init(domainNames: [String: String]? = nil) {
             self.domainNames = domainNames
         }
@@ -1541,6 +1605,7 @@ extension CloudSearch {
         /// A list of source fields to map to the field.
         public let sourceFields: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1576,6 +1641,7 @@ extension CloudSearch {
         public let sortEnabled: Bool?
         public let sourceField: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, facetEnabled: Bool? = nil, returnEnabled: Bool? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
@@ -1614,6 +1680,7 @@ extension CloudSearch {
         /// A unique integer that indicates when this option was last updated.
         public let updateVersion: Int?
 
+        @inlinable
         public init(creationDate: Date, pendingDeletion: Bool? = nil, state: OptionState, updateDate: Date, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
@@ -1639,6 +1706,7 @@ extension CloudSearch {
         /// The number of replicas you want to preconfigure for each index partition.
         public let desiredReplicationCount: Int?
 
+        @inlinable
         public init(desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int? = nil, desiredReplicationCount: Int? = nil) {
             self.desiredInstanceType = desiredInstanceType
             self.desiredPartitionCount = desiredPartitionCount
@@ -1661,6 +1729,7 @@ extension CloudSearch {
         public let options: ScalingParameters
         public let status: OptionStatus
 
+        @inlinable
         public init(options: ScalingParameters, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1675,6 +1744,7 @@ extension CloudSearch {
     public struct ServiceEndpoint: AWSDecodableShape {
         public let endpoint: String?
 
+        @inlinable
         public init(endpoint: String? = nil) {
             self.endpoint = endpoint
         }
@@ -1688,6 +1758,7 @@ extension CloudSearch {
         public let documentSuggesterOptions: DocumentSuggesterOptions
         public let suggesterName: String
 
+        @inlinable
         public init(documentSuggesterOptions: DocumentSuggesterOptions, suggesterName: String) {
             self.documentSuggesterOptions = documentSuggesterOptions
             self.suggesterName = suggesterName
@@ -1710,6 +1781,7 @@ extension CloudSearch {
         public let options: Suggester
         public let status: OptionStatus
 
+        @inlinable
         public init(options: Suggester, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1733,6 +1805,7 @@ extension CloudSearch {
         /// A list of source fields to map to the field.
         public let sourceFields: String?
 
+        @inlinable
         public init(analysisScheme: String? = nil, defaultValue: String? = nil, highlightEnabled: Bool? = nil, returnEnabled: Bool? = nil, sourceFields: String? = nil) {
             self.analysisScheme = analysisScheme
             self.defaultValue = defaultValue
@@ -1769,6 +1842,7 @@ extension CloudSearch {
         public let sortEnabled: Bool?
         public let sourceField: String?
 
+        @inlinable
         public init(analysisScheme: String? = nil, defaultValue: String? = nil, highlightEnabled: Bool? = nil, returnEnabled: Bool? = nil, sortEnabled: Bool? = nil, sourceField: String? = nil) {
             self.analysisScheme = analysisScheme
             self.defaultValue = defaultValue
@@ -1801,6 +1875,7 @@ extension CloudSearch {
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false.
         public let multiAZ: Bool
 
+        @inlinable
         public init(domainName: String, multiAZ: Bool) {
             self.domainName = domainName
             self.multiAZ = multiAZ
@@ -1822,6 +1897,7 @@ extension CloudSearch {
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain.
         public let availabilityOptions: AvailabilityOptionsStatus?
 
+        @inlinable
         public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
             self.availabilityOptions = availabilityOptions
         }
@@ -1837,6 +1913,7 @@ extension CloudSearch {
         /// A string that represents the name of a domain.
         public let domainName: String
 
+        @inlinable
         public init(domainEndpointOptions: DomainEndpointOptions, domainName: String) {
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
@@ -1858,6 +1935,7 @@ extension CloudSearch {
         /// The newly-configured domain endpoint options.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
 
+        @inlinable
         public init(domainEndpointOptions: DomainEndpointOptionsStatus? = nil) {
             self.domainEndpointOptions = domainEndpointOptions
         }
@@ -1871,6 +1949,7 @@ extension CloudSearch {
         public let domainName: String
         public let scalingParameters: ScalingParameters
 
+        @inlinable
         public init(domainName: String, scalingParameters: ScalingParameters) {
             self.domainName = domainName
             self.scalingParameters = scalingParameters
@@ -1892,6 +1971,7 @@ extension CloudSearch {
     public struct UpdateScalingParametersResponse: AWSDecodableShape {
         public let scalingParameters: ScalingParametersStatus
 
+        @inlinable
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
         }
@@ -1906,6 +1986,7 @@ extension CloudSearch {
         public let accessPolicies: String
         public let domainName: String
 
+        @inlinable
         public init(accessPolicies: String, domainName: String) {
             self.accessPolicies = accessPolicies
             self.domainName = domainName
@@ -1927,6 +2008,7 @@ extension CloudSearch {
         /// The access rules configured for the domain.
         public let accessPolicies: AccessPoliciesStatus
 
+        @inlinable
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
         }

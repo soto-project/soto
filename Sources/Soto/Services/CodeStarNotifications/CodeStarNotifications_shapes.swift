@@ -88,6 +88,7 @@ extension CodeStarNotifications {
         /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Chatbot clients to associate with the notification rule.
         public let targets: [Target]
 
+        @inlinable
         public init(clientRequestToken: String? = CreateNotificationRuleRequest.idempotencyToken(), detailType: DetailType, eventTypeIds: [String], name: String, resource: String, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [Target]) {
             self.clientRequestToken = clientRequestToken
             self.detailType = detailType
@@ -140,6 +141,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -153,6 +155,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the notification rule you want to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -170,6 +173,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the deleted notification rule.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -185,6 +189,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
         public let targetAddress: String
 
+        @inlinable
         public init(forceUnsubscribeAll: Bool? = nil, targetAddress: String) {
             self.forceUnsubscribeAll = forceUnsubscribeAll
             self.targetAddress = targetAddress
@@ -209,6 +214,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the notification rule.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -246,6 +252,7 @@ extension CodeStarNotifications {
         /// A list of the Chatbot topics and Chatbot clients associated with the notification rule.
         public let targets: [TargetSummary]?
 
+        @inlinable
         public init(arn: String, createdBy: String? = nil, createdTimestamp: Date? = nil, detailType: DetailType? = nil, eventTypes: [EventTypeSummary]? = nil, lastModifiedTimestamp: Date? = nil, name: String? = nil, resource: String? = nil, status: NotificationRuleStatus? = nil, tags: [String: String]? = nil, targets: [TargetSummary]? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -285,6 +292,7 @@ extension CodeStarNotifications {
         /// The name of the service for which the event applies.
         public let serviceName: String?
 
+        @inlinable
         public init(eventTypeId: String? = nil, eventTypeName: String? = nil, resourceType: String? = nil, serviceName: String? = nil) {
             self.eventTypeId = eventTypeId
             self.eventTypeName = eventTypeName
@@ -306,6 +314,7 @@ extension CodeStarNotifications {
         /// The name of the resource type (for example, pipeline) or service name (for example, CodePipeline) that you want to filter by.
         public let value: String
 
+        @inlinable
         public init(name: ListEventTypesFilterName, value: String) {
             self.name = name
             self.value = value
@@ -325,6 +334,7 @@ extension CodeStarNotifications {
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ListEventTypesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -350,6 +360,7 @@ extension CodeStarNotifications {
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventTypes: [EventTypeSummary]? = nil, nextToken: String? = nil) {
             self.eventTypes = eventTypes
             self.nextToken = nextToken
@@ -367,6 +378,7 @@ extension CodeStarNotifications {
         /// The value of the attribute you want to use to filter the returned notification rules. For example, if you specify filtering by RESOURCE  in Name, you might specify the ARN of a pipeline in CodePipeline for the value.
         public let value: String
 
+        @inlinable
         public init(name: ListNotificationRulesFilterName, value: String) {
             self.name = name
             self.value = value
@@ -390,6 +402,7 @@ extension CodeStarNotifications {
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ListNotificationRulesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -418,6 +431,7 @@ extension CodeStarNotifications {
         /// The list of notification rules for the Amazon Web Services account, by Amazon Resource Name (ARN) and ID.
         public let notificationRules: [NotificationRuleSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, notificationRules: [NotificationRuleSummary]? = nil) {
             self.nextToken = nextToken
             self.notificationRules = notificationRules
@@ -433,6 +447,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) for the notification rule.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -450,6 +465,7 @@ extension CodeStarNotifications {
         /// The tags associated with the notification rule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -465,6 +481,7 @@ extension CodeStarNotifications {
         /// The value of the attribute you want to use to filter the returned targets. For example, if you specify SNS for the Target type, you could specify an Amazon Resource Name (ARN) for a topic as the value.
         public let value: String
 
+        @inlinable
         public init(name: ListTargetsFilterName, value: String) {
             self.name = name
             self.value = value
@@ -488,6 +505,7 @@ extension CodeStarNotifications {
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ListTargetsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -516,6 +534,7 @@ extension CodeStarNotifications {
         /// The list of notification rule targets.
         public let targets: [TargetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, targets: [TargetSummary]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
@@ -533,6 +552,7 @@ extension CodeStarNotifications {
         /// The unique ID of the notification rule.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -551,6 +571,7 @@ extension CodeStarNotifications {
         public let clientRequestToken: String?
         public let target: Target
 
+        @inlinable
         public init(arn: String, clientRequestToken: String? = nil, target: Target) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
@@ -576,6 +597,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the notification rule for which you have created assocations.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -591,6 +613,7 @@ extension CodeStarNotifications {
         /// The list of tags to associate with the resource. Tag key names cannot start with "aws".
         public let tags: [String: String]
 
+        @inlinable
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
@@ -617,6 +640,7 @@ extension CodeStarNotifications {
         /// The list of tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -632,6 +656,7 @@ extension CodeStarNotifications {
         /// The target type. Can be an Chatbot topic or Chatbot client.   Chatbot topics are specified as SNS.   Chatbot clients are specified as AWSChatbotSlack.
         public let targetType: String?
 
+        @inlinable
         public init(targetAddress: String? = nil, targetType: String? = nil) {
             self.targetAddress = targetAddress
             self.targetType = targetType
@@ -657,6 +682,7 @@ extension CodeStarNotifications {
         /// The type of the target (for example, SNS).   Chatbot topics are specified as SNS.   Chatbot clients are specified as AWSChatbotSlack.
         public let targetType: String?
 
+        @inlinable
         public init(targetAddress: String? = nil, targetStatus: TargetStatus? = nil, targetType: String? = nil) {
             self.targetAddress = targetAddress
             self.targetStatus = targetStatus
@@ -676,6 +702,7 @@ extension CodeStarNotifications {
         /// The ARN of the Chatbot topic to unsubscribe from the notification rule.
         public let targetAddress: String
 
+        @inlinable
         public init(arn: String, targetAddress: String) {
             self.arn = arn
             self.targetAddress = targetAddress
@@ -697,6 +724,7 @@ extension CodeStarNotifications {
         /// The Amazon Resource Name (ARN) of the the notification rule from which you have removed a subscription.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -712,6 +740,7 @@ extension CodeStarNotifications {
         /// The key names of the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -754,6 +783,7 @@ extension CodeStarNotifications {
         /// The address and type of the targets to receive notifications from this notification rule.
         public let targets: [Target]?
 
+        @inlinable
         public init(arn: String, detailType: DetailType? = nil, eventTypeIds: [String]? = nil, name: String? = nil, status: NotificationRuleStatus? = nil, targets: [Target]? = nil) {
             self.arn = arn
             self.detailType = detailType

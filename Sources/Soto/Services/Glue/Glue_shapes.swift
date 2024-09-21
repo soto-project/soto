@@ -937,6 +937,7 @@ extension Glue {
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int?
 
+        @inlinable
         public init(arguments: [String: String]? = nil, crawlerName: String? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int? = nil) {
             self.arguments = arguments
             self.crawlerName = crawlerName
@@ -980,6 +981,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(aggs: [AggregateOperation], groups: [[String]], inputs: [String], name: String) {
             self.aggs = aggs
             self.groups = groups
@@ -1015,6 +1017,7 @@ extension Glue {
         /// Specifies the column on the data set on which the aggregation function will be applied.
         public let column: [String]
 
+        @inlinable
         public init(aggFunc: AggFunction, column: [String]) {
             self.aggFunc = aggFunc
             self.column = column
@@ -1038,6 +1041,7 @@ extension Glue {
         /// The value for the additional connection option.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1103,6 +1107,7 @@ extension Glue {
         /// The action used on Redshift sinks when doing an APPEND.
         public let upsert: Bool?
 
+        @inlinable
         public init(accessType: String? = nil, action: String? = nil, advancedOptions: [AmazonRedshiftAdvancedOption]? = nil, catalogDatabase: Option? = nil, catalogRedshiftSchema: String? = nil, catalogRedshiftTable: String? = nil, catalogTable: Option? = nil, connection: Option? = nil, crawlerConnection: String? = nil, iamRole: Option? = nil, mergeAction: String? = nil, mergeClause: String? = nil, mergeWhenMatched: String? = nil, mergeWhenNotMatched: String? = nil, postAction: String? = nil, preAction: String? = nil, sampleQuery: String? = nil, schema: Option? = nil, selectedColumns: [Option]? = nil, sourceType: String? = nil, stagingTable: String? = nil, table: Option? = nil, tablePrefix: String? = nil, tableSchema: [Option]? = nil, tempDir: String? = nil, upsert: Bool? = nil) {
             self.accessType = accessType
             self.action = action
@@ -1190,6 +1195,7 @@ extension Glue {
         /// The name of the Amazon Redshift source.
         public let name: String?
 
+        @inlinable
         public init(data: AmazonRedshiftNodeData? = nil, name: String? = nil) {
             self.data = data
             self.name = name
@@ -1214,6 +1220,7 @@ extension Glue {
         /// The name of the Amazon Redshift target.
         public let name: String?
 
+        @inlinable
         public init(data: AmazonRedshiftNodeData? = nil, inputs: [String]? = nil, name: String? = nil) {
             self.data = data
             self.inputs = inputs
@@ -1245,6 +1252,7 @@ extension Glue {
         /// The Statistic ID for the failed annotation.
         public let statisticId: String?
 
+        @inlinable
         public init(failureReason: String? = nil, profileId: String? = nil, statisticId: String? = nil) {
             self.failureReason = failureReason
             self.profileId = profileId
@@ -1266,6 +1274,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(inputs: [String], mapping: [Mapping], name: String) {
             self.inputs = inputs
             self.mapping = mapping
@@ -1307,6 +1316,7 @@ extension Glue {
         /// The name of the Cloudwatch log group to read from. For example, /aws-glue/jobs/output.
         public let schemaName: String
 
+        @inlinable
         public init(connectionName: String, connectionTable: String? = nil, connectionType: String, connectorName: String, name: String, outputSchemas: [GlueSchema]? = nil, schemaName: String) {
             self.connectionName = connectionName
             self.connectionTable = connectionTable
@@ -1348,6 +1358,7 @@ extension Glue {
         /// The requested columns for audit.
         public let requestedColumns: [String]?
 
+        @inlinable
         public init(additionalAuditContext: String? = nil, allColumnsRequested: Bool? = nil, requestedColumns: [String]? = nil) {
             self.additionalAuditContext = additionalAuditContext
             self.allColumnsRequested = allColumnsRequested
@@ -1378,6 +1389,7 @@ extension Glue {
         /// The secret manager ARN to store credentials.
         public let secretArn: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, oAuth2Properties: OAuth2Properties? = nil, secretArn: String? = nil) {
             self.authenticationType = authenticationType
             self.oAuth2Properties = oAuth2Properties
@@ -1399,6 +1411,7 @@ extension Glue {
         /// The secret manager ARN to store credentials in the CreateConnection request.
         public let secretArn: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, oAuth2Properties: OAuth2PropertiesInput? = nil, secretArn: String? = nil) {
             self.authenticationType = authenticationType
             self.oAuth2Properties = oAuth2Properties
@@ -1423,6 +1436,7 @@ extension Glue {
         /// The redirect URI where the user gets redirected to by authorization server when issuing an authorization code. The URI is subsequently used when the authorization code is exchanged for an access token.
         public let redirectUri: String?
 
+        @inlinable
         public init(authorizationCode: String? = nil, redirectUri: String? = nil) {
             self.authorizationCode = authorizationCode
             self.redirectUri = redirectUri
@@ -1448,6 +1462,7 @@ extension Glue {
         /// A list of a limited number of partitions in the response.
         public let partitions: [PartitionValueList]?
 
+        @inlinable
         public init(code: BackfillErrorCode? = nil, partitions: [PartitionValueList]? = nil) {
             self.code = code
             self.partitions = partitions
@@ -1471,6 +1486,7 @@ extension Glue {
         /// The table that defines the schema of your output data. This table must already exist in the Data Catalog.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, table: String) {
             self.database = database
             self.inputs = inputs
@@ -1509,6 +1525,7 @@ extension Glue {
         /// The name of the metadata table in which the partition is to be created.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionInputList: [PartitionInput], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1544,6 +1561,7 @@ extension Glue {
         /// The errors encountered when trying to create the requested partitions.
         public let errors: [PartitionError]?
 
+        @inlinable
         public init(errors: [PartitionError]? = nil) {
             self.errors = errors
         }
@@ -1559,6 +1577,7 @@ extension Glue {
         /// A list of names of the connections to delete.
         public let connectionNameList: [String]
 
+        @inlinable
         public init(catalogId: String? = nil, connectionNameList: [String]) {
             self.catalogId = catalogId
             self.connectionNameList = connectionNameList
@@ -1588,6 +1607,7 @@ extension Glue {
         /// A list of names of the connection definitions that were successfully deleted.
         public let succeeded: [String]?
 
+        @inlinable
         public init(errors: [String: ErrorDetail]? = nil, succeeded: [String]? = nil) {
             self.errors = errors
             self.succeeded = succeeded
@@ -1609,6 +1629,7 @@ extension Glue {
         /// The name of the table that contains the partitions to be deleted.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionsToDelete: [PartitionValueList], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1644,6 +1665,7 @@ extension Glue {
         /// The errors encountered when trying to delete the requested partitions.
         public let errors: [PartitionError]?
 
+        @inlinable
         public init(errors: [PartitionError]? = nil) {
             self.errors = errors
         }
@@ -1663,6 +1685,7 @@ extension Glue {
         /// The transaction ID at which to delete the table contents.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tablesToDelete: [String], transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1700,6 +1723,7 @@ extension Glue {
         /// A list of errors encountered in attempting to delete the specified tables.
         public let errors: [TableError]?
 
+        @inlinable
         public init(errors: [TableError]? = nil) {
             self.errors = errors
         }
@@ -1719,6 +1743,7 @@ extension Glue {
         /// A list of the IDs of versions to be deleted. A VersionId is a string representation of an integer. Each version is incremented by 1.
         public let versionIds: [String]
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionIds: [String]) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1756,6 +1781,7 @@ extension Glue {
         /// A list of errors encountered while trying to delete the specified table versions.
         public let errors: [TableVersionError]?
 
+        @inlinable
         public init(errors: [TableVersionError]? = nil) {
             self.errors = errors
         }
@@ -1773,6 +1799,7 @@ extension Glue {
         /// A list of blueprint names.
         public let names: [String]
 
+        @inlinable
         public init(includeBlueprint: Bool? = nil, includeParameterSpec: Bool? = nil, names: [String]) {
             self.includeBlueprint = includeBlueprint
             self.includeParameterSpec = includeParameterSpec
@@ -1802,6 +1829,7 @@ extension Glue {
         /// Returns a list of BlueprintNames that were not found.
         public let missingBlueprints: [String]?
 
+        @inlinable
         public init(blueprints: [Blueprint]? = nil, missingBlueprints: [String]? = nil) {
             self.blueprints = blueprints
             self.missingBlueprints = missingBlueprints
@@ -1817,6 +1845,7 @@ extension Glue {
         /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
         public let crawlerNames: [String]
 
+        @inlinable
         public init(crawlerNames: [String]) {
             self.crawlerNames = crawlerNames
         }
@@ -1841,6 +1870,7 @@ extension Glue {
         /// A list of names of crawlers that were not found.
         public let crawlersNotFound: [String]?
 
+        @inlinable
         public init(crawlers: [Crawler]? = nil, crawlersNotFound: [String]? = nil) {
             self.crawlers = crawlers
             self.crawlersNotFound = crawlersNotFound
@@ -1856,6 +1886,7 @@ extension Glue {
         /// A list of names of the custom patterns that you want to retrieve.
         public let names: [String]
 
+        @inlinable
         public init(names: [String]) {
             self.names = names
         }
@@ -1881,6 +1912,7 @@ extension Glue {
         /// A list of the names of custom patterns that were not found.
         public let customEntityTypesNotFound: [String]?
 
+        @inlinable
         public init(customEntityTypes: [CustomEntityType]? = nil, customEntityTypesNotFound: [String]? = nil) {
             self.customEntityTypes = customEntityTypes
             self.customEntityTypesNotFound = customEntityTypesNotFound
@@ -1896,6 +1928,7 @@ extension Glue {
         /// A list of unique result IDs for the data quality results.
         public let resultIds: [String]
 
+        @inlinable
         public init(resultIds: [String]) {
             self.resultIds = resultIds
         }
@@ -1921,6 +1954,7 @@ extension Glue {
         /// A list of result IDs for which results were not found.
         public let resultsNotFound: [String]?
 
+        @inlinable
         public init(results: [DataQualityResult], resultsNotFound: [String]? = nil) {
             self.results = results
             self.resultsNotFound = resultsNotFound
@@ -1936,6 +1970,7 @@ extension Glue {
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
 
+        @inlinable
         public init(devEndpointNames: [String]) {
             self.devEndpointNames = devEndpointNames
         }
@@ -1956,6 +1991,7 @@ extension Glue {
         /// A list of DevEndpoints not found.
         public let devEndpointsNotFound: [String]?
 
+        @inlinable
         public init(devEndpoints: [DevEndpoint]? = nil, devEndpointsNotFound: [String]? = nil) {
             self.devEndpoints = devEndpoints
             self.devEndpointsNotFound = devEndpointsNotFound
@@ -1971,6 +2007,7 @@ extension Glue {
         /// A list of job names, which might be the names returned from the ListJobs operation.
         public let jobNames: [String]
 
+        @inlinable
         public init(jobNames: [String]) {
             self.jobNames = jobNames
         }
@@ -1994,6 +2031,7 @@ extension Glue {
         /// A list of names of jobs not found.
         public let jobsNotFound: [String]?
 
+        @inlinable
         public init(jobs: [Job]? = nil, jobsNotFound: [String]? = nil) {
             self.jobs = jobs
             self.jobsNotFound = jobsNotFound
@@ -2015,6 +2053,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionsToGet: [PartitionValueList], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2052,6 +2091,7 @@ extension Glue {
         /// A list of the partition values in the request for which partitions were not returned.
         public let unprocessedKeys: [PartitionValueList]?
 
+        @inlinable
         public init(partitions: [Partition]? = nil, unprocessedKeys: [PartitionValueList]? = nil) {
             self.partitions = partitions
             self.unprocessedKeys = unprocessedKeys
@@ -2073,6 +2113,7 @@ extension Glue {
         /// The type of table optimizer.
         public let type: TableOptimizerType?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, tableName: String? = nil, type: TableOptimizerType? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2108,6 +2149,7 @@ extension Glue {
         /// The type of table optimizer.
         public let type: TableOptimizerType?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, error: ErrorDetail? = nil, tableName: String? = nil, type: TableOptimizerType? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2129,6 +2171,7 @@ extension Glue {
         /// A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve.
         public let entries: [BatchGetTableOptimizerEntry]
 
+        @inlinable
         public init(entries: [BatchGetTableOptimizerEntry]) {
             self.entries = entries
         }
@@ -2150,6 +2193,7 @@ extension Glue {
         /// A list of BatchTableOptimizer objects.
         public let tableOptimizers: [BatchTableOptimizer]?
 
+        @inlinable
         public init(failures: [BatchGetTableOptimizerError]? = nil, tableOptimizers: [BatchTableOptimizer]? = nil) {
             self.failures = failures
             self.tableOptimizers = tableOptimizers
@@ -2165,6 +2209,7 @@ extension Glue {
         /// A list of trigger names, which may be the names returned from the ListTriggers operation.
         public let triggerNames: [String]
 
+        @inlinable
         public init(triggerNames: [String]) {
             self.triggerNames = triggerNames
         }
@@ -2188,6 +2233,7 @@ extension Glue {
         /// A list of names of triggers not found.
         public let triggersNotFound: [String]?
 
+        @inlinable
         public init(triggers: [Trigger]? = nil, triggersNotFound: [String]? = nil) {
             self.triggers = triggers
             self.triggersNotFound = triggersNotFound
@@ -2205,6 +2251,7 @@ extension Glue {
         /// A list of workflow names, which may be the names returned from the ListWorkflows operation.
         public let names: [String]
 
+        @inlinable
         public init(includeGraph: Bool? = nil, names: [String]) {
             self.includeGraph = includeGraph
             self.names = names
@@ -2232,6 +2279,7 @@ extension Glue {
         /// A list of workflow resource metadata.
         public let workflows: [Workflow]?
 
+        @inlinable
         public init(missingWorkflows: [String]? = nil, workflows: [Workflow]? = nil) {
             self.missingWorkflows = missingWorkflows
             self.workflows = workflows
@@ -2249,6 +2297,7 @@ extension Glue {
         /// A list of DatapointInclusionAnnotation's.
         public let inclusionAnnotations: [DatapointInclusionAnnotation]
 
+        @inlinable
         public init(clientToken: String? = nil, inclusionAnnotations: [DatapointInclusionAnnotation]) {
             self.clientToken = clientToken
             self.inclusionAnnotations = inclusionAnnotations
@@ -2273,6 +2322,7 @@ extension Glue {
         /// A list of AnnotationError's.
         public let failedInclusionAnnotations: [AnnotationError]?
 
+        @inlinable
         public init(failedInclusionAnnotations: [AnnotationError]? = nil) {
             self.failedInclusionAnnotations = failedInclusionAnnotations
         }
@@ -2290,6 +2340,7 @@ extension Glue {
         /// The JobRunId of the job run in question.
         public let jobRunId: String?
 
+        @inlinable
         public init(errorDetail: ErrorDetail? = nil, jobName: String? = nil, jobRunId: String? = nil) {
             self.errorDetail = errorDetail
             self.jobName = jobName
@@ -2309,6 +2360,7 @@ extension Glue {
         /// A list of the JobRunIds that should be stopped for that job definition.
         public let jobRunIds: [String]
 
+        @inlinable
         public init(jobName: String, jobRunIds: [String]) {
             self.jobName = jobName
             self.jobRunIds = jobRunIds
@@ -2339,6 +2391,7 @@ extension Glue {
         /// A list of the JobRuns that were successfully submitted for stopping.
         public let successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]?
 
+        @inlinable
         public init(errors: [BatchStopJobRunError]? = nil, successfulSubmissions: [BatchStopJobRunSuccessfulSubmission]? = nil) {
             self.errors = errors
             self.successfulSubmissions = successfulSubmissions
@@ -2356,6 +2409,7 @@ extension Glue {
         /// The JobRunId of the job run that was stopped.
         public let jobRunId: String?
 
+        @inlinable
         public init(jobName: String? = nil, jobRunId: String? = nil) {
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -2377,6 +2431,7 @@ extension Glue {
         /// A TableOptimizer object that contains details on the configuration and last run of a table optimizer.
         public let tableOptimizer: TableOptimizer?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, tableName: String? = nil, tableOptimizer: TableOptimizer? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2398,6 +2453,7 @@ extension Glue {
         /// A list of values defining the partitions.
         public let partitionValueList: [String]?
 
+        @inlinable
         public init(errorDetail: ErrorDetail? = nil, partitionValueList: [String]? = nil) {
             self.errorDetail = errorDetail
             self.partitionValueList = partitionValueList
@@ -2419,6 +2475,7 @@ extension Glue {
         /// The name of the metadata table in which the partition is to be updated.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, entries: [BatchUpdatePartitionRequestEntry], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2457,6 +2514,7 @@ extension Glue {
         /// A list of values defining the partitions.
         public let partitionValueList: [String]
 
+        @inlinable
         public init(partitionInput: PartitionInput, partitionValueList: [String]) {
             self.partitionInput = partitionInput
             self.partitionValueList = partitionValueList
@@ -2480,6 +2538,7 @@ extension Glue {
         /// The errors encountered when trying to update the requested partitions. A list of BatchUpdatePartitionFailureEntry objects.
         public let errors: [BatchUpdatePartitionFailureEntry]?
 
+        @inlinable
         public init(errors: [BatchUpdatePartitionFailureEntry]? = nil) {
             self.errors = errors
         }
@@ -2497,6 +2556,7 @@ extension Glue {
         /// The number of null values in the column.
         public let numberOfNulls: Int64
 
+        @inlinable
         public init(averageLength: Double, maximumLength: Int64, numberOfNulls: Int64) {
             self.averageLength = averageLength
             self.maximumLength = maximumLength
@@ -2538,6 +2598,7 @@ extension Glue {
         /// The status of the blueprint registration.   Creating — The blueprint registration is in progress.   Active — The blueprint has been successfully registered.   Updating — An update to the blueprint registration is in progress.   Failed — The blueprint registration failed.
         public let status: BlueprintStatus?
 
+        @inlinable
         public init(blueprintLocation: String? = nil, blueprintServiceLocation: String? = nil, createdOn: Date? = nil, description: String? = nil, errorMessage: String? = nil, lastActiveDefinition: LastActiveDefinition? = nil, lastModifiedOn: Date? = nil, name: String? = nil, parameterSpec: String? = nil, status: BlueprintStatus? = nil) {
             self.blueprintLocation = blueprintLocation
             self.blueprintServiceLocation = blueprintServiceLocation
@@ -2571,6 +2632,7 @@ extension Glue {
         /// The run ID for this blueprint.
         public let runId: String?
 
+        @inlinable
         public init(blueprintName: String? = nil, runId: String? = nil) {
             self.blueprintName = blueprintName
             self.runId = runId
@@ -2604,6 +2666,7 @@ extension Glue {
         /// The name of a workflow that is created as a result of a successful blueprint run. If a blueprint run has an error, there will not be a workflow created.
         public let workflowName: String?
 
+        @inlinable
         public init(blueprintName: String? = nil, completedOn: Date? = nil, errorMessage: String? = nil, parameters: String? = nil, roleArn: String? = nil, rollbackErrorMessage: String? = nil, runId: String? = nil, startedOn: Date? = nil, state: BlueprintRunState? = nil, workflowName: String? = nil) {
             self.blueprintName = blueprintName
             self.completedOn = completedOn
@@ -2639,6 +2702,7 @@ extension Glue {
         /// The number of true values in the column.
         public let numberOfTrues: Int64
 
+        @inlinable
         public init(numberOfFalses: Int64, numberOfNulls: Int64, numberOfTrues: Int64) {
             self.numberOfFalses = numberOfFalses
             self.numberOfNulls = numberOfNulls
@@ -2662,6 +2726,7 @@ extension Glue {
         /// The unique run identifier associated with this run.
         public let runId: String
 
+        @inlinable
         public init(runId: String) {
             self.runId = runId
         }
@@ -2685,6 +2750,7 @@ extension Glue {
         /// The unique run identifier associated with this run.
         public let runId: String
 
+        @inlinable
         public init(runId: String) {
             self.runId = runId
         }
@@ -2710,6 +2776,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(taskRunId: String, transformId: String) {
             self.taskRunId = taskRunId
             self.transformId = transformId
@@ -2738,6 +2805,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String?
 
+        @inlinable
         public init(status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
             self.status = status
             self.taskRunId = taskRunId
@@ -2759,6 +2827,7 @@ extension Glue {
         /// The Session ID of the statement to be cancelled.
         public let sessionId: String
 
+        @inlinable
         public init(id: Int = 0, requestOrigin: String? = nil, sessionId: String) {
             self.id = id
             self.requestOrigin = requestOrigin
@@ -2797,6 +2866,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(additionalDeltaOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.database = database
@@ -2833,6 +2903,7 @@ extension Glue {
         /// The name of the table in question.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -2865,6 +2936,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(additionalHudiOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
             self.additionalHudiOptions = additionalHudiOptions
             self.database = database
@@ -2903,6 +2975,7 @@ extension Glue {
         /// The time that the migration was started.
         public let importTime: Date?
 
+        @inlinable
         public init(importCompleted: Bool? = nil, importedBy: String? = nil, importTime: Date? = nil) {
             self.importCompleted = importCompleted
             self.importedBy = importedBy
@@ -2932,6 +3005,7 @@ extension Glue {
         /// The amount of time to spend processing each micro batch.
         public let windowSize: Int?
 
+        @inlinable
         public init(database: String, dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KafkaStreamingSourceOptions? = nil, table: String, windowSize: Int? = nil) {
             self.database = database
             self.dataPreviewOptions = dataPreviewOptions
@@ -2978,6 +3052,7 @@ extension Glue {
         /// The amount of time to spend processing each micro batch.
         public let windowSize: Int?
 
+        @inlinable
         public init(database: String, dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KinesisStreamingSourceOptions? = nil, table: String, windowSize: Int? = nil) {
             self.database = database
             self.dataPreviewOptions = dataPreviewOptions
@@ -3014,6 +3089,7 @@ extension Glue {
         /// The update behavior when the crawler finds a changed schema.
         public let updateBehavior: UpdateCatalogBehavior?
 
+        @inlinable
         public init(enableUpdateCatalog: Bool? = nil, updateBehavior: UpdateCatalogBehavior? = nil) {
             self.enableUpdateCatalog = enableUpdateCatalog
             self.updateBehavior = updateBehavior
@@ -3033,6 +3109,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -3064,6 +3141,7 @@ extension Glue {
         /// A list of the tables to be synchronized.
         public let tables: [String]
 
+        @inlinable
         public init(connectionName: String? = nil, databaseName: String, dlqEventQueueArn: String? = nil, eventQueueArn: String? = nil, tables: [String]) {
             self.connectionName = connectionName
             self.databaseName = databaseName
@@ -3099,6 +3177,7 @@ extension Glue {
         /// The definition of the schema that has to be validated.
         public let schemaDefinition: String
 
+        @inlinable
         public init(dataFormat: DataFormat, schemaDefinition: String) {
             self.dataFormat = dataFormat
             self.schemaDefinition = schemaDefinition
@@ -3122,6 +3201,7 @@ extension Glue {
         /// Return true, if the schema is valid and false otherwise.
         public let valid: Bool?
 
+        @inlinable
         public init(error: String? = nil, valid: Bool? = nil) {
             self.error = error
             self.valid = valid
@@ -3143,6 +3223,7 @@ extension Glue {
         /// A classifier for XML content.
         public let xmlClassifier: XMLClassifier?
 
+        @inlinable
         public init(csvClassifier: CsvClassifier? = nil, grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xmlClassifier: XMLClassifier? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
@@ -3164,6 +3245,7 @@ extension Glue {
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(cloudWatchEncryptionMode: CloudWatchEncryptionMode? = nil, kmsKeyArn: String? = nil) {
             self.cloudWatchEncryptionMode = cloudWatchEncryptionMode
             self.kmsKeyArn = kmsKeyArn
@@ -3322,6 +3404,7 @@ extension Glue {
         /// Specifies a transform that combines the rows from two or more datasets into a single result.
         public let union: Union?
 
+        @inlinable
         public init(aggregate: Aggregate? = nil, amazonRedshiftSource: AmazonRedshiftSource? = nil, amazonRedshiftTarget: AmazonRedshiftTarget? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogDeltaSource: CatalogDeltaSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, connectorDataSource: ConnectorDataSource? = nil, connectorDataTarget: ConnectorDataTarget? = nil, customCode: CustomCode? = nil, directJDBCSource: DirectJDBCSource? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, evaluateDataQualityMultiFrame: EvaluateDataQualityMultiFrame? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, recipe: Recipe? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogDeltaSource: S3CatalogDeltaSource? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DeltaCatalogTarget: S3DeltaCatalogTarget? = nil, s3DeltaDirectTarget: S3DeltaDirectTarget? = nil, s3DeltaSource: S3DeltaSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, snowflakeSource: SnowflakeSource? = nil, snowflakeTarget: SnowflakeTarget? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
             self.aggregate = aggregate
             self.amazonRedshiftSource = amazonRedshiftSource
@@ -3553,6 +3636,7 @@ extension Glue {
         /// The target of the edge.
         public let targetParameter: String?
 
+        @inlinable
         public init(source: String, target: String, targetParameter: String? = nil) {
             self.source = source
             self.target = target
@@ -3585,6 +3669,7 @@ extension Glue {
         /// The type of node that this is.
         public let nodeType: String
 
+        @inlinable
         public init(args: [CodeGenNodeArg], id: String, lineNumber: Int? = nil, nodeType: String) {
             self.args = args
             self.id = id
@@ -3615,6 +3700,7 @@ extension Glue {
         /// The value of the argument or property.
         public let value: String
 
+        @inlinable
         public init(name: String, param: Bool? = nil, value: String) {
             self.name = name
             self.param = param
@@ -3638,6 +3724,7 @@ extension Glue {
         /// The data type of the Column.
         public let type: String?
 
+        @inlinable
         public init(comment: String? = nil, name: String, parameters: [String: String]? = nil, type: String? = nil) {
             self.comment = comment
             self.name = name
@@ -3675,6 +3762,7 @@ extension Glue {
         /// An error message with the reason for the failure of an operation.
         public let error: ErrorDetail?
 
+        @inlinable
         public init(columnName: String? = nil, error: ErrorDetail? = nil) {
             self.columnName = columnName
             self.error = error
@@ -3692,6 +3780,7 @@ extension Glue {
         /// The column importance score for the column, as a decimal.
         public let importance: Double?
 
+        @inlinable
         public init(columnName: String? = nil, importance: Double? = nil) {
             self.columnName = columnName
             self.importance = importance
@@ -3709,6 +3798,7 @@ extension Glue {
         /// A string containing the row-level filter expression.
         public let rowFilterExpression: String?
 
+        @inlinable
         public init(columnName: String? = nil, rowFilterExpression: String? = nil) {
             self.columnName = columnName
             self.rowFilterExpression = rowFilterExpression
@@ -3730,6 +3820,7 @@ extension Glue {
         /// A ColumnStatisticData object that contains the statistics data values.
         public let statisticsData: ColumnStatisticsData
 
+        @inlinable
         public init(analyzedTime: Date, columnName: String, columnType: String, statisticsData: ColumnStatisticsData) {
             self.analyzedTime = analyzedTime
             self.columnName = columnName
@@ -3772,6 +3863,7 @@ extension Glue {
         /// The type of column statistics data.
         public let type: ColumnStatisticsType
 
+        @inlinable
         public init(binaryColumnStatisticsData: BinaryColumnStatisticsData? = nil, booleanColumnStatisticsData: BooleanColumnStatisticsData? = nil, dateColumnStatisticsData: DateColumnStatisticsData? = nil, decimalColumnStatisticsData: DecimalColumnStatisticsData? = nil, doubleColumnStatisticsData: DoubleColumnStatisticsData? = nil, longColumnStatisticsData: LongColumnStatisticsData? = nil, stringColumnStatisticsData: StringColumnStatisticsData? = nil, type: ColumnStatisticsType) {
             self.binaryColumnStatisticsData = binaryColumnStatisticsData
             self.booleanColumnStatisticsData = booleanColumnStatisticsData
@@ -3811,6 +3903,7 @@ extension Glue {
         /// An error message with the reason for the failure of an operation.
         public let error: ErrorDetail?
 
+        @inlinable
         public init(columnStatistics: ColumnStatistics? = nil, error: ErrorDetail? = nil) {
             self.columnStatistics = columnStatistics
             self.error = error
@@ -3860,6 +3953,7 @@ extension Glue {
         /// The type of workers being used for generating stats. The default is g.1x.
         public let workerType: String?
 
+        @inlinable
         public init(catalogID: String? = nil, columnNameList: [String]? = nil, columnStatisticsTaskRunId: String? = nil, creationTime: Date? = nil, customerId: String? = nil, databaseName: String? = nil, dpuSeconds: Double? = nil, endTime: Date? = nil, errorMessage: String? = nil, lastUpdated: Date? = nil, numberOfWorkers: Int? = nil, role: String? = nil, sampleSize: Double? = nil, securityConfiguration: String? = nil, startTime: Date? = nil, status: ColumnStatisticsState? = nil, tableName: String? = nil, workerType: String? = nil) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
@@ -3907,6 +4001,7 @@ extension Glue {
         /// A structure containing the Iceberg compaction metrics for the optimizer run.
         public let icebergMetrics: IcebergCompactionMetrics?
 
+        @inlinable
         public init(icebergMetrics: IcebergCompactionMetrics? = nil) {
             self.icebergMetrics = icebergMetrics
         }
@@ -3928,6 +4023,7 @@ extension Glue {
         /// The condition state. Currently, the only job states that a trigger can listen for are SUCCEEDED, STOPPED, FAILED, and TIMEOUT. The only crawler states that a trigger can listen for are SUCCEEDED, FAILED, and CANCELLED.
         public let state: JobRunState?
 
+        @inlinable
         public init(crawlerName: String? = nil, crawlState: CrawlState? = nil, jobName: String? = nil, logicalOperator: LogicalOperator? = nil, state: JobRunState? = nil) {
             self.crawlerName = crawlerName
             self.crawlState = crawlState
@@ -3962,6 +4058,7 @@ extension Glue {
         /// The value of the condition expression.
         public let value: String?
 
+        @inlinable
         public init(condition: String, targetColumn: String, value: String? = nil) {
             self.condition = condition
             self.targetColumn = targetColumn
@@ -3994,6 +4091,7 @@ extension Glue {
         /// A minimum allowed value for the parameter.
         public let minValue: String?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, defaultValue: String? = nil, maxValue: String? = nil, minValue: String? = nil) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -4036,6 +4134,7 @@ extension Glue {
         /// The number of matches in the data that the transform correctly found, in the confusion matrix for your transform.
         public let numTruePositives: Int64?
 
+        @inlinable
         public init(numFalseNegatives: Int64? = nil, numFalsePositives: Int64? = nil, numTrueNegatives: Int64? = nil, numTruePositives: Int64? = nil) {
             self.numFalseNegatives = numFalseNegatives
             self.numFalsePositives = numFalsePositives
@@ -4079,6 +4178,7 @@ extension Glue {
         /// The reason for the connection status.
         public let statusReason: String?
 
+        @inlinable
         public init(authenticationConfiguration: AuthenticationConfiguration? = nil, connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: Date? = nil, description: String? = nil, lastConnectionValidationTime: Date? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, status: ConnectionStatus? = nil, statusReason: String? = nil) {
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
@@ -4130,6 +4230,7 @@ extension Glue {
         /// A flag to validate the credentials during create connection. Used for a Salesforce connection. Default is true.
         public let validateCredentials: Bool?
 
+        @inlinable
         public init(authenticationConfiguration: AuthenticationConfigurationInput? = nil, connectionProperties: [ConnectionPropertyKey: String], connectionType: ConnectionType, description: String? = nil, matchCriteria: [String]? = nil, name: String, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, validateCredentials: Bool? = nil) {
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
@@ -4179,6 +4280,7 @@ extension Glue {
         /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption.
         public let returnConnectionPasswordEncrypted: Bool
 
+        @inlinable
         public init(awsKmsKeyId: String? = nil, returnConnectionPasswordEncrypted: Bool) {
             self.awsKmsKeyId = awsKmsKeyId
             self.returnConnectionPasswordEncrypted = returnConnectionPasswordEncrypted
@@ -4200,6 +4302,7 @@ extension Glue {
         /// A list of connections used by the job.
         public let connections: [String]?
 
+        @inlinable
         public init(connections: [String]? = nil) {
             self.connections = connections
         }
@@ -4220,6 +4323,7 @@ extension Glue {
         /// Specifies the data schema for this source.
         public let outputSchemas: [GlueSchema]?
 
+        @inlinable
         public init(connectionType: String, data: [String: String], name: String, outputSchemas: [GlueSchema]? = nil) {
             self.connectionType = connectionType
             self.data = data
@@ -4254,6 +4358,7 @@ extension Glue {
         /// The name of this target node.
         public let name: String
 
+        @inlinable
         public init(connectionType: String, data: [String: String], inputs: [String]? = nil, name: String) {
             self.connectionType = connectionType
             self.data = data
@@ -4293,6 +4398,7 @@ extension Glue {
         /// The state of the crawler.
         public let state: CrawlState?
 
+        @inlinable
         public init(completedOn: Date? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, startedOn: Date? = nil, state: CrawlState? = nil) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
@@ -4354,6 +4460,7 @@ extension Glue {
         /// The version of the crawler.
         public let version: Int64?
 
+        @inlinable
         public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
@@ -4423,6 +4530,7 @@ extension Glue {
         /// A run summary for the specific crawl in JSON. Contains the catalog tables and partitions that were added, updated, or deleted.
         public let summary: String?
 
+        @inlinable
         public init(crawlId: String? = nil, dpuHour: Double? = nil, endTime: Date? = nil, errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: Date? = nil, state: CrawlerHistoryState? = nil, summary: String? = nil) {
             self.crawlId = crawlId
             self.dpuHour = dpuHour
@@ -4468,6 +4576,7 @@ extension Glue {
         /// The estimated time left to complete a running crawl.
         public let timeLeftSeconds: Double?
 
+        @inlinable
         public init(crawlerName: String? = nil, lastRuntimeSeconds: Double? = nil, medianRuntimeSeconds: Double? = nil, stillEstimating: Bool? = nil, tablesCreated: Int? = nil, tablesDeleted: Int? = nil, tablesUpdated: Int? = nil, timeLeftSeconds: Double? = nil) {
             self.crawlerName = crawlerName
             self.lastRuntimeSeconds = lastRuntimeSeconds
@@ -4495,6 +4604,7 @@ extension Glue {
         /// A list of crawls represented by the crawl node.
         public let crawls: [Crawl]?
 
+        @inlinable
         public init(crawls: [Crawl]? = nil) {
             self.crawls = crawls
         }
@@ -4522,6 +4632,7 @@ extension Glue {
         /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
         public let s3Targets: [S3Target]?
 
+        @inlinable
         public init(catalogTargets: [CatalogTarget]? = nil, deltaTargets: [DeltaTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, hudiTargets: [HudiTarget]? = nil, icebergTargets: [IcebergTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, mongoDBTargets: [MongoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
             self.catalogTargets = catalogTargets
             self.deltaTargets = deltaTargets
@@ -4559,6 +4670,7 @@ extension Glue {
         /// A defined comparator that operates on the value. The available operators are:    GT: Greater than.    GE: Greater than or equal to.    LT: Less than.    LE: Less than or equal to.    EQ: Equal to.    NE: Not equal to.
         public let filterOperator: FilterOperator?
 
+        @inlinable
         public init(fieldName: FieldName? = nil, fieldValue: String? = nil, filterOperator: FilterOperator? = nil) {
             self.fieldName = fieldName
             self.fieldValue = fieldValue
@@ -4582,6 +4694,7 @@ extension Glue {
         /// The tags to be applied to this blueprint.
         public let tags: [String: String]?
 
+        @inlinable
         public init(blueprintLocation: String, description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.blueprintLocation = blueprintLocation
             self.description = description
@@ -4618,6 +4731,7 @@ extension Glue {
         /// Returns the name of the blueprint that was registered.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4637,6 +4751,7 @@ extension Glue {
         /// An XMLClassifier object specifying the classifier to create.
         public let xmlClassifier: CreateXMLClassifierRequest?
 
+        @inlinable
         public init(csvClassifier: CreateCsvClassifierRequest? = nil, grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xmlClassifier: CreateXMLClassifierRequest? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
@@ -4671,6 +4786,7 @@ extension Glue {
         /// The tags you assign to the connection.
         public let tags: [String: String]?
 
+        @inlinable
         public init(catalogId: String? = nil, connectionInput: ConnectionInput, tags: [String: String]? = nil) {
             self.catalogId = catalogId
             self.connectionInput = connectionInput
@@ -4701,6 +4817,7 @@ extension Glue {
         /// The status of the connection creation request. The request can take some time for certain authentication types, for example when creating an OAuth connection with token exchange over VPC.
         public let createConnectionStatus: ConnectionStatus?
 
+        @inlinable
         public init(createConnectionStatus: ConnectionStatus? = nil) {
             self.createConnectionStatus = createConnectionStatus
         }
@@ -4742,6 +4859,7 @@ extension Glue {
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
 
+        @inlinable
         public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
             self.classifiers = classifiers
             self.configuration = configuration
@@ -4828,6 +4946,7 @@ extension Glue {
         /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
         public let serde: CsvSerdeOption?
 
+        @inlinable
         public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil, serde: CsvSerdeOption? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
@@ -4887,6 +5006,7 @@ extension Glue {
         /// A list of tags applied to the custom entity type.
         public let tags: [String: String]?
 
+        @inlinable
         public init(contextWords: [String]? = nil, name: String, regexString: String, tags: [String: String]? = nil) {
             self.contextWords = contextWords
             self.name = name
@@ -4928,6 +5048,7 @@ extension Glue {
         /// The name of the custom pattern you created.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4953,6 +5074,7 @@ extension Glue {
         /// A target table associated with the data quality ruleset.
         public let targetTable: DataQualityTargetTable?
 
+        @inlinable
         public init(clientToken: String? = nil, dataQualitySecurityConfiguration: String? = nil, description: String? = nil, name: String, ruleset: String, tags: [String: String]? = nil, targetTable: DataQualityTargetTable? = nil) {
             self.clientToken = clientToken
             self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -5001,6 +5123,7 @@ extension Glue {
         /// A unique name for the data quality ruleset.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -5018,6 +5141,7 @@ extension Glue {
         /// The tags you assign to the database.
         public let tags: [String: String]?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseInput: DatabaseInput, tags: [String: String]? = nil) {
             self.catalogId = catalogId
             self.databaseInput = databaseInput
@@ -5080,6 +5204,7 @@ extension Glue {
         /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.endpointName = endpointName
@@ -5175,6 +5300,7 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
+        @inlinable
         public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: Date? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
@@ -5230,6 +5356,7 @@ extension Glue {
         /// The name of the new classifier.
         public let name: String
 
+        @inlinable
         public init(classification: String, customPatterns: String? = nil, grokPattern: String, name: String) {
             self.classification = classification
             self.customPatterns = customPatterns
@@ -5308,6 +5435,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
@@ -5337,6 +5465,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
+        @inlinable
         public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
@@ -5427,6 +5556,7 @@ extension Glue {
         /// The unique name that was provided for this job definition.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -5442,6 +5572,7 @@ extension Glue {
         /// The name of the classifier.
         public let name: String
 
+        @inlinable
         public init(jsonPath: String, name: String) {
             self.jsonPath = jsonPath
             self.name = name
@@ -5487,6 +5618,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, workerType: WorkerType? = nil) {
             self.description = description
             self.glueVersion = glueVersion
@@ -5548,6 +5680,7 @@ extension Glue {
         /// A unique identifier that is generated for the transform.
         public let transformId: String?
 
+        @inlinable
         public init(transformId: String? = nil) {
             self.transformId = transformId
         }
@@ -5567,6 +5700,7 @@ extension Glue {
         /// Specifies the name of a table in which you want to create a partition index.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionIndex: PartitionIndex, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5609,6 +5743,7 @@ extension Glue {
         /// The name of the metadata table in which the partition is to be created.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -5649,6 +5784,7 @@ extension Glue {
         /// Amazon Web Services tags that contain a key value pair and may be searched by console, command line, or API.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, registryName: String, tags: [String: String]? = nil) {
             self.description = description
             self.registryName = registryName
@@ -5686,6 +5822,7 @@ extension Glue {
         /// The tags for the registry.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, registryArn: String? = nil, registryName: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.registryArn = registryArn
@@ -5717,6 +5854,7 @@ extension Glue {
         /// Amazon Web Services tags that contain a key value pair and may be searched by console, command line, or API. If specified, follows the Amazon Web Services tags-on-create pattern.
         public let tags: [String: String]?
 
+        @inlinable
         public init(compatibility: Compatibility? = nil, dataFormat: DataFormat, description: String? = nil, registryId: RegistryId? = nil, schemaDefinition: String? = nil, schemaName: String, tags: [String: String]? = nil) {
             self.compatibility = compatibility
             self.dataFormat = dataFormat
@@ -5786,6 +5924,7 @@ extension Glue {
         /// The tags for the schema.
         public let tags: [String: String]?
 
+        @inlinable
         public init(compatibility: Compatibility? = nil, dataFormat: DataFormat? = nil, description: String? = nil, latestSchemaVersion: Int64? = nil, nextSchemaVersion: Int64? = nil, registryArn: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaCheckpoint: Int64? = nil, schemaName: String? = nil, schemaStatus: SchemaStatus? = nil, schemaVersionId: String? = nil, schemaVersionStatus: SchemaVersionStatus? = nil, tags: [String: String]? = nil) {
             self.compatibility = compatibility
             self.dataFormat = dataFormat
@@ -5829,6 +5968,7 @@ extension Glue {
         /// The programming language of the resulting code from the DAG.
         public let language: Language?
 
+        @inlinable
         public init(dagEdges: [CodeGenEdge]? = nil, dagNodes: [CodeGenNode]? = nil, language: Language? = nil) {
             self.dagEdges = dagEdges
             self.dagNodes = dagNodes
@@ -5857,6 +5997,7 @@ extension Glue {
         /// The Scala code generated from the DAG.
         public let scalaCode: String?
 
+        @inlinable
         public init(pythonScript: String? = nil, scalaCode: String? = nil) {
             self.pythonScript = pythonScript
             self.scalaCode = scalaCode
@@ -5874,6 +6015,7 @@ extension Glue {
         /// The name for the new security configuration.
         public let name: String
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration, name: String) {
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
@@ -5898,6 +6040,7 @@ extension Glue {
         /// The name assigned to the new security configuration.
         public let name: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -5941,6 +6084,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
@@ -6019,6 +6163,7 @@ extension Glue {
         /// Returns the session object in the response.
         public let session: Session?
 
+        @inlinable
         public init(session: Session? = nil) {
             self.session = session
         }
@@ -6040,6 +6185,7 @@ extension Glue {
         /// The type of table optimizer. Currently, the only valid value is compaction.
         public let type: TableOptimizerType
 
+        @inlinable
         public init(catalogId: String, databaseName: String, tableName: String, tableOptimizerConfiguration: TableOptimizerConfiguration, type: TableOptimizerType) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -6088,6 +6234,7 @@ extension Glue {
         /// The ID of the transaction.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, openTableFormatInput: OpenTableFormatInput? = nil, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -6151,6 +6298,7 @@ extension Glue {
         /// The name of the workflow associated with the trigger.
         public let workflowName: String?
 
+        @inlinable
         public init(actions: [Action], description: String? = nil, eventBatchingCondition: EventBatchingCondition? = nil, name: String, predicate: Predicate? = nil, schedule: String? = nil, startOnCreation: Bool? = nil, tags: [String: String]? = nil, type: TriggerType, workflowName: String? = nil) {
             self.actions = actions
             self.description = description
@@ -6204,6 +6352,7 @@ extension Glue {
         /// The name of the trigger.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -6223,6 +6372,7 @@ extension Glue {
         /// A list of tags applied to the usage profile.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configuration: ProfileConfiguration, description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.configuration = configuration
             self.description = description
@@ -6257,6 +6407,7 @@ extension Glue {
         /// The name of the usage profile that was created.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -6274,6 +6425,7 @@ extension Glue {
         /// A FunctionInput object that defines the function to create in the Data Catalog.
         public let functionInput: UserDefinedFunctionInput
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, functionInput: UserDefinedFunctionInput) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -6313,6 +6465,7 @@ extension Glue {
         /// The tags to be used with this workflow.
         public let tags: [String: String]?
 
+        @inlinable
         public init(defaultRunProperties: [String: String]? = nil, description: String? = nil, maxConcurrentRuns: Int? = nil, name: String, tags: [String: String]? = nil) {
             self.defaultRunProperties = defaultRunProperties
             self.description = description
@@ -6351,6 +6504,7 @@ extension Glue {
         /// The name of the workflow which was provided as part of the request.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -6368,6 +6522,7 @@ extension Glue {
         /// The XML tag designating the element that contains each record in an XML document being parsed. This can't identify a self-closing element (closed by />). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example,  is okay, but is not).
         public let rowTag: String?
 
+        @inlinable
         public init(classification: String, name: String, rowTag: String? = nil) {
             self.classification = classification
             self.name = name
@@ -6415,6 +6570,7 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
+        @inlinable
         public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, creationTime: Date? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, lastUpdated: Date? = nil, name: String, quoteSymbol: String? = nil, serde: CsvSerdeOption? = nil, version: Int64? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
@@ -6460,6 +6616,7 @@ extension Glue {
         /// Specifies the data schema for the custom code transform.
         public let outputSchemas: [GlueSchema]?
 
+        @inlinable
         public init(className: String, code: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil) {
             self.className = className
             self.code = code
@@ -6498,6 +6655,7 @@ extension Glue {
         /// A regular expression string that is used for detecting sensitive data in a custom pattern.
         public let regexString: String
 
+        @inlinable
         public init(contextWords: [String]? = nil, name: String, regexString: String) {
             self.contextWords = contextWords
             self.name = name
@@ -6521,6 +6679,7 @@ extension Glue {
         /// The Amazon S3 prefix prepended to the results.
         public let resultsS3Prefix: String?
 
+        @inlinable
         public init(cloudWatchMetricsEnabled: Bool? = nil, evaluationContext: String? = nil, resultsPublishingEnabled: Bool? = nil, resultsS3Prefix: String? = nil) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.evaluationContext = evaluationContext
@@ -6545,6 +6704,7 @@ extension Glue {
         /// When to stop job if your data quality evaluation fails. Options are Immediate or AfterDataLoad.
         public let stopJobOnFailureTiming: DQStopJobOnFailureTiming?
 
+        @inlinable
         public init(stopJobOnFailureTiming: DQStopJobOnFailureTiming? = nil) {
             self.stopJobOnFailureTiming = stopJobOnFailureTiming
         }
@@ -6560,6 +6720,7 @@ extension Glue {
         /// Specifies the encryption-at-rest configuration for the Data Catalog.
         public let encryptionAtRest: EncryptionAtRest?
 
+        @inlinable
         public init(connectionPasswordEncryption: ConnectionPasswordEncryption? = nil, encryptionAtRest: EncryptionAtRest? = nil) {
             self.connectionPasswordEncryption = connectionPasswordEncryption
             self.encryptionAtRest = encryptionAtRest
@@ -6580,6 +6741,7 @@ extension Glue {
         /// An identifier for the Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
 
+        @inlinable
         public init(dataLakePrincipalIdentifier: String? = nil) {
             self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
         }
@@ -6604,6 +6766,7 @@ extension Glue {
         /// The name of the data quality analyzer.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluationMessage: String? = nil, name: String? = nil) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
@@ -6627,6 +6790,7 @@ extension Glue {
         /// Prefix for Amazon S3 to store results.
         public let resultsS3Prefix: String?
 
+        @inlinable
         public init(cloudWatchMetricsEnabled: Bool? = nil, compositeRuleEvaluationMethod: DQCompositeRuleEvaluationMethod? = nil, resultsS3Prefix: String? = nil) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
@@ -6650,6 +6814,7 @@ extension Glue {
         /// The upper limit of the data quality metric value according to the analysis of historical data.
         public let upperLimit: Double?
 
+        @inlinable
         public init(actualValue: Double? = nil, expectedValue: Double? = nil, lowerLimit: Double? = nil, upperLimit: Double? = nil) {
             self.actualValue = actualValue
             self.expectedValue = expectedValue
@@ -6671,6 +6836,7 @@ extension Glue {
         /// An object of type MetricBasedObservation representing the observation that is based on evaluated data quality metrics.
         public let metricBasedObservation: MetricBasedObservation?
 
+        @inlinable
         public init(description: String? = nil, metricBasedObservation: MetricBasedObservation? = nil) {
             self.description = description
             self.metricBasedObservation = metricBasedObservation
@@ -6712,6 +6878,7 @@ extension Glue {
         /// The date and time when this data quality run started.
         public let startedOn: Date?
 
+        @inlinable
         public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
@@ -6759,6 +6926,7 @@ extension Glue {
         /// The time that the run started for this data quality result.
         public let startedOn: Date?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, jobName: String? = nil, jobRunId: String? = nil, resultId: String? = nil, startedOn: Date? = nil) {
             self.dataSource = dataSource
             self.jobName = jobName
@@ -6788,6 +6956,7 @@ extension Glue {
         /// Filter results by runs that started before this time.
         public let startedBefore: Date?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, jobName: String? = nil, jobRunId: String? = nil, startedAfter: Date? = nil, startedBefore: Date? = nil) {
             self.dataSource = dataSource
             self.jobName = jobName
@@ -6825,6 +6994,7 @@ extension Glue {
         /// The status for this run.
         public let status: TaskStatusType?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil) {
             self.dataSource = dataSource
             self.runId = runId
@@ -6848,6 +7018,7 @@ extension Glue {
         /// Filter based on time for results started before provided time.
         public let startedBefore: Date?
 
+        @inlinable
         public init(dataSource: DataSource, startedAfter: Date? = nil, startedBefore: Date? = nil) {
             self.dataSource = dataSource
             self.startedAfter = startedAfter
@@ -6879,6 +7050,7 @@ extension Glue {
         /// A pass or fail status for the rule.
         public let result: DataQualityRuleResultStatus?
 
+        @inlinable
         public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluatedRule: String? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
@@ -6908,6 +7080,7 @@ extension Glue {
         /// The status for this run.
         public let status: TaskStatusType?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil) {
             self.dataSource = dataSource
             self.runId = runId
@@ -6931,6 +7104,7 @@ extension Glue {
         /// Filter results by runs that started before this time.
         public let startedBefore: Date?
 
+        @inlinable
         public init(dataSource: DataSource, startedAfter: Date? = nil, startedBefore: Date? = nil) {
             self.dataSource = dataSource
             self.startedAfter = startedAfter
@@ -6964,6 +7138,7 @@ extension Glue {
         /// The name and database name of the target table.
         public let targetTable: DataQualityTargetTable?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, description: String? = nil, lastModifiedAfter: Date? = nil, lastModifiedBefore: Date? = nil, name: String? = nil, targetTable: DataQualityTargetTable? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -7010,6 +7185,7 @@ extension Glue {
         /// An object representing an Glue table.
         public let targetTable: DataQualityTargetTable?
 
+        @inlinable
         public init(createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil, recommendationRunId: String? = nil, ruleCount: Int? = nil, targetTable: DataQualityTargetTable? = nil) {
             self.createdOn = createdOn
             self.description = description
@@ -7039,6 +7215,7 @@ extension Glue {
         /// The name of the Glue table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -7068,6 +7245,7 @@ extension Glue {
         /// An Glue table.
         public let glueTable: GlueTable
 
+        @inlinable
         public init(glueTable: GlueTable) {
             self.glueTable = glueTable
         }
@@ -7101,6 +7279,7 @@ extension Glue {
         /// A DatabaseIdentifier structure that describes a target database for resource linking.
         public let targetDatabase: DatabaseIdentifier?
 
+        @inlinable
         public init(catalogId: String? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: Date? = nil, description: String? = nil, federatedDatabase: FederatedDatabase? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
             self.catalogId = catalogId
             self.createTableDefaultPermissions = createTableDefaultPermissions
@@ -7134,6 +7313,7 @@ extension Glue {
         /// Region of the target database.
         public let region: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, region: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -7175,6 +7355,7 @@ extension Glue {
         /// A DatabaseIdentifier structure that describes a target database for resource linking.
         public let targetDatabase: DatabaseIdentifier?
 
+        @inlinable
         public init(createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, federatedDatabase: FederatedDatabase? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
@@ -7226,6 +7407,7 @@ extension Glue {
         /// The Statistic ID.
         public let statisticId: String?
 
+        @inlinable
         public init(inclusionAnnotation: InclusionAnnotationValue? = nil, profileId: String? = nil, statisticId: String? = nil) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
@@ -7254,6 +7436,7 @@ extension Glue {
         /// A label assigned to the datatype.
         public let label: String
 
+        @inlinable
         public init(id: String, label: String) {
             self.id = id
             self.label = label
@@ -7280,6 +7463,7 @@ extension Glue {
         /// The number of null values in the column.
         public let numberOfNulls: Int64
 
+        @inlinable
         public init(maximumValue: Date? = nil, minimumValue: Date? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -7310,6 +7494,7 @@ extension Glue {
         /// The number of null values in the column.
         public let numberOfNulls: Int64
 
+        @inlinable
         public init(maximumValue: DecimalNumber? = nil, minimumValue: DecimalNumber? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -7336,6 +7521,7 @@ extension Glue {
         /// The unscaled numeric value.
         public let unscaledValue: AWSBase64Data
 
+        @inlinable
         public init(scale: Int, unscaledValue: AWSBase64Data) {
             self.scale = scale
             self.unscaledValue = unscaledValue
@@ -7351,6 +7537,7 @@ extension Glue {
         /// The name of the blueprint to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7370,6 +7557,7 @@ extension Glue {
         /// Returns the name of the blueprint that was deleted.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -7383,6 +7571,7 @@ extension Glue {
         /// Name of the classifier to remove.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7414,6 +7603,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnName: String, databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.columnName = columnName
@@ -7463,6 +7653,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnName: String, databaseName: String, tableName: String) {
             self.catalogId = catalogId
             self.columnName = columnName
@@ -7503,6 +7694,7 @@ extension Glue {
         /// The name of the connection to delete.
         public let connectionName: String
 
+        @inlinable
         public init(catalogId: String? = nil, connectionName: String) {
             self.catalogId = catalogId
             self.connectionName = connectionName
@@ -7531,6 +7723,7 @@ extension Glue {
         /// The name of the crawler to remove.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7554,6 +7747,7 @@ extension Glue {
         /// The name of the custom pattern that you want to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7573,6 +7767,7 @@ extension Glue {
         /// The name of the custom pattern you deleted.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -7586,6 +7781,7 @@ extension Glue {
         /// A name for the data quality ruleset.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7611,6 +7807,7 @@ extension Glue {
         /// The name of the database to delete. For Hive compatibility, this must be all lowercase.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, name: String) {
             self.catalogId = catalogId
             self.name = name
@@ -7639,6 +7836,7 @@ extension Glue {
         /// The name of the DevEndpoint.
         public let endpointName: String
 
+        @inlinable
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -7656,6 +7854,7 @@ extension Glue {
         /// The name of the job definition to delete.
         public let jobName: String
 
+        @inlinable
         public init(jobName: String) {
             self.jobName = jobName
         }
@@ -7675,6 +7874,7 @@ extension Glue {
         /// The name of the job definition that was deleted.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -7688,6 +7888,7 @@ extension Glue {
         /// The unique identifier of the transform to delete.
         public let transformId: String
 
+        @inlinable
         public init(transformId: String) {
             self.transformId = transformId
         }
@@ -7707,6 +7908,7 @@ extension Glue {
         /// The unique identifier of the transform that was deleted.
         public let transformId: String?
 
+        @inlinable
         public init(transformId: String? = nil) {
             self.transformId = transformId
         }
@@ -7726,6 +7928,7 @@ extension Glue {
         /// Specifies the name of a table from which you want to delete a partition index.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, indexName: String, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -7770,6 +7973,7 @@ extension Glue {
         /// The name of the table that contains the partition to be deleted.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -7808,6 +8012,7 @@ extension Glue {
         /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
         public let registryId: RegistryId
 
+        @inlinable
         public init(registryId: RegistryId) {
             self.registryId = registryId
         }
@@ -7829,6 +8034,7 @@ extension Glue {
         /// The status of the registry. A successful operation will return the Deleting status.
         public let status: RegistryStatus?
 
+        @inlinable
         public init(registryArn: String? = nil, registryName: String? = nil, status: RegistryStatus? = nil) {
             self.registryArn = registryArn
             self.registryName = registryName
@@ -7848,6 +8054,7 @@ extension Glue {
         /// The ARN of the Glue resource for the resource policy to be deleted.
         public let resourceArn: String?
 
+        @inlinable
         public init(policyHashCondition: String? = nil, resourceArn: String? = nil) {
             self.policyHashCondition = policyHashCondition
             self.resourceArn = resourceArn
@@ -7876,6 +8083,7 @@ extension Glue {
         /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
         public let schemaId: SchemaId
 
+        @inlinable
         public init(schemaId: SchemaId) {
             self.schemaId = schemaId
         }
@@ -7897,6 +8105,7 @@ extension Glue {
         /// The status of the schema.
         public let status: SchemaStatus?
 
+        @inlinable
         public init(schemaArn: String? = nil, schemaName: String? = nil, status: SchemaStatus? = nil) {
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -7916,6 +8125,7 @@ extension Glue {
         /// A version range may be supplied which may be of the format:   a single version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8
         public let versions: String
 
+        @inlinable
         public init(schemaId: SchemaId, versions: String) {
             self.schemaId = schemaId
             self.versions = versions
@@ -7938,6 +8148,7 @@ extension Glue {
         /// A list of SchemaVersionErrorItem objects, each containing an error and schema version.
         public let schemaVersionErrors: [SchemaVersionErrorItem]?
 
+        @inlinable
         public init(schemaVersionErrors: [SchemaVersionErrorItem]? = nil) {
             self.schemaVersionErrors = schemaVersionErrors
         }
@@ -7951,6 +8162,7 @@ extension Glue {
         /// The name of the security configuration to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7976,6 +8188,7 @@ extension Glue {
         /// The name of the origin of the delete session request.
         public let requestOrigin: String?
 
+        @inlinable
         public init(id: String, requestOrigin: String? = nil) {
             self.id = id
             self.requestOrigin = requestOrigin
@@ -8000,6 +8213,7 @@ extension Glue {
         /// Returns the ID of the deleted session.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -8019,6 +8233,7 @@ extension Glue {
         /// The type of table optimizer.
         public let type: TableOptimizerType
 
+        @inlinable
         public init(catalogId: String, databaseName: String, tableName: String, type: TableOptimizerType) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -8060,6 +8275,7 @@ extension Glue {
         /// The transaction ID at which to delete the table contents.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, name: String, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -8104,6 +8320,7 @@ extension Glue {
         /// The ID of the table version to be deleted. A VersionID is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -8142,6 +8359,7 @@ extension Glue {
         /// The name of the trigger to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -8161,6 +8379,7 @@ extension Glue {
         /// The name of the trigger that was deleted.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -8174,6 +8393,7 @@ extension Glue {
         /// The name of the usage profile to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -8201,6 +8421,7 @@ extension Glue {
         /// The name of the function definition to be deleted.
         public let functionName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, functionName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -8234,6 +8455,7 @@ extension Glue {
         /// Name of the workflow to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -8253,6 +8475,7 @@ extension Glue {
         /// Name of the workflow specified in input.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -8272,6 +8495,7 @@ extension Glue {
         /// Specifies whether to write the manifest files to the Delta table path.
         public let writeManifest: Bool?
 
+        @inlinable
         public init(connectionName: String? = nil, createNativeDeltaTable: Bool? = nil, deltaTables: [String]? = nil, writeManifest: Bool? = nil) {
             self.connectionName = connectionName
             self.createNativeDeltaTable = createNativeDeltaTable
@@ -8339,6 +8563,7 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
+        @inlinable
         public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: Date? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, lastModifiedTimestamp: Date? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
@@ -8402,6 +8627,7 @@ extension Glue {
         /// The paths to one or more Python libraries in an Amazon Simple Storage Service (Amazon S3) bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported.
         public let extraPythonLibsS3Path: String?
 
+        @inlinable
         public init(extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil) {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
@@ -8427,6 +8653,7 @@ extension Glue {
         /// The table of the JDBC source connection.
         public let table: String
 
+        @inlinable
         public init(connectionName: String, connectionType: JDBCConnectionType, database: String, name: String, redshiftTmpDir: String? = nil, table: String) {
             self.connectionName = connectionName
             self.connectionType = connectionType
@@ -8466,6 +8693,7 @@ extension Glue {
         /// The amount of time to spend processing each micro batch.
         public let windowSize: Int?
 
+        @inlinable
         public init(dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KafkaStreamingSourceOptions? = nil, windowSize: Int? = nil) {
             self.dataPreviewOptions = dataPreviewOptions
             self.detectSchema = detectSchema
@@ -8502,6 +8730,7 @@ extension Glue {
         /// The amount of time to spend processing each micro batch.
         public let windowSize: Int?
 
+        @inlinable
         public init(dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KinesisStreamingSourceOptions? = nil, windowSize: Int? = nil) {
             self.dataPreviewOptions = dataPreviewOptions
             self.detectSchema = detectSchema
@@ -8536,6 +8765,7 @@ extension Glue {
         /// The update behavior when the crawler finds a changed schema.
         public let updateBehavior: UpdateCatalogBehavior?
 
+        @inlinable
         public init(database: String? = nil, enableUpdateCatalog: Bool? = nil, table: String? = nil, updateBehavior: UpdateCatalogBehavior? = nil) {
             self.database = database
             self.enableUpdateCatalog = enableUpdateCatalog
@@ -8566,6 +8796,7 @@ extension Glue {
         /// The number of null values in the column.
         public let numberOfNulls: Int64
 
+        @inlinable
         public init(maximumValue: Double? = nil, minimumValue: Double? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -8594,6 +8825,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(columns: [[String]]? = nil, inputs: [String], name: String) {
             self.columns = columns
             self.inputs = inputs
@@ -8624,6 +8856,7 @@ extension Glue {
         /// A JSON path to a variable in the data structure.
         public let paths: [[String]]
 
+        @inlinable
         public init(inputs: [String], name: String, paths: [[String]]) {
             self.inputs = inputs
             self.name = name
@@ -8656,6 +8889,7 @@ extension Glue {
         /// A structure that specifies a list of NullValueField structures that represent a custom null value such as zero or other value being used as a null placeholder unique to the dataset. The DropNullFields transform removes custom null values only if both the value of the null placeholder and the datatype match the data.
         public let nullTextList: [NullValueField]?
 
+        @inlinable
         public init(inputs: [String], name: String, nullCheckBoxList: NullCheckBoxList? = nil, nullTextList: [NullValueField]? = nil) {
             self.inputs = inputs
             self.name = name
@@ -8702,6 +8936,7 @@ extension Glue {
         /// This field is not used and will be deprecated in future release.
         public let version: String?
 
+        @inlinable
         public init(functionName: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil, parameters: [TransformConfigParameter]? = nil, path: String, transformName: String, version: String? = nil) {
             self.functionName = functionName
             self.inputs = inputs
@@ -8752,6 +8987,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -8779,6 +9015,7 @@ extension Glue {
         /// The percentage of the configured read capacity units to use by the Glue crawler. Read capacity units is a term defined by DynamoDB, and is a numeric value that acts as rate limiter for the number of reads that can be performed on that table per second. The valid values are null or a value between 0.1 to 1.5. A null value is used when user does not provide a value, and defaults to 0.5 of the configured Read Capacity Unit (for provisioned tables), or 0.25 of the max configured Read Capacity Unit (for tables using on-demand mode).
         public let scanRate: Double?
 
+        @inlinable
         public init(path: String? = nil, scanAll: Bool? = nil, scanRate: Double? = nil) {
             self.path = path
             self.scanAll = scanAll
@@ -8798,6 +9035,7 @@ extension Glue {
         /// The unique of the node within the workflow where the edge starts.
         public let sourceId: String?
 
+        @inlinable
         public init(destinationId: String? = nil, sourceId: String? = nil) {
             self.destinationId = destinationId
             self.sourceId = sourceId
@@ -8817,6 +9055,7 @@ extension Glue {
         /// The ID of the KMS key to use for encryption at rest.
         public let sseAwsKmsKeyId: String?
 
+        @inlinable
         public init(catalogEncryptionMode: CatalogEncryptionMode, catalogEncryptionServiceRole: String? = nil, sseAwsKmsKeyId: String? = nil) {
             self.catalogEncryptionMode = catalogEncryptionMode
             self.catalogEncryptionServiceRole = catalogEncryptionServiceRole
@@ -8845,6 +9084,7 @@ extension Glue {
         /// The encryption configuration for Amazon Simple Storage Service (Amazon S3) data.
         public let s3Encryption: [S3Encryption]?
 
+        @inlinable
         public init(cloudWatchEncryption: CloudWatchEncryption? = nil, jobBookmarksEncryption: JobBookmarksEncryption? = nil, s3Encryption: [S3Encryption]? = nil) {
             self.cloudWatchEncryption = cloudWatchEncryption
             self.jobBookmarksEncryption = jobBookmarksEncryption
@@ -8872,6 +9112,7 @@ extension Glue {
         /// A message describing the error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -8889,6 +9130,7 @@ extension Glue {
         /// The error message for an error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -8914,6 +9156,7 @@ extension Glue {
         /// Options to configure how your job will stop if your data quality evaluation fails.
         public let stopJobOnFailureOptions: DQStopJobOnFailureOptions?
 
+        @inlinable
         public init(inputs: [String], name: String, output: DQTransformOutput? = nil, publishingOptions: DQResultsPublishingOptions? = nil, ruleset: String, stopJobOnFailureOptions: DQStopJobOnFailureOptions? = nil) {
             self.inputs = inputs
             self.name = name
@@ -8962,6 +9205,7 @@ extension Glue {
         /// Options to configure how your job will stop if your data quality evaluation fails.
         public let stopJobOnFailureOptions: DQStopJobOnFailureOptions?
 
+        @inlinable
         public init(additionalDataSources: [String: String]? = nil, additionalOptions: [AdditionalOptionKeys: String]? = nil, inputs: [String], name: String, publishingOptions: DQResultsPublishingOptions? = nil, ruleset: String, stopJobOnFailureOptions: DQStopJobOnFailureOptions? = nil) {
             self.additionalDataSources = additionalDataSources
             self.additionalOptions = additionalOptions
@@ -9005,6 +9249,7 @@ extension Glue {
         /// The type of machine learning transform.
         public let transformType: TransformType
 
+        @inlinable
         public init(findMatchesMetrics: FindMatchesMetrics? = nil, transformType: TransformType) {
             self.findMatchesMetrics = findMatchesMetrics
             self.transformType = transformType
@@ -9022,6 +9267,7 @@ extension Glue {
         /// Window of time in seconds after which EventBridge event trigger fires. Window starts when first event is received.
         public let batchWindow: Int?
 
+        @inlinable
         public init(batchSize: Int, batchWindow: Int? = nil) {
             self.batchSize = batchSize
             self.batchWindow = batchWindow
@@ -9044,6 +9290,7 @@ extension Glue {
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
         public let maxConcurrentRuns: Int?
 
+        @inlinable
         public init(maxConcurrentRuns: Int? = nil) {
             self.maxConcurrentRuns = maxConcurrentRuns
         }
@@ -9057,6 +9304,7 @@ extension Glue {
         /// The Amazon Simple Storage Service (Amazon S3) path where you will export the labels.
         public let outputS3Path: String?
 
+        @inlinable
         public init(outputS3Path: String? = nil) {
             self.outputS3Path = outputS3Path
         }
@@ -9072,6 +9320,7 @@ extension Glue {
         /// A unique identifier for the federated database.
         public let identifier: String?
 
+        @inlinable
         public init(connectionName: String? = nil, identifier: String? = nil) {
             self.connectionName = connectionName
             self.identifier = identifier
@@ -9100,6 +9349,7 @@ extension Glue {
         /// A unique identifier for the federated table.
         public let identifier: String?
 
+        @inlinable
         public init(connectionName: String? = nil, databaseIdentifier: String? = nil, identifier: String? = nil) {
             self.connectionName = connectionName
             self.databaseIdentifier = databaseIdentifier
@@ -9123,6 +9373,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(filledPath: String? = nil, imputedPath: String, inputs: [String], name: String) {
             self.filledPath = filledPath
             self.imputedPath = imputedPath
@@ -9159,6 +9410,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(filters: [FilterExpression], inputs: [String], logicalOperator: FilterLogicalOperator, name: String) {
             self.filters = filters
             self.inputs = inputs
@@ -9194,6 +9446,7 @@ extension Glue {
         /// A list of filter values.
         public let values: [FilterValue]
 
+        @inlinable
         public init(negated: Bool? = nil, operation: FilterOperation, values: [FilterValue]) {
             self.negated = negated
             self.operation = operation
@@ -9219,6 +9472,7 @@ extension Glue {
         /// The value to be associated.
         public let value: [String]
 
+        @inlinable
         public init(type: FilterValueType, value: [String]) {
             self.type = type
             self.value = value
@@ -9250,6 +9504,7 @@ extension Glue {
         /// The recall metric indicates that for an actual match, how often your transform predicts the match. Specifically, it measures how well the transform finds true positives from the total records in the source data. For more information, see Precision and recall in Wikipedia.
         public let recall: Double?
 
+        @inlinable
         public init(areaUnderPRCurve: Double? = nil, columnImportances: [ColumnImportance]? = nil, confusionMatrix: ConfusionMatrix? = nil, f1: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
             self.areaUnderPRCurve = areaUnderPRCurve
             self.columnImportances = columnImportances
@@ -9279,6 +9534,7 @@ extension Glue {
         /// The name of a column that uniquely identifies rows in the source table. Used to help identify matching records.
         public let primaryKeyColumnName: String?
 
+        @inlinable
         public init(accuracyCostTradeoff: Double? = nil, enforceProvidedLabels: Bool? = nil, precisionRecallTradeoff: Double? = nil, primaryKeyColumnName: String? = nil) {
             self.accuracyCostTradeoff = accuracyCostTradeoff
             self.enforceProvidedLabels = enforceProvidedLabels
@@ -9312,6 +9568,7 @@ extension Glue {
         /// The job run ID for the Find Matches task run.
         public let jobRunId: String?
 
+        @inlinable
         public init(jobId: String? = nil, jobName: String? = nil, jobRunId: String? = nil) {
             self.jobId = jobId
             self.jobName = jobName
@@ -9333,6 +9590,7 @@ extension Glue {
         /// The name of the blueprint.
         public let name: String
 
+        @inlinable
         public init(includeBlueprint: Bool? = nil, includeParameterSpec: Bool? = nil, name: String) {
             self.includeBlueprint = includeBlueprint
             self.includeParameterSpec = includeParameterSpec
@@ -9356,6 +9614,7 @@ extension Glue {
         /// Returns a Blueprint object.
         public let blueprint: Blueprint?
 
+        @inlinable
         public init(blueprint: Blueprint? = nil) {
             self.blueprint = blueprint
         }
@@ -9371,6 +9630,7 @@ extension Glue {
         /// The run ID for the blueprint run you want to retrieve.
         public let runId: String
 
+        @inlinable
         public init(blueprintName: String, runId: String) {
             self.blueprintName = blueprintName
             self.runId = runId
@@ -9395,6 +9655,7 @@ extension Glue {
         /// Returns a BlueprintRun object.
         public let blueprintRun: BlueprintRun?
 
+        @inlinable
         public init(blueprintRun: BlueprintRun? = nil) {
             self.blueprintRun = blueprintRun
         }
@@ -9412,6 +9673,7 @@ extension Glue {
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
 
+        @inlinable
         public init(blueprintName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.blueprintName = blueprintName
             self.maxResults = maxResults
@@ -9439,6 +9701,7 @@ extension Glue {
         /// A continuation token, if not all blueprint runs have been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(blueprintRuns: [BlueprintRun]? = nil, nextToken: String? = nil) {
             self.blueprintRuns = blueprintRuns
             self.nextToken = nextToken
@@ -9454,6 +9717,7 @@ extension Glue {
         /// The ID of the catalog to migrate. Currently, this should be the Amazon Web Services account ID.
         public let catalogId: String?
 
+        @inlinable
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -9473,6 +9737,7 @@ extension Glue {
         /// The status of the specified catalog migration.
         public let importStatus: CatalogImportStatus?
 
+        @inlinable
         public init(importStatus: CatalogImportStatus? = nil) {
             self.importStatus = importStatus
         }
@@ -9486,6 +9751,7 @@ extension Glue {
         /// Name of the classifier to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -9505,6 +9771,7 @@ extension Glue {
         /// The requested classifier.
         public let classifier: Classifier?
 
+        @inlinable
         public init(classifier: Classifier? = nil) {
             self.classifier = classifier
         }
@@ -9520,6 +9787,7 @@ extension Glue {
         /// An optional continuation token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -9542,6 +9810,7 @@ extension Glue {
         /// A continuation token.
         public let nextToken: String?
 
+        @inlinable
         public init(classifiers: [Classifier]? = nil, nextToken: String? = nil) {
             self.classifiers = classifiers
             self.nextToken = nextToken
@@ -9565,6 +9834,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnNames: [String], databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.columnNames = columnNames
@@ -9609,6 +9879,7 @@ extension Glue {
         /// Error occurred during retrieving column statistics data.
         public let errors: [ColumnError]?
 
+        @inlinable
         public init(columnStatisticsList: [ColumnStatistics]? = nil, errors: [ColumnError]? = nil) {
             self.columnStatisticsList = columnStatisticsList
             self.errors = errors
@@ -9630,6 +9901,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnNames: [String], databaseName: String, tableName: String) {
             self.catalogId = catalogId
             self.columnNames = columnNames
@@ -9669,6 +9941,7 @@ extension Glue {
         /// List of ColumnStatistics that failed to be retrieved.
         public let errors: [ColumnError]?
 
+        @inlinable
         public init(columnStatisticsList: [ColumnStatistics]? = nil, errors: [ColumnError]? = nil) {
             self.columnStatisticsList = columnStatisticsList
             self.errors = errors
@@ -9684,6 +9957,7 @@ extension Glue {
         /// The identifier for the particular column statistics task run.
         public let columnStatisticsTaskRunId: String
 
+        @inlinable
         public init(columnStatisticsTaskRunId: String) {
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
         }
@@ -9703,6 +9977,7 @@ extension Glue {
         /// A ColumnStatisticsTaskRun object representing the details of the column stats run.
         public let columnStatisticsTaskRun: ColumnStatisticsTaskRun?
 
+        @inlinable
         public init(columnStatisticsTaskRun: ColumnStatisticsTaskRun? = nil) {
             self.columnStatisticsTaskRun = columnStatisticsTaskRun
         }
@@ -9722,6 +9997,7 @@ extension Glue {
         /// The name of the table.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
             self.databaseName = databaseName
             self.maxResults = maxResults
@@ -9751,6 +10027,7 @@ extension Glue {
         /// A continuation token, if not all task runs have yet been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(columnStatisticsTaskRuns: [ColumnStatisticsTaskRun]? = nil, nextToken: String? = nil) {
             self.columnStatisticsTaskRuns = columnStatisticsTaskRuns
             self.nextToken = nextToken
@@ -9770,6 +10047,7 @@ extension Glue {
         /// The name of the connection definition to retrieve.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, hidePassword: Bool? = nil, name: String) {
             self.catalogId = catalogId
             self.hidePassword = hidePassword
@@ -9796,6 +10074,7 @@ extension Glue {
         /// The requested connection definition.
         public let connection: Connection?
 
+        @inlinable
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -9811,6 +10090,7 @@ extension Glue {
         /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
         public let matchCriteria: [String]?
 
+        @inlinable
         public init(connectionType: ConnectionType? = nil, matchCriteria: [String]? = nil) {
             self.connectionType = connectionType
             self.matchCriteria = matchCriteria
@@ -9843,6 +10123,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, hidePassword: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.filter = filter
@@ -9875,6 +10156,7 @@ extension Glue {
         /// A continuation token, if the list of connections returned does not include the last of the filtered connections.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionList: [Connection]? = nil, nextToken: String? = nil) {
             self.connectionList = connectionList
             self.nextToken = nextToken
@@ -9894,6 +10176,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(crawlerNameList: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.crawlerNameList = crawlerNameList
             self.maxResults = maxResults
@@ -9924,6 +10207,7 @@ extension Glue {
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
 
+        @inlinable
         public init(crawlerMetricsList: [CrawlerMetrics]? = nil, nextToken: String? = nil) {
             self.crawlerMetricsList = crawlerMetricsList
             self.nextToken = nextToken
@@ -9939,6 +10223,7 @@ extension Glue {
         /// The name of the crawler to retrieve metadata for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -9958,6 +10243,7 @@ extension Glue {
         /// The metadata for the specified crawler.
         public let crawler: Crawler?
 
+        @inlinable
         public init(crawler: Crawler? = nil) {
             self.crawler = crawler
         }
@@ -9973,6 +10259,7 @@ extension Glue {
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -9995,6 +10282,7 @@ extension Glue {
         /// A continuation token, if the returned list has not reached the end of those defined in this customer account.
         public let nextToken: String?
 
+        @inlinable
         public init(crawlers: [Crawler]? = nil, nextToken: String? = nil) {
             self.crawlers = crawlers
             self.nextToken = nextToken
@@ -10010,6 +10298,7 @@ extension Glue {
         /// The name of the custom pattern that you want to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -10033,6 +10322,7 @@ extension Glue {
         /// A regular expression string that is used for detecting sensitive data in a custom pattern.
         public let regexString: String?
 
+        @inlinable
         public init(contextWords: [String]? = nil, name: String? = nil, regexString: String? = nil) {
             self.contextWords = contextWords
             self.name = name
@@ -10050,6 +10340,7 @@ extension Glue {
         /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
 
+        @inlinable
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -10069,6 +10360,7 @@ extension Glue {
         /// The requested security configuration.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
 
+        @inlinable
         public init(dataCatalogEncryptionSettings: DataCatalogEncryptionSettings? = nil) {
             self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
         }
@@ -10084,6 +10376,7 @@ extension Glue {
         /// The Statistic ID.
         public let statisticId: String?
 
+        @inlinable
         public init(profileId: String, statisticId: String? = nil) {
             self.profileId = profileId
             self.statisticId = statisticId
@@ -10114,6 +10407,7 @@ extension Glue {
         /// The training status of the data quality model.
         public let status: DataQualityModelStatus?
 
+        @inlinable
         public init(completedOn: Date? = nil, failureReason: String? = nil, startedOn: Date? = nil, status: DataQualityModelStatus? = nil) {
             self.completedOn = completedOn
             self.failureReason = failureReason
@@ -10135,6 +10429,7 @@ extension Glue {
         /// The Statistic ID.
         public let statisticId: String
 
+        @inlinable
         public init(profileId: String, statisticId: String) {
             self.profileId = profileId
             self.statisticId = statisticId
@@ -10161,6 +10456,7 @@ extension Glue {
         /// A list of StatisticModelResult
         public let model: [StatisticModelResult]?
 
+        @inlinable
         public init(completedOn: Date? = nil, model: [StatisticModelResult]? = nil) {
             self.completedOn = completedOn
             self.model = model
@@ -10176,6 +10472,7 @@ extension Glue {
         /// A unique result ID for the data quality result.
         public let resultId: String
 
+        @inlinable
         public init(resultId: String) {
             self.resultId = resultId
         }
@@ -10221,6 +10518,7 @@ extension Glue {
         /// The date and time when the run for this data quality result started.
         public let startedOn: Date?
 
+        @inlinable
         public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
@@ -10260,6 +10558,7 @@ extension Glue {
         /// The unique run identifier associated with this run.
         public let runId: String
 
+        @inlinable
         public init(runId: String) {
             self.runId = runId
         }
@@ -10305,6 +10604,7 @@ extension Glue {
         /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
 
+        @inlinable
         public init(completedOn: Date? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, recommendedRuleset: String? = nil, role: String? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
             self.completedOn = completedOn
             self.createdRulesetName = createdRulesetName
@@ -10344,6 +10644,7 @@ extension Glue {
         /// The unique run identifier associated with this run.
         public let runId: String
 
+        @inlinable
         public init(runId: String) {
             self.runId = runId
         }
@@ -10391,6 +10692,7 @@ extension Glue {
         /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
 
+        @inlinable
         public init(additionalDataSources: [String: DataSource]? = nil, additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, resultIds: [String]? = nil, role: String? = nil, rulesetNames: [String]? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
             self.additionalDataSources = additionalDataSources
             self.additionalRunOptions = additionalRunOptions
@@ -10432,6 +10734,7 @@ extension Glue {
         /// The name of the ruleset.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -10465,6 +10768,7 @@ extension Glue {
         /// The name and database name of the target table.
         public let targetTable: DataQualityTargetTable?
 
+        @inlinable
         public init(createdOn: Date? = nil, dataQualitySecurityConfiguration: String? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil, recommendationRunId: String? = nil, ruleset: String? = nil, targetTable: DataQualityTargetTable? = nil) {
             self.createdOn = createdOn
             self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -10494,6 +10798,7 @@ extension Glue {
         /// The name of the database to retrieve. For Hive compatibility, this  should be all lowercase.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, name: String) {
             self.catalogId = catalogId
             self.name = name
@@ -10518,6 +10823,7 @@ extension Glue {
         /// The definition of the specified database in the Data Catalog.
         public let database: Database?
 
+        @inlinable
         public init(database: Database? = nil) {
             self.database = database
         }
@@ -10539,6 +10845,7 @@ extension Glue {
         /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FEDERATED, FOREIGN or ALL.    If set to FEDERATED, will list the federated databases (referencing an external entity) shared with your account.   If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
         public let resourceShareType: ResourceShareType?
 
+        @inlinable
         public init(attributesToGet: [DatabaseAttributes]? = nil, catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
             self.attributesToGet = attributesToGet
             self.catalogId = catalogId
@@ -10570,6 +10877,7 @@ extension Glue {
         /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
         public let nextToken: String?
 
+        @inlinable
         public init(databaseList: [Database], nextToken: String? = nil) {
             self.databaseList = databaseList
             self.nextToken = nextToken
@@ -10585,6 +10893,7 @@ extension Glue {
         /// The Python script to transform.
         public let pythonScript: String?
 
+        @inlinable
         public init(pythonScript: String? = nil) {
             self.pythonScript = pythonScript
         }
@@ -10600,6 +10909,7 @@ extension Glue {
         /// A list of the nodes in the resulting DAG.
         public let dagNodes: [CodeGenNode]?
 
+        @inlinable
         public init(dagEdges: [CodeGenEdge]? = nil, dagNodes: [CodeGenNode]? = nil) {
             self.dagEdges = dagEdges
             self.dagNodes = dagNodes
@@ -10615,6 +10925,7 @@ extension Glue {
         /// Name of the DevEndpoint to retrieve information for.
         public let endpointName: String
 
+        @inlinable
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -10628,6 +10939,7 @@ extension Glue {
         /// A DevEndpoint definition.
         public let devEndpoint: DevEndpoint?
 
+        @inlinable
         public init(devEndpoint: DevEndpoint? = nil) {
             self.devEndpoint = devEndpoint
         }
@@ -10643,6 +10955,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10665,6 +10978,7 @@ extension Glue {
         /// A continuation token, if not all DevEndpoint definitions have yet been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(devEndpoints: [DevEndpoint]? = nil, nextToken: String? = nil) {
             self.devEndpoints = devEndpoints
             self.nextToken = nextToken
@@ -10682,6 +10996,7 @@ extension Glue {
         /// The unique run identifier associated with this job run.
         public let runId: String?
 
+        @inlinable
         public init(jobName: String, runId: String? = nil) {
             self.jobName = jobName
             self.runId = runId
@@ -10697,6 +11012,7 @@ extension Glue {
         /// A structure that defines a point that a job can resume processing.
         public let jobBookmarkEntry: JobBookmarkEntry?
 
+        @inlinable
         public init(jobBookmarkEntry: JobBookmarkEntry? = nil) {
             self.jobBookmarkEntry = jobBookmarkEntry
         }
@@ -10710,6 +11026,7 @@ extension Glue {
         /// The name of the job definition to retrieve.
         public let jobName: String
 
+        @inlinable
         public init(jobName: String) {
             self.jobName = jobName
         }
@@ -10729,6 +11046,7 @@ extension Glue {
         /// The requested job definition.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -10746,6 +11064,7 @@ extension Glue {
         /// The ID of the job run.
         public let runId: String
 
+        @inlinable
         public init(jobName: String, predecessorsIncluded: Bool? = nil, runId: String) {
             self.jobName = jobName
             self.predecessorsIncluded = predecessorsIncluded
@@ -10772,6 +11091,7 @@ extension Glue {
         /// The requested job-run metadata.
         public let jobRun: JobRun?
 
+        @inlinable
         public init(jobRun: JobRun? = nil) {
             self.jobRun = jobRun
         }
@@ -10789,6 +11109,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(jobName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobName = jobName
             self.maxResults = maxResults
@@ -10816,6 +11137,7 @@ extension Glue {
         /// A continuation token, if not all requested job runs have been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(jobRuns: [JobRun]? = nil, nextToken: String? = nil) {
             self.jobRuns = jobRuns
             self.nextToken = nextToken
@@ -10833,6 +11155,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10855,6 +11178,7 @@ extension Glue {
         /// A continuation token, if not all job definitions have yet been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -10872,6 +11196,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(taskRunId: String, transformId: String) {
             self.taskRunId = taskRunId
             self.transformId = transformId
@@ -10914,6 +11239,7 @@ extension Glue {
         /// The unique identifier of the task run.
         public let transformId: String?
 
+        @inlinable
         public init(completedOn: Date? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
             self.completedOn = completedOn
             self.errorString = errorString
@@ -10953,6 +11279,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(filter: TaskRunFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TaskRunSortCriteria? = nil, transformId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -10984,6 +11311,7 @@ extension Glue {
         /// A list of task runs that are associated with the transform.
         public let taskRuns: [TaskRun]?
 
+        @inlinable
         public init(nextToken: String? = nil, taskRuns: [TaskRun]? = nil) {
             self.nextToken = nextToken
             self.taskRuns = taskRuns
@@ -10999,6 +11327,7 @@ extension Glue {
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String
 
+        @inlinable
         public init(transformId: String) {
             self.transformId = transformId
         }
@@ -11054,6 +11383,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
@@ -11109,6 +11439,7 @@ extension Glue {
         /// The sorting criteria.
         public let sort: TransformSortCriteria?
 
+        @inlinable
         public init(filter: TransformFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TransformSortCriteria? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -11136,6 +11467,7 @@ extension Glue {
         /// A list of machine learning transforms.
         public let transforms: [MLTransform]
 
+        @inlinable
         public init(nextToken: String? = nil, transforms: [MLTransform]) {
             self.nextToken = nextToken
             self.transforms = transforms
@@ -11155,6 +11487,7 @@ extension Glue {
         /// Specifies the source table.
         public let source: CatalogEntry
 
+        @inlinable
         public init(location: Location? = nil, sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
             self.location = location
             self.sinks = sinks
@@ -11180,6 +11513,7 @@ extension Glue {
         /// A list of mappings to the specified targets.
         public let mapping: [MappingEntry]
 
+        @inlinable
         public init(mapping: [MappingEntry]) {
             self.mapping = mapping
         }
@@ -11199,6 +11533,7 @@ extension Glue {
         /// Specifies the name of a table for which you want to retrieve the partition indexes.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, nextToken: String? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -11232,6 +11567,7 @@ extension Glue {
         /// A list of index descriptors.
         public let partitionIndexDescriptorList: [PartitionIndexDescriptor]?
 
+        @inlinable
         public init(nextToken: String? = nil, partitionIndexDescriptorList: [PartitionIndexDescriptor]? = nil) {
             self.nextToken = nextToken
             self.partitionIndexDescriptorList = partitionIndexDescriptorList
@@ -11253,6 +11589,7 @@ extension Glue {
         /// The name of the partition's table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -11287,6 +11624,7 @@ extension Glue {
         /// The requested information, in the form of a Partition object.
         public let partition: Partition?
 
+        @inlinable
         public init(partition: Partition? = nil) {
             self.partition = partition
         }
@@ -11318,6 +11656,7 @@ extension Glue {
         /// The transaction ID at which to read the partition contents.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, excludeColumnSchema: Bool? = nil, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, segment: Segment? = nil, tableName: String, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -11371,6 +11710,7 @@ extension Glue {
         /// A list of requested partitions.
         public let partitions: [Partition]?
 
+        @inlinable
         public init(nextToken: String? = nil, partitions: [Partition]? = nil) {
             self.nextToken = nextToken
             self.partitions = partitions
@@ -11396,6 +11736,7 @@ extension Glue {
         /// The source table.
         public let source: CatalogEntry
 
+        @inlinable
         public init(additionalPlanOptionsMap: [String: String]? = nil, language: Language? = nil, location: Location? = nil, mapping: [MappingEntry], sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
             self.additionalPlanOptionsMap = additionalPlanOptionsMap
             self.language = language
@@ -11429,6 +11770,7 @@ extension Glue {
         /// The Scala code to perform the mapping.
         public let scalaCode: String?
 
+        @inlinable
         public init(pythonScript: String? = nil, scalaCode: String? = nil) {
             self.pythonScript = pythonScript
             self.scalaCode = scalaCode
@@ -11444,6 +11786,7 @@ extension Glue {
         /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
         public let registryId: RegistryId
 
+        @inlinable
         public init(registryId: RegistryId) {
             self.registryId = registryId
         }
@@ -11471,6 +11814,7 @@ extension Glue {
         /// The date and time the registry was updated.
         public let updatedTime: String?
 
+        @inlinable
         public init(createdTime: String? = nil, description: String? = nil, registryArn: String? = nil, registryName: String? = nil, status: RegistryStatus? = nil, updatedTime: String? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -11496,6 +11840,7 @@ extension Glue {
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11518,6 +11863,7 @@ extension Glue {
         /// A continuation token, if the returned list does not contain the last resource policy available.
         public let nextToken: String?
 
+        @inlinable
         public init(getResourcePoliciesResponseList: [GluePolicy]? = nil, nextToken: String? = nil) {
             self.getResourcePoliciesResponseList = getResourcePoliciesResponseList
             self.nextToken = nextToken
@@ -11533,6 +11879,7 @@ extension Glue {
         /// The ARN of the Glue resource for which to retrieve the resource policy. If not supplied, the Data Catalog resource policy is returned. Use GetResourcePolicies to view all existing resource policies. For more information see Specifying Glue Resource ARNs.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -11558,6 +11905,7 @@ extension Glue {
         /// The date and time at which the policy was last updated.
         public let updateTime: Date?
 
+        @inlinable
         public init(createTime: Date? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: Date? = nil) {
             self.createTime = createTime
             self.policyHash = policyHash
@@ -11579,6 +11927,7 @@ extension Glue {
         /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaId: SchemaId
 
+        @inlinable
         public init(schemaDefinition: String, schemaId: SchemaId) {
             self.schemaDefinition = schemaDefinition
             self.schemaId = schemaId
@@ -11609,6 +11958,7 @@ extension Glue {
         /// The status of the schema version.
         public let status: SchemaVersionStatus?
 
+        @inlinable
         public init(createdTime: String? = nil, dataFormat: DataFormat? = nil, schemaArn: String? = nil, schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil) {
             self.createdTime = createdTime
             self.dataFormat = dataFormat
@@ -11630,6 +11980,7 @@ extension Glue {
         /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId
 
+        @inlinable
         public init(schemaId: SchemaId) {
             self.schemaId = schemaId
         }
@@ -11671,6 +12022,7 @@ extension Glue {
         /// The date and time the schema was updated.
         public let updatedTime: String?
 
+        @inlinable
         public init(compatibility: Compatibility? = nil, createdTime: String? = nil, dataFormat: DataFormat? = nil, description: String? = nil, latestSchemaVersion: Int64? = nil, nextSchemaVersion: Int64? = nil, registryArn: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaCheckpoint: Int64? = nil, schemaName: String? = nil, schemaStatus: SchemaStatus? = nil, updatedTime: String? = nil) {
             self.compatibility = compatibility
             self.createdTime = createdTime
@@ -11712,6 +12064,7 @@ extension Glue {
         /// The version number of the schema.
         public let schemaVersionNumber: SchemaVersionNumber?
 
+        @inlinable
         public init(schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
             self.schemaId = schemaId
             self.schemaVersionId = schemaVersionId
@@ -11749,6 +12102,7 @@ extension Glue {
         /// The version number of the schema.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(createdTime: String? = nil, dataFormat: DataFormat? = nil, schemaArn: String? = nil, schemaDefinition: String? = nil, schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.dataFormat = dataFormat
@@ -11780,6 +12134,7 @@ extension Glue {
         /// The second of the two schema versions to be compared.
         public let secondSchemaVersionNumber: SchemaVersionNumber
 
+        @inlinable
         public init(firstSchemaVersionNumber: SchemaVersionNumber, schemaDiffType: SchemaDiffType, schemaId: SchemaId, secondSchemaVersionNumber: SchemaVersionNumber) {
             self.firstSchemaVersionNumber = firstSchemaVersionNumber
             self.schemaDiffType = schemaDiffType
@@ -11805,6 +12160,7 @@ extension Glue {
         /// The difference between schemas as a string in JsonPatch format.
         public let diff: String?
 
+        @inlinable
         public init(diff: String? = nil) {
             self.diff = diff
         }
@@ -11818,6 +12174,7 @@ extension Glue {
         /// The name of the security configuration to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -11837,6 +12194,7 @@ extension Glue {
         /// The requested security configuration.
         public let securityConfiguration: SecurityConfiguration?
 
+        @inlinable
         public init(securityConfiguration: SecurityConfiguration? = nil) {
             self.securityConfiguration = securityConfiguration
         }
@@ -11852,6 +12210,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11874,6 +12233,7 @@ extension Glue {
         /// A list of security configurations.
         public let securityConfigurations: [SecurityConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityConfigurations: [SecurityConfiguration]? = nil) {
             self.nextToken = nextToken
             self.securityConfigurations = securityConfigurations
@@ -11891,6 +12251,7 @@ extension Glue {
         /// The origin of the request.
         public let requestOrigin: String?
 
+        @inlinable
         public init(id: String, requestOrigin: String? = nil) {
             self.id = id
             self.requestOrigin = requestOrigin
@@ -11915,6 +12276,7 @@ extension Glue {
         /// The session object is returned in the response.
         public let session: Session?
 
+        @inlinable
         public init(session: Session? = nil) {
             self.session = session
         }
@@ -11932,6 +12294,7 @@ extension Glue {
         /// The Session ID of the statement.
         public let sessionId: String
 
+        @inlinable
         public init(id: Int = 0, requestOrigin: String? = nil, sessionId: String) {
             self.id = id
             self.requestOrigin = requestOrigin
@@ -11958,6 +12321,7 @@ extension Glue {
         /// Returns the statement.
         public let statement: Statement?
 
+        @inlinable
         public init(statement: Statement? = nil) {
             self.statement = statement
         }
@@ -11977,6 +12341,7 @@ extension Glue {
         /// The type of table optimizer.
         public let type: TableOptimizerType
 
+        @inlinable
         public init(catalogId: String, databaseName: String, tableName: String, type: TableOptimizerType) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12014,6 +12379,7 @@ extension Glue {
         /// The optimizer associated with the specified table.
         public let tableOptimizer: TableOptimizer?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, tableName: String? = nil, tableOptimizer: TableOptimizer? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12043,6 +12409,7 @@ extension Glue {
         /// The transaction ID at which to read the table contents.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, includeStatusDetails: Bool? = nil, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12081,6 +12448,7 @@ extension Glue {
         /// The Table object that defines the specified table.
         public let table: Table?
 
+        @inlinable
         public init(table: Table? = nil) {
             self.table = table
         }
@@ -12100,6 +12468,7 @@ extension Glue {
         /// The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12134,6 +12503,7 @@ extension Glue {
         /// The requested table version.
         public let tableVersion: TableVersion?
 
+        @inlinable
         public init(tableVersion: TableVersion? = nil) {
             self.tableVersion = tableVersion
         }
@@ -12155,6 +12525,7 @@ extension Glue {
         /// The name of the table. For Hive compatibility, this name is entirely lowercase.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12192,6 +12563,7 @@ extension Glue {
         /// A list of strings identifying available versions of the specified table.
         public let tableVersions: [TableVersion]?
 
+        @inlinable
         public init(nextToken: String? = nil, tableVersions: [TableVersion]? = nil) {
             self.nextToken = nextToken
             self.tableVersions = tableVersions
@@ -12223,6 +12595,7 @@ extension Glue {
         /// The transaction ID at which to read the table contents.
         public let transactionId: String?
 
+        @inlinable
         public init(attributesToGet: [TableAttributes]? = nil, catalogId: String? = nil, databaseName: String, expression: String? = nil, includeStatusDetails: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
             self.attributesToGet = attributesToGet
             self.catalogId = catalogId
@@ -12270,6 +12643,7 @@ extension Glue {
         /// A list of the requested Table objects.
         public let tableList: [Table]?
 
+        @inlinable
         public init(nextToken: String? = nil, tableList: [Table]? = nil) {
             self.nextToken = nextToken
             self.tableList = tableList
@@ -12285,6 +12659,7 @@ extension Glue {
         /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -12304,6 +12679,7 @@ extension Glue {
         /// The requested tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -12317,6 +12693,7 @@ extension Glue {
         /// The name of the trigger to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -12336,6 +12713,7 @@ extension Glue {
         /// The requested trigger definition.
         public let trigger: Trigger?
 
+        @inlinable
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
         }
@@ -12353,6 +12731,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(dependentJobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dependentJobName = dependentJobName
             self.maxResults = maxResults
@@ -12380,6 +12759,7 @@ extension Glue {
         /// A list of triggers for the specified job.
         public let triggers: [Trigger]?
 
+        @inlinable
         public init(nextToken: String? = nil, triggers: [Trigger]? = nil) {
             self.nextToken = nextToken
             self.triggers = triggers
@@ -12409,6 +12789,7 @@ extension Glue {
         /// (Required) Specifies the name of a table that contains the partition.
         public let tableName: String
 
+        @inlinable
         public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, partitionValues: [String], querySessionContext: QuerySessionContext? = nil, region: String? = nil, supportedPermissionTypes: [PermissionType], tableName: String) {
             self.auditContext = auditContext
             self.catalogId = catalogId
@@ -12460,6 +12841,7 @@ extension Glue {
         /// A Partition object containing the partition metadata.
         public let partition: Partition?
 
+        @inlinable
         public init(authorizedColumns: [String]? = nil, isRegisteredWithLakeFormation: Bool? = nil, partition: Partition? = nil) {
             self.authorizedColumns = authorizedColumns
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
@@ -12497,6 +12879,7 @@ extension Glue {
         /// The name of the table that contains the partition.
         public let tableName: String
 
+        @inlinable
         public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, querySessionContext: QuerySessionContext? = nil, region: String? = nil, segment: Segment? = nil, supportedPermissionTypes: [PermissionType], tableName: String) {
             self.auditContext = auditContext
             self.catalogId = catalogId
@@ -12554,6 +12937,7 @@ extension Glue {
         /// A list of requested partitions.
         public let unfilteredPartitions: [UnfilteredPartition]?
 
+        @inlinable
         public init(nextToken: String? = nil, unfilteredPartitions: [UnfilteredPartition]? = nil) {
             self.nextToken = nextToken
             self.unfilteredPartitions = unfilteredPartitions
@@ -12589,6 +12973,7 @@ extension Glue {
         /// Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are:    COLUMN_PERMISSION - Column permissions ensure that users can access only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can define column filters that exclude access to specific columns.    CELL_FILTER_PERMISSION - Cell-level filtering combines column filtering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table.    NESTED_PERMISSION - Nested permissions combines cell-level filtering and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expressions.    NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions.    Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Formation raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering applied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials.
         public let supportedPermissionTypes: [PermissionType]
 
+        @inlinable
         public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, name: String, parentResourceArn: String? = nil, permissions: [Permission]? = nil, querySessionContext: QuerySessionContext? = nil, region: String? = nil, rootResourceArn: String? = nil, supportedDialect: SupportedDialect? = nil, supportedPermissionTypes: [PermissionType]) {
             self.auditContext = auditContext
             self.catalogId = catalogId
@@ -12662,6 +13047,7 @@ extension Glue {
         /// A Table object containing the table metadata.
         public let table: Table?
 
+        @inlinable
         public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isMultiDialectView: Bool? = nil, isProtected: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, permissions: [Permission]? = nil, queryAuthorizationId: String? = nil, resourceArn: String? = nil, rowFilter: String? = nil, table: Table? = nil) {
             self.authorizedColumns = authorizedColumns
             self.cellFilters = cellFilters
@@ -12693,6 +13079,7 @@ extension Glue {
         /// The name of the usage profile to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -12720,6 +13107,7 @@ extension Glue {
         /// The name of the usage profile.
         public let name: String?
 
+        @inlinable
         public init(configuration: ProfileConfiguration? = nil, createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil) {
             self.configuration = configuration
             self.createdOn = createdOn
@@ -12745,6 +13133,7 @@ extension Glue {
         /// The name of the function.
         public let functionName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, functionName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12774,6 +13163,7 @@ extension Glue {
         /// The requested function definition.
         public let userDefinedFunction: UserDefinedFunction?
 
+        @inlinable
         public init(userDefinedFunction: UserDefinedFunction? = nil) {
             self.userDefinedFunction = userDefinedFunction
         }
@@ -12795,6 +13185,7 @@ extension Glue {
         /// An optional function-name pattern string that filters the function definitions returned.
         public let pattern: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pattern: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -12832,6 +13223,7 @@ extension Glue {
         /// A list of requested function definitions.
         public let userDefinedFunctions: [UserDefinedFunction]?
 
+        @inlinable
         public init(nextToken: String? = nil, userDefinedFunctions: [UserDefinedFunction]? = nil) {
             self.nextToken = nextToken
             self.userDefinedFunctions = userDefinedFunctions
@@ -12849,6 +13241,7 @@ extension Glue {
         /// The name of the workflow to retrieve.
         public let name: String
 
+        @inlinable
         public init(includeGraph: Bool? = nil, name: String) {
             self.includeGraph = includeGraph
             self.name = name
@@ -12870,6 +13263,7 @@ extension Glue {
         /// The resource metadata for the workflow.
         public let workflow: Workflow?
 
+        @inlinable
         public init(workflow: Workflow? = nil) {
             self.workflow = workflow
         }
@@ -12885,6 +13279,7 @@ extension Glue {
         /// The ID of the workflow run whose run properties should be returned.
         public let runId: String
 
+        @inlinable
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
@@ -12909,6 +13304,7 @@ extension Glue {
         /// The workflow run properties which were set during the specified run.
         public let runProperties: [String: String]?
 
+        @inlinable
         public init(runProperties: [String: String]? = nil) {
             self.runProperties = runProperties
         }
@@ -12926,6 +13322,7 @@ extension Glue {
         /// The ID of the workflow run.
         public let runId: String
 
+        @inlinable
         public init(includeGraph: Bool? = nil, name: String, runId: String) {
             self.includeGraph = includeGraph
             self.name = name
@@ -12952,6 +13349,7 @@ extension Glue {
         /// The requested workflow run metadata.
         public let run: WorkflowRun?
 
+        @inlinable
         public init(run: WorkflowRun? = nil) {
             self.run = run
         }
@@ -12971,6 +13369,7 @@ extension Glue {
         /// The maximum size of the response.
         public let nextToken: String?
 
+        @inlinable
         public init(includeGraph: Bool? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.includeGraph = includeGraph
             self.maxResults = maxResults
@@ -13000,6 +13399,7 @@ extension Glue {
         /// A list of workflow run metadata objects.
         public let runs: [WorkflowRun]?
 
+        @inlinable
         public init(nextToken: String? = nil, runs: [WorkflowRun]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
@@ -13021,6 +13421,7 @@ extension Glue {
         /// The date and time at which the policy was last updated.
         public let updateTime: Date?
 
+        @inlinable
         public init(createTime: Date? = nil, policyHash: String? = nil, policyInJson: String? = nil, updateTime: Date? = nil) {
             self.createTime = createTime
             self.policyHash = policyHash
@@ -13040,6 +13441,7 @@ extension Glue {
         /// Specifies the column definitions that make up a Glue schema.
         public let columns: [GlueStudioSchemaColumn]?
 
+        @inlinable
         public init(columns: [GlueStudioSchemaColumn]? = nil) {
             self.columns = columns
         }
@@ -13061,6 +13463,7 @@ extension Glue {
         /// The hive type for this column in the Glue Studio schema.
         public let type: String?
 
+        @inlinable
         public init(name: String, type: String? = nil) {
             self.name = name
             self.type = type
@@ -13091,6 +13494,7 @@ extension Glue {
         /// A table name in the Glue Data Catalog.
         public let tableName: String
 
+        @inlinable
         public init(additionalOptions: [String: String]? = nil, catalogId: String? = nil, connectionName: String? = nil, databaseName: String, tableName: String) {
             self.additionalOptions = additionalOptions
             self.catalogId = catalogId
@@ -13144,6 +13548,7 @@ extension Glue {
         /// The database table to read from.
         public let table: String
 
+        @inlinable
         public init(additionalOptions: S3SourceAdditionalOptions? = nil, database: String, name: String, partitionPredicate: String? = nil, table: String) {
             self.additionalOptions = additionalOptions
             self.database = database
@@ -13182,6 +13587,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
             self.database = database
             self.inputs = inputs
@@ -13228,6 +13634,7 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
+        @inlinable
         public init(classification: String, creationTime: Date? = nil, customPatterns: String? = nil, grokPattern: String, lastUpdated: Date? = nil, name: String, version: Int64? = nil) {
             self.classification = classification
             self.creationTime = creationTime
@@ -13259,6 +13666,7 @@ extension Glue {
         /// An array of Amazon S3 location strings for Hudi, each indicating the root folder with which the metadata files for a Hudi table resides. The Hudi folder may be located in a child folder of the root folder. The crawler will scan all folders underneath a path for a Hudi folder.
         public let paths: [String]?
 
+        @inlinable
         public init(connectionName: String? = nil, exclusions: [String]? = nil, maximumTraversalDepth: Int? = nil, paths: [String]? = nil) {
             self.connectionName = connectionName
             self.exclusions = exclusions
@@ -13284,6 +13692,7 @@ extension Glue {
         /// The number of files removed by the compaction job run.
         public let numberOfFilesCompacted: Int64?
 
+        @inlinable
         public init(jobDurationInHour: Double? = nil, numberOfBytesCompacted: Int64? = nil, numberOfDpus: Int? = nil, numberOfFilesCompacted: Int64? = nil) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
@@ -13305,6 +13714,7 @@ extension Glue {
         /// The table version for the Iceberg table. Defaults to 2.
         public let version: String?
 
+        @inlinable
         public init(metadataOperation: MetadataOperation, version: String? = nil) {
             self.metadataOperation = metadataOperation
             self.version = version
@@ -13328,6 +13738,7 @@ extension Glue {
         /// The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used.
         public let orphanFileRetentionPeriodInDays: Int?
 
+        @inlinable
         public init(location: String? = nil, orphanFileRetentionPeriodInDays: Int? = nil) {
             self.location = location
             self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
@@ -13347,6 +13758,7 @@ extension Glue {
         /// The number of orphan files deleted by the orphan file deletion job run.
         public let numberOfOrphanFilesDeleted: Int64?
 
+        @inlinable
         public init(jobDurationInHour: Double? = nil, numberOfDpus: Int? = nil, numberOfOrphanFilesDeleted: Int64? = nil) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDpus = numberOfDpus
@@ -13368,6 +13780,7 @@ extension Glue {
         /// The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used.
         public let snapshotRetentionPeriodInDays: Int?
 
+        @inlinable
         public init(cleanExpiredFiles: Bool? = nil, numberOfSnapshotsToRetain: Int? = nil, snapshotRetentionPeriodInDays: Int? = nil) {
             self.cleanExpiredFiles = cleanExpiredFiles
             self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
@@ -13393,6 +13806,7 @@ extension Glue {
         /// The number of manifest lists deleted by the retention job run.
         public let numberOfManifestListsDeleted: Int64?
 
+        @inlinable
         public init(jobDurationInHour: Double? = nil, numberOfDataFilesDeleted: Int64? = nil, numberOfDpus: Int? = nil, numberOfManifestFilesDeleted: Int64? = nil, numberOfManifestListsDeleted: Int64? = nil) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
@@ -13420,6 +13834,7 @@ extension Glue {
         /// One or more Amazon S3 paths that contains Iceberg metadata folders as s3://bucket/prefix.
         public let paths: [String]?
 
+        @inlinable
         public init(connectionName: String? = nil, exclusions: [String]? = nil, maximumTraversalDepth: Int? = nil, paths: [String]? = nil) {
             self.connectionName = connectionName
             self.exclusions = exclusions
@@ -13439,6 +13854,7 @@ extension Glue {
         /// The ID of the catalog to import. Currently, this should be the Amazon Web Services account ID.
         public let catalogId: String?
 
+        @inlinable
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -13464,6 +13880,7 @@ extension Glue {
         /// Indicates whether to overwrite your existing labels.
         public let replace: Bool?
 
+        @inlinable
         public init(inputS3Path: String? = nil, replace: Bool? = nil) {
             self.inputS3Path = inputS3Path
             self.replace = replace
@@ -13493,6 +13910,7 @@ extension Glue {
         /// The maximum value of partitionColumn that is used to decide partition stride.
         public let upperBound: Int64?
 
+        @inlinable
         public init(dataTypeMapping: [JDBCDataType: GlueRecordType]? = nil, filterPredicate: String? = nil, jobBookmarkKeys: [String]? = nil, jobBookmarkKeysSortOrder: String? = nil, lowerBound: Int64? = nil, numPartitions: Int64? = nil, partitionColumn: String? = nil, upperBound: Int64? = nil) {
             self.dataTypeMapping = dataTypeMapping
             self.filterPredicate = filterPredicate
@@ -13546,6 +13964,7 @@ extension Glue {
         /// The table or SQL query to get the data from. You can specify either ConnectionTable or query, but not both.
         public let query: String?
 
+        @inlinable
         public init(additionalOptions: JDBCConnectorOptions? = nil, connectionName: String, connectionTable: String? = nil, connectionType: String, connectorName: String, name: String, outputSchemas: [GlueSchema]? = nil, query: String? = nil) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
@@ -13600,6 +14019,7 @@ extension Glue {
         /// Specifies the data schema for the JDBC target.
         public let outputSchemas: [GlueSchema]?
 
+        @inlinable
         public init(additionalOptions: [String: String]? = nil, connectionName: String, connectionTable: String, connectionType: String, connectorName: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
@@ -13653,6 +14073,7 @@ extension Glue {
         /// The path of the JDBC target.
         public let path: String?
 
+        @inlinable
         public init(connectionName: String? = nil, enableAdditionalMetadata: [JdbcMetadataEntry]? = nil, exclusions: [String]? = nil, path: String? = nil) {
             self.connectionName = connectionName
             self.enableAdditionalMetadata = enableAdditionalMetadata
@@ -13724,6 +14145,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
@@ -13755,6 +14177,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
+        @inlinable
         public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
@@ -13832,6 +14255,7 @@ extension Glue {
         /// The version of the job.
         public let version: Int?
 
+        @inlinable
         public init(attempt: Int? = nil, jobBookmark: String? = nil, jobName: String? = nil, previousRunId: String? = nil, run: Int? = nil, runId: String? = nil, version: Int? = nil) {
             self.attempt = attempt
             self.jobBookmark = jobBookmark
@@ -13859,6 +14283,7 @@ extension Glue {
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(jobBookmarksEncryptionMode: JobBookmarksEncryptionMode? = nil, kmsKeyArn: String? = nil) {
             self.jobBookmarksEncryptionMode = jobBookmarksEncryptionMode
             self.kmsKeyArn = kmsKeyArn
@@ -13884,6 +14309,7 @@ extension Glue {
         /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script that runs a job.
         public let scriptLocation: String?
 
+        @inlinable
         public init(name: String? = nil, pythonVersion: String? = nil, runtime: String? = nil, scriptLocation: String? = nil) {
             self.name = name
             self.pythonVersion = pythonVersion
@@ -13910,6 +14336,7 @@ extension Glue {
         /// The information for the job runs represented by the job node.
         public let jobRuns: [JobRun]?
 
+        @inlinable
         public init(jobRuns: [JobRun]? = nil) {
             self.jobRuns = jobRuns
         }
@@ -13979,6 +14406,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
@@ -14012,6 +14440,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
+        @inlinable
         public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
@@ -14125,6 +14554,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
@@ -14152,6 +14582,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
+        @inlinable
         public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
@@ -14235,6 +14666,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(columns: [JoinColumn], inputs: [String], joinType: JoinType, name: String) {
             self.columns = columns
             self.inputs = inputs
@@ -14270,6 +14702,7 @@ extension Glue {
         /// The key of the column to be joined.
         public let keys: [[String]]
 
+        @inlinable
         public init(from: String, keys: [[String]]) {
             self.from = from
             self.keys = keys
@@ -14297,6 +14730,7 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
+        @inlinable
         public init(creationTime: Date? = nil, jsonPath: String, lastUpdated: Date? = nil, name: String, version: Int64? = nil) {
             self.creationTime = creationTime
             self.jsonPath = jsonPath
@@ -14355,6 +14789,7 @@ extension Glue {
         /// The topic name as specified in Apache Kafka. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public let topicName: String?
 
+        @inlinable
         public init(addRecordTimestamp: String? = nil, assign: String? = nil, bootstrapServers: String? = nil, classification: String? = nil, connectionName: String? = nil, delimiter: String? = nil, emitConsumerLagMetrics: String? = nil, endingOffsets: String? = nil, includeHeaders: Bool? = nil, maxOffsetsPerTrigger: Int64? = nil, minPartitions: Int? = nil, numRetries: Int? = nil, pollTimeoutMs: Int64? = nil, retryIntervalMs: Int64? = nil, securityProtocol: String? = nil, startingOffsets: String? = nil, startingTimestamp: Date? = nil, subscribePattern: String? = nil, topicName: String? = nil) {
             self.addRecordTimestamp = addRecordTimestamp
             self.assign = assign
@@ -14426,6 +14861,7 @@ extension Glue {
         /// The type of a partition key.
         public let type: String
 
+        @inlinable
         public init(name: String, type: String) {
             self.name = name
             self.type = type
@@ -14482,6 +14918,7 @@ extension Glue {
         /// The name of the Kinesis data stream.
         public let streamName: String?
 
+        @inlinable
         public init(addIdleTimeBetweenReads: Bool? = nil, addRecordTimestamp: String? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, emitConsumerLagMetrics: String? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, startingTimestamp: Date? = nil, streamArn: String? = nil, streamName: String? = nil) {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
             self.addRecordTimestamp = addRecordTimestamp
@@ -14555,6 +14992,7 @@ extension Glue {
         /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
         public let outputS3Path: String?
 
+        @inlinable
         public init(outputS3Path: String? = nil) {
             self.outputS3Path = outputS3Path
         }
@@ -14570,6 +15008,7 @@ extension Glue {
         /// Specifies whether to use Lake Formation credentials for the crawler instead of the IAM role credentials.
         public let useLakeFormationCredentials: Bool?
 
+        @inlinable
         public init(accountId: String? = nil, useLakeFormationCredentials: Bool? = nil) {
             self.accountId = accountId
             self.useLakeFormationCredentials = useLakeFormationCredentials
@@ -14597,6 +15036,7 @@ extension Glue {
         /// A JSON string specifying the parameters for the blueprint.
         public let parameterSpec: String?
 
+        @inlinable
         public init(blueprintLocation: String? = nil, blueprintServiceLocation: String? = nil, description: String? = nil, lastModifiedOn: Date? = nil, parameterSpec: String? = nil) {
             self.blueprintLocation = blueprintLocation
             self.blueprintServiceLocation = blueprintServiceLocation
@@ -14628,6 +15068,7 @@ extension Glue {
         /// Status of the last crawl.
         public let status: LastCrawlStatus?
 
+        @inlinable
         public init(errorMessage: String? = nil, logGroup: String? = nil, logStream: String? = nil, messagePrefix: String? = nil, startTime: Date? = nil, status: LastCrawlStatus? = nil) {
             self.errorMessage = errorMessage
             self.logGroup = logGroup
@@ -14651,6 +15092,7 @@ extension Glue {
         /// Specifies whether data lineage is enabled for the crawler. Valid values are:   ENABLE: enables data lineage for the crawler   DISABLE: disables data lineage for the crawler
         public let crawlerLineageSettings: CrawlerLineageSettings?
 
+        @inlinable
         public init(crawlerLineageSettings: CrawlerLineageSettings? = nil) {
             self.crawlerLineageSettings = crawlerLineageSettings
         }
@@ -14668,6 +15110,7 @@ extension Glue {
         /// Filters the list by an Amazon Web Services resource tag.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14698,6 +15141,7 @@ extension Glue {
         /// A continuation token, if not all blueprint names have been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(blueprints: [String]? = nil, nextToken: String? = nil) {
             self.blueprints = blueprints
             self.nextToken = nextToken
@@ -14715,6 +15159,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14737,6 +15182,7 @@ extension Glue {
         /// A continuation token, if not all task run IDs have yet been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(columnStatisticsTaskRunIds: [String]? = nil, nextToken: String? = nil) {
             self.columnStatisticsTaskRunIds = columnStatisticsTaskRunIds
             self.nextToken = nextToken
@@ -14756,6 +15202,7 @@ extension Glue {
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14786,6 +15233,7 @@ extension Glue {
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
 
+        @inlinable
         public init(crawlerNames: [String]? = nil, nextToken: String? = nil) {
             self.crawlerNames = crawlerNames
             self.nextToken = nextToken
@@ -14807,6 +15255,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(crawlerName: String, filters: [CrawlsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.crawlerName = crawlerName
             self.filters = filters
@@ -14836,6 +15285,7 @@ extension Glue {
         /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
         public let nextToken: String?
 
+        @inlinable
         public init(crawls: [CrawlerHistory]? = nil, nextToken: String? = nil) {
             self.crawls = crawls
             self.nextToken = nextToken
@@ -14855,6 +15305,7 @@ extension Glue {
         /// A list of key-value pair tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14885,6 +15336,7 @@ extension Glue {
         /// A pagination token, if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(customEntityTypes: [CustomEntityType]? = nil, nextToken: String? = nil) {
             self.customEntityTypes = customEntityTypes
             self.nextToken = nextToken
@@ -14904,6 +15356,7 @@ extension Glue {
         /// A paginated token to offset the results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DataQualityResultFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -14929,6 +15382,7 @@ extension Glue {
         /// A list of DataQualityResultDescription objects.
         public let results: [DataQualityResultDescription]
 
+        @inlinable
         public init(nextToken: String? = nil, results: [DataQualityResultDescription]) {
             self.nextToken = nextToken
             self.results = results
@@ -14948,6 +15402,7 @@ extension Glue {
         /// A paginated token to offset the results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DataQualityRuleRecommendationRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -14973,6 +15428,7 @@ extension Glue {
         /// A list of DataQualityRuleRecommendationRunDescription objects.
         public let runs: [DataQualityRuleRecommendationRunDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, runs: [DataQualityRuleRecommendationRunDescription]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
@@ -14992,6 +15448,7 @@ extension Glue {
         /// A paginated token to offset the results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DataQualityRulesetEvaluationRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -15017,6 +15474,7 @@ extension Glue {
         /// A list of DataQualityRulesetEvaluationRunDescription objects representing data quality ruleset runs.
         public let runs: [DataQualityRulesetEvaluationRunDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, runs: [DataQualityRulesetEvaluationRunDescription]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
@@ -15038,6 +15496,7 @@ extension Glue {
         /// A list of key-value pair tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(filter: DataQualityRulesetFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -15071,6 +15530,7 @@ extension Glue {
         /// A paginated list of rulesets for the specified list of Glue tables.
         public let rulesets: [DataQualityRulesetListDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, rulesets: [DataQualityRulesetListDetails]? = nil) {
             self.nextToken = nextToken
             self.rulesets = rulesets
@@ -15094,6 +15554,7 @@ extension Glue {
         /// A timestamp filter.
         public let timestampFilter: TimestampFilter?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String? = nil, statisticId: String? = nil, timestampFilter: TimestampFilter? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15128,6 +15589,7 @@ extension Glue {
         /// A pagination token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(annotations: [StatisticAnnotation]? = nil, nextToken: String? = nil) {
             self.annotations = annotations
             self.nextToken = nextToken
@@ -15151,6 +15613,7 @@ extension Glue {
         /// A timestamp filter.
         public let timestampFilter: TimestampFilter?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String? = nil, statisticId: String? = nil, timestampFilter: TimestampFilter? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15185,6 +15648,7 @@ extension Glue {
         /// A StatisticSummaryList.
         public let statistics: [StatisticSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, statistics: [StatisticSummary]? = nil) {
             self.nextToken = nextToken
             self.statistics = statistics
@@ -15204,6 +15668,7 @@ extension Glue {
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15234,6 +15699,7 @@ extension Glue {
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
 
+        @inlinable
         public init(devEndpointNames: [String]? = nil, nextToken: String? = nil) {
             self.devEndpointNames = devEndpointNames
             self.nextToken = nextToken
@@ -15253,6 +15719,7 @@ extension Glue {
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15283,6 +15750,7 @@ extension Glue {
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
 
+        @inlinable
         public init(jobNames: [String]? = nil, nextToken: String? = nil) {
             self.jobNames = jobNames
             self.nextToken = nextToken
@@ -15306,6 +15774,7 @@ extension Glue {
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(filter: TransformFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TransformSortCriteria? = nil, tags: [String: String]? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -15341,6 +15810,7 @@ extension Glue {
         /// The identifiers of all the machine learning transforms in the account, or the machine learning transforms with the specified tags.
         public let transformIds: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, transformIds: [String]) {
             self.nextToken = nextToken
             self.transformIds = transformIds
@@ -15358,6 +15828,7 @@ extension Glue {
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15380,6 +15851,7 @@ extension Glue {
         /// An array of RegistryDetailedListItem objects containing minimal details of each registry.
         public let registries: [RegistryListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, registries: [RegistryListItem]? = nil) {
             self.nextToken = nextToken
             self.registries = registries
@@ -15399,6 +15871,7 @@ extension Glue {
         /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, schemaId: SchemaId) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15424,6 +15897,7 @@ extension Glue {
         /// An array of SchemaVersionList objects containing details of each schema version.
         public let schemas: [SchemaVersionListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemas: [SchemaVersionListItem]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -15443,6 +15917,7 @@ extension Glue {
         /// A wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
         public let registryId: RegistryId?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: RegistryId? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15468,6 +15943,7 @@ extension Glue {
         /// An array of SchemaListItem objects containing details of each schema.
         public let schemas: [SchemaListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemas: [SchemaListItem]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -15489,6 +15965,7 @@ extension Glue {
         /// Tags belonging to the session.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, requestOrigin: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15527,6 +16004,7 @@ extension Glue {
         /// Returns the session object.
         public let sessions: [Session]?
 
+        @inlinable
         public init(ids: [String]? = nil, nextToken: String? = nil, sessions: [Session]? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -15548,6 +16026,7 @@ extension Glue {
         /// The Session ID of the statements.
         public let sessionId: String
 
+        @inlinable
         public init(nextToken: String? = nil, requestOrigin: String? = nil, sessionId: String) {
             self.nextToken = nextToken
             self.requestOrigin = requestOrigin
@@ -15577,6 +16056,7 @@ extension Glue {
         /// Returns the list of statements.
         public let statements: [Statement]?
 
+        @inlinable
         public init(nextToken: String? = nil, statements: [Statement]? = nil) {
             self.nextToken = nextToken
             self.statements = statements
@@ -15602,6 +16082,7 @@ extension Glue {
         /// The type of table optimizer. Currently, the only valid value is compaction.
         public let type: TableOptimizerType
 
+        @inlinable
         public init(catalogId: String, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String, type: TableOptimizerType) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -15645,6 +16126,7 @@ extension Glue {
         /// A list of the optimizer runs associated with a table.
         public let tableOptimizerRuns: [TableOptimizerRun]?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, nextToken: String? = nil, tableName: String? = nil, tableOptimizerRuns: [TableOptimizerRun]? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -15672,6 +16154,7 @@ extension Glue {
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(dependentJobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.dependentJobName = dependentJobName
             self.maxResults = maxResults
@@ -15707,6 +16190,7 @@ extension Glue {
         /// The names of all triggers in the account, or the triggers with the specified tags.
         public let triggerNames: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, triggerNames: [String]? = nil) {
             self.nextToken = nextToken
             self.triggerNames = triggerNames
@@ -15724,6 +16208,7 @@ extension Glue {
         /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15747,6 +16232,7 @@ extension Glue {
         /// A list of usage profile (UsageProfileDefinition) objects.
         public let profiles: [UsageProfileDefinition]?
 
+        @inlinable
         public init(nextToken: String? = nil, profiles: [UsageProfileDefinition]? = nil) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -15764,6 +16250,7 @@ extension Glue {
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -15786,6 +16273,7 @@ extension Glue {
         /// List of names of workflows in the account.
         public let workflows: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, workflows: [String]? = nil) {
             self.nextToken = nextToken
             self.workflows = workflows
@@ -15805,6 +16293,7 @@ extension Glue {
         /// An Amazon Simple Storage Service (Amazon S3) location.
         public let s3: [CodeGenNodeArg]?
 
+        @inlinable
         public init(dynamoDB: [CodeGenNodeArg]? = nil, jdbc: [CodeGenNodeArg]? = nil, s3: [CodeGenNodeArg]? = nil) {
             self.dynamoDB = dynamoDB
             self.jdbc = jdbc
@@ -15834,6 +16323,7 @@ extension Glue {
         /// The number of null values in the column.
         public let numberOfNulls: Int64
 
+        @inlinable
         public init(maximumValue: Int64? = nil, minimumValue: Int64? = nil, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -15894,6 +16384,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
             self.createdOn = createdOn
             self.description = description
@@ -15945,6 +16436,7 @@ extension Glue {
         /// The encryption mode applied to user data. Valid values are:   DISABLED: encryption is disabled   SSEKMS: use of server-side encryption with Key Management Service (SSE-KMS) for user data stored in Amazon S3.
         public let mlUserDataEncryptionMode: MLUserDataEncryptionModeString
 
+        @inlinable
         public init(kmsKeyId: String? = nil, mlUserDataEncryptionMode: MLUserDataEncryptionModeString) {
             self.kmsKeyId = kmsKeyId
             self.mlUserDataEncryptionMode = mlUserDataEncryptionMode
@@ -15978,6 +16470,7 @@ extension Glue {
         /// The data type that the data is to be modified to.
         public let toType: String?
 
+        @inlinable
         public init(children: [Mapping]? = nil, dropped: Bool? = nil, fromPath: [String]? = nil, fromType: String? = nil, toKey: String? = nil, toType: String? = nil) {
             self.children = children
             self.dropped = dropped
@@ -16023,6 +16516,7 @@ extension Glue {
         /// The target type.
         public let targetType: String?
 
+        @inlinable
         public init(sourcePath: String? = nil, sourceTable: String? = nil, sourceType: String? = nil, targetPath: String? = nil, targetTable: String? = nil, targetType: String? = nil) {
             self.sourcePath = sourcePath
             self.sourceTable = sourceTable
@@ -16052,6 +16546,7 @@ extension Glue {
         /// The source DynamicFrame that will be merged with a staging DynamicFrame.
         public let source: String
 
+        @inlinable
         public init(inputs: [String], name: String, primaryKeys: [[String]], source: String) {
             self.inputs = inputs
             self.name = name
@@ -16085,6 +16580,7 @@ extension Glue {
         /// Other metadata belonging to the same metadata key.
         public let otherMetadataValueList: [OtherMetadataValueListItem]?
 
+        @inlinable
         public init(createdTime: String? = nil, metadataValue: String? = nil, otherMetadataValueList: [OtherMetadataValueListItem]? = nil) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
@@ -16104,6 +16600,7 @@ extension Glue {
         /// A metadata key’s corresponding value.
         public let metadataValue: String?
 
+        @inlinable
         public init(metadataKey: String? = nil, metadataValue: String? = nil) {
             self.metadataKey = metadataKey
             self.metadataValue = metadataValue
@@ -16134,6 +16631,7 @@ extension Glue {
         /// The Statistic ID.
         public let statisticId: String?
 
+        @inlinable
         public init(metricName: String? = nil, metricValues: DataQualityMetricValues? = nil, newRules: [String]? = nil, statisticId: String? = nil) {
             self.metricName = metricName
             self.metricValues = metricValues
@@ -16157,6 +16655,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -16186,6 +16685,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, table: String) {
             self.database = database
             self.inputs = inputs
@@ -16220,6 +16720,7 @@ extension Glue {
         /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
         public let scanAll: Bool?
 
+        @inlinable
         public init(connectionName: String? = nil, path: String? = nil, scanAll: Bool? = nil) {
             self.connectionName = connectionName
             self.path = path
@@ -16241,6 +16742,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -16270,6 +16772,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, table: String) {
             self.database = database
             self.inputs = inputs
@@ -16310,6 +16813,7 @@ extension Glue {
         /// The unique Id assigned to the node within the workflow.
         public let uniqueId: String?
 
+        @inlinable
         public init(crawlerDetails: CrawlerNodeDetails? = nil, jobDetails: JobNodeDetails? = nil, name: String? = nil, triggerDetails: TriggerNodeDetails? = nil, type: NodeType? = nil, uniqueId: String? = nil) {
             self.crawlerDetails = crawlerDetails
             self.jobDetails = jobDetails
@@ -16333,6 +16837,7 @@ extension Glue {
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
         public let notifyDelayAfter: Int?
 
+        @inlinable
         public init(notifyDelayAfter: Int? = nil) {
             self.notifyDelayAfter = notifyDelayAfter
         }
@@ -16354,6 +16859,7 @@ extension Glue {
         /// Specifies that a value spelling out the word 'null' is considered as a null value.
         public let isNullString: Bool?
 
+        @inlinable
         public init(isEmpty: Bool? = nil, isNegOne: Bool? = nil, isNullString: Bool? = nil) {
             self.isEmpty = isEmpty
             self.isNegOne = isNegOne
@@ -16373,6 +16879,7 @@ extension Glue {
         /// The value of the null placeholder.
         public let value: String
 
+        @inlinable
         public init(datatype: Datatype, value: String) {
             self.datatype = datatype
             self.value = value
@@ -16395,6 +16902,7 @@ extension Glue {
         /// The client application clientID if the ClientAppType is USER_MANAGED.
         public let userManagedClientApplicationClientId: String?
 
+        @inlinable
         public init(awsManagedClientApplicationReference: String? = nil, userManagedClientApplicationClientId: String? = nil) {
             self.awsManagedClientApplicationReference = awsManagedClientApplicationReference
             self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
@@ -16423,6 +16931,7 @@ extension Glue {
         /// A map of parameters that are added to the token GET request.
         public let tokenUrlParametersMap: [String: String]?
 
+        @inlinable
         public init(oAuth2ClientApplication: OAuth2ClientApplication? = nil, oAuth2GrantType: OAuth2GrantType? = nil, tokenUrl: String? = nil, tokenUrlParametersMap: [String: String]? = nil) {
             self.oAuth2ClientApplication = oAuth2ClientApplication
             self.oAuth2GrantType = oAuth2GrantType
@@ -16450,6 +16959,7 @@ extension Glue {
         /// A map of parameters that are added to the token GET request.
         public let tokenUrlParametersMap: [String: String]?
 
+        @inlinable
         public init(authorizationCodeProperties: AuthorizationCodeProperties? = nil, oAuth2ClientApplication: OAuth2ClientApplication? = nil, oAuth2GrantType: OAuth2GrantType? = nil, tokenUrl: String? = nil, tokenUrlParametersMap: [String: String]? = nil) {
             self.authorizationCodeProperties = authorizationCodeProperties
             self.oAuth2ClientApplication = oAuth2ClientApplication
@@ -16484,6 +16994,7 @@ extension Glue {
         /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
         public let icebergInput: IcebergInput?
 
+        @inlinable
         public init(icebergInput: IcebergInput? = nil) {
             self.icebergInput = icebergInput
         }
@@ -16505,6 +17016,7 @@ extension Glue {
         /// Specifies the value of the option.
         public let value: String?
 
+        @inlinable
         public init(description: String? = nil, label: String? = nil, value: String? = nil) {
             self.description = description
             self.label = label
@@ -16532,6 +17044,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -16561,6 +17074,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, table: String) {
             self.database = database
             self.inputs = inputs
@@ -16593,6 +17107,7 @@ extension Glue {
         /// Indicates that the column is sorted in ascending order (== 1), or in descending order (==0).
         public let sortOrder: Int
 
+        @inlinable
         public init(column: String, sortOrder: Int) {
             self.column = column
             self.sortOrder = sortOrder
@@ -16616,6 +17131,7 @@ extension Glue {
         /// The configuration for an Iceberg orphan file deletion optimizer.
         public let icebergConfiguration: IcebergOrphanFileDeletionConfiguration?
 
+        @inlinable
         public init(icebergConfiguration: IcebergOrphanFileDeletionConfiguration? = nil) {
             self.icebergConfiguration = icebergConfiguration
         }
@@ -16629,6 +17145,7 @@ extension Glue {
         /// A structure containing the Iceberg orphan file deletion metrics for the optimizer run.
         public let icebergMetrics: IcebergOrphanFileDeletionMetrics?
 
+        @inlinable
         public init(icebergMetrics: IcebergOrphanFileDeletionMetrics? = nil) {
             self.icebergMetrics = icebergMetrics
         }
@@ -16644,6 +17161,7 @@ extension Glue {
         /// The metadata key’s corresponding value for the other metadata belonging to the same metadata key.
         public let metadataValue: String?
 
+        @inlinable
         public init(createdTime: String? = nil, metadataValue: String? = nil) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
@@ -16673,6 +17191,7 @@ extension Glue {
         /// Indicates the fraction of the data that must be met in order for a column to be identified as PII data.
         public let thresholdFraction: Double?
 
+        @inlinable
         public init(entityTypesToDetect: [String], inputs: [String], maskValue: String? = nil, name: String, outputColumnName: String? = nil, piiType: PiiType, sampleFraction: Double? = nil, thresholdFraction: Double? = nil) {
             self.entityTypesToDetect = entityTypesToDetect
             self.inputs = inputs
@@ -16735,6 +17254,7 @@ extension Glue {
         /// The values of the partition.
         public let values: [String]?
 
+        @inlinable
         public init(catalogId: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, tableName: String? = nil, values: [String]? = nil) {
             self.catalogId = catalogId
             self.creationTime = creationTime
@@ -16766,6 +17286,7 @@ extension Glue {
         /// The values that define the partition.
         public let partitionValues: [String]?
 
+        @inlinable
         public init(errorDetail: ErrorDetail? = nil, partitionValues: [String]? = nil) {
             self.errorDetail = errorDetail
             self.partitionValues = partitionValues
@@ -16783,6 +17304,7 @@ extension Glue {
         /// The keys for the partition index.
         public let keys: [String]
 
+        @inlinable
         public init(indexName: String, keys: [String]) {
             self.indexName = indexName
             self.keys = keys
@@ -16816,6 +17338,7 @@ extension Glue {
         /// A list of one or more keys, as KeySchemaElement structures, for the partition index.
         public let keys: [KeySchemaElement]
 
+        @inlinable
         public init(backfillErrors: [BackfillError]? = nil, indexName: String, indexStatus: PartitionIndexStatus, keys: [KeySchemaElement]) {
             self.backfillErrors = backfillErrors
             self.indexName = indexName
@@ -16843,6 +17366,7 @@ extension Glue {
         /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input. The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same order as the partition keys appearing in the Amazon S3 prefix. Otherwise Glue will add the values to the wrong keys.
         public let values: [String]?
 
+        @inlinable
         public init(lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -16877,6 +17401,7 @@ extension Glue {
         /// The list of values.
         public let values: [String]
 
+        @inlinable
         public init(values: [String]) {
             self.values = values
         }
@@ -16900,6 +17425,7 @@ extension Glue {
         /// The subnet ID used by the connection.
         public let subnetId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, securityGroupIdList: [String]? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.securityGroupIdList = securityGroupIdList
@@ -16936,6 +17462,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -16965,6 +17492,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, table: String) {
             self.database = database
             self.inputs = inputs
@@ -16997,6 +17525,7 @@ extension Glue {
         /// The job-run ID of the predecessor job run.
         public let runId: String?
 
+        @inlinable
         public init(jobName: String? = nil, runId: String? = nil) {
             self.jobName = jobName
             self.runId = runId
@@ -17014,6 +17543,7 @@ extension Glue {
         /// An optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
         public let logical: Logical?
 
+        @inlinable
         public init(conditions: [Condition]? = nil, logical: Logical? = nil) {
             self.conditions = conditions
             self.logical = logical
@@ -17037,6 +17567,7 @@ extension Glue {
         /// The principal who is granted permissions.
         public let principal: DataLakePrincipal?
 
+        @inlinable
         public init(permissions: [Permission]? = nil, principal: DataLakePrincipal? = nil) {
             self.permissions = permissions
             self.principal = principal
@@ -17058,6 +17589,7 @@ extension Glue {
         /// A key-value map of configuration parameters for Glue sessions.
         public let sessionConfiguration: [String: ConfigurationObject]?
 
+        @inlinable
         public init(jobConfiguration: [String: ConfigurationObject]? = nil, sessionConfiguration: [String: ConfigurationObject]? = nil) {
             self.jobConfiguration = jobConfiguration
             self.sessionConfiguration = sessionConfiguration
@@ -17092,6 +17624,7 @@ extension Glue {
         /// The value of the property.
         public let value: String?
 
+        @inlinable
         public init(comparator: Comparator? = nil, key: String? = nil, value: String? = nil) {
             self.comparator = comparator
             self.key = key
@@ -17116,6 +17649,7 @@ extension Glue {
         /// The security configuration to set.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings
 
+        @inlinable
         public init(catalogId: String? = nil, dataCatalogEncryptionSettings: DataCatalogEncryptionSettings) {
             self.catalogId = catalogId
             self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
@@ -17144,6 +17678,7 @@ extension Glue {
         /// The ID of the data quality monitoring profile to annotate.
         public let profileId: String
 
+        @inlinable
         public init(inclusionAnnotation: InclusionAnnotationValue, profileId: String) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
@@ -17177,6 +17712,7 @@ extension Glue {
         /// Do not use. For internal use only.
         public let resourceArn: String?
 
+        @inlinable
         public init(enableHybrid: EnableHybridValues? = nil, policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil, policyInJson: String, resourceArn: String? = nil) {
             self.enableHybrid = enableHybrid
             self.policyExistsCondition = policyExistsCondition
@@ -17208,6 +17744,7 @@ extension Glue {
         /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
         public let policyHash: String?
 
+        @inlinable
         public init(policyHash: String? = nil) {
             self.policyHash = policyHash
         }
@@ -17227,6 +17764,7 @@ extension Glue {
         /// The version number of the schema.
         public let schemaVersionNumber: SchemaVersionNumber?
 
+        @inlinable
         public init(metadataKeyValue: MetadataKeyValuePair, schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
             self.metadataKeyValue = metadataKeyValue
             self.schemaId = schemaId
@@ -17269,6 +17807,7 @@ extension Glue {
         /// The version number of the schema.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(latestVersion: Bool? = nil, metadataKey: String? = nil, metadataValue: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersionId: String? = nil, versionNumber: Int64? = nil) {
             self.latestVersion = latestVersion
             self.metadataKey = metadataKey
@@ -17300,6 +17839,7 @@ extension Glue {
         /// The properties to put for the specified run.
         public let runProperties: [String: String]
 
+        @inlinable
         public init(name: String, runId: String, runProperties: [String: String]) {
             self.name = name
             self.runId = runId
@@ -17345,6 +17885,7 @@ extension Glue {
         /// The version number of the schema.
         public let schemaVersionNumber: SchemaVersionNumber?
 
+        @inlinable
         public init(maxResults: Int? = nil, metadataList: [MetadataKeyValuePair]? = nil, nextToken: String? = nil, schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
             self.maxResults = maxResults
             self.metadataList = metadataList
@@ -17385,6 +17926,7 @@ extension Glue {
         /// The unique version ID of the schema version.
         public let schemaVersionId: String?
 
+        @inlinable
         public init(metadataInfoMap: [String: MetadataInfo]? = nil, nextToken: String? = nil, schemaVersionId: String? = nil) {
             self.metadataInfoMap = metadataInfoMap
             self.nextToken = nextToken
@@ -17410,6 +17952,7 @@ extension Glue {
         /// A timestamp provided by the query engine for when the query started.
         public let queryStartTime: Date?
 
+        @inlinable
         public init(additionalContext: [String: String]? = nil, clusterId: String? = nil, queryAuthorizationId: String? = nil, queryId: String? = nil, queryStartTime: Date? = nil) {
             self.additionalContext = additionalContext
             self.clusterId = clusterId
@@ -17451,6 +17994,7 @@ extension Glue {
         /// Transform steps used in the recipe node.
         public let recipeSteps: [RecipeStep]?
 
+        @inlinable
         public init(inputs: [String], name: String, recipeReference: RecipeReference? = nil, recipeSteps: [RecipeStep]? = nil) {
             self.inputs = inputs
             self.name = name
@@ -17485,6 +18029,7 @@ extension Glue {
         /// The parameters of the recipe action.
         public let parameters: [String: String]?
 
+        @inlinable
         public init(operation: String, parameters: [String: String]? = nil) {
             self.operation = operation
             self.parameters = parameters
@@ -17515,6 +18060,7 @@ extension Glue {
         /// The RecipeVersion of the DataBrew recipe.
         public let recipeVersion: String
 
+        @inlinable
         public init(recipeArn: String, recipeVersion: String) {
             self.recipeArn = recipeArn
             self.recipeVersion = recipeVersion
@@ -17538,6 +18084,7 @@ extension Glue {
         /// The condition expressions for the recipe step.
         public let conditionExpressions: [ConditionExpression]?
 
+        @inlinable
         public init(action: RecipeAction, conditionExpressions: [ConditionExpression]? = nil) {
             self.action = action
             self.conditionExpressions = conditionExpressions
@@ -17560,6 +18107,7 @@ extension Glue {
         /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run. A value of CRAWL_EVENT_MODE specifies crawling only the changes identified by Amazon S3 events.
         public let recrawlBehavior: RecrawlBehavior?
 
+        @inlinable
         public init(recrawlBehavior: RecrawlBehavior? = nil) {
             self.recrawlBehavior = recrawlBehavior
         }
@@ -17581,6 +18129,7 @@ extension Glue {
         /// The IAM role with permissions.
         public let tmpDirIAMRole: String?
 
+        @inlinable
         public init(database: String, name: String, redshiftTmpDir: String? = nil, table: String, tmpDirIAMRole: String? = nil) {
             self.database = database
             self.name = name
@@ -17622,6 +18171,7 @@ extension Glue {
         /// The set of options to configure an upsert operation when writing to a Redshift target.
         public let upsertRedshiftOptions: UpsertRedshiftTargetOptions?
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, redshiftTmpDir: String? = nil, table: String, tmpDirIAMRole: String? = nil, upsertRedshiftOptions: UpsertRedshiftTargetOptions? = nil) {
             self.database = database
             self.inputs = inputs
@@ -17663,6 +18213,7 @@ extension Glue {
         /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId
 
+        @inlinable
         public init(schemaDefinition: String, schemaId: SchemaId) {
             self.schemaDefinition = schemaDefinition
             self.schemaId = schemaId
@@ -17689,6 +18240,7 @@ extension Glue {
         /// The version of this schema (for sync flow only, in case this is the first version).
         public let versionNumber: Int64?
 
+        @inlinable
         public init(schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil, versionNumber: Int64? = nil) {
             self.schemaVersionId = schemaVersionId
             self.status = status
@@ -17708,6 +18260,7 @@ extension Glue {
         /// Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided.
         public let registryName: String?
 
+        @inlinable
         public init(registryArn: String? = nil, registryName: String? = nil) {
             self.registryArn = registryArn
             self.registryName = registryName
@@ -17742,6 +18295,7 @@ extension Glue {
         /// The date the registry was updated.
         public let updatedTime: String?
 
+        @inlinable
         public init(createdTime: String? = nil, description: String? = nil, registryArn: String? = nil, registryName: String? = nil, status: RegistryStatus? = nil, updatedTime: String? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -17769,6 +18323,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(database: String, name: String, table: String) {
             self.database = database
             self.name = name
@@ -17798,6 +18353,7 @@ extension Glue {
         /// The version number of the schema.
         public let schemaVersionNumber: SchemaVersionNumber?
 
+        @inlinable
         public init(metadataKeyValue: MetadataKeyValuePair, schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: SchemaVersionNumber? = nil) {
             self.metadataKeyValue = metadataKeyValue
             self.schemaId = schemaId
@@ -17840,6 +18396,7 @@ extension Glue {
         /// The version number of the schema.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(latestVersion: Bool? = nil, metadataKey: String? = nil, metadataValue: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersionId: String? = nil, versionNumber: Int64? = nil) {
             self.latestVersion = latestVersion
             self.metadataKey = metadataKey
@@ -17873,6 +18430,7 @@ extension Glue {
         /// A JSON path to a variable in the data structure for the target data.
         public let targetPath: [String]
 
+        @inlinable
         public init(inputs: [String], name: String, sourcePath: [String], targetPath: [String]) {
             self.inputs = inputs
             self.name = name
@@ -17909,6 +18467,7 @@ extension Glue {
         /// The unique run identifier associated with this job run.
         public let runId: String?
 
+        @inlinable
         public init(jobName: String, runId: String? = nil) {
             self.jobName = jobName
             self.runId = runId
@@ -17924,6 +18483,7 @@ extension Glue {
         /// The reset bookmark entry.
         public let jobBookmarkEntry: JobBookmarkEntry?
 
+        @inlinable
         public init(jobBookmarkEntry: JobBookmarkEntry? = nil) {
             self.jobBookmarkEntry = jobBookmarkEntry
         }
@@ -17939,6 +18499,7 @@ extension Glue {
         /// The URI for accessing the resource.
         public let uri: String?
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, uri: String? = nil) {
             self.resourceType = resourceType
             self.uri = uri
@@ -17964,6 +18525,7 @@ extension Glue {
         /// The ID of the workflow run to resume.
         public let runId: String
 
+        @inlinable
         public init(name: String, nodeIds: [String], runId: String) {
             self.name = name
             self.nodeIds = nodeIds
@@ -17997,6 +18559,7 @@ extension Glue {
         /// The new ID assigned to the resumed workflow run. Each resume of a workflow run will have a new run ID.
         public let runId: String?
 
+        @inlinable
         public init(nodeIds: [String]? = nil, runId: String? = nil) {
             self.nodeIds = nodeIds
             self.runId = runId
@@ -18012,6 +18575,7 @@ extension Glue {
         /// The configuration for an Iceberg snapshot retention optimizer.
         public let icebergConfiguration: IcebergRetentionConfiguration?
 
+        @inlinable
         public init(icebergConfiguration: IcebergRetentionConfiguration? = nil) {
             self.icebergConfiguration = icebergConfiguration
         }
@@ -18025,6 +18589,7 @@ extension Glue {
         /// A structure containing the Iceberg retention metrics for the optimizer run.
         public let icebergMetrics: IcebergRetentionMetrics?
 
+        @inlinable
         public init(icebergMetrics: IcebergRetentionMetrics? = nil) {
             self.icebergMetrics = icebergMetrics
         }
@@ -18040,6 +18605,7 @@ extension Glue {
         /// The Run ID.
         public let runId: String?
 
+        @inlinable
         public init(jobRunId: String? = nil, runId: String? = nil) {
             self.jobRunId = jobRunId
             self.runId = runId
@@ -18061,6 +18627,7 @@ extension Glue {
         /// The number of files removed by the compaction job run.
         public let numberOfFilesCompacted: String?
 
+        @inlinable
         public init(jobDurationInHour: String? = nil, numberOfBytesCompacted: String? = nil, numberOfDpus: String? = nil, numberOfFilesCompacted: String? = nil) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
@@ -18084,6 +18651,7 @@ extension Glue {
         /// The Session Id of the statement to be run.
         public let sessionId: String
 
+        @inlinable
         public init(code: String, requestOrigin: String? = nil, sessionId: String) {
             self.code = code
             self.requestOrigin = requestOrigin
@@ -18111,6 +18679,7 @@ extension Glue {
         /// Returns the Id of the statement that was run.
         public let id: Int?
 
+        @inlinable
         public init(id: Int? = nil) {
             self.id = id
         }
@@ -18132,6 +18701,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(additionalDeltaOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.database = database
@@ -18174,6 +18744,7 @@ extension Glue {
         /// The name of the table in the database to read from.
         public let table: String
 
+        @inlinable
         public init(additionalHudiOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
             self.additionalHudiOptions = additionalHudiOptions
             self.database = database
@@ -18216,6 +18787,7 @@ extension Glue {
         /// The database table to read from.
         public let table: String
 
+        @inlinable
         public init(additionalOptions: S3SourceAdditionalOptions? = nil, database: String, name: String, partitionPredicate: String? = nil, table: String) {
             self.additionalOptions = additionalOptions
             self.database = database
@@ -18254,6 +18826,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
             self.database = database
             self.inputs = inputs
@@ -18324,6 +18897,7 @@ extension Glue {
         /// A Boolean value that specifies whether to write the header to output. The default value is True.
         public let writeHeader: Bool?
 
+        @inlinable
         public init(additionalOptions: S3DirectSourceAdditionalOptions? = nil, compressionType: CompressionType? = nil, escaper: String? = nil, exclusions: [String]? = nil, groupFiles: String? = nil, groupSize: String? = nil, maxBand: Int? = nil, maxFilesInBand: Int? = nil, multiline: Bool? = nil, name: String, optimizePerformance: Bool? = nil, outputSchemas: [GlueSchema]? = nil, paths: [String], quoteChar: QuoteChar, recurse: Bool? = nil, separator: Separator, skipFirst: Bool? = nil, withHeader: Bool? = nil, writeHeader: Bool? = nil) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
@@ -18404,6 +18978,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(additionalOptions: [String: String]? = nil, database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
             self.additionalOptions = additionalOptions
             self.database = database
@@ -18458,6 +19033,7 @@ extension Glue {
         /// A policy that specifies update behavior for the crawler.
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
+        @inlinable
         public init(additionalOptions: [String: String]? = nil, compression: DeltaTargetCompressionType, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.additionalOptions = additionalOptions
             self.compression = compression
@@ -18508,6 +19084,7 @@ extension Glue {
         /// A list of the Amazon S3 paths to read from.
         public let paths: [String]
 
+        @inlinable
         public init(additionalDeltaOptions: [String: String]? = nil, additionalOptions: S3DirectSourceAdditionalOptions? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String]) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.additionalOptions = additionalOptions
@@ -18550,6 +19127,7 @@ extension Glue {
         /// If enabled, specifies the sample path.
         public let samplePath: String?
 
+        @inlinable
         public init(boundedFiles: Int64? = nil, boundedSize: Int64? = nil, enableSamplePath: Bool? = nil, samplePath: String? = nil) {
             self.boundedFiles = boundedFiles
             self.boundedSize = boundedSize
@@ -18585,6 +19163,7 @@ extension Glue {
         /// A policy that specifies update behavior for the crawler.
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
+        @inlinable
         public init(compression: String? = nil, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.compression = compression
             self.format = format
@@ -18624,6 +19203,7 @@ extension Glue {
         /// The encryption mode to use for Amazon S3 data.
         public let s3EncryptionMode: S3EncryptionMode?
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, s3EncryptionMode: S3EncryptionMode? = nil) {
             self.kmsKeyArn = kmsKeyArn
             self.s3EncryptionMode = s3EncryptionMode
@@ -18653,6 +19233,7 @@ extension Glue {
         /// A policy that specifies update behavior for the crawler.
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
+        @inlinable
         public init(compression: ParquetCompressionType? = nil, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.compression = compression
             self.inputs = inputs
@@ -18699,6 +19280,7 @@ extension Glue {
         /// The name of the table in the database to write to.
         public let table: String
 
+        @inlinable
         public init(additionalOptions: [String: String], database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
             self.additionalOptions = additionalOptions
             self.database = database
@@ -18753,6 +19335,7 @@ extension Glue {
         /// A policy that specifies update behavior for the crawler.
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
+        @inlinable
         public init(additionalOptions: [String: String], compression: HudiTargetCompressionType, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
             self.additionalOptions = additionalOptions
             self.compression = compression
@@ -18803,6 +19386,7 @@ extension Glue {
         /// A list of the Amazon S3 paths to read from.
         public let paths: [String]
 
+        @inlinable
         public init(additionalHudiOptions: [String: String]? = nil, additionalOptions: S3DirectSourceAdditionalOptions? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String]) {
             self.additionalHudiOptions = additionalHudiOptions
             self.additionalOptions = additionalOptions
@@ -18863,6 +19447,7 @@ extension Glue {
         /// If set to true, recursively reads files in all subdirectories under the specified paths.
         public let recurse: Bool?
 
+        @inlinable
         public init(additionalOptions: S3DirectSourceAdditionalOptions? = nil, compressionType: CompressionType? = nil, exclusions: [String]? = nil, groupFiles: String? = nil, groupSize: String? = nil, jsonPath: String? = nil, maxBand: Int? = nil, maxFilesInBand: Int? = nil, multiline: Bool? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String], recurse: Bool? = nil) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
@@ -18939,6 +19524,7 @@ extension Glue {
         /// If set to true, recursively reads files in all subdirectories under the specified paths.
         public let recurse: Bool?
 
+        @inlinable
         public init(additionalOptions: S3DirectSourceAdditionalOptions? = nil, compressionType: ParquetCompressionType? = nil, exclusions: [String]? = nil, groupFiles: String? = nil, groupSize: String? = nil, maxBand: Int? = nil, maxFilesInBand: Int? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String], recurse: Bool? = nil) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
@@ -18992,6 +19578,7 @@ extension Glue {
         /// Sets the upper limit for the target size of the dataset in bytes that will be processed.
         public let boundedSize: Int64?
 
+        @inlinable
         public init(boundedFiles: Int64? = nil, boundedSize: Int64? = nil) {
             self.boundedFiles = boundedFiles
             self.boundedSize = boundedSize
@@ -19017,6 +19604,7 @@ extension Glue {
         /// Sets the number of files in each leaf folder to be crawled when crawling sample files in a dataset. If not set, all the files are crawled. A valid value is an integer between 1 and 249.
         public let sampleSize: Int?
 
+        @inlinable
         public init(connectionName: String? = nil, dlqEventQueueArn: String? = nil, eventQueueArn: String? = nil, exclusions: [String]? = nil, path: String? = nil, sampleSize: Int? = nil) {
             self.connectionName = connectionName
             self.dlqEventQueueArn = dlqEventQueueArn
@@ -19042,6 +19630,7 @@ extension Glue {
         /// The state of the schedule.
         public let state: ScheduleState?
 
+        @inlinable
         public init(scheduleExpression: String? = nil, state: ScheduleState? = nil) {
             self.scheduleExpression = scheduleExpression
             self.state = state
@@ -19059,6 +19648,7 @@ extension Glue {
         /// The update behavior when the crawler finds a changed schema.
         public let updateBehavior: UpdateBehavior?
 
+        @inlinable
         public init(deleteBehavior: DeleteBehavior? = nil, updateBehavior: UpdateBehavior? = nil) {
             self.deleteBehavior = deleteBehavior
             self.updateBehavior = updateBehavior
@@ -19076,6 +19666,7 @@ extension Glue {
         /// The name of the column.
         public let name: String?
 
+        @inlinable
         public init(dataType: String? = nil, name: String? = nil) {
             self.dataType = dataType
             self.name = name
@@ -19103,6 +19694,7 @@ extension Glue {
         /// The name of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaName: String?
 
+        @inlinable
         public init(registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil) {
             self.registryName = registryName
             self.schemaArn = schemaArn
@@ -19144,6 +19736,7 @@ extension Glue {
         /// The date and time that a schema was updated.
         public let updatedTime: String?
 
+        @inlinable
         public init(createdTime: String? = nil, description: String? = nil, registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaStatus: SchemaStatus? = nil, updatedTime: String? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -19173,6 +19766,7 @@ extension Glue {
         /// The version number of the schema.
         public let schemaVersionNumber: Int64?
 
+        @inlinable
         public init(schemaId: SchemaId? = nil, schemaVersionId: String? = nil, schemaVersionNumber: Int64? = nil) {
             self.schemaId = schemaId
             self.schemaVersionId = schemaVersionId
@@ -19201,6 +19795,7 @@ extension Glue {
         /// The version number of the schema.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(errorDetails: ErrorDetails? = nil, versionNumber: Int64? = nil) {
             self.errorDetails = errorDetails
             self.versionNumber = versionNumber
@@ -19224,6 +19819,7 @@ extension Glue {
         /// The version number of the schema.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(createdTime: String? = nil, schemaArn: String? = nil, schemaVersionId: String? = nil, status: SchemaVersionStatus? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.schemaArn = schemaArn
@@ -19247,6 +19843,7 @@ extension Glue {
         /// The version number of the schema.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(latestVersion: Bool? = nil, versionNumber: Int64? = nil) {
             self.latestVersion = latestVersion
             self.versionNumber = versionNumber
@@ -19281,6 +19878,7 @@ extension Glue {
         /// A list of criteria for sorting the results by a field name, in an ascending or descending order.
         public let sortCriteria: [SortCriterion]?
 
+        @inlinable
         public init(catalogId: String? = nil, filters: [PropertyPredicate]? = nil, includeStatusDetails: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil, searchText: String? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.catalogId = catalogId
             self.filters = filters
@@ -19326,6 +19924,7 @@ extension Glue {
         /// A list of the requested Table objects. The SearchTables response returns only the tables that you have access to.
         public let tableList: [Table]?
 
+        @inlinable
         public init(nextToken: String? = nil, tableList: [Table]? = nil) {
             self.nextToken = nextToken
             self.tableList = tableList
@@ -19345,6 +19944,7 @@ extension Glue {
         /// The name of the security configuration.
         public let name: String?
 
+        @inlinable
         public init(createdTimeStamp: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, name: String? = nil) {
             self.createdTimeStamp = createdTimeStamp
             self.encryptionConfiguration = encryptionConfiguration
@@ -19364,6 +19964,7 @@ extension Glue {
         /// The total number of segments.
         public let totalSegments: Int
 
+        @inlinable
         public init(segmentNumber: Int = 0, totalSegments: Int) {
             self.segmentNumber = segmentNumber
             self.totalSegments = totalSegments
@@ -19389,6 +19990,7 @@ extension Glue {
         /// A JSON path to a variable in the data structure.
         public let paths: [[String]]
 
+        @inlinable
         public init(inputs: [String], name: String, paths: [[String]]) {
             self.inputs = inputs
             self.name = name
@@ -19419,6 +20021,7 @@ extension Glue {
         /// The name of the transform node.
         public let name: String
 
+        @inlinable
         public init(index: Int, inputs: [String], name: String) {
             self.index = index
             self.inputs = inputs
@@ -19450,6 +20053,7 @@ extension Glue {
         /// Usually the class that implements the SerDe. An example is org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe.
         public let serializationLibrary: String?
 
+        @inlinable
         public init(name: String? = nil, parameters: [String: String]? = nil, serializationLibrary: String? = nil) {
             self.name = name
             self.parameters = parameters
@@ -19520,6 +20124,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(command: SessionCommand? = nil, completedOn: Date? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Double? = nil, glueVersion: String? = nil, id: String? = nil, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.completedOn = completedOn
@@ -19573,6 +20178,7 @@ extension Glue {
         /// Specifies the Python version. The Python version indicates the version supported for jobs of type Spark.
         public let pythonVersion: String?
 
+        @inlinable
         public init(name: String? = nil, pythonVersion: String? = nil) {
             self.name = name
             self.pythonVersion = pythonVersion
@@ -19599,6 +20205,7 @@ extension Glue {
         /// A list of values that appear so frequently as to be considered skewed.
         public let skewedColumnValues: [String]?
 
+        @inlinable
         public init(skewedColumnNames: [String]? = nil, skewedColumnValueLocationMaps: [String: String]? = nil, skewedColumnValues: [String]? = nil) {
             self.skewedColumnNames = skewedColumnNames
             self.skewedColumnValueLocationMaps = skewedColumnValueLocationMaps
@@ -19664,6 +20271,7 @@ extension Glue {
         /// Used when Action is append. Specifies the resolution behavior when a row already exists. If true, preexisting rows will be updated. If false, those rows will be inserted.
         public let upsert: Bool?
 
+        @inlinable
         public init(action: String? = nil, additionalOptions: [String: String]? = nil, autoPushdown: Bool? = nil, connection: Option? = nil, database: String? = nil, iamRole: Option? = nil, mergeAction: String? = nil, mergeClause: String? = nil, mergeWhenMatched: String? = nil, mergeWhenNotMatched: String? = nil, postAction: String? = nil, preAction: String? = nil, sampleQuery: String? = nil, schema: String? = nil, selectedColumns: [Option]? = nil, sourceType: String? = nil, stagingTable: String? = nil, table: String? = nil, tableSchema: [Option]? = nil, tempDir: String? = nil, upsert: Bool? = nil) {
             self.action = action
             self.additionalOptions = additionalOptions
@@ -19741,6 +20349,7 @@ extension Glue {
         /// Specifies user-defined schemas for your output data.
         public let outputSchemas: [GlueSchema]?
 
+        @inlinable
         public init(data: SnowflakeNodeData, name: String, outputSchemas: [GlueSchema]? = nil) {
             self.data = data
             self.name = name
@@ -19770,6 +20379,7 @@ extension Glue {
         /// The name of the Snowflake target.
         public let name: String
 
+        @inlinable
         public init(data: SnowflakeNodeData, inputs: [String]? = nil, name: String) {
             self.data = data
             self.inputs = inputs
@@ -19799,6 +20409,7 @@ extension Glue {
         /// An ascending or descending sort.
         public let sort: Sort?
 
+        @inlinable
         public init(fieldName: String? = nil, sort: Sort? = nil) {
             self.fieldName = fieldName
             self.sort = sort
@@ -19832,6 +20443,7 @@ extension Glue {
         /// The name of the remote repository that contains the job artifacts.
         public let repository: String?
 
+        @inlinable
         public init(authStrategy: SourceControlAuthStrategy? = nil, authToken: String? = nil, branch: String? = nil, folder: String? = nil, lastCommitId: String? = nil, owner: String? = nil, provider: SourceControlProvider? = nil, repository: String? = nil) {
             self.authStrategy = authStrategy
             self.authToken = authToken
@@ -19884,6 +20496,7 @@ extension Glue {
         /// Specifies data schema for the custom spark source.
         public let outputSchemas: [GlueSchema]?
 
+        @inlinable
         public init(additionalOptions: [String: String]? = nil, connectionName: String, connectionType: String, connectorName: String, name: String, outputSchemas: [GlueSchema]? = nil) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
@@ -19933,6 +20546,7 @@ extension Glue {
         /// Specifies the data schema for the custom spark target.
         public let outputSchemas: [GlueSchema]?
 
+        @inlinable
         public init(additionalOptions: [String: String]? = nil, connectionName: String, connectionType: String, connectorName: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
@@ -19986,6 +20600,7 @@ extension Glue {
         /// A SQL query that must use Spark SQL syntax and return a single data set.
         public let sqlQuery: String
 
+        @inlinable
         public init(inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil, sqlAliases: [SqlAlias], sqlQuery: String) {
             self.inputs = inputs
             self.name = name
@@ -20030,6 +20645,7 @@ extension Glue {
         /// Specifies a number of records to write starting from the beginning of the dataset.
         public let topk: Int?
 
+        @inlinable
         public init(inputs: [String], name: String, path: String, prob: Double? = nil, topk: Int? = nil) {
             self.inputs = inputs
             self.name = name
@@ -20069,6 +20685,7 @@ extension Glue {
         /// A JSON path to a variable in the data structure.
         public let paths: [[String]]
 
+        @inlinable
         public init(inputs: [String], name: String, paths: [[String]]) {
             self.inputs = inputs
             self.name = name
@@ -20097,6 +20714,7 @@ extension Glue {
         /// A table, or a column in a table.
         public let from: String
 
+        @inlinable
         public init(alias: String, from: String) {
             self.alias = alias
             self.from = from
@@ -20121,6 +20739,7 @@ extension Glue {
         /// Specifies the IAM role used to create the workflow.
         public let roleArn: String
 
+        @inlinable
         public init(blueprintName: String, parameters: String? = nil, roleArn: String) {
             self.blueprintName = blueprintName
             self.parameters = parameters
@@ -20149,6 +20768,7 @@ extension Glue {
         /// The run ID for this blueprint run.
         public let runId: String?
 
+        @inlinable
         public init(runId: String? = nil) {
             self.runId = runId
         }
@@ -20174,6 +20794,7 @@ extension Glue {
         /// The name of the table to generate statistics.
         public let tableName: String
 
+        @inlinable
         public init(catalogID: String? = nil, columnNameList: [String]? = nil, databaseName: String, role: String, sampleSize: Double? = nil, securityConfiguration: String? = nil, tableName: String) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
@@ -20224,6 +20845,7 @@ extension Glue {
         /// The identifier for the column statistics task run.
         public let columnStatisticsTaskRunId: String?
 
+        @inlinable
         public init(columnStatisticsTaskRunId: String? = nil) {
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
         }
@@ -20237,6 +20859,7 @@ extension Glue {
         /// Name of the crawler to start.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -20260,6 +20883,7 @@ extension Glue {
         /// Name of the crawler to schedule.
         public let crawlerName: String
 
+        @inlinable
         public init(crawlerName: String) {
             self.crawlerName = crawlerName
         }
@@ -20295,6 +20919,7 @@ extension Glue {
         /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
 
+        @inlinable
         public init(clientToken: String? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, timeout: Int? = nil) {
             self.clientToken = clientToken
             self.createdRulesetName = createdRulesetName
@@ -20334,6 +20959,7 @@ extension Glue {
         /// The unique run identifier associated with this run.
         public let runId: String?
 
+        @inlinable
         public init(runId: String? = nil) {
             self.runId = runId
         }
@@ -20361,6 +20987,7 @@ extension Glue {
         /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
 
+        @inlinable
         public init(additionalDataSources: [String: DataSource]? = nil, additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions? = nil, clientToken: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, rulesetNames: [String], timeout: Int? = nil) {
             self.additionalDataSources = additionalDataSources
             self.additionalRunOptions = additionalRunOptions
@@ -20409,6 +21036,7 @@ extension Glue {
         /// The unique run identifier associated with this run.
         public let runId: String?
 
+        @inlinable
         public init(runId: String? = nil) {
             self.runId = runId
         }
@@ -20424,6 +21052,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(outputS3Path: String, transformId: String) {
             self.outputS3Path = outputS3Path
             self.transformId = transformId
@@ -20445,6 +21074,7 @@ extension Glue {
         /// The unique identifier for the task run.
         public let taskRunId: String?
 
+        @inlinable
         public init(taskRunId: String? = nil) {
             self.taskRunId = taskRunId
         }
@@ -20462,6 +21092,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(inputS3Path: String, replaceAllLabels: Bool? = nil, transformId: String) {
             self.inputS3Path = inputS3Path
             self.replaceAllLabels = replaceAllLabels
@@ -20485,6 +21116,7 @@ extension Glue {
         /// The unique identifier for the task run.
         public let taskRunId: String?
 
+        @inlinable
         public init(taskRunId: String? = nil) {
             self.taskRunId = taskRunId
         }
@@ -20520,6 +21152,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
@@ -20536,6 +21169,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
+        @inlinable
         public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
@@ -20585,6 +21219,7 @@ extension Glue {
         /// The ID assigned to this job run.
         public let jobRunId: String?
 
+        @inlinable
         public init(jobRunId: String? = nil) {
             self.jobRunId = jobRunId
         }
@@ -20598,6 +21233,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(transformId: String) {
             self.transformId = transformId
         }
@@ -20617,6 +21253,7 @@ extension Glue {
         /// The unique identifier associated with this run.
         public let taskRunId: String?
 
+        @inlinable
         public init(taskRunId: String? = nil) {
             self.taskRunId = taskRunId
         }
@@ -20632,6 +21269,7 @@ extension Glue {
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
+        @inlinable
         public init(outputS3Path: String, transformId: String) {
             self.outputS3Path = outputS3Path
             self.transformId = transformId
@@ -20653,6 +21291,7 @@ extension Glue {
         /// The unique run identifier that is associated with this task run.
         public let taskRunId: String?
 
+        @inlinable
         public init(taskRunId: String? = nil) {
             self.taskRunId = taskRunId
         }
@@ -20666,6 +21305,7 @@ extension Glue {
         /// The name of the trigger to start.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -20685,6 +21325,7 @@ extension Glue {
         /// The name of the trigger that was started.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -20700,6 +21341,7 @@ extension Glue {
         /// The workflow run properties for the new workflow run.
         public let runProperties: [String: String]?
 
+        @inlinable
         public init(name: String, runProperties: [String: String]? = nil) {
             self.name = name
             self.runProperties = runProperties
@@ -20726,6 +21368,7 @@ extension Glue {
         /// An Id for the new run.
         public let runId: String?
 
+        @inlinable
         public init(runId: String? = nil) {
             self.runId = runId
         }
@@ -20741,6 +21384,7 @@ extension Glue {
         /// Duration of the batch window in seconds.
         public let batchWindow: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, batchWindow: Int? = nil) {
             self.batchSize = batchSize
             self.batchWindow = batchWindow
@@ -20768,6 +21412,7 @@ extension Glue {
         /// The state while request is actioned.
         public let state: StatementState?
 
+        @inlinable
         public init(code: String? = nil, completedOn: Int64? = nil, id: Int? = nil, output: StatementOutput? = nil, progress: Double? = nil, startedOn: Int64? = nil, state: StatementState? = nil) {
             self.code = code
             self.completedOn = completedOn
@@ -20803,6 +21448,7 @@ extension Glue {
         /// The traceback of the output.
         public let traceback: [String]?
 
+        @inlinable
         public init(data: StatementOutputData? = nil, errorName: String? = nil, errorValue: String? = nil, executionCount: Int? = nil, status: StatementState? = nil, traceback: [String]? = nil) {
             self.data = data
             self.errorName = errorName
@@ -20826,6 +21472,7 @@ extension Glue {
         /// The code execution output in text format.
         public let textPlain: String?
 
+        @inlinable
         public init(textPlain: String? = nil) {
             self.textPlain = textPlain
         }
@@ -20845,6 +21492,7 @@ extension Glue {
         /// The timestamp when the annotated statistic was recorded.
         public let statisticRecordedOn: Date?
 
+        @inlinable
         public init(inclusionAnnotation: TimestampedInclusionAnnotation? = nil, profileId: String? = nil, statisticId: String? = nil, statisticRecordedOn: Date? = nil) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
@@ -20874,6 +21522,7 @@ extension Glue {
         /// The upper bound.
         public let upperBound: Double?
 
+        @inlinable
         public init(actualValue: Double? = nil, date: Date? = nil, inclusionAnnotation: InclusionAnnotationValue? = nil, lowerBound: Double? = nil, predictedValue: Double? = nil, upperBound: Double? = nil) {
             self.actualValue = actualValue
             self.date = date
@@ -20917,6 +21566,7 @@ extension Glue {
         /// A StatisticPropertiesMap, which contains a NameString and DescriptionString
         public let statisticProperties: [String: String]?
 
+        @inlinable
         public init(columnsReferenced: [String]? = nil, doubleValue: Double? = nil, evaluationLevel: StatisticEvaluationLevel? = nil, inclusionAnnotation: TimestampedInclusionAnnotation? = nil, profileId: String? = nil, recordedOn: Date? = nil, referencedDatasets: [String]? = nil, runIdentifier: RunIdentifier? = nil, statisticId: String? = nil, statisticName: String? = nil, statisticProperties: [String: String]? = nil) {
             self.columnsReferenced = columnsReferenced
             self.doubleValue = doubleValue
@@ -20952,6 +21602,7 @@ extension Glue {
         /// A list of ViewValidation objects that contain information for an analytical engine to validate a view.
         public let viewValidations: [ViewValidation]?
 
+        @inlinable
         public init(requestedChange: Table? = nil, viewValidations: [ViewValidation]? = nil) {
             self.requestedChange = requestedChange
             self.viewValidations = viewValidations
@@ -20969,6 +21620,7 @@ extension Glue {
         /// The name of the table.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -20994,6 +21646,7 @@ extension Glue {
         /// Name of the crawler to stop.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -21017,6 +21670,7 @@ extension Glue {
         /// Name of the crawler whose schedule state to set.
         public let crawlerName: String
 
+        @inlinable
         public init(crawlerName: String) {
             self.crawlerName = crawlerName
         }
@@ -21042,6 +21696,7 @@ extension Glue {
         /// The origin of the request.
         public let requestOrigin: String?
 
+        @inlinable
         public init(id: String, requestOrigin: String? = nil) {
             self.id = id
             self.requestOrigin = requestOrigin
@@ -21066,6 +21721,7 @@ extension Glue {
         /// Returns the Id of the stopped session.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -21079,6 +21735,7 @@ extension Glue {
         /// The name of the trigger to stop.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -21098,6 +21755,7 @@ extension Glue {
         /// The name of the trigger that was stopped.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -21113,6 +21771,7 @@ extension Glue {
         /// The ID of the workflow run to stop.
         public let runId: String
 
+        @inlinable
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
@@ -21167,6 +21826,7 @@ extension Glue {
         ///  True if the table data is stored in subdirectories, or False if not.
         public let storedAsSubDirectories: Bool?
 
+        @inlinable
         public init(additionalLocations: [String]? = nil, bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, schemaReference: SchemaReference? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
             self.additionalLocations = additionalLocations
             self.bucketColumns = bucketColumns
@@ -21241,6 +21901,7 @@ extension Glue {
         /// The limit to the number of records polled.
         public let recordPollingLimit: Int64?
 
+        @inlinable
         public init(pollingTime: Int64? = nil, recordPollingLimit: Int64? = nil) {
             self.pollingTime = pollingTime
             self.recordPollingLimit = recordPollingLimit
@@ -21267,6 +21928,7 @@ extension Glue {
         /// The number of null values in the column.
         public let numberOfNulls: Int64
 
+        @inlinable
         public init(averageLength: Double, maximumLength: Int64, numberOfDistinctValues: Int64, numberOfNulls: Int64) {
             self.averageLength = averageLength
             self.maximumLength = maximumLength
@@ -21295,6 +21957,7 @@ extension Glue {
         /// The version of the dialect of the query engine. For example, 3.0.0.
         public let dialectVersion: String?
 
+        @inlinable
         public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
@@ -21360,6 +22023,7 @@ extension Glue {
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public let viewOriginalText: String?
 
+        @inlinable
         public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
@@ -21421,6 +22085,7 @@ extension Glue {
         /// The name of the table. For Hive compatibility, this must be entirely lowercase.
         public let tableName: String?
 
+        @inlinable
         public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil) {
             self.errorDetail = errorDetail
             self.tableName = tableName
@@ -21442,6 +22107,7 @@ extension Glue {
         /// Region of the target table.
         public let region: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String? = nil, name: String? = nil, region: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -21502,6 +22168,7 @@ extension Glue {
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public let viewOriginalText: String?
 
+        @inlinable
         public init(description: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, viewDefinition: ViewDefinitionInput? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.description = description
             self.lastAccessTime = lastAccessTime
@@ -21572,6 +22239,7 @@ extension Glue {
         /// The type of table optimizer. The valid values are:    compaction: for managing compaction with a table optimizer.    retention: for managing the retention of snapshot with a table optimizer.    orphan_file_deletion: for managing the deletion of orphan files with a table optimizer.
         public let type: TableOptimizerType?
 
+        @inlinable
         public init(configuration: TableOptimizerConfiguration? = nil, lastRun: TableOptimizerRun? = nil, type: TableOptimizerType? = nil) {
             self.configuration = configuration
             self.lastRun = lastRun
@@ -21595,6 +22263,7 @@ extension Glue {
         /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
         public let roleArn: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, orphanFileDeletionConfiguration: OrphanFileDeletionConfiguration? = nil, retentionConfiguration: RetentionConfiguration? = nil, roleArn: String? = nil) {
             self.enabled = enabled
             self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
@@ -21633,6 +22302,7 @@ extension Glue {
         /// Represents the epoch timestamp at which the compaction job was started within Lake Formation.
         public let startTimestamp: Date?
 
+        @inlinable
         public init(compactionMetrics: CompactionMetrics? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
             self.compactionMetrics = compactionMetrics
             self.endTimestamp = endTimestamp
@@ -21645,6 +22315,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members metrics have been deprecated")
+        @inlinable
         public init(compactionMetrics: CompactionMetrics? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, metrics: RunMetrics? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
             self.compactionMetrics = compactionMetrics
             self.endTimestamp = endTimestamp
@@ -21686,6 +22357,7 @@ extension Glue {
         /// An ISO 8601 formatted date string indicating the time that the state was last updated.
         public let updateTime: Date?
 
+        @inlinable
         public init(action: ResourceAction? = nil, details: StatusDetails? = nil, error: ErrorDetail? = nil, requestedBy: String? = nil, requestTime: Date? = nil, state: ResourceState? = nil, updatedBy: String? = nil, updateTime: Date? = nil) {
             self.action = action
             self.details = details
@@ -21715,6 +22387,7 @@ extension Glue {
         /// The ID value that identifies this table version. A VersionId is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
 
+        @inlinable
         public init(table: Table? = nil, versionId: String? = nil) {
             self.table = table
             self.versionId = versionId
@@ -21734,6 +22407,7 @@ extension Glue {
         /// The ID value of the version in question. A VersionID is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
 
+        @inlinable
         public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil, versionId: String? = nil) {
             self.errorDetail = errorDetail
             self.tableName = tableName
@@ -21753,6 +22427,7 @@ extension Glue {
         /// Tags to add to this resource.
         public let tagsToAdd: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tagsToAdd: [String: String]) {
             self.resourceArn = resourceArn
             self.tagsToAdd = tagsToAdd
@@ -21802,6 +22477,7 @@ extension Glue {
         /// The unique identifier for the transform.
         public let transformId: String?
 
+        @inlinable
         public init(completedOn: Date? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
             self.completedOn = completedOn
             self.errorString = errorString
@@ -21839,6 +22515,7 @@ extension Glue {
         /// The type of task run.
         public let taskRunType: TaskType?
 
+        @inlinable
         public init(startedAfter: Date? = nil, startedBefore: Date? = nil, status: TaskStatusType? = nil, taskRunType: TaskType? = nil) {
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
@@ -21866,6 +22543,7 @@ extension Glue {
         /// The type of task run.
         public let taskType: TaskType?
 
+        @inlinable
         public init(exportLabelsTaskRunProperties: ExportLabelsTaskRunProperties? = nil, findMatchesTaskRunProperties: FindMatchesTaskRunProperties? = nil, importLabelsTaskRunProperties: ImportLabelsTaskRunProperties? = nil, labelingSetGenerationTaskRunProperties: LabelingSetGenerationTaskRunProperties? = nil, taskType: TaskType? = nil) {
             self.exportLabelsTaskRunProperties = exportLabelsTaskRunProperties
             self.findMatchesTaskRunProperties = findMatchesTaskRunProperties
@@ -21889,6 +22567,7 @@ extension Glue {
         /// The sort direction to be used to sort the list of task runs for the machine learning transform.
         public let sortDirection: SortDirectionType
 
+        @inlinable
         public init(column: TaskRunSortColumnType, sortDirection: SortDirectionType) {
             self.column = column
             self.sortDirection = sortDirection
@@ -21906,6 +22585,7 @@ extension Glue {
         /// The timestamp before which statistics should be included in the results.
         public let recordedBefore: Date?
 
+        @inlinable
         public init(recordedAfter: Date? = nil, recordedBefore: Date? = nil) {
             self.recordedAfter = recordedAfter
             self.recordedBefore = recordedBefore
@@ -21923,6 +22603,7 @@ extension Glue {
         /// The inclusion annotation value.
         public let value: InclusionAnnotationValue?
 
+        @inlinable
         public init(lastModifiedOn: Date? = nil, value: InclusionAnnotationValue? = nil) {
             self.lastModifiedOn = lastModifiedOn
             self.value = value
@@ -21950,6 +22631,7 @@ extension Glue {
         /// Specifies the value of the parameter in the config file of the dynamic transform.
         public let value: [String]?
 
+        @inlinable
         public init(isOptional: Bool? = nil, listType: ParamType? = nil, name: String, type: ParamType, validationMessage: String? = nil, validationRule: String? = nil, value: [String]? = nil) {
             self.isOptional = isOptional
             self.listType = listType
@@ -21986,6 +22668,7 @@ extension Glue {
         /// The name of the security configuration.
         public let taskRunSecurityConfigurationName: String?
 
+        @inlinable
         public init(mlUserDataEncryption: MLUserDataEncryption? = nil, taskRunSecurityConfigurationName: String? = nil) {
             self.mlUserDataEncryption = mlUserDataEncryption
             self.taskRunSecurityConfigurationName = taskRunSecurityConfigurationName
@@ -22024,6 +22707,7 @@ extension Glue {
         /// The type of machine learning transform that is used to filter the machine learning transforms.
         public let transformType: TransformType?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, glueVersion: String? = nil, lastModifiedAfter: Date? = nil, lastModifiedBefore: Date? = nil, name: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, transformType: TransformType? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -22068,6 +22752,7 @@ extension Glue {
         /// The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms.
         public let transformType: TransformType
 
+        @inlinable
         public init(findMatchesParameters: FindMatchesParameters? = nil, transformType: TransformType) {
             self.findMatchesParameters = findMatchesParameters
             self.transformType = transformType
@@ -22089,6 +22774,7 @@ extension Glue {
         /// The sort direction to be used in the sorting criteria that are associated with the machine learning transform.
         public let sortDirection: SortDirectionType
 
+        @inlinable
         public init(column: TransformSortColumnType, sortDirection: SortDirectionType) {
             self.column = column
             self.sortDirection = sortDirection
@@ -22122,6 +22808,7 @@ extension Glue {
         /// The name of the workflow associated with the trigger.
         public let workflowName: String?
 
+        @inlinable
         public init(actions: [Action]? = nil, description: String? = nil, eventBatchingCondition: EventBatchingCondition? = nil, id: String? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil, state: TriggerState? = nil, type: TriggerType? = nil, workflowName: String? = nil) {
             self.actions = actions
             self.description = description
@@ -22153,6 +22840,7 @@ extension Glue {
         /// The information of the trigger represented by the trigger node.
         public let trigger: Trigger?
 
+        @inlinable
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
         }
@@ -22176,6 +22864,7 @@ extension Glue {
         /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let schedule: String?
 
+        @inlinable
         public init(actions: [Action]? = nil, description: String? = nil, eventBatchingCondition: EventBatchingCondition? = nil, name: String? = nil, predicate: Predicate? = nil, schedule: String? = nil) {
             self.actions = actions
             self.description = description
@@ -22216,6 +22905,7 @@ extension Glue {
         /// The partition object.
         public let partition: Partition?
 
+        @inlinable
         public init(authorizedColumns: [String]? = nil, isRegisteredWithLakeFormation: Bool? = nil, partition: Partition? = nil) {
             self.authorizedColumns = authorizedColumns
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
@@ -22237,6 +22927,7 @@ extension Glue {
         /// Indicates the type of Union transform.  Specify ALL to join all rows from data sources to the resulting DynamicFrame. The resulting union does not remove duplicate rows. Specify DISTINCT to remove duplicate rows in the resulting DynamicFrame.
         public let unionType: UnionType
 
+        @inlinable
         public init(inputs: [String], name: String, unionType: UnionType) {
             self.inputs = inputs
             self.name = name
@@ -22265,6 +22956,7 @@ extension Glue {
         /// Tags to remove from this resource.
         public let tagsToRemove: [String]
 
+        @inlinable
         public init(resourceArn: String, tagsToRemove: [String]) {
             self.resourceArn = resourceArn
             self.tagsToRemove = tagsToRemove
@@ -22299,6 +22991,7 @@ extension Glue {
         /// The name of the blueprint.
         public let name: String
 
+        @inlinable
         public init(blueprintLocation: String, description: String? = nil, name: String) {
             self.blueprintLocation = blueprintLocation
             self.description = description
@@ -22327,6 +23020,7 @@ extension Glue {
         /// Returns the name of the blueprint that was updated.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -22346,6 +23040,7 @@ extension Glue {
         /// An XMLClassifier object with updated fields.
         public let xmlClassifier: UpdateXMLClassifierRequest?
 
+        @inlinable
         public init(csvClassifier: UpdateCsvClassifierRequest? = nil, grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xmlClassifier: UpdateXMLClassifierRequest? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
@@ -22384,6 +23079,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnStatisticsList: [ColumnStatistics], databaseName: String, partitionValues: [String], tableName: String) {
             self.catalogId = catalogId
             self.columnStatisticsList = columnStatisticsList
@@ -22424,6 +23120,7 @@ extension Glue {
         /// Error occurred during updating column statistics data.
         public let errors: [ColumnStatisticsError]?
 
+        @inlinable
         public init(errors: [ColumnStatisticsError]? = nil) {
             self.errors = errors
         }
@@ -22443,6 +23140,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnStatisticsList: [ColumnStatistics], databaseName: String, tableName: String) {
             self.catalogId = catalogId
             self.columnStatisticsList = columnStatisticsList
@@ -22478,6 +23176,7 @@ extension Glue {
         /// List of ColumnStatisticsErrors.
         public let errors: [ColumnStatisticsError]?
 
+        @inlinable
         public init(errors: [ColumnStatisticsError]? = nil) {
             self.errors = errors
         }
@@ -22495,6 +23194,7 @@ extension Glue {
         /// The name of the connection definition to update.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, connectionInput: ConnectionInput, name: String) {
             self.catalogId = catalogId
             self.connectionInput = connectionInput
@@ -22552,6 +23252,7 @@ extension Glue {
         /// A list of targets to crawl.
         public let targets: CrawlerTargets?
 
+        @inlinable
         public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
@@ -22614,6 +23315,7 @@ extension Glue {
         /// The updated cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let schedule: String?
 
+        @inlinable
         public init(crawlerName: String, schedule: String? = nil) {
             self.crawlerName = crawlerName
             self.schedule = schedule
@@ -22657,6 +23359,7 @@ extension Glue {
         /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
         public let serde: CsvSerdeOption?
 
+        @inlinable
         public init(allowSingleColumn: Bool? = nil, containsHeader: CsvHeaderOption? = nil, customDatatypeConfigured: Bool? = nil, customDatatypes: [String]? = nil, delimiter: String? = nil, disableValueTrimming: Bool? = nil, header: [String]? = nil, name: String, quoteSymbol: String? = nil, serde: CsvSerdeOption? = nil) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
@@ -22714,6 +23417,7 @@ extension Glue {
         /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
         public let ruleset: String?
 
+        @inlinable
         public init(description: String? = nil, name: String, ruleset: String? = nil) {
             self.description = description
             self.name = name
@@ -22745,6 +23449,7 @@ extension Glue {
         /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
         public let ruleset: String?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, ruleset: String? = nil) {
             self.description = description
             self.name = name
@@ -22766,6 +23471,7 @@ extension Glue {
         /// The name of the database to update in the catalog. For Hive compatibility, this is folded to lowercase.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseInput: DatabaseInput, name: String) {
             self.catalogId = catalogId
             self.databaseInput = databaseInput
@@ -22811,6 +23517,7 @@ extension Glue {
         ///  True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False if otherwise.
         public let updateEtlLibraries: Bool?
 
+        @inlinable
         public init(addArguments: [String: String]? = nil, addPublicKeys: [String]? = nil, customLibraries: DevEndpointCustomLibraries? = nil, deleteArguments: [String]? = nil, deletePublicKeys: [String]? = nil, endpointName: String, publicKey: String? = nil, updateEtlLibraries: Bool? = nil) {
             self.addArguments = addArguments
             self.addPublicKeys = addPublicKeys
@@ -22854,6 +23561,7 @@ extension Glue {
         /// The name of the GrokClassifier.
         public let name: String
 
+        @inlinable
         public init(classification: String? = nil, customPatterns: String? = nil, grokPattern: String? = nil, name: String) {
             self.classification = classification
             self.customPatterns = customPatterns
@@ -22900,6 +23608,7 @@ extension Glue {
         /// The owner of the remote repository that contains the job artifacts.
         public let repositoryOwner: String?
 
+        @inlinable
         public init(authStrategy: SourceControlAuthStrategy? = nil, authToken: String? = nil, branchName: String? = nil, commitId: String? = nil, folder: String? = nil, jobName: String? = nil, provider: SourceControlProvider? = nil, repositoryName: String? = nil, repositoryOwner: String? = nil) {
             self.authStrategy = authStrategy
             self.authToken = authToken
@@ -22953,6 +23662,7 @@ extension Glue {
         /// The name of the Glue job.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -22968,6 +23678,7 @@ extension Glue {
         /// Specifies the values with which to update the job definition. Unspecified configuration is removed or reset to default values.
         public let jobUpdate: JobUpdate
 
+        @inlinable
         public init(jobName: String, jobUpdate: JobUpdate) {
             self.jobName = jobName
             self.jobUpdate = jobUpdate
@@ -22990,6 +23701,7 @@ extension Glue {
         /// Returns the name of the updated job definition.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -23005,6 +23717,7 @@ extension Glue {
         /// The name of the classifier.
         public let name: String
 
+        @inlinable
         public init(jsonPath: String? = nil, name: String) {
             self.jsonPath = jsonPath
             self.name = name
@@ -23046,6 +23759,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
+        @inlinable
         public init(description: String? = nil, glueVersion: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, timeout: Int? = nil, transformId: String, workerType: WorkerType? = nil) {
             self.description = description
             self.glueVersion = glueVersion
@@ -23095,6 +23809,7 @@ extension Glue {
         /// The unique identifier for the transform that was updated.
         public let transformId: String?
 
+        @inlinable
         public init(transformId: String? = nil) {
             self.transformId = transformId
         }
@@ -23116,6 +23831,7 @@ extension Glue {
         /// The name of the table in which the partition to be updated is located.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, partitionValueList: [String], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -23160,6 +23876,7 @@ extension Glue {
         /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
         public let registryId: RegistryId
 
+        @inlinable
         public init(description: String, registryId: RegistryId) {
             self.description = description
             self.registryId = registryId
@@ -23183,6 +23900,7 @@ extension Glue {
         /// The name of the updated registry.
         public let registryName: String?
 
+        @inlinable
         public init(registryArn: String? = nil, registryName: String? = nil) {
             self.registryArn = registryArn
             self.registryName = registryName
@@ -23204,6 +23922,7 @@ extension Glue {
         /// Version number required for check pointing. One of VersionNumber or Compatibility has to be provided.
         public let schemaVersionNumber: SchemaVersionNumber?
 
+        @inlinable
         public init(compatibility: Compatibility? = nil, description: String? = nil, schemaId: SchemaId, schemaVersionNumber: SchemaVersionNumber? = nil) {
             self.compatibility = compatibility
             self.description = description
@@ -23234,6 +23953,7 @@ extension Glue {
         /// The name of the schema.
         public let schemaName: String?
 
+        @inlinable
         public init(registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil) {
             self.registryName = registryName
             self.schemaArn = schemaArn
@@ -23267,6 +23987,7 @@ extension Glue {
         /// The owner of the remote repository that contains the job artifacts.
         public let repositoryOwner: String?
 
+        @inlinable
         public init(authStrategy: SourceControlAuthStrategy? = nil, authToken: String? = nil, branchName: String? = nil, commitId: String? = nil, folder: String? = nil, jobName: String? = nil, provider: SourceControlProvider? = nil, repositoryName: String? = nil, repositoryOwner: String? = nil) {
             self.authStrategy = authStrategy
             self.authToken = authToken
@@ -23320,6 +24041,7 @@ extension Glue {
         /// The name of the Glue job.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -23341,6 +24063,7 @@ extension Glue {
         /// The type of table optimizer. Currently, the only valid value is compaction.
         public let type: TableOptimizerType
 
+        @inlinable
         public init(catalogId: String, databaseName: String, tableName: String, tableOptimizerConfiguration: TableOptimizerConfiguration, type: TableOptimizerType) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -23393,6 +24116,7 @@ extension Glue {
         /// The operation to be performed when updating the view.
         public let viewUpdateAction: ViewUpdateAction?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, force: Bool? = nil, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil, versionId: String? = nil, viewUpdateAction: ViewUpdateAction? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -23442,6 +24166,7 @@ extension Glue {
         /// The new values with which to update the trigger.
         public let triggerUpdate: TriggerUpdate
 
+        @inlinable
         public init(name: String, triggerUpdate: TriggerUpdate) {
             self.name = name
             self.triggerUpdate = triggerUpdate
@@ -23464,6 +24189,7 @@ extension Glue {
         /// The resulting trigger definition.
         public let trigger: Trigger?
 
+        @inlinable
         public init(trigger: Trigger? = nil) {
             self.trigger = trigger
         }
@@ -23481,6 +24207,7 @@ extension Glue {
         /// The name of the usage profile.
         public let name: String
 
+        @inlinable
         public init(configuration: ProfileConfiguration, description: String? = nil, name: String) {
             self.configuration = configuration
             self.description = description
@@ -23507,6 +24234,7 @@ extension Glue {
         /// The name of the usage profile that was updated.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -23526,6 +24254,7 @@ extension Glue {
         /// The name of the function.
         public let functionName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, functionInput: UserDefinedFunctionInput, functionName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -23568,6 +24297,7 @@ extension Glue {
         /// Name of the workflow to be updated.
         public let name: String
 
+        @inlinable
         public init(defaultRunProperties: [String: String]? = nil, description: String? = nil, maxConcurrentRuns: Int? = nil, name: String) {
             self.defaultRunProperties = defaultRunProperties
             self.description = description
@@ -23598,6 +24328,7 @@ extension Glue {
         /// The name of the workflow which was specified in input.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -23615,6 +24346,7 @@ extension Glue {
         /// The XML tag designating the element that contains each record in an XML document being parsed. This cannot identify a self-closing element (closed by />). An empty row element that contains only attributes can be parsed as long as it ends with a closing tag (for example,  is okay, but is not).
         public let rowTag: String?
 
+        @inlinable
         public init(classification: String? = nil, name: String, rowTag: String? = nil) {
             self.classification = classification
             self.name = name
@@ -23642,6 +24374,7 @@ extension Glue {
         /// The keys used to determine whether to perform an update or insert.
         public let upsertKeys: [String]?
 
+        @inlinable
         public init(connectionName: String? = nil, tableLocation: String? = nil, upsertKeys: [String]? = nil) {
             self.connectionName = connectionName
             self.tableLocation = tableLocation
@@ -23673,6 +24406,7 @@ extension Glue {
         /// The name of the usage profile.
         public let name: String?
 
+        @inlinable
         public init(createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil) {
             self.createdOn = createdOn
             self.description = description
@@ -23706,6 +24440,7 @@ extension Glue {
         /// The resource URIs for the function.
         public let resourceUris: [ResourceUri]?
 
+        @inlinable
         public init(catalogId: String? = nil, className: String? = nil, createTime: Date? = nil, databaseName: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.catalogId = catalogId
             self.className = className
@@ -23741,6 +24476,7 @@ extension Glue {
         /// The resource URIs for the function.
         public let resourceUris: [ResourceUri]?
 
+        @inlinable
         public init(className: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.className = className
             self.functionName = functionName
@@ -23784,6 +24520,7 @@ extension Glue {
         /// A list of table Amazon Resource Names (ARNs).
         public let subObjects: [String]?
 
+        @inlinable
         public init(definer: String? = nil, isProtected: Bool? = nil, representations: [ViewRepresentation]? = nil, subObjects: [String]? = nil) {
             self.definer = definer
             self.isProtected = isProtected
@@ -23809,6 +24546,7 @@ extension Glue {
         /// A list of base table ARNs that make up the view.
         public let subObjects: [String]?
 
+        @inlinable
         public init(definer: String? = nil, isProtected: Bool? = nil, representations: [ViewRepresentationInput]? = nil, subObjects: [String]? = nil) {
             self.definer = definer
             self.isProtected = isProtected
@@ -23853,6 +24591,7 @@ extension Glue {
         /// The SELECT query provided by the customer during CREATE VIEW DDL. This SQL is not used during a query on a view (ViewExpandedText is used instead). ViewOriginalText is used for cases like SHOW CREATE VIEW where users want to see the original DDL command that created the view.
         public let viewOriginalText: String?
 
+        @inlinable
         public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, isStale: Bool? = nil, validationConnection: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
@@ -23884,6 +24623,7 @@ extension Glue {
         /// A string that represents the original SQL query that describes the view.
         public let viewOriginalText: String?
 
+        @inlinable
         public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, validationConnection: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
@@ -23925,6 +24665,7 @@ extension Glue {
         /// The SELECT query that defines the view, as provided by the customer.
         public let viewValidationText: String?
 
+        @inlinable
         public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, error: ErrorDetail? = nil, state: ResourceState? = nil, updateTime: Date? = nil, viewValidationText: String? = nil) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
@@ -23964,6 +24705,7 @@ extension Glue {
         /// The name of the workflow.
         public let name: String?
 
+        @inlinable
         public init(blueprintDetails: BlueprintDetails? = nil, createdOn: Date? = nil, defaultRunProperties: [String: String]? = nil, description: String? = nil, graph: WorkflowGraph? = nil, lastModifiedOn: Date? = nil, lastRun: WorkflowRun? = nil, maxConcurrentRuns: Int? = nil, name: String? = nil) {
             self.blueprintDetails = blueprintDetails
             self.createdOn = createdOn
@@ -23995,6 +24737,7 @@ extension Glue {
         /// A list of the the Glue components belong to the workflow represented as nodes.
         public let nodes: [Node]?
 
+        @inlinable
         public init(edges: [Edge]? = nil, nodes: [Node]? = nil) {
             self.edges = edges
             self.nodes = nodes
@@ -24030,6 +24773,7 @@ extension Glue {
         /// The workflow run properties which were set during the run.
         public let workflowRunProperties: [String: String]?
 
+        @inlinable
         public init(completedOn: Date? = nil, errorMessage: String? = nil, graph: WorkflowGraph? = nil, name: String? = nil, previousRunId: String? = nil, startedOn: Date? = nil, startingEventBatchCondition: StartingEventBatchCondition? = nil, statistics: WorkflowRunStatistics? = nil, status: WorkflowRunStatus? = nil, workflowRunId: String? = nil, workflowRunProperties: [String: String]? = nil) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
@@ -24077,6 +24821,7 @@ extension Glue {
         /// Indicates the count of job runs in WAITING state in the workflow run.
         public let waitingActions: Int?
 
+        @inlinable
         public init(erroredActions: Int? = nil, failedActions: Int? = nil, runningActions: Int? = nil, stoppedActions: Int? = nil, succeededActions: Int? = nil, timeoutActions: Int? = nil, totalActions: Int? = nil, waitingActions: Int? = nil) {
             self.erroredActions = erroredActions
             self.failedActions = failedActions
@@ -24114,6 +24859,7 @@ extension Glue {
         /// The version of this classifier.
         public let version: Int64?
 
+        @inlinable
         public init(classification: String, creationTime: Date? = nil, lastUpdated: Date? = nil, name: String, rowTag: String? = nil, version: Int64? = nil) {
             self.classification = classification
             self.creationTime = creationTime

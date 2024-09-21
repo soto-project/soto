@@ -38,6 +38,7 @@ extension ElasticLoadBalancing {
         /// The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod.   If the prefix is not provided, the log is placed at the root level of the bucket.
         public let s3BucketPrefix: String?
 
+        @inlinable
         public init(emitInterval: Int? = nil, enabled: Bool, s3BucketName: String? = nil, s3BucketPrefix: String? = nil) {
             self.emitInterval = emitInterval
             self.enabled = enabled
@@ -60,6 +61,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(availabilityZones: [String], loadBalancerName: String) {
             self.availabilityZones = availabilityZones
             self.loadBalancerName = loadBalancerName
@@ -76,6 +78,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
         }
@@ -93,6 +96,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(loadBalancerNames: [String], tags: [Tag]) {
             self.loadBalancerNames = loadBalancerNames
             self.tags = tags
@@ -121,6 +125,7 @@ extension ElasticLoadBalancing {
         /// This value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -145,6 +150,7 @@ extension ElasticLoadBalancing {
         /// The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
         public let policyName: String?
 
+        @inlinable
         public init(cookieName: String? = nil, policyName: String? = nil) {
             self.cookieName = cookieName
             self.policyName = policyName
@@ -163,6 +169,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]
 
+        @inlinable
         public init(loadBalancerName: String, securityGroups: [String]) {
             self.loadBalancerName = loadBalancerName
             self.securityGroups = securityGroups
@@ -179,6 +186,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
 
+        @inlinable
         public init(securityGroups: [String]? = nil) {
             self.securityGroups = securityGroups
         }
@@ -195,6 +203,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]
 
+        @inlinable
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
             self.subnets = subnets
@@ -211,6 +220,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
 
+        @inlinable
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
         }
@@ -227,6 +237,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]?
 
+        @inlinable
         public init(instancePort: Int? = nil, policyNames: [String]? = nil) {
             self.instancePort = instancePort
             self.policyNames = policyNames
@@ -244,6 +255,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(healthCheck: HealthCheck, loadBalancerName: String) {
             self.healthCheck = healthCheck
             self.loadBalancerName = loadBalancerName
@@ -263,6 +275,7 @@ extension ElasticLoadBalancing {
         /// The updated health check.
         public let healthCheck: HealthCheck?
 
+        @inlinable
         public init(healthCheck: HealthCheck? = nil) {
             self.healthCheck = healthCheck
         }
@@ -278,6 +291,7 @@ extension ElasticLoadBalancing {
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
         public let timeout: Int?
 
+        @inlinable
         public init(enabled: Bool, timeout: Int? = nil) {
             self.enabled = enabled
             self.timeout = timeout
@@ -293,6 +307,7 @@ extension ElasticLoadBalancing {
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int
 
+        @inlinable
         public init(idleTimeout: Int) {
             self.idleTimeout = idleTimeout
         }
@@ -328,6 +343,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, listeners: [Listener], loadBalancerName: String, scheme: String? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.listeners = listeners
@@ -363,6 +379,7 @@ extension ElasticLoadBalancing {
         /// The DNS name of the load balancer.
         public let dnsName: String?
 
+        @inlinable
         public init(dnsName: String? = nil) {
             self.dnsName = dnsName
         }
@@ -380,6 +397,7 @@ extension ElasticLoadBalancing {
         /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
         public let policyName: String
 
+        @inlinable
         public init(cookieName: String, loadBalancerName: String, policyName: String) {
             self.cookieName = cookieName
             self.loadBalancerName = loadBalancerName
@@ -405,6 +423,7 @@ extension ElasticLoadBalancing {
         /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
         public let policyName: String
 
+        @inlinable
         public init(cookieExpirationPeriod: Int64? = nil, loadBalancerName: String, policyName: String) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.loadBalancerName = loadBalancerName
@@ -429,6 +448,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(listeners: [Listener], loadBalancerName: String) {
             self.listeners = listeners
             self.loadBalancerName = loadBalancerName
@@ -461,6 +481,7 @@ extension ElasticLoadBalancing {
         /// The name of the base policy type. 	   To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
         public let policyTypeName: String
 
+        @inlinable
         public init(loadBalancerName: String, policyAttributes: [PolicyAttribute]? = nil, policyName: String, policyTypeName: String) {
             self.loadBalancerName = loadBalancerName
             self.policyAttributes = policyAttributes
@@ -484,6 +505,7 @@ extension ElasticLoadBalancing {
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -497,6 +519,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -517,6 +540,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<Int>>
         public var loadBalancerPorts: [Int]
 
+        @inlinable
         public init(loadBalancerName: String, loadBalancerPorts: [Int]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPorts = loadBalancerPorts
@@ -538,6 +562,7 @@ extension ElasticLoadBalancing {
         /// The name of the policy.
         public let policyName: String
 
+        @inlinable
         public init(loadBalancerName: String, policyName: String) {
             self.loadBalancerName = loadBalancerName
             self.policyName = policyName
@@ -560,6 +585,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(instances: [Instance], loadBalancerName: String) {
             self.instances = instances
             self.loadBalancerName = loadBalancerName
@@ -576,6 +602,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<Instance>>
         public var instances: [Instance]?
 
+        @inlinable
         public init(instances: [Instance]? = nil) {
             self.instances = instances
         }
@@ -594,6 +621,7 @@ extension ElasticLoadBalancing {
         /// The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
         public let pageSize: Int?
 
+        @inlinable
         public init(loadBalancerNames: [String]? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.loadBalancerNames = loadBalancerNames
             self.marker = marker
@@ -619,6 +647,7 @@ extension ElasticLoadBalancing {
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
 
+        @inlinable
         public init(loadBalancerDescriptions: [LoadBalancerDescription]? = nil, nextMarker: String? = nil) {
             self.loadBalancerDescriptions = loadBalancerDescriptions
             self.nextMarker = nextMarker
@@ -636,6 +665,7 @@ extension ElasticLoadBalancing {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -659,6 +689,7 @@ extension ElasticLoadBalancing {
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
 
+        @inlinable
         public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
             self.limits = limits
             self.nextMarker = nextMarker
@@ -677,6 +708,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(instances: [Instance]? = nil, loadBalancerName: String) {
             self.instances = instances
             self.loadBalancerName = loadBalancerName
@@ -693,6 +725,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<InstanceState>>
         public var instanceStates: [InstanceState]?
 
+        @inlinable
         public init(instanceStates: [InstanceState]? = nil) {
             self.instanceStates = instanceStates
         }
@@ -706,6 +739,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(loadBalancerName: String) {
             self.loadBalancerName = loadBalancerName
         }
@@ -719,6 +753,7 @@ extension ElasticLoadBalancing {
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
 
+        @inlinable
         public init(loadBalancerAttributes: LoadBalancerAttributes? = nil) {
             self.loadBalancerAttributes = loadBalancerAttributes
         }
@@ -735,6 +770,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]?
 
+        @inlinable
         public init(loadBalancerName: String? = nil, policyNames: [String]? = nil) {
             self.loadBalancerName = loadBalancerName
             self.policyNames = policyNames
@@ -751,6 +787,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<PolicyDescription>>
         public var policyDescriptions: [PolicyDescription]?
 
+        @inlinable
         public init(policyDescriptions: [PolicyDescription]? = nil) {
             self.policyDescriptions = policyDescriptions
         }
@@ -765,6 +802,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyTypeNames: [String]?
 
+        @inlinable
         public init(policyTypeNames: [String]? = nil) {
             self.policyTypeNames = policyTypeNames
         }
@@ -779,6 +817,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<PolicyTypeDescription>>
         public var policyTypeDescriptions: [PolicyTypeDescription]?
 
+        @inlinable
         public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
             self.policyTypeDescriptions = policyTypeDescriptions
         }
@@ -793,6 +832,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]
 
+        @inlinable
         public init(loadBalancerNames: [String]) {
             self.loadBalancerNames = loadBalancerNames
         }
@@ -812,6 +852,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<TagDescription>>
         public var tagDescriptions: [TagDescription]?
 
+        @inlinable
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
         }
@@ -828,6 +869,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]
 
+        @inlinable
         public init(loadBalancerName: String, subnets: [String]) {
             self.loadBalancerName = loadBalancerName
             self.subnets = subnets
@@ -844,6 +886,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
 
+        @inlinable
         public init(subnets: [String]? = nil) {
             self.subnets = subnets
         }
@@ -865,6 +908,7 @@ extension ElasticLoadBalancing {
         /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
         public let unhealthyThreshold: Int
 
+        @inlinable
         public init(healthyThreshold: Int, interval: Int, target: String, timeout: Int, unhealthyThreshold: Int) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
@@ -897,6 +941,7 @@ extension ElasticLoadBalancing {
         /// The instance ID.
         public let instanceId: String?
 
+        @inlinable
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -916,6 +961,7 @@ extension ElasticLoadBalancing {
         /// The current state of the instance. Valid values: InService | OutOfService | Unknown
         public let state: String?
 
+        @inlinable
         public init(description: String? = nil, instanceId: String? = nil, reasonCode: String? = nil, state: String? = nil) {
             self.description = description
             self.instanceId = instanceId
@@ -937,6 +983,7 @@ extension ElasticLoadBalancing {
         /// The name of the policy. This name must be unique within the set of policies for this load balancer.
         public let policyName: String?
 
+        @inlinable
         public init(cookieExpirationPeriod: Int64? = nil, policyName: String? = nil) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.policyName = policyName
@@ -954,6 +1001,7 @@ extension ElasticLoadBalancing {
         /// The name of the limit. The possible values are:   classic-listeners   classic-load-balancers   classic-registered-instances
         public let name: String?
 
+        @inlinable
         public init(max: String? = nil, name: String? = nil) {
             self.max = max
             self.name = name
@@ -977,6 +1025,7 @@ extension ElasticLoadBalancing {
         /// The Amazon Resource Name (ARN) of the server certificate.
         public let sslCertificateId: String?
 
+        @inlinable
         public init(instancePort: Int, instanceProtocol: String? = nil, loadBalancerPort: Int, protocol: String, sslCertificateId: String? = nil) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
@@ -1006,6 +1055,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]?
 
+        @inlinable
         public init(listener: Listener? = nil, policyNames: [String]? = nil) {
             self.listener = listener
             self.policyNames = policyNames
@@ -1030,6 +1080,7 @@ extension ElasticLoadBalancing {
         /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones.  For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide.
         public let crossZoneLoadBalancing: CrossZoneLoadBalancing?
 
+        @inlinable
         public init(accessLog: AccessLog? = nil, additionalAttributes: [AdditionalAttribute]? = nil, connectionDraining: ConnectionDraining? = nil, connectionSettings: ConnectionSettings? = nil, crossZoneLoadBalancing: CrossZoneLoadBalancing? = nil) {
             self.accessLog = accessLog
             self.additionalAttributes = additionalAttributes
@@ -1095,6 +1146,7 @@ extension ElasticLoadBalancing {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, loadBalancerName: String? = nil, policies: Policies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
@@ -1140,6 +1192,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(loadBalancerAttributes: LoadBalancerAttributes, loadBalancerName: String) {
             self.loadBalancerAttributes = loadBalancerAttributes
             self.loadBalancerName = loadBalancerName
@@ -1161,6 +1214,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String?
 
+        @inlinable
         public init(loadBalancerAttributes: LoadBalancerAttributes? = nil, loadBalancerName: String? = nil) {
             self.loadBalancerAttributes = loadBalancerAttributes
             self.loadBalancerName = loadBalancerName
@@ -1183,6 +1237,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var otherPolicies: [String]?
 
+        @inlinable
         public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lbCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
             self.lbCookieStickinessPolicies = lbCookieStickinessPolicies
@@ -1202,6 +1257,7 @@ extension ElasticLoadBalancing {
         /// The value of the attribute.
         public let attributeValue: String?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValue: String? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1219,6 +1275,7 @@ extension ElasticLoadBalancing {
         /// The value of the attribute.
         public let attributeValue: String?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValue: String? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1242,6 +1299,7 @@ extension ElasticLoadBalancing {
         /// A description of the attribute.
         public let description: String?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeType: String? = nil, cardinality: String? = nil, defaultValue: String? = nil, description: String? = nil) {
             self.attributeName = attributeName
             self.attributeType = attributeType
@@ -1268,6 +1326,7 @@ extension ElasticLoadBalancing {
         /// The name of the policy type.
         public let policyTypeName: String?
 
+        @inlinable
         public init(policyAttributeDescriptions: [PolicyAttributeDescription]? = nil, policyName: String? = nil, policyTypeName: String? = nil) {
             self.policyAttributeDescriptions = policyAttributeDescriptions
             self.policyName = policyName
@@ -1290,6 +1349,7 @@ extension ElasticLoadBalancing {
         /// The name of the policy type.
         public let policyTypeName: String?
 
+        @inlinable
         public init(description: String? = nil, policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]? = nil, policyTypeName: String? = nil) {
             self.description = description
             self.policyAttributeTypeDescriptions = policyAttributeTypeDescriptions
@@ -1310,6 +1370,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(instances: [Instance], loadBalancerName: String) {
             self.instances = instances
             self.loadBalancerName = loadBalancerName
@@ -1326,6 +1387,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<Instance>>
         public var instances: [Instance]?
 
+        @inlinable
         public init(instances: [Instance]? = nil) {
             self.instances = instances
         }
@@ -1342,6 +1404,7 @@ extension ElasticLoadBalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String
 
+        @inlinable
         public init(availabilityZones: [String], loadBalancerName: String) {
             self.availabilityZones = availabilityZones
             self.loadBalancerName = loadBalancerName
@@ -1358,6 +1421,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil) {
             self.availabilityZones = availabilityZones
         }
@@ -1375,6 +1439,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<TagKeyOnly>>
         public var tags: [TagKeyOnly]
 
+        @inlinable
         public init(loadBalancerNames: [String], tags: [TagKeyOnly]) {
             self.loadBalancerNames = loadBalancerNames
             self.tags = tags
@@ -1405,6 +1470,7 @@ extension ElasticLoadBalancing {
         /// The Amazon Resource Name (ARN) of the SSL certificate.
         public let sslCertificateId: String
 
+        @inlinable
         public init(loadBalancerName: String, loadBalancerPort: Int = 0, sslCertificateId: String) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
@@ -1431,6 +1497,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(instancePort: Int, loadBalancerName: String, policyNames: [String]) {
             self.instancePort = instancePort
             self.loadBalancerName = loadBalancerName
@@ -1457,6 +1524,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(loadBalancerName: String, loadBalancerPort: Int = 0, policyNames: [String]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
@@ -1480,6 +1548,7 @@ extension ElasticLoadBalancing {
         /// The owner of the security group.
         public let ownerAlias: Int?
 
+        @inlinable
         public init(groupName: String? = nil, ownerAlias: Int? = nil) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
@@ -1497,6 +1566,7 @@ extension ElasticLoadBalancing {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1523,6 +1593,7 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(loadBalancerName: String? = nil, tags: [Tag]? = nil) {
             self.loadBalancerName = loadBalancerName
             self.tags = tags
@@ -1538,6 +1609,7 @@ extension ElasticLoadBalancing {
         /// The name of the key.
         public let key: String?
 
+        @inlinable
         public init(key: String? = nil) {
             self.key = key
         }

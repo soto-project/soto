@@ -151,6 +151,7 @@ extension Inspector {
         /// The ARNs that specify the findings that you want to assign attributes to.
         public let findingArns: [String]
 
+        @inlinable
         public init(attributes: [Attribute], findingArns: [String]) {
             self.attributes = attributes
             self.findingArns = findingArns
@@ -179,6 +180,7 @@ extension Inspector {
         /// Attribute details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
 
+        @inlinable
         public init(failedItems: [String: FailedItemDetails]) {
             self.failedItems = failedItems
         }
@@ -194,6 +196,7 @@ extension Inspector {
         /// The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY.
         public let agentHealths: [AgentHealth]
 
+        @inlinable
         public init(agentHealthCodes: [AgentHealthCode], agentHealths: [AgentHealth]) {
             self.agentHealthCodes = agentHealthCodes
             self.agentHealths = agentHealths
@@ -228,6 +231,7 @@ extension Inspector {
         /// The operating system running on the EC2 instance on which the Amazon Inspector Agent is installed.
         public let operatingSystem: String?
 
+        @inlinable
         public init(agentHealth: AgentHealth? = nil, agentId: String, agentVersion: String? = nil, autoScalingGroup: String? = nil, hostname: String? = nil, ipv4Address: String? = nil, kernelVersion: String? = nil, operatingSystem: String? = nil) {
             self.agentHealth = agentHealth
             self.agentId = agentId
@@ -283,6 +287,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every generated finding.
         public let userAttributesForFindings: [Attribute]
 
+        @inlinable
         public init(arn: String, assessmentTemplateArn: String, completedAt: Date? = nil, createdAt: Date, dataCollected: Bool, durationInSeconds: Int, findingCounts: [Severity: Int], name: String, notifications: [AssessmentRunNotification], rulesPackageArns: [String], startedAt: Date? = nil, state: AssessmentRunState, stateChangedAt: Date, stateChanges: [AssessmentRunStateChange], userAttributesForFindings: [Attribute]) {
             self.arn = arn
             self.assessmentTemplateArn = assessmentTemplateArn
@@ -336,6 +341,7 @@ extension Inspector {
         /// The Amazon Inspector application data metrics that are collected by the agent.
         public let telemetryMetadata: [TelemetryMetadata]
 
+        @inlinable
         public init(agentHealth: AgentHealth, agentHealthCode: AgentHealthCode, agentHealthDetails: String? = nil, agentId: String, assessmentRunArn: String, autoScalingGroup: String? = nil, telemetryMetadata: [TelemetryMetadata]) {
             self.agentHealth = agentHealth
             self.agentHealthCode = agentHealthCode
@@ -373,6 +379,7 @@ extension Inspector {
         /// For a record to match a filter, one of the values specified for this data type property must be the exact match of the value of the assessmentRunState property of the AssessmentRun data type.
         public let states: [AssessmentRunState]?
 
+        @inlinable
         public init(completionTimeRange: TimestampRange? = nil, durationRange: DurationRange? = nil, namePattern: String? = nil, rulesPackageArns: [String]? = nil, startTimeRange: TimestampRange? = nil, stateChangeTimeRange: TimestampRange? = nil, states: [AssessmentRunState]? = nil) {
             self.completionTimeRange = completionTimeRange
             self.durationRange = durationRange
@@ -420,6 +427,7 @@ extension Inspector {
         /// The SNS topic to which the SNS notification is sent.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(date: Date, error: Bool, event: InspectorEvent, message: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, snsTopicArn: String? = nil) {
             self.date = date
             self.error = error
@@ -445,6 +453,7 @@ extension Inspector {
         /// The last time the assessment run state changed.
         public let stateChangedAt: Date
 
+        @inlinable
         public init(state: AssessmentRunState, stateChangedAt: Date) {
             self.state = state
             self.stateChangedAt = stateChangedAt
@@ -468,6 +477,7 @@ extension Inspector {
         /// The time at which UpdateAssessmentTarget is called.
         public let updatedAt: Date
 
+        @inlinable
         public init(arn: String, createdAt: Date, name: String, resourceGroupArn: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
@@ -489,6 +499,7 @@ extension Inspector {
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
         public let assessmentTargetNamePattern: String?
 
+        @inlinable
         public init(assessmentTargetNamePattern: String? = nil) {
             self.assessmentTargetNamePattern = assessmentTargetNamePattern
         }
@@ -523,6 +534,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every generated finding from the assessment run that uses this assessment template.
         public let userAttributesForFindings: [Attribute]
 
+        @inlinable
         public init(arn: String, assessmentRunCount: Int, assessmentTargetArn: String, createdAt: Date, durationInSeconds: Int, lastAssessmentRunArn: String? = nil, name: String, rulesPackageArns: [String], userAttributesForFindings: [Attribute]) {
             self.arn = arn
             self.assessmentRunCount = assessmentRunCount
@@ -556,6 +568,7 @@ extension Inspector {
         /// For a record to match a filter, the values that are specified for this data type property must be contained in the list of values of the rulesPackageArns property of the AssessmentTemplate data type.
         public let rulesPackageArns: [String]?
 
+        @inlinable
         public init(durationRange: DurationRange? = nil, namePattern: String? = nil, rulesPackageArns: [String]? = nil) {
             self.durationRange = durationRange
             self.namePattern = namePattern
@@ -598,6 +611,7 @@ extension Inspector {
         /// The tags related to the EC2 instance where the finding is generated.
         public let tags: [Tag]?
 
+        @inlinable
         public init(agentId: String? = nil, amiId: String? = nil, autoScalingGroup: String? = nil, hostname: String? = nil, ipv4Addresses: [String]? = nil, networkInterfaces: [NetworkInterface]? = nil, schemaVersion: Int, tags: [Tag]? = nil) {
             self.agentId = agentId
             self.amiId = amiId
@@ -627,6 +641,7 @@ extension Inspector {
         /// The value assigned to the attribute key.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -651,6 +666,7 @@ extension Inspector {
         /// The ARN that specifies the resource group that is used to create the assessment target. If resourceGroupArn is not specified, all EC2 instances in the current AWS account and region are included in the assessment target.
         public let resourceGroupArn: String?
 
+        @inlinable
         public init(assessmentTargetName: String, resourceGroupArn: String? = nil) {
             self.assessmentTargetName = assessmentTargetName
             self.resourceGroupArn = resourceGroupArn
@@ -673,6 +689,7 @@ extension Inspector {
         /// The ARN that specifies the assessment target that is created.
         public let assessmentTargetArn: String
 
+        @inlinable
         public init(assessmentTargetArn: String) {
             self.assessmentTargetArn = assessmentTargetArn
         }
@@ -694,6 +711,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique.
         public let userAttributesForFindings: [Attribute]?
 
+        @inlinable
         public init(assessmentTargetArn: String, assessmentTemplateName: String, durationInSeconds: Int, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
             self.assessmentTargetArn = assessmentTargetArn
             self.assessmentTemplateName = assessmentTemplateName
@@ -733,6 +751,7 @@ extension Inspector {
         /// The ARN that specifies the assessment template that is created.
         public let assessmentTemplateArn: String
 
+        @inlinable
         public init(assessmentTemplateArn: String) {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
@@ -746,6 +765,7 @@ extension Inspector {
         /// The ARN that specifies the assessment template for which you want to create an exclusions preview.
         public let assessmentTemplateArn: String
 
+        @inlinable
         public init(assessmentTemplateArn: String) {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
@@ -764,6 +784,7 @@ extension Inspector {
         /// Specifies the unique identifier of the requested exclusions preview. You can use the unique identifier to retrieve the exclusions preview when running the GetExclusionsPreview API.
         public let previewToken: String
 
+        @inlinable
         public init(previewToken: String) {
             self.previewToken = previewToken
         }
@@ -777,6 +798,7 @@ extension Inspector {
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
         public let resourceGroupTags: [ResourceGroupTag]
 
+        @inlinable
         public init(resourceGroupTags: [ResourceGroupTag]) {
             self.resourceGroupTags = resourceGroupTags
         }
@@ -798,6 +820,7 @@ extension Inspector {
         /// The ARN that specifies the resource group that is created.
         public let resourceGroupArn: String
 
+        @inlinable
         public init(resourceGroupArn: String) {
             self.resourceGroupArn = resourceGroupArn
         }
@@ -811,6 +834,7 @@ extension Inspector {
         /// The ARN that specifies the assessment run that you want to delete.
         public let assessmentRunArn: String
 
+        @inlinable
         public init(assessmentRunArn: String) {
             self.assessmentRunArn = assessmentRunArn
         }
@@ -829,6 +853,7 @@ extension Inspector {
         /// The ARN that specifies the assessment target that you want to delete.
         public let assessmentTargetArn: String
 
+        @inlinable
         public init(assessmentTargetArn: String) {
             self.assessmentTargetArn = assessmentTargetArn
         }
@@ -847,6 +872,7 @@ extension Inspector {
         /// The ARN that specifies the assessment template that you want to delete.
         public let assessmentTemplateArn: String
 
+        @inlinable
         public init(assessmentTemplateArn: String) {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
@@ -865,6 +891,7 @@ extension Inspector {
         /// The ARN that specifies the assessment run that you want to describe.
         public let assessmentRunArns: [String]
 
+        @inlinable
         public init(assessmentRunArns: [String]) {
             self.assessmentRunArns = assessmentRunArns
         }
@@ -889,6 +916,7 @@ extension Inspector {
         /// Assessment run details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
 
+        @inlinable
         public init(assessmentRuns: [AssessmentRun], failedItems: [String: FailedItemDetails]) {
             self.assessmentRuns = assessmentRuns
             self.failedItems = failedItems
@@ -904,6 +932,7 @@ extension Inspector {
         /// The ARNs that specifies the assessment targets that you want to describe.
         public let assessmentTargetArns: [String]
 
+        @inlinable
         public init(assessmentTargetArns: [String]) {
             self.assessmentTargetArns = assessmentTargetArns
         }
@@ -928,6 +957,7 @@ extension Inspector {
         /// Assessment target details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
 
+        @inlinable
         public init(assessmentTargets: [AssessmentTarget], failedItems: [String: FailedItemDetails]) {
             self.assessmentTargets = assessmentTargets
             self.failedItems = failedItems
@@ -942,6 +972,7 @@ extension Inspector {
     public struct DescribeAssessmentTemplatesRequest: AWSEncodableShape {
         public let assessmentTemplateArns: [String]
 
+        @inlinable
         public init(assessmentTemplateArns: [String]) {
             self.assessmentTemplateArns = assessmentTemplateArns
         }
@@ -966,6 +997,7 @@ extension Inspector {
         /// Assessment template details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
 
+        @inlinable
         public init(assessmentTemplates: [AssessmentTemplate], failedItems: [String: FailedItemDetails]) {
             self.assessmentTemplates = assessmentTemplates
             self.failedItems = failedItems
@@ -985,6 +1017,7 @@ extension Inspector {
         /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
         public let valid: Bool
 
+        @inlinable
         public init(registeredAt: Date, roleArn: String, valid: Bool) {
             self.registeredAt = registeredAt
             self.roleArn = roleArn
@@ -1004,6 +1037,7 @@ extension Inspector {
         /// The locale into which you want to translate the exclusion's title, description, and recommendation.
         public let locale: Locale?
 
+        @inlinable
         public init(exclusionArns: [String], locale: Locale? = nil) {
             self.exclusionArns = exclusionArns
             self.locale = locale
@@ -1030,6 +1064,7 @@ extension Inspector {
         /// Exclusion details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
 
+        @inlinable
         public init(exclusions: [String: Exclusion], failedItems: [String: FailedItemDetails]) {
             self.exclusions = exclusions
             self.failedItems = failedItems
@@ -1047,6 +1082,7 @@ extension Inspector {
         /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
         public let locale: Locale?
 
+        @inlinable
         public init(findingArns: [String], locale: Locale? = nil) {
             self.findingArns = findingArns
             self.locale = locale
@@ -1073,6 +1109,7 @@ extension Inspector {
         /// Information about the finding.
         public let findings: [Finding]
 
+        @inlinable
         public init(failedItems: [String: FailedItemDetails], findings: [Finding]) {
             self.failedItems = failedItems
             self.findings = findings
@@ -1088,6 +1125,7 @@ extension Inspector {
         /// The ARN that specifies the resource group that you want to describe.
         public let resourceGroupArns: [String]
 
+        @inlinable
         public init(resourceGroupArns: [String]) {
             self.resourceGroupArns = resourceGroupArns
         }
@@ -1112,6 +1150,7 @@ extension Inspector {
         /// Information about a resource group.
         public let resourceGroups: [ResourceGroup]
 
+        @inlinable
         public init(failedItems: [String: FailedItemDetails], resourceGroups: [ResourceGroup]) {
             self.failedItems = failedItems
             self.resourceGroups = resourceGroups
@@ -1129,6 +1168,7 @@ extension Inspector {
         /// The ARN that specifies the rules package that you want to describe.
         public let rulesPackageArns: [String]
 
+        @inlinable
         public init(locale: Locale? = nil, rulesPackageArns: [String]) {
             self.locale = locale
             self.rulesPackageArns = rulesPackageArns
@@ -1155,6 +1195,7 @@ extension Inspector {
         /// Information about the rules package.
         public let rulesPackages: [RulesPackage]
 
+        @inlinable
         public init(failedItems: [String: FailedItemDetails], rulesPackages: [RulesPackage]) {
             self.failedItems = failedItems
             self.rulesPackages = rulesPackages
@@ -1172,6 +1213,7 @@ extension Inspector {
         /// The minimum value of the duration range. Must be greater than zero.
         public let minSeconds: Int?
 
+        @inlinable
         public init(maxSeconds: Int? = nil, minSeconds: Int? = nil) {
             self.maxSeconds = maxSeconds
             self.minSeconds = minSeconds
@@ -1196,6 +1238,7 @@ extension Inspector {
         /// The time at which SubscribeToEvent is called.
         public let subscribedAt: Date
 
+        @inlinable
         public init(event: InspectorEvent, subscribedAt: Date) {
             self.event = event
             self.subscribedAt = subscribedAt
@@ -1221,6 +1264,7 @@ extension Inspector {
         /// The name of the exclusion.
         public let title: String
 
+        @inlinable
         public init(arn: String, attributes: [Attribute]? = nil, description: String, recommendation: String, scopes: [Scope], title: String) {
             self.arn = arn
             self.attributes = attributes
@@ -1252,6 +1296,7 @@ extension Inspector {
         /// The name of the exclusion preview.
         public let title: String
 
+        @inlinable
         public init(attributes: [Attribute]? = nil, description: String, recommendation: String, scopes: [Scope], title: String) {
             self.attributes = attributes
             self.description = description
@@ -1275,6 +1320,7 @@ extension Inspector {
         /// Indicates whether you can immediately retry a request for this item for a specified resource.
         public let retryable: Bool
 
+        @inlinable
         public init(failureCode: FailedItemErrorCode, retryable: Bool) {
             self.failureCode = failureCode
             self.retryable = retryable
@@ -1324,6 +1370,7 @@ extension Inspector {
         /// The user-defined attributes that are assigned to the finding.
         public let userAttributes: [Attribute]
 
+        @inlinable
         public init(arn: String, assetAttributes: AssetAttributes? = nil, assetType: AssetType? = nil, attributes: [Attribute], confidence: Int? = nil, createdAt: Date, description: String? = nil, id: String? = nil, indicatorOfCompromise: Bool? = nil, numericSeverity: Double? = nil, recommendation: String? = nil, schemaVersion: Int? = nil, service: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, severity: Severity? = nil, title: String? = nil, updatedAt: Date, userAttributes: [Attribute]) {
             self.arn = arn
             self.assetAttributes = assetAttributes
@@ -1385,6 +1432,7 @@ extension Inspector {
         /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the userAttributes property of the Finding data type.
         public let userAttributes: [Attribute]?
 
+        @inlinable
         public init(agentIds: [String]? = nil, attributes: [Attribute]? = nil, autoScalingGroups: [String]? = nil, creationTimeRange: TimestampRange? = nil, ruleNames: [String]? = nil, rulesPackageArns: [String]? = nil, severities: [Severity]? = nil, userAttributes: [Attribute]? = nil) {
             self.agentIds = agentIds
             self.attributes = attributes
@@ -1447,6 +1495,7 @@ extension Inspector {
         /// Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports.
         public let reportType: ReportType
 
+        @inlinable
         public init(assessmentRunArn: String, reportFileFormat: ReportFileFormat, reportType: ReportType) {
             self.assessmentRunArn = assessmentRunArn
             self.reportFileFormat = reportFileFormat
@@ -1471,6 +1520,7 @@ extension Inspector {
         /// Specifies the URL where you can find the generated assessment report. This parameter is only returned if the report is successfully generated.
         public let url: String?
 
+        @inlinable
         public init(status: ReportStatus, url: String? = nil) {
             self.status = status
             self.url = url
@@ -1494,6 +1544,7 @@ extension Inspector {
         /// The unique identifier associated of the exclusions preview.
         public let previewToken: String
 
+        @inlinable
         public init(assessmentTemplateArn: String, locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, previewToken: String) {
             self.assessmentTemplateArn = assessmentTemplateArn
             self.locale = locale
@@ -1527,6 +1578,7 @@ extension Inspector {
         /// Specifies the status of the request to generate an exclusions preview.
         public let previewStatus: PreviewStatus
 
+        @inlinable
         public init(exclusionPreviews: [ExclusionPreview]? = nil, nextToken: String? = nil, previewStatus: PreviewStatus) {
             self.exclusionPreviews = exclusionPreviews
             self.nextToken = nextToken
@@ -1544,6 +1596,7 @@ extension Inspector {
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
         public let assessmentRunArn: String
 
+        @inlinable
         public init(assessmentRunArn: String) {
             self.assessmentRunArn = assessmentRunArn
         }
@@ -1562,6 +1615,7 @@ extension Inspector {
         /// Telemetry details.
         public let telemetryMetadata: [TelemetryMetadata]
 
+        @inlinable
         public init(telemetryMetadata: [TelemetryMetadata]) {
             self.telemetryMetadata = telemetryMetadata
         }
@@ -1579,6 +1633,7 @@ extension Inspector {
         /// The schema version of this data type.
         public let schemaVersion: Int
 
+        @inlinable
         public init(assessmentRunArn: String? = nil, rulesPackageArn: String? = nil, schemaVersion: Int) {
             self.assessmentRunArn = assessmentRunArn
             self.rulesPackageArn = rulesPackageArn
@@ -1602,6 +1657,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRunAgents action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentRunArn: String, filter: AgentFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentRunArn = assessmentRunArn
             self.filter = filter
@@ -1631,6 +1687,7 @@ extension Inspector {
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentRunAgents: [AssessmentRunAgent], nextToken: String? = nil) {
             self.assessmentRunAgents = assessmentRunAgents
             self.nextToken = nextToken
@@ -1652,6 +1709,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentRuns action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentTemplateArns: [String]? = nil, filter: AssessmentRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentTemplateArns = assessmentTemplateArns
             self.filter = filter
@@ -1684,6 +1742,7 @@ extension Inspector {
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentRunArns: [String], nextToken: String? = nil) {
             self.assessmentRunArns = assessmentRunArns
             self.nextToken = nextToken
@@ -1703,6 +1762,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: AssessmentTargetFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1728,6 +1788,7 @@ extension Inspector {
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentTargetArns: [String], nextToken: String? = nil) {
             self.assessmentTargetArns = assessmentTargetArns
             self.nextToken = nextToken
@@ -1749,6 +1810,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTemplates action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentTargetArns: [String]? = nil, filter: AssessmentTemplateFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentTargetArns = assessmentTargetArns
             self.filter = filter
@@ -1781,6 +1843,7 @@ extension Inspector {
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentTemplateArns: [String], nextToken: String? = nil) {
             self.assessmentTemplateArns = assessmentTemplateArns
             self.nextToken = nextToken
@@ -1800,6 +1863,7 @@ extension Inspector {
         /// The ARN of the assessment template for which you want to list the existing event subscriptions.
         public let resourceArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1826,6 +1890,7 @@ extension Inspector {
         /// Details of the returned event subscriptions.
         public let subscriptions: [Subscription]
 
+        @inlinable
         public init(nextToken: String? = nil, subscriptions: [Subscription]) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -1845,6 +1910,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListExclusionsRequest action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentRunArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentRunArn = assessmentRunArn
             self.maxResults = maxResults
@@ -1871,6 +1937,7 @@ extension Inspector {
         /// When a response is generated, if there is more data to be listed, this parameters is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(exclusionArns: [String], nextToken: String? = nil) {
             self.exclusionArns = exclusionArns
             self.nextToken = nextToken
@@ -1892,6 +1959,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListFindings action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentRunArns: [String]? = nil, filter: FindingFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentRunArns = assessmentRunArns
             self.filter = filter
@@ -1924,6 +1992,7 @@ extension Inspector {
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(findingArns: [String], nextToken: String? = nil) {
             self.findingArns = findingArns
             self.nextToken = nextToken
@@ -1941,6 +2010,7 @@ extension Inspector {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1963,6 +2033,7 @@ extension Inspector {
         /// The list of ARNs that specifies the rules packages returned by the action.
         public let rulesPackageArns: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, rulesPackageArns: [String]) {
             self.nextToken = nextToken
             self.rulesPackageArns = rulesPackageArns
@@ -1978,6 +2049,7 @@ extension Inspector {
         /// The ARN that specifies the assessment template whose tags you want to list.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1996,6 +2068,7 @@ extension Inspector {
         /// A collection of key and value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(tags: [Tag]) {
             self.tags = tags
         }
@@ -2027,6 +2100,7 @@ extension Inspector {
         /// The ID of a VPC associated with the network interface.
         public let vpcId: String?
 
+        @inlinable
         public init(ipv6Addresses: [String]? = nil, networkInterfaceId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIp]? = nil, publicDnsName: String? = nil, publicIp: String? = nil, securityGroups: [SecurityGroup]? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.ipv6Addresses = ipv6Addresses
             self.networkInterfaceId = networkInterfaceId
@@ -2062,6 +2136,7 @@ extension Inspector {
         /// The ARN of the assessment target whose agents you want to preview.
         public let previewAgentsArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, previewAgentsArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2088,6 +2163,7 @@ extension Inspector {
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(agentPreviews: [AgentPreview], nextToken: String? = nil) {
             self.agentPreviews = agentPreviews
             self.nextToken = nextToken
@@ -2105,6 +2181,7 @@ extension Inspector {
         /// The full IP address of the network inteface.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
@@ -2120,6 +2197,7 @@ extension Inspector {
         /// The ARN of the IAM role that grants Amazon Inspector access to AWS Services needed to perform security assessments.
         public let roleArn: String
 
+        @inlinable
         public init(roleArn: String) {
             self.roleArn = roleArn
         }
@@ -2140,6 +2218,7 @@ extension Inspector {
         /// The ARNs that specify the findings that you want to remove attributes from.
         public let findingArns: [String]
 
+        @inlinable
         public init(attributeKeys: [String], findingArns: [String]) {
             self.attributeKeys = attributeKeys
             self.findingArns = findingArns
@@ -2169,6 +2248,7 @@ extension Inspector {
         /// Attributes details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
 
+        @inlinable
         public init(failedItems: [String: FailedItemDetails]) {
             self.failedItems = failedItems
         }
@@ -2186,6 +2266,7 @@ extension Inspector {
         /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
         public let tags: [ResourceGroupTag]
 
+        @inlinable
         public init(arn: String, createdAt: Date, tags: [ResourceGroupTag]) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2205,6 +2286,7 @@ extension Inspector {
         /// The value assigned to a tag key.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2235,6 +2317,7 @@ extension Inspector {
         /// The version ID of the rules package.
         public let version: String
 
+        @inlinable
         public init(arn: String, description: String? = nil, name: String, provider: String, version: String) {
             self.arn = arn
             self.description = description
@@ -2258,6 +2341,7 @@ extension Inspector {
         /// The resource identifier for the specified scope type.
         public let value: String?
 
+        @inlinable
         public init(key: ScopeType? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2275,6 +2359,7 @@ extension Inspector {
         /// The name of the security group.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -2292,6 +2377,7 @@ extension Inspector {
         /// A collection of key and value pairs that you want to set to the assessment template.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2318,6 +2404,7 @@ extension Inspector {
         /// The ARN of the assessment template of the assessment run that you want to start.
         public let assessmentTemplateArn: String
 
+        @inlinable
         public init(assessmentRunName: String? = nil, assessmentTemplateArn: String) {
             self.assessmentRunName = assessmentRunName
             self.assessmentTemplateArn = assessmentTemplateArn
@@ -2340,6 +2427,7 @@ extension Inspector {
         /// The ARN of the assessment run that has been started.
         public let assessmentRunArn: String
 
+        @inlinable
         public init(assessmentRunArn: String) {
             self.assessmentRunArn = assessmentRunArn
         }
@@ -2355,6 +2443,7 @@ extension Inspector {
         /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated.
         public let stopAction: StopAction?
 
+        @inlinable
         public init(assessmentRunArn: String, stopAction: StopAction? = nil) {
             self.assessmentRunArn = assessmentRunArn
             self.stopAction = stopAction
@@ -2379,6 +2468,7 @@ extension Inspector {
         /// The ARN of the SNS topic to which the SNS notifications are sent.
         public let topicArn: String
 
+        @inlinable
         public init(event: InspectorEvent, resourceArn: String, topicArn: String) {
             self.event = event
             self.resourceArn = resourceArn
@@ -2407,6 +2497,7 @@ extension Inspector {
         /// The ARN of the Amazon Simple Notification Service (SNS) topic to which the SNS notifications are sent.
         public let topicArn: String
 
+        @inlinable
         public init(eventSubscriptions: [EventSubscription], resourceArn: String, topicArn: String) {
             self.eventSubscriptions = eventSubscriptions
             self.resourceArn = resourceArn
@@ -2426,6 +2517,7 @@ extension Inspector {
         /// A value assigned to a tag key.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2452,6 +2544,7 @@ extension Inspector {
         /// A specific type of behavioral data that is collected by the agent.
         public let messageType: String
 
+        @inlinable
         public init(count: Int64, dataSize: Int64? = nil, messageType: String) {
             self.count = count
             self.dataSize = dataSize
@@ -2471,6 +2564,7 @@ extension Inspector {
         /// The maximum value of the timestamp range.
         public let endDate: Date?
 
+        @inlinable
         public init(beginDate: Date? = nil, endDate: Date? = nil) {
             self.beginDate = beginDate
             self.endDate = endDate
@@ -2490,6 +2584,7 @@ extension Inspector {
         /// The ARN of the SNS topic to which SNS notifications are sent.
         public let topicArn: String
 
+        @inlinable
         public init(event: InspectorEvent, resourceArn: String, topicArn: String) {
             self.event = event
             self.resourceArn = resourceArn
@@ -2518,6 +2613,7 @@ extension Inspector {
         /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target.
         public let resourceGroupArn: String?
 
+        @inlinable
         public init(assessmentTargetArn: String, assessmentTargetName: String, resourceGroupArn: String? = nil) {
             self.assessmentTargetArn = assessmentTargetArn
             self.assessmentTargetName = assessmentTargetName

@@ -117,6 +117,7 @@ extension PCS {
         /// The provisioning status of the cluster.  The provisioning status doesn't indicate the overall health of the cluster.
         public let status: ClusterStatus
 
+        @inlinable
         public init(arn: String, createdAt: Date, endpoints: [Endpoint]? = nil, errorInfo: [ErrorInfo]? = nil, id: String, modifiedAt: Date, name: String, networking: Networking, scheduler: Scheduler, size: Size, slurmConfiguration: ClusterSlurmConfiguration? = nil, status: ClusterStatus) {
             self.arn = arn
             self.createdAt = createdAt
@@ -156,6 +157,7 @@ extension PCS {
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
+        @inlinable
         public init(authKey: SlurmAuthKey? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
             self.authKey = authKey
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
@@ -175,6 +177,7 @@ extension PCS {
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
+        @inlinable
         public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
@@ -200,6 +203,7 @@ extension PCS {
         /// The provisioning status of the cluster.  The provisioning status doesn't indicate the overall health of the cluster.
         public let status: ClusterStatus
 
+        @inlinable
         public init(arn: String, createdAt: Date, id: String, modifiedAt: Date, name: String, status: ClusterStatus) {
             self.arn = arn
             self.createdAt = createdAt
@@ -251,6 +255,7 @@ extension PCS {
         /// The list of subnet IDs where instances are provisioned by the compute node group.  The subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]
 
+        @inlinable
         public init(amiId: String? = nil, arn: String, clusterId: String, createdAt: Date, customLaunchTemplate: CustomLaunchTemplate, errorInfo: [ErrorInfo]? = nil, iamInstanceProfileArn: String, id: String, instanceConfigs: [InstanceConfig], modifiedAt: Date, name: String, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfiguration, slurmConfiguration: ComputeNodeGroupSlurmConfiguration? = nil, spotOptions: SpotOptions? = nil, status: ComputeNodeGroupStatus, subnetIds: [String]) {
             self.amiId = amiId
             self.arn = arn
@@ -296,6 +301,7 @@ extension PCS {
         /// The compute node group ID for the compute node group configuration.
         public let computeNodeGroupId: String?
 
+        @inlinable
         public init(computeNodeGroupId: String? = nil) {
             self.computeNodeGroupId = computeNodeGroupId
         }
@@ -309,6 +315,7 @@ extension PCS {
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
+        @inlinable
         public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -322,6 +329,7 @@ extension PCS {
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
+        @inlinable
         public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -347,6 +355,7 @@ extension PCS {
         /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.
         public let status: ComputeNodeGroupStatus
 
+        @inlinable
         public init(arn: String, clusterId: String, createdAt: Date, id: String, modifiedAt: Date, name: String, status: ComputeNodeGroupStatus) {
             self.arn = arn
             self.clusterId = clusterId
@@ -384,6 +393,7 @@ extension PCS {
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String, networking: NetworkingRequest, scheduler: SchedulerRequest, size: Size, slurmConfiguration: ClusterSlurmConfigurationRequest? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterName = clusterName
@@ -425,6 +435,7 @@ extension PCS {
         /// The cluster resource.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -460,6 +471,7 @@ extension PCS {
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]?
 
+        @inlinable
         public init(amiId: String? = nil, clientToken: String? = CreateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupName: String, customLaunchTemplate: CustomLaunchTemplate, iamInstanceProfileArn: String, instanceConfigs: [InstanceConfig], purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest, slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String], tags: [String: String]? = nil) {
             self.amiId = amiId
             self.clientToken = clientToken
@@ -514,6 +526,7 @@ extension PCS {
     public struct CreateComputeNodeGroupResponse: AWSDecodableShape {
         public let computeNodeGroup: ComputeNodeGroup?
 
+        @inlinable
         public init(computeNodeGroup: ComputeNodeGroup? = nil) {
             self.computeNodeGroup = computeNodeGroup
         }
@@ -535,6 +548,7 @@ extension PCS {
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateQueueRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil, queueName: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -571,6 +585,7 @@ extension PCS {
     public struct CreateQueueResponse: AWSDecodableShape {
         public let queue: Queue?
 
+        @inlinable
         public init(queue: Queue? = nil) {
             self.queue = queue
         }
@@ -586,6 +601,7 @@ extension PCS {
         /// The version of the EC2 launch template to use to provision instances.
         public let version: String
 
+        @inlinable
         public init(id: String, version: String) {
             self.id = id
             self.version = version
@@ -603,6 +619,7 @@ extension PCS {
         /// The name or ID of the cluster to delete.
         public let clusterIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = DeleteClusterRequest.idempotencyToken(), clusterIdentifier: String) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -632,6 +649,7 @@ extension PCS {
         /// The name or ID of the compute node group to delete.
         public let computeNodeGroupIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = DeleteComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupIdentifier: String) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -664,6 +682,7 @@ extension PCS {
         /// The name or ID of the queue to delete.
         public let queueIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = DeleteQueueRequest.idempotencyToken(), clusterIdentifier: String, queueIdentifier: String) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -698,6 +717,7 @@ extension PCS {
         /// Indicates the type of endpoint running at the specific IP address.
         public let type: EndpointType
 
+        @inlinable
         public init(port: String, privateIpAddress: String, publicIpAddress: String? = nil, type: EndpointType) {
             self.port = port
             self.privateIpAddress = privateIpAddress
@@ -719,6 +739,7 @@ extension PCS {
         /// The detailed error information.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -734,6 +755,7 @@ extension PCS {
         /// The name or ID of the cluster of the queue.
         public let clusterIdentifier: String
 
+        @inlinable
         public init(clusterIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -751,6 +773,7 @@ extension PCS {
         /// The cluster resource.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -766,6 +789,7 @@ extension PCS {
         /// The name or ID of the compute node group.
         public let computeNodeGroupIdentifier: String
 
+        @inlinable
         public init(clusterIdentifier: String, computeNodeGroupIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
             self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
@@ -785,6 +809,7 @@ extension PCS {
     public struct GetComputeNodeGroupResponse: AWSDecodableShape {
         public let computeNodeGroup: ComputeNodeGroup?
 
+        @inlinable
         public init(computeNodeGroup: ComputeNodeGroup? = nil) {
             self.computeNodeGroup = computeNodeGroup
         }
@@ -800,6 +825,7 @@ extension PCS {
         /// The name or ID of the queue.
         public let queueIdentifier: String
 
+        @inlinable
         public init(clusterIdentifier: String, queueIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
             self.queueIdentifier = queueIdentifier
@@ -819,6 +845,7 @@ extension PCS {
     public struct GetQueueResponse: AWSDecodableShape {
         public let queue: Queue?
 
+        @inlinable
         public init(queue: Queue? = nil) {
             self.queue = queue
         }
@@ -832,6 +859,7 @@ extension PCS {
         /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group. Example: t2.xlarge
         public let instanceType: String?
 
+        @inlinable
         public init(instanceType: String? = nil) {
             self.instanceType = instanceType
         }
@@ -847,6 +875,7 @@ extension PCS {
         /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -873,6 +902,7 @@ extension PCS {
         /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
         public let nextToken: String?
 
+        @inlinable
         public init(clusters: [ClusterSummary], nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -892,6 +922,7 @@ extension PCS {
         /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.maxResults = maxResults
@@ -917,6 +948,7 @@ extension PCS {
         /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
         public let nextToken: String?
 
+        @inlinable
         public init(computeNodeGroups: [ComputeNodeGroupSummary], nextToken: String? = nil) {
             self.computeNodeGroups = computeNodeGroups
             self.nextToken = nextToken
@@ -936,6 +968,7 @@ extension PCS {
         /// The value of nextToken is a unique pagination token for each page of results returned. If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.  Keep all other arguments unchanged. Each pagination token expires after 24 hours.  Using an expired pagination token returns an HTTP 400 InvalidToken  error.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.maxResults = maxResults
@@ -961,6 +994,7 @@ extension PCS {
         /// The list of queues associated with the cluster.
         public let queues: [QueueSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, queues: [QueueSummary]) {
             self.nextToken = nextToken
             self.queues = queues
@@ -976,6 +1010,7 @@ extension PCS {
         /// The Amazon Resource Name (ARN) of the resource for which to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -995,6 +1030,7 @@ extension PCS {
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1010,6 +1046,7 @@ extension PCS {
         /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone. Example: subnet-abcd1234
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1027,6 +1064,7 @@ extension PCS {
         /// The list of subnet IDs where Amazon Web Services PCS creates an  Elastic Network Interface (ENI) to enable communication between managed controllers  and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone.  Amazon Web Services PCS currently supports only 1 subnet in this list.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1068,6 +1106,7 @@ extension PCS {
         /// The provisioning status of the queue.  The provisioning status doesn't indicate the overall health of the queue.
         public let status: QueueStatus
 
+        @inlinable
         public init(arn: String, clusterId: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration], createdAt: Date, errorInfo: [ErrorInfo]? = nil, id: String, modifiedAt: Date, name: String, status: QueueStatus) {
             self.arn = arn
             self.clusterId = clusterId
@@ -1109,6 +1148,7 @@ extension PCS {
         /// The provisioning status of the queue.  The provisioning status doesn't indicate the overall health of the queue.
         public let status: QueueStatus
 
+        @inlinable
         public init(arn: String, clusterId: String, createdAt: Date, id: String, modifiedAt: Date, name: String, status: QueueStatus) {
             self.arn = arn
             self.clusterId = clusterId
@@ -1136,6 +1176,7 @@ extension PCS {
         /// The name or ID of the cluster to register the compute node group instance in.
         public let clusterIdentifier: String
 
+        @inlinable
         public init(bootstrapId: String, clusterIdentifier: String) {
             self.bootstrapId = bootstrapId
             self.clusterIdentifier = clusterIdentifier
@@ -1162,6 +1203,7 @@ extension PCS {
         /// For the Slurm scheduler, this is the shared Munge key the scheduler uses to authenticate compute node group instances.
         public let sharedSecret: String
 
+        @inlinable
         public init(endpoints: [Endpoint], nodeID: String, sharedSecret: String) {
             self.endpoints = endpoints
             self.nodeID = nodeID
@@ -1181,6 +1223,7 @@ extension PCS {
         /// The lower bound of the number of instances allowed in the compute fleet.
         public let minInstanceCount: Int
 
+        @inlinable
         public init(maxInstanceCount: Int, minInstanceCount: Int) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
@@ -1198,6 +1241,7 @@ extension PCS {
         /// The lower bound of the number of instances allowed in the compute fleet.
         public let minInstanceCount: Int
 
+        @inlinable
         public init(maxInstanceCount: Int = 0, minInstanceCount: Int = 0) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
@@ -1215,6 +1259,7 @@ extension PCS {
         /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         public let version: String
 
+        @inlinable
         public init(type: SchedulerType, version: String) {
             self.type = type
             self.version = version
@@ -1232,6 +1277,7 @@ extension PCS {
         /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         public let version: String
 
+        @inlinable
         public init(type: SchedulerType, version: String) {
             self.type = type
             self.version = version
@@ -1249,6 +1295,7 @@ extension PCS {
         /// The version of the shared Slurm key.
         public let secretVersion: String
 
+        @inlinable
         public init(secretArn: String, secretVersion: String) {
             self.secretArn = secretArn
             self.secretVersion = secretVersion
@@ -1266,6 +1313,7 @@ extension PCS {
         /// The values for the configured Slurm settings.
         public let parameterValue: String
 
+        @inlinable
         public init(parameterName: String, parameterValue: String) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
@@ -1281,6 +1329,7 @@ extension PCS {
         /// The Amazon EC2 allocation strategy Amazon Web Services PCS uses to provision EC2 instances.  Amazon Web Services PCS supports lowest price,  capacity optimized, and  price capacity optimized.  For more information, see Use  allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
         public let allocationStrategy: SpotAllocationStrategy?
 
+        @inlinable
         public init(allocationStrategy: SpotAllocationStrategy? = nil) {
             self.allocationStrategy = allocationStrategy
         }
@@ -1296,6 +1345,7 @@ extension PCS {
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1326,6 +1376,7 @@ extension PCS {
         /// 1 or more tag keys to remove from the resource. Specify only tag keys and not tag values.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1377,6 +1428,7 @@ extension PCS {
         /// The list of subnet IDs where the compute node group provisions instances. The subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(amiId: String? = nil, clientToken: String? = UpdateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupIdentifier: String, customLaunchTemplate: CustomLaunchTemplate? = nil, iamInstanceProfileArn: String? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest? = nil, slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String]? = nil) {
             self.amiId = amiId
             self.clientToken = clientToken
@@ -1418,6 +1470,7 @@ extension PCS {
     public struct UpdateComputeNodeGroupResponse: AWSDecodableShape {
         public let computeNodeGroup: ComputeNodeGroup?
 
+        @inlinable
         public init(computeNodeGroup: ComputeNodeGroup? = nil) {
             self.computeNodeGroup = computeNodeGroup
         }
@@ -1431,6 +1484,7 @@ extension PCS {
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
+        @inlinable
         public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -1450,6 +1504,7 @@ extension PCS {
         /// The name or ID of the queue.
         public let queueIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = UpdateQueueRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupConfigurations: [ComputeNodeGroupConfiguration]? = nil, queueIdentifier: String) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -1475,6 +1530,7 @@ extension PCS {
     public struct UpdateQueueResponse: AWSDecodableShape {
         public let queue: Queue?
 
+        @inlinable
         public init(queue: Queue? = nil) {
             self.queue = queue
         }

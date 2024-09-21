@@ -353,6 +353,7 @@ extension AppStream {
         /// The identifier (ID) of the VPC in which the interface endpoint is used.
         public let vpceId: String?
 
+        @inlinable
         public init(endpointType: AccessEndpointType? = nil, vpceId: String? = nil) {
             self.endpointType = endpointType
             self.vpceId = vpceId
@@ -392,6 +393,7 @@ extension AppStream {
         /// The state of the app block. An app block with AppStream 2.0 packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE.  Custom app blocks are always in the ACTIVE state and no action is required to use them.
         public let state: AppBlockState?
 
+        @inlinable
         public init(appBlockErrors: [ErrorDetails]? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, name: String? = nil, packagingType: PackagingType? = nil, postSetupScriptDetails: ScriptDetails? = nil, setupScriptDetails: ScriptDetails? = nil, sourceS3Location: S3Location? = nil, state: AppBlockState? = nil) {
             self.appBlockErrors = appBlockErrors
             self.arn = arn
@@ -451,6 +453,7 @@ extension AppStream {
         /// The VPC configuration for the app block builder.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, appBlockBuilderErrors: [ResourceError]? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, state: AppBlockBuilderState? = nil, stateChangeReason: AppBlockBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appBlockBuilderErrors = appBlockBuilderErrors
@@ -492,6 +495,7 @@ extension AppStream {
         /// The name of the app block builder.
         public let appBlockBuilderName: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil) {
             self.appBlockArn = appBlockArn
             self.appBlockBuilderName = appBlockBuilderName
@@ -509,6 +513,7 @@ extension AppStream {
         /// The state change reason message.
         public let message: String?
 
+        @inlinable
         public init(code: AppBlockBuilderStateChangeReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -552,6 +557,7 @@ extension AppStream {
         /// The working directory for the application.
         public let workingDirectory: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, enabled: Bool? = nil, iconS3Location: S3Location? = nil, iconURL: String? = nil, instanceFamilies: [String]? = nil, launchParameters: String? = nil, launchPath: String? = nil, metadata: [String: String]? = nil, name: String? = nil, platforms: [PlatformType]? = nil, workingDirectory: String? = nil) {
             self.appBlockArn = appBlockArn
             self.arn = arn
@@ -595,6 +601,7 @@ extension AppStream {
         /// The name of the fleet associated with the application.
         public let fleetName: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, fleetName: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
@@ -612,6 +619,7 @@ extension AppStream {
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack.
         public let settingsGroup: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, settingsGroup: String? = nil) {
             self.enabled = enabled
             self.settingsGroup = settingsGroup
@@ -635,6 +643,7 @@ extension AppStream {
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored.
         public let settingsGroup: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, s3BucketName: String? = nil, settingsGroup: String? = nil) {
             self.enabled = enabled
             self.s3BucketName = s3BucketName
@@ -654,6 +663,7 @@ extension AppStream {
         /// The name of the app block builder.
         public let appBlockBuilderName: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil) {
             self.appBlockArn = appBlockArn
             self.appBlockBuilderName = appBlockBuilderName
@@ -674,6 +684,7 @@ extension AppStream {
         /// The list of app block builders associated with app blocks.
         public let appBlockBuilderAppBlockAssociation: AppBlockBuilderAppBlockAssociation?
 
+        @inlinable
         public init(appBlockBuilderAppBlockAssociation: AppBlockBuilderAppBlockAssociation? = nil) {
             self.appBlockBuilderAppBlockAssociation = appBlockBuilderAppBlockAssociation
         }
@@ -689,6 +700,7 @@ extension AppStream {
         /// The name of the fleet.
         public let fleetName: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, fleetName: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
@@ -709,6 +721,7 @@ extension AppStream {
         /// If fleet name is specified, this returns the list of applications that are associated to it. If application ARN is specified, this returns the list of fleets to which it is associated.
         public let applicationFleetAssociation: ApplicationFleetAssociation?
 
+        @inlinable
         public init(applicationFleetAssociation: ApplicationFleetAssociation? = nil) {
             self.applicationFleetAssociation = applicationFleetAssociation
         }
@@ -726,6 +739,7 @@ extension AppStream {
         /// The name of the stack.
         public let stackName: String?
 
+        @inlinable
         public init(applicationIdentifier: String? = nil, entitlementName: String? = nil, stackName: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.entitlementName = entitlementName
@@ -755,6 +769,7 @@ extension AppStream {
         /// The name of the stack.
         public let stackName: String?
 
+        @inlinable
         public init(fleetName: String? = nil, stackName: String? = nil) {
             self.fleetName = fleetName
             self.stackName = stackName
@@ -779,6 +794,7 @@ extension AppStream {
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]?
 
+        @inlinable
         public init(userStackAssociations: [UserStackAssociation]? = nil) {
             self.userStackAssociations = userStackAssociations
         }
@@ -800,6 +816,7 @@ extension AppStream {
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
 
+        @inlinable
         public init(errors: [UserStackAssociationError]? = nil) {
             self.errors = errors
         }
@@ -813,6 +830,7 @@ extension AppStream {
         /// The list of UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]?
 
+        @inlinable
         public init(userStackAssociations: [UserStackAssociation]? = nil) {
             self.userStackAssociations = userStackAssociations
         }
@@ -834,6 +852,7 @@ extension AppStream {
         /// The list of UserStackAssociationError objects.
         public let errors: [UserStackAssociationError]?
 
+        @inlinable
         public init(errors: [UserStackAssociationError]? = nil) {
             self.errors = errors
         }
@@ -849,6 +868,7 @@ extension AppStream {
         /// The status of the certificate-based authentication properties.
         public let status: CertificateBasedAuthStatus?
 
+        @inlinable
         public init(certificateAuthorityArn: String? = nil, status: CertificateBasedAuthStatus? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.status = status
@@ -870,6 +890,7 @@ extension AppStream {
         /// The desired number of user sessions for a multi-session fleet. This is not allowed for single-session fleets. When you create a fleet, you must set either the DesiredSessions or DesiredInstances attribute, based on the type of fleet you create. You can’t define both attributes or leave both attributes blank.
         public let desiredSessions: Int?
 
+        @inlinable
         public init(desiredInstances: Int? = nil, desiredSessions: Int? = nil) {
             self.desiredInstances = desiredInstances
             self.desiredSessions = desiredSessions
@@ -899,6 +920,7 @@ extension AppStream {
         /// The total number of simultaneous streaming instances that are running.
         public let running: Int?
 
+        @inlinable
         public init(activeUserSessions: Int? = nil, actualUserSessions: Int? = nil, available: Int? = nil, availableUserSessions: Int? = nil, desired: Int? = nil, desiredUserSessions: Int? = nil, inUse: Int? = nil, running: Int? = nil) {
             self.activeUserSessions = activeUserSessions
             self.actualUserSessions = actualUserSessions
@@ -932,6 +954,7 @@ extension AppStream {
         /// The name of the image to copy.
         public let sourceImageName: String?
 
+        @inlinable
         public init(destinationImageDescription: String? = nil, destinationImageName: String? = nil, destinationRegion: String? = nil, sourceImageName: String? = nil) {
             self.destinationImageDescription = destinationImageDescription
             self.destinationImageName = destinationImageName
@@ -959,6 +982,7 @@ extension AppStream {
         /// The name of the destination image.
         public let destinationImageName: String?
 
+        @inlinable
         public init(destinationImageName: String? = nil) {
             self.destinationImageName = destinationImageName
         }
@@ -990,6 +1014,7 @@ extension AppStream {
         /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.description = description
@@ -1043,6 +1068,7 @@ extension AppStream {
     public struct CreateAppBlockBuilderResult: AWSDecodableShape {
         public let appBlockBuilder: AppBlockBuilder?
 
+        @inlinable
         public init(appBlockBuilder: AppBlockBuilder? = nil) {
             self.appBlockBuilder = appBlockBuilder
         }
@@ -1058,6 +1084,7 @@ extension AppStream {
         /// The time that the streaming URL will be valid, in seconds.  Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
         public let validity: Int64?
 
+        @inlinable
         public init(appBlockBuilderName: String? = nil, validity: Int64? = nil) {
             self.appBlockBuilderName = appBlockBuilderName
             self.validity = validity
@@ -1079,6 +1106,7 @@ extension AppStream {
         /// The URL to start the streaming session.
         public let streamingURL: String?
 
+        @inlinable
         public init(expires: Date? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
@@ -1108,6 +1136,7 @@ extension AppStream {
         /// The tags assigned to the app block.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String? = nil, packagingType: PackagingType? = nil, postSetupScriptDetails: ScriptDetails? = nil, setupScriptDetails: ScriptDetails? = nil, sourceS3Location: S3Location? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.displayName = displayName
@@ -1153,6 +1182,7 @@ extension AppStream {
         /// The app block.
         public let appBlock: AppBlock?
 
+        @inlinable
         public init(appBlock: AppBlock? = nil) {
             self.appBlock = appBlock
         }
@@ -1186,6 +1216,7 @@ extension AppStream {
         /// The working directory of the application.
         public let workingDirectory: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location? = nil, instanceFamilies: [String]? = nil, launchParameters: String? = nil, launchPath: String? = nil, name: String? = nil, platforms: [PlatformType]? = nil, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.appBlockArn = appBlockArn
             self.description = description
@@ -1242,6 +1273,7 @@ extension AppStream {
     public struct CreateApplicationResult: AWSDecodableShape {
         public let application: Application?
 
+        @inlinable
         public init(application: Application? = nil) {
             self.application = application
         }
@@ -1261,6 +1293,7 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
+        @inlinable
         public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String? = nil, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.directoryName = directoryName
@@ -1288,6 +1321,7 @@ extension AppStream {
         /// Information about the directory configuration.
         public let directoryConfig: DirectoryConfig?
 
+        @inlinable
         public init(directoryConfig: DirectoryConfig? = nil) {
             self.directoryConfig = directoryConfig
         }
@@ -1309,6 +1343,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, description: String? = nil, name: String? = nil, stackName: String? = nil) {
             self.appVisibility = appVisibility
             self.attributes = attributes
@@ -1340,6 +1375,7 @@ extension AppStream {
         /// The entitlement.
         public let entitlement: Entitlement?
 
+        @inlinable
         public init(entitlement: Entitlement? = nil) {
             self.entitlement = entitlement
         }
@@ -1395,6 +1431,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
@@ -1476,6 +1513,7 @@ extension AppStream {
         /// Information about the fleet.
         public let fleet: Fleet?
 
+        @inlinable
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
@@ -1513,6 +1551,7 @@ extension AppStream {
         /// The VPC configuration for the image builder. You can specify only one subnet.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
@@ -1578,6 +1617,7 @@ extension AppStream {
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
 
+        @inlinable
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -1593,6 +1633,7 @@ extension AppStream {
         /// The time that the streaming URL will be valid, in seconds.  Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
         public let validity: Int64?
 
+        @inlinable
         public init(name: String? = nil, validity: Int64? = nil) {
             self.name = name
             self.validity = validity
@@ -1614,6 +1655,7 @@ extension AppStream {
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
 
+        @inlinable
         public init(expires: Date? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
@@ -1651,6 +1693,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
@@ -1719,6 +1762,7 @@ extension AppStream {
         /// Information about the stack.
         public let stack: Stack?
 
+        @inlinable
         public init(stack: Stack? = nil) {
             self.stack = stack
         }
@@ -1742,6 +1786,7 @@ extension AppStream {
         /// The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
         public let validity: Int64?
 
+        @inlinable
         public init(applicationId: String? = nil, fleetName: String? = nil, sessionContext: String? = nil, stackName: String? = nil, userId: String? = nil, validity: Int64? = nil) {
             self.applicationId = applicationId
             self.fleetName = fleetName
@@ -1777,6 +1822,7 @@ extension AppStream {
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
 
+        @inlinable
         public init(expires: Date? = nil, streamingURL: String? = nil) {
             self.expires = expires
             self.streamingURL = streamingURL
@@ -1802,6 +1848,7 @@ extension AppStream {
         /// The title that is displayed at the top of the browser tab during users' application streaming sessions.
         public let titleText: String?
 
+        @inlinable
         public init(faviconS3Location: S3Location? = nil, footerLinks: [ThemeFooterLink]? = nil, organizationLogoS3Location: S3Location? = nil, stackName: String? = nil, themeStyling: ThemeStyling? = nil, titleText: String? = nil) {
             self.faviconS3Location = faviconS3Location
             self.footerLinks = footerLinks
@@ -1837,6 +1884,7 @@ extension AppStream {
         ///  The theme object that contains the metadata of the custom branding.
         public let theme: Theme?
 
+        @inlinable
         public init(theme: Theme? = nil) {
             self.theme = theme
         }
@@ -1860,6 +1908,7 @@ extension AppStream {
         /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
         public let newImageTags: [String: String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, existingImageName: String? = nil, newImageDescription: String? = nil, newImageDisplayName: String? = nil, newImageName: String? = nil, newImageTags: [String: String]? = nil) {
             self.dryRun = dryRun
             self.existingImageName = existingImageName
@@ -1900,6 +1949,7 @@ extension AppStream {
         public let canUpdateImage: Bool?
         public let image: Image?
 
+        @inlinable
         public init(canUpdateImage: Bool? = nil, image: Image? = nil) {
             self.canUpdateImage = canUpdateImage
             self.image = image
@@ -1921,6 +1971,7 @@ extension AppStream {
         /// The schedule for generating usage reports.
         public let schedule: UsageReportSchedule?
 
+        @inlinable
         public init(s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil) {
             self.s3BucketName = s3BucketName
             self.schedule = schedule
@@ -1944,6 +1995,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays.
         public let userName: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, firstName: String? = nil, lastName: String? = nil, messageAction: MessageAction? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.firstName = firstName
@@ -1979,6 +2031,7 @@ extension AppStream {
         /// The name of the app block builder.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2000,6 +2053,7 @@ extension AppStream {
         /// The name of the app block.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2021,6 +2075,7 @@ extension AppStream {
         /// The name of the application.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2042,6 +2097,7 @@ extension AppStream {
         /// The name of the directory configuration.
         public let directoryName: String?
 
+        @inlinable
         public init(directoryName: String? = nil) {
             self.directoryName = directoryName
         }
@@ -2061,6 +2117,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(name: String? = nil, stackName: String? = nil) {
             self.name = name
             self.stackName = stackName
@@ -2085,6 +2142,7 @@ extension AppStream {
         /// The name of the fleet.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2106,6 +2164,7 @@ extension AppStream {
         /// The name of the image builder.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2123,6 +2182,7 @@ extension AppStream {
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
 
+        @inlinable
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -2138,6 +2198,7 @@ extension AppStream {
         /// The 12-digit identifier of the AWS account for which to delete image permissions.
         public let sharedAccountId: String?
 
+        @inlinable
         public init(name: String? = nil, sharedAccountId: String? = nil) {
             self.name = name
             self.sharedAccountId = sharedAccountId
@@ -2162,6 +2223,7 @@ extension AppStream {
         /// The name of the image.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2179,6 +2241,7 @@ extension AppStream {
         /// Information about the image.
         public let image: Image?
 
+        @inlinable
         public init(image: Image? = nil) {
             self.image = image
         }
@@ -2192,6 +2255,7 @@ extension AppStream {
         /// The name of the stack.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2213,6 +2277,7 @@ extension AppStream {
         /// The name of the stack for the theme.
         public let stackName: String?
 
+        @inlinable
         public init(stackName: String? = nil) {
             self.stackName = stackName
         }
@@ -2244,6 +2309,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive.
         public let userName: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.userName = userName
@@ -2275,6 +2341,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appBlockArn = appBlockArn
             self.appBlockBuilderName = appBlockBuilderName
@@ -2302,6 +2369,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(appBlockBuilderAppBlockAssociations: [AppBlockBuilderAppBlockAssociation]? = nil, nextToken: String? = nil) {
             self.appBlockBuilderAppBlockAssociations = appBlockBuilderAppBlockAssociations
             self.nextToken = nextToken
@@ -2321,6 +2389,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.names = names
@@ -2347,6 +2416,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(appBlockBuilders: [AppBlockBuilder]? = nil, nextToken: String? = nil) {
             self.appBlockBuilders = appBlockBuilders
             self.nextToken = nextToken
@@ -2366,6 +2436,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(arns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arns = arns
             self.maxResults = maxResults
@@ -2392,6 +2463,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(appBlocks: [AppBlock]? = nil, nextToken: String? = nil) {
             self.appBlocks = appBlocks
             self.nextToken = nextToken
@@ -2413,6 +2485,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, fleetName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
@@ -2440,6 +2513,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationFleetAssociations: [ApplicationFleetAssociation]? = nil, nextToken: String? = nil) {
             self.applicationFleetAssociations = applicationFleetAssociations
             self.nextToken = nextToken
@@ -2459,6 +2533,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(arns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arns = arns
             self.maxResults = maxResults
@@ -2485,6 +2560,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [Application]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -2504,6 +2580,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.directoryNames = directoryNames
             self.maxResults = maxResults
@@ -2527,6 +2604,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryConfigs: [DirectoryConfig]? = nil, nextToken: String? = nil) {
             self.directoryConfigs = directoryConfigs
             self.nextToken = nextToken
@@ -2548,6 +2626,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2575,6 +2654,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(entitlements: [Entitlement]? = nil, nextToken: String? = nil) {
             self.entitlements = entitlements
             self.nextToken = nextToken
@@ -2592,6 +2672,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -2616,6 +2697,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(fleets: [Fleet]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
@@ -2635,6 +2717,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.names = names
@@ -2661,6 +2744,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(imageBuilders: [ImageBuilder]? = nil, nextToken: String? = nil) {
             self.imageBuilders = imageBuilders
             self.nextToken = nextToken
@@ -2682,6 +2766,7 @@ extension AppStream {
         /// The 12-digit identifier of one or more AWS accounts with which the image is shared.
         public let sharedAwsAccountIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, sharedAwsAccountIds: [String]? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2717,6 +2802,7 @@ extension AppStream {
         /// The permissions for a private image that you own.
         public let sharedImagePermissionsList: [SharedImagePermissions]?
 
+        @inlinable
         public init(name: String? = nil, nextToken: String? = nil, sharedImagePermissionsList: [SharedImagePermissions]? = nil) {
             self.name = name
             self.nextToken = nextToken
@@ -2742,6 +2828,7 @@ extension AppStream {
         /// The type of image (public, private, or shared) to describe.
         public let type: VisibilityType?
 
+        @inlinable
         public init(arns: [String]? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, type: VisibilityType? = nil) {
             self.arns = arns
             self.maxResults = maxResults
@@ -2777,6 +2864,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(images: [Image]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -2804,6 +2892,7 @@ extension AppStream {
         /// The user identifier (ID). If you specify a user ID, you must also specify the authentication type.
         public let userId: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, fleetName: String? = nil, instanceId: String? = nil, limit: Int? = nil, nextToken: String? = nil, stackName: String? = nil, userId: String? = nil) {
             self.authenticationType = authenticationType
             self.fleetName = fleetName
@@ -2840,6 +2929,7 @@ extension AppStream {
         /// Information about the streaming sessions.
         public let sessions: [Session]?
 
+        @inlinable
         public init(nextToken: String? = nil, sessions: [Session]? = nil) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -2857,6 +2947,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -2881,6 +2972,7 @@ extension AppStream {
         /// Information about the stacks.
         public let stacks: [Stack]?
 
+        @inlinable
         public init(nextToken: String? = nil, stacks: [Stack]? = nil) {
             self.nextToken = nextToken
             self.stacks = stacks
@@ -2896,6 +2988,7 @@ extension AppStream {
         /// The name of the stack for the theme.
         public let stackName: String?
 
+        @inlinable
         public init(stackName: String? = nil) {
             self.stackName = stackName
         }
@@ -2913,6 +3006,7 @@ extension AppStream {
         ///  The theme object that contains the metadata of the custom branding.
         public let theme: Theme?
 
+        @inlinable
         public init(theme: Theme? = nil) {
             self.theme = theme
         }
@@ -2928,6 +3022,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2949,6 +3044,7 @@ extension AppStream {
         /// Information about the usage report subscription.
         public let usageReportSubscriptions: [UsageReportSubscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, usageReportSubscriptions: [UsageReportSubscription]? = nil) {
             self.nextToken = nextToken
             self.usageReportSubscriptions = usageReportSubscriptions
@@ -2972,6 +3068,7 @@ extension AppStream {
         /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive.
         public let userName: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackName: String? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.maxResults = maxResults
@@ -3005,6 +3102,7 @@ extension AppStream {
         /// The UserStackAssociation objects.
         public let userStackAssociations: [UserStackAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, userStackAssociations: [UserStackAssociation]? = nil) {
             self.nextToken = nextToken
             self.userStackAssociations = userStackAssociations
@@ -3024,6 +3122,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.authenticationType = authenticationType
             self.maxResults = maxResults
@@ -3047,6 +3146,7 @@ extension AppStream {
         /// Information about users in the user pool.
         public let users: [User]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -3070,6 +3170,7 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
+        @inlinable
         public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, createdTime: Date? = nil, directoryName: String? = nil, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.createdTime = createdTime
@@ -3093,6 +3194,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive.
         public let userName: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.userName = userName
@@ -3120,6 +3222,7 @@ extension AppStream {
         /// The name of the app block builder.
         public let appBlockBuilderName: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, appBlockBuilderName: String? = nil) {
             self.appBlockArn = appBlockArn
             self.appBlockBuilderName = appBlockBuilderName
@@ -3146,6 +3249,7 @@ extension AppStream {
         /// The name of the fleet.
         public let fleetName: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, fleetName: String? = nil) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
@@ -3174,6 +3278,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(applicationIdentifier: String? = nil, entitlementName: String? = nil, stackName: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.entitlementName = entitlementName
@@ -3203,6 +3308,7 @@ extension AppStream {
         /// The name of the stack.
         public let stackName: String?
 
+        @inlinable
         public init(fleetName: String? = nil, stackName: String? = nil) {
             self.fleetName = fleetName
             self.stackName = stackName
@@ -3229,6 +3335,7 @@ extension AppStream {
         /// The distinguished name of the organizational unit for computer accounts.
         public let organizationalUnitDistinguishedName: String?
 
+        @inlinable
         public init(directoryName: String? = nil, organizationalUnitDistinguishedName: String? = nil) {
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -3250,6 +3357,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a "user does not exist" error message displays.
         public let userName: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.userName = userName
@@ -3275,6 +3383,7 @@ extension AppStream {
         /// The identifier of the application.
         public let applicationIdentifier: String?
 
+        @inlinable
         public init(applicationIdentifier: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
         }
@@ -3300,6 +3409,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, createdTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, stackName: String? = nil) {
             self.appVisibility = appVisibility
             self.attributes = attributes
@@ -3327,6 +3437,7 @@ extension AppStream {
         /// A value that is matched to a supported SAML attribute name when a user identity federates into an Amazon AppStream 2.0 SAML application.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -3349,6 +3460,7 @@ extension AppStream {
         /// The error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3364,6 +3476,7 @@ extension AppStream {
         /// The identifier of the streaming session.
         public let sessionId: String?
 
+        @inlinable
         public init(sessionId: String? = nil) {
             self.sessionId = sessionId
         }
@@ -3433,6 +3546,7 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, computeCapacityStatus: ComputeCapacityStatus? = nil, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
@@ -3496,6 +3610,7 @@ extension AppStream {
         /// The error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3551,6 +3666,7 @@ extension AppStream {
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
 
+        @inlinable
         public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
@@ -3639,6 +3755,7 @@ extension AppStream {
         /// The VPC configuration of the image builder.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
@@ -3690,6 +3807,7 @@ extension AppStream {
         /// The state change reason message.
         public let message: String?
 
+        @inlinable
         public init(code: ImageBuilderStateChangeReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -3707,6 +3825,7 @@ extension AppStream {
         /// Indicates whether the image can be used for an image builder.
         public let allowImageBuilder: Bool?
 
+        @inlinable
         public init(allowFleet: Bool? = nil, allowImageBuilder: Bool? = nil) {
             self.allowFleet = allowFleet
             self.allowImageBuilder = allowImageBuilder
@@ -3724,6 +3843,7 @@ extension AppStream {
         /// The state change reason message.
         public let message: String?
 
+        @inlinable
         public init(code: ImageStateChangeReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -3741,6 +3861,7 @@ extension AppStream {
         /// The error message for the error that is returned when a usage report can't be generated.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: UsageReportExecutionErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3758,6 +3879,7 @@ extension AppStream {
         /// The name of the stack.
         public let stackName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, stackName: String? = nil) {
             self.nextToken = nextToken
             self.stackName = stackName
@@ -3780,6 +3902,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -3797,6 +3920,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetName: String? = nil, nextToken: String? = nil) {
             self.fleetName = fleetName
             self.nextToken = nextToken
@@ -3819,6 +3943,7 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(names: [String]? = nil, nextToken: String? = nil) {
             self.names = names
             self.nextToken = nextToken
@@ -3840,6 +3965,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(entitlementName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.entitlementName = entitlementName
             self.maxResults = maxResults
@@ -3867,6 +3993,7 @@ extension AppStream {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(entitledApplications: [EntitledApplication]? = nil, nextToken: String? = nil) {
             self.entitledApplications = entitledApplications
             self.nextToken = nextToken
@@ -3882,6 +4009,7 @@ extension AppStream {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -3899,6 +4027,7 @@ extension AppStream {
         /// The information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3914,6 +4043,7 @@ extension AppStream {
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
         public let eniPrivateIpAddress: String?
 
+        @inlinable
         public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
             self.eniId = eniId
             self.eniPrivateIpAddress = eniPrivateIpAddress
@@ -3933,6 +4063,7 @@ extension AppStream {
         /// The time the error occurred.
         public let errorTimestamp: Date?
 
+        @inlinable
         public init(errorCode: FleetErrorCode? = nil, errorMessage: String? = nil, errorTimestamp: Date? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3952,6 +4083,7 @@ extension AppStream {
         /// The S3 key of the S3 object. This is required when used for the following:   IconS3Location (Actions: CreateApplication and UpdateApplication)   SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)   ScriptDetails (Actions: CreateAppBlock)   SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock)   SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock)
         public let s3Key: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -3981,6 +4113,7 @@ extension AppStream {
         /// The run timeout, in seconds, for the script.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(executableParameters: String? = nil, executablePath: String? = nil, scriptS3Location: S3Location? = nil, timeoutInSeconds: Int? = nil) {
             self.executableParameters = executableParameters
             self.executablePath = executablePath
@@ -4008,6 +4141,7 @@ extension AppStream {
         /// The password for the account.
         public let accountPassword: String?
 
+        @inlinable
         public init(accountName: String? = nil, accountPassword: String? = nil) {
             self.accountName = accountName
             self.accountPassword = accountPassword
@@ -4049,6 +4183,7 @@ extension AppStream {
         /// The identifier of the user for whom the session was created.
         public let userId: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String? = nil, id: String? = nil, instanceId: String? = nil, maxExpirationTime: Date? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String? = nil, startTime: Date? = nil, state: SessionState? = nil, userId: String? = nil) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
@@ -4084,6 +4219,7 @@ extension AppStream {
         /// The 12-digit identifier of the AWS account with which the image is shared.
         public let sharedAccountId: String?
 
+        @inlinable
         public init(imagePermissions: ImagePermissions? = nil, sharedAccountId: String? = nil) {
             self.imagePermissions = imagePermissions
             self.sharedAccountId = sharedAccountId
@@ -4125,6 +4261,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default these actions are enabled.
         public let userSettings: [UserSetting]?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
@@ -4166,6 +4303,7 @@ extension AppStream {
         /// The error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: StackErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4181,6 +4319,7 @@ extension AppStream {
         /// The name of the app block builder.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4197,6 +4336,7 @@ extension AppStream {
     public struct StartAppBlockBuilderResult: AWSDecodableShape {
         public let appBlockBuilder: AppBlockBuilder?
 
+        @inlinable
         public init(appBlockBuilder: AppBlockBuilder? = nil) {
             self.appBlockBuilder = appBlockBuilder
         }
@@ -4210,6 +4350,7 @@ extension AppStream {
         /// The name of the fleet.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4233,6 +4374,7 @@ extension AppStream {
         /// The name of the image builder.
         public let name: String?
 
+        @inlinable
         public init(appstreamAgentVersion: String? = nil, name: String? = nil) {
             self.appstreamAgentVersion = appstreamAgentVersion
             self.name = name
@@ -4254,6 +4396,7 @@ extension AppStream {
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
 
+        @inlinable
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -4267,6 +4410,7 @@ extension AppStream {
         /// The name of the app block builder.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4283,6 +4427,7 @@ extension AppStream {
     public struct StopAppBlockBuilderResult: AWSDecodableShape {
         public let appBlockBuilder: AppBlockBuilder?
 
+        @inlinable
         public init(appBlockBuilder: AppBlockBuilder? = nil) {
             self.appBlockBuilder = appBlockBuilder
         }
@@ -4296,6 +4441,7 @@ extension AppStream {
         /// The name of the fleet.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4317,6 +4463,7 @@ extension AppStream {
         /// The name of the image builder.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4334,6 +4481,7 @@ extension AppStream {
         /// Information about the image builder.
         public let imageBuilder: ImageBuilder?
 
+        @inlinable
         public init(imageBuilder: ImageBuilder? = nil) {
             self.imageBuilder = imageBuilder
         }
@@ -4351,6 +4499,7 @@ extension AppStream {
         /// The ARN of the storage connector.
         public let resourceIdentifier: String?
 
+        @inlinable
         public init(connectorType: StorageConnectorType? = nil, domains: [String]? = nil, resourceIdentifier: String? = nil) {
             self.connectorType = connectorType
             self.domains = domains
@@ -4378,6 +4527,7 @@ extension AppStream {
         /// The preferred protocol that you want to use while streaming your application.
         public let preferredProtocol: PreferredProtocol?
 
+        @inlinable
         public init(preferredProtocol: PreferredProtocol? = nil) {
             self.preferredProtocol = preferredProtocol
         }
@@ -4393,6 +4543,7 @@ extension AppStream {
         /// The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4439,6 +4590,7 @@ extension AppStream {
         /// The browser tab page title.
         public let themeTitleText: String?
 
+        @inlinable
         public init(createdTime: Date? = nil, stackName: String? = nil, state: ThemeState? = nil, themeFaviconURL: String? = nil, themeFooterLinks: [ThemeFooterLink]? = nil, themeOrganizationLogoURL: String? = nil, themeStyling: ThemeStyling? = nil, themeTitleText: String? = nil) {
             self.createdTime = createdTime
             self.stackName = stackName
@@ -4468,6 +4620,7 @@ extension AppStream {
         /// The URL of the websites that display in the catalog page footer.
         public let footerLinkURL: String?
 
+        @inlinable
         public init(displayName: String? = nil, footerLinkURL: String? = nil) {
             self.displayName = displayName
             self.footerLinkURL = footerLinkURL
@@ -4493,6 +4646,7 @@ extension AppStream {
         /// The tag keys for the tags to disassociate.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4541,6 +4695,7 @@ extension AppStream {
         /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, attributesToDelete: [AppBlockBuilderAttribute]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: PlatformType? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.attributesToDelete = attributesToDelete
@@ -4585,6 +4740,7 @@ extension AppStream {
     public struct UpdateAppBlockBuilderResult: AWSDecodableShape {
         public let appBlockBuilder: AppBlockBuilder?
 
+        @inlinable
         public init(appBlockBuilder: AppBlockBuilder? = nil) {
             self.appBlockBuilder = appBlockBuilder
         }
@@ -4614,6 +4770,7 @@ extension AppStream {
         /// The working directory of the application.
         public let workingDirectory: String?
 
+        @inlinable
         public init(appBlockArn: String? = nil, attributesToDelete: [ApplicationAttribute]? = nil, description: String? = nil, displayName: String? = nil, iconS3Location: S3Location? = nil, launchParameters: String? = nil, launchPath: String? = nil, name: String? = nil, workingDirectory: String? = nil) {
             self.appBlockArn = appBlockArn
             self.attributesToDelete = attributesToDelete
@@ -4654,6 +4811,7 @@ extension AppStream {
     public struct UpdateApplicationResult: AWSDecodableShape {
         public let application: Application?
 
+        @inlinable
         public init(application: Application? = nil) {
             self.application = application
         }
@@ -4673,6 +4831,7 @@ extension AppStream {
         /// The credentials for the service account used by the fleet or image builder to connect to the directory.
         public let serviceAccountCredentials: ServiceAccountCredentials?
 
+        @inlinable
         public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, directoryName: String? = nil, organizationalUnitDistinguishedNames: [String]? = nil, serviceAccountCredentials: ServiceAccountCredentials? = nil) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.directoryName = directoryName
@@ -4700,6 +4859,7 @@ extension AppStream {
         /// Information about the Directory Config object.
         public let directoryConfig: DirectoryConfig?
 
+        @inlinable
         public init(directoryConfig: DirectoryConfig? = nil) {
             self.directoryConfig = directoryConfig
         }
@@ -4721,6 +4881,7 @@ extension AppStream {
         /// The name of the stack with which the entitlement is associated.
         public let stackName: String?
 
+        @inlinable
         public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, description: String? = nil, name: String? = nil, stackName: String? = nil) {
             self.appVisibility = appVisibility
             self.attributes = attributes
@@ -4752,6 +4913,7 @@ extension AppStream {
         /// The entitlement.
         public let entitlement: Entitlement?
 
+        @inlinable
         public init(entitlement: Entitlement? = nil) {
             self.entitlement = entitlement
         }
@@ -4807,6 +4969,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
@@ -4833,6 +4996,7 @@ extension AppStream {
         }
 
         @available(*, deprecated, message: "Members deleteVpcConfig have been deprecated")
+        @inlinable
         public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
@@ -4905,6 +5069,7 @@ extension AppStream {
         /// Information about the fleet.
         public let fleet: Fleet?
 
+        @inlinable
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
@@ -4922,6 +5087,7 @@ extension AppStream {
         /// The 12-digit identifier of the AWS account for which you want add or update image permissions.
         public let sharedAccountId: String?
 
+        @inlinable
         public init(imagePermissions: ImagePermissions? = nil, name: String? = nil, sharedAccountId: String? = nil) {
             self.imagePermissions = imagePermissions
             self.name = name
@@ -4972,6 +5138,7 @@ extension AppStream {
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
 
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
@@ -4989,6 +5156,7 @@ extension AppStream {
         }
 
         @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
+        @inlinable
         public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
@@ -5050,6 +5218,7 @@ extension AppStream {
         /// Information about the stack.
         public let stack: Stack?
 
+        @inlinable
         public init(stack: Stack? = nil) {
             self.stack = stack
         }
@@ -5077,6 +5246,7 @@ extension AppStream {
         /// The title that is displayed at the top of the browser tab during users' application streaming sessions.
         public let titleText: String?
 
+        @inlinable
         public init(attributesToDelete: [ThemeAttribute]? = nil, faviconS3Location: S3Location? = nil, footerLinks: [ThemeFooterLink]? = nil, organizationLogoS3Location: S3Location? = nil, stackName: String? = nil, state: ThemeState? = nil, themeStyling: ThemeStyling? = nil, titleText: String? = nil) {
             self.attributesToDelete = attributesToDelete
             self.faviconS3Location = faviconS3Location
@@ -5116,6 +5286,7 @@ extension AppStream {
         ///  The theme object that contains the metadata of the custom branding.
         public let theme: Theme?
 
+        @inlinable
         public init(theme: Theme? = nil) {
             self.theme = theme
         }
@@ -5135,6 +5306,7 @@ extension AppStream {
         /// The errors that were returned if usage reports couldn't be generated.
         public let subscriptionErrors: [LastReportGenerationExecutionError]?
 
+        @inlinable
         public init(lastGeneratedReportDate: Date? = nil, s3BucketName: String? = nil, schedule: UsageReportSchedule? = nil, subscriptionErrors: [LastReportGenerationExecutionError]? = nil) {
             self.lastGeneratedReportDate = lastGeneratedReportDate
             self.s3BucketName = s3BucketName
@@ -5168,6 +5340,7 @@ extension AppStream {
         /// The email address of the user.  Users' email addresses are case-sensitive.
         public let userName: String?
 
+        @inlinable
         public init(arn: String? = nil, authenticationType: AuthenticationType? = nil, createdTime: Date? = nil, enabled: Bool? = nil, firstName: String? = nil, lastName: String? = nil, status: String? = nil, userName: String? = nil) {
             self.arn = arn
             self.authenticationType = authenticationType
@@ -5199,6 +5372,7 @@ extension AppStream {
         /// Indicates whether the action is enabled or disabled.
         public let permission: Permission?
 
+        @inlinable
         public init(action: Action? = nil, maximumLength: Int? = nil, permission: Permission? = nil) {
             self.action = action
             self.maximumLength = maximumLength
@@ -5222,6 +5396,7 @@ extension AppStream {
         /// The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive.
         public let userName: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, sendEmailNotification: Bool? = nil, stackName: String? = nil, userName: String? = nil) {
             self.authenticationType = authenticationType
             self.sendEmailNotification = sendEmailNotification
@@ -5252,6 +5427,7 @@ extension AppStream {
         /// Information about the user and associated stack.
         public let userStackAssociation: UserStackAssociation?
 
+        @inlinable
         public init(errorCode: UserStackAssociationErrorCode? = nil, errorMessage: String? = nil, userStackAssociation: UserStackAssociation? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -5271,6 +5447,7 @@ extension AppStream {
         /// The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds

@@ -115,6 +115,7 @@ extension Shield {
         /// Indicates whether automatic application layer DDoS mitigation is enabled for the protection.
         public let status: ApplicationLayerAutomaticResponseStatus
 
+        @inlinable
         public init(action: ResponseAction, status: ApplicationLayerAutomaticResponseStatus) {
             self.action = action
             self.status = status
@@ -130,6 +131,7 @@ extension Shield {
         /// The Amazon S3 bucket that contains the logs that you want to share.
         public let logBucket: String
 
+        @inlinable
         public init(logBucket: String) {
             self.logBucket = logBucket
         }
@@ -153,6 +155,7 @@ extension Shield {
         /// The Amazon Resource Name (ARN) of the role the SRT will use to access your Amazon Web Services account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role.  For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
 
+        @inlinable
         public init(roleArn: String) {
             self.roleArn = roleArn
         }
@@ -178,6 +181,7 @@ extension Shield {
         /// The unique identifier (ID) for the Protection object to add the health check association to.
         public let protectionId: String
 
+        @inlinable
         public init(healthCheckArn: String, protectionId: String) {
             self.healthCheckArn = healthCheckArn
             self.protectionId = protectionId
@@ -206,6 +210,7 @@ extension Shield {
         /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you for escalations to the SRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.
         public let emergencyContactList: [EmergencyContact]
 
+        @inlinable
         public init(emergencyContactList: [EmergencyContact]) {
             self.emergencyContactList = emergencyContactList
         }
@@ -244,6 +249,7 @@ extension Shield {
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
         public let subResources: [SubResourceSummary]?
 
+        @inlinable
         public init(attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil, attackProperties: [AttackProperty]? = nil, endTime: Date? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, startTime: Date? = nil, subResources: [SubResourceSummary]? = nil) {
             self.attackCounters = attackCounters
             self.attackId = attackId
@@ -279,6 +285,7 @@ extension Shield {
         /// The unit used for the Contributor Value property.
         public let unit: Unit?
 
+        @inlinable
         public init(attackLayer: AttackLayer? = nil, attackPropertyIdentifier: AttackPropertyIdentifier? = nil, topContributors: [Contributor]? = nil, total: Int64? = nil, unit: Unit? = nil) {
             self.attackLayer = attackLayer
             self.attackPropertyIdentifier = attackPropertyIdentifier
@@ -302,6 +309,7 @@ extension Shield {
         /// Information about the volume of attacks during the time period. If the accompanying AttackCount is zero, this setting might be empty.
         public let attackVolume: AttackVolume?
 
+        @inlinable
         public init(attackCount: Int64, attackVolume: AttackVolume? = nil) {
             self.attackCount = attackCount
             self.attackVolume = attackVolume
@@ -325,6 +333,7 @@ extension Shield {
         /// The start time of the attack, in Unix time in seconds.
         public let startTime: Date?
 
+        @inlinable
         public init(attackId: String? = nil, attackVectors: [AttackVectorDescription]? = nil, endTime: Date? = nil, resourceArn: String? = nil, startTime: Date? = nil) {
             self.attackId = attackId
             self.attackVectors = attackVectors
@@ -346,6 +355,7 @@ extension Shield {
         /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION
         public let vectorType: String
 
+        @inlinable
         public init(vectorType: String) {
             self.vectorType = vectorType
         }
@@ -363,6 +373,7 @@ extension Shield {
         /// A statistics object that uses requests per second as the unit. This is included for application level attacks, and is only available for accounts that are subscribed to Shield Advanced.
         public let requestsPerSecond: AttackVolumeStatistics?
 
+        @inlinable
         public init(bitsPerSecond: AttackVolumeStatistics? = nil, packetsPerSecond: AttackVolumeStatistics? = nil, requestsPerSecond: AttackVolumeStatistics? = nil) {
             self.bitsPerSecond = bitsPerSecond
             self.packetsPerSecond = packetsPerSecond
@@ -380,6 +391,7 @@ extension Shield {
         /// The maximum attack volume observed for the given unit.
         public let max: Double
 
+        @inlinable
         public init(max: Double) {
             self.max = max
         }
@@ -399,6 +411,7 @@ extension Shield {
         /// The contribution of this contributor expressed in Protection units. For example 10,000.
         public let value: Int64?
 
+        @inlinable
         public init(name: String? = nil, value: Int64? = nil) {
             self.name = name
             self.value = value
@@ -428,6 +441,7 @@ extension Shield {
         /// One or more tag key-value pairs for the protection group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(aggregation: ProtectionGroupAggregation, members: [String]? = nil, pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil, tags: [Tag]? = nil) {
             self.aggregation = aggregation
             self.members = members
@@ -475,6 +489,7 @@ extension Shield {
         /// One or more tag key-value pairs for the Protection object that is created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(name: String, resourceArn: String, tags: [Tag]? = nil) {
             self.name = name
             self.resourceArn = resourceArn
@@ -505,6 +520,7 @@ extension Shield {
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
 
+        @inlinable
         public init(protectionId: String? = nil) {
             self.protectionId = protectionId
         }
@@ -526,6 +542,7 @@ extension Shield {
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
 
+        @inlinable
         public init(protectionGroupId: String) {
             self.protectionGroupId = protectionGroupId
         }
@@ -549,6 +566,7 @@ extension Shield {
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
 
+        @inlinable
         public init(protectionId: String) {
             self.protectionId = protectionId
         }
@@ -580,6 +598,7 @@ extension Shield {
         /// The unique identifier (ID) for the attack.
         public let attackId: String
 
+        @inlinable
         public init(attackId: String) {
             self.attackId = attackId
         }
@@ -599,6 +618,7 @@ extension Shield {
         /// The attack that you requested.
         public let attack: AttackDetail?
 
+        @inlinable
         public init(attack: AttackDetail? = nil) {
             self.attack = attack
         }
@@ -618,6 +638,7 @@ extension Shield {
         /// The time range of the attack.
         public let timeRange: TimeRange
 
+        @inlinable
         public init(dataItems: [AttackStatisticsDataItem], timeRange: TimeRange) {
             self.dataItems = dataItems
             self.timeRange = timeRange
@@ -639,6 +660,7 @@ extension Shield {
         /// The Amazon Resource Name (ARN) of the role the SRT used to access your Amazon Web Services account.
         public let roleArn: String?
 
+        @inlinable
         public init(logBucketList: [String]? = nil, roleArn: String? = nil) {
             self.logBucketList = logBucketList
             self.roleArn = roleArn
@@ -658,6 +680,7 @@ extension Shield {
         /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
         public let emergencyContactList: [EmergencyContact]?
 
+        @inlinable
         public init(emergencyContactList: [EmergencyContact]? = nil) {
             self.emergencyContactList = emergencyContactList
         }
@@ -671,6 +694,7 @@ extension Shield {
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
 
+        @inlinable
         public init(protectionGroupId: String) {
             self.protectionGroupId = protectionGroupId
         }
@@ -690,6 +714,7 @@ extension Shield {
         /// A grouping of protected resources that you and Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
         public let protectionGroup: ProtectionGroup
 
+        @inlinable
         public init(protectionGroup: ProtectionGroup) {
             self.protectionGroup = protectionGroup
         }
@@ -705,6 +730,7 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the protected Amazon Web Services resource.  You must provide either the ResourceArn of the protected resource or the ProtectionID of the protection, but not both.
         public let resourceArn: String?
 
+        @inlinable
         public init(protectionId: String? = nil, resourceArn: String? = nil) {
             self.protectionId = protectionId
             self.resourceArn = resourceArn
@@ -729,6 +755,7 @@ extension Shield {
         /// The Protection that you requested.
         public let protection: Protection?
 
+        @inlinable
         public init(protection: Protection? = nil) {
             self.protection = protection
         }
@@ -746,6 +773,7 @@ extension Shield {
         /// The Shield Advanced subscription details for an account.
         public let subscription: Subscription?
 
+        @inlinable
         public init(subscription: Subscription? = nil) {
             self.subscription = subscription
         }
@@ -759,6 +787,7 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the protected resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -790,6 +819,7 @@ extension Shield {
         /// The Amazon S3 bucket that contains the logs that you want to share.
         public let logBucket: String
 
+        @inlinable
         public init(logBucket: String) {
             self.logBucket = logBucket
         }
@@ -823,6 +853,7 @@ extension Shield {
         /// The unique identifier (ID) for the Protection object to remove the health check association from.
         public let protectionId: String
 
+        @inlinable
         public init(healthCheckArn: String, protectionId: String) {
             self.healthCheckArn = healthCheckArn
             self.protectionId = protectionId
@@ -855,6 +886,7 @@ extension Shield {
         /// The phone number for the contact.
         public let phoneNumber: String?
 
+        @inlinable
         public init(contactNotes: String? = nil, emailAddress: String, phoneNumber: String? = nil) {
             self.contactNotes = contactNotes
             self.emailAddress = emailAddress
@@ -886,6 +918,7 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the protected resource.
         public let resourceArn: String
 
+        @inlinable
         public init(action: ResponseAction, resourceArn: String) {
             self.action = action
             self.resourceArn = resourceArn
@@ -923,6 +956,7 @@ extension Shield {
         /// The status of the subscription.
         public let subscriptionState: SubscriptionState
 
+        @inlinable
         public init(subscriptionState: SubscriptionState) {
             self.subscriptionState = subscriptionState
         }
@@ -940,6 +974,7 @@ extension Shield {
         /// The type of protected resource whose protections you want to retrieve.
         public let resourceTypes: [ProtectedResourceType]?
 
+        @inlinable
         public init(protectionNames: [String]? = nil, resourceArns: [String]? = nil, resourceTypes: [ProtectedResourceType]? = nil) {
             self.protectionNames = protectionNames
             self.resourceArns = resourceArns
@@ -982,6 +1017,7 @@ extension Shield {
         /// The resource type configuration of the protection groups that you want to retrieve. In the protection group configuration, you specify the resource type when you set the group's Pattern to BY_RESOURCE_TYPE.
         public let resourceTypes: [ProtectedResourceType]?
 
+        @inlinable
         public init(aggregations: [ProtectionGroupAggregation]? = nil, patterns: [ProtectionGroupPattern]? = nil, protectionGroupIds: [String]? = nil, resourceTypes: [ProtectedResourceType]? = nil) {
             self.aggregations = aggregations
             self.patterns = patterns
@@ -1019,6 +1055,7 @@ extension Shield {
         /// The type of protection.
         public let type: String?
 
+        @inlinable
         public init(max: Int64? = nil, type: String? = nil) {
             self.max = max
             self.type = type
@@ -1042,6 +1079,7 @@ extension Shield {
         /// The start of the time period for the attacks. This is a timestamp type. The request syntax listing for this call indicates a number type, but you can provide the time in any valid timestamp format setting.
         public let startTime: TimeRange?
 
+        @inlinable
         public init(endTime: TimeRange? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil, startTime: TimeRange? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1078,6 +1116,7 @@ extension Shield {
         /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(attackSummaries: [AttackSummary]? = nil, nextToken: String? = nil) {
             self.attackSummaries = attackSummaries
             self.nextToken = nextToken
@@ -1097,6 +1136,7 @@ extension Shield {
         /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
 
+        @inlinable
         public init(inclusionFilters: InclusionProtectionGroupFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.inclusionFilters = inclusionFilters
             self.maxResults = maxResults
@@ -1124,6 +1164,7 @@ extension Shield {
         public let nextToken: String?
         public let protectionGroups: [ProtectionGroup]
 
+        @inlinable
         public init(nextToken: String? = nil, protectionGroups: [ProtectionGroup]) {
             self.nextToken = nextToken
             self.protectionGroups = protectionGroups
@@ -1143,6 +1184,7 @@ extension Shield {
         /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
 
+        @inlinable
         public init(inclusionFilters: InclusionProtectionFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.inclusionFilters = inclusionFilters
             self.maxResults = maxResults
@@ -1171,6 +1213,7 @@ extension Shield {
         /// The array of enabled Protection objects.
         public let protections: [Protection]?
 
+        @inlinable
         public init(nextToken: String? = nil, protections: [Protection]? = nil) {
             self.nextToken = nextToken
             self.protections = protections
@@ -1190,6 +1233,7 @@ extension Shield {
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, protectionGroupId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1220,6 +1264,7 @@ extension Shield {
         /// The Amazon Resource Names (ARNs) of the resources that are included in the protection group.
         public let resourceArns: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, resourceArns: [String]) {
             self.nextToken = nextToken
             self.resourceArns = resourceArns
@@ -1235,6 +1280,7 @@ extension Shield {
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1254,6 +1300,7 @@ extension Shield {
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1267,6 +1314,7 @@ extension Shield {
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
 
+        @inlinable
         public init(mitigationName: String? = nil) {
             self.mitigationName = mitigationName
         }
@@ -1290,6 +1338,7 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the Amazon Web Services resource that is protected.
         public let resourceArn: String?
 
+        @inlinable
         public init(applicationLayerAutomaticResponseConfiguration: ApplicationLayerAutomaticResponseConfiguration? = nil, healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, protectionArn: String? = nil, resourceArn: String? = nil) {
             self.applicationLayerAutomaticResponseConfiguration = applicationLayerAutomaticResponseConfiguration
             self.healthCheckIds = healthCheckIds
@@ -1323,6 +1372,7 @@ extension Shield {
         /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
         public let resourceType: ProtectedResourceType?
 
+        @inlinable
         public init(aggregation: ProtectionGroupAggregation, members: [String], pattern: ProtectionGroupPattern, protectionGroupArn: String? = nil, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
             self.aggregation = aggregation
             self.members = members
@@ -1346,6 +1396,7 @@ extension Shield {
         /// The maximum number of resources you can specify for a single arbitrary pattern in a protection group.
         public let maxMembers: Int64
 
+        @inlinable
         public init(maxMembers: Int64) {
             self.maxMembers = maxMembers
         }
@@ -1361,6 +1412,7 @@ extension Shield {
         /// Limits settings by pattern type in the protection groups for your subscription.
         public let patternTypeLimits: ProtectionGroupPatternTypeLimits
 
+        @inlinable
         public init(maxProtectionGroups: Int64, patternTypeLimits: ProtectionGroupPatternTypeLimits) {
             self.maxProtectionGroups = maxProtectionGroups
             self.patternTypeLimits = patternTypeLimits
@@ -1376,6 +1428,7 @@ extension Shield {
         /// Limits settings on protection groups with arbitrary pattern type.
         public let arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits
 
+        @inlinable
         public init(arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits) {
             self.arbitraryPatternLimits = arbitraryPatternLimits
         }
@@ -1389,6 +1442,7 @@ extension Shield {
         /// The maximum number of resource types that you can specify in a protection.
         public let protectedResourceTypeLimits: [Limit]
 
+        @inlinable
         public init(protectedResourceTypeLimits: [Limit]) {
             self.protectedResourceTypeLimits = protectedResourceTypeLimits
         }
@@ -1404,6 +1458,7 @@ extension Shield {
         /// Specifies that Shield Advanced should configure its WAF rules with the WAF Count action.  You must specify exactly one action, either Block or Count.
         public let count: CountAction?
 
+        @inlinable
         public init(block: BlockAction? = nil, count: CountAction? = nil) {
             self.block = block
             self.count = count
@@ -1425,6 +1480,7 @@ extension Shield {
         /// The SubResource type.
         public let type: SubResourceType?
 
+        @inlinable
         public init(attackVectors: [SummarizedAttackVector]? = nil, counters: [SummarizedCounter]? = nil, id: String? = nil, type: SubResourceType? = nil) {
             self.attackVectors = attackVectors
             self.counters = counters
@@ -1458,6 +1514,7 @@ extension Shield {
         /// The length, in seconds, of the Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
+        @inlinable
         public init(autoRenew: AutoRenew? = nil, endTime: Date? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: Date? = nil, subscriptionArn: String? = nil, subscriptionLimits: SubscriptionLimits, timeCommitmentInSeconds: Int64? = nil) {
             self.autoRenew = autoRenew
             self.endTime = endTime
@@ -1487,6 +1544,7 @@ extension Shield {
         /// Limits settings on protections for your subscription.
         public let protectionLimits: ProtectionLimits
 
+        @inlinable
         public init(protectionGroupLimits: ProtectionGroupLimits, protectionLimits: ProtectionLimits) {
             self.protectionGroupLimits = protectionGroupLimits
             self.protectionLimits = protectionLimits
@@ -1504,6 +1562,7 @@ extension Shield {
         /// The attack type, for example, SNMP reflection or SYN flood.
         public let vectorType: String
 
+        @inlinable
         public init(vectorCounters: [SummarizedCounter]? = nil, vectorType: String) {
             self.vectorCounters = vectorCounters
             self.vectorType = vectorType
@@ -1529,6 +1588,7 @@ extension Shield {
         /// The unit of the counters.
         public let unit: String?
 
+        @inlinable
         public init(average: Double? = nil, max: Double? = nil, n: Int? = nil, name: String? = nil, sum: Double? = nil, unit: String? = nil) {
             self.average = average
             self.max = max
@@ -1554,6 +1614,7 @@ extension Shield {
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1577,6 +1638,7 @@ extension Shield {
         /// The tags that you want to modify or add to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1608,6 +1670,7 @@ extension Shield {
         /// The end time, in Unix time in seconds.
         public let toExclusive: Date?
 
+        @inlinable
         public init(fromInclusive: Date? = nil, toExclusive: Date? = nil) {
             self.fromInclusive = fromInclusive
             self.toExclusive = toExclusive
@@ -1625,6 +1688,7 @@ extension Shield {
         /// The tag key for each tag that you want to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1657,6 +1721,7 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(action: ResponseAction, resourceArn: String) {
             self.action = action
             self.resourceArn = resourceArn
@@ -1682,6 +1747,7 @@ extension Shield {
         /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
         public let emergencyContactList: [EmergencyContact]?
 
+        @inlinable
         public init(emergencyContactList: [EmergencyContact]? = nil) {
             self.emergencyContactList = emergencyContactList
         }
@@ -1714,6 +1780,7 @@ extension Shield {
         /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
         public let resourceType: ProtectedResourceType?
 
+        @inlinable
         public init(aggregation: ProtectionGroupAggregation, members: [String]? = nil, pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
             self.aggregation = aggregation
             self.members = members
@@ -1751,6 +1818,7 @@ extension Shield {
         /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
 
+        @inlinable
         public init(autoRenew: AutoRenew? = nil) {
             self.autoRenew = autoRenew
         }

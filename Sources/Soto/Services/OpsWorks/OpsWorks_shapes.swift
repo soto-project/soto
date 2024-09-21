@@ -266,6 +266,7 @@ extension OpsWorks {
         /// The agent version.
         public let version: String?
 
+        @inlinable
         public init(configurationManager: StackConfigurationManager? = nil, version: String? = nil) {
             self.configurationManager = configurationManager
             self.version = version
@@ -307,6 +308,7 @@ extension OpsWorks {
         /// The app type.
         public let type: AppType?
 
+        @inlinable
         public init(appId: String? = nil, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, createdAt: String? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String? = nil, type: AppType? = nil) {
             self.appId = appId
             self.appSource = appSource
@@ -348,6 +350,7 @@ extension OpsWorks {
         /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
         public let layerIds: [String]
 
+        @inlinable
         public init(instanceId: String, layerIds: [String]) {
             self.instanceId = instanceId
             self.layerIds = layerIds
@@ -365,6 +368,7 @@ extension OpsWorks {
         /// The volume ID.
         public let volumeId: String
 
+        @inlinable
         public init(instanceId: String? = nil, volumeId: String) {
             self.instanceId = instanceId
             self.volumeId = volumeId
@@ -382,6 +386,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
 
+        @inlinable
         public init(elasticIp: String, instanceId: String? = nil) {
             self.elasticIp = elasticIp
             self.instanceId = instanceId
@@ -399,6 +404,7 @@ extension OpsWorks {
         /// The ID of the layer to which the Elastic Load Balancing instance is to be attached.
         public let layerId: String
 
+        @inlinable
         public init(elasticLoadBalancerName: String, layerId: String) {
             self.elasticLoadBalancerName = elasticLoadBalancerName
             self.layerId = layerId
@@ -426,6 +432,7 @@ extension OpsWorks {
         /// The amount of time, in minutes, that the load must exceed a threshold before more instances are added or removed.
         public let thresholdsWaitTime: Int?
 
+        @inlinable
         public init(alarms: [String]? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int? = nil, instanceCount: Int? = nil, loadThreshold: Double? = nil, memoryThreshold: Double? = nil, thresholdsWaitTime: Int? = nil) {
             self.alarms = alarms
             self.cpuThreshold = cpuThreshold
@@ -464,6 +471,7 @@ extension OpsWorks {
         /// The virtual device name. For more information, see BlockDeviceMapping.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: EbsBlockDevice? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -485,6 +493,7 @@ extension OpsWorks {
         /// Whether to enable Berkshelf.
         public let manageBerkshelf: Bool?
 
+        @inlinable
         public init(berkshelfVersion: String? = nil, manageBerkshelf: Bool? = nil) {
             self.berkshelfVersion = berkshelfVersion
             self.manageBerkshelf = manageBerkshelf
@@ -542,6 +551,7 @@ extension OpsWorks {
         /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms.
         public let vpcId: String?
 
+        @inlinable
         public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, cloneAppIds: [String]? = nil, clonePermissions: Bool? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String, sourceStackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
             self.agentVersion = agentVersion
             self.attributes = attributes
@@ -597,6 +607,7 @@ extension OpsWorks {
         /// The cloned stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(stackId: String? = nil) {
             self.stackId = stackId
         }
@@ -612,6 +623,7 @@ extension OpsWorks {
         /// A list of configuration options for CloudWatch Logs.
         public let logStreams: [CloudWatchLogsLogStream]?
 
+        @inlinable
         public init(enabled: Bool? = nil, logStreams: [CloudWatchLogsLogStream]? = nil) {
             self.enabled = enabled
             self.logStreams = logStreams
@@ -647,6 +659,7 @@ extension OpsWorks {
         /// Specifies the time zone of log event time stamps.
         public let timeZone: CloudWatchLogsTimeZone?
 
+        @inlinable
         public init(batchCount: Int? = nil, batchSize: Int? = nil, bufferDuration: Int? = nil, datetimeFormat: String? = nil, encoding: CloudWatchLogsEncoding? = nil, file: String? = nil, fileFingerprintLines: String? = nil, initialPosition: CloudWatchLogsInitialPosition? = nil, logGroupName: String? = nil, multiLineStartPattern: String? = nil, timeZone: CloudWatchLogsTimeZone? = nil) {
             self.batchCount = batchCount
             self.batchSize = batchSize
@@ -698,6 +711,7 @@ extension OpsWorks {
         /// The command type:    configure     deploy     execute_recipes     install_dependencies     restart     rollback     setup     start     stop     undeploy     update_custom_cookbooks     update_dependencies
         public let type: String?
 
+        @inlinable
         public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
             self.acknowledgedAt = acknowledgedAt
             self.commandId = commandId
@@ -751,6 +765,7 @@ extension OpsWorks {
         /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. OpsWorks Stacks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
         public let type: AppType
 
+        @inlinable
         public init(appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String, type: AppType) {
             self.appSource = appSource
             self.attributes = attributes
@@ -786,6 +801,7 @@ extension OpsWorks {
         /// The app ID.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -811,6 +827,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(appId: String? = nil, command: DeploymentCommand, comment: String? = nil, customJson: String? = nil, instanceIds: [String]? = nil, layerIds: [String]? = nil, stackId: String) {
             self.appId = appId
             self.command = command
@@ -836,6 +853,7 @@ extension OpsWorks {
         /// The deployment ID, which can be used with other requests to identify the deployment.
         public let deploymentId: String?
 
+        @inlinable
         public init(deploymentId: String? = nil) {
             self.deploymentId = deploymentId
         }
@@ -884,6 +902,7 @@ extension OpsWorks {
         /// The instance's virtualization type, paravirtual or hvm.
         public let virtualizationType: String?
 
+        @inlinable
         public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, autoScalingType: AutoScalingType? = nil, availabilityZone: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, hostname: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceType: String, layerIds: [String], os: String? = nil, rootDeviceType: RootDeviceType? = nil, sshKeyName: String? = nil, stackId: String, subnetId: String? = nil, tenancy: String? = nil, virtualizationType: String? = nil) {
             self.agentVersion = agentVersion
             self.amiId = amiId
@@ -931,6 +950,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
 
+        @inlinable
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -978,6 +998,7 @@ extension OpsWorks {
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
         public let volumeConfigurations: [VolumeConfiguration]?
 
+        @inlinable
         public init(attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String, packages: [String]? = nil, shortname: String, stackId: String, type: LayerType, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
             self.attributes = attributes
             self.autoAssignElasticIps = autoAssignElasticIps
@@ -1025,6 +1046,7 @@ extension OpsWorks {
         /// The layer ID.
         public let layerId: String?
 
+        @inlinable
         public init(layerId: String? = nil) {
             self.layerId = layerId
         }
@@ -1074,6 +1096,7 @@ extension OpsWorks {
         /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched  into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, OpsWorks Stacks infers the value of the  other parameter. If you specify neither parameter, OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms.
         public let vpcId: String?
 
+        @inlinable
         public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String, region: String, serviceRoleArn: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
             self.agentVersion = agentVersion
             self.attributes = attributes
@@ -1123,6 +1146,7 @@ extension OpsWorks {
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
         public let stackId: String?
 
+        @inlinable
         public init(stackId: String? = nil) {
             self.stackId = stackId
         }
@@ -1142,6 +1166,7 @@ extension OpsWorks {
         /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, OpsWorks Stacks removes them. For example, my.name is changed to myname. If you do not specify an SSH user name, OpsWorks Stacks generates one from the IAM user name.
         public let sshUsername: String?
 
+        @inlinable
         public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
             self.allowSelfManagement = allowSelfManagement
             self.iamUserArn = iamUserArn
@@ -1161,6 +1186,7 @@ extension OpsWorks {
         /// The user's IAM ARN.
         public let iamUserArn: String?
 
+        @inlinable
         public init(iamUserArn: String? = nil) {
             self.iamUserArn = iamUserArn
         }
@@ -1178,6 +1204,7 @@ extension OpsWorks {
         /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, RdsDbInstance, or None.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, databaseName: String? = nil, type: String? = nil) {
             self.arn = arn
             self.databaseName = databaseName
@@ -1195,6 +1222,7 @@ extension OpsWorks {
         /// The app ID.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -1212,6 +1240,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(deleteElasticIp: Bool? = nil, deleteVolumes: Bool? = nil, instanceId: String) {
             self.deleteElasticIp = deleteElasticIp
             self.deleteVolumes = deleteVolumes
@@ -1229,6 +1258,7 @@ extension OpsWorks {
         /// The layer ID.
         public let layerId: String
 
+        @inlinable
         public init(layerId: String) {
             self.layerId = layerId
         }
@@ -1242,6 +1272,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(stackId: String) {
             self.stackId = stackId
         }
@@ -1255,6 +1286,7 @@ extension OpsWorks {
         /// The user's IAM ARN. This can also be a federated user's ARN.
         public let iamUserArn: String
 
+        @inlinable
         public init(iamUserArn: String) {
             self.iamUserArn = iamUserArn
         }
@@ -1290,6 +1322,7 @@ extension OpsWorks {
         /// The deployment status:   running   successful   failed
         public let status: String?
 
+        @inlinable
         public init(appId: String? = nil, command: DeploymentCommand? = nil, comment: String? = nil, completedAt: String? = nil, createdAt: String? = nil, customJson: String? = nil, deploymentId: String? = nil, duration: Int? = nil, iamUserArn: String? = nil, instanceIds: [String]? = nil, stackId: String? = nil, status: String? = nil) {
             self.appId = appId
             self.command = command
@@ -1327,6 +1360,7 @@ extension OpsWorks {
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.
         public let name: DeploymentCommandName
 
+        @inlinable
         public init(args: [String: [String]]? = nil, name: DeploymentCommandName) {
             self.args = args
             self.name = name
@@ -1342,6 +1376,7 @@ extension OpsWorks {
         /// The cluster's Amazon Resource Number (ARN).
         public let ecsClusterArn: String
 
+        @inlinable
         public init(ecsClusterArn: String) {
             self.ecsClusterArn = ecsClusterArn
         }
@@ -1355,6 +1390,7 @@ extension OpsWorks {
         /// The Elastic IP address.
         public let elasticIp: String
 
+        @inlinable
         public init(elasticIp: String) {
             self.elasticIp = elasticIp
         }
@@ -1368,6 +1404,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -1381,6 +1418,7 @@ extension OpsWorks {
         /// The Amazon RDS instance's ARN.
         public let rdsDbInstanceArn: String
 
+        @inlinable
         public init(rdsDbInstanceArn: String) {
             self.rdsDbInstanceArn = rdsDbInstanceArn
         }
@@ -1394,6 +1432,7 @@ extension OpsWorks {
         /// The OpsWorks Stacks volume ID, which is the GUID that OpsWorks Stacks assigned to the instance  when you registered the volume with the stack, not the Amazon EC2 volume ID.
         public let volumeId: String
 
+        @inlinable
         public init(volumeId: String) {
             self.volumeId = volumeId
         }
@@ -1409,6 +1448,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(configurationManager: StackConfigurationManager? = nil, stackId: String? = nil) {
             self.configurationManager = configurationManager
             self.stackId = stackId
@@ -1424,6 +1464,7 @@ extension OpsWorks {
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number,  not the abbreviated number used by the console.
         public let agentVersions: [AgentVersion]?
 
+        @inlinable
         public init(agentVersions: [AgentVersion]? = nil) {
             self.agentVersions = agentVersions
         }
@@ -1439,6 +1480,7 @@ extension OpsWorks {
         /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
         public let stackId: String?
 
+        @inlinable
         public init(appIds: [String]? = nil, stackId: String? = nil) {
             self.appIds = appIds
             self.stackId = stackId
@@ -1454,6 +1496,7 @@ extension OpsWorks {
         /// An array of App objects that describe the specified apps.
         public let apps: [App]?
 
+        @inlinable
         public init(apps: [App]? = nil) {
             self.apps = apps
         }
@@ -1471,6 +1514,7 @@ extension OpsWorks {
         /// The instance ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified instance.
         public let instanceId: String?
 
+        @inlinable
         public init(commandIds: [String]? = nil, deploymentId: String? = nil, instanceId: String? = nil) {
             self.commandIds = commandIds
             self.deploymentId = deploymentId
@@ -1488,6 +1532,7 @@ extension OpsWorks {
         /// An array of Command objects that describe each of the specified commands.
         public let commands: [Command]?
 
+        @inlinable
         public init(commands: [Command]? = nil) {
             self.commands = commands
         }
@@ -1505,6 +1550,7 @@ extension OpsWorks {
         /// The stack ID. If you include this parameter, the command returns a description of the commands associated with the specified stack.
         public let stackId: String?
 
+        @inlinable
         public init(appId: String? = nil, deploymentIds: [String]? = nil, stackId: String? = nil) {
             self.appId = appId
             self.deploymentIds = deploymentIds
@@ -1522,6 +1568,7 @@ extension OpsWorks {
         /// An array of Deployment objects that describe the deployments.
         public let deployments: [Deployment]?
 
+        @inlinable
         public init(deployments: [Deployment]? = nil) {
             self.deployments = deployments
         }
@@ -1541,6 +1588,7 @@ extension OpsWorks {
         /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
         public let stackId: String?
 
+        @inlinable
         public init(ecsClusterArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackId: String? = nil) {
             self.ecsClusterArns = ecsClusterArns
             self.maxResults = maxResults
@@ -1562,6 +1610,7 @@ extension OpsWorks {
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
         public let nextToken: String?
 
+        @inlinable
         public init(ecsClusters: [EcsCluster]? = nil, nextToken: String? = nil) {
             self.ecsClusters = ecsClusters
             self.nextToken = nextToken
@@ -1581,6 +1630,7 @@ extension OpsWorks {
         /// A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
         public let stackId: String?
 
+        @inlinable
         public init(instanceId: String? = nil, ips: [String]? = nil, stackId: String? = nil) {
             self.instanceId = instanceId
             self.ips = ips
@@ -1598,6 +1648,7 @@ extension OpsWorks {
         /// An ElasticIps object that describes the specified Elastic IP addresses.
         public let elasticIps: [ElasticIp]?
 
+        @inlinable
         public init(elasticIps: [ElasticIp]? = nil) {
             self.elasticIps = elasticIps
         }
@@ -1613,6 +1664,7 @@ extension OpsWorks {
         /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
         public let stackId: String?
 
+        @inlinable
         public init(layerIds: [String]? = nil, stackId: String? = nil) {
             self.layerIds = layerIds
             self.stackId = stackId
@@ -1628,6 +1680,7 @@ extension OpsWorks {
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
         public let elasticLoadBalancers: [ElasticLoadBalancer]?
 
+        @inlinable
         public init(elasticLoadBalancers: [ElasticLoadBalancer]? = nil) {
             self.elasticLoadBalancers = elasticLoadBalancers
         }
@@ -1645,6 +1698,7 @@ extension OpsWorks {
         /// A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
         public let stackId: String?
 
+        @inlinable
         public init(instanceIds: [String]? = nil, layerId: String? = nil, stackId: String? = nil) {
             self.instanceIds = instanceIds
             self.layerId = layerId
@@ -1662,6 +1716,7 @@ extension OpsWorks {
         /// An array of Instance objects that describe the instances.
         public let instances: [Instance]?
 
+        @inlinable
         public init(instances: [Instance]? = nil) {
             self.instances = instances
         }
@@ -1677,6 +1732,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(layerIds: [String]? = nil, stackId: String? = nil) {
             self.layerIds = layerIds
             self.stackId = stackId
@@ -1692,6 +1748,7 @@ extension OpsWorks {
         /// An array of Layer objects that describe the layers.
         public let layers: [Layer]?
 
+        @inlinable
         public init(layers: [Layer]? = nil) {
             self.layers = layers
         }
@@ -1705,6 +1762,7 @@ extension OpsWorks {
         /// An array of layer IDs.
         public let layerIds: [String]
 
+        @inlinable
         public init(layerIds: [String]) {
             self.layerIds = layerIds
         }
@@ -1718,6 +1776,7 @@ extension OpsWorks {
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
         public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
 
+        @inlinable
         public init(loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil) {
             self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
         }
@@ -1731,6 +1790,7 @@ extension OpsWorks {
         /// A UserProfile object that describes the user's SSH information.
         public let userProfile: SelfUserProfile?
 
+        @inlinable
         public init(userProfile: SelfUserProfile? = nil) {
             self.userProfile = userProfile
         }
@@ -1744,6 +1804,7 @@ extension OpsWorks {
         /// Contains information in response to a DescribeOperatingSystems request.
         public let operatingSystems: [OperatingSystem]?
 
+        @inlinable
         public init(operatingSystems: [OperatingSystem]? = nil) {
             self.operatingSystems = operatingSystems
         }
@@ -1759,6 +1820,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(iamUserArn: String? = nil, stackId: String? = nil) {
             self.iamUserArn = iamUserArn
             self.stackId = stackId
@@ -1774,6 +1836,7 @@ extension OpsWorks {
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.
         public let permissions: [Permission]?
 
+        @inlinable
         public init(permissions: [Permission]? = nil) {
             self.permissions = permissions
         }
@@ -1791,6 +1854,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(instanceId: String? = nil, raidArrayIds: [String]? = nil, stackId: String? = nil) {
             self.instanceId = instanceId
             self.raidArrayIds = raidArrayIds
@@ -1808,6 +1872,7 @@ extension OpsWorks {
         /// A RaidArrays object that describes the specified RAID arrays.
         public let raidArrays: [RaidArray]?
 
+        @inlinable
         public init(raidArrays: [RaidArray]? = nil) {
             self.raidArrays = raidArrays
         }
@@ -1823,6 +1888,7 @@ extension OpsWorks {
         /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered  Amazon RDS instances.
         public let stackId: String
 
+        @inlinable
         public init(rdsDbInstanceArns: [String]? = nil, stackId: String) {
             self.rdsDbInstanceArns = rdsDbInstanceArns
             self.stackId = stackId
@@ -1838,6 +1904,7 @@ extension OpsWorks {
         /// An a array of RdsDbInstance objects that describe the instances.
         public let rdsDbInstances: [RdsDbInstance]?
 
+        @inlinable
         public init(rdsDbInstances: [RdsDbInstance]? = nil) {
             self.rdsDbInstances = rdsDbInstances
         }
@@ -1855,6 +1922,7 @@ extension OpsWorks {
         /// The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
         public let stackId: String?
 
+        @inlinable
         public init(instanceId: String? = nil, serviceErrorIds: [String]? = nil, stackId: String? = nil) {
             self.instanceId = instanceId
             self.serviceErrorIds = serviceErrorIds
@@ -1872,6 +1940,7 @@ extension OpsWorks {
         /// An array of ServiceError objects that describe the specified service errors.
         public let serviceErrors: [ServiceError]?
 
+        @inlinable
         public init(serviceErrors: [ServiceError]? = nil) {
             self.serviceErrors = serviceErrors
         }
@@ -1885,6 +1954,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(stackId: String) {
             self.stackId = stackId
         }
@@ -1900,6 +1970,7 @@ extension OpsWorks {
         /// An embedded object that contains the provisioning parameters.
         public let parameters: [String: String]?
 
+        @inlinable
         public init(agentInstallerUrl: String? = nil, parameters: [String: String]? = nil) {
             self.agentInstallerUrl = agentInstallerUrl
             self.parameters = parameters
@@ -1915,6 +1986,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(stackId: String) {
             self.stackId = stackId
         }
@@ -1928,6 +2000,7 @@ extension OpsWorks {
         /// A StackSummary object that contains the results.
         public let stackSummary: StackSummary?
 
+        @inlinable
         public init(stackSummary: StackSummary? = nil) {
             self.stackSummary = stackSummary
         }
@@ -1941,6 +2014,7 @@ extension OpsWorks {
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, and have permissions to get information  about all stacks, DescribeStacks returns a description of every stack. If the IAM policy that is attached to an IAM  user limits the DescribeStacks action to specific stack ARNs, this parameter is required, and the user must specify a stack ARN that is allowed by the policy.  Otherwise, DescribeStacks returns an AccessDenied error.
         public let stackIds: [String]?
 
+        @inlinable
         public init(stackIds: [String]? = nil) {
             self.stackIds = stackIds
         }
@@ -1954,6 +2028,7 @@ extension OpsWorks {
         /// An array of Stack objects that describe the stacks.
         public let stacks: [Stack]?
 
+        @inlinable
         public init(stacks: [Stack]? = nil) {
             self.stacks = stacks
         }
@@ -1967,6 +2042,7 @@ extension OpsWorks {
         /// An array of instance IDs.
         public let instanceIds: [String]
 
+        @inlinable
         public init(instanceIds: [String]) {
             self.instanceIds = instanceIds
         }
@@ -1980,6 +2056,7 @@ extension OpsWorks {
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
         public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
 
+        @inlinable
         public init(timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]? = nil) {
             self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
         }
@@ -1993,6 +2070,7 @@ extension OpsWorks {
         /// An array of IAM or federated user ARNs that identify the users to be described.
         public let iamUserArns: [String]?
 
+        @inlinable
         public init(iamUserArns: [String]? = nil) {
             self.iamUserArns = iamUserArns
         }
@@ -2006,6 +2084,7 @@ extension OpsWorks {
         /// A Users object that describes the specified users.
         public let userProfiles: [UserProfile]?
 
+        @inlinable
         public init(userProfiles: [UserProfile]? = nil) {
             self.userProfiles = userProfiles
         }
@@ -2025,6 +2104,7 @@ extension OpsWorks {
         /// Am array of volume IDs. If you use this parameter, DescribeVolumes returns descriptions of the specified volumes. Otherwise, it returns a description of every volume.
         public let volumeIds: [String]?
 
+        @inlinable
         public init(instanceId: String? = nil, raidArrayId: String? = nil, stackId: String? = nil, volumeIds: [String]? = nil) {
             self.instanceId = instanceId
             self.raidArrayId = raidArrayId
@@ -2044,6 +2124,7 @@ extension OpsWorks {
         /// An array of volume IDs.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(volumes: [Volume]? = nil) {
             self.volumes = volumes
         }
@@ -2059,6 +2140,7 @@ extension OpsWorks {
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
         public let layerId: String
 
+        @inlinable
         public init(elasticLoadBalancerName: String, layerId: String) {
             self.elasticLoadBalancerName = elasticLoadBalancerName
             self.layerId = layerId
@@ -2074,6 +2156,7 @@ extension OpsWorks {
         /// The Elastic IP address.
         public let elasticIp: String
 
+        @inlinable
         public init(elasticIp: String) {
             self.elasticIp = elasticIp
         }
@@ -2095,6 +2178,7 @@ extension OpsWorks {
         /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute.  The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. Amazon Web Services uses the default volume size (in GiB)  specified in the AMI attributes to set IOPS to 50 x (volume size).
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.iops = iops
@@ -2122,6 +2206,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(ecsClusterArn: String? = nil, ecsClusterName: String? = nil, registeredAt: String? = nil, stackId: String? = nil) {
             self.ecsClusterArn = ecsClusterArn
             self.ecsClusterName = ecsClusterName
@@ -2149,6 +2234,7 @@ extension OpsWorks {
         /// The Amazon Web Services Region. For more information, see Regions and Endpoints.
         public let region: String?
 
+        @inlinable
         public init(domain: String? = nil, instanceId: String? = nil, ip: String? = nil, name: String? = nil, region: String? = nil) {
             self.domain = domain
             self.instanceId = instanceId
@@ -2186,6 +2272,7 @@ extension OpsWorks {
         /// The VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, dnsName: String? = nil, ec2InstanceIds: [String]? = nil, elasticLoadBalancerName: String? = nil, layerId: String? = nil, region: String? = nil, stackId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.dnsName = dnsName
@@ -2219,6 +2306,7 @@ extension OpsWorks {
         /// (Optional) The environment variable's value, which can be left empty. If you specify a value,  it can contain up to 256 characters, which must all be printable.
         public let value: String
 
+        @inlinable
         public init(key: String, secure: Bool? = nil, value: String) {
             self.key = key
             self.secure = secure
@@ -2236,6 +2324,7 @@ extension OpsWorks {
         /// The layer ID.
         public let layerId: String
 
+        @inlinable
         public init(layerId: String) {
             self.layerId = layerId
         }
@@ -2251,6 +2340,7 @@ extension OpsWorks {
         /// The layer ID.
         public let layerId: String?
 
+        @inlinable
         public init(hostname: String? = nil, layerId: String? = nil) {
             self.hostname = hostname
             self.layerId = layerId
@@ -2268,6 +2358,7 @@ extension OpsWorks {
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period,  the user will no longer be able to use the credentials to log in. If the user is logged in at the time, they are  logged out.
         public let validForInMinutes: Int?
 
+        @inlinable
         public init(instanceId: String, validForInMinutes: Int? = nil) {
             self.instanceId = instanceId
             self.validForInMinutes = validForInMinutes
@@ -2288,6 +2379,7 @@ extension OpsWorks {
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
         public let temporaryCredential: TemporaryCredential?
 
+        @inlinable
         public init(temporaryCredential: TemporaryCredential? = nil) {
             self.temporaryCredential = temporaryCredential
         }
@@ -2381,6 +2473,7 @@ extension OpsWorks {
         /// The instance's virtualization type: paravirtual or hvm.
         public let virtualizationType: VirtualizationType?
 
+        @inlinable
         public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, arn: String? = nil, autoScalingType: AutoScalingType? = nil, availabilityZone: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, createdAt: String? = nil, ebsOptimized: Bool? = nil, ec2InstanceId: String? = nil, ecsClusterArn: String? = nil, ecsContainerInstanceArn: String? = nil, elasticIp: String? = nil, hostname: String? = nil, infrastructureClass: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, lastServiceErrorId: String? = nil, layerIds: [String]? = nil, os: String? = nil, platform: String? = nil, privateDns: String? = nil, privateIp: String? = nil, publicDns: String? = nil, publicIp: String? = nil, registeredBy: String? = nil, reportedAgentVersion: String? = nil, reportedOs: ReportedOs? = nil, rootDeviceType: RootDeviceType? = nil, rootDeviceVolumeId: String? = nil, securityGroupIds: [String]? = nil, sshHostDsaKeyFingerprint: String? = nil, sshHostRsaKeyFingerprint: String? = nil, sshKeyName: String? = nil, stackId: String? = nil, status: String? = nil, subnetId: String? = nil, tenancy: String? = nil, virtualizationType: VirtualizationType? = nil) {
             self.agentVersion = agentVersion
             self.amiId = amiId
@@ -2476,6 +2569,7 @@ extension OpsWorks {
         /// A signature that can be used to verify the document's accuracy and authenticity.
         public let signature: String?
 
+        @inlinable
         public init(document: String? = nil, signature: String? = nil) {
             self.document = document
             self.signature = signature
@@ -2529,6 +2623,7 @@ extension OpsWorks {
         /// The number of instances in the Unassigning state.
         public let unassigning: Int?
 
+        @inlinable
         public init(assigning: Int? = nil, booting: Int? = nil, connectionLost: Int? = nil, deregistering: Int? = nil, online: Int? = nil, pending: Int? = nil, rebooting: Int? = nil, registered: Int? = nil, registering: Int? = nil, requested: Int? = nil, runningSetup: Int? = nil, setupFailed: Int? = nil, shuttingDown: Int? = nil, startFailed: Int? = nil, stopFailed: Int? = nil, stopped: Int? = nil, stopping: Int? = nil, terminated: Int? = nil, terminating: Int? = nil, unassigning: Int? = nil) {
             self.assigning = assigning
             self.booting = booting
@@ -2624,6 +2719,7 @@ extension OpsWorks {
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
         public let volumeConfigurations: [VolumeConfiguration]?
 
+        @inlinable
         public init(arn: String? = nil, attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, createdAt: String? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, defaultRecipes: Recipes? = nil, defaultSecurityGroupNames: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, layerId: String? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String? = nil, packages: [String]? = nil, shortname: String? = nil, stackId: String? = nil, type: LayerType? = nil, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -2681,6 +2777,7 @@ extension OpsWorks {
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
         public let shutdown: ShutdownEventConfiguration?
 
+        @inlinable
         public init(shutdown: ShutdownEventConfiguration? = nil) {
             self.shutdown = shutdown
         }
@@ -2698,6 +2795,7 @@ extension OpsWorks {
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2717,6 +2815,7 @@ extension OpsWorks {
         /// A set of key-value pairs that contain tag keys and tag values that are attached to a stack or layer.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2738,6 +2837,7 @@ extension OpsWorks {
         /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when OpsWorks Stacks increases the number of instances.
         public let upScaling: AutoScalingThresholds?
 
+        @inlinable
         public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String? = nil, upScaling: AutoScalingThresholds? = nil) {
             self.downScaling = downScaling
             self.enable = enable
@@ -2769,6 +2869,7 @@ extension OpsWorks {
         /// The type of a supported operating system, either Linux or Windows.
         public let type: String?
 
+        @inlinable
         public init(configurationManagers: [OperatingSystemConfigurationManager]? = nil, id: String? = nil, name: String? = nil, reportedName: String? = nil, reportedVersion: String? = nil, supported: Bool? = nil, type: String? = nil) {
             self.configurationManagers = configurationManagers
             self.id = id
@@ -2796,6 +2897,7 @@ extension OpsWorks {
         /// The versions of the configuration manager that are supported by an operating system.
         public let version: String?
 
+        @inlinable
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
             self.version = version
@@ -2819,6 +2921,7 @@ extension OpsWorks {
         /// A stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(allowSsh: Bool? = nil, allowSudo: Bool? = nil, iamUserArn: String? = nil, level: String? = nil, stackId: String? = nil) {
             self.allowSsh = allowSsh
             self.allowSudo = allowSudo
@@ -2864,6 +2967,7 @@ extension OpsWorks {
         /// The volume type, standard or PIOPS.
         public let volumeType: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, createdAt: String? = nil, device: String? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, numberOfDisks: Int? = nil, raidArrayId: String? = nil, raidLevel: Int? = nil, size: Int? = nil, stackId: String? = nil, volumeType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.createdAt = createdAt
@@ -2917,6 +3021,7 @@ extension OpsWorks {
         /// The ID of the stack with which the instance is registered.
         public let stackId: String?
 
+        @inlinable
         public init(address: String? = nil, dbInstanceIdentifier: String? = nil, dbPassword: String? = nil, dbUser: String? = nil, engine: String? = nil, missingOnRds: Bool? = nil, rdsDbInstanceArn: String? = nil, region: String? = nil, stackId: String? = nil) {
             self.address = address
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -2946,6 +3051,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -2967,6 +3073,7 @@ extension OpsWorks {
         /// An array of custom recipe names to be run following a undeploy event.
         public let undeploy: [String]?
 
+        @inlinable
         public init(configure: [String]? = nil, deploy: [String]? = nil, setup: [String]? = nil, shutdown: [String]? = nil, undeploy: [String]? = nil) {
             self.configure = configure
             self.deploy = deploy
@@ -2990,6 +3097,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(ecsClusterArn: String, stackId: String) {
             self.ecsClusterArn = ecsClusterArn
             self.stackId = stackId
@@ -3005,6 +3113,7 @@ extension OpsWorks {
         /// The cluster's ARN.
         public let ecsClusterArn: String?
 
+        @inlinable
         public init(ecsClusterArn: String? = nil) {
             self.ecsClusterArn = ecsClusterArn
         }
@@ -3020,6 +3129,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(elasticIp: String, stackId: String) {
             self.elasticIp = elasticIp
             self.stackId = stackId
@@ -3035,6 +3145,7 @@ extension OpsWorks {
         /// The Elastic IP address.
         public let elasticIp: String?
 
+        @inlinable
         public init(elasticIp: String? = nil) {
             self.elasticIp = elasticIp
         }
@@ -3060,6 +3171,7 @@ extension OpsWorks {
         /// The ID of the stack that the instance is to be registered with.
         public let stackId: String
 
+        @inlinable
         public init(hostname: String? = nil, instanceIdentity: InstanceIdentity? = nil, privateIp: String? = nil, publicIp: String? = nil, rsaPublicKey: String? = nil, rsaPublicKeyFingerprint: String? = nil, stackId: String) {
             self.hostname = hostname
             self.instanceIdentity = instanceIdentity
@@ -3085,6 +3197,7 @@ extension OpsWorks {
         /// The registered instance's OpsWorks Stacks ID.
         public let instanceId: String?
 
+        @inlinable
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -3104,6 +3217,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(dbPassword: String, dbUser: String, rdsDbInstanceArn: String, stackId: String) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
@@ -3125,6 +3239,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(ec2VolumeId: String? = nil, stackId: String) {
             self.ec2VolumeId = ec2VolumeId
             self.stackId = stackId
@@ -3140,6 +3255,7 @@ extension OpsWorks {
         /// The volume ID.
         public let volumeId: String?
 
+        @inlinable
         public init(volumeId: String? = nil) {
             self.volumeId = volumeId
         }
@@ -3157,6 +3273,7 @@ extension OpsWorks {
         /// The operating system version.
         public let version: String?
 
+        @inlinable
         public init(family: String? = nil, name: String? = nil, version: String? = nil) {
             self.family = family
             self.name = name
@@ -3180,6 +3297,7 @@ extension OpsWorks {
         /// The user's SSH user name.
         public let sshUsername: String?
 
+        @inlinable
         public init(iamUserArn: String? = nil, name: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil) {
             self.iamUserArn = iamUserArn
             self.name = name
@@ -3209,6 +3327,7 @@ extension OpsWorks {
         /// The error type.
         public let type: String?
 
+        @inlinable
         public init(createdAt: String? = nil, instanceId: String? = nil, message: String? = nil, serviceErrorId: String? = nil, stackId: String? = nil, type: String? = nil) {
             self.createdAt = createdAt
             self.instanceId = instanceId
@@ -3238,6 +3357,7 @@ extension OpsWorks {
         /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, OpsWorks Stacks starts a specified number of instances.
         public let upScaling: AutoScalingThresholds?
 
+        @inlinable
         public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String, upScaling: AutoScalingThresholds? = nil) {
             self.downScaling = downScaling
             self.enable = enable
@@ -3270,6 +3390,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(allowSsh: Bool? = nil, allowSudo: Bool? = nil, iamUserArn: String, level: String? = nil, stackId: String) {
             self.allowSsh = allowSsh
             self.allowSudo = allowSudo
@@ -3293,6 +3414,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(autoScalingSchedule: WeeklyAutoScalingSchedule? = nil, instanceId: String) {
             self.autoScalingSchedule = autoScalingSchedule
             self.instanceId = instanceId
@@ -3310,6 +3432,7 @@ extension OpsWorks {
         /// The time, in seconds, that OpsWorks Stacks waits after triggering a Shutdown event before  shutting down an instance.
         public let executionTimeout: Int?
 
+        @inlinable
         public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int? = nil) {
             self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
             self.executionTimeout = executionTimeout
@@ -3335,6 +3458,7 @@ extension OpsWorks {
         /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
         public let username: String?
 
+        @inlinable
         public init(password: String? = nil, revision: String? = nil, sshKey: String? = nil, type: SourceType? = nil, url: String? = nil, username: String? = nil) {
             self.password = password
             self.revision = revision
@@ -3362,6 +3486,7 @@ extension OpsWorks {
         /// The private key; the contents of the certificate's domain.kex file.
         public let privateKey: String
 
+        @inlinable
         public init(certificate: String, chain: String? = nil, privateKey: String) {
             self.certificate = certificate
             self.chain = chain
@@ -3421,6 +3546,7 @@ extension OpsWorks {
         /// The VPC ID; applicable only if the stack is running in a VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(agentVersion: String? = nil, arn: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, createdAt: String? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String? = nil, stackId: String? = nil, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
             self.agentVersion = agentVersion
             self.arn = arn
@@ -3478,6 +3604,7 @@ extension OpsWorks {
         /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks.  The default value for Linux stacks is 12.
         public let version: String?
 
+        @inlinable
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
             self.version = version
@@ -3503,6 +3630,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
 
+        @inlinable
         public init(appsCount: Int? = nil, arn: String? = nil, instancesCount: InstancesCount? = nil, layersCount: Int? = nil, name: String? = nil, stackId: String? = nil) {
             self.appsCount = appsCount
             self.arn = arn
@@ -3526,6 +3654,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -3539,6 +3668,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(stackId: String) {
             self.stackId = stackId
         }
@@ -3554,6 +3684,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(force: Bool? = nil, instanceId: String) {
             self.force = force
             self.instanceId = instanceId
@@ -3569,6 +3700,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
 
+        @inlinable
         public init(stackId: String) {
             self.stackId = stackId
         }
@@ -3584,6 +3716,7 @@ extension OpsWorks {
         /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators,  or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators,  or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3605,6 +3738,7 @@ extension OpsWorks {
         /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period,  the user will no longer be able to use the credentials to log in. If they are logged in at the time, they are  automatically logged out.
         public let validForInMinutes: Int?
 
+        @inlinable
         public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int? = nil) {
             self.instanceId = instanceId
             self.password = password
@@ -3626,6 +3760,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String?
 
+        @inlinable
         public init(autoScalingSchedule: WeeklyAutoScalingSchedule? = nil, instanceId: String? = nil) {
             self.autoScalingSchedule = autoScalingSchedule
             self.instanceId = instanceId
@@ -3641,6 +3776,7 @@ extension OpsWorks {
         /// The instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -3654,6 +3790,7 @@ extension OpsWorks {
         /// The volume ID.
         public let volumeId: String
 
+        @inlinable
         public init(volumeId: String) {
             self.volumeId = volumeId
         }
@@ -3669,6 +3806,7 @@ extension OpsWorks {
         /// A list of the keys of tags to be removed from a stack or layer.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3704,6 +3842,7 @@ extension OpsWorks {
         /// The app type.
         public let type: AppType?
 
+        @inlinable
         public init(appId: String, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, sslConfiguration: SslConfiguration? = nil, type: AppType? = nil) {
             self.appId = appId
             self.appSource = appSource
@@ -3739,6 +3878,7 @@ extension OpsWorks {
         /// The new name, which can be a maximum of 32 characters.
         public let name: String?
 
+        @inlinable
         public init(elasticIp: String, name: String? = nil) {
             self.elasticIp = elasticIp
             self.name = name
@@ -3776,6 +3916,7 @@ extension OpsWorks {
         /// The instance's Amazon EC2 key name.
         public let sshKeyName: String?
 
+        @inlinable
         public init(agentVersion: String? = nil, amiId: String? = nil, architecture: Architecture? = nil, autoScalingType: AutoScalingType? = nil, ebsOptimized: Bool? = nil, hostname: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String, instanceType: String? = nil, layerIds: [String]? = nil, os: String? = nil, sshKeyName: String? = nil) {
             self.agentVersion = agentVersion
             self.amiId = amiId
@@ -3842,6 +3983,7 @@ extension OpsWorks {
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
         public let volumeConfigurations: [VolumeConfiguration]?
 
+        @inlinable
         public init(attributes: [LayerAttributesKeys: String]? = nil, autoAssignElasticIps: Bool? = nil, autoAssignPublicIps: Bool? = nil, cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, customInstanceProfileArn: String? = nil, customJson: String? = nil, customRecipes: Recipes? = nil, customSecurityGroupIds: [String]? = nil, enableAutoHealing: Bool? = nil, installUpdatesOnBoot: Bool? = nil, layerId: String, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, name: String? = nil, packages: [String]? = nil, shortname: String? = nil, useEbsOptimizedInstances: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil) {
             self.attributes = attributes
             self.autoAssignElasticIps = autoAssignElasticIps
@@ -3887,6 +4029,7 @@ extension OpsWorks {
         /// The user's SSH public key.
         public let sshPublicKey: String?
 
+        @inlinable
         public init(sshPublicKey: String? = nil) {
             self.sshPublicKey = sshPublicKey
         }
@@ -3904,6 +4047,7 @@ extension OpsWorks {
         /// The Amazon RDS instance's ARN.
         public let rdsDbInstanceArn: String
 
+        @inlinable
         public init(dbPassword: String? = nil, dbUser: String? = nil, rdsDbInstanceArn: String) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
@@ -3955,6 +4099,7 @@ extension OpsWorks {
         /// Whether to associate the OpsWorks Stacks built-in security groups with the stack's layers. OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - OpsWorks Stacks automatically associates the appropriate built-in security group with each  layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot  delete the built-in security group.   False - OpsWorks Stacks does not associate built-in security groups with layers. You must create  appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still  manually associate a built-in security group with a layer on. Custom security groups are required only for those layers  that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
 
+        @inlinable
         public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, serviceRoleArn: String? = nil, stackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.agentVersion = agentVersion
             self.attributes = attributes
@@ -4008,6 +4153,7 @@ extension OpsWorks {
         /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, OpsWorks Stacks generates one from the IAM user name.
         public let sshUsername: String?
 
+        @inlinable
         public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
             self.allowSelfManagement = allowSelfManagement
             self.iamUserArn = iamUserArn
@@ -4031,6 +4177,7 @@ extension OpsWorks {
         /// The volume ID.
         public let volumeId: String
 
+        @inlinable
         public init(mountPoint: String? = nil, name: String? = nil, volumeId: String) {
             self.mountPoint = mountPoint
             self.name = name
@@ -4056,6 +4203,7 @@ extension OpsWorks {
         /// The user's SSH user name.
         public let sshUsername: String?
 
+        @inlinable
         public init(allowSelfManagement: Bool? = nil, iamUserArn: String? = nil, name: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil) {
             self.allowSelfManagement = allowSelfManagement
             self.iamUserArn = iamUserArn
@@ -4103,6 +4251,7 @@ extension OpsWorks {
         /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size  of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a  minimum size of 125 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 125 GiB and a maximum size of 16384 GiB.
         public let volumeType: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.device = device
@@ -4154,6 +4303,7 @@ extension OpsWorks {
         /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size  of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a  minimum size of 125 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 125 GiB and a maximum size of 16384 GiB.
         public let volumeType: String?
 
+        @inlinable
         public init(encrypted: Bool? = nil, iops: Int? = nil, mountPoint: String, numberOfDisks: Int, raidLevel: Int? = nil, size: Int, volumeType: String? = nil) {
             self.encrypted = encrypted
             self.iops = iops
@@ -4191,6 +4341,7 @@ extension OpsWorks {
         /// The schedule for Wednesday.
         public let wednesday: [String: String]?
 
+        @inlinable
         public init(friday: [String: String]? = nil, monday: [String: String]? = nil, saturday: [String: String]? = nil, sunday: [String: String]? = nil, thursday: [String: String]? = nil, tuesday: [String: String]? = nil, wednesday: [String: String]? = nil) {
             self.friday = friday
             self.monday = monday

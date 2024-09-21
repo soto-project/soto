@@ -108,6 +108,7 @@ extension TimestreamWrite {
         public let recordsIngested: Int64?
         public let recordsProcessed: Int64?
 
+        @inlinable
         public init(bytesMetered: Int64? = nil, fileFailures: Int64? = nil, parseFailures: Int64? = nil, recordIngestionFailures: Int64? = nil, recordsIngested: Int64? = nil, recordsProcessed: Int64? = nil) {
             self.bytesMetered = bytesMetered
             self.fileFailures = fileFailures
@@ -143,6 +144,7 @@ extension TimestreamWrite {
         /// Status of the batch load task.
         public let taskStatus: BatchLoadStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, resumableUntil: Date? = nil, tableName: String? = nil, taskId: String? = nil, taskStatus: BatchLoadStatus? = nil) {
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -187,6 +189,7 @@ extension TimestreamWrite {
         /// Status of the batch load task.
         public let taskStatus: BatchLoadStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataModelConfiguration: DataModelConfiguration? = nil, dataSourceConfiguration: DataSourceConfiguration? = nil, errorMessage: String? = nil, lastUpdatedTime: Date? = nil, progressReport: BatchLoadProgressReport? = nil, recordVersion: Int64? = nil, reportConfiguration: ReportConfiguration? = nil, resumableUntil: Date? = nil, targetDatabaseName: String? = nil, targetTableName: String? = nil, taskId: String? = nil, taskStatus: BatchLoadStatus? = nil) {
             self.creationTime = creationTime
             self.dataModelConfiguration = dataModelConfiguration
@@ -232,6 +235,7 @@ extension TimestreamWrite {
         /// Target Timestream table for a batch load task.
         public let targetTableName: String
 
+        @inlinable
         public init(clientToken: String? = CreateBatchLoadTaskRequest.idempotencyToken(), dataModelConfiguration: DataModelConfiguration? = nil, dataSourceConfiguration: DataSourceConfiguration, recordVersion: Int64? = nil, reportConfiguration: ReportConfiguration, targetDatabaseName: String, targetTableName: String) {
             self.clientToken = clientToken
             self.dataModelConfiguration = dataModelConfiguration
@@ -267,6 +271,7 @@ extension TimestreamWrite {
         /// The ID of the batch load task.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -284,6 +289,7 @@ extension TimestreamWrite {
         ///  A list of key-value pairs to label the table.
         public let tags: [Tag]?
 
+        @inlinable
         public init(databaseName: String, kmsKeyId: String? = nil, tags: [Tag]? = nil) {
             self.databaseName = databaseName
             self.kmsKeyId = kmsKeyId
@@ -311,6 +317,7 @@ extension TimestreamWrite {
         /// The newly created Timestream database.
         public let database: Database?
 
+        @inlinable
         public init(database: Database? = nil) {
             self.database = database
         }
@@ -334,6 +341,7 @@ extension TimestreamWrite {
         ///  A list of key-value pairs to label the table.
         public let tags: [Tag]?
 
+        @inlinable
         public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, schema: Schema? = nil, tableName: String, tags: [Tag]? = nil) {
             self.databaseName = databaseName
             self.magneticStoreWriteProperties = magneticStoreWriteProperties
@@ -369,6 +377,7 @@ extension TimestreamWrite {
         /// The newly created Timestream table.
         public let table: Table?
 
+        @inlinable
         public init(table: Table? = nil) {
             self.table = table
         }
@@ -390,6 +399,7 @@ extension TimestreamWrite {
         /// Specifies to trim leading and trailing white space.
         public let trimWhiteSpace: Bool?
 
+        @inlinable
         public init(columnSeparator: String? = nil, escapeChar: String? = nil, nullValue: String? = nil, quoteChar: String? = nil, trimWhiteSpace: Bool? = nil) {
             self.columnSeparator = columnSeparator
             self.escapeChar = escapeChar
@@ -431,6 +441,7 @@ extension TimestreamWrite {
         ///  The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds, or other supported values. Default is MILLISECONDS.
         public let timeUnit: TimeUnit?
 
+        @inlinable
         public init(dimensionMappings: [DimensionMapping], measureNameColumn: String? = nil, mixedMeasureMappings: [MixedMeasureMapping]? = nil, multiMeasureMappings: MultiMeasureMappings? = nil, timeColumn: String? = nil, timeUnit: TimeUnit? = nil) {
             self.dimensionMappings = dimensionMappings
             self.measureNameColumn = measureNameColumn
@@ -470,6 +481,7 @@ extension TimestreamWrite {
         public let dataModel: DataModel?
         public let dataModelS3Configuration: DataModelS3Configuration?
 
+        @inlinable
         public init(dataModel: DataModel? = nil, dataModelS3Configuration: DataModelS3Configuration? = nil) {
             self.dataModel = dataModel
             self.dataModelS3Configuration = dataModelS3Configuration
@@ -490,6 +502,7 @@ extension TimestreamWrite {
         public let bucketName: String?
         public let objectKey: String?
 
+        @inlinable
         public init(bucketName: String? = nil, objectKey: String? = nil) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -517,6 +530,7 @@ extension TimestreamWrite {
         /// Configuration of an S3 location for a file which contains data to load.
         public let dataSourceS3Configuration: DataSourceS3Configuration
 
+        @inlinable
         public init(csvConfiguration: CsvConfiguration? = nil, dataFormat: BatchLoadDataFormat, dataSourceS3Configuration: DataSourceS3Configuration) {
             self.csvConfiguration = csvConfiguration
             self.dataFormat = dataFormat
@@ -541,6 +555,7 @@ extension TimestreamWrite {
         ///
         public let objectKeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.objectKeyPrefix = objectKeyPrefix
@@ -575,6 +590,7 @@ extension TimestreamWrite {
         /// The total number of tables found within a Timestream database.
         public let tableCount: Int64?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, kmsKeyId: String? = nil, lastUpdatedTime: Date? = nil, tableCount: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -598,6 +614,7 @@ extension TimestreamWrite {
         /// The name of the Timestream database to be deleted.
         public let databaseName: String
 
+        @inlinable
         public init(databaseName: String) {
             self.databaseName = databaseName
         }
@@ -613,6 +630,7 @@ extension TimestreamWrite {
         /// The name of the Timestream table to be deleted.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -628,6 +646,7 @@ extension TimestreamWrite {
         /// The ID of the batch load task.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -647,6 +666,7 @@ extension TimestreamWrite {
         /// Description of the batch load task.
         public let batchLoadTaskDescription: BatchLoadTaskDescription
 
+        @inlinable
         public init(batchLoadTaskDescription: BatchLoadTaskDescription) {
             self.batchLoadTaskDescription = batchLoadTaskDescription
         }
@@ -660,6 +680,7 @@ extension TimestreamWrite {
         /// The name of the Timestream database.
         public let databaseName: String
 
+        @inlinable
         public init(databaseName: String) {
             self.databaseName = databaseName
         }
@@ -673,6 +694,7 @@ extension TimestreamWrite {
         /// The name of the Timestream table.
         public let database: Database?
 
+        @inlinable
         public init(database: Database? = nil) {
             self.database = database
         }
@@ -690,6 +712,7 @@ extension TimestreamWrite {
         /// An Endpoints object is returned when a DescribeEndpoints request is made.
         public let endpoints: [Endpoint]
 
+        @inlinable
         public init(endpoints: [Endpoint]) {
             self.endpoints = endpoints
         }
@@ -705,6 +728,7 @@ extension TimestreamWrite {
         /// The name of the Timestream table.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -720,6 +744,7 @@ extension TimestreamWrite {
         /// The Timestream table.
         public let table: Table?
 
+        @inlinable
         public init(table: Table? = nil) {
             self.table = table
         }
@@ -737,6 +762,7 @@ extension TimestreamWrite {
         /// The value of the dimension.
         public let value: String
 
+        @inlinable
         public init(dimensionValueType: DimensionValueType? = nil, name: String, value: String) {
             self.dimensionValueType = dimensionValueType
             self.name = name
@@ -759,6 +785,7 @@ extension TimestreamWrite {
         public let destinationColumn: String?
         public let sourceColumn: String?
 
+        @inlinable
         public init(destinationColumn: String? = nil, sourceColumn: String? = nil) {
             self.destinationColumn = destinationColumn
             self.sourceColumn = sourceColumn
@@ -781,6 +808,7 @@ extension TimestreamWrite {
         /// The TTL for the endpoint, in minutes.
         public let cachePeriodInMinutes: Int64
 
+        @inlinable
         public init(address: String, cachePeriodInMinutes: Int64) {
             self.address = address
             self.cachePeriodInMinutes = cachePeriodInMinutes
@@ -800,6 +828,7 @@ extension TimestreamWrite {
         /// Status of the batch load task.
         public let taskStatus: BatchLoadStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, taskStatus: BatchLoadStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -824,6 +853,7 @@ extension TimestreamWrite {
         /// A token to specify where to start paginating. Provide the next ListBatchLoadTasksRequest.
         public let nextToken: String?
 
+        @inlinable
         public init(batchLoadTasks: [BatchLoadTask]? = nil, nextToken: String? = nil) {
             self.batchLoadTasks = batchLoadTasks
             self.nextToken = nextToken
@@ -841,6 +871,7 @@ extension TimestreamWrite {
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -863,6 +894,7 @@ extension TimestreamWrite {
         /// The pagination token. This parameter is returned when the response is truncated.
         public let nextToken: String?
 
+        @inlinable
         public init(databases: [Database]? = nil, nextToken: String? = nil) {
             self.databases = databases
             self.nextToken = nextToken
@@ -882,6 +914,7 @@ extension TimestreamWrite {
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
 
+        @inlinable
         public init(databaseName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.databaseName = databaseName
             self.maxResults = maxResults
@@ -906,6 +939,7 @@ extension TimestreamWrite {
         /// A list of tables.
         public let tables: [Table]?
 
+        @inlinable
         public init(nextToken: String? = nil, tables: [Table]? = nil) {
             self.nextToken = nextToken
             self.tables = tables
@@ -921,6 +955,7 @@ extension TimestreamWrite {
         ///  The Timestream resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -939,6 +974,7 @@ extension TimestreamWrite {
         ///  The tags currently associated with the Timestream resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -952,6 +988,7 @@ extension TimestreamWrite {
         /// Configuration of an S3 location to write error reports for records rejected, asynchronously, during magnetic store writes.
         public let s3Configuration: S3Configuration?
 
+        @inlinable
         public init(s3Configuration: S3Configuration? = nil) {
             self.s3Configuration = s3Configuration
         }
@@ -971,6 +1008,7 @@ extension TimestreamWrite {
         /// The location to write error reports for records rejected asynchronously during magnetic store writes.
         public let magneticStoreRejectedDataLocation: MagneticStoreRejectedDataLocation?
 
+        @inlinable
         public init(enableMagneticStoreWrites: Bool, magneticStoreRejectedDataLocation: MagneticStoreRejectedDataLocation? = nil) {
             self.enableMagneticStoreWrites = enableMagneticStoreWrites
             self.magneticStoreRejectedDataLocation = magneticStoreRejectedDataLocation
@@ -994,6 +1032,7 @@ extension TimestreamWrite {
         ///  The value for the MeasureValue. For information, see Data types.
         public let value: String
 
+        @inlinable
         public init(name: String, type: MeasureValueType, value: String) {
             self.name = name
             self.type = type
@@ -1020,6 +1059,7 @@ extension TimestreamWrite {
         public let sourceColumn: String?
         public let targetMeasureName: String?
 
+        @inlinable
         public init(measureName: String? = nil, measureValueType: MeasureValueType, multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]? = nil, sourceColumn: String? = nil, targetMeasureName: String? = nil) {
             self.measureName = measureName
             self.measureValueType = measureValueType
@@ -1052,6 +1092,7 @@ extension TimestreamWrite {
         public let sourceColumn: String
         public let targetMultiMeasureAttributeName: String?
 
+        @inlinable
         public init(measureValueType: ScalarMeasureValueType? = nil, sourceColumn: String, targetMultiMeasureAttributeName: String? = nil) {
             self.measureValueType = measureValueType
             self.sourceColumn = sourceColumn
@@ -1074,6 +1115,7 @@ extension TimestreamWrite {
         public let multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]
         public let targetMultiMeasureName: String?
 
+        @inlinable
         public init(multiMeasureAttributeMappings: [MultiMeasureAttributeMapping], targetMultiMeasureName: String? = nil) {
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
             self.targetMultiMeasureName = targetMultiMeasureName
@@ -1101,6 +1143,7 @@ extension TimestreamWrite {
         ///  The type of the partition key. Options are DIMENSION (dimension key) and MEASURE (measure key).
         public let type: PartitionKeyType
 
+        @inlinable
         public init(enforcementInRecord: PartitionKeyEnforcementLevel? = nil, name: String? = nil, type: PartitionKeyType) {
             self.enforcementInRecord = enforcementInRecord
             self.name = name
@@ -1136,6 +1179,7 @@ extension TimestreamWrite {
         /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1.   Version must be 1 or greater, or you will receive a ValidationException error.
         public let version: Int64?
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, measureName: String? = nil, measureValue: String? = nil, measureValues: [MeasureValue]? = nil, measureValueType: MeasureValueType? = nil, time: String? = nil, timeUnit: TimeUnit? = nil, version: Int64? = nil) {
             self.dimensions = dimensions
             self.measureName = measureName
@@ -1182,6 +1226,7 @@ extension TimestreamWrite {
         /// Total count of successfully ingested records.
         public let total: Int?
 
+        @inlinable
         public init(magneticStore: Int? = nil, memoryStore: Int? = nil, total: Int? = nil) {
             self.magneticStore = magneticStore
             self.memoryStore = memoryStore
@@ -1199,6 +1244,7 @@ extension TimestreamWrite {
         /// Configuration of an S3 location to write error reports and events for a batch load.
         public let reportS3Configuration: ReportS3Configuration?
 
+        @inlinable
         public init(reportS3Configuration: ReportS3Configuration? = nil) {
             self.reportS3Configuration = reportS3Configuration
         }
@@ -1218,6 +1264,7 @@ extension TimestreamWrite {
         public let kmsKeyId: String?
         public let objectKeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String, encryptionOption: S3EncryptionOption? = nil, kmsKeyId: String? = nil, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.encryptionOption = encryptionOption
@@ -1248,6 +1295,7 @@ extension TimestreamWrite {
         /// The ID of the batch load task to resume.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -1273,6 +1321,7 @@ extension TimestreamWrite {
         /// The duration for which data must be stored in the memory store.
         public let memoryStoreRetentionPeriodInHours: Int64
 
+        @inlinable
         public init(magneticStoreRetentionPeriodInDays: Int64, memoryStoreRetentionPeriodInHours: Int64) {
             self.magneticStoreRetentionPeriodInDays = magneticStoreRetentionPeriodInDays
             self.memoryStoreRetentionPeriodInHours = memoryStoreRetentionPeriodInHours
@@ -1301,6 +1350,7 @@ extension TimestreamWrite {
         /// The object key preview for the customer S3 location.
         public let objectKeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, encryptionOption: S3EncryptionOption? = nil, kmsKeyId: String? = nil, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.encryptionOption = encryptionOption
@@ -1331,6 +1381,7 @@ extension TimestreamWrite {
         /// A non-empty list of partition keys defining the attributes used to partition the table data. The order of the list determines the partition hierarchy. The name and type of each partition key as well as the partition key order cannot be changed after the table is created. However, the enforcement level of each partition key can be changed.
         public let compositePartitionKey: [PartitionKey]?
 
+        @inlinable
         public init(compositePartitionKey: [PartitionKey]? = nil) {
             self.compositePartitionKey = compositePartitionKey
         }
@@ -1367,6 +1418,7 @@ extension TimestreamWrite {
         /// The current state of the table:    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.
         public let tableStatus: TableStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, schema: Schema? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1398,6 +1450,7 @@ extension TimestreamWrite {
         ///  The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1421,6 +1474,7 @@ extension TimestreamWrite {
         ///  The tags to be assigned to the Timestream resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1451,6 +1505,7 @@ extension TimestreamWrite {
         ///  A list of tags keys. Existing tags of the resource whose keys are members of this list will be removed from the Timestream resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1482,6 +1537,7 @@ extension TimestreamWrite {
         ///  The identifier of the new KMS key (KmsKeyId) to be used to encrypt the data stored in the database. If the KmsKeyId currently registered with the database is the same as the KmsKeyId in the request, there will not be any update.  You can specify the KmsKeyId using any of the following:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias
         public let kmsKeyId: String
 
+        @inlinable
         public init(databaseName: String, kmsKeyId: String) {
             self.databaseName = databaseName
             self.kmsKeyId = kmsKeyId
@@ -1501,6 +1557,7 @@ extension TimestreamWrite {
     public struct UpdateDatabaseResponse: AWSDecodableShape {
         public let database: Database?
 
+        @inlinable
         public init(database: Database? = nil) {
             self.database = database
         }
@@ -1522,6 +1579,7 @@ extension TimestreamWrite {
         /// The name of the Timestream table.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, schema: Schema? = nil, tableName: String) {
             self.databaseName = databaseName
             self.magneticStoreWriteProperties = magneticStoreWriteProperties
@@ -1549,6 +1607,7 @@ extension TimestreamWrite {
         /// The updated Timestream table.
         public let table: Table?
 
+        @inlinable
         public init(table: Table? = nil) {
             self.table = table
         }
@@ -1568,6 +1627,7 @@ extension TimestreamWrite {
         /// The name of the Timestream table.
         public let tableName: String
 
+        @inlinable
         public init(commonAttributes: Record? = nil, databaseName: String, records: [Record], tableName: String) {
             self.commonAttributes = commonAttributes
             self.databaseName = databaseName
@@ -1596,6 +1656,7 @@ extension TimestreamWrite {
         /// Information on the records ingested by this request.
         public let recordsIngested: RecordsIngested?
 
+        @inlinable
         public init(recordsIngested: RecordsIngested? = nil) {
             self.recordsIngested = recordsIngested
         }

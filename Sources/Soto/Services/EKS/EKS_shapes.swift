@@ -365,6 +365,7 @@ extension EKS {
         /// Specifies whether or not the cluster creator IAM principal was set as a cluster admin access entry during cluster creation time.
         public let bootstrapClusterCreatorAdminPermissions: Bool?
 
+        @inlinable
         public init(authenticationMode: AuthenticationMode? = nil, bootstrapClusterCreatorAdminPermissions: Bool? = nil) {
             self.authenticationMode = authenticationMode
             self.bootstrapClusterCreatorAdminPermissions = bootstrapClusterCreatorAdminPermissions
@@ -396,6 +397,7 @@ extension EKS {
         /// The name of a user that can authenticate to your cluster.
         public let username: String?
 
+        @inlinable
         public init(accessEntryArn: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, kubernetesGroups: [String]? = nil, modifiedAt: Date? = nil, principalArn: String? = nil, tags: [String: String]? = nil, type: String? = nil, username: String? = nil) {
             self.accessEntryArn = accessEntryArn
             self.clusterName = clusterName
@@ -427,6 +429,7 @@ extension EKS {
         /// The name of the access policy.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -444,6 +447,7 @@ extension EKS {
         /// The scope type of an access policy.
         public let type: AccessScopeType?
 
+        @inlinable
         public init(namespaces: [String]? = nil, type: AccessScopeType? = nil) {
             self.namespaces = namespaces
             self.type = type
@@ -487,6 +491,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, configurationValues: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, marketplaceInformation: MarketplaceInformation? = nil, modifiedAt: Date? = nil, owner: String? = nil, podIdentityAssociations: [String]? = nil, publisher: String? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
             self.addonArn = addonArn
             self.addonName = addonName
@@ -528,6 +533,7 @@ extension EKS {
         /// An object representing the health issues for an add-on.
         public let issues: [AddonIssue]?
 
+        @inlinable
         public init(issues: [AddonIssue]? = nil) {
             self.issues = issues
         }
@@ -551,6 +557,7 @@ extension EKS {
         /// The type of the add-on.
         public let type: String?
 
+        @inlinable
         public init(addonName: String? = nil, addonVersions: [AddonVersionInfo]? = nil, marketplaceInformation: MarketplaceInformation? = nil, owner: String? = nil, publisher: String? = nil, type: String? = nil) {
             self.addonName = addonName
             self.addonVersions = addonVersions
@@ -578,6 +585,7 @@ extension EKS {
         /// The resource IDs of the issue.
         public let resourceIds: [String]?
 
+        @inlinable
         public init(code: AddonIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
             self.code = code
             self.message = message
@@ -597,6 +605,7 @@ extension EKS {
         /// The name of a Kubernetes Service Account.
         public let serviceAccount: String
 
+        @inlinable
         public init(roleArn: String, serviceAccount: String) {
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
@@ -614,6 +623,7 @@ extension EKS {
         /// The Kubernetes Service Account name used by the addon.
         public let serviceAccount: String?
 
+        @inlinable
         public init(recommendedManagedPolicies: [String]? = nil, serviceAccount: String? = nil) {
             self.recommendedManagedPolicies = recommendedManagedPolicies
             self.serviceAccount = serviceAccount
@@ -637,6 +647,7 @@ extension EKS {
         /// Indicates if the Addon requires IAM Permissions to operate, such as networking permissions.
         public let requiresIamPermissions: Bool?
 
+        @inlinable
         public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil, requiresConfiguration: Bool? = nil, requiresIamPermissions: Bool? = nil) {
             self.addonVersion = addonVersion
             self.architecture = architecture
@@ -664,6 +675,7 @@ extension EKS {
         /// The Amazon Resource Name (ARN) of the IAM user or role for the AccessEntry that you're associating the access policy to.
         public let principalArn: String
 
+        @inlinable
         public init(accessScope: AccessScope, clusterName: String, policyArn: String, principalArn: String) {
             self.accessScope = accessScope
             self.clusterName = clusterName
@@ -694,6 +706,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let principalArn: String?
 
+        @inlinable
         public init(associatedAccessPolicy: AssociatedAccessPolicy? = nil, clusterName: String? = nil, principalArn: String? = nil) {
             self.associatedAccessPolicy = associatedAccessPolicy
             self.clusterName = clusterName
@@ -716,6 +729,7 @@ extension EKS {
         /// The configuration you are using for encryption.
         public let encryptionConfig: [EncryptionConfig]
 
+        @inlinable
         public init(clientRequestToken: String? = AssociateEncryptionConfigRequest.idempotencyToken(), clusterName: String, encryptionConfig: [EncryptionConfig]) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -743,6 +757,7 @@ extension EKS {
     public struct AssociateEncryptionConfigResponse: AWSDecodableShape {
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -763,6 +778,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = AssociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, oidc: OidcIdentityProviderConfigRequest, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -802,6 +818,7 @@ extension EKS {
         public let tags: [String: String]?
         public let update: Update?
 
+        @inlinable
         public init(tags: [String: String]? = nil, update: Update? = nil) {
             self.tags = tags
             self.update = update
@@ -823,6 +840,7 @@ extension EKS {
         /// The ARN of the AccessPolicy.
         public let policyArn: String?
 
+        @inlinable
         public init(accessScope: AccessScope? = nil, associatedAt: Date? = nil, modifiedAt: Date? = nil, policyArn: String? = nil) {
             self.accessScope = accessScope
             self.associatedAt = associatedAt
@@ -842,6 +860,7 @@ extension EKS {
         /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -855,6 +874,7 @@ extension EKS {
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public let data: String?
 
+        @inlinable
         public init(data: String? = nil) {
             self.data = data
         }
@@ -872,6 +892,7 @@ extension EKS {
         /// The user agent of the Kubernetes client using the deprecated resource.
         public let userAgent: String?
 
+        @inlinable
         public init(lastRequestTime: Date? = nil, numberOfRequestsLast30Days: Int? = nil, userAgent: String? = nil) {
             self.lastRequestTime = lastRequestTime
             self.numberOfRequestsLast30Days = numberOfRequestsLast30Days
@@ -932,6 +953,7 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
+        @inlinable
         public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
@@ -987,6 +1009,7 @@ extension EKS {
         /// An object representing the health issues of your Amazon EKS cluster.
         public let issues: [ClusterIssue]?
 
+        @inlinable
         public init(issues: [ClusterIssue]? = nil) {
             self.issues = issues
         }
@@ -1004,6 +1027,7 @@ extension EKS {
         /// The resource IDs that the issue relates to.
         public let resourceIds: [String]?
 
+        @inlinable
         public init(code: ClusterIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
             self.code = code
             self.message = message
@@ -1025,6 +1049,7 @@ extension EKS {
         /// The supported compute platform.
         public let platformVersions: [String]?
 
+        @inlinable
         public init(clusterVersion: String? = nil, defaultVersion: Bool? = nil, platformVersions: [String]? = nil) {
             self.clusterVersion = clusterVersion
             self.defaultVersion = defaultVersion
@@ -1044,6 +1069,7 @@ extension EKS {
         /// The Amazon Resource Name (ARN) of the role that is authorized to request the connector configuration.
         public let roleArn: String
 
+        @inlinable
         public init(provider: ConnectorConfigProvider, roleArn: String) {
             self.provider = provider
             self.roleArn = roleArn
@@ -1067,6 +1093,7 @@ extension EKS {
         /// The Amazon Resource Name (ARN) of the role to communicate with services from the connected Kubernetes cluster.
         public let roleArn: String?
 
+        @inlinable
         public init(activationCode: String? = nil, activationExpiry: Date? = nil, activationId: String? = nil, provider: String? = nil, roleArn: String? = nil) {
             self.activationCode = activationCode
             self.activationExpiry = activationExpiry
@@ -1088,6 +1115,7 @@ extension EKS {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public let groupName: String?
 
+        @inlinable
         public init(groupName: String? = nil) {
             self.groupName = groupName
         }
@@ -1101,6 +1129,7 @@ extension EKS {
         /// The name of the placement group for the Kubernetes control plane instances.
         public let groupName: String?
 
+        @inlinable
         public init(groupName: String? = nil) {
             self.groupName = groupName
         }
@@ -1116,6 +1145,7 @@ extension EKS {
         /// Specifies whether or not the cluster creator IAM principal was set as a cluster admin access entry during cluster creation time. The default value is true.
         public let bootstrapClusterCreatorAdminPermissions: Bool?
 
+        @inlinable
         public init(authenticationMode: AuthenticationMode? = nil, bootstrapClusterCreatorAdminPermissions: Bool? = nil) {
             self.authenticationMode = authenticationMode
             self.bootstrapClusterCreatorAdminPermissions = bootstrapClusterCreatorAdminPermissions
@@ -1144,6 +1174,7 @@ extension EKS {
         /// The username to authenticate to Kubernetes with. We recommend not specifying a username and letting Amazon EKS specify it for you. For more information about the value Amazon EKS specifies for you, or constraints before specifying your own username, see Creating access entries in the Amazon EKS User Guide.
         public let username: String?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateAccessEntryRequest.idempotencyToken(), clusterName: String, kubernetesGroups: [String]? = nil, principalArn: String, tags: [String: String]? = nil, type: String? = nil, username: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -1189,6 +1220,7 @@ extension EKS {
     public struct CreateAccessEntryResponse: AWSDecodableShape {
         public let accessEntry: AccessEntry?
 
+        @inlinable
         public init(accessEntry: AccessEntry? = nil) {
             self.accessEntry = accessEntry
         }
@@ -1219,6 +1251,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, podIdentityAssociations: [AddonPodIdentityAssociations]? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -1275,6 +1308,7 @@ extension EKS {
     public struct CreateAddonResponse: AWSDecodableShape {
         public let addon: Addon?
 
+        @inlinable
         public init(addon: Addon? = nil) {
             self.addon = addon
         }
@@ -1313,6 +1347,7 @@ extension EKS {
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
         public let version: String?
 
+        @inlinable
         public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
@@ -1364,6 +1399,7 @@ extension EKS {
         /// The full description of your new cluster.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1390,6 +1426,7 @@ extension EKS {
         /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription.
         public let term: EksAnywhereSubscriptionTerm
 
+        @inlinable
         public init(autoRenew: Bool? = nil, clientRequestToken: String? = CreateEksAnywhereSubscriptionRequest.idempotencyToken(), licenseQuantity: Int? = nil, licenseType: EksAnywhereSubscriptionLicenseType? = nil, name: String, tags: [String: String]? = nil, term: EksAnywhereSubscriptionTerm) {
             self.autoRenew = autoRenew
             self.clientRequestToken = clientRequestToken
@@ -1428,6 +1465,7 @@ extension EKS {
         /// The full description of the subscription.
         public let subscription: EksAnywhereSubscription?
 
+        @inlinable
         public init(subscription: EksAnywhereSubscription? = nil) {
             self.subscription = subscription
         }
@@ -1454,6 +1492,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateFargateProfileRequest.idempotencyToken(), clusterName: String, fargateProfileName: String, podExecutionRoleArn: String, selectors: [FargateProfileSelector]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -1500,6 +1539,7 @@ extension EKS {
         /// The full description of your new Fargate profile.
         public let fargateProfile: FargateProfile?
 
+        @inlinable
         public init(fargateProfile: FargateProfile? = nil) {
             self.fargateProfile = fargateProfile
         }
@@ -1548,6 +1588,7 @@ extension EKS {
         /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let version: String?
 
+        @inlinable
         public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
@@ -1638,6 +1679,7 @@ extension EKS {
         /// The full description of your new node group.
         public let nodegroup: Nodegroup?
 
+        @inlinable
         public init(nodegroup: Nodegroup? = nil) {
             self.nodegroup = nodegroup
         }
@@ -1662,6 +1704,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, namespace: String, roleArn: String, serviceAccount: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -1705,6 +1748,7 @@ extension EKS {
         /// The full description of your new association. The description includes an ID for the association. Use the ID of the association in further actions to manage the association.
         public let association: PodIdentityAssociation?
 
+        @inlinable
         public init(association: PodIdentityAssociation? = nil) {
             self.association = association
         }
@@ -1720,6 +1764,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let principalArn: String
 
+        @inlinable
         public init(clusterName: String, principalArn: String) {
             self.clusterName = clusterName
             self.principalArn = principalArn
@@ -1747,6 +1792,7 @@ extension EKS {
         /// Specifying this option preserves the add-on software on your cluster but Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with the add-on, it isn't removed.
         public let preserve: Bool?
 
+        @inlinable
         public init(addonName: String, clusterName: String, preserve: Bool? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
@@ -1773,6 +1819,7 @@ extension EKS {
     public struct DeleteAddonResponse: AWSDecodableShape {
         public let addon: Addon?
 
+        @inlinable
         public init(addon: Addon? = nil) {
             self.addon = addon
         }
@@ -1786,6 +1833,7 @@ extension EKS {
         /// The name of the cluster to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1803,6 +1851,7 @@ extension EKS {
         /// The full description of the cluster to delete.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1816,6 +1865,7 @@ extension EKS {
         /// The ID of the subscription.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1833,6 +1883,7 @@ extension EKS {
         /// The full description of the subscription to be deleted.
         public let subscription: EksAnywhereSubscription?
 
+        @inlinable
         public init(subscription: EksAnywhereSubscription? = nil) {
             self.subscription = subscription
         }
@@ -1848,6 +1899,7 @@ extension EKS {
         /// The name of the Fargate profile to delete.
         public let fargateProfileName: String
 
+        @inlinable
         public init(clusterName: String, fargateProfileName: String) {
             self.clusterName = clusterName
             self.fargateProfileName = fargateProfileName
@@ -1867,6 +1919,7 @@ extension EKS {
         /// The deleted Fargate profile.
         public let fargateProfile: FargateProfile?
 
+        @inlinable
         public init(fargateProfile: FargateProfile? = nil) {
             self.fargateProfile = fargateProfile
         }
@@ -1882,6 +1935,7 @@ extension EKS {
         /// The name of the node group to delete.
         public let nodegroupName: String
 
+        @inlinable
         public init(clusterName: String, nodegroupName: String) {
             self.clusterName = clusterName
             self.nodegroupName = nodegroupName
@@ -1901,6 +1955,7 @@ extension EKS {
         /// The full description of your deleted node group.
         public let nodegroup: Nodegroup?
 
+        @inlinable
         public init(nodegroup: Nodegroup? = nil) {
             self.nodegroup = nodegroup
         }
@@ -1916,6 +1971,7 @@ extension EKS {
         /// The cluster name that
         public let clusterName: String
 
+        @inlinable
         public init(associationId: String, clusterName: String) {
             self.associationId = associationId
             self.clusterName = clusterName
@@ -1935,6 +1991,7 @@ extension EKS {
         /// The full description of the EKS Pod Identity association that was deleted.
         public let association: PodIdentityAssociation?
 
+        @inlinable
         public init(association: PodIdentityAssociation? = nil) {
             self.association = association
         }
@@ -1956,6 +2013,7 @@ extension EKS {
         /// The deprecated version of the resource.
         public let usage: String?
 
+        @inlinable
         public init(clientStats: [ClientStat]? = nil, replacedWith: String? = nil, startServingReplacementVersion: String? = nil, stopServingVersion: String? = nil, usage: String? = nil) {
             self.clientStats = clientStats
             self.replacedWith = replacedWith
@@ -1977,6 +2035,7 @@ extension EKS {
         /// The name of the connected cluster to deregister.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1993,6 +2052,7 @@ extension EKS {
     public struct DeregisterClusterResponse: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -2008,6 +2068,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let principalArn: String
 
+        @inlinable
         public init(clusterName: String, principalArn: String) {
             self.clusterName = clusterName
             self.principalArn = principalArn
@@ -2027,6 +2088,7 @@ extension EKS {
         /// Information about the access entry.
         public let accessEntry: AccessEntry?
 
+        @inlinable
         public init(accessEntry: AccessEntry? = nil) {
             self.accessEntry = accessEntry
         }
@@ -2042,6 +2104,7 @@ extension EKS {
         /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
         public let addonVersion: String
 
+        @inlinable
         public init(addonName: String, addonVersion: String) {
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -2067,6 +2130,7 @@ extension EKS {
         /// The Kubernetes service account name used by the addon, and any suggested IAM policies. Use this information to create an IAM Role for the Addon.
         public let podIdentityConfiguration: [AddonPodIdentityConfiguration]?
 
+        @inlinable
         public init(addonName: String? = nil, addonVersion: String? = nil, configurationSchema: String? = nil, podIdentityConfiguration: [AddonPodIdentityConfiguration]? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -2088,6 +2152,7 @@ extension EKS {
         /// The name of your cluster.
         public let clusterName: String
 
+        @inlinable
         public init(addonName: String, clusterName: String) {
             self.addonName = addonName
             self.clusterName = clusterName
@@ -2112,6 +2177,7 @@ extension EKS {
     public struct DescribeAddonResponse: AWSDecodableShape {
         public let addon: Addon?
 
+        @inlinable
         public init(addon: Addon? = nil) {
             self.addon = addon
         }
@@ -2137,6 +2203,7 @@ extension EKS {
         /// The type of the add-on. For valid types, don't specify a value for this property.
         public let types: [String]?
 
+        @inlinable
         public init(addonName: String? = nil, kubernetesVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owners: [String]? = nil, publishers: [String]? = nil, types: [String]? = nil) {
             self.addonName = addonName
             self.kubernetesVersion = kubernetesVersion
@@ -2173,6 +2240,7 @@ extension EKS {
         /// The nextToken value to include in a future DescribeAddonVersions request. When the results of a DescribeAddonVersions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(addons: [AddonInfo]? = nil, nextToken: String? = nil) {
             self.addons = addons
             self.nextToken = nextToken
@@ -2188,6 +2256,7 @@ extension EKS {
         /// The name of your cluster.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2205,6 +2274,7 @@ extension EKS {
         /// The full description of your specified cluster.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -2218,6 +2288,7 @@ extension EKS {
         /// The ID of the subscription.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2235,6 +2306,7 @@ extension EKS {
         /// The full description of the subscription.
         public let subscription: EksAnywhereSubscription?
 
+        @inlinable
         public init(subscription: EksAnywhereSubscription? = nil) {
             self.subscription = subscription
         }
@@ -2250,6 +2322,7 @@ extension EKS {
         /// The name of the Fargate profile to describe.
         public let fargateProfileName: String
 
+        @inlinable
         public init(clusterName: String, fargateProfileName: String) {
             self.clusterName = clusterName
             self.fargateProfileName = fargateProfileName
@@ -2269,6 +2342,7 @@ extension EKS {
         /// The full description of your Fargate profile.
         public let fargateProfile: FargateProfile?
 
+        @inlinable
         public init(fargateProfile: FargateProfile? = nil) {
             self.fargateProfile = fargateProfile
         }
@@ -2284,6 +2358,7 @@ extension EKS {
         /// An object representing an identity provider configuration.
         public let identityProviderConfig: IdentityProviderConfig
 
+        @inlinable
         public init(clusterName: String, identityProviderConfig: IdentityProviderConfig) {
             self.clusterName = clusterName
             self.identityProviderConfig = identityProviderConfig
@@ -2305,6 +2380,7 @@ extension EKS {
         /// The object that represents an OpenID Connect (OIDC) identity provider configuration.
         public let identityProviderConfig: IdentityProviderConfigResponse?
 
+        @inlinable
         public init(identityProviderConfig: IdentityProviderConfigResponse? = nil) {
             self.identityProviderConfig = identityProviderConfig
         }
@@ -2320,6 +2396,7 @@ extension EKS {
         /// The identity of the insight to describe.
         public let id: String
 
+        @inlinable
         public init(clusterName: String, id: String) {
             self.clusterName = clusterName
             self.id = id
@@ -2339,6 +2416,7 @@ extension EKS {
         /// The full description of the insight.
         public let insight: Insight?
 
+        @inlinable
         public init(insight: Insight? = nil) {
             self.insight = insight
         }
@@ -2354,6 +2432,7 @@ extension EKS {
         /// The name of the node group to describe.
         public let nodegroupName: String
 
+        @inlinable
         public init(clusterName: String, nodegroupName: String) {
             self.clusterName = clusterName
             self.nodegroupName = nodegroupName
@@ -2373,6 +2452,7 @@ extension EKS {
         /// The full description of your node group.
         public let nodegroup: Nodegroup?
 
+        @inlinable
         public init(nodegroup: Nodegroup? = nil) {
             self.nodegroup = nodegroup
         }
@@ -2388,6 +2468,7 @@ extension EKS {
         /// The name of the cluster that the association is in.
         public let clusterName: String
 
+        @inlinable
         public init(associationId: String, clusterName: String) {
             self.associationId = associationId
             self.clusterName = clusterName
@@ -2407,6 +2488,7 @@ extension EKS {
         /// The full description of the EKS Pod Identity association.
         public let association: PodIdentityAssociation?
 
+        @inlinable
         public init(association: PodIdentityAssociation? = nil) {
             self.association = association
         }
@@ -2426,6 +2508,7 @@ extension EKS {
         /// The ID of the update to describe.
         public let updateId: String
 
+        @inlinable
         public init(addonName: String? = nil, name: String, nodegroupName: String? = nil, updateId: String) {
             self.addonName = addonName
             self.name = name
@@ -2449,6 +2532,7 @@ extension EKS {
         /// The full description of the specified update.
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -2466,6 +2550,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let principalArn: String
 
+        @inlinable
         public init(clusterName: String, policyArn: String, principalArn: String) {
             self.clusterName = clusterName
             self.policyArn = policyArn
@@ -2496,6 +2581,7 @@ extension EKS {
         /// An object representing an identity provider configuration.
         public let identityProviderConfig: IdentityProviderConfig
 
+        @inlinable
         public init(clientRequestToken: String? = DisassociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, identityProviderConfig: IdentityProviderConfig) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -2519,6 +2605,7 @@ extension EKS {
     public struct DisassociateIdentityProviderConfigResponse: AWSDecodableShape {
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -2554,6 +2641,7 @@ extension EKS {
         /// An EksAnywhereSubscriptionTerm object.
         public let term: EksAnywhereSubscriptionTerm?
 
+        @inlinable
         public init(arn: String? = nil, autoRenew: Bool? = nil, createdAt: Date? = nil, effectiveDate: Date? = nil, expirationDate: Date? = nil, id: String? = nil, licenseArns: [String]? = nil, licenseQuantity: Int? = nil, licenseType: EksAnywhereSubscriptionLicenseType? = nil, status: String? = nil, tags: [String: String]? = nil, term: EksAnywhereSubscriptionTerm? = nil) {
             self.arn = arn
             self.autoRenew = autoRenew
@@ -2591,6 +2679,7 @@ extension EKS {
         /// The term unit of the subscription. Valid value is MONTHS.
         public let unit: EksAnywhereSubscriptionTermUnit?
 
+        @inlinable
         public init(duration: Int? = nil, unit: EksAnywhereSubscriptionTermUnit? = nil) {
             self.duration = duration
             self.unit = unit
@@ -2608,6 +2697,7 @@ extension EKS {
         /// Specifies the resources to be encrypted. The only supported value is secrets.
         public let resources: [String]?
 
+        @inlinable
         public init(provider: Provider? = nil, resources: [String]? = nil) {
             self.provider = provider
             self.resources = resources
@@ -2627,6 +2717,7 @@ extension EKS {
         /// An optional field that contains the resource IDs associated with the error.
         public let resourceIds: [String]?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, resourceIds: [String]? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2662,6 +2753,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clusterName: String? = nil, createdAt: Date? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, health: FargateProfileHealth? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
             self.clusterName = clusterName
             self.createdAt = createdAt
@@ -2693,6 +2785,7 @@ extension EKS {
         /// Any issues that are associated with the Fargate profile.
         public let issues: [FargateProfileIssue]?
 
+        @inlinable
         public init(issues: [FargateProfileIssue]? = nil) {
             self.issues = issues
         }
@@ -2710,6 +2803,7 @@ extension EKS {
         /// The Amazon Web Services resources that are affected by this issue.
         public let resourceIds: [String]?
 
+        @inlinable
         public init(code: FargateProfileIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
             self.code = code
             self.message = message
@@ -2729,6 +2823,7 @@ extension EKS {
         /// The Kubernetes namespace that the selector should match.
         public let namespace: String?
 
+        @inlinable
         public init(labels: [String: String]? = nil, namespace: String? = nil) {
             self.labels = labels
             self.namespace = namespace
@@ -2744,6 +2839,7 @@ extension EKS {
         /// An object representing the OpenID Connect identity provider information.
         public let oidc: OIDC?
 
+        @inlinable
         public init(oidc: OIDC? = nil) {
             self.oidc = oidc
         }
@@ -2759,6 +2855,7 @@ extension EKS {
         /// The type of the identity provider configuration. The only type available is oidc.
         public let type: String
 
+        @inlinable
         public init(name: String, type: String) {
             self.name = name
             self.type = type
@@ -2774,6 +2871,7 @@ extension EKS {
         /// An object representing an OpenID Connect (OIDC) identity provider configuration.
         public let oidc: OidcIdentityProviderConfig?
 
+        @inlinable
         public init(oidc: OidcIdentityProviderConfig? = nil) {
             self.oidc = oidc
         }
@@ -2809,6 +2907,7 @@ extension EKS {
         /// The details about each resource listed in the insight check result.
         public let resources: [InsightResourceDetail]?
 
+        @inlinable
         public init(additionalInfo: [String: String]? = nil, category: Category? = nil, categorySpecificSummary: InsightCategorySpecificSummary? = nil, description: String? = nil, id: String? = nil, insightStatus: InsightStatus? = nil, kubernetesVersion: String? = nil, lastRefreshTime: Date? = nil, lastTransitionTime: Date? = nil, name: String? = nil, recommendation: String? = nil, resources: [InsightResourceDetail]? = nil) {
             self.additionalInfo = additionalInfo
             self.category = category
@@ -2844,6 +2943,7 @@ extension EKS {
         /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
         public let deprecationDetails: [DeprecationDetail]?
 
+        @inlinable
         public init(deprecationDetails: [DeprecationDetail]? = nil) {
             self.deprecationDetails = deprecationDetails
         }
@@ -2861,6 +2961,7 @@ extension EKS {
         /// The Kubernetes resource URI if applicable.
         public let kubernetesResourceUri: String?
 
+        @inlinable
         public init(arn: String? = nil, insightStatus: InsightStatus? = nil, kubernetesResourceUri: String? = nil) {
             self.arn = arn
             self.insightStatus = insightStatus
@@ -2880,6 +2981,7 @@ extension EKS {
         /// The status of the resource.
         public let status: InsightStatusValue?
 
+        @inlinable
         public init(reason: String? = nil, status: InsightStatusValue? = nil) {
             self.reason = reason
             self.status = status
@@ -2909,6 +3011,7 @@ extension EKS {
         /// The name of the insight.
         public let name: String?
 
+        @inlinable
         public init(category: Category? = nil, description: String? = nil, id: String? = nil, insightStatus: InsightStatus? = nil, kubernetesVersion: String? = nil, lastRefreshTime: Date? = nil, lastTransitionTime: Date? = nil, name: String? = nil) {
             self.category = category
             self.description = description
@@ -2940,6 +3043,7 @@ extension EKS {
         /// The statuses to use to filter the insights.
         public let statuses: [InsightStatusValue]?
 
+        @inlinable
         public init(categories: [Category]? = nil, kubernetesVersions: [String]? = nil, statuses: [InsightStatusValue]? = nil) {
             self.categories = categories
             self.kubernetesVersions = kubernetesVersions
@@ -2961,6 +3065,7 @@ extension EKS {
         /// The Amazon Web Services resources that are afflicted by this issue.
         public let resourceIds: [String]?
 
+        @inlinable
         public init(code: NodegroupIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
             self.code = code
             self.message = message
@@ -2980,6 +3085,7 @@ extension EKS {
         /// Don't specify a value if you select ipv6 for ipFamily. The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster. You can't change this value after the cluster is created.
         public let serviceIpv4Cidr: String?
 
+        @inlinable
         public init(ipFamily: IpFamily? = nil, serviceIpv4Cidr: String? = nil) {
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
@@ -2999,6 +3105,7 @@ extension EKS {
         /// The CIDR block that Kubernetes pod and service IP addresses are assigned from if you created a 1.21 or later cluster with version 1.10.1 or later of the Amazon VPC CNI add-on and specified ipv6 for ipFamily when you created the cluster. Kubernetes assigns service addresses from the unique local address range (fc00::/7) because you can't specify a custom IPv6 CIDR block when you create the cluster.
         public let serviceIpv6Cidr: String?
 
+        @inlinable
         public init(ipFamily: IpFamily? = nil, serviceIpv4Cidr: String? = nil, serviceIpv6Cidr: String? = nil) {
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
@@ -3020,6 +3127,7 @@ extension EKS {
         /// The version number of the launch template to use. If no version is specified, then the template's default version is used.
         public let version: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, version: String? = nil) {
             self.id = id
             self.name = name
@@ -3043,6 +3151,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(associatedPolicyArn: String? = nil, clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associatedPolicyArn = associatedPolicyArn
             self.clusterName = clusterName
@@ -3073,6 +3182,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(accessEntries: [String]? = nil, nextToken: String? = nil) {
             self.accessEntries = accessEntries
             self.nextToken = nextToken
@@ -3090,6 +3200,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3116,6 +3227,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPolicies: [AccessPolicy]? = nil, nextToken: String? = nil) {
             self.accessPolicies = accessPolicies
             self.nextToken = nextToken
@@ -3135,6 +3247,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -3166,6 +3279,7 @@ extension EKS {
         /// The nextToken value to include in a future ListAddons request. When the results of a ListAddons request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(addons: [String]? = nil, nextToken: String? = nil) {
             self.addons = addons
             self.nextToken = nextToken
@@ -3187,6 +3301,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let principalArn: String
 
+        @inlinable
         public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil, principalArn: String) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -3221,6 +3336,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let principalArn: String?
 
+        @inlinable
         public init(associatedAccessPolicies: [AssociatedAccessPolicy]? = nil, clusterName: String? = nil, nextToken: String? = nil, principalArn: String? = nil) {
             self.associatedAccessPolicies = associatedAccessPolicies
             self.clusterName = clusterName
@@ -3244,6 +3360,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(include: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.include = include
             self.maxResults = maxResults
@@ -3272,6 +3389,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(clusters: [String]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -3291,6 +3409,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated ListEksAnywhereSubscriptions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(includeStatus: [EksAnywhereSubscriptionStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.includeStatus = includeStatus
             self.maxResults = maxResults
@@ -3319,6 +3438,7 @@ extension EKS {
         /// A list of all subscription objects in the region, filtered by includeStatus and paginated by nextToken and maxResults.
         public let subscriptions: [EksAnywhereSubscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscriptions: [EksAnywhereSubscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -3338,6 +3458,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -3366,6 +3487,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(fargateProfileNames: [String]? = nil, nextToken: String? = nil) {
             self.fargateProfileNames = fargateProfileNames
             self.nextToken = nextToken
@@ -3385,6 +3507,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -3413,6 +3536,7 @@ extension EKS {
         /// The nextToken value to include in a future ListIdentityProviderConfigsResponse request. When the results of a ListIdentityProviderConfigsResponse request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(identityProviderConfigs: [IdentityProviderConfig]? = nil, nextToken: String? = nil) {
             self.identityProviderConfigs = identityProviderConfigs
             self.nextToken = nextToken
@@ -3434,6 +3558,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated ListInsights request. When the results of a ListInsights request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterName: String, filter: InsightsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterName = clusterName
             self.filter = filter
@@ -3468,6 +3593,7 @@ extension EKS {
         /// The nextToken value to include in a future ListInsights request. When the results of a ListInsights request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(insights: [InsightSummary]? = nil, nextToken: String? = nil) {
             self.insights = insights
             self.nextToken = nextToken
@@ -3487,6 +3613,7 @@ extension EKS {
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -3515,6 +3642,7 @@ extension EKS {
         /// A list of all of the node groups associated with the specified cluster.
         public let nodegroups: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodegroups: [String]? = nil) {
             self.nextToken = nextToken
             self.nodegroups = nodegroups
@@ -3538,6 +3666,7 @@ extension EKS {
         /// The name of the Kubernetes service account that the associations use.
         public let serviceAccount: String?
 
+        @inlinable
         public init(clusterName: String, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, serviceAccount: String? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -3570,6 +3699,7 @@ extension EKS {
         /// The nextToken value to include in a future ListPodIdentityAssociations request. When the results of a ListPodIdentityAssociations request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(associations: [PodIdentityAssociationSummary]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -3585,6 +3715,7 @@ extension EKS {
         /// The Amazon Resource Name (ARN) that identifies the resource to list tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3602,6 +3733,7 @@ extension EKS {
         /// The tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3623,6 +3755,7 @@ extension EKS {
         /// The name of the Amazon EKS managed node group to list updates for.
         public let nodegroupName: String?
 
+        @inlinable
         public init(addonName: String? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, nodegroupName: String? = nil) {
             self.addonName = addonName
             self.maxResults = maxResults
@@ -3655,6 +3788,7 @@ extension EKS {
         /// A list of all the updates for the specified cluster and Region.
         public let updateIds: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, updateIds: [String]? = nil) {
             self.nextToken = nextToken
             self.updateIds = updateIds
@@ -3672,6 +3806,7 @@ extension EKS {
         /// The available cluster control plane log types.
         public let types: [LogType]?
 
+        @inlinable
         public init(enabled: Bool? = nil, types: [LogType]? = nil) {
             self.enabled = enabled
             self.types = types
@@ -3687,6 +3822,7 @@ extension EKS {
         /// The cluster control plane logging configuration for your cluster.
         public let clusterLogging: [LogSetup]?
 
+        @inlinable
         public init(clusterLogging: [LogSetup]? = nil) {
             self.clusterLogging = clusterLogging
         }
@@ -3702,6 +3838,7 @@ extension EKS {
         /// The product URL from the Amazon Web Services Marketplace.
         public let productUrl: String?
 
+        @inlinable
         public init(productId: String? = nil, productUrl: String? = nil) {
             self.productId = productId
             self.productUrl = productUrl
@@ -3761,6 +3898,7 @@ extension EKS {
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
+        @inlinable
         public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
@@ -3818,6 +3956,7 @@ extension EKS {
         /// Any issues that are associated with the node group.
         public let issues: [Issue]?
 
+        @inlinable
         public init(issues: [Issue]? = nil) {
             self.issues = issues
         }
@@ -3833,6 +3972,7 @@ extension EKS {
         /// The remote access security group associated with the node group. This security group controls SSH access to the nodes.
         public let remoteAccessSecurityGroup: String?
 
+        @inlinable
         public init(autoScalingGroups: [AutoScalingGroup]? = nil, remoteAccessSecurityGroup: String? = nil) {
             self.autoScalingGroups = autoScalingGroups
             self.remoteAccessSecurityGroup = remoteAccessSecurityGroup
@@ -3852,6 +3992,7 @@ extension EKS {
         /// The minimum number of nodes that the managed node group can scale in to.
         public let minSize: Int?
 
+        @inlinable
         public init(desiredSize: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
             self.desiredSize = desiredSize
             self.maxSize = maxSize
@@ -3877,6 +4018,7 @@ extension EKS {
         /// The maximum percentage of nodes unavailable during a version update. This percentage of nodes are updated in parallel, up to 100 nodes at once. This value or maxUnavailable is required to have a value.
         public let maxUnavailablePercentage: Int?
 
+        @inlinable
         public init(maxUnavailable: Int? = nil, maxUnavailablePercentage: Int? = nil) {
             self.maxUnavailable = maxUnavailable
             self.maxUnavailablePercentage = maxUnavailablePercentage
@@ -3898,6 +4040,7 @@ extension EKS {
         /// The issuer URL for the OIDC identity provider.
         public let issuer: String?
 
+        @inlinable
         public init(issuer: String? = nil) {
             self.issuer = issuer
         }
@@ -3933,6 +4076,7 @@ extension EKS {
         /// The prefix that is prepended to username claims to prevent clashes with existing names. The prefix can't contain system:
         public let usernamePrefix: String?
 
+        @inlinable
         public init(clientId: String? = nil, clusterName: String? = nil, groupsClaim: String? = nil, groupsPrefix: String? = nil, identityProviderConfigArn: String? = nil, identityProviderConfigName: String? = nil, issuerUrl: String? = nil, requiredClaims: [String: String]? = nil, status: ConfigStatus? = nil, tags: [String: String]? = nil, usernameClaim: String? = nil, usernamePrefix: String? = nil) {
             self.clientId = clientId
             self.clusterName = clusterName
@@ -3982,6 +4126,7 @@ extension EKS {
         /// The prefix that is prepended to username claims to prevent clashes with existing names. If you do not provide this field, and username is a value other than email, the prefix defaults to issuerurl#. You can use the value - to disable all prefixing.
         public let usernamePrefix: String?
 
+        @inlinable
         public init(clientId: String, groupsClaim: String? = nil, groupsPrefix: String? = nil, identityProviderConfigName: String, issuerUrl: String, requiredClaims: [String: String]? = nil, usernameClaim: String? = nil, usernamePrefix: String? = nil) {
             self.clientId = clientId
             self.groupsClaim = groupsClaim
@@ -4022,6 +4167,7 @@ extension EKS {
         /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
         public let outpostArns: [String]
 
+        @inlinable
         public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementRequest? = nil, outpostArns: [String]) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
@@ -4043,6 +4189,7 @@ extension EKS {
         /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
         public let outpostArns: [String]
 
+        @inlinable
         public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementResponse? = nil, outpostArns: [String]) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
@@ -4078,6 +4225,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, modifiedAt: Date? = nil, namespace: String? = nil, ownerArn: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
@@ -4119,6 +4267,7 @@ extension EKS {
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
         public let serviceAccount: String?
 
+        @inlinable
         public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, namespace: String? = nil, ownerArn: String? = nil, serviceAccount: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
@@ -4142,6 +4291,7 @@ extension EKS {
         /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the IAM principal must have access to the KMS key. For more information, see Allowing users in other accounts to use a KMS key in the Key Management Service Developer Guide.
         public let keyArn: String?
 
+        @inlinable
         public init(keyArn: String? = nil) {
             self.keyArn = keyArn
         }
@@ -4162,6 +4312,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = RegisterClusterRequest.idempotencyToken(), connectorConfig: ConnectorConfigRequest, name: String, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.connectorConfig = connectorConfig
@@ -4193,6 +4344,7 @@ extension EKS {
     public struct RegisterClusterResponse: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4208,6 +4360,7 @@ extension EKS {
         /// The security group IDs that are allowed SSH access (port 22) to the nodes. For Windows, the port is 3389. If you specify an Amazon EC2 SSH key but don't specify a source security group when you create a managed node group, then the port on the nodes is opened to the internet (0.0.0.0/0). For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
         public let sourceSecurityGroups: [String]?
 
+        @inlinable
         public init(ec2SshKey: String? = nil, sourceSecurityGroups: [String]? = nil) {
             self.ec2SshKey = ec2SshKey
             self.sourceSecurityGroups = sourceSecurityGroups
@@ -4225,6 +4378,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4264,6 +4418,7 @@ extension EKS {
         /// The value of the taint.
         public let value: String?
 
+        @inlinable
         public init(effect: TaintEffect? = nil, key: String? = nil, value: String? = nil) {
             self.effect = effect
             self.key = key
@@ -4289,6 +4444,7 @@ extension EKS {
         /// The keys of the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4331,6 +4487,7 @@ extension EKS {
         /// The type of the update.
         public let type: UpdateType?
 
+        @inlinable
         public init(createdAt: Date? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
             self.createdAt = createdAt
             self.errors = errors
@@ -4354,6 +4511,7 @@ extension EKS {
         /// The desired authentication mode for the cluster.
         public let authenticationMode: AuthenticationMode?
 
+        @inlinable
         public init(authenticationMode: AuthenticationMode? = nil) {
             self.authenticationMode = authenticationMode
         }
@@ -4376,6 +4534,7 @@ extension EKS {
         /// The username to authenticate to Kubernetes with. We recommend not specifying a username and letting Amazon EKS specify it for you. For more information about the value Amazon EKS specifies for you, or constraints before specifying your own username, see Creating access entries in the Amazon EKS User Guide.
         public let username: String?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateAccessEntryRequest.idempotencyToken(), clusterName: String, kubernetesGroups: [String]? = nil, principalArn: String, username: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -4405,6 +4564,7 @@ extension EKS {
         /// The ARN of the IAM principal for the AccessEntry.
         public let accessEntry: AccessEntry?
 
+        @inlinable
         public init(accessEntry: AccessEntry? = nil) {
             self.accessEntry = accessEntry
         }
@@ -4433,6 +4593,7 @@ extension EKS {
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
 
+        @inlinable
         public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = UpdateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, podIdentityAssociations: [AddonPodIdentityAssociations]? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -4478,6 +4639,7 @@ extension EKS {
     public struct UpdateAddonResponse: AWSDecodableShape {
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -4501,6 +4663,7 @@ extension EKS {
         /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
         public let upgradePolicy: UpgradePolicyRequest?
 
+        @inlinable
         public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
@@ -4533,6 +4696,7 @@ extension EKS {
     public struct UpdateClusterConfigResponse: AWSDecodableShape {
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -4551,6 +4715,7 @@ extension EKS {
         /// The desired Kubernetes version following a successful update.
         public let version: String
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), name: String, version: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -4575,6 +4740,7 @@ extension EKS {
         /// The full description of the specified update
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -4592,6 +4758,7 @@ extension EKS {
         /// The ID of the subscription.
         public let id: String
 
+        @inlinable
         public init(autoRenew: Bool = false, clientRequestToken: String? = UpdateEksAnywhereSubscriptionRequest.idempotencyToken(), id: String) {
             self.autoRenew = autoRenew
             self.clientRequestToken = clientRequestToken
@@ -4616,6 +4783,7 @@ extension EKS {
         /// The full description of the updated subscription.
         public let subscription: EksAnywhereSubscription?
 
+        @inlinable
         public init(subscription: EksAnywhereSubscription? = nil) {
             self.subscription = subscription
         }
@@ -4631,6 +4799,7 @@ extension EKS {
         /// The Kubernetes labels to remove.
         public let removeLabels: [String]?
 
+        @inlinable
         public init(addOrUpdateLabels: [String: String]? = nil, removeLabels: [String]? = nil) {
             self.addOrUpdateLabels = addOrUpdateLabels
             self.removeLabels = removeLabels
@@ -4668,6 +4837,7 @@ extension EKS {
         /// The node group update configuration.
         public let updateConfig: NodegroupUpdateConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -4709,6 +4879,7 @@ extension EKS {
     public struct UpdateNodegroupConfigResponse: AWSDecodableShape {
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -4735,6 +4906,7 @@ extension EKS {
         /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let version: String?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateNodegroupVersionRequest.idempotencyToken(), clusterName: String, force: Bool? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, releaseVersion: String? = nil, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
@@ -4769,6 +4941,7 @@ extension EKS {
     public struct UpdateNodegroupVersionResponse: AWSDecodableShape {
         public let update: Update?
 
+        @inlinable
         public init(update: Update? = nil) {
             self.update = update
         }
@@ -4784,6 +4957,7 @@ extension EKS {
         /// The value of the keys submitted as part of an update request.
         public let value: String?
 
+        @inlinable
         public init(type: UpdateParamType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -4806,6 +4980,7 @@ extension EKS {
         /// The new IAM role to change the
         public let roleArn: String?
 
+        @inlinable
         public init(associationId: String, clientRequestToken: String? = UpdatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, roleArn: String? = nil) {
             self.associationId = associationId
             self.clientRequestToken = clientRequestToken
@@ -4832,6 +5007,7 @@ extension EKS {
         /// The full description of the EKS Pod Identity association that was updated.
         public let association: PodIdentityAssociation?
 
+        @inlinable
         public init(association: PodIdentityAssociation? = nil) {
             self.association = association
         }
@@ -4847,6 +5023,7 @@ extension EKS {
         /// Kubernetes taints to remove.
         public let removeTaints: [Taint]?
 
+        @inlinable
         public init(addOrUpdateTaints: [Taint]? = nil, removeTaints: [Taint]? = nil) {
             self.addOrUpdateTaints = addOrUpdateTaints
             self.removeTaints = removeTaints
@@ -4871,6 +5048,7 @@ extension EKS {
         /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the EKS User Guide.
         public let supportType: SupportType?
 
+        @inlinable
         public init(supportType: SupportType? = nil) {
             self.supportType = supportType
         }
@@ -4884,6 +5062,7 @@ extension EKS {
         /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the EKS User Guide.
         public let supportType: SupportType?
 
+        @inlinable
         public init(supportType: SupportType? = nil) {
             self.supportType = supportType
         }
@@ -4905,6 +5084,7 @@ extension EKS {
         /// Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your nodes and the Kubernetes control plane.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
@@ -4938,6 +5118,7 @@ extension EKS {
         /// The VPC associated with your cluster.
         public let vpcId: String?
 
+        @inlinable
         public init(clusterSecurityGroupId: String? = nil, endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.clusterSecurityGroupId = clusterSecurityGroupId
             self.endpointPrivateAccess = endpointPrivateAccess

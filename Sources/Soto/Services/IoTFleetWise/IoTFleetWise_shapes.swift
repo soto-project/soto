@@ -506,6 +506,7 @@ extension IoTFleetWise {
         /// The scientific unit for the actuator.
         public let unit: String?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, structFullyQualifiedName: String? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = nil
@@ -521,6 +522,7 @@ extension IoTFleetWise {
         }
 
         @available(*, deprecated, message: "Members assignedValue have been deprecated")
+        @inlinable
         public init(allowedValues: [String]? = nil, assignedValue: String? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, structFullyQualifiedName: String? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
@@ -571,6 +573,7 @@ extension IoTFleetWise {
         ///  The unique ID of the vehicle to associate with the fleet.
         public let vehicleName: String
 
+        @inlinable
         public init(fleetId: String, vehicleName: String) {
             self.fleetId = fleetId
             self.vehicleName = vehicleName
@@ -625,6 +628,7 @@ extension IoTFleetWise {
         /// The scientific unit for the attribute.
         public let unit: String?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, defaultValue: String? = nil, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = nil
@@ -640,6 +644,7 @@ extension IoTFleetWise {
         }
 
         @available(*, deprecated, message: "Members assignedValue have been deprecated")
+        @inlinable
         public init(allowedValues: [String]? = nil, assignedValue: String? = nil, comment: String? = nil, dataType: NodeDataType, defaultValue: String? = nil, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
@@ -685,6 +690,7 @@ extension IoTFleetWise {
         ///  A list of information about each vehicle to create. For more information, see the API data type.
         public let vehicles: [CreateVehicleRequestItem]
 
+        @inlinable
         public init(vehicles: [CreateVehicleRequestItem]) {
             self.vehicles = vehicles
         }
@@ -707,6 +713,7 @@ extension IoTFleetWise {
         ///  A list of information about a batch of created vehicles. For more information, see the  API data type.
         public let vehicles: [CreateVehicleResponseItem]?
 
+        @inlinable
         public init(errors: [CreateVehicleError]? = nil, vehicles: [CreateVehicleResponseItem]? = nil) {
             self.errors = errors
             self.vehicles = vehicles
@@ -722,6 +729,7 @@ extension IoTFleetWise {
         ///  A list of information about the vehicles to update. For more information, see the API data type.
         public let vehicles: [UpdateVehicleRequestItem]
 
+        @inlinable
         public init(vehicles: [UpdateVehicleRequestItem]) {
             self.vehicles = vehicles
         }
@@ -744,6 +752,7 @@ extension IoTFleetWise {
         ///  A list of information about the batch of updated vehicles.   This list contains only unique IDs for the vehicles that were updated.
         public let vehicles: [UpdateVehicleResponseItem]?
 
+        @inlinable
         public init(errors: [UpdateVehicleError]? = nil, vehicles: [UpdateVehicleResponseItem]? = nil) {
             self.errors = errors
             self.vehicles = vehicles
@@ -765,6 +774,7 @@ extension IoTFleetWise {
         /// The fully qualified name of the branch. For example, the fully qualified name of a branch might be Vehicle.Body.Engine.
         public let fullyQualifiedName: String
 
+        @inlinable
         public init(comment: String? = nil, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String) {
             self.comment = comment
             self.deprecationMessage = deprecationMessage
@@ -810,6 +820,7 @@ extension IoTFleetWise {
         /// The ARN of a vehicle or fleet to which the campaign is deployed.
         public let targetArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date, description: String? = nil, lastModificationTime: Date, name: String? = nil, signalCatalogArn: String? = nil, status: CampaignStatus? = nil, targetArn: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -841,6 +852,7 @@ extension IoTFleetWise {
         /// Pairs every signal specified in your vehicle model with a signal decoder.
         public let signalsMap: [String: String]?
 
+        @inlinable
         public init(canDbcFiles: [AWSBase64Data], networkInterface: String, signalsMap: [String: String]? = nil) {
             self.canDbcFiles = canDbcFiles
             self.networkInterface = networkInterface
@@ -872,6 +884,7 @@ extension IoTFleetWise {
         /// The version of the communication protocol for the interface.
         public let protocolVersion: String?
 
+        @inlinable
         public init(name: String, protocolName: String? = nil, protocolVersion: String? = nil) {
             self.name = name
             self.protocolName = protocolName
@@ -912,6 +925,7 @@ extension IoTFleetWise {
         /// Indicates the beginning of the CAN signal. This should always be the least significant bit (LSB). This value might be different from the value in a DBC file. For little endian signals, startBit is the same value as in the DBC file. For big endian signals in a DBC file, the start bit is the most significant bit (MSB). You will have to calculate the LSB instead and pass it as the startBit.
         public let startBit: Int
 
+        @inlinable
         public init(factor: Double, isBigEndian: Bool, isSigned: Bool, length: Int, messageId: Int, name: String? = nil, offset: Double, startBit: Int) {
             self.factor = factor
             self.isBigEndian = isBigEndian
@@ -949,6 +963,7 @@ extension IoTFleetWise {
         /// The type of log to send data to Amazon CloudWatch Logs.
         public let logType: LogType
 
+        @inlinable
         public init(logGroupName: String? = nil, logType: LogType) {
             self.logGroupName = logGroupName
             self.logType = logType
@@ -976,6 +991,7 @@ extension IoTFleetWise {
         /// Whether to collect data for all triggering events (ALWAYS). Specify (RISING_EDGE), or specify only when the condition first evaluates to false. For example, triggering on "AirbagDeployed"; Users aren't interested on triggering when the airbag is already exploded; they only care about the change from not deployed =&gt; deployed.
         public let triggerMode: TriggerMode?
 
+        @inlinable
         public init(conditionLanguageVersion: Int? = nil, expression: String, minimumTriggerIntervalMs: Int64? = nil, triggerMode: TriggerMode? = nil) {
             self.conditionLanguageVersion = conditionLanguageVersion
             self.expression = expression
@@ -1033,6 +1049,7 @@ extension IoTFleetWise {
         ///  The ARN of the vehicle or fleet to deploy a campaign to.
         public let targetArn: String
 
+        @inlinable
         public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
             self.collectionScheme = collectionScheme
             self.compression = compression
@@ -1130,6 +1147,7 @@ extension IoTFleetWise {
         /// The name of the created campaign.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1155,6 +1173,7 @@ extension IoTFleetWise {
         /// Metadata that can be used to manage the decoder manifest.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, modelManifestArn: String, name: String, networkInterfaces: [NetworkInterface]? = nil, signalDecoders: [SignalDecoder]? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.modelManifestArn = modelManifestArn
@@ -1213,6 +1232,7 @@ extension IoTFleetWise {
         ///  The name of the created decoder manifest.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -1234,6 +1254,7 @@ extension IoTFleetWise {
         /// Metadata that can be used to manage the fleet.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, fleetId: String, signalCatalogArn: String, tags: [Tag]? = nil) {
             self.description = description
             self.fleetId = fleetId
@@ -1276,6 +1297,7 @@ extension IoTFleetWise {
         ///  The ID of the created fleet.
         public let id: String
 
+        @inlinable
         public init(arn: String, id: String) {
             self.arn = arn
             self.id = id
@@ -1299,6 +1321,7 @@ extension IoTFleetWise {
         /// Metadata that can be used to manage the vehicle model.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, nodes: [String], signalCatalogArn: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -1344,6 +1367,7 @@ extension IoTFleetWise {
         ///  The name of the created vehicle model.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -1365,6 +1389,7 @@ extension IoTFleetWise {
         /// Metadata that can be used to manage the signal catalog.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, nodes: [Node]? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -1411,6 +1436,7 @@ extension IoTFleetWise {
         ///  The name of the created signal catalog.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -1430,6 +1456,7 @@ extension IoTFleetWise {
         /// The ID of the vehicle with the error.
         public let vehicleName: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, vehicleName: String? = nil) {
             self.code = code
             self.message = message
@@ -1457,6 +1484,7 @@ extension IoTFleetWise {
         ///  The unique ID of the vehicle to create.
         public let vehicleName: String
 
+        @inlinable
         public init(associationBehavior: VehicleAssociationBehavior? = nil, attributes: [String: String]? = nil, decoderManifestArn: String, modelManifestArn: String, tags: [Tag]? = nil, vehicleName: String) {
             self.associationBehavior = associationBehavior
             self.attributes = attributes
@@ -1515,6 +1543,7 @@ extension IoTFleetWise {
         /// The unique ID of the vehicle to create.
         public let vehicleName: String
 
+        @inlinable
         public init(associationBehavior: VehicleAssociationBehavior? = nil, attributes: [String: String]? = nil, decoderManifestArn: String, modelManifestArn: String, tags: [Tag]? = nil, vehicleName: String) {
             self.associationBehavior = associationBehavior
             self.attributes = attributes
@@ -1557,6 +1586,7 @@ extension IoTFleetWise {
         /// The unique ID of the created vehicle.
         public let vehicleName: String?
 
+        @inlinable
         public init(arn: String? = nil, thingArn: String? = nil, vehicleName: String? = nil) {
             self.arn = arn
             self.thingArn = thingArn
@@ -1578,6 +1608,7 @@ extension IoTFleetWise {
         /// The unique ID of the vehicle to create.
         public let vehicleName: String?
 
+        @inlinable
         public init(arn: String? = nil, thingArn: String? = nil, vehicleName: String? = nil) {
             self.arn = arn
             self.thingArn = thingArn
@@ -1607,6 +1638,7 @@ extension IoTFleetWise {
         /// The fully qualified name of the struct node for the custom property if the data type of the custom property is Struct or StructArray.
         public let structFullyQualifiedName: String?
 
+        @inlinable
         public init(comment: String? = nil, dataEncoding: NodeDataEncoding? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, structFullyQualifiedName: String? = nil) {
             self.comment = comment
             self.dataEncoding = dataEncoding
@@ -1653,6 +1685,7 @@ extension IoTFleetWise {
         /// The fully qualified name of the custom structure. For example, the fully qualified name of a custom structure might be ComplexDataTypes.VehicleDataTypes.SVMCamera.
         public let fullyQualifiedName: String
 
+        @inlinable
         public init(comment: String? = nil, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String) {
             self.comment = comment
             self.deprecationMessage = deprecationMessage
@@ -1698,6 +1731,7 @@ extension IoTFleetWise {
         /// The state of the decoder manifest. If the status is ACTIVE, the decoder manifest can't be edited. If the status is marked DRAFT, you can edit the decoder manifest.
         public let status: ManifestStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date, description: String? = nil, lastModificationTime: Date, message: String? = nil, modelManifestArn: String? = nil, name: String? = nil, status: ManifestStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1725,6 +1759,7 @@ extension IoTFleetWise {
         ///  The name of the campaign to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1750,6 +1785,7 @@ extension IoTFleetWise {
         /// The name of the deleted campaign.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1765,6 +1801,7 @@ extension IoTFleetWise {
         ///  The name of the decoder manifest to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1790,6 +1827,7 @@ extension IoTFleetWise {
         /// The name of the deleted decoder manifest.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -1805,6 +1843,7 @@ extension IoTFleetWise {
         ///  The ID of the fleet to delete.
         public let fleetId: String
 
+        @inlinable
         public init(fleetId: String) {
             self.fleetId = fleetId
         }
@@ -1830,6 +1869,7 @@ extension IoTFleetWise {
         /// The ID of the deleted fleet.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1845,6 +1885,7 @@ extension IoTFleetWise {
         ///  The name of the model manifest to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1870,6 +1911,7 @@ extension IoTFleetWise {
         /// The name of the deleted model manifest.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -1885,6 +1927,7 @@ extension IoTFleetWise {
         ///  The name of the signal catalog to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1910,6 +1953,7 @@ extension IoTFleetWise {
         /// The name of the deleted signal catalog.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -1925,6 +1969,7 @@ extension IoTFleetWise {
         /// The ID of the vehicle to delete.
         public let vehicleName: String
 
+        @inlinable
         public init(vehicleName: String) {
             self.vehicleName = vehicleName
         }
@@ -1950,6 +1995,7 @@ extension IoTFleetWise {
         /// The ID of the deleted vehicle.
         public let vehicleName: String
 
+        @inlinable
         public init(arn: String, vehicleName: String) {
             self.arn = arn
             self.vehicleName = vehicleName
@@ -1967,6 +2013,7 @@ extension IoTFleetWise {
         ///  The unique ID of the vehicle to disassociate from the fleet.
         public let vehicleName: String
 
+        @inlinable
         public init(fleetId: String, vehicleName: String) {
             self.fleetId = fleetId
             self.vehicleName = vehicleName
@@ -2011,6 +2058,7 @@ extension IoTFleetWise {
         /// The ARN of the signal catalog associated with the fleet.
         public let signalCatalogArn: String
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, id: String, lastModificationTime: Date? = nil, signalCatalogArn: String) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2034,6 +2082,7 @@ extension IoTFleetWise {
         ///  The name of the campaign to retrieve information about.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2093,6 +2142,7 @@ extension IoTFleetWise {
         ///  The ARN of the vehicle or the fleet targeted by the campaign.
         public let targetArn: String?
 
+        @inlinable
         public init(arn: String? = nil, collectionScheme: CollectionScheme? = nil, compression: Compression? = nil, creationTime: Date? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, lastModificationTime: Date? = nil, name: String? = nil, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String? = nil, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, status: CampaignStatus? = nil, targetArn: String? = nil) {
             self.arn = arn
             self.collectionScheme = collectionScheme
@@ -2142,6 +2192,7 @@ extension IoTFleetWise {
         ///  The name of the decoder manifest to retrieve information about.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2179,6 +2230,7 @@ extension IoTFleetWise {
         ///  The state of the decoder manifest. If the status is ACTIVE, the decoder manifest can't be edited. If the status is marked DRAFT, you can edit the decoder manifest.
         public let status: ManifestStatus?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, lastModificationTime: Date, message: String? = nil, modelManifestArn: String? = nil, name: String, status: ManifestStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2220,6 +2272,7 @@ extension IoTFleetWise {
         /// The time when encryption was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
         public let lastModificationTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, errorMessage: String? = nil, kmsKeyId: String? = nil, lastModificationTime: Date? = nil) {
             self.creationTime = creationTime
             self.encryptionStatus = encryptionStatus
@@ -2243,6 +2296,7 @@ extension IoTFleetWise {
         ///  The ID of the fleet to retrieve information about.
         public let fleetId: String
 
+        @inlinable
         public init(fleetId: String) {
             self.fleetId = fleetId
         }
@@ -2276,6 +2330,7 @@ extension IoTFleetWise {
         ///  The ARN of a signal catalog associated with the fleet.
         public let signalCatalogArn: String
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, id: String, lastModificationTime: Date, signalCatalogArn: String) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2303,6 +2358,7 @@ extension IoTFleetWise {
         /// Returns information about log delivery to Amazon CloudWatch Logs.
         public let cloudWatchLogDelivery: CloudWatchLogDeliveryOptions
 
+        @inlinable
         public init(cloudWatchLogDelivery: CloudWatchLogDeliveryOptions) {
             self.cloudWatchLogDelivery = cloudWatchLogDelivery
         }
@@ -2316,6 +2372,7 @@ extension IoTFleetWise {
         ///  The name of the vehicle model to retrieve information about.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2351,6 +2408,7 @@ extension IoTFleetWise {
         ///  The state of the vehicle model. If the status is ACTIVE, the vehicle model can't be edited. You can edit the vehicle model if the status is marked DRAFT.
         public let status: ManifestStatus?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, lastModificationTime: Date, name: String, signalCatalogArn: String? = nil, status: ManifestStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2390,6 +2448,7 @@ extension IoTFleetWise {
         ///  Information about the registered Amazon Timestream resources or errors, if any.
         public let timestreamRegistrationResponse: TimestreamRegistrationResponse?
 
+        @inlinable
         public init(accountStatus: RegistrationStatus, creationTime: Date, customerAccountId: String, iamRegistrationResponse: IamRegistrationResponse, lastModificationTime: Date, timestreamRegistrationResponse: TimestreamRegistrationResponse? = nil) {
             self.accountStatus = accountStatus
             self.creationTime = creationTime
@@ -2413,6 +2472,7 @@ extension IoTFleetWise {
         ///  The name of the signal catalog to retrieve information about.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2446,6 +2506,7 @@ extension IoTFleetWise {
         ///  The total number of network nodes specified in a signal catalog.
         public let nodeCounts: NodeCounts?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, lastModificationTime: Date, name: String, nodeCounts: NodeCounts? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2469,6 +2530,7 @@ extension IoTFleetWise {
         ///  The ID of the vehicle to retrieve information about.
         public let vehicleName: String
 
+        @inlinable
         public init(vehicleName: String) {
             self.vehicleName = vehicleName
         }
@@ -2504,6 +2566,7 @@ extension IoTFleetWise {
         /// The ID of the vehicle.
         public let vehicleName: String?
 
+        @inlinable
         public init(arn: String? = nil, attributes: [String: String]? = nil, creationTime: Date? = nil, decoderManifestArn: String? = nil, lastModificationTime: Date? = nil, modelManifestArn: String? = nil, vehicleName: String? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -2533,6 +2596,7 @@ extension IoTFleetWise {
         ///  The ID of the vehicle to retrieve information about.
         public let vehicleName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, vehicleName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2566,6 +2630,7 @@ extension IoTFleetWise {
         ///  The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(campaigns: [VehicleStatus]? = nil, nextToken: String? = nil) {
             self.campaigns = campaigns
             self.nextToken = nextToken
@@ -2585,6 +2650,7 @@ extension IoTFleetWise {
         /// The Amazon Resource Name (ARN) of the IAM role to register.
         public let roleArn: String
 
+        @inlinable
         public init(errorMessage: String? = nil, registrationStatus: RegistrationStatus, roleArn: String) {
             self.errorMessage = errorMessage
             self.registrationStatus = registrationStatus
@@ -2602,6 +2668,7 @@ extension IoTFleetWise {
         /// The Amazon Resource Name (ARN) of the IAM resource that allows Amazon Web Services IoT FleetWise to send data to Amazon Timestream. For example, arn:aws:iam::123456789012:role/SERVICE-ROLE-ARN.
         public let roleArn: String
 
+        @inlinable
         public init(roleArn: String) {
             self.roleArn = roleArn
         }
@@ -2623,6 +2690,7 @@ extension IoTFleetWise {
         ///  The file to load into an Amazon Web Services account.
         public let networkFileDefinitions: [NetworkFileDefinition]
 
+        @inlinable
         public init(name: String, networkFileDefinitions: [NetworkFileDefinition]) {
             self.name = name
             self.networkFileDefinitions = networkFileDefinitions
@@ -2655,6 +2723,7 @@ extension IoTFleetWise {
         ///  The name of the imported decoder manifest.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -2676,6 +2745,7 @@ extension IoTFleetWise {
         /// The contents of the Vehicle Signal Specification (VSS) configuration. VSS is a precise language used to describe and model signals in vehicle networks.
         public let vss: FormattedVss?
 
+        @inlinable
         public init(description: String? = nil, name: String, tags: [Tag]? = nil, vss: FormattedVss? = nil) {
             self.description = description
             self.name = name
@@ -2718,6 +2788,7 @@ extension IoTFleetWise {
         ///  The name of the imported signal catalog.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -2737,6 +2808,7 @@ extension IoTFleetWise {
         /// Optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
         public let status: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2767,6 +2839,7 @@ extension IoTFleetWise {
         ///  The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(campaignSummaries: [CampaignSummary]? = nil, nextToken: String? = nil) {
             self.campaignSummaries = campaignSummaries
             self.nextToken = nextToken
@@ -2786,6 +2859,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2819,6 +2893,7 @@ extension IoTFleetWise {
         ///  The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInterfaces: [NetworkInterface]? = nil, nextToken: String? = nil) {
             self.networkInterfaces = networkInterfaces
             self.nextToken = nextToken
@@ -2838,6 +2913,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2871,6 +2947,7 @@ extension IoTFleetWise {
         ///  Information about a list of signals to decode.
         public let signalDecoders: [SignalDecoder]?
 
+        @inlinable
         public init(nextToken: String? = nil, signalDecoders: [SignalDecoder]? = nil) {
             self.nextToken = nextToken
             self.signalDecoders = signalDecoders
@@ -2890,6 +2967,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.modelManifestArn = modelManifestArn
@@ -2920,6 +2998,7 @@ extension IoTFleetWise {
         ///  A list of information about each decoder manifest.
         public let summaries: [DecoderManifestSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [DecoderManifestSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -2939,6 +3018,7 @@ extension IoTFleetWise {
         ///  The ID of the vehicle to retrieve information about.
         public let vehicleName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, vehicleName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2972,6 +3052,7 @@ extension IoTFleetWise {
         ///  The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(fleets: [String]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
@@ -2989,6 +3070,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3017,6 +3099,7 @@ extension IoTFleetWise {
         ///  The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetSummaries: [FleetSummary]? = nil, nextToken: String? = nil) {
             self.fleetSummaries = fleetSummaries
             self.nextToken = nextToken
@@ -3036,6 +3119,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -3069,6 +3153,7 @@ extension IoTFleetWise {
         ///  A list of information about nodes.
         public let nodes: [Node]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodes: [Node]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -3088,6 +3173,7 @@ extension IoTFleetWise {
         ///  The ARN of a signal catalog. If you specify a signal catalog, only the vehicle models associated with it are returned.
         public let signalCatalogArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, signalCatalogArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3118,6 +3204,7 @@ extension IoTFleetWise {
         ///  A list of information about vehicle models.
         public let summaries: [ModelManifestSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [ModelManifestSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3139,6 +3226,7 @@ extension IoTFleetWise {
         /// The type of node in the signal catalog.
         public let signalNodeType: SignalNodeType?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, signalNodeType: SignalNodeType? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -3174,6 +3262,7 @@ extension IoTFleetWise {
         ///  A list of information about nodes.
         public let nodes: [Node]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodes: [Node]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -3191,6 +3280,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3219,6 +3309,7 @@ extension IoTFleetWise {
         ///  A list of information about each signal catalog.
         public let summaries: [SignalCatalogSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [SignalCatalogSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3234,6 +3325,7 @@ extension IoTFleetWise {
         /// The ARN of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -3256,6 +3348,7 @@ extension IoTFleetWise {
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3273,6 +3366,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetId = fleetId
             self.maxResults = maxResults
@@ -3306,6 +3400,7 @@ extension IoTFleetWise {
         ///  A list of vehicles associated with the fleet.
         public let vehicles: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, vehicles: [String]? = nil) {
             self.nextToken = nextToken
             self.vehicles = vehicles
@@ -3329,6 +3424,7 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(attributeNames: [String]? = nil, attributeValues: [String]? = nil, maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
             self.attributeNames = attributeNames
             self.attributeValues = attributeValues
@@ -3372,6 +3468,7 @@ extension IoTFleetWise {
         ///  A list of vehicles and information about them.
         public let vehicleSummaries: [VehicleSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, vehicleSummaries: [VehicleSummary]? = nil) {
             self.nextToken = nextToken
             self.vehicleSummaries = vehicleSummaries
@@ -3389,6 +3486,7 @@ extension IoTFleetWise {
         /// The topic name for the message signal. It corresponds to topics in ROS 2.
         public let topicName: String
 
+        @inlinable
         public init(structuredMessage: StructuredMessage, topicName: String) {
             self.structuredMessage = structuredMessage
             self.topicName = topicName
@@ -3423,6 +3521,7 @@ extension IoTFleetWise {
         /// The state of the vehicle model. If the status is ACTIVE, the vehicle model can't be edited. If the status is DRAFT, you can edit the vehicle model.
         public let status: ManifestStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date, description: String? = nil, lastModificationTime: Date, name: String? = nil, signalCatalogArn: String? = nil, status: ManifestStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3456,6 +3555,7 @@ extension IoTFleetWise {
         /// The vehicle middleware defined as a type of network interface. Examples of vehicle middleware include ROS2 and SOME/IP.
         public let vehicleMiddleware: VehicleMiddleware?
 
+        @inlinable
         public init(canInterface: CanInterface? = nil, interfaceId: String, obdInterface: ObdInterface? = nil, type: NetworkInterfaceType, vehicleMiddleware: VehicleMiddleware? = nil) {
             self.canInterface = canInterface
             self.interfaceId = interfaceId
@@ -3497,6 +3597,7 @@ extension IoTFleetWise {
         /// The total structure for the node.
         public let totalStructs: Int?
 
+        @inlinable
         public init(totalActuators: Int? = nil, totalAttributes: Int? = nil, totalBranches: Int? = nil, totalNodes: Int? = nil, totalProperties: Int? = nil, totalSensors: Int? = nil, totalStructs: Int? = nil) {
             self.totalActuators = totalActuators
             self.totalAttributes = totalAttributes
@@ -3534,6 +3635,7 @@ extension IoTFleetWise {
         /// Whether to use extended IDs in the message.
         public let useExtendedIds: Bool?
 
+        @inlinable
         public init(dtcRequestIntervalSeconds: Int? = nil, hasTransmissionEcu: Bool? = nil, name: String, obdStandard: String? = nil, pidRequestIntervalSeconds: Int? = nil, requestMessageId: Int, useExtendedIds: Bool? = nil) {
             self.dtcRequestIntervalSeconds = dtcRequestIntervalSeconds
             self.hasTransmissionEcu = hasTransmissionEcu
@@ -3585,6 +3687,7 @@ extension IoTFleetWise {
         /// Indicates the beginning of the message.
         public let startByte: Int
 
+        @inlinable
         public init(bitMaskLength: Int? = nil, bitRightShift: Int? = nil, byteLength: Int, offset: Double, pid: Int, pidResponseLength: Int, scaling: Double, serviceMode: Int, startByte: Int) {
             self.bitMaskLength = bitMaskLength
             self.bitRightShift = bitRightShift
@@ -3628,6 +3731,7 @@ extension IoTFleetWise {
         /// The ID of the KMS key that is used for encryption.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsKeyId = kmsKeyId
@@ -3647,6 +3751,7 @@ extension IoTFleetWise {
         /// The ID of the KMS key that is used for encryption.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(encryptionStatus: EncryptionStatus, encryptionType: EncryptionType, kmsKeyId: String? = nil) {
             self.encryptionStatus = encryptionStatus
             self.encryptionType = encryptionType
@@ -3664,6 +3769,7 @@ extension IoTFleetWise {
         /// Creates or updates the log delivery option to Amazon CloudWatch Logs.
         public let cloudWatchLogDelivery: CloudWatchLogDeliveryOptions
 
+        @inlinable
         public init(cloudWatchLogDelivery: CloudWatchLogDeliveryOptions) {
             self.cloudWatchLogDelivery = cloudWatchLogDelivery
         }
@@ -3691,6 +3797,7 @@ extension IoTFleetWise {
         /// An optional attribute specifying the upper bound for STRING and WSTRING.
         public let upperBound: Int64?
 
+        @inlinable
         public init(offset: Double? = nil, primitiveType: ROS2PrimitiveType, scaling: Double? = nil, upperBound: Int64? = nil) {
             self.offset = offset
             self.primitiveType = primitiveType
@@ -3716,12 +3823,14 @@ extension IoTFleetWise {
         public let iamResources: IamResources?
         public let timestreamResources: TimestreamResources?
 
+        @inlinable
         public init() {
             self.iamResources = nil
             self.timestreamResources = nil
         }
 
         @available(*, deprecated, message: "Members iamResources, timestreamResources have been deprecated")
+        @inlinable
         public init(iamResources: IamResources? = nil, timestreamResources: TimestreamResources? = nil) {
             self.iamResources = iamResources
             self.timestreamResources = timestreamResources
@@ -3749,6 +3858,7 @@ extension IoTFleetWise {
         public let registerAccountStatus: RegistrationStatus
         public let timestreamResources: TimestreamResources?
 
+        @inlinable
         public init(creationTime: Date, iamResources: IamResources, lastModificationTime: Date, registerAccountStatus: RegistrationStatus, timestreamResources: TimestreamResources? = nil) {
             self.creationTime = creationTime
             self.iamResources = iamResources
@@ -3776,6 +3886,7 @@ extension IoTFleetWise {
         /// By default, stored data is compressed as a .gzip file. Compressed files have a reduced file size, which can optimize the cost of data storage.
         public let storageCompressionFormat: StorageCompressionFormat?
 
+        @inlinable
         public init(bucketArn: String, dataFormat: DataFormat? = nil, prefix: String? = nil, storageCompressionFormat: StorageCompressionFormat? = nil) {
             self.bucketArn = bucketArn
             self.dataFormat = dataFormat
@@ -3822,6 +3933,7 @@ extension IoTFleetWise {
         /// The scientific unit of measurement for data collected by the sensor.
         public let unit: String?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, comment: String? = nil, dataType: NodeDataType, deprecationMessage: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, structFullyQualifiedName: String? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.comment = comment
@@ -3874,6 +3986,7 @@ extension IoTFleetWise {
         /// The name of the signal catalog.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3903,6 +4016,7 @@ extension IoTFleetWise {
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         public let type: SignalDecoderType
 
+        @inlinable
         public init(canSignal: CanSignal? = nil, fullyQualifiedName: String, interfaceId: String, messageSignal: MessageSignal? = nil, obdSignal: ObdSignal? = nil, type: SignalDecoderType) {
             self.canSignal = canSignal
             self.fullyQualifiedName = fullyQualifiedName
@@ -3940,6 +4054,7 @@ extension IoTFleetWise {
         /// The name of the signal.
         public let name: String
 
+        @inlinable
         public init(maxSampleCount: Int64? = nil, minimumSamplingIntervalMs: Int64? = nil, name: String) {
             self.maxSampleCount = maxSampleCount
             self.minimumSamplingIntervalMs = minimumSamplingIntervalMs
@@ -3969,6 +4084,7 @@ extension IoTFleetWise {
         /// The field name of the structured message. It determines how a data value is referenced in the target language.
         public let fieldName: String
 
+        @inlinable
         public init(dataType: StructuredMessage, fieldName: String) {
             self.dataType = dataType
             self.fieldName = fieldName
@@ -3996,6 +4112,7 @@ extension IoTFleetWise {
         /// The name of the structured message list definition.
         public let name: String
 
+        @inlinable
         public init(capacity: Int? = nil, listType: StructuredMessageListType, memberType: StructuredMessage, name: String) {
             self.capacity = capacity
             self.listType = listType
@@ -4024,6 +4141,7 @@ extension IoTFleetWise {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4047,6 +4165,7 @@ extension IoTFleetWise {
         /// The new or modified tags for the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4081,6 +4200,7 @@ extension IoTFleetWise {
         /// The time period (in milliseconds) to decide how often to collect data. For example, if the time period is 60000, the Edge Agent software collects data once every minute.
         public let periodMs: Int64
 
+        @inlinable
         public init(periodMs: Int64) {
             self.periodMs = periodMs
         }
@@ -4101,6 +4221,7 @@ extension IoTFleetWise {
         /// The Amazon Resource Name (ARN) of the Amazon Timestream table.
         public let timestreamTableArn: String
 
+        @inlinable
         public init(executionRoleArn: String, timestreamTableArn: String) {
             self.executionRoleArn = executionRoleArn
             self.timestreamTableArn = timestreamTableArn
@@ -4135,6 +4256,7 @@ extension IoTFleetWise {
         /// The name of the Timestream database table.
         public let timestreamTableName: String
 
+        @inlinable
         public init(errorMessage: String? = nil, registrationStatus: RegistrationStatus, timestreamDatabaseArn: String? = nil, timestreamDatabaseName: String, timestreamTableArn: String? = nil, timestreamTableName: String) {
             self.errorMessage = errorMessage
             self.registrationStatus = registrationStatus
@@ -4160,6 +4282,7 @@ extension IoTFleetWise {
         /// The name of the registered Amazon Timestream database table.
         public let timestreamTableName: String
 
+        @inlinable
         public init(timestreamDatabaseName: String, timestreamTableName: String) {
             self.timestreamDatabaseName = timestreamDatabaseName
             self.timestreamTableName = timestreamTableName
@@ -4186,6 +4309,7 @@ extension IoTFleetWise {
         /// A list of the keys of the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4225,6 +4349,7 @@ extension IoTFleetWise {
         ///  The name of the campaign to update.
         public let name: String
 
+        @inlinable
         public init(action: UpdateCampaignAction, dataExtraDimensions: [String]? = nil, description: String? = nil, name: String) {
             self.action = action
             self.dataExtraDimensions = dataExtraDimensions
@@ -4271,6 +4396,7 @@ extension IoTFleetWise {
         /// The state of a campaign. The status can be one of:    CREATING - Amazon Web Services IoT FleetWise is processing your request to create the campaign.     WAITING_FOR_APPROVAL - After a campaign is created, it enters the WAITING_FOR_APPROVAL state. To allow Amazon Web Services IoT FleetWise to deploy the campaign to the target vehicle or fleet, use the  API operation to approve the campaign.     RUNNING - The campaign is active.     SUSPENDED - The campaign is suspended. To resume the campaign, use the  API operation.
         public let status: CampaignStatus?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, status: CampaignStatus? = nil) {
             self.arn = arn
             self.name = name
@@ -4304,6 +4430,7 @@ extension IoTFleetWise {
         ///  The state of the decoder manifest. If the status is ACTIVE, the decoder manifest can't be edited. If the status is DRAFT, you can edit the decoder manifest.
         public let status: ManifestStatus?
 
+        @inlinable
         public init(description: String? = nil, name: String, networkInterfacesToAdd: [NetworkInterface]? = nil, networkInterfacesToRemove: [String]? = nil, networkInterfacesToUpdate: [NetworkInterface]? = nil, signalDecodersToAdd: [SignalDecoder]? = nil, signalDecodersToRemove: [String]? = nil, signalDecodersToUpdate: [SignalDecoder]? = nil, status: ManifestStatus? = nil) {
             self.description = description
             self.name = name
@@ -4389,6 +4516,7 @@ extension IoTFleetWise {
         ///  The name of the updated decoder manifest.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -4406,6 +4534,7 @@ extension IoTFleetWise {
         ///  The ID of the fleet to update.
         public let fleetId: String
 
+        @inlinable
         public init(description: String? = nil, fleetId: String) {
             self.description = description
             self.fleetId = fleetId
@@ -4438,6 +4567,7 @@ extension IoTFleetWise {
         /// The ID of the updated fleet.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -4461,6 +4591,7 @@ extension IoTFleetWise {
         ///  The state of the vehicle model. If the status is ACTIVE, the vehicle model can't be edited. If the status is DRAFT, you can edit the vehicle model.
         public let status: ManifestStatus?
 
+        @inlinable
         public init(description: String? = nil, name: String, nodesToAdd: [String]? = nil, nodesToRemove: [String]? = nil, status: ManifestStatus? = nil) {
             self.description = description
             self.name = name
@@ -4516,6 +4647,7 @@ extension IoTFleetWise {
         ///  The name of the updated vehicle model.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -4539,6 +4671,7 @@ extension IoTFleetWise {
         ///  A list of information about nodes to update in the signal catalog.
         public let nodesToUpdate: [Node]?
 
+        @inlinable
         public init(description: String? = nil, name: String, nodesToAdd: [Node]? = nil, nodesToRemove: [String]? = nil, nodesToUpdate: [Node]? = nil) {
             self.description = description
             self.name = name
@@ -4595,6 +4728,7 @@ extension IoTFleetWise {
         ///  The name of the updated signal catalog.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -4614,6 +4748,7 @@ extension IoTFleetWise {
         /// The ID of the vehicle with the error.
         public let vehicleName: String?
 
+        @inlinable
         public init(code: Int? = nil, message: String? = nil, vehicleName: String? = nil) {
             self.code = code
             self.message = message
@@ -4639,6 +4774,7 @@ extension IoTFleetWise {
         /// The unique ID of the vehicle to update.
         public let vehicleName: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, vehicleName: String) {
             self.attributes = attributes
             self.attributeUpdateMode = attributeUpdateMode
@@ -4688,6 +4824,7 @@ extension IoTFleetWise {
         /// The unique ID of the vehicle to update.
         public let vehicleName: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, vehicleName: String) {
             self.attributes = attributes
             self.attributeUpdateMode = attributeUpdateMode
@@ -4722,6 +4859,7 @@ extension IoTFleetWise {
         /// The ID of the updated vehicle.
         public let vehicleName: String?
 
+        @inlinable
         public init(arn: String? = nil, vehicleName: String? = nil) {
             self.arn = arn
             self.vehicleName = vehicleName
@@ -4739,6 +4877,7 @@ extension IoTFleetWise {
         /// The unique ID of the updated vehicle.
         public let vehicleName: String?
 
+        @inlinable
         public init(arn: String? = nil, vehicleName: String? = nil) {
             self.arn = arn
             self.vehicleName = vehicleName
@@ -4756,6 +4895,7 @@ extension IoTFleetWise {
         /// The protocol name of the vehicle middleware.
         public let protocolName: VehicleMiddlewareProtocol
 
+        @inlinable
         public init(name: String, protocolName: VehicleMiddlewareProtocol) {
             self.name = name
             self.protocolName = protocolName
@@ -4780,6 +4920,7 @@ extension IoTFleetWise {
         /// The unique ID of the vehicle.
         public let vehicleName: String?
 
+        @inlinable
         public init(campaignName: String? = nil, status: VehicleState? = nil, vehicleName: String? = nil) {
             self.campaignName = campaignName
             self.status = status
@@ -4809,6 +4950,7 @@ extension IoTFleetWise {
         /// The unique ID of the vehicle.
         public let vehicleName: String
 
+        @inlinable
         public init(arn: String, attributes: [String: String]? = nil, creationTime: Date, decoderManifestArn: String, lastModificationTime: Date, modelManifestArn: String, vehicleName: String) {
             self.arn = arn
             self.attributes = attributes
@@ -4834,6 +4976,7 @@ extension IoTFleetWise {
         /// Provides the VSS in JSON format.
         public let vssJson: String?
 
+        @inlinable
         public init(vssJson: String? = nil) {
             self.vssJson = vssJson
         }
@@ -4847,6 +4990,7 @@ extension IoTFleetWise {
         /// Information, including CAN DBC files, about the configurations used to create a decoder manifest.
         public let canDbc: CanDbcDefinition?
 
+        @inlinable
         public init(canDbc: CanDbcDefinition? = nil) {
             self.canDbc = canDbc
         }
@@ -4864,6 +5008,7 @@ extension IoTFleetWise {
         /// Information about a PrimitiveMessage using a ROS 2 compliant primitive type message of the complex data structure.
         public let ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition?
 
+        @inlinable
         public init(ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition? = nil) {
             self.ros2PrimitiveMessageDefinition = ros2PrimitiveMessageDefinition
         }

@@ -431,6 +431,7 @@ extension ConnectCases {
         /// The Type of an audit history event.
         public let type: AuditEventType
 
+        @inlinable
         public init(eventId: String, fields: [AuditEventField], performedBy: AuditEventPerformedBy? = nil, performedTime: Date, relatedItemType: RelatedItemType? = nil, type: AuditEventType) {
             self.eventId = eventId
             self.fields = fields
@@ -458,6 +459,7 @@ extension ConnectCases {
         /// Union of potential field value types.
         public let oldValue: AuditEventFieldValueUnion?
 
+        @inlinable
         public init(eventFieldId: String, newValue: AuditEventFieldValueUnion, oldValue: AuditEventFieldValueUnion? = nil) {
             self.eventFieldId = eventFieldId
             self.newValue = newValue
@@ -476,6 +478,7 @@ extension ConnectCases {
         public let iamPrincipalArn: String
         public let user: UserUnion?
 
+        @inlinable
         public init(iamPrincipalArn: String, user: UserUnion? = nil) {
             self.iamPrincipalArn = iamPrincipalArn
             self.user = user
@@ -493,6 +496,7 @@ extension ConnectCases {
         /// This represents sections in a panel of the page layout.
         public let topPanel: LayoutSections?
 
+        @inlinable
         public init(moreInfo: LayoutSections? = nil, topPanel: LayoutSections? = nil) {
             self.moreInfo = moreInfo
             self.topPanel = topPanel
@@ -515,6 +519,7 @@ extension ConnectCases {
         /// A list of unique field identifiers.
         public let fields: [FieldIdentifier]
 
+        @inlinable
         public init(domainId: String, fields: [FieldIdentifier]) {
             self.domainId = domainId
             self.fields = fields
@@ -548,6 +553,7 @@ extension ConnectCases {
         /// A list of detailed field information.
         public let fields: [GetFieldResponse]
 
+        @inlinable
         public init(errors: [FieldError], fields: [GetFieldResponse]) {
             self.errors = errors
             self.fields = fields
@@ -567,6 +573,7 @@ extension ConnectCases {
         /// A list of FieldOption objects.
         public let options: [FieldOption]
 
+        @inlinable
         public init(domainId: String, fieldId: String, options: [FieldOption]) {
             self.domainId = domainId
             self.fieldId = fieldId
@@ -600,6 +607,7 @@ extension ConnectCases {
         /// A list of field errors.
         public let errors: [FieldOptionError]?
 
+        @inlinable
         public init(errors: [FieldOptionError]? = nil) {
             self.errors = errors
         }
@@ -613,6 +621,7 @@ extension ConnectCases {
         /// List of field identifiers.
         public let fields: [FieldIdentifier]
 
+        @inlinable
         public init(fields: [FieldIdentifier]) {
             self.fields = fields
         }
@@ -634,6 +643,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(caseId: String, templateId: String) {
             self.caseId = caseId
             self.templateId = templateId
@@ -651,6 +661,7 @@ extension ConnectCases {
         /// Type of the text in the box of a Comment on a case.
         public let contentType: CommentBodyTextType
 
+        @inlinable
         public init(body: String, contentType: CommentBodyTextType) {
             self.body = body
             self.contentType = contentType
@@ -675,6 +686,7 @@ extension ConnectCases {
         /// A unique identifier of a contact in Amazon Connect.
         public let contactArn: String
 
+        @inlinable
         public init(contactArn: String) {
             self.contactArn = contactArn
         }
@@ -698,6 +710,7 @@ extension ConnectCases {
         /// A unique identifier of a contact in Amazon Connect.
         public let contactArn: String
 
+        @inlinable
         public init(channel: String, connectedToSystemTime: Date, contactArn: String) {
             self.channel = channel
             self.connectedToSystemTime = connectedToSystemTime
@@ -717,6 +730,7 @@ extension ConnectCases {
         /// A unique identifier of a contact in Amazon Connect.
         public let contactArn: String?
 
+        @inlinable
         public init(channel: [String]? = nil, contactArn: String? = nil) {
             self.channel = channel
             self.contactArn = contactArn
@@ -748,6 +762,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(clientToken: String? = CreateCaseRequest.idempotencyToken(), domainId: String, fields: [FieldValue], performedBy: UserUnion? = nil, templateId: String) {
             self.clientToken = clientToken
             self.domainId = domainId
@@ -791,6 +806,7 @@ extension ConnectCases {
         /// A unique identifier of the case.
         public let caseId: String
 
+        @inlinable
         public init(caseArn: String, caseId: String) {
             self.caseArn = caseArn
             self.caseId = caseId
@@ -806,6 +822,7 @@ extension ConnectCases {
         /// The name for your Cases domain. It must be unique for your Amazon Web Services account.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -829,6 +846,7 @@ extension ConnectCases {
         /// The status of the domain.
         public let domainStatus: DomainStatus
 
+        @inlinable
         public init(domainArn: String, domainId: String, domainStatus: DomainStatus) {
             self.domainArn = domainArn
             self.domainId = domainId
@@ -852,6 +870,7 @@ extension ConnectCases {
         /// Defines the data type, some system constraints, and default display of the field.
         public let type: FieldType
 
+        @inlinable
         public init(description: String? = nil, domainId: String, name: String, type: FieldType) {
             self.description = description
             self.domainId = domainId
@@ -890,6 +909,7 @@ extension ConnectCases {
         /// The unique identifier of a field.
         public let fieldId: String
 
+        @inlinable
         public init(fieldArn: String, fieldId: String) {
             self.fieldArn = fieldArn
             self.fieldId = fieldId
@@ -909,6 +929,7 @@ extension ConnectCases {
         /// The name of the layout. It must be unique for the Cases domain.
         public let name: String
 
+        @inlinable
         public init(content: LayoutContent, domainId: String, name: String) {
             self.content = content
             self.domainId = domainId
@@ -944,6 +965,7 @@ extension ConnectCases {
         /// The unique identifier of the layout.
         public let layoutId: String
 
+        @inlinable
         public init(layoutArn: String, layoutId: String) {
             self.layoutArn = layoutArn
             self.layoutId = layoutId
@@ -967,6 +989,7 @@ extension ConnectCases {
         /// The type of a related item.
         public let type: RelatedItemType
 
+        @inlinable
         public init(caseId: String, content: RelatedItemInputContent, domainId: String, performedBy: UserUnion? = nil, type: RelatedItemType) {
             self.caseId = caseId
             self.content = content
@@ -1007,6 +1030,7 @@ extension ConnectCases {
         /// The unique identifier of the related item.
         public let relatedItemId: String
 
+        @inlinable
         public init(relatedItemArn: String, relatedItemId: String) {
             self.relatedItemArn = relatedItemArn
             self.relatedItemId = relatedItemId
@@ -1032,6 +1056,7 @@ extension ConnectCases {
         /// The status of the template.
         public let status: TemplateStatus?
 
+        @inlinable
         public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus? = nil) {
             self.description = description
             self.domainId = domainId
@@ -1081,6 +1106,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(templateArn: String, templateId: String) {
             self.templateArn = templateArn
             self.templateId = templateId
@@ -1096,6 +1122,7 @@ extension ConnectCases {
         /// The unique identifier of the Cases domain.
         public let domainId: String
 
+        @inlinable
         public init(domainId: String) {
             self.domainId = domainId
         }
@@ -1124,6 +1151,7 @@ extension ConnectCases {
         /// Unique identifier of the field.
         public let fieldId: String
 
+        @inlinable
         public init(domainId: String, fieldId: String) {
             self.domainId = domainId
             self.fieldId = fieldId
@@ -1156,6 +1184,7 @@ extension ConnectCases {
         /// The unique identifier of the layout.
         public let layoutId: String
 
+        @inlinable
         public init(domainId: String, layoutId: String) {
             self.domainId = domainId
             self.layoutId = layoutId
@@ -1188,6 +1217,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(domainId: String, templateId: String) {
             self.domainId = domainId
             self.templateId = templateId
@@ -1222,6 +1252,7 @@ extension ConnectCases {
         /// The name of the domain.
         public let name: String
 
+        @inlinable
         public init(domainArn: String, domainId: String, name: String) {
             self.domainArn = domainArn
             self.domainId = domainId
@@ -1245,6 +1276,7 @@ extension ConnectCases {
         /// Details of what case and related item data is published through the case event stream.
         public let includedData: EventIncludedData?
 
+        @inlinable
         public init(enabled: Bool, includedData: EventIncludedData? = nil) {
             self.enabled = enabled
             self.includedData = includedData
@@ -1266,6 +1298,7 @@ extension ConnectCases {
         /// Details of what related item data is published through the case event stream.
         public let relatedItemData: RelatedItemEventIncludedData?
 
+        @inlinable
         public init(caseData: CaseEventIncludedData? = nil, relatedItemData: RelatedItemEventIncludedData? = nil) {
             self.caseData = caseData
             self.relatedItemData = relatedItemData
@@ -1289,6 +1322,7 @@ extension ConnectCases {
         /// The error message from getting a field.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String, id: String, message: String? = nil) {
             self.errorCode = errorCode
             self.id = id
@@ -1308,6 +1342,7 @@ extension ConnectCases {
         /// Name of the field group.
         public let name: String?
 
+        @inlinable
         public init(fields: [FieldItem], name: String? = nil) {
             self.fields = fields
             self.name = name
@@ -1329,6 +1364,7 @@ extension ConnectCases {
         /// Unique identifier of a field.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1347,6 +1383,7 @@ extension ConnectCases {
         /// Unique identifier of a field.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1369,6 +1406,7 @@ extension ConnectCases {
         ///  FieldOptionValue has max length 100 and must be alphanumeric with hyphens and underscores.
         public let value: String
 
+        @inlinable
         public init(active: Bool, name: String, value: String) {
             self.active = active
             self.name = name
@@ -1399,6 +1437,7 @@ extension ConnectCases {
         /// The field option value that caused the error.
         public let value: String
 
+        @inlinable
         public init(errorCode: String, message: String, value: String) {
             self.errorCode = errorCode
             self.message = message
@@ -1424,6 +1463,7 @@ extension ConnectCases {
         /// The type of a field.
         public let type: FieldType
 
+        @inlinable
         public init(fieldArn: String, fieldId: String, name: String, namespace: FieldNamespace, type: FieldType) {
             self.fieldArn = fieldArn
             self.fieldId = fieldId
@@ -1447,6 +1487,7 @@ extension ConnectCases {
         /// Union of potential field value types.
         public let value: FieldValueUnion
 
+        @inlinable
         public init(id: String, value: FieldValueUnion) {
             self.id = id
             self.value = value
@@ -1467,6 +1508,7 @@ extension ConnectCases {
         /// The Amazon Resource Name (ARN) of a File in Amazon Connect.
         public let fileArn: String
 
+        @inlinable
         public init(fileArn: String) {
             self.fileArn = fileArn
         }
@@ -1485,6 +1527,7 @@ extension ConnectCases {
         /// The Amazon Resource Name (ARN) of the file.
         public let fileArn: String?
 
+        @inlinable
         public init(fileArn: String? = nil) {
             self.fileArn = fileArn
         }
@@ -1509,6 +1552,7 @@ extension ConnectCases {
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(caseId: String, domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.caseId = caseId
             self.domainId = domainId
@@ -1545,6 +1589,7 @@ extension ConnectCases {
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(auditEvents: [AuditEvent], nextToken: String? = nil) {
             self.auditEvents = auditEvents
             self.nextToken = nextToken
@@ -1560,6 +1605,7 @@ extension ConnectCases {
         /// The unique identifier of the Cases domain.
         public let domainId: String
 
+        @inlinable
         public init(domainId: String) {
             self.domainId = domainId
         }
@@ -1582,6 +1628,7 @@ extension ConnectCases {
         /// Configuration to enable EventBridge case event delivery and determine what data is delivered.
         public let eventBridge: EventBridgeConfiguration
 
+        @inlinable
         public init(eventBridge: EventBridgeConfiguration) {
             self.eventBridge = eventBridge
         }
@@ -1602,6 +1649,7 @@ extension ConnectCases {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(caseId: String, domainId: String, fields: [FieldIdentifier], nextToken: String? = nil) {
             self.caseId = caseId
             self.domainId = domainId
@@ -1645,6 +1693,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(fields: [FieldValue], nextToken: String? = nil, tags: [String: String]? = nil, templateId: String) {
             self.fields = fields
             self.nextToken = nextToken
@@ -1664,6 +1713,7 @@ extension ConnectCases {
         /// The unique identifier of the Cases domain.
         public let domainId: String
 
+        @inlinable
         public init(domainId: String) {
             self.domainId = domainId
         }
@@ -1697,6 +1747,7 @@ extension ConnectCases {
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdTime: Date, domainArn: String, domainId: String, domainStatus: DomainStatus, name: String, tags: [String: String]? = nil) {
             self.createdTime = createdTime
             self.domainArn = domainArn
@@ -1740,6 +1791,7 @@ extension ConnectCases {
         /// Type of the field.
         public let type: FieldType
 
+        @inlinable
         public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, fieldArn: String, fieldId: String, lastModifiedTime: Date? = nil, name: String, namespace: FieldNamespace, tags: [String: String]? = nil, type: FieldType) {
             self.createdTime = createdTime
             self.deleted = deleted
@@ -1773,6 +1825,7 @@ extension ConnectCases {
         /// The unique identifier of the layout.
         public let layoutId: String
 
+        @inlinable
         public init(domainId: String, layoutId: String) {
             self.domainId = domainId
             self.layoutId = layoutId
@@ -1815,6 +1868,7 @@ extension ConnectCases {
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(content: LayoutContent, createdTime: Date? = nil, deleted: Bool? = nil, lastModifiedTime: Date? = nil, layoutArn: String, layoutId: String, name: String, tags: [String: String]? = nil) {
             self.content = content
             self.createdTime = createdTime
@@ -1844,6 +1898,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(domainId: String, templateId: String) {
             self.domainId = domainId
             self.templateId = templateId
@@ -1892,6 +1947,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
             self.createdTime = createdTime
             self.deleted = deleted
@@ -1925,6 +1981,7 @@ extension ConnectCases {
         ///  Unique identifier of a layout.
         public let defaultLayout: String?
 
+        @inlinable
         public init(defaultLayout: String? = nil) {
             self.defaultLayout = defaultLayout
         }
@@ -1942,6 +1999,7 @@ extension ConnectCases {
     public struct LayoutSections: AWSEncodableShape & AWSDecodableShape {
         public let sections: [Section]?
 
+        @inlinable
         public init(sections: [Section]? = nil) {
             self.sections = sections
         }
@@ -1966,6 +2024,7 @@ extension ConnectCases {
         /// The name of the layout.
         public let name: String
 
+        @inlinable
         public init(layoutArn: String, layoutId: String, name: String) {
             self.layoutArn = layoutArn
             self.layoutId = layoutId
@@ -1990,6 +2049,7 @@ extension ConnectCases {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactArn: String, domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactArn = contactArn
             self.domainId = domainId
@@ -2027,6 +2087,7 @@ extension ConnectCases {
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(cases: [CaseSummary], nextToken: String? = nil) {
             self.cases = cases
             self.nextToken = nextToken
@@ -2045,6 +2106,7 @@ extension ConnectCases {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2072,6 +2134,7 @@ extension ConnectCases {
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(domains: [DomainSummary], nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -2096,6 +2159,7 @@ extension ConnectCases {
         /// A list of FieldOption values to filter on for ListFieldOptions.
         public let values: [String]?
 
+        @inlinable
         public init(domainId: String, fieldId: String, maxResults: Int? = nil, nextToken: String? = nil, values: [String]? = nil) {
             self.domainId = domainId
             self.fieldId = fieldId
@@ -2137,6 +2201,7 @@ extension ConnectCases {
         /// A list of FieldOption objects.
         public let options: [FieldOption]
 
+        @inlinable
         public init(nextToken: String? = nil, options: [FieldOption]) {
             self.nextToken = nextToken
             self.options = options
@@ -2157,6 +2222,7 @@ extension ConnectCases {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
@@ -2188,6 +2254,7 @@ extension ConnectCases {
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(fields: [FieldSummary], nextToken: String? = nil) {
             self.fields = fields
             self.nextToken = nextToken
@@ -2208,6 +2275,7 @@ extension ConnectCases {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
@@ -2239,6 +2307,7 @@ extension ConnectCases {
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(layouts: [LayoutSummary], nextToken: String? = nil) {
             self.layouts = layouts
             self.nextToken = nextToken
@@ -2254,6 +2323,7 @@ extension ConnectCases {
         /// The Amazon Resource Name (ARN)
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2276,6 +2346,7 @@ extension ConnectCases {
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2296,6 +2367,7 @@ extension ConnectCases {
         /// A list of status values to filter on.
         public let status: [TemplateStatus]?
 
+        @inlinable
         public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil, status: [TemplateStatus]? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
@@ -2331,6 +2403,7 @@ extension ConnectCases {
         /// List of template summary objects.
         public let templates: [TemplateSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templates: [TemplateSummary]) {
             self.nextToken = nextToken
             self.templates = templates
@@ -2348,6 +2421,7 @@ extension ConnectCases {
         /// Configuration to enable EventBridge case event delivery and determine what data is delivered.
         public let eventBridge: EventBridgeConfiguration
 
+        @inlinable
         public init(domainId: String, eventBridge: EventBridgeConfiguration) {
             self.domainId = domainId
             self.eventBridge = eventBridge
@@ -2379,6 +2453,7 @@ extension ConnectCases {
         /// Details of what related item data is published through the case event stream.
         public let includeContent: Bool
 
+        @inlinable
         public init(includeContent: Bool) {
             self.includeContent = includeContent
         }
@@ -2392,6 +2467,7 @@ extension ConnectCases {
         /// Unique identifier of a field.
         public let fieldId: String
 
+        @inlinable
         public init(fieldId: String) {
             self.fieldId = fieldId
         }
@@ -2423,6 +2499,7 @@ extension ConnectCases {
         /// A list of sorts where each sort specifies a field and their sort order to be applied to the results.
         public let sorts: [Sort]?
 
+        @inlinable
         public init(domainId: String, fields: [FieldIdentifier]? = nil, filter: CaseFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchTerm: String? = nil, sorts: [Sort]? = nil) {
             self.domainId = domainId
             self.fields = fields
@@ -2474,6 +2551,7 @@ extension ConnectCases {
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(cases: [SearchCasesResponseItem], nextToken: String? = nil) {
             self.cases = cases
             self.nextToken = nextToken
@@ -2495,6 +2573,7 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(caseId: String, fields: [FieldValue], tags: [String: String]? = nil, templateId: String) {
             self.caseId = caseId
             self.fields = fields
@@ -2523,6 +2602,7 @@ extension ConnectCases {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(caseId: String, domainId: String, filters: [RelatedItemTypeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.caseId = caseId
             self.domainId = domainId
@@ -2565,6 +2645,7 @@ extension ConnectCases {
         /// A list of items related to a case.
         public let relatedItems: [SearchRelatedItemsResponseItem]
 
+        @inlinable
         public init(nextToken: String? = nil, relatedItems: [SearchRelatedItemsResponseItem]) {
             self.nextToken = nextToken
             self.relatedItems = relatedItems
@@ -2591,6 +2672,7 @@ extension ConnectCases {
         /// Type of a related item.
         public let type: RelatedItemType
 
+        @inlinable
         public init(associationTime: Date, content: RelatedItemContent, performedBy: UserUnion? = nil, relatedItemId: String, tags: [String: String]? = nil, type: RelatedItemType) {
             self.associationTime = associationTime
             self.content = content
@@ -2616,6 +2698,7 @@ extension ConnectCases {
         /// A structured set of sort terms
         public let sortOrder: Order
 
+        @inlinable
         public init(fieldId: String, sortOrder: Order) {
             self.fieldId = fieldId
             self.sortOrder = sortOrder
@@ -2638,6 +2721,7 @@ extension ConnectCases {
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
@@ -2670,6 +2754,7 @@ extension ConnectCases {
         /// The unique identifier for the template.
         public let templateId: String
 
+        @inlinable
         public init(name: String, status: TemplateStatus, templateArn: String, templateId: String) {
             self.name = name
             self.status = status
@@ -2691,6 +2776,7 @@ extension ConnectCases {
         /// List of tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -2726,6 +2812,7 @@ extension ConnectCases {
         public let fields: [FieldValue]
         public let performedBy: UserUnion?
 
+        @inlinable
         public init(caseId: String, domainId: String, fields: [FieldValue], performedBy: UserUnion? = nil) {
             self.caseId = caseId
             self.domainId = domainId
@@ -2773,6 +2860,7 @@ extension ConnectCases {
         /// The name of the field.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, domainId: String, fieldId: String, name: String? = nil) {
             self.description = description
             self.domainId = domainId
@@ -2820,6 +2908,7 @@ extension ConnectCases {
         /// The name of the layout. It must be unique per domain.
         public let name: String?
 
+        @inlinable
         public init(content: LayoutContent? = nil, domainId: String, layoutId: String, name: String? = nil) {
             self.content = content
             self.domainId = domainId
@@ -2873,6 +2962,7 @@ extension ConnectCases {
         /// A unique identifier for the template.
         public let templateId: String
 
+        @inlinable
         public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, status: TemplateStatus? = nil, templateId: String) {
             self.description = description
             self.domainId = domainId
@@ -2928,6 +3018,7 @@ extension ConnectCases {
         /// Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of Cases user interface.
         public let basic: BasicLayout?
 
+        @inlinable
         public init(basic: BasicLayout? = nil) {
             self.basic = basic
         }
@@ -2945,6 +3036,7 @@ extension ConnectCases {
         /// Consists of a group of fields and associated properties.
         public let fieldGroup: FieldGroup?
 
+        @inlinable
         public init(fieldGroup: FieldGroup? = nil) {
             self.fieldGroup = fieldGroup
         }
@@ -2962,6 +3054,7 @@ extension ConnectCases {
         /// Represents the Amazon Connect ARN of the user.
         public let userArn: String?
 
+        @inlinable
         public init(userArn: String? = nil) {
             self.userArn = userArn
         }

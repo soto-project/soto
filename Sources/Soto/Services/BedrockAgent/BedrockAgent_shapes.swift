@@ -651,6 +651,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState, description: String? = nil, updatedAt: Date) {
             self.actionGroupId = actionGroupId
             self.actionGroupName = actionGroupName
@@ -713,6 +714,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
             self.agentArn = agentArn
             self.agentId = agentId
@@ -790,6 +792,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = nil, createdAt: Date, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionSignature: ActionGroupSignature? = nil, updatedAt: Date) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupId = actionGroupId
@@ -851,6 +854,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(agentAliasArn: String, agentAliasHistoryEvents: [AgentAliasHistoryEvent]? = nil, agentAliasId: String, agentAliasName: String, agentAliasStatus: AgentAliasStatus, agentId: String, clientToken: String? = nil, createdAt: Date, description: String? = nil, failureReasons: [String]? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.agentAliasArn = agentAliasArn
             self.agentAliasHistoryEvents = agentAliasHistoryEvents
@@ -892,6 +896,7 @@ extension BedrockAgent {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startDate: Date?
 
+        @inlinable
         public init(endDate: Date? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil, startDate: Date? = nil) {
             self.endDate = endDate
             self.routingConfiguration = routingConfiguration
@@ -911,6 +916,7 @@ extension BedrockAgent {
         /// Information on the Provisioned Throughput assigned to an agent alias.
         public let provisionedThroughput: String?
 
+        @inlinable
         public init(agentVersion: String? = nil, provisionedThroughput: String? = nil) {
             self.agentVersion = agentVersion
             self.provisionedThroughput = provisionedThroughput
@@ -949,6 +955,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(agentAliasId: String, agentAliasName: String, agentAliasStatus: AgentAliasStatus, createdAt: Date, description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil, updatedAt: Date) {
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
@@ -974,6 +981,7 @@ extension BedrockAgent {
         /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
         public let agentAliasArn: String
 
+        @inlinable
         public init(agentAliasArn: String) {
             self.agentAliasArn = agentAliasArn
         }
@@ -1006,6 +1014,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(agentId: String, agentVersion: String, createdAt: Date, description: String, knowledgeBaseId: String, knowledgeBaseState: KnowledgeBaseState, updatedAt: Date) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -1038,6 +1047,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(description: String? = nil, knowledgeBaseId: String, knowledgeBaseState: KnowledgeBaseState, updatedAt: Date) {
             self.description = description
             self.knowledgeBaseId = knowledgeBaseId
@@ -1070,6 +1080,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(agentId: String, agentName: String, agentStatus: AgentStatus, description: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, latestAgentVersion: String? = nil, updatedAt: Date) {
             self.agentId = agentId
             self.agentName = agentName
@@ -1131,6 +1142,7 @@ extension BedrockAgent {
         /// The version number.
         public let version: String
 
+        @inlinable
         public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
             self.agentArn = agentArn
             self.agentId = agentId
@@ -1192,6 +1204,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(agentName: String, agentStatus: AgentStatus, agentVersion: String, createdAt: Date, description: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, updatedAt: Date) {
             self.agentName = agentName
             self.agentStatus = agentStatus
@@ -1225,6 +1238,7 @@ extension BedrockAgent {
         /// Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
         public let knowledgeBaseState: KnowledgeBaseState?
 
+        @inlinable
         public init(agentId: String, agentVersion: String, description: String, knowledgeBaseId: String, knowledgeBaseState: KnowledgeBaseState? = nil) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -1264,6 +1278,7 @@ extension BedrockAgent {
         /// Contains details about the knowledge base that has been associated with the agent.
         public let agentKnowledgeBase: AgentKnowledgeBase
 
+        @inlinable
         public init(agentKnowledgeBase: AgentKnowledgeBase) {
             self.agentKnowledgeBase = agentKnowledgeBase
         }
@@ -1277,6 +1292,7 @@ extension BedrockAgent {
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public let dimensions: Int?
 
+        @inlinable
         public init(dimensions: Int? = nil) {
             self.dimensions = dimensions
         }
@@ -1297,6 +1313,7 @@ extension BedrockAgent {
         /// Instructions for interpreting the contents of a document.
         public let parsingPrompt: ParsingPrompt?
 
+        @inlinable
         public init(modelArn: String, parsingPrompt: ParsingPrompt? = nil) {
             self.modelArn = modelArn
             self.parsingPrompt = parsingPrompt
@@ -1325,6 +1342,7 @@ extension BedrockAgent {
         /// Settings for semantic document chunking for a data source. Semantic chunking splits a document into into smaller documents based on groups of similar content derived from the text with natural language processing.
         public let semanticChunkingConfiguration: SemanticChunkingConfiguration?
 
+        @inlinable
         public init(chunkingStrategy: ChunkingStrategy, fixedSizeChunkingConfiguration: FixedSizeChunkingConfiguration? = nil, hierarchicalChunkingConfiguration: HierarchicalChunkingConfiguration? = nil, semanticChunkingConfiguration: SemanticChunkingConfiguration? = nil) {
             self.chunkingStrategy = chunkingStrategy
             self.fixedSizeChunkingConfiguration = fixedSizeChunkingConfiguration
@@ -1352,6 +1370,7 @@ extension BedrockAgent {
         /// An array of conditions. Each member contains the name of a condition and an expression that defines the condition.
         public let conditions: [FlowCondition]
 
+        @inlinable
         public init(conditions: [FlowCondition]) {
             self.conditions = conditions
         }
@@ -1373,6 +1392,7 @@ extension BedrockAgent {
         /// The configuration of filtering the Confluence content. For example, configuring  regular expression patterns to include or exclude certain content.
         public let filterConfiguration: CrawlFilterConfiguration?
 
+        @inlinable
         public init(filterConfiguration: CrawlFilterConfiguration? = nil) {
             self.filterConfiguration = filterConfiguration
         }
@@ -1392,6 +1412,7 @@ extension BedrockAgent {
         /// The endpoint information to connect to your Confluence data source.
         public let sourceConfiguration: ConfluenceSourceConfiguration
 
+        @inlinable
         public init(crawlerConfiguration: ConfluenceCrawlerConfiguration? = nil, sourceConfiguration: ConfluenceSourceConfiguration) {
             self.crawlerConfiguration = crawlerConfiguration
             self.sourceConfiguration = sourceConfiguration
@@ -1418,6 +1439,7 @@ extension BedrockAgent {
         /// The Confluence host URL or instance URL.
         public let hostUrl: String
 
+        @inlinable
         public init(authType: ConfluenceAuthType, credentialsSecretArn: String, hostType: ConfluenceHostType, hostUrl: String) {
             self.authType = authType
             self.credentialsSecretArn = credentialsSecretArn
@@ -1444,6 +1466,7 @@ extension BedrockAgent {
         /// The type of filtering that you want to apply to certain objects or content of the  data source. For example, the PATTERN type is regular expression patterns  you can apply to filter your content.
         public let type: CrawlFilterConfigurationType
 
+        @inlinable
         public init(patternObjectFilter: PatternObjectFilterConfiguration? = nil, type: CrawlFilterConfigurationType) {
             self.patternObjectFilter = patternObjectFilter
             self.type = type
@@ -1481,6 +1504,7 @@ extension BedrockAgent {
         /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionGroupSignature: ActionGroupSignature?
 
+        @inlinable
         public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = CreateAgentActionGroupRequest.idempotencyToken(), description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupName = actionGroupName
@@ -1541,6 +1565,7 @@ extension BedrockAgent {
         /// Contains details about the action group that was created.
         public let agentActionGroup: AgentActionGroup
 
+        @inlinable
         public init(agentActionGroup: AgentActionGroup) {
             self.agentActionGroup = agentActionGroup
         }
@@ -1564,6 +1589,7 @@ extension BedrockAgent {
         /// Any tags that you want to attach to the alias of the agent.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentAliasName: String, agentId: String, clientToken: String? = CreateAgentAliasRequest.idempotencyToken(), description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil, tags: [String: String]? = nil) {
             self.agentAliasName = agentAliasName
             self.agentId = agentId
@@ -1618,6 +1644,7 @@ extension BedrockAgent {
         /// Contains details about the alias that was created.
         public let agentAlias: AgentAlias
 
+        @inlinable
         public init(agentAlias: AgentAlias) {
             self.agentAlias = agentAlias
         }
@@ -1653,6 +1680,7 @@ extension BedrockAgent {
         /// Any tags that you want to attach to the agent.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
@@ -1719,6 +1747,7 @@ extension BedrockAgent {
         /// Contains details about the agent created.
         public let agent: Agent
 
+        @inlinable
         public init(agent: Agent) {
             self.agent = agent
         }
@@ -1746,6 +1775,7 @@ extension BedrockAgent {
         /// Contains details about how to ingest the documents in the data source.
         public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
+        @inlinable
         public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), dataDeletionPolicy: DataDeletionPolicy? = nil, dataSourceConfiguration: DataSourceConfiguration, description: String? = nil, knowledgeBaseId: String, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.clientToken = clientToken
             self.dataDeletionPolicy = dataDeletionPolicy
@@ -1798,6 +1828,7 @@ extension BedrockAgent {
         /// Contains details about the data source.
         public let dataSource: DataSource
 
+        @inlinable
         public init(dataSource: DataSource) {
             self.dataSource = dataSource
         }
@@ -1821,6 +1852,7 @@ extension BedrockAgent {
         /// Any tags that you want to attach to the alias of the flow. For more information, see Tagging resources in Amazon Bedrock.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateFlowAliasRequest.idempotencyToken(), description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1892,6 +1924,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1931,6 +1964,7 @@ extension BedrockAgent {
         /// Any tags that you want to attach to the flow. For more information, see Tagging resources in Amazon Bedrock.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateFlowRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
@@ -2000,6 +2034,7 @@ extension BedrockAgent {
         /// The version of the flow. When you create a flow, the version created is the DRAFT version.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, updatedAt: Date, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2037,6 +2072,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow that you want to create a version of.
         public let flowIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = CreateFlowVersionRequest.idempotencyToken(), description: String? = nil, flowIdentifier: String) {
             self.clientToken = clientToken
             self.description = description
@@ -2089,6 +2125,7 @@ extension BedrockAgent {
         /// The version of the flow that was created. Versions are numbered incrementally, starting from 1.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2132,6 +2169,7 @@ extension BedrockAgent {
         /// Specify the key-value pairs for the tags that you want to attach to your knowledge base in this object.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateKnowledgeBaseRequest.idempotencyToken(), description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, name: String, roleArn: String, storageConfiguration: StorageConfiguration, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2177,6 +2215,7 @@ extension BedrockAgent {
         /// Contains details about the knowledge base.
         public let knowledgeBase: KnowledgeBase
 
+        @inlinable
         public init(knowledgeBase: KnowledgeBase) {
             self.knowledgeBase = knowledgeBase
         }
@@ -2202,6 +2241,7 @@ extension BedrockAgent {
         /// A list of objects, each containing details about a variant of the prompt.
         public let variants: [PromptVariant]?
 
+        @inlinable
         public init(clientToken: String? = CreatePromptRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, name: String, tags: [String: String]? = nil, variants: [PromptVariant]? = nil) {
             self.clientToken = clientToken
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
@@ -2271,6 +2311,7 @@ extension BedrockAgent {
         /// The version of the prompt. When you create a prompt, the version created is the DRAFT version.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2308,6 +2349,7 @@ extension BedrockAgent {
         /// Any tags that you want to attach to the version of the prompt. For more information, see Tagging resources in Amazon Bedrock.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreatePromptVersionRequest.idempotencyToken(), description: String? = nil, promptIdentifier: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2371,6 +2413,7 @@ extension BedrockAgent {
         /// The version of the prompt that was created. Versions are numbered incrementally, starting from 1.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2404,6 +2447,7 @@ extension BedrockAgent {
         /// A Lambda function that processes documents.
         public let transformations: [Transformation]
 
+        @inlinable
         public init(intermediateStorage: IntermediateStorage, transformations: [Transformation]) {
             self.intermediateStorage = intermediateStorage
             self.transformations = transformations
@@ -2452,6 +2496,7 @@ extension BedrockAgent {
         /// Contains details about how to ingest the documents in the data source.
         public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
+        @inlinable
         public init(createdAt: Date, dataDeletionPolicy: DataDeletionPolicy? = nil, dataSourceConfiguration: DataSourceConfiguration, dataSourceId: String, description: String? = nil, failureReasons: [String]? = nil, knowledgeBaseId: String, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: DataSourceStatus, updatedAt: Date, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.createdAt = createdAt
             self.dataDeletionPolicy = dataDeletionPolicy
@@ -2497,6 +2542,7 @@ extension BedrockAgent {
         /// The configuration of web URLs to crawl for your data source.  You should be authorized to crawl the URLs.  Crawling web URLs as your data source is in preview release  and is subject to change.
         public let webConfiguration: WebDataSourceConfiguration?
 
+        @inlinable
         public init(confluenceConfiguration: ConfluenceDataSourceConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceDataSourceConfiguration? = nil, sharePointConfiguration: SharePointDataSourceConfiguration? = nil, type: DataSourceType, webConfiguration: WebDataSourceConfiguration? = nil) {
             self.confluenceConfiguration = confluenceConfiguration
             self.s3Configuration = s3Configuration
@@ -2539,6 +2585,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(dataSourceId: String, description: String? = nil, knowledgeBaseId: String, name: String, status: DataSourceStatus, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
@@ -2568,6 +2615,7 @@ extension BedrockAgent {
         /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(actionGroupId: String, agentId: String, agentVersion: String, skipResourceInUseCheck: Bool? = nil) {
             self.actionGroupId = actionGroupId
             self.agentId = agentId
@@ -2605,6 +2653,7 @@ extension BedrockAgent {
         /// The unique identifier of the agent that the alias belongs to.
         public let agentId: String
 
+        @inlinable
         public init(agentAliasId: String, agentId: String) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
@@ -2635,6 +2684,7 @@ extension BedrockAgent {
         /// The unique identifier of the agent that the alias belongs to.
         public let agentId: String
 
+        @inlinable
         public init(agentAliasId: String, agentAliasStatus: AgentAliasStatus, agentId: String) {
             self.agentAliasId = agentAliasId
             self.agentAliasStatus = agentAliasStatus
@@ -2654,6 +2704,7 @@ extension BedrockAgent {
         /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(agentId: String, skipResourceInUseCheck: Bool? = nil) {
             self.agentId = agentId
             self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -2679,6 +2730,7 @@ extension BedrockAgent {
         /// The status of the agent.
         public let agentStatus: AgentStatus
 
+        @inlinable
         public init(agentId: String, agentStatus: AgentStatus) {
             self.agentId = agentId
             self.agentStatus = agentStatus
@@ -2698,6 +2750,7 @@ extension BedrockAgent {
         /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(agentId: String, agentVersion: String, skipResourceInUseCheck: Bool? = nil) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -2728,6 +2781,7 @@ extension BedrockAgent {
         /// The version that was deleted.
         public let agentVersion: String
 
+        @inlinable
         public init(agentId: String, agentStatus: AgentStatus, agentVersion: String) {
             self.agentId = agentId
             self.agentStatus = agentStatus
@@ -2747,6 +2801,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base from which to delete the data source.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(dataSourceId: String, knowledgeBaseId: String) {
             self.dataSourceId = dataSourceId
             self.knowledgeBaseId = knowledgeBaseId
@@ -2775,6 +2830,7 @@ extension BedrockAgent {
         /// The status of the data source.
         public let status: DataSourceStatus
 
+        @inlinable
         public init(dataSourceId: String, knowledgeBaseId: String, status: DataSourceStatus) {
             self.dataSourceId = dataSourceId
             self.knowledgeBaseId = knowledgeBaseId
@@ -2794,6 +2850,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow that the alias belongs to.
         public let flowIdentifier: String
 
+        @inlinable
         public init(aliasIdentifier: String, flowIdentifier: String) {
             self.aliasIdentifier = aliasIdentifier
             self.flowIdentifier = flowIdentifier
@@ -2820,6 +2877,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow.
         public let id: String
 
+        @inlinable
         public init(flowId: String, id: String) {
             self.flowId = flowId
             self.id = id
@@ -2837,6 +2895,7 @@ extension BedrockAgent {
         /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(flowIdentifier: String, skipResourceInUseCheck: Bool? = nil) {
             self.flowIdentifier = flowIdentifier
             self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -2860,6 +2919,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2877,6 +2937,7 @@ extension BedrockAgent {
         /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(flowIdentifier: String, flowVersion: String, skipResourceInUseCheck: Bool? = nil) {
             self.flowIdentifier = flowIdentifier
             self.flowVersion = flowVersion
@@ -2905,6 +2966,7 @@ extension BedrockAgent {
         /// The version of the flow being deleted.
         public let version: String
 
+        @inlinable
         public init(id: String, version: String) {
             self.id = id
             self.version = version
@@ -2920,6 +2982,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base to delete.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -2943,6 +3006,7 @@ extension BedrockAgent {
         /// The status of the knowledge base and whether it has been successfully deleted.
         public let status: KnowledgeBaseStatus
 
+        @inlinable
         public init(knowledgeBaseId: String, status: KnowledgeBaseStatus) {
             self.knowledgeBaseId = knowledgeBaseId
             self.status = status
@@ -2960,6 +3024,7 @@ extension BedrockAgent {
         /// The version of the prompt to delete. To delete the prompt, omit this field.
         public let promptVersion: String?
 
+        @inlinable
         public init(promptIdentifier: String, promptVersion: String? = nil) {
             self.promptIdentifier = promptIdentifier
             self.promptVersion = promptVersion
@@ -2986,6 +3051,7 @@ extension BedrockAgent {
         /// The version of the prompt that was deleted.
         public let version: String?
 
+        @inlinable
         public init(id: String, version: String? = nil) {
             self.id = id
             self.version = version
@@ -3005,6 +3071,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base to disassociate.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(agentId: String, agentVersion: String, knowledgeBaseId: String) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -3038,6 +3105,7 @@ extension BedrockAgent {
         /// The vector configuration details on the Bedrock embeddings model.
         public let bedrockEmbeddingModelConfiguration: BedrockEmbeddingModelConfiguration?
 
+        @inlinable
         public init(bedrockEmbeddingModelConfiguration: BedrockEmbeddingModelConfiguration? = nil) {
             self.bedrockEmbeddingModelConfiguration = bedrockEmbeddingModelConfiguration
         }
@@ -3057,6 +3125,7 @@ extension BedrockAgent {
         /// The percentage of overlap between adjacent chunks of a data source.
         public let overlapPercentage: Int
 
+        @inlinable
         public init(maxTokens: Int, overlapPercentage: Int) {
             self.maxTokens = maxTokens
             self.overlapPercentage = overlapPercentage
@@ -3072,6 +3141,7 @@ extension BedrockAgent {
         /// The version that the alias maps to.
         public let flowVersion: String?
 
+        @inlinable
         public init(flowVersion: String? = nil) {
             self.flowVersion = flowVersion
         }
@@ -3107,6 +3177,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3136,6 +3207,7 @@ extension BedrockAgent {
         /// A name for the condition that you can reference.
         public let name: String
 
+        @inlinable
         public init(expression: String? = nil, name: String) {
             self.expression = expression
             self.name = name
@@ -3157,6 +3229,7 @@ extension BedrockAgent {
         /// The condition that triggers this connection. For more information about how to write conditions, see the Condition node type in the Node types topic in the Amazon Bedrock User Guide.
         public let condition: String
 
+        @inlinable
         public init(condition: String) {
             self.condition = condition
         }
@@ -3182,6 +3255,7 @@ extension BedrockAgent {
         /// Whether the source node that the connection begins from is a condition node (Conditional) or not (Data).
         public let type: FlowConnectionType
 
+        @inlinable
         public init(configuration: FlowConnectionConfiguration? = nil, name: String, source: String, target: String, type: FlowConnectionType) {
             self.configuration = configuration
             self.name = name
@@ -3212,6 +3286,7 @@ extension BedrockAgent {
         /// The name of the input in the target node that the connection ends at.
         public let targetInput: String
 
+        @inlinable
         public init(sourceOutput: String, targetInput: String) {
             self.sourceOutput = sourceOutput
             self.targetInput = targetInput
@@ -3234,6 +3309,7 @@ extension BedrockAgent {
         /// An array of node definitions in the flow.
         public let nodes: [FlowNode]?
 
+        @inlinable
         public init(connections: [FlowConnection]? = nil, nodes: [FlowNode]? = nil) {
             self.connections = connections
             self.nodes = nodes
@@ -3268,6 +3344,7 @@ extension BedrockAgent {
         /// The type of node. This value must match the name of the key that you provide in the configuration you provide in the FlowNodeConfiguration field.
         public let type: FlowNodeType
 
+        @inlinable
         public init(configuration: FlowNodeConfiguration? = nil, inputs: [FlowNodeInput]? = nil, name: String, outputs: [FlowNodeOutput]? = nil, type: FlowNodeType) {
             self.configuration = configuration
             self.inputs = inputs
@@ -3306,6 +3383,7 @@ extension BedrockAgent {
         /// The data type of the input. If the input doesn't match this type at runtime, a validation error will be thrown.
         public let type: FlowNodeIODataType
 
+        @inlinable
         public init(expression: String, name: String, type: FlowNodeIODataType) {
             self.expression = expression
             self.name = name
@@ -3331,6 +3409,7 @@ extension BedrockAgent {
         /// The data type of the output. If the output doesn't match this type at runtime, a validation error will be thrown.
         public let type: FlowNodeIODataType
 
+        @inlinable
         public init(name: String, type: FlowNodeIODataType) {
             self.name = name
             self.type = type
@@ -3366,6 +3445,7 @@ extension BedrockAgent {
         /// The latest version of the flow.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, status: FlowStatus, updatedAt: Date, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3395,6 +3475,7 @@ extension BedrockAgent {
         /// The severity of the issue described in the message.
         public let severity: FlowValidationSeverity
 
+        @inlinable
         public init(message: String, severity: FlowValidationSeverity) {
             self.message = message
             self.severity = severity
@@ -3419,6 +3500,7 @@ extension BedrockAgent {
         /// The version of the flow.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, id: String, status: FlowStatus, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3446,6 +3528,7 @@ extension BedrockAgent {
         /// Contains information if user confirmation is required to invoke the function.
         public let requireConfirmation: RequireConfirmation?
 
+        @inlinable
         public init(description: String? = nil, name: String, parameters: [String: ParameterDetail]? = nil, requireConfirmation: RequireConfirmation? = nil) {
             self.description = description
             self.name = name
@@ -3479,6 +3562,7 @@ extension BedrockAgent {
         /// The version of the agent that the action group belongs to.
         public let agentVersion: String
 
+        @inlinable
         public init(actionGroupId: String, agentId: String, agentVersion: String) {
             self.actionGroupId = actionGroupId
             self.agentId = agentId
@@ -3508,6 +3592,7 @@ extension BedrockAgent {
         /// Contains details about the action group.
         public let agentActionGroup: AgentActionGroup
 
+        @inlinable
         public init(agentActionGroup: AgentActionGroup) {
             self.agentActionGroup = agentActionGroup
         }
@@ -3523,6 +3608,7 @@ extension BedrockAgent {
         /// The unique identifier of the agent to which the alias to get information belongs.
         public let agentId: String
 
+        @inlinable
         public init(agentAliasId: String, agentId: String) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
@@ -3549,6 +3635,7 @@ extension BedrockAgent {
         /// Contains information about the alias.
         public let agentAlias: AgentAlias
 
+        @inlinable
         public init(agentAlias: AgentAlias) {
             self.agentAlias = agentAlias
         }
@@ -3566,6 +3653,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base associated with the agent.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(agentId: String, agentVersion: String, knowledgeBaseId: String) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -3595,6 +3683,7 @@ extension BedrockAgent {
         /// Contains details about a knowledge base attached to an agent.
         public let agentKnowledgeBase: AgentKnowledgeBase
 
+        @inlinable
         public init(agentKnowledgeBase: AgentKnowledgeBase) {
             self.agentKnowledgeBase = agentKnowledgeBase
         }
@@ -3608,6 +3697,7 @@ extension BedrockAgent {
         /// The unique identifier of the agent.
         public let agentId: String
 
+        @inlinable
         public init(agentId: String) {
             self.agentId = agentId
         }
@@ -3629,6 +3719,7 @@ extension BedrockAgent {
         /// Contains details about the agent.
         public let agent: Agent
 
+        @inlinable
         public init(agent: Agent) {
             self.agent = agent
         }
@@ -3644,6 +3735,7 @@ extension BedrockAgent {
         /// The version of the agent.
         public let agentVersion: String
 
+        @inlinable
         public init(agentId: String, agentVersion: String) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -3668,6 +3760,7 @@ extension BedrockAgent {
         /// Contains details about the version of the agent.
         public let agentVersion: AgentVersion
 
+        @inlinable
         public init(agentVersion: AgentVersion) {
             self.agentVersion = agentVersion
         }
@@ -3683,6 +3776,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base that the data source was added to.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(dataSourceId: String, knowledgeBaseId: String) {
             self.dataSourceId = dataSourceId
             self.knowledgeBaseId = knowledgeBaseId
@@ -3707,6 +3801,7 @@ extension BedrockAgent {
         /// Contains details about the data source.
         public let dataSource: DataSource
 
+        @inlinable
         public init(dataSource: DataSource) {
             self.dataSource = dataSource
         }
@@ -3722,6 +3817,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow that the alias belongs to.
         public let flowIdentifier: String
 
+        @inlinable
         public init(aliasIdentifier: String, flowIdentifier: String) {
             self.aliasIdentifier = aliasIdentifier
             self.flowIdentifier = flowIdentifier
@@ -3762,6 +3858,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3789,6 +3886,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow.
         public let flowIdentifier: String
 
+        @inlinable
         public init(flowIdentifier: String) {
             self.flowIdentifier = flowIdentifier
         }
@@ -3834,6 +3932,7 @@ extension BedrockAgent {
         /// The version of the flow for which information was retrieved.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, updatedAt: Date, validations: [FlowValidation]? = nil, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3871,6 +3970,7 @@ extension BedrockAgent {
         /// The version of the flow for which to get information.
         public let flowVersion: String
 
+        @inlinable
         public init(flowIdentifier: String, flowVersion: String) {
             self.flowIdentifier = flowIdentifier
             self.flowVersion = flowVersion
@@ -3914,6 +4014,7 @@ extension BedrockAgent {
         /// The version of the flow for which information was retrieved.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3949,6 +4050,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base for which the ingestion job applies.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(dataSourceId: String, ingestionJobId: String, knowledgeBaseId: String) {
             self.dataSourceId = dataSourceId
             self.ingestionJobId = ingestionJobId
@@ -3976,6 +4078,7 @@ extension BedrockAgent {
         /// Contains details about the ingestion job.
         public let ingestionJob: IngestionJob
 
+        @inlinable
         public init(ingestionJob: IngestionJob) {
             self.ingestionJob = ingestionJob
         }
@@ -3989,6 +4092,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base for which to get information.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -4010,6 +4114,7 @@ extension BedrockAgent {
         /// Contains details about the knowledge base.
         public let knowledgeBase: KnowledgeBase
 
+        @inlinable
         public init(knowledgeBase: KnowledgeBase) {
             self.knowledgeBase = knowledgeBase
         }
@@ -4025,6 +4130,7 @@ extension BedrockAgent {
         /// The version of the prompt about which you want to retrieve information. Omit this field to return information about the working draft of the prompt.
         public let promptVersion: String?
 
+        @inlinable
         public init(promptIdentifier: String, promptVersion: String? = nil) {
             self.promptIdentifier = promptIdentifier
             self.promptVersion = promptVersion
@@ -4071,6 +4177,7 @@ extension BedrockAgent {
         /// The version of the prompt.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -4104,6 +4211,7 @@ extension BedrockAgent {
         /// The version of the guardrail.
         public let guardrailVersion: String?
 
+        @inlinable
         public init(guardrailIdentifier: String? = nil, guardrailVersion: String? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
@@ -4127,6 +4235,7 @@ extension BedrockAgent {
         /// The number of tokens to repeat across chunks in the same layer.
         public let overlapTokens: Int
 
+        @inlinable
         public init(levelConfigurations: [HierarchicalChunkingLevelConfiguration], overlapTokens: Int) {
             self.levelConfigurations = levelConfigurations
             self.overlapTokens = overlapTokens
@@ -4147,6 +4256,7 @@ extension BedrockAgent {
         /// The maximum number of tokens that a chunk can contain in this layer.
         public let maxTokens: Int
 
+        @inlinable
         public init(maxTokens: Int) {
             self.maxTokens = maxTokens
         }
@@ -4168,6 +4278,7 @@ extension BedrockAgent {
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public let topP: Float?
 
+        @inlinable
         public init(maximumLength: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
             self.maximumLength = maximumLength
             self.stopSequences = stopSequences
@@ -4219,6 +4330,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(dataSourceId: String, description: String? = nil, failureReasons: [String]? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
@@ -4252,6 +4364,7 @@ extension BedrockAgent {
         /// A list of values for the attribute.
         public let values: [String]
 
+        @inlinable
         public init(attribute: IngestionJobFilterAttribute, operator: IngestionJobFilterOperator, values: [String]) {
             self.attribute = attribute
             self.`operator` = `operator`
@@ -4279,6 +4392,7 @@ extension BedrockAgent {
         /// The order by which to sort the results.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: IngestionJobSortByAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -4306,6 +4420,7 @@ extension BedrockAgent {
         /// The number of new source documents in the data source that were successfully indexed.
         public let numberOfNewDocumentsIndexed: Int64?
 
+        @inlinable
         public init(numberOfDocumentsDeleted: Int64? = nil, numberOfDocumentsFailed: Int64? = nil, numberOfDocumentsScanned: Int64? = nil, numberOfMetadataDocumentsModified: Int64? = nil, numberOfMetadataDocumentsScanned: Int64? = nil, numberOfModifiedDocumentsIndexed: Int64? = nil, numberOfNewDocumentsIndexed: Int64? = nil) {
             self.numberOfDocumentsDeleted = numberOfDocumentsDeleted
             self.numberOfDocumentsFailed = numberOfDocumentsFailed
@@ -4347,6 +4462,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(dataSourceId: String, description: String? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
@@ -4378,6 +4494,7 @@ extension BedrockAgent {
         /// An S3 bucket path.
         public let s3Location: S3Location
 
+        @inlinable
         public init(s3Location: S3Location) {
             self.s3Location = s3Location
         }
@@ -4421,6 +4538,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, failureReasons: [String]? = nil, knowledgeBaseArn: String, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, name: String, roleArn: String, status: KnowledgeBaseStatus, storageConfiguration: StorageConfiguration, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
@@ -4456,6 +4574,7 @@ extension BedrockAgent {
         /// Contains details about the embeddings model that'sused to convert the data source.
         public let vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration?
 
+        @inlinable
         public init(type: KnowledgeBaseType, vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration? = nil) {
             self.type = type
             self.vectorKnowledgeBaseConfiguration = vectorKnowledgeBaseConfiguration
@@ -4477,6 +4596,7 @@ extension BedrockAgent {
         /// The unique identifier of the model to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
         public let modelId: String?
 
+        @inlinable
         public init(knowledgeBaseId: String, modelId: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
             self.modelId = modelId
@@ -4509,6 +4629,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(description: String? = nil, knowledgeBaseId: String, name: String, status: KnowledgeBaseStatus, updatedAt: Date) {
             self.description = description
             self.knowledgeBaseId = knowledgeBaseId
@@ -4530,6 +4651,7 @@ extension BedrockAgent {
         /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
         public let lambdaArn: String
 
+        @inlinable
         public init(lambdaArn: String) {
             self.lambdaArn = lambdaArn
         }
@@ -4550,6 +4672,7 @@ extension BedrockAgent {
         /// The Region to invoke the Amazon Lex bot in.
         public let localeId: String
 
+        @inlinable
         public init(botAliasArn: String, localeId: String) {
             self.botAliasArn = botAliasArn
             self.localeId = localeId
@@ -4578,6 +4701,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentId: String, agentVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -4618,6 +4742,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(actionGroupSummaries: [ActionGroupSummary], nextToken: String? = nil) {
             self.actionGroupSummaries = actionGroupSummaries
             self.nextToken = nextToken
@@ -4637,6 +4762,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentId = agentId
             self.maxResults = maxResults
@@ -4672,6 +4798,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentAliasSummaries: [AgentAliasSummary], nextToken: String? = nil) {
             self.agentAliasSummaries = agentAliasSummaries
             self.nextToken = nextToken
@@ -4693,6 +4820,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentId: String, agentVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -4733,6 +4861,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentKnowledgeBaseSummaries: [AgentKnowledgeBaseSummary], nextToken: String? = nil) {
             self.agentKnowledgeBaseSummaries = agentKnowledgeBaseSummaries
             self.nextToken = nextToken
@@ -4752,6 +4881,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentId = agentId
             self.maxResults = maxResults
@@ -4787,6 +4917,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentVersionSummaries: [AgentVersionSummary], nextToken: String? = nil) {
             self.agentVersionSummaries = agentVersionSummaries
             self.nextToken = nextToken
@@ -4804,6 +4935,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4829,6 +4961,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentSummaries: [AgentSummary], nextToken: String? = nil) {
             self.agentSummaries = agentSummaries
             self.nextToken = nextToken
@@ -4848,6 +4981,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
             self.maxResults = maxResults
@@ -4883,6 +5017,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSourceSummaries: [DataSourceSummary], nextToken: String? = nil) {
             self.dataSourceSummaries = dataSourceSummaries
             self.nextToken = nextToken
@@ -4902,6 +5037,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.flowIdentifier = flowIdentifier
             self.maxResults = maxResults
@@ -4934,6 +5070,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowAliasSummaries: [FlowAliasSummary], nextToken: String? = nil) {
             self.flowAliasSummaries = flowAliasSummaries
             self.nextToken = nextToken
@@ -4953,6 +5090,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.flowIdentifier = flowIdentifier
             self.maxResults = maxResults
@@ -4985,6 +5123,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowVersionSummaries: [FlowVersionSummary], nextToken: String? = nil) {
             self.flowVersionSummaries = flowVersionSummaries
             self.nextToken = nextToken
@@ -5002,6 +5141,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5031,6 +5171,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowSummaries: [FlowSummary], nextToken: String? = nil) {
             self.flowSummaries = flowSummaries
             self.nextToken = nextToken
@@ -5056,6 +5197,7 @@ extension BedrockAgent {
         /// Contains details about how to sort the results.
         public let sortBy: IngestionJobSortBy?
 
+        @inlinable
         public init(dataSourceId: String, filters: [IngestionJobFilter]? = nil, knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: IngestionJobSortBy? = nil) {
             self.dataSourceId = dataSourceId
             self.filters = filters
@@ -5105,6 +5247,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(ingestionJobSummaries: [IngestionJobSummary], nextToken: String? = nil) {
             self.ingestionJobSummaries = ingestionJobSummaries
             self.nextToken = nextToken
@@ -5122,6 +5265,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5147,6 +5291,7 @@ extension BedrockAgent {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(knowledgeBaseSummaries: [KnowledgeBaseSummary], nextToken: String? = nil) {
             self.knowledgeBaseSummaries = knowledgeBaseSummaries
             self.nextToken = nextToken
@@ -5166,6 +5311,7 @@ extension BedrockAgent {
         /// The unique identifier of the prompt for whose versions you want to return information. Omit this field to list information about all prompts in an account.
         public let promptIdentifier: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, promptIdentifier: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5198,6 +5344,7 @@ extension BedrockAgent {
         /// A list, each member of which contains information about a prompt using Prompt management.
         public let promptSummaries: [PromptSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, promptSummaries: [PromptSummary]) {
             self.nextToken = nextToken
             self.promptSummaries = promptSummaries
@@ -5213,6 +5360,7 @@ extension BedrockAgent {
         /// The Amazon Resource Name (ARN) of the resource for which to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5236,6 +5384,7 @@ extension BedrockAgent {
         /// The key-value pairs for the tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -5251,6 +5400,7 @@ extension BedrockAgent {
         /// The number of days the agent is configured to retain the conversational context.
         public let storageDays: Int?
 
+        @inlinable
         public init(enabledMemoryTypes: [MemoryType], storageDays: Int? = nil) {
             self.enabledMemoryTypes = enabledMemoryTypes
             self.storageDays = storageDays
@@ -5285,6 +5435,7 @@ extension BedrockAgent {
         /// The name of the MongoDB Atlas vector search index.
         public let vectorIndexName: String
 
+        @inlinable
         public init(collectionName: String, credentialsSecretArn: String, databaseName: String, endpoint: String, endpointServiceName: String? = nil, fieldMapping: MongoDbAtlasFieldMapping, vectorIndexName: String) {
             self.collectionName = collectionName
             self.credentialsSecretArn = credentialsSecretArn
@@ -5330,6 +5481,7 @@ extension BedrockAgent {
         /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
         public let vectorField: String
 
+        @inlinable
         public init(metadataField: String, textField: String, vectorField: String) {
             self.metadataField = metadataField
             self.textField = textField
@@ -5360,6 +5512,7 @@ extension BedrockAgent {
         /// The name of the vector store.
         public let vectorIndexName: String
 
+        @inlinable
         public init(collectionArn: String, fieldMapping: OpenSearchServerlessFieldMapping, vectorIndexName: String) {
             self.collectionArn = collectionArn
             self.fieldMapping = fieldMapping
@@ -5389,6 +5542,7 @@ extension BedrockAgent {
         /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
         public let vectorField: String
 
+        @inlinable
         public init(metadataField: String, textField: String, vectorField: String) {
             self.metadataField = metadataField
             self.textField = textField
@@ -5423,6 +5577,7 @@ extension BedrockAgent {
         /// The data type of the parameter.
         public let type: `Type`
 
+        @inlinable
         public init(description: String? = nil, required: Bool? = nil, type: `Type`) {
             self.description = description
             self.required = required
@@ -5447,6 +5602,7 @@ extension BedrockAgent {
         /// The parsing strategy for the data source.
         public let parsingStrategy: ParsingStrategy
 
+        @inlinable
         public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, parsingStrategy: ParsingStrategy) {
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
             self.parsingStrategy = parsingStrategy
@@ -5466,6 +5622,7 @@ extension BedrockAgent {
         /// Instructions for interpreting the contents of a document.
         public let parsingPromptText: String
 
+        @inlinable
         public init(parsingPromptText: String) {
             self.parsingPromptText = parsingPromptText
         }
@@ -5488,6 +5645,7 @@ extension BedrockAgent {
         /// The supported object type or content type of the data source.
         public let objectType: String
 
+        @inlinable
         public init(exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, objectType: String) {
             self.exclusionFilters = exclusionFilters
             self.inclusionFilters = inclusionFilters
@@ -5522,6 +5680,7 @@ extension BedrockAgent {
         /// The configuration of specific filters applied to your data source content. You can  filter out or include certain content.
         public let filters: [PatternObjectFilter]
 
+        @inlinable
         public init(filters: [PatternObjectFilter]) {
             self.filters = filters
         }
@@ -5549,6 +5708,7 @@ extension BedrockAgent {
         /// The namespace to be used to write new data to your database.
         public let namespace: String?
 
+        @inlinable
         public init(connectionString: String, credentialsSecretArn: String, fieldMapping: PineconeFieldMapping, namespace: String? = nil) {
             self.connectionString = connectionString
             self.credentialsSecretArn = credentialsSecretArn
@@ -5579,6 +5739,7 @@ extension BedrockAgent {
         /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
         public let textField: String
 
+        @inlinable
         public init(metadataField: String, textField: String) {
             self.metadataField = metadataField
             self.textField = textField
@@ -5601,6 +5762,7 @@ extension BedrockAgent {
         /// The unique identifier of the agent for which to create a DRAFT version.
         public let agentId: String
 
+        @inlinable
         public init(agentId: String) {
             self.agentId = agentId
         }
@@ -5629,6 +5791,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var preparedAt: Date
 
+        @inlinable
         public init(agentId: String, agentStatus: AgentStatus, agentVersion: String, preparedAt: Date) {
             self.agentId = agentId
             self.agentStatus = agentStatus
@@ -5648,6 +5811,7 @@ extension BedrockAgent {
         /// The unique identifier of the flow.
         public let flowIdentifier: String
 
+        @inlinable
         public init(flowIdentifier: String) {
             self.flowIdentifier = flowIdentifier
         }
@@ -5671,6 +5835,7 @@ extension BedrockAgent {
         /// The status of the flow. When you submit this request, the status will be NotPrepared. If preparation succeeds, the status becomes Prepared. If it fails, the status becomes FAILED.
         public let status: FlowStatus
 
+        @inlinable
         public init(id: String, status: FlowStatus) {
             self.id = id
             self.status = status
@@ -5696,6 +5861,7 @@ extension BedrockAgent {
         /// The step in the agent sequence that this prompt configuration applies to.
         public let promptType: PromptType?
 
+        @inlinable
         public init(basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
             self.basePromptTemplate = basePromptTemplate
             self.inferenceConfiguration = inferenceConfiguration
@@ -5725,6 +5891,7 @@ extension BedrockAgent {
         /// Specifies whether the prompt is from Prompt management or defined inline.
         public let sourceConfiguration: PromptFlowNodeSourceConfiguration
 
+        @inlinable
         public init(sourceConfiguration: PromptFlowNodeSourceConfiguration) {
             self.sourceConfiguration = sourceConfiguration
         }
@@ -5748,6 +5915,7 @@ extension BedrockAgent {
         /// The type of prompt template.
         public let templateType: PromptTemplateType
 
+        @inlinable
         public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
             self.inferenceConfiguration = inferenceConfiguration
             self.modelId = modelId
@@ -5775,6 +5943,7 @@ extension BedrockAgent {
         /// The Amazon Resource Name (ARN) of the prompt from Prompt management.
         public let promptArn: String
 
+        @inlinable
         public init(promptArn: String) {
             self.promptArn = promptArn
         }
@@ -5792,6 +5961,7 @@ extension BedrockAgent {
         /// The name of the variable.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -5811,6 +5981,7 @@ extension BedrockAgent {
         /// The value of a metadata tag for a prompt variant.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5842,6 +6013,7 @@ extension BedrockAgent {
         /// The percentage of most-likely candidates that the model considers for the next token.
         public let topP: Float?
 
+        @inlinable
         public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
@@ -5877,6 +6049,7 @@ extension BedrockAgent {
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see Advanced prompts.
         public let promptConfigurations: [PromptConfiguration]
 
+        @inlinable
         public init(overrideLambda: String? = nil, promptConfigurations: [PromptConfiguration]) {
             self.overrideLambda = overrideLambda
             self.promptConfigurations = promptConfigurations
@@ -5915,6 +6088,7 @@ extension BedrockAgent {
         /// The version of the prompt that this summary applies to.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, updatedAt: Date, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5950,6 +6124,7 @@ extension BedrockAgent {
         /// The type of prompt template to use.
         public let templateType: PromptTemplateType
 
+        @inlinable
         public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration? = nil, templateType: PromptTemplateType) {
             self.inferenceConfiguration = inferenceConfiguration
             self.metadata = metadata
@@ -5994,6 +6169,7 @@ extension BedrockAgent {
         /// The name of the table in the database.
         public let tableName: String
 
+        @inlinable
         public init(credentialsSecretArn: String, databaseName: String, fieldMapping: RdsFieldMapping, resourceArn: String, tableName: String) {
             self.credentialsSecretArn = credentialsSecretArn
             self.databaseName = databaseName
@@ -6031,6 +6207,7 @@ extension BedrockAgent {
         /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
         public let vectorField: String
 
+        @inlinable
         public init(metadataField: String, primaryKeyField: String, textField: String, vectorField: String) {
             self.metadataField = metadataField
             self.primaryKeyField = primaryKeyField
@@ -6067,6 +6244,7 @@ extension BedrockAgent {
         /// The name of the vector index.
         public let vectorIndexName: String
 
+        @inlinable
         public init(credentialsSecretArn: String, endpoint: String, fieldMapping: RedisEnterpriseCloudFieldMapping, vectorIndexName: String) {
             self.credentialsSecretArn = credentialsSecretArn
             self.endpoint = endpoint
@@ -6099,6 +6277,7 @@ extension BedrockAgent {
         /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
         public let vectorField: String
 
+        @inlinable
         public init(metadataField: String, textField: String, vectorField: String) {
             self.metadataField = metadataField
             self.textField = textField
@@ -6125,6 +6304,7 @@ extension BedrockAgent {
         /// Contains configurations for the service to use for retrieving data to return as the output from the node.
         public let serviceConfiguration: RetrievalFlowNodeServiceConfiguration
 
+        @inlinable
         public init(serviceConfiguration: RetrievalFlowNodeServiceConfiguration) {
             self.serviceConfiguration = serviceConfiguration
         }
@@ -6142,6 +6322,7 @@ extension BedrockAgent {
         /// The name of the Amazon S3 bucket from which to retrieve data.
         public let bucketName: String
 
+        @inlinable
         public init(bucketName: String) {
             self.bucketName = bucketName
         }
@@ -6165,6 +6346,7 @@ extension BedrockAgent {
         /// A list of S3 prefixes to include certain files or content. For more information,  see Organizing objects using prefixes.
         public let inclusionPrefixes: [String]?
 
+        @inlinable
         public init(bucketArn: String, bucketOwnerAccountId: String? = nil, inclusionPrefixes: [String]? = nil) {
             self.bucketArn = bucketArn
             self.bucketOwnerAccountId = bucketOwnerAccountId
@@ -6199,6 +6381,7 @@ extension BedrockAgent {
         /// The S3 object key for the S3 resource.
         public let s3ObjectKey: String?
 
+        @inlinable
         public init(s3BucketName: String? = nil, s3ObjectKey: String? = nil) {
             self.s3BucketName = s3BucketName
             self.s3ObjectKey = s3ObjectKey
@@ -6223,6 +6406,7 @@ extension BedrockAgent {
         /// The location's URI. For example, s3://my-bucket/chunk-processor/.
         public let uri: String
 
+        @inlinable
         public init(uri: String) {
             self.uri = uri
         }
@@ -6242,6 +6426,7 @@ extension BedrockAgent {
         /// The configuration of filtering the Salesforce content. For example,  configuring regular expression patterns to include or exclude certain  content.
         public let filterConfiguration: CrawlFilterConfiguration?
 
+        @inlinable
         public init(filterConfiguration: CrawlFilterConfiguration? = nil) {
             self.filterConfiguration = filterConfiguration
         }
@@ -6261,6 +6446,7 @@ extension BedrockAgent {
         /// The endpoint information to connect to your Salesforce data source.
         public let sourceConfiguration: SalesforceSourceConfiguration
 
+        @inlinable
         public init(crawlerConfiguration: SalesforceCrawlerConfiguration? = nil, sourceConfiguration: SalesforceSourceConfiguration) {
             self.crawlerConfiguration = crawlerConfiguration
             self.sourceConfiguration = sourceConfiguration
@@ -6285,6 +6471,7 @@ extension BedrockAgent {
         /// The Salesforce host URL or instance URL.
         public let hostUrl: String
 
+        @inlinable
         public init(authType: SalesforceAuthType, credentialsSecretArn: String, hostUrl: String) {
             self.authType = authType
             self.credentialsSecretArn = credentialsSecretArn
@@ -6307,6 +6494,7 @@ extension BedrockAgent {
         /// A seed or starting point URL.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -6328,6 +6516,7 @@ extension BedrockAgent {
         /// The maximum number of tokens that a chunk can contain.
         public let maxTokens: Int
 
+        @inlinable
         public init(breakpointPercentileThreshold: Int, bufferSize: Int, maxTokens: Int) {
             self.breakpointPercentileThreshold = breakpointPercentileThreshold
             self.bufferSize = bufferSize
@@ -6345,6 +6534,7 @@ extension BedrockAgent {
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(kmsKeyArn: String? = nil) {
             self.kmsKeyArn = kmsKeyArn
         }
@@ -6364,6 +6554,7 @@ extension BedrockAgent {
         /// The configuration of filtering the SharePoint content. For example,  configuring regular expression patterns to include or exclude certain content.
         public let filterConfiguration: CrawlFilterConfiguration?
 
+        @inlinable
         public init(filterConfiguration: CrawlFilterConfiguration? = nil) {
             self.filterConfiguration = filterConfiguration
         }
@@ -6383,6 +6574,7 @@ extension BedrockAgent {
         /// The endpoint information to connect to your SharePoint data source.
         public let sourceConfiguration: SharePointSourceConfiguration
 
+        @inlinable
         public init(crawlerConfiguration: SharePointCrawlerConfiguration? = nil, sourceConfiguration: SharePointSourceConfiguration) {
             self.crawlerConfiguration = crawlerConfiguration
             self.sourceConfiguration = sourceConfiguration
@@ -6413,6 +6605,7 @@ extension BedrockAgent {
         /// The identifier of your Microsoft 365 tenant.
         public let tenantId: String?
 
+        @inlinable
         public init(authType: SharePointAuthType, credentialsSecretArn: String, domain: String, hostType: SharePointHostType, siteUrls: [String], tenantId: String? = nil) {
             self.authType = authType
             self.credentialsSecretArn = credentialsSecretArn
@@ -6456,6 +6649,7 @@ extension BedrockAgent {
         /// The unique identifier of the knowledge base to which to add the data source.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(clientToken: String? = StartIngestionJobRequest.idempotencyToken(), dataSourceId: String, description: String? = nil, knowledgeBaseId: String) {
             self.clientToken = clientToken
             self.dataSourceId = dataSourceId
@@ -6492,6 +6686,7 @@ extension BedrockAgent {
         /// An object containing information about the ingestion job.
         public let ingestionJob: IngestionJob
 
+        @inlinable
         public init(ingestionJob: IngestionJob) {
             self.ingestionJob = ingestionJob
         }
@@ -6515,6 +6710,7 @@ extension BedrockAgent {
         /// The vector store service in which the knowledge base is stored.
         public let type: KnowledgeBaseStorageType
 
+        @inlinable
         public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
@@ -6546,6 +6742,7 @@ extension BedrockAgent {
         /// Contains configurations for the service to use for storing the input into the node.
         public let serviceConfiguration: StorageFlowNodeServiceConfiguration
 
+        @inlinable
         public init(serviceConfiguration: StorageFlowNodeServiceConfiguration) {
             self.serviceConfiguration = serviceConfiguration
         }
@@ -6563,6 +6760,7 @@ extension BedrockAgent {
         /// The name of the Amazon S3 bucket in which to store the input into the node.
         public let bucketName: String
 
+        @inlinable
         public init(bucketName: String) {
             self.bucketName = bucketName
         }
@@ -6584,6 +6782,7 @@ extension BedrockAgent {
         /// An object containing key-value pairs that define the tags to attach to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6624,6 +6823,7 @@ extension BedrockAgent {
         /// The message for the prompt.
         public let text: String
 
+        @inlinable
         public init(inputVariables: [PromptInputVariable]? = nil, text: String) {
             self.inputVariables = inputVariables
             self.text = text
@@ -6650,6 +6850,7 @@ extension BedrockAgent {
         /// A Lambda function that processes documents.
         public let transformationFunction: TransformationFunction
 
+        @inlinable
         public init(stepToApply: StepType, transformationFunction: TransformationFunction) {
             self.stepToApply = stepToApply
             self.transformationFunction = transformationFunction
@@ -6669,6 +6870,7 @@ extension BedrockAgent {
         /// The Lambda function.
         public let transformationLambdaConfiguration: TransformationLambdaConfiguration
 
+        @inlinable
         public init(transformationLambdaConfiguration: TransformationLambdaConfiguration) {
             self.transformationLambdaConfiguration = transformationLambdaConfiguration
         }
@@ -6686,6 +6888,7 @@ extension BedrockAgent {
         /// The function's ARN identifier.
         public let lambdaArn: String
 
+        @inlinable
         public init(lambdaArn: String) {
             self.lambdaArn = lambdaArn
         }
@@ -6706,6 +6909,7 @@ extension BedrockAgent {
         /// A list of keys of the tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -6759,6 +6963,7 @@ extension BedrockAgent {
         /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionGroupSignature: ActionGroupSignature?
 
+        @inlinable
         public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupId = actionGroupId
@@ -6816,6 +7021,7 @@ extension BedrockAgent {
         /// Contains details about the action group that was updated.
         public let agentActionGroup: AgentActionGroup
 
+        @inlinable
         public init(agentActionGroup: AgentActionGroup) {
             self.agentActionGroup = agentActionGroup
         }
@@ -6837,6 +7043,7 @@ extension BedrockAgent {
         /// Contains details about the routing configuration of the alias.
         public let routingConfiguration: [AgentAliasRoutingConfigurationListItem]?
 
+        @inlinable
         public init(agentAliasId: String, agentAliasName: String, agentId: String, description: String? = nil, routingConfiguration: [AgentAliasRoutingConfigurationListItem]? = nil) {
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
@@ -6880,6 +7087,7 @@ extension BedrockAgent {
         /// Contains details about the alias that was updated.
         public let agentAlias: AgentAlias
 
+        @inlinable
         public init(agentAlias: AgentAlias) {
             self.agentAlias = agentAlias
         }
@@ -6901,6 +7109,7 @@ extension BedrockAgent {
         /// Specifies whether the agent uses the knowledge base or not when sending an InvokeAgent request.
         public let knowledgeBaseState: KnowledgeBaseState?
 
+        @inlinable
         public init(agentId: String, agentVersion: String, description: String? = nil, knowledgeBaseId: String, knowledgeBaseState: KnowledgeBaseState? = nil) {
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -6939,6 +7148,7 @@ extension BedrockAgent {
         /// Contains details about the knowledge base that has been associated with an agent.
         public let agentKnowledgeBase: AgentKnowledgeBase
 
+        @inlinable
         public init(agentKnowledgeBase: AgentKnowledgeBase) {
             self.agentKnowledgeBase = agentKnowledgeBase
         }
@@ -6972,6 +7182,7 @@ extension BedrockAgent {
         /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
 
+        @inlinable
         public init(agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
             self.agentId = agentId
             self.agentName = agentName
@@ -7042,6 +7253,7 @@ extension BedrockAgent {
         /// Contains details about the agent that was updated.
         public let agent: Agent
 
+        @inlinable
         public init(agent: Agent) {
             self.agent = agent
         }
@@ -7069,6 +7281,7 @@ extension BedrockAgent {
         /// Contains details about how to ingest the documents in the data source.
         public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
+        @inlinable
         public init(dataDeletionPolicy: DataDeletionPolicy? = nil, dataSourceConfiguration: DataSourceConfiguration, dataSourceId: String, description: String? = nil, knowledgeBaseId: String, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.dataDeletionPolicy = dataDeletionPolicy
             self.dataSourceConfiguration = dataSourceConfiguration
@@ -7118,6 +7331,7 @@ extension BedrockAgent {
         /// Contains details about the data source.
         public let dataSource: DataSource
 
+        @inlinable
         public init(dataSource: DataSource) {
             self.dataSource = dataSource
         }
@@ -7139,6 +7353,7 @@ extension BedrockAgent {
         /// Contains information about the version to which to map the alias.
         public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
 
+        @inlinable
         public init(aliasIdentifier: String, description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem]) {
             self.aliasIdentifier = aliasIdentifier
             self.description = description
@@ -7197,6 +7412,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
@@ -7234,6 +7450,7 @@ extension BedrockAgent {
         /// A name for the flow.
         public let name: String
 
+        @inlinable
         public init(customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, flowIdentifier: String, name: String) {
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.definition = definition
@@ -7302,6 +7519,7 @@ extension BedrockAgent {
         /// The version of the flow. When you update a flow, the version updated is the DRAFT version.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, updatedAt: Date, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -7345,6 +7563,7 @@ extension BedrockAgent {
         /// Specifies the configuration for the vector store used for the knowledge base. You must use the same configuration as when the knowledge base was created.
         public let storageConfiguration: StorageConfiguration
 
+        @inlinable
         public init(description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, name: String, roleArn: String, storageConfiguration: StorageConfiguration) {
             self.description = description
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
@@ -7389,6 +7608,7 @@ extension BedrockAgent {
         /// Contains details about the knowledge base.
         public let knowledgeBase: KnowledgeBase
 
+        @inlinable
         public init(knowledgeBase: KnowledgeBase) {
             self.knowledgeBase = knowledgeBase
         }
@@ -7412,6 +7632,7 @@ extension BedrockAgent {
         /// A list of objects, each containing details about a variant of the prompt.
         public let variants: [PromptVariant]?
 
+        @inlinable
         public init(customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, name: String, promptIdentifier: String, variants: [PromptVariant]? = nil) {
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.defaultVariant = defaultVariant
@@ -7480,6 +7701,7 @@ extension BedrockAgent {
         /// The version of the prompt. When you update a prompt, the version updated is the DRAFT version.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -7511,6 +7733,7 @@ extension BedrockAgent {
         /// One or more seed or starting point URLs.
         public let seedUrls: [SeedUrl]?
 
+        @inlinable
         public init(seedUrls: [SeedUrl]? = nil) {
             self.seedUrls = seedUrls
         }
@@ -7536,6 +7759,7 @@ extension BedrockAgent {
         /// A custom parser for data source documents.
         public let parsingConfiguration: ParsingConfiguration?
 
+        @inlinable
         public init(chunkingConfiguration: ChunkingConfiguration? = nil, customTransformationConfiguration: CustomTransformationConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
             self.chunkingConfiguration = chunkingConfiguration
             self.customTransformationConfiguration = customTransformationConfiguration
@@ -7561,6 +7785,7 @@ extension BedrockAgent {
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
         public let embeddingModelConfiguration: EmbeddingModelConfiguration?
 
+        @inlinable
         public init(embeddingModelArn: String, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil) {
             self.embeddingModelArn = embeddingModelArn
             self.embeddingModelConfiguration = embeddingModelConfiguration
@@ -7589,6 +7814,7 @@ extension BedrockAgent {
         /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary  domain. For example, only web pages that contain the seed URL  "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains.  You can choose to include sub domains in addition to the host or primary domain.  For example, web pages that contain "aws.amazon.com" can also include sub domain  "docs.aws.amazon.com".
         public let scope: WebScopeType?
 
+        @inlinable
         public init(crawlerLimits: WebCrawlerLimits? = nil, exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, scope: WebScopeType? = nil) {
             self.crawlerLimits = crawlerLimits
             self.exclusionFilters = exclusionFilters
@@ -7623,6 +7849,7 @@ extension BedrockAgent {
         /// The max rate at which pages are crawled, up to 300 per minute per host.
         public let rateLimit: Int?
 
+        @inlinable
         public init(rateLimit: Int? = nil) {
             self.rateLimit = rateLimit
         }
@@ -7638,6 +7865,7 @@ extension BedrockAgent {
         /// The source configuration details for the web data source.
         public let sourceConfiguration: WebSourceConfiguration
 
+        @inlinable
         public init(crawlerConfiguration: WebCrawlerConfiguration? = nil, sourceConfiguration: WebSourceConfiguration) {
             self.crawlerConfiguration = crawlerConfiguration
             self.sourceConfiguration = sourceConfiguration
@@ -7658,6 +7886,7 @@ extension BedrockAgent {
         /// The configuration of the URL/URLs.
         public let urlConfiguration: UrlConfiguration
 
+        @inlinable
         public init(urlConfiguration: UrlConfiguration) {
             self.urlConfiguration = urlConfiguration
         }
@@ -7675,6 +7904,7 @@ extension BedrockAgent {
         /// A list of functions that each define an action in the action group.
         public let functions: [Function]?
 
+        @inlinable
         public init(functions: [Function]? = nil) {
             self.functions = functions
         }
@@ -7694,6 +7924,7 @@ extension BedrockAgent {
         /// Contains inference configurations for a text prompt.
         public let text: PromptModelInferenceConfiguration?
 
+        @inlinable
         public init(text: PromptModelInferenceConfiguration? = nil) {
             self.text = text
         }
@@ -7711,6 +7942,7 @@ extension BedrockAgent {
         /// Contains configurations for the text in a message for a prompt.
         public let text: TextPromptTemplateConfiguration?
 
+        @inlinable
         public init(text: TextPromptTemplateConfiguration? = nil) {
             self.text = text
         }
@@ -7728,6 +7960,7 @@ extension BedrockAgent {
         /// Contains configurations for the Amazon S3 location from which to retrieve data to return as the output from the node.
         public let s3: RetrievalFlowNodeS3Configuration?
 
+        @inlinable
         public init(s3: RetrievalFlowNodeS3Configuration? = nil) {
             self.s3 = s3
         }
@@ -7745,6 +7978,7 @@ extension BedrockAgent {
         /// Contains configurations for the Amazon S3 location in which to store the input into the node.
         public let s3: StorageFlowNodeS3Configuration?
 
+        @inlinable
         public init(s3: StorageFlowNodeS3Configuration? = nil) {
             self.s3 = s3
         }

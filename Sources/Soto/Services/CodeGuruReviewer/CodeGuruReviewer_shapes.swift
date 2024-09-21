@@ -131,6 +131,7 @@ extension CodeGuruReviewer {
         /// 					values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = AssociateRepositoryRequest.idempotencyToken(), kmsKeyDetails: KMSKeyDetails? = nil, repository: Repository, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.kmsKeyDetails = kmsKeyDetails
@@ -172,6 +173,7 @@ extension CodeGuruReviewer {
         /// 					values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
             self.repositoryAssociation = repositoryAssociation
             self.tags = tags
@@ -189,6 +191,7 @@ extension CodeGuruReviewer {
         /// The source branch for a diff in an associated repository.
         public let sourceBranchName: String
 
+        @inlinable
         public init(destinationBranchName: String, sourceBranchName: String) {
             self.destinationBranchName = destinationBranchName
             self.sourceBranchName = sourceBranchName
@@ -213,6 +216,7 @@ extension CodeGuruReviewer {
         /// The S3 object key for a source code .zip file. This is required for all code reviews.
         public let sourceCodeArtifactsObjectKey: String
 
+        @inlinable
         public init(buildArtifactsObjectKey: String? = nil, sourceCodeArtifactsObjectKey: String) {
             self.buildArtifactsObjectKey = buildArtifactsObjectKey
             self.sourceCodeArtifactsObjectKey = sourceCodeArtifactsObjectKey
@@ -237,6 +241,7 @@ extension CodeGuruReviewer {
         /// The name of the Amazon Web Services CodeCommit repository. For more information, see repositoryName in the Amazon Web Services CodeCommit API Reference.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -286,6 +291,7 @@ extension CodeGuruReviewer {
         /// The type of code review.
         public let type: `Type`?
 
+        @inlinable
         public init(analysisTypes: [AnalysisType]? = nil, associationArn: String? = nil, codeReviewArn: String? = nil, configFileState: ConfigFileState? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
             self.analysisTypes = analysisTypes
             self.associationArn = associationArn
@@ -350,6 +356,7 @@ extension CodeGuruReviewer {
         /// The type of the code review.
         public let type: `Type`?
 
+        @inlinable
         public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, type: `Type`? = nil) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
@@ -387,6 +394,7 @@ extension CodeGuruReviewer {
         /// A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in CreateCodeReview.
         public let repositoryAnalysis: RepositoryAnalysis
 
+        @inlinable
         public init(analysisTypes: [AnalysisType]? = nil, repositoryAnalysis: RepositoryAnalysis) {
             self.analysisTypes = analysisTypes
             self.repositoryAnalysis = repositoryAnalysis
@@ -410,6 +418,7 @@ extension CodeGuruReviewer {
         /// The SHA of the source commit used to generate a commit diff. This field is required for a pull request code review.
         public let sourceCommit: String?
 
+        @inlinable
         public init(destinationCommit: String? = nil, mergeBaseCommit: String? = nil, sourceCommit: String? = nil) {
             self.destinationCommit = destinationCommit
             self.mergeBaseCommit = mergeBaseCommit
@@ -442,6 +451,7 @@ extension CodeGuruReviewer {
         /// The type of code review to create. This is specified using a CodeReviewType object. You can create a code review only of type RepositoryAnalysis.
         public let type: CodeReviewType
 
+        @inlinable
         public init(clientRequestToken: String? = CreateCodeReviewRequest.idempotencyToken(), name: String, repositoryAssociationArn: String, type: CodeReviewType) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -473,6 +483,7 @@ extension CodeGuruReviewer {
     public struct CreateCodeReviewResponse: AWSDecodableShape {
         public let codeReview: CodeReview?
 
+        @inlinable
         public init(codeReview: CodeReview? = nil) {
             self.codeReview = codeReview
         }
@@ -486,6 +497,7 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the CodeReview object.
         public let codeReviewArn: String
 
+        @inlinable
         public init(codeReviewArn: String) {
             self.codeReviewArn = codeReviewArn
         }
@@ -509,6 +521,7 @@ extension CodeGuruReviewer {
         /// Information about the code review.
         public let codeReview: CodeReview?
 
+        @inlinable
         public init(codeReview: CodeReview? = nil) {
             self.codeReview = codeReview
         }
@@ -526,6 +539,7 @@ extension CodeGuruReviewer {
         /// Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request.  The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For  more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userId: String?
 
+        @inlinable
         public init(codeReviewArn: String, recommendationId: String, userId: String? = nil) {
             self.codeReviewArn = codeReviewArn
             self.recommendationId = recommendationId
@@ -557,6 +571,7 @@ extension CodeGuruReviewer {
         /// The recommendation feedback given by the user.
         public let recommendationFeedback: RecommendationFeedback?
 
+        @inlinable
         public init(recommendationFeedback: RecommendationFeedback? = nil) {
             self.recommendationFeedback = recommendationFeedback
         }
@@ -570,6 +585,7 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let associationArn: String
 
+        @inlinable
         public init(associationArn: String) {
             self.associationArn = associationArn
         }
@@ -600,6 +616,7 @@ extension CodeGuruReviewer {
         /// 					values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
             self.repositoryAssociation = repositoryAssociation
             self.tags = tags
@@ -615,6 +632,7 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let associationArn: String
 
+        @inlinable
         public init(associationArn: String) {
             self.associationArn = associationArn
         }
@@ -645,6 +663,7 @@ extension CodeGuruReviewer {
         /// 					values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(repositoryAssociation: RepositoryAssociation? = nil, tags: [String: String]? = nil) {
             self.repositoryAssociation = repositoryAssociation
             self.tags = tags
@@ -662,6 +681,7 @@ extension CodeGuruReviewer {
         /// The state of an event. The state might be open, closed, or another state.
         public let state: String?
 
+        @inlinable
         public init(name: String? = nil, state: String? = nil) {
             self.name = name
             self.state = state
@@ -688,6 +708,7 @@ extension CodeGuruReviewer {
         /// The ID of the Amazon Web Services KMS key that is associated with a repository association.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(encryptionOption: EncryptionOption? = nil, kmsKeyId: String? = nil) {
             self.encryptionOption = encryptionOption
             self.kmsKeyId = kmsKeyId
@@ -719,6 +740,7 @@ extension CodeGuruReviewer {
         /// The type of code reviews to list in the response.
         public let type: `Type`
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, providerTypes: [ProviderType]? = nil, repositoryNames: [String]? = nil, states: [JobState]? = nil, type: `Type`) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -766,6 +788,7 @@ extension CodeGuruReviewer {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(codeReviewSummaries: [CodeReviewSummary]? = nil, nextToken: String? = nil) {
             self.codeReviewSummaries = codeReviewSummaries
             self.nextToken = nextToken
@@ -789,6 +812,7 @@ extension CodeGuruReviewer {
         /// An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user.  The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For  more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userIds: [String]?
 
+        @inlinable
         public init(codeReviewArn: String, maxResults: Int? = nil, nextToken: String? = nil, recommendationIds: [String]? = nil, userIds: [String]? = nil) {
             self.codeReviewArn = codeReviewArn
             self.maxResults = maxResults
@@ -838,6 +862,7 @@ extension CodeGuruReviewer {
         /// Recommendation feedback summaries corresponding to the code review ARN.
         public let recommendationFeedbackSummaries: [RecommendationFeedbackSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationFeedbackSummaries: [RecommendationFeedbackSummary]? = nil) {
             self.nextToken = nextToken
             self.recommendationFeedbackSummaries = recommendationFeedbackSummaries
@@ -857,6 +882,7 @@ extension CodeGuruReviewer {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(codeReviewArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.codeReviewArn = codeReviewArn
             self.maxResults = maxResults
@@ -890,6 +916,7 @@ extension CodeGuruReviewer {
         /// List of recommendations for the requested code review.
         public let recommendationSummaries: [RecommendationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationSummaries: [RecommendationSummary]? = nil) {
             self.nextToken = nextToken
             self.recommendationSummaries = recommendationSummaries
@@ -915,6 +942,7 @@ extension CodeGuruReviewer {
         /// List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.    Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.    Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let states: [RepositoryAssociationState]?
 
+        @inlinable
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, owners: [String]? = nil, providerTypes: [ProviderType]? = nil, states: [RepositoryAssociationState]? = nil) {
             self.maxResults = maxResults
             self.names = names
@@ -969,6 +997,7 @@ extension CodeGuruReviewer {
         /// A list of repository associations that meet the criteria of the request.
         public let repositoryAssociationSummaries: [RepositoryAssociationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositoryAssociationSummaries: [RepositoryAssociationSummary]? = nil) {
             self.nextToken = nextToken
             self.repositoryAssociationSummaries = repositoryAssociationSummaries
@@ -984,6 +1013,7 @@ extension CodeGuruReviewer {
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1012,6 +1042,7 @@ extension CodeGuruReviewer {
         /// 					values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1029,6 +1060,7 @@ extension CodeGuruReviewer {
         ///  SuppressedLinesOfCodeCount is the number of lines of code in the repository where the code review happened that CodeGuru Reviewer did not analyze. The lines suppressed in the analysis is based on the excludeFiles variable in the aws-codeguru-reviewer.yml file. This number does not include non-code lines such as comments and blank lines.
         public let suppressedLinesOfCodeCount: Int64?
 
+        @inlinable
         public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil, suppressedLinesOfCodeCount: Int64? = nil) {
             self.findingsCount = findingsCount
             self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
@@ -1050,6 +1082,7 @@ extension CodeGuruReviewer {
         /// Lines of code suppressed in the code review based on the excludeFiles element in the aws-codeguru-reviewer.yml file. For full repository analyses, this number includes all lines of code in the files that are suppressed. For pull requests, this number only includes the changed lines of code that are suppressed. In both cases, this number does not include non-code lines such as comments and import statements. For example, if you initiate a full repository analysis on a repository containing 5 files, each file with 100 lines of code, and 2 files are listed as excluded in the aws-codeguru-reviewer.yml file, then SuppressedLinesOfCodeCount returns 200 (2 * 100) as the total number of lines of code suppressed. However, if you submit a pull request for the same repository, then SuppressedLinesOfCodeCount only includes the lines in the 2 files that changed. If only 1 of the 2 files changed in the pull request, then SuppressedLinesOfCodeCount returns 100 (1 * 100) as the total number of lines of code suppressed.
         public let suppressedLinesOfCodeCount: Int64?
 
+        @inlinable
         public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil, suppressedLinesOfCodeCount: Int64? = nil) {
             self.findingsCount = findingsCount
             self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
@@ -1071,6 +1104,7 @@ extension CodeGuruReviewer {
         /// The recommendation ID that can be used to track the provided recommendations and then to collect the feedback.
         public let recommendationId: String
 
+        @inlinable
         public init(codeReviewArn: String, reactions: [Reaction], recommendationId: String) {
             self.codeReviewArn = codeReviewArn
             self.reactions = reactions
@@ -1111,6 +1145,7 @@ extension CodeGuruReviewer {
         /// The ID of the user that made the API call.  The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For  more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userId: String?
 
+        @inlinable
         public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
@@ -1138,6 +1173,7 @@ extension CodeGuruReviewer {
         /// The ID of the user that gave the feedback.  The UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For  more information, see  Specifying a Principal in the Amazon Web Services Identity and Access Management User Guide.
         public let userId: String?
 
+        @inlinable
         public init(reactions: [Reaction]? = nil, recommendationId: String? = nil, userId: String? = nil) {
             self.reactions = reactions
             self.recommendationId = recommendationId
@@ -1169,6 +1205,7 @@ extension CodeGuruReviewer {
         /// Start line from where the recommendation is applicable in the source commit or source branch.
         public let startLine: Int?
 
+        @inlinable
         public init(description: String? = nil, endLine: Int? = nil, filePath: String? = nil, recommendationCategory: RecommendationCategory? = nil, recommendationId: String? = nil, ruleMetadata: RuleMetadata? = nil, severity: Severity? = nil, startLine: Int? = nil) {
             self.description = description
             self.endLine = endLine
@@ -1201,6 +1238,7 @@ extension CodeGuruReviewer {
         public let gitHubEnterpriseServer: ThirdPartySourceRepository?
         public let s3Bucket: S3Repository?
 
+        @inlinable
         public init(bitbucket: ThirdPartySourceRepository? = nil, codeCommit: CodeCommitRepository? = nil, gitHubEnterpriseServer: ThirdPartySourceRepository? = nil, s3Bucket: S3Repository? = nil) {
             self.bitbucket = bitbucket
             self.codeCommit = codeCommit
@@ -1228,6 +1266,7 @@ extension CodeGuruReviewer {
         public let repositoryHead: RepositoryHeadSourceCodeType?
         public let sourceCodeType: SourceCodeType?
 
+        @inlinable
         public init(repositoryHead: RepositoryHeadSourceCodeType? = nil, sourceCodeType: SourceCodeType? = nil) {
             self.repositoryHead = repositoryHead
             self.sourceCodeType = sourceCodeType
@@ -1269,6 +1308,7 @@ extension CodeGuruReviewer {
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
 
+        @inlinable
         public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: Date? = nil, kmsKeyDetails: KMSKeyDetails? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, s3RepositoryDetails: S3RepositoryDetails? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
@@ -1318,6 +1358,7 @@ extension CodeGuruReviewer {
         /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.    Associating: CodeGuru Reviewer is:   Setting up pull request notifications. This is required  for pull requests to trigger a CodeGuru Reviewer review.  If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.    Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.      Failed: The repository failed to associate or disassociate.    Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.    Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let state: RepositoryAssociationState?
 
+        @inlinable
         public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
@@ -1345,6 +1386,7 @@ extension CodeGuruReviewer {
         /// The name of the branch in an associated repository. The RepositoryHeadSourceCodeType specifies the tip of this branch.
         public let branchName: String
 
+        @inlinable
         public init(branchName: String) {
             self.branchName = branchName
         }
@@ -1369,6 +1411,7 @@ extension CodeGuruReviewer {
         /// The name of the repository vendor used to upload code to an S3 bucket for a CI/CD code review. For example, if code and artifacts are uploaded to an S3 bucket for a CI/CD code review by GitHub scripts from a GitHub repository, then the repository association's ProviderType is S3Bucket and the CI/CD repository vendor name is GitHub. For more information, see the definition for ProviderType in RepositoryAssociation.
         public let vendorName: VendorName?
 
+        @inlinable
         public init(eventInfo: EventInfo? = nil, requester: String? = nil, requestId: String? = nil, vendorName: VendorName? = nil) {
             self.eventInfo = eventInfo
             self.requester = requester
@@ -1405,6 +1448,7 @@ extension CodeGuruReviewer {
         /// A short description of the rule.
         public let shortDescription: String?
 
+        @inlinable
         public init(longDescription: String? = nil, ruleId: String? = nil, ruleName: String? = nil, ruleTags: [String]? = nil, shortDescription: String? = nil) {
             self.longDescription = longDescription
             self.ruleId = ruleId
@@ -1428,6 +1472,7 @@ extension CodeGuruReviewer {
         /// The name of the repository when the ProviderType is S3Bucket.
         public let name: String
 
+        @inlinable
         public init(details: S3RepositoryDetails? = nil, name: String) {
             self.details = details
             self.name = name
@@ -1452,6 +1497,7 @@ extension CodeGuruReviewer {
         /// The name of the repository in the S3 bucket.
         public let name: String
 
+        @inlinable
         public init(bucketName: String, name: String) {
             self.bucketName = bucketName
             self.name = name
@@ -1478,6 +1524,7 @@ extension CodeGuruReviewer {
         /// A CodeArtifacts object. The CodeArtifacts object includes the S3 object key for a source code .zip file and for a build artifacts .zip file that contains .jar or .class files.
         public let codeArtifacts: CodeArtifacts?
 
+        @inlinable
         public init(bucketName: String? = nil, codeArtifacts: CodeArtifacts? = nil) {
             self.bucketName = bucketName
             self.codeArtifacts = codeArtifacts
@@ -1507,6 +1554,7 @@ extension CodeGuruReviewer {
         /// Information about an associated repository in an S3 bucket that includes its name and an S3RepositoryDetails object. The S3RepositoryDetails object includes the name of an S3 bucket, an S3 key for a source code .zip file, and an S3 key for a build artifacts .zip file. S3BucketRepository is required in SourceCodeType for S3BucketRepository based code reviews.
         public let s3BucketRepository: S3BucketRepository?
 
+        @inlinable
         public init(branchDiff: BranchDiffSourceCodeType? = nil, commitDiff: CommitDiffSourceCodeType? = nil, repositoryHead: RepositoryHeadSourceCodeType? = nil, requestMetadata: RequestMetadata? = nil, s3BucketRepository: S3BucketRepository? = nil) {
             self.branchDiff = branchDiff
             self.commitDiff = commitDiff
@@ -1543,6 +1591,7 @@ extension CodeGuruReviewer {
         /// 					values are case sensitive.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1585,6 +1634,7 @@ extension CodeGuruReviewer {
         /// The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, this can be the username or Amazon Web Services account ID
         public let owner: String
 
+        @inlinable
         public init(connectionArn: String, name: String, owner: String) {
             self.connectionArn = connectionArn
             self.name = name
@@ -1615,6 +1665,7 @@ extension CodeGuruReviewer {
         /// A list of the keys for each tag you want to remove from an associated repository.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

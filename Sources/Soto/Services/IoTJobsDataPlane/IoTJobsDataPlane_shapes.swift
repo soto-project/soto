@@ -50,6 +50,7 @@ extension IoTJobsDataPlane {
         /// The thing name associated with the device the job execution is running on.
         public let thingName: String
 
+        @inlinable
         public init(executionNumber: Int64? = nil, includeJobDocument: Bool? = nil, jobId: String, thingName: String) {
             self.executionNumber = executionNumber
             self.includeJobDocument = includeJobDocument
@@ -80,6 +81,7 @@ extension IoTJobsDataPlane {
         /// Contains data about a job execution.
         public let execution: JobExecution?
 
+        @inlinable
         public init(execution: JobExecution? = nil) {
             self.execution = execution
         }
@@ -93,6 +95,7 @@ extension IoTJobsDataPlane {
         /// The name of the thing that is executing the job.
         public let thingName: String
 
+        @inlinable
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -118,6 +121,7 @@ extension IoTJobsDataPlane {
         /// A list of JobExecutionSummary objects with status QUEUED.
         public let queuedJobs: [JobExecutionSummary]?
 
+        @inlinable
         public init(inProgressJobs: [JobExecutionSummary]? = nil, queuedJobs: [JobExecutionSummary]? = nil) {
             self.inProgressJobs = inProgressJobs
             self.queuedJobs = queuedJobs
@@ -153,6 +157,7 @@ extension IoTJobsDataPlane {
         /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(approximateSecondsBeforeTimedOut: Int64? = nil, executionNumber: Int64? = nil, jobDocument: String? = nil, jobId: String? = nil, lastUpdatedAt: Int64? = nil, queuedAt: Int64? = nil, startedAt: Int64? = nil, status: JobExecutionStatus? = nil, statusDetails: [String: String]? = nil, thingName: String? = nil, versionNumber: Int64? = nil) {
             self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
             self.executionNumber = executionNumber
@@ -190,6 +195,7 @@ extension IoTJobsDataPlane {
         /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(status: JobExecutionStatus? = nil, statusDetails: [String: String]? = nil, versionNumber: Int64? = nil) {
             self.status = status
             self.statusDetails = statusDetails
@@ -217,6 +223,7 @@ extension IoTJobsDataPlane {
         /// The version of the job execution. Job execution versions are incremented each time AWS IoT Jobs receives an update from a device.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(executionNumber: Int64? = nil, jobId: String? = nil, lastUpdatedAt: Int64? = nil, queuedAt: Int64? = nil, startedAt: Int64? = nil, versionNumber: Int64? = nil) {
             self.executionNumber = executionNumber
             self.jobId = jobId
@@ -244,6 +251,7 @@ extension IoTJobsDataPlane {
         /// The name of the thing associated with the device.
         public let thingName: String
 
+        @inlinable
         public init(statusDetails: [String: String]? = nil, stepTimeoutInMinutes: Int64? = nil, thingName: String) {
             self.statusDetails = statusDetails
             self.stepTimeoutInMinutes = stepTimeoutInMinutes
@@ -282,6 +290,7 @@ extension IoTJobsDataPlane {
         /// A JobExecution object.
         public let execution: JobExecution?
 
+        @inlinable
         public init(execution: JobExecution? = nil) {
             self.execution = execution
         }
@@ -311,6 +320,7 @@ extension IoTJobsDataPlane {
         /// The name of the thing associated with the device.
         public let thingName: String
 
+        @inlinable
         public init(executionNumber: Int64? = nil, expectedVersion: Int64? = nil, includeJobDocument: Bool? = nil, includeJobExecutionState: Bool? = nil, jobId: String, status: JobExecutionStatus, statusDetails: [String: String]? = nil, stepTimeoutInMinutes: Int64? = nil, thingName: String) {
             self.executionNumber = executionNumber
             self.expectedVersion = expectedVersion
@@ -371,6 +381,7 @@ extension IoTJobsDataPlane {
         /// The contents of the Job Documents.
         public let jobDocument: String?
 
+        @inlinable
         public init(executionState: JobExecutionState? = nil, jobDocument: String? = nil) {
             self.executionState = executionState
             self.jobDocument = jobDocument

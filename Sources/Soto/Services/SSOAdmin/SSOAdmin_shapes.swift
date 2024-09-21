@@ -193,6 +193,7 @@ extension SSOAdmin {
         /// The value used for mapping a specified attribute to an identity source.
         public let value: AccessControlAttributeValue
 
+        @inlinable
         public init(key: String, value: AccessControlAttributeValue) {
             self.key = key
             self.value = value
@@ -215,6 +216,7 @@ extension SSOAdmin {
         /// The identity source to use when mapping a specified attribute to IAM Identity Center.
         public let source: [String]
 
+        @inlinable
         public init(source: [String]) {
             self.source = source
         }
@@ -244,6 +246,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(accountId: String? = nil, permissionSetArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
             self.accountId = accountId
             self.permissionSetArn = permissionSetArn
@@ -269,6 +272,7 @@ extension SSOAdmin {
         /// The type of the principal.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(accountId: String? = nil, permissionSetArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
             self.accountId = accountId
             self.permissionSetArn = permissionSetArn
@@ -305,6 +309,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType?
 
+        @inlinable
         public init(createdDate: Date? = nil, failureReason: String? = nil, permissionSetArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil, requestId: String? = nil, status: StatusValues? = nil, targetId: String? = nil, targetType: TargetType? = nil) {
             self.createdDate = createdDate
             self.failureReason = failureReason
@@ -338,6 +343,7 @@ extension SSOAdmin {
         /// The status of the permission set provisioning process.
         public let status: StatusValues?
 
+        @inlinable
         public init(createdDate: Date? = nil, requestId: String? = nil, status: StatusValues? = nil) {
             self.createdDate = createdDate
             self.requestId = requestId
@@ -371,6 +377,7 @@ extension SSOAdmin {
         /// The current status of the application in this instance of IAM Identity Center.
         public let status: ApplicationStatus?
 
+        @inlinable
         public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
@@ -404,6 +411,7 @@ extension SSOAdmin {
         /// The type of the principal assigned to the application.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
             self.applicationArn = applicationArn
             self.principalId = principalId
@@ -425,6 +433,7 @@ extension SSOAdmin {
         /// The type of the principal assigned to the application.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(applicationArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
             self.applicationArn = applicationArn
             self.principalId = principalId
@@ -448,6 +457,7 @@ extension SSOAdmin {
         /// A structure that describes the application provider's resource server.
         public let resourceServerConfig: ResourceServerConfig?
 
+        @inlinable
         public init(applicationProviderArn: String, displayData: DisplayData? = nil, federationProtocol: FederationProtocol? = nil, resourceServerConfig: ResourceServerConfig? = nil) {
             self.applicationProviderArn = applicationProviderArn
             self.displayData = displayData
@@ -471,6 +481,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet.
         public let permissionSetArn: String
 
+        @inlinable
         public init(customerManagedPolicyReference: CustomerManagedPolicyReference, instanceArn: String, permissionSetArn: String) {
             self.customerManagedPolicyReference = customerManagedPolicyReference
             self.instanceArn = instanceArn
@@ -507,6 +518,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet that the managed policy should be attached to.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, managedPolicyArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.managedPolicyArn = managedPolicyArn
@@ -543,6 +555,7 @@ extension SSOAdmin {
         /// The name of the Amazon Web Services managed policy.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -560,6 +573,7 @@ extension SSOAdmin {
         /// The type of authentication that is used by this method.
         public let authenticationMethodType: AuthenticationMethodType?
 
+        @inlinable
         public init(authenticationMethod: AuthenticationMethod? = nil, authenticationMethodType: AuthenticationMethodType? = nil) {
             self.authenticationMethod = authenticationMethod
             self.authenticationMethodType = authenticationMethodType
@@ -575,6 +589,7 @@ extension SSOAdmin {
         /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized.
         public let redirectUris: [String]?
 
+        @inlinable
         public init(redirectUris: [String]? = nil) {
             self.redirectUris = redirectUris
         }
@@ -595,6 +610,7 @@ extension SSOAdmin {
         /// The ARN of the trusted token issuer.
         public let trustedTokenIssuerArn: String?
 
+        @inlinable
         public init(authorizedAudiences: [String]? = nil, trustedTokenIssuerArn: String? = nil) {
             self.authorizedAudiences = authorizedAudiences
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
@@ -633,6 +649,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let targetType: TargetType
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String, principalId: String, principalType: PrincipalType, targetId: String, targetType: TargetType) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -671,6 +688,7 @@ extension SSOAdmin {
         /// The status object for the account assignment creation operation.
         public let accountAssignmentCreationStatus: AccountAssignmentOperationStatus?
 
+        @inlinable
         public init(accountAssignmentCreationStatus: AccountAssignmentOperationStatus? = nil) {
             self.accountAssignmentCreationStatus = accountAssignmentCreationStatus
         }
@@ -688,6 +706,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
             self.applicationArn = applicationArn
             self.principalId = principalId
@@ -733,6 +752,7 @@ extension SSOAdmin {
         /// Specifies tags to be attached to the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(applicationProviderArn: String, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, instanceArn: String, name: String, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil, tags: [Tag]? = nil) {
             self.applicationProviderArn = applicationProviderArn
             self.clientToken = clientToken
@@ -781,6 +801,7 @@ extension SSOAdmin {
         /// Specifies the ARN of the application.
         public let applicationArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil) {
             self.applicationArn = applicationArn
         }
@@ -796,6 +817,7 @@ extension SSOAdmin {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed.
         public let instanceArn: String
 
+        @inlinable
         public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration, instanceArn: String) {
             self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
             self.instanceArn = instanceArn
@@ -826,6 +848,7 @@ extension SSOAdmin {
         /// Specifies tags to be attached to the instance of IAM Identity Center.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateInstanceRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.name = name
@@ -856,6 +879,7 @@ extension SSOAdmin {
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
 
+        @inlinable
         public init(instanceArn: String? = nil) {
             self.instanceArn = instanceArn
         }
@@ -880,6 +904,7 @@ extension SSOAdmin {
         /// The tags to attach to the new PermissionSet.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, instanceArn: String, name: String, relayState: String? = nil, sessionDuration: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.instanceArn = instanceArn
@@ -925,6 +950,7 @@ extension SSOAdmin {
         /// Defines the level of access on an Amazon Web Services account.
         public let permissionSet: PermissionSet?
 
+        @inlinable
         public init(permissionSet: PermissionSet? = nil) {
             self.permissionSet = permissionSet
         }
@@ -948,6 +974,7 @@ extension SSOAdmin {
         /// Specifies the type of the new trusted token issuer.
         public let trustedTokenIssuerType: TrustedTokenIssuerType
 
+        @inlinable
         public init(clientToken: String? = CreateTrustedTokenIssuerRequest.idempotencyToken(), instanceArn: String, name: String, tags: [Tag]? = nil, trustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration, trustedTokenIssuerType: TrustedTokenIssuerType) {
             self.clientToken = clientToken
             self.instanceArn = instanceArn
@@ -988,6 +1015,7 @@ extension SSOAdmin {
         /// The ARN of the new trusted token issuer configuration.
         public let trustedTokenIssuerArn: String?
 
+        @inlinable
         public init(trustedTokenIssuerArn: String? = nil) {
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
         }
@@ -1003,6 +1031,7 @@ extension SSOAdmin {
         /// The path to the IAM policy that you have configured in each account where you want to deploy your permission set. The default is /. For more information, see Friendly names and paths in the IAM User Guide.
         public let path: String?
 
+        @inlinable
         public init(name: String, path: String? = nil) {
             self.name = name
             self.path = path
@@ -1038,6 +1067,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be deleted.
         public let targetType: TargetType
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String, principalId: String, principalType: PrincipalType, targetId: String, targetType: TargetType) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -1076,6 +1106,7 @@ extension SSOAdmin {
         /// The status object for the account assignment deletion operation.
         public let accountAssignmentDeletionStatus: AccountAssignmentOperationStatus?
 
+        @inlinable
         public init(accountAssignmentDeletionStatus: AccountAssignmentOperationStatus? = nil) {
             self.accountAssignmentDeletionStatus = accountAssignmentDeletionStatus
         }
@@ -1091,6 +1122,7 @@ extension SSOAdmin {
         /// Specifies the name of the access scope to remove from the application.
         public let scope: String
 
+        @inlinable
         public init(applicationArn: String, scope: String) {
             self.applicationArn = applicationArn
             self.scope = scope
@@ -1117,6 +1149,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be deleted.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
             self.applicationArn = applicationArn
             self.principalId = principalId
@@ -1149,6 +1182,7 @@ extension SSOAdmin {
         /// Specifies the authentication method type to delete from the application.
         public let authenticationMethodType: AuthenticationMethodType
 
+        @inlinable
         public init(applicationArn: String, authenticationMethodType: AuthenticationMethodType) {
             self.applicationArn = applicationArn
             self.authenticationMethodType = authenticationMethodType
@@ -1172,6 +1206,7 @@ extension SSOAdmin {
         /// Specifies the type of grant to delete from the application.
         public let grantType: GrantType
 
+        @inlinable
         public init(applicationArn: String, grantType: GrantType) {
             self.applicationArn = applicationArn
             self.grantType = grantType
@@ -1194,6 +1229,7 @@ extension SSOAdmin {
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
 
+        @inlinable
         public init(applicationArn: String) {
             self.applicationArn = applicationArn
         }
@@ -1220,6 +1256,7 @@ extension SSOAdmin {
         /// The ARN of the permission set that will be used to remove access.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -1248,6 +1285,7 @@ extension SSOAdmin {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed.
         public let instanceArn: String
 
+        @inlinable
         public init(instanceArn: String) {
             self.instanceArn = instanceArn
         }
@@ -1271,6 +1309,7 @@ extension SSOAdmin {
         /// The ARN of the instance of IAM Identity Center under which the operation will run.
         public let instanceArn: String
 
+        @inlinable
         public init(instanceArn: String) {
             self.instanceArn = instanceArn
         }
@@ -1297,6 +1336,7 @@ extension SSOAdmin {
         /// The ARN of the permission set that should be deleted.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -1327,6 +1367,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -1355,6 +1396,7 @@ extension SSOAdmin {
         /// Specifies the ARN of the trusted token issuer configuration to delete.
         public let trustedTokenIssuerArn: String
 
+        @inlinable
         public init(trustedTokenIssuerArn: String) {
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
         }
@@ -1381,6 +1423,7 @@ extension SSOAdmin {
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
+        @inlinable
         public init(accountAssignmentCreationRequestId: String, instanceArn: String) {
             self.accountAssignmentCreationRequestId = accountAssignmentCreationRequestId
             self.instanceArn = instanceArn
@@ -1405,6 +1448,7 @@ extension SSOAdmin {
         /// The status object for the account assignment creation operation.
         public let accountAssignmentCreationStatus: AccountAssignmentOperationStatus?
 
+        @inlinable
         public init(accountAssignmentCreationStatus: AccountAssignmentOperationStatus? = nil) {
             self.accountAssignmentCreationStatus = accountAssignmentCreationStatus
         }
@@ -1421,6 +1465,7 @@ extension SSOAdmin {
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
 
+        @inlinable
         public init(accountAssignmentDeletionRequestId: String, instanceArn: String) {
             self.accountAssignmentDeletionRequestId = accountAssignmentDeletionRequestId
             self.instanceArn = instanceArn
@@ -1445,6 +1490,7 @@ extension SSOAdmin {
         /// The status object for the account assignment deletion operation.
         public let accountAssignmentDeletionStatus: AccountAssignmentOperationStatus?
 
+        @inlinable
         public init(accountAssignmentDeletionStatus: AccountAssignmentOperationStatus? = nil) {
             self.accountAssignmentDeletionStatus = accountAssignmentDeletionStatus
         }
@@ -1463,6 +1509,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(applicationArn: String, principalId: String, principalType: PrincipalType) {
             self.applicationArn = applicationArn
             self.principalId = principalId
@@ -1494,6 +1541,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(applicationArn: String? = nil, principalId: String? = nil, principalType: PrincipalType? = nil) {
             self.applicationArn = applicationArn
             self.principalId = principalId
@@ -1511,6 +1559,7 @@ extension SSOAdmin {
         /// Specifies the ARN of the application provider for which you want details.
         public let applicationProviderArn: String
 
+        @inlinable
         public init(applicationProviderArn: String) {
             self.applicationProviderArn = applicationProviderArn
         }
@@ -1536,6 +1585,7 @@ extension SSOAdmin {
         /// A structure with details about the receiving application.
         public let resourceServerConfig: ResourceServerConfig?
 
+        @inlinable
         public init(applicationProviderArn: String, displayData: DisplayData? = nil, federationProtocol: FederationProtocol? = nil, resourceServerConfig: ResourceServerConfig? = nil) {
             self.applicationProviderArn = applicationProviderArn
             self.displayData = displayData
@@ -1556,6 +1606,7 @@ extension SSOAdmin {
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
 
+        @inlinable
         public init(applicationArn: String) {
             self.applicationArn = applicationArn
         }
@@ -1592,6 +1643,7 @@ extension SSOAdmin {
         /// Specifies whether the application is enabled or disabled.
         public let status: ApplicationStatus?
 
+        @inlinable
         public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
@@ -1621,6 +1673,7 @@ extension SSOAdmin {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed.
         public let instanceArn: String
 
+        @inlinable
         public init(instanceArn: String) {
             self.instanceArn = instanceArn
         }
@@ -1644,6 +1697,7 @@ extension SSOAdmin {
         /// Provides more details about the current status of the specified attribute.
         public let statusReason: String?
 
+        @inlinable
         public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration? = nil, status: InstanceAccessControlAttributeConfigurationStatus? = nil, statusReason: String? = nil) {
             self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
             self.status = status
@@ -1661,6 +1715,7 @@ extension SSOAdmin {
         /// The ARN of the instance of IAM Identity Center under which the operation will run.
         public let instanceArn: String
 
+        @inlinable
         public init(instanceArn: String) {
             self.instanceArn = instanceArn
         }
@@ -1691,6 +1746,7 @@ extension SSOAdmin {
         /// The status of the instance.
         public let status: InstanceStatus?
 
+        @inlinable
         public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil) {
             self.createdDate = createdDate
             self.identityStoreId = identityStoreId
@@ -1717,6 +1773,7 @@ extension SSOAdmin {
         /// The identifier that is provided by the ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
         public let provisionPermissionSetRequestId: String
 
+        @inlinable
         public init(instanceArn: String, provisionPermissionSetRequestId: String) {
             self.instanceArn = instanceArn
             self.provisionPermissionSetRequestId = provisionPermissionSetRequestId
@@ -1741,6 +1798,7 @@ extension SSOAdmin {
         /// The status object for the permission set provisioning operation.
         public let permissionSetProvisioningStatus: PermissionSetProvisioningStatus?
 
+        @inlinable
         public init(permissionSetProvisioningStatus: PermissionSetProvisioningStatus? = nil) {
             self.permissionSetProvisioningStatus = permissionSetProvisioningStatus
         }
@@ -1757,6 +1815,7 @@ extension SSOAdmin {
         /// The ARN of the permission set.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -1781,6 +1840,7 @@ extension SSOAdmin {
         /// Describes the level of access on an Amazon Web Services account.
         public let permissionSet: PermissionSet?
 
+        @inlinable
         public init(permissionSet: PermissionSet? = nil) {
             self.permissionSet = permissionSet
         }
@@ -1794,6 +1854,7 @@ extension SSOAdmin {
         /// Specifies the ARN of the trusted token issuer configuration that you want details about.
         public let trustedTokenIssuerArn: String
 
+        @inlinable
         public init(trustedTokenIssuerArn: String) {
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
         }
@@ -1819,6 +1880,7 @@ extension SSOAdmin {
         /// The type of the trusted token issuer.
         public let trustedTokenIssuerType: TrustedTokenIssuerType?
 
+        @inlinable
         public init(name: String? = nil, trustedTokenIssuerArn: String? = nil, trustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration? = nil, trustedTokenIssuerType: TrustedTokenIssuerType? = nil) {
             self.name = name
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
@@ -1842,6 +1904,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet.
         public let permissionSetArn: String
 
+        @inlinable
         public init(customerManagedPolicyReference: CustomerManagedPolicyReference, instanceArn: String, permissionSetArn: String) {
             self.customerManagedPolicyReference = customerManagedPolicyReference
             self.instanceArn = instanceArn
@@ -1878,6 +1941,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet from which the policy should be detached.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, managedPolicyArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.managedPolicyArn = managedPolicyArn
@@ -1915,6 +1979,7 @@ extension SSOAdmin {
         /// A URL that points to an icon that represents the application provider.
         public let iconUrl: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, iconUrl: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -1934,6 +1999,7 @@ extension SSOAdmin {
         /// Specifies the name of the access scope for which you want the authorized targets.
         public let scope: String
 
+        @inlinable
         public init(applicationArn: String, scope: String) {
             self.applicationArn = applicationArn
             self.scope = scope
@@ -1958,6 +2024,7 @@ extension SSOAdmin {
         /// The name of the access scope that can be used with the authorized targets.
         public let scope: String
 
+        @inlinable
         public init(authorizedTargets: [String]? = nil, scope: String) {
             self.authorizedTargets = authorizedTargets
             self.scope = scope
@@ -1974,6 +2041,7 @@ extension SSOAdmin {
         /// Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let applicationArn: String
 
+        @inlinable
         public init(applicationArn: String) {
             self.applicationArn = applicationArn
         }
@@ -1993,6 +2061,7 @@ extension SSOAdmin {
         /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
         public let assignmentRequired: Bool
 
+        @inlinable
         public init(assignmentRequired: Bool) {
             self.assignmentRequired = assignmentRequired
         }
@@ -2008,6 +2077,7 @@ extension SSOAdmin {
         /// Specifies the type of authentication method for which you want details.
         public let authenticationMethodType: AuthenticationMethodType
 
+        @inlinable
         public init(applicationArn: String, authenticationMethodType: AuthenticationMethodType) {
             self.applicationArn = applicationArn
             self.authenticationMethodType = authenticationMethodType
@@ -2029,6 +2099,7 @@ extension SSOAdmin {
         /// A structure that contains details about the requested authentication method.
         public let authenticationMethod: AuthenticationMethod?
 
+        @inlinable
         public init(authenticationMethod: AuthenticationMethod? = nil) {
             self.authenticationMethod = authenticationMethod
         }
@@ -2044,6 +2115,7 @@ extension SSOAdmin {
         /// Specifies the type of grant.
         public let grantType: GrantType
 
+        @inlinable
         public init(applicationArn: String, grantType: GrantType) {
             self.applicationArn = applicationArn
             self.grantType = grantType
@@ -2065,6 +2137,7 @@ extension SSOAdmin {
         /// A structure that describes the requested grant.
         public let grant: Grant
 
+        @inlinable
         public init(grant: Grant) {
             self.grant = grant
         }
@@ -2081,6 +2154,7 @@ extension SSOAdmin {
         /// The ARN of the permission set.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -2105,6 +2179,7 @@ extension SSOAdmin {
         /// The inline policy that is attached to the permission set.  For Length Constraints, if a valid ARN is provided for a permission set, it is possible for an empty inline policy to be returned.
         public let inlinePolicy: String?
 
+        @inlinable
         public init(inlinePolicy: String? = nil) {
             self.inlinePolicy = inlinePolicy
         }
@@ -2120,6 +2195,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -2144,6 +2220,7 @@ extension SSOAdmin {
         /// The permissions boundary attached to the specified permission set.
         public let permissionsBoundary: PermissionsBoundary?
 
+        @inlinable
         public init(permissionsBoundary: PermissionsBoundary? = nil) {
             self.permissionsBoundary = permissionsBoundary
         }
@@ -2159,6 +2236,7 @@ extension SSOAdmin {
         /// The type of the selected grant.
         public let grantType: GrantType
 
+        @inlinable
         public init(grant: Grant, grantType: GrantType) {
             self.grant = grant
             self.grantType = grantType
@@ -2174,6 +2252,7 @@ extension SSOAdmin {
         /// An IAM policy document in JSON.
         public let actorPolicy: String
 
+        @inlinable
         public init(actorPolicy: String) {
             self.actorPolicy = actorPolicy
         }
@@ -2187,6 +2266,7 @@ extension SSOAdmin {
         /// Lists the attributes that are configured for ABAC in the specified IAM Identity Center instance.
         public let accessControlAttributes: [AccessControlAttribute]
 
+        @inlinable
         public init(accessControlAttributes: [AccessControlAttribute]) {
             self.accessControlAttributes = accessControlAttributes
         }
@@ -2218,6 +2298,7 @@ extension SSOAdmin {
         /// The current status of this Identity Center instance.
         public let status: InstanceStatus?
 
+        @inlinable
         public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil) {
             self.createdDate = createdDate
             self.identityStoreId = identityStoreId
@@ -2241,6 +2322,7 @@ extension SSOAdmin {
         /// A list of allowed token issuers trusted by the Identity Center instances for this application.
         public let authorizedTokenIssuers: [AuthorizedTokenIssuer]?
 
+        @inlinable
         public init(authorizedTokenIssuers: [AuthorizedTokenIssuer]? = nil) {
             self.authorizedTokenIssuers = authorizedTokenIssuers
         }
@@ -2269,6 +2351,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: OperationStatusFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.instanceArn = instanceArn
@@ -2300,6 +2383,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(accountAssignmentsCreationStatus: [AccountAssignmentOperationStatusMetadata]? = nil, nextToken: String? = nil) {
             self.accountAssignmentsCreationStatus = accountAssignmentsCreationStatus
             self.nextToken = nextToken
@@ -2322,6 +2406,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: OperationStatusFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.instanceArn = instanceArn
@@ -2353,6 +2438,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(accountAssignmentsDeletionStatus: [AccountAssignmentOperationStatusMetadata]? = nil, nextToken: String? = nil) {
             self.accountAssignmentsDeletionStatus = accountAssignmentsDeletionStatus
             self.nextToken = nextToken
@@ -2368,6 +2454,7 @@ extension SSOAdmin {
         /// The ID number of an Amazon Web Services account that filters the results in the response.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -2397,6 +2484,7 @@ extension SSOAdmin {
         /// Specifies the type of the principal.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(filter: ListAccountAssignmentsFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String, principalType: PrincipalType) {
             self.filter = filter
             self.instanceArn = instanceArn
@@ -2436,6 +2524,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountAssignments: [AccountAssignmentForPrincipal]? = nil, nextToken: String? = nil) {
             self.accountAssignments = accountAssignments
             self.nextToken = nextToken
@@ -2460,6 +2549,7 @@ extension SSOAdmin {
         /// The ARN of the permission set from which to list assignments.
         public let permissionSetArn: String
 
+        @inlinable
         public init(accountId: String, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String) {
             self.accountId = accountId
             self.instanceArn = instanceArn
@@ -2499,6 +2589,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(accountAssignments: [AccountAssignment]? = nil, nextToken: String? = nil) {
             self.accountAssignments = accountAssignments
             self.nextToken = nextToken
@@ -2523,6 +2614,7 @@ extension SSOAdmin {
         /// The permission set provisioning status for an Amazon Web Services account.
         public let provisioningStatus: ProvisioningStatus?
 
+        @inlinable
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String, provisioningStatus: ProvisioningStatus? = nil) {
             self.instanceArn = instanceArn
             self.maxResults = maxResults
@@ -2559,6 +2651,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.nextToken = nextToken
@@ -2578,6 +2671,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationArn = applicationArn
             self.maxResults = maxResults
@@ -2607,6 +2701,7 @@ extension SSOAdmin {
         /// An array list of access scopes and their authorized targets that are associated with the application.
         public let scopes: [ScopeDetails]
 
+        @inlinable
         public init(nextToken: String? = nil, scopes: [ScopeDetails]) {
             self.nextToken = nextToken
             self.scopes = scopes
@@ -2622,6 +2717,7 @@ extension SSOAdmin {
         /// The ARN of an application.
         public let applicationArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil) {
             self.applicationArn = applicationArn
         }
@@ -2651,6 +2747,7 @@ extension SSOAdmin {
         /// Specifies the type of the principal for which you want to retrieve its assignments.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(filter: ListApplicationAssignmentsFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String, principalType: PrincipalType) {
             self.filter = filter
             self.instanceArn = instanceArn
@@ -2690,6 +2787,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationAssignments: [ApplicationAssignmentForPrincipal]? = nil, nextToken: String? = nil) {
             self.applicationAssignments = applicationAssignments
             self.nextToken = nextToken
@@ -2709,6 +2807,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationArn = applicationArn
             self.maxResults = maxResults
@@ -2738,6 +2837,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationAssignments: [ApplicationAssignment]? = nil, nextToken: String? = nil) {
             self.applicationAssignments = applicationAssignments
             self.nextToken = nextToken
@@ -2755,6 +2855,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationArn: String, nextToken: String? = nil) {
             self.applicationArn = applicationArn
             self.nextToken = nextToken
@@ -2780,6 +2881,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(authenticationMethods: [AuthenticationMethodItem]? = nil, nextToken: String? = nil) {
             self.authenticationMethods = authenticationMethods
             self.nextToken = nextToken
@@ -2797,6 +2899,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationArn: String, nextToken: String? = nil) {
             self.applicationArn = applicationArn
             self.nextToken = nextToken
@@ -2822,6 +2925,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(grants: [GrantItem], nextToken: String? = nil) {
             self.grants = grants
             self.nextToken = nextToken
@@ -2839,6 +2943,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2863,6 +2968,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationProviders: [ApplicationProvider]? = nil, nextToken: String? = nil) {
             self.applicationProviders = applicationProviders
             self.nextToken = nextToken
@@ -2880,6 +2986,7 @@ extension SSOAdmin {
         /// The ARN of an application provider that can filter the results in the response.
         public let applicationProvider: String?
 
+        @inlinable
         public init(applicationAccount: String? = nil, applicationProvider: String? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationProvider = applicationProvider
@@ -2911,6 +3018,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListApplicationsFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.instanceArn = instanceArn
@@ -2943,6 +3051,7 @@ extension SSOAdmin {
         /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [Application]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -2964,6 +3073,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.maxResults = maxResults
@@ -2998,6 +3108,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(customerManagedPolicyReferences: [CustomerManagedPolicyReference]? = nil, nextToken: String? = nil) {
             self.customerManagedPolicyReferences = customerManagedPolicyReferences
             self.nextToken = nextToken
@@ -3015,6 +3126,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3039,6 +3151,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [InstanceMetadata]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -3061,6 +3174,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet whose managed policies will be listed.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.maxResults = maxResults
@@ -3095,6 +3209,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(attachedManagedPolicies: [AttachedManagedPolicy]? = nil, nextToken: String? = nil) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.nextToken = nextToken
@@ -3117,6 +3232,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: OperationStatusFilter? = nil, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.instanceArn = instanceArn
@@ -3148,6 +3264,7 @@ extension SSOAdmin {
         /// The status object for the permission set provisioning operation.
         public let permissionSetsProvisioningStatus: [PermissionSetProvisioningStatusMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissionSetsProvisioningStatus: [PermissionSetProvisioningStatusMetadata]? = nil) {
             self.nextToken = nextToken
             self.permissionSetsProvisioningStatus = permissionSetsProvisioningStatus
@@ -3172,6 +3289,7 @@ extension SSOAdmin {
         /// The status object for the permission set provisioning operation.
         public let provisioningStatus: ProvisioningStatus?
 
+        @inlinable
         public init(accountId: String, instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil, provisioningStatus: ProvisioningStatus? = nil) {
             self.accountId = accountId
             self.instanceArn = instanceArn
@@ -3208,6 +3326,7 @@ extension SSOAdmin {
         /// Defines the level of access that an Amazon Web Services account has.
         public let permissionSets: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissionSets: [String]? = nil) {
             self.nextToken = nextToken
             self.permissionSets = permissionSets
@@ -3228,6 +3347,7 @@ extension SSOAdmin {
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceArn = instanceArn
             self.maxResults = maxResults
@@ -3257,6 +3377,7 @@ extension SSOAdmin {
         /// Defines the level of access on an Amazon Web Services account.
         public let permissionSets: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissionSets: [String]? = nil) {
             self.nextToken = nextToken
             self.permissionSets = permissionSets
@@ -3277,6 +3398,7 @@ extension SSOAdmin {
         /// The ARN of the resource with the tags to be listed.
         public let resourceArn: String
 
+        @inlinable
         public init(instanceArn: String? = nil, nextToken: String? = nil, resourceArn: String) {
             self.instanceArn = instanceArn
             self.nextToken = nextToken
@@ -3307,6 +3429,7 @@ extension SSOAdmin {
         /// A set of key-value pairs that are used to manage the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3326,6 +3449,7 @@ extension SSOAdmin {
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceArn = instanceArn
             self.maxResults = maxResults
@@ -3355,6 +3479,7 @@ extension SSOAdmin {
         /// An array list of the trusted token issuer configurations.
         public let trustedTokenIssuers: [TrustedTokenIssuerMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, trustedTokenIssuers: [TrustedTokenIssuerMetadata]? = nil) {
             self.nextToken = nextToken
             self.trustedTokenIssuers = trustedTokenIssuers
@@ -3376,6 +3501,7 @@ extension SSOAdmin {
         /// The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT.
         public let jwksRetrievalOption: JwksRetrievalOption
 
+        @inlinable
         public init(claimAttributePath: String, identityStoreAttributePath: String, issuerUrl: String, jwksRetrievalOption: JwksRetrievalOption) {
             self.claimAttributePath = claimAttributePath
             self.identityStoreAttributePath = identityStoreAttributePath
@@ -3411,6 +3537,7 @@ extension SSOAdmin {
         /// The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT.
         public let jwksRetrievalOption: JwksRetrievalOption?
 
+        @inlinable
         public init(claimAttributePath: String? = nil, identityStoreAttributePath: String? = nil, jwksRetrievalOption: JwksRetrievalOption? = nil) {
             self.claimAttributePath = claimAttributePath
             self.identityStoreAttributePath = identityStoreAttributePath
@@ -3437,6 +3564,7 @@ extension SSOAdmin {
         /// Filters the list operations result based on the status attribute.
         public let status: StatusValues?
 
+        @inlinable
         public init(status: StatusValues? = nil) {
             self.status = status
         }
@@ -3461,6 +3589,7 @@ extension SSOAdmin {
         /// The length of time that the application user sessions are valid for in the ISO-8601 standard.
         public let sessionDuration: String?
 
+        @inlinable
         public init(createdDate: Date? = nil, description: String? = nil, name: String? = nil, permissionSetArn: String? = nil, relayState: String? = nil, sessionDuration: String? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -3495,6 +3624,7 @@ extension SSOAdmin {
         /// The status of the permission set provisioning process.
         public let status: StatusValues?
 
+        @inlinable
         public init(accountId: String? = nil, createdDate: Date? = nil, failureReason: String? = nil, permissionSetArn: String? = nil, requestId: String? = nil, status: StatusValues? = nil) {
             self.accountId = accountId
             self.createdDate = createdDate
@@ -3522,6 +3652,7 @@ extension SSOAdmin {
         /// The status of the permission set provisioning process.
         public let status: StatusValues?
 
+        @inlinable
         public init(createdDate: Date? = nil, requestId: String? = nil, status: StatusValues? = nil) {
             self.createdDate = createdDate
             self.requestId = requestId
@@ -3541,6 +3672,7 @@ extension SSOAdmin {
         /// The Amazon Web Services managed policy ARN that you want to attach to a permission set as a permissions boundary.
         public let managedPolicyArn: String?
 
+        @inlinable
         public init(customerManagedPolicyReference: CustomerManagedPolicyReference? = nil, managedPolicyArn: String? = nil) {
             self.customerManagedPolicyReference = customerManagedPolicyReference
             self.managedPolicyArn = managedPolicyArn
@@ -3565,6 +3697,7 @@ extension SSOAdmin {
         /// Indicates whether this application is visible in the access portal.
         public let visibility: ApplicationVisibility?
 
+        @inlinable
         public init(signInOptions: SignInOptions? = nil, visibility: ApplicationVisibility? = nil) {
             self.signInOptions = signInOptions
             self.visibility = visibility
@@ -3591,6 +3724,7 @@ extension SSOAdmin {
         /// The entity type for which the assignment will be created.
         public let targetType: ProvisionTargetType
 
+        @inlinable
         public init(instanceArn: String, permissionSetArn: String, targetId: String? = nil, targetType: ProvisionTargetType) {
             self.instanceArn = instanceArn
             self.permissionSetArn = permissionSetArn
@@ -3622,6 +3756,7 @@ extension SSOAdmin {
         /// The status object for the permission set provisioning operation.
         public let permissionSetProvisioningStatus: PermissionSetProvisioningStatus?
 
+        @inlinable
         public init(permissionSetProvisioningStatus: PermissionSetProvisioningStatus? = nil) {
             self.permissionSetProvisioningStatus = permissionSetProvisioningStatus
         }
@@ -3639,6 +3774,7 @@ extension SSOAdmin {
         /// Specifies the name of the access scope to be associated with the specified targets.
         public let scope: String
 
+        @inlinable
         public init(applicationArn: String, authorizedTargets: [String]? = nil, scope: String) {
             self.applicationArn = applicationArn
             self.authorizedTargets = authorizedTargets
@@ -3673,6 +3809,7 @@ extension SSOAdmin {
         /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the  CreateApplicationAssignment API. If false, all users have access to the application.
         public let assignmentRequired: Bool
 
+        @inlinable
         public init(applicationArn: String, assignmentRequired: Bool = true) {
             self.applicationArn = applicationArn
             self.assignmentRequired = assignmentRequired
@@ -3702,6 +3839,7 @@ extension SSOAdmin {
         /// Specifies the type of the authentication method that you want to add or update.
         public let authenticationMethodType: AuthenticationMethodType
 
+        @inlinable
         public init(applicationArn: String, authenticationMethod: AuthenticationMethod, authenticationMethodType: AuthenticationMethodType) {
             self.applicationArn = applicationArn
             self.authenticationMethod = authenticationMethod
@@ -3729,6 +3867,7 @@ extension SSOAdmin {
         /// Specifies the type of grant to update.
         public let grantType: GrantType
 
+        @inlinable
         public init(applicationArn: String, grant: Grant, grantType: GrantType) {
             self.applicationArn = applicationArn
             self.grant = grant
@@ -3758,6 +3897,7 @@ extension SSOAdmin {
         /// The ARN of the permission set.
         public let permissionSetArn: String
 
+        @inlinable
         public init(inlinePolicy: String, instanceArn: String, permissionSetArn: String) {
             self.inlinePolicy = inlinePolicy
             self.instanceArn = instanceArn
@@ -3795,6 +3935,7 @@ extension SSOAdmin {
         /// The ARN of the PermissionSet.
         public let permissionSetArn: String
 
+        @inlinable
         public init(instanceArn: String, permissionsBoundary: PermissionsBoundary, permissionSetArn: String) {
             self.instanceArn = instanceArn
             self.permissionsBoundary = permissionsBoundary
@@ -3830,6 +3971,7 @@ extension SSOAdmin {
         /// A list of the IAM Identity Center access scopes that are associated with this resource server.
         public let scopes: [String: ResourceServerScopeDetails]?
 
+        @inlinable
         public init(scopes: [String: ResourceServerScopeDetails]? = nil) {
             self.scopes = scopes
         }
@@ -3845,6 +3987,7 @@ extension SSOAdmin {
         /// The description of an access scope for a resource server.
         public let longDescription: String?
 
+        @inlinable
         public init(detailedTitle: String? = nil, longDescription: String? = nil) {
             self.detailedTitle = detailedTitle
             self.longDescription = longDescription
@@ -3862,6 +4005,7 @@ extension SSOAdmin {
         /// The name of the access scope.
         public let scope: String
 
+        @inlinable
         public init(authorizedTargets: [String]? = nil, scope: String) {
             self.authorizedTargets = authorizedTargets
             self.scope = scope
@@ -3879,6 +4023,7 @@ extension SSOAdmin {
         /// This determines how IAM Identity Center navigates the user to the target application. It can be one of the following values:    APPLICATION: IAM Identity Center redirects the customer to the configured ApplicationUrl.    IDENTITY_CENTER: IAM Identity Center uses SAML identity-provider initiated authentication to sign the customer directly into a SAML-based application.
         public let origin: SignInOrigin
 
+        @inlinable
         public init(applicationUrl: String? = nil, origin: SignInOrigin) {
             self.applicationUrl = applicationUrl
             self.origin = origin
@@ -3902,6 +4047,7 @@ extension SSOAdmin {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3930,6 +4076,7 @@ extension SSOAdmin {
         /// A set of key-value pairs that are used to manage the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(instanceArn: String? = nil, resourceArn: String, tags: [Tag]) {
             self.instanceArn = instanceArn
             self.resourceArn = resourceArn
@@ -3972,6 +4119,7 @@ extension SSOAdmin {
         /// The type of trusted token issuer.
         public let trustedTokenIssuerType: TrustedTokenIssuerType?
 
+        @inlinable
         public init(name: String? = nil, trustedTokenIssuerArn: String? = nil, trustedTokenIssuerType: TrustedTokenIssuerType? = nil) {
             self.name = name
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
@@ -3994,6 +4142,7 @@ extension SSOAdmin {
         /// The keys of tags that are attached to the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(instanceArn: String? = nil, resourceArn: String, tagKeys: [String]) {
             self.instanceArn = instanceArn
             self.resourceArn = resourceArn
@@ -4030,6 +4179,7 @@ extension SSOAdmin {
     public struct UpdateApplicationPortalOptions: AWSEncodableShape {
         public let signInOptions: SignInOptions?
 
+        @inlinable
         public init(signInOptions: SignInOptions? = nil) {
             self.signInOptions = signInOptions
         }
@@ -4056,6 +4206,7 @@ extension SSOAdmin {
         /// Specifies whether the application is enabled or disabled.
         public let status: ApplicationStatus?
 
+        @inlinable
         public init(applicationArn: String, description: String? = nil, name: String? = nil, portalOptions: UpdateApplicationPortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationArn = applicationArn
             self.description = description
@@ -4094,6 +4245,7 @@ extension SSOAdmin {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed.
         public let instanceArn: String
 
+        @inlinable
         public init(instanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration, instanceArn: String) {
             self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
             self.instanceArn = instanceArn
@@ -4123,6 +4275,7 @@ extension SSOAdmin {
         /// Updates the instance name.
         public let name: String
 
+        @inlinable
         public init(instanceArn: String, name: String) {
             self.instanceArn = instanceArn
             self.name = name
@@ -4159,6 +4312,7 @@ extension SSOAdmin {
         /// The length of time that the application user sessions are valid for in the ISO-8601 standard.
         public let sessionDuration: String?
 
+        @inlinable
         public init(description: String? = nil, instanceArn: String, permissionSetArn: String, relayState: String? = nil, sessionDuration: String? = nil) {
             self.description = description
             self.instanceArn = instanceArn
@@ -4206,6 +4360,7 @@ extension SSOAdmin {
         /// Specifies a structure with settings to apply to the specified trusted token issuer. The settings that you can provide are determined by the type of the trusted token issuer that you are updating.
         public let trustedTokenIssuerConfiguration: TrustedTokenIssuerUpdateConfiguration?
 
+        @inlinable
         public init(name: String? = nil, trustedTokenIssuerArn: String, trustedTokenIssuerConfiguration: TrustedTokenIssuerUpdateConfiguration? = nil) {
             self.name = name
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
@@ -4237,6 +4392,7 @@ extension SSOAdmin {
         /// A structure that describes details for IAM authentication.
         public let iam: IamAuthenticationMethod?
 
+        @inlinable
         public init(iam: IamAuthenticationMethod? = nil) {
             self.iam = iam
         }
@@ -4250,6 +4406,7 @@ extension SSOAdmin {
         /// A structure that describes the settings for a trusted token issuer that works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT).
         public let oidcJwtConfiguration: OidcJwtConfiguration?
 
+        @inlinable
         public init(oidcJwtConfiguration: OidcJwtConfiguration? = nil) {
             self.oidcJwtConfiguration = oidcJwtConfiguration
         }
@@ -4267,6 +4424,7 @@ extension SSOAdmin {
         /// A structure that describes an updated configuration for a trusted token issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT).
         public let oidcJwtConfiguration: OidcJwtUpdateConfiguration?
 
+        @inlinable
         public init(oidcJwtConfiguration: OidcJwtUpdateConfiguration? = nil) {
             self.oidcJwtConfiguration = oidcJwtConfiguration
         }

@@ -90,6 +90,7 @@ extension Signer {
         /// A unique identifier for the cross-account permission statement.
         public let statementId: String
 
+        @inlinable
         public init(action: String, principal: String, profileName: String, profileVersion: String? = nil, revisionId: String? = nil, statementId: String) {
             self.action = action
             self.principal = principal
@@ -132,6 +133,7 @@ extension Signer {
         /// A unique identifier for the current profile revision.
         public let revisionId: String?
 
+        @inlinable
         public init(revisionId: String? = nil) {
             self.revisionId = revisionId
         }
@@ -145,6 +147,7 @@ extension Signer {
         /// The name of the signing profile to be canceled.
         public let profileName: String
 
+        @inlinable
         public init(profileName: String) {
             self.profileName = profileName
         }
@@ -168,6 +171,7 @@ extension Signer {
         /// The ID of the signing job on input.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -224,6 +228,7 @@ extension Signer {
         /// String value that contains the status reason.
         public let statusReason: String?
 
+        @inlinable
         public init(completedAt: Date? = nil, createdAt: Date? = nil, jobId: String? = nil, jobInvoker: String? = nil, jobOwner: String? = nil, overrides: SigningPlatformOverrides? = nil, platformDisplayName: String? = nil, platformId: String? = nil, profileName: String? = nil, profileVersion: String? = nil, requestedBy: String? = nil, revocationRecord: SigningJobRevocationRecord? = nil, signatureExpiresAt: Date? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, source: Source? = nil, status: SigningStatus? = nil, statusReason: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
@@ -273,6 +278,7 @@ extension Signer {
         /// The S3Destination object.
         public let s3: S3Destination?
 
+        @inlinable
         public init(s3: S3Destination? = nil) {
             self.s3 = s3
         }
@@ -288,6 +294,7 @@ extension Signer {
         /// The default encryption algorithm that is used by a code-signing job.
         public let defaultValue: EncryptionAlgorithm
 
+        @inlinable
         public init(allowedValues: [EncryptionAlgorithm], defaultValue: EncryptionAlgorithm) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -324,6 +331,7 @@ extension Signer {
         /// The timestamp of the signature that validates the profile or job.
         public let signatureTimestamp: Date
 
+        @inlinable
         public init(certificateHashes: [String], jobArn: String, platformId: String, profileVersionArn: String, signatureTimestamp: Date) {
             self.certificateHashes = certificateHashes
             self.jobArn = jobArn
@@ -357,6 +365,7 @@ extension Signer {
         /// 			ARN, and certificate hashes) supplied as input to the API.
         public let revokedEntities: [String]?
 
+        @inlinable
         public init(revokedEntities: [String]? = nil) {
             self.revokedEntities = revokedEntities
         }
@@ -370,6 +379,7 @@ extension Signer {
         /// The ID of the target signing platform.
         public let platformId: String
 
+        @inlinable
         public init(platformId: String) {
             self.platformId = platformId
         }
@@ -405,6 +415,7 @@ extension Signer {
         /// The validation template that is used by the target signing platform.
         public let target: String?
 
+        @inlinable
         public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int? = nil, partner: String? = nil, platformId: String? = nil, revocationSupported: Bool? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
             self.displayName = displayName
@@ -436,6 +447,7 @@ extension Signer {
         /// The AWS account ID of the profile owner.
         public let profileOwner: String?
 
+        @inlinable
         public init(profileName: String, profileOwner: String? = nil) {
             self.profileName = profileName
             self.profileOwner = profileOwner
@@ -491,6 +503,7 @@ extension Signer {
         /// A list of tags associated with the signing profile.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, overrides: SigningPlatformOverrides? = nil, platformDisplayName: String? = nil, platformId: String? = nil, profileName: String? = nil, profileVersion: String? = nil, profileVersionArn: String? = nil, revocationRecord: SigningProfileRevocationRecord? = nil, signatureValidityPeriod: SignatureValidityPeriod? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.overrides = overrides
@@ -532,6 +545,7 @@ extension Signer {
         /// The default hash algorithm that is used in a code-signing job.
         public let defaultValue: HashAlgorithm
 
+        @inlinable
         public init(allowedValues: [HashAlgorithm], defaultValue: HashAlgorithm) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -549,6 +563,7 @@ extension Signer {
         /// Name of the signing profile containing the cross-account permissions.
         public let profileName: String
 
+        @inlinable
         public init(nextToken: String? = nil, profileName: String) {
             self.nextToken = nextToken
             self.profileName = profileName
@@ -580,6 +595,7 @@ extension Signer {
         /// The identifier for the current revision of profile permissions.
         public let revisionId: String?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [Permission]? = nil, policySizeBytes: Int? = nil, revisionId: String? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -625,6 +641,7 @@ extension Signer {
         /// A status value with which to filter your results.
         public let status: SigningStatus?
 
+        @inlinable
         public init(isRevoked: Bool? = nil, jobInvoker: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, platformId: String? = nil, requestedBy: String? = nil, signatureExpiresAfter: Date? = nil, signatureExpiresBefore: Date? = nil, status: SigningStatus? = nil) {
             self.isRevoked = isRevoked
             self.jobInvoker = jobInvoker
@@ -668,6 +685,7 @@ extension Signer {
         /// String for specifying the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [SigningJob]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -693,6 +711,7 @@ extension Signer {
         /// The validation template that is used by the target signing platform.
         public let target: String?
 
+        @inlinable
         public init(category: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, partner: String? = nil, target: String? = nil) {
             self.category = category
             self.maxResults = maxResults
@@ -725,6 +744,7 @@ extension Signer {
         /// A list of all platforms that match the request parameters.
         public let platforms: [SigningPlatform]?
 
+        @inlinable
         public init(nextToken: String? = nil, platforms: [SigningPlatform]? = nil) {
             self.nextToken = nextToken
             self.platforms = platforms
@@ -753,6 +773,7 @@ extension Signer {
         /// 			list.
         public let statuses: [SigningProfileStatus]?
 
+        @inlinable
         public init(includeCanceled: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, platformId: String? = nil, statuses: [SigningProfileStatus]? = nil) {
             self.includeCanceled = includeCanceled
             self.maxResults = maxResults
@@ -787,6 +808,7 @@ extension Signer {
         /// 			to true.
         public let profiles: [SigningProfile]?
 
+        @inlinable
         public init(nextToken: String? = nil, profiles: [SigningProfile]? = nil) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -802,6 +824,7 @@ extension Signer {
         /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -819,6 +842,7 @@ extension Signer {
         /// A list of tags associated with the signing profile.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -838,6 +862,7 @@ extension Signer {
         /// A unique identifier for a cross-account permission statement.
         public let statementId: String?
 
+        @inlinable
         public init(action: String? = nil, principal: String? = nil, profileVersion: String? = nil, statementId: String? = nil) {
             self.action = action
             self.principal = principal
@@ -874,6 +899,7 @@ extension Signer {
         /// Tags to be associated with the signing profile that is being created.
         public let tags: [String: String]?
 
+        @inlinable
         public init(overrides: SigningPlatformOverrides? = nil, platformId: String, profileName: String, signatureValidityPeriod: SignatureValidityPeriod? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, tags: [String: String]? = nil) {
             self.overrides = overrides
             self.platformId = platformId
@@ -928,6 +954,7 @@ extension Signer {
         /// The signing profile ARN, including the profile version.
         public let profileVersionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, profileVersion: String? = nil, profileVersionArn: String? = nil) {
             self.arn = arn
             self.profileVersion = profileVersion
@@ -949,6 +976,7 @@ extension Signer {
         /// A unique identifier for the cross-account permissions statement.
         public let statementId: String
 
+        @inlinable
         public init(profileName: String, revisionId: String, statementId: String) {
             self.profileName = profileName
             self.revisionId = revisionId
@@ -976,6 +1004,7 @@ extension Signer {
         /// An identifier for the current revision of the profile permissions.
         public let revisionId: String?
 
+        @inlinable
         public init(revisionId: String? = nil) {
             self.revisionId = revisionId
         }
@@ -993,6 +1022,7 @@ extension Signer {
         /// The reason for revoking the signing job.
         public let reason: String
 
+        @inlinable
         public init(jobId: String, jobOwner: String? = nil, reason: String) {
             self.jobId = jobId
             self.jobOwner = jobOwner
@@ -1033,6 +1063,7 @@ extension Signer {
         /// The reason for revoking a signing profile.
         public let reason: String
 
+        @inlinable
         public init(effectiveTime: Date, profileName: String, profileVersion: String, reason: String) {
             self.effectiveTime = effectiveTime
             self.profileName = profileName
@@ -1074,6 +1105,7 @@ extension Signer {
         /// 			prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -1091,6 +1123,7 @@ extension Signer {
         /// Key name that uniquely identifies a signed code image in your bucket.
         public let key: String?
 
+        @inlinable
         public init(bucketName: String? = nil, key: String? = nil) {
             self.bucketName = bucketName
             self.key = key
@@ -1110,6 +1143,7 @@ extension Signer {
         /// Version of your source image in your version enabled S3 bucket.
         public let version: String
 
+        @inlinable
         public init(bucketName: String, key: String, version: String) {
             self.bucketName = bucketName
             self.key = key
@@ -1134,6 +1168,7 @@ extension Signer {
         /// The AWS account ID of the profile owner.
         public let profileOwner: String?
 
+        @inlinable
         public init(payload: AWSBase64Data, payloadFormat: String, profileName: String, profileOwner: String? = nil) {
             self.payload = payload
             self.payloadFormat = payloadFormat
@@ -1170,6 +1205,7 @@ extension Signer {
         /// A cryptographic signature.
         public let signature: AWSBase64Data?
 
+        @inlinable
         public init(jobId: String? = nil, jobOwner: String? = nil, metadata: [String: String]? = nil, signature: AWSBase64Data? = nil) {
             self.jobId = jobId
             self.jobOwner = jobOwner
@@ -1191,6 +1227,7 @@ extension Signer {
         /// The numerical value of the time unit for signature validity.
         public let value: Int?
 
+        @inlinable
         public init(type: ValidityType? = nil, value: Int? = nil) {
             self.type = type
             self.value = value
@@ -1206,6 +1243,7 @@ extension Signer {
         /// The S3SignedObject.
         public let s3: S3SignedObject?
 
+        @inlinable
         public init(s3: S3SignedObject? = nil) {
             self.s3 = s3
         }
@@ -1221,6 +1259,7 @@ extension Signer {
         /// The hash algorithm options that are available for a code-signing job.
         public let hashAlgorithmOptions: HashAlgorithmOptions
 
+        @inlinable
         public init(encryptionAlgorithmOptions: EncryptionAlgorithmOptions, hashAlgorithmOptions: HashAlgorithmOptions) {
             self.encryptionAlgorithmOptions = encryptionAlgorithmOptions
             self.hashAlgorithmOptions = hashAlgorithmOptions
@@ -1240,6 +1279,7 @@ extension Signer {
         /// 			job.
         public let hashAlgorithm: HashAlgorithm?
 
+        @inlinable
         public init(encryptionAlgorithm: EncryptionAlgorithm? = nil, hashAlgorithm: HashAlgorithm? = nil) {
             self.encryptionAlgorithm = encryptionAlgorithm
             self.hashAlgorithm = hashAlgorithm
@@ -1257,6 +1297,7 @@ extension Signer {
         /// The supported formats of a signing image.
         public let supportedFormats: [ImageFormat]
 
+        @inlinable
         public init(defaultFormat: ImageFormat, supportedFormats: [ImageFormat]) {
             self.defaultFormat = defaultFormat
             self.supportedFormats = supportedFormats
@@ -1301,6 +1342,7 @@ extension Signer {
         /// The status of the signing job.
         public let status: SigningStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, isRevoked: Bool? = nil, jobId: String? = nil, jobInvoker: String? = nil, jobOwner: String? = nil, platformDisplayName: String? = nil, platformId: String? = nil, profileName: String? = nil, profileVersion: String? = nil, signatureExpiresAt: Date? = nil, signedObject: SignedObject? = nil, signingMaterial: SigningMaterial? = nil, source: Source? = nil, status: SigningStatus? = nil) {
             self.createdAt = createdAt
             self.isRevoked = isRevoked
@@ -1344,6 +1386,7 @@ extension Signer {
         /// The identity of the revoker.
         public let revokedBy: String?
 
+        @inlinable
         public init(reason: String? = nil, revokedAt: Date? = nil, revokedBy: String? = nil) {
             self.reason = reason
             self.revokedAt = revokedAt
@@ -1362,6 +1405,7 @@ extension Signer {
         /// 			code.
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -1391,6 +1435,7 @@ extension Signer {
         /// The types of targets that can be signed by a signing platform.
         public let target: String?
 
+        @inlinable
         public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int? = nil, partner: String? = nil, platformId: String? = nil, revocationSupported: Bool? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
             self.category = category
             self.displayName = displayName
@@ -1428,6 +1473,7 @@ extension Signer {
         /// 			payload is not be embedded in the signing image.
         public let signingImageFormat: ImageFormat?
 
+        @inlinable
         public init(signingConfiguration: SigningConfigurationOverrides? = nil, signingImageFormat: ImageFormat? = nil) {
             self.signingConfiguration = signingConfiguration
             self.signingImageFormat = signingImageFormat
@@ -1463,6 +1509,7 @@ extension Signer {
         /// A list of tags associated with the signing profile.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, platformDisplayName: String? = nil, platformId: String? = nil, profileName: String? = nil, profileVersion: String? = nil, profileVersionArn: String? = nil, signatureValidityPeriod: SignatureValidityPeriod? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.platformDisplayName = platformDisplayName
@@ -1500,6 +1547,7 @@ extension Signer {
         /// The identity of the revoker.
         public let revokedBy: String?
 
+        @inlinable
         public init(revocationEffectiveFrom: Date? = nil, revokedAt: Date? = nil, revokedBy: String? = nil) {
             self.revocationEffectiveFrom = revocationEffectiveFrom
             self.revokedAt = revokedAt
@@ -1517,6 +1565,7 @@ extension Signer {
         /// The S3Source object.
         public let s3: S3Source?
 
+        @inlinable
         public init(s3: S3Source? = nil) {
             self.s3 = s3
         }
@@ -1541,6 +1590,7 @@ extension Signer {
         /// 			code.
         public let source: Source
 
+        @inlinable
         public init(clientRequestToken: String = StartSigningJobRequest.idempotencyToken(), destination: Destination, profileName: String, profileOwner: String? = nil, source: Source) {
             self.clientRequestToken = clientRequestToken
             self.destination = destination
@@ -1573,6 +1623,7 @@ extension Signer {
         /// The AWS account ID of the signing job owner.
         public let jobOwner: String?
 
+        @inlinable
         public init(jobId: String? = nil, jobOwner: String? = nil) {
             self.jobId = jobId
             self.jobOwner = jobOwner
@@ -1590,6 +1641,7 @@ extension Signer {
         /// One or more tags to be associated with the signing profile.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1628,6 +1680,7 @@ extension Signer {
         /// A list of tag keys to be removed from the signing profile.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

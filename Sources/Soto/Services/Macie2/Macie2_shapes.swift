@@ -497,6 +497,7 @@ extension Macie2 {
         /// (Deprecated) The Amazon Web Services account ID for the account that sent the invitation. This property has been replaced by the administratorAccountId property and is retained only for backward compatibility.
         public let masterAccount: String?
 
+        @inlinable
         public init(administratorAccountId: String? = nil, invitationId: String? = nil, masterAccount: String? = nil) {
             self.administratorAccountId = administratorAccountId
             self.invitationId = invitationId
@@ -520,6 +521,7 @@ extension Macie2 {
         /// Specifies whether the ACL grants the general public with write access permissions for the bucket.
         public let allowsPublicWriteAccess: Bool?
 
+        @inlinable
         public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
@@ -537,6 +539,7 @@ extension Macie2 {
         /// The email address for the account.
         public let email: String?
 
+        @inlinable
         public init(accountId: String? = nil, email: String? = nil) {
             self.accountId = accountId
             self.email = email
@@ -552,6 +555,7 @@ extension Macie2 {
         /// The block public access settings for the Amazon Web Services account that owns the bucket.
         public let blockPublicAccess: BlockPublicAccess?
 
+        @inlinable
         public init(blockPublicAccess: BlockPublicAccess? = nil) {
             self.blockPublicAccess = blockPublicAccess
         }
@@ -567,6 +571,7 @@ extension Macie2 {
         /// The current status of the account as the delegated Amazon Macie administrator account for the organization.
         public let status: AdminStatus?
 
+        @inlinable
         public init(accountId: String? = nil, status: AdminStatus? = nil) {
             self.accountId = accountId
             self.status = status
@@ -584,6 +589,7 @@ extension Macie2 {
         /// The location and name of the S3 object that lists specific text to ignore.
         public let s3WordsList: S3WordsList?
 
+        @inlinable
         public init(regex: String? = nil, s3WordsList: S3WordsList? = nil) {
             self.regex = regex
             self.s3WordsList = s3WordsList
@@ -608,6 +614,7 @@ extension Macie2 {
         /// A brief description of the status of the allow list. Amazon Macie uses this value to provide additional information about an error that occurred when Macie tried to access and use the list's criteria.
         public let description: String?
 
+        @inlinable
         public init(code: AllowListStatusCode? = nil, description: String? = nil) {
             self.code = code
             self.description = description
@@ -635,6 +642,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -666,6 +674,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSeen: Date?
 
+        @inlinable
         public init(api: String? = nil, apiServiceName: String? = nil, firstSeen: Date? = nil, lastSeen: Date? = nil) {
             self.api = api
             self.apiServiceName = apiServiceName
@@ -693,6 +702,7 @@ extension Macie2 {
         /// The details of the session that was created for the credentials, including the entity that issued the session.
         public let sessionContext: SessionContext?
 
+        @inlinable
         public init(accessKeyId: String? = nil, accountId: String? = nil, arn: String? = nil, principalId: String? = nil, sessionContext: SessionContext? = nil) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
@@ -716,6 +726,7 @@ extension Macie2 {
         /// The current status of automated sensitive data discovery for the account. Possible values are: ENABLED, perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
         public let status: AutomatedDiscoveryAccountStatus?
 
+        @inlinable
         public init(accountId: String? = nil, status: AutomatedDiscoveryAccountStatus? = nil) {
             self.accountId = accountId
             self.status = status
@@ -733,6 +744,7 @@ extension Macie2 {
         /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
         public let status: AutomatedDiscoveryAccountStatus?
 
+        @inlinable
         public init(accountId: String? = nil, status: AutomatedDiscoveryAccountStatus? = nil) {
             self.accountId = accountId
             self.status = status
@@ -750,6 +762,7 @@ extension Macie2 {
         /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn’t exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn’t enabled for the account in the current Amazon Web Services Region.
         public let errorCode: AutomatedDiscoveryAccountUpdateErrorCode?
 
+        @inlinable
         public init(accountId: String? = nil, errorCode: AutomatedDiscoveryAccountUpdateErrorCode? = nil) {
             self.accountId = accountId
             self.errorCode = errorCode
@@ -767,6 +780,7 @@ extension Macie2 {
         /// The unique identifier for the entity that performed the action.
         public let principalId: String?
 
+        @inlinable
         public init(accountId: String? = nil, principalId: String? = nil) {
             self.accountId = accountId
             self.principalId = principalId
@@ -782,6 +796,7 @@ extension Macie2 {
         /// The name of the Amazon Web Service that performed the action.
         public let invokedBy: String?
 
+        @inlinable
         public init(invokedBy: String? = nil) {
             self.invokedBy = invokedBy
         }
@@ -806,6 +821,7 @@ extension Macie2 {
         /// The custom name of the custom data identifier.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -829,6 +845,7 @@ extension Macie2 {
         /// An array of custom data identifier IDs, one for each custom data identifier to retrieve information about.
         public let ids: [String]?
 
+        @inlinable
         public init(ids: [String]? = nil) {
             self.ids = ids
         }
@@ -844,6 +861,7 @@ extension Macie2 {
         /// An array of custom data identifier IDs, one for each custom data identifier that was specified in the request but doesn't correlate to an existing custom data identifier.
         public let notFoundIdentifierIds: [String]?
 
+        @inlinable
         public init(customDataIdentifiers: [BatchGetCustomDataIdentifierSummary]? = nil, notFoundIdentifierIds: [String]? = nil) {
             self.customDataIdentifiers = customDataIdentifiers
             self.notFoundIdentifierIds = notFoundIdentifierIds
@@ -859,6 +877,7 @@ extension Macie2 {
         /// An array of objects, one for each account to change the status of automated sensitive data discovery for. Each object specifies the Amazon Web Services account ID for an account and a new status for that account.
         public let accounts: [AutomatedDiscoveryAccountUpdate]?
 
+        @inlinable
         public init(accounts: [AutomatedDiscoveryAccountUpdate]? = nil) {
             self.accounts = accounts
         }
@@ -872,6 +891,7 @@ extension Macie2 {
         /// An array of objects, one for each account whose status wasn’t changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn’t changed for the account. This value is null if the request succeeded for all specified accounts.
         public let errors: [AutomatedDiscoveryAccountUpdateError]?
 
+        @inlinable
         public init(errors: [AutomatedDiscoveryAccountUpdateError]? = nil) {
             self.errors = errors
         }
@@ -891,6 +911,7 @@ extension Macie2 {
         /// Specifies whether Amazon S3 restricts public bucket policies for the bucket.
         public let restrictPublicBuckets: Bool?
 
+        @inlinable
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
@@ -916,6 +937,7 @@ extension Macie2 {
         /// The total number of buckets that Amazon Macie wasn't able to evaluate permissions settings for. Macie can't determine whether these buckets are publicly accessible.
         public let unknown: Int64?
 
+        @inlinable
         public init(publiclyAccessible: Int64? = nil, publiclyReadable: Int64? = nil, publiclyWritable: Int64? = nil, unknown: Int64? = nil) {
             self.publiclyAccessible = publiclyAccessible
             self.publiclyReadable = publiclyReadable
@@ -941,6 +963,7 @@ extension Macie2 {
         /// The total number of buckets that Amazon Macie doesn't have current encryption metadata for. Macie can't provide current data about the default encryption settings for these buckets.
         public let unknown: Int64?
 
+        @inlinable
         public init(kmsManaged: Int64? = nil, s3Managed: Int64? = nil, unencrypted: Int64? = nil, unknown: Int64? = nil) {
             self.kmsManaged = kmsManaged
             self.s3Managed = s3Managed
@@ -966,6 +989,7 @@ extension Macie2 {
         /// The total number of buckets that Amazon Macie wasn't able to evaluate shared access settings for. Macie can't determine whether these buckets are shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
         public let unknown: Int64?
 
+        @inlinable
         public init(external: Int64? = nil, internal: Int64? = nil, notShared: Int64? = nil, unknown: Int64? = nil) {
             self.external = external
             self.`internal` = `internal`
@@ -989,6 +1013,7 @@ extension Macie2 {
         /// The total number of buckets that Amazon Macie wasn't able to evaluate server-side encryption requirements for. Macie can't determine whether the bucket policies for these buckets require server-side encryption of new objects.
         public let unknown: Int64?
 
+        @inlinable
         public init(allowsUnencryptedObjectUploads: Int64? = nil, deniesUnencryptedObjectUploads: Int64? = nil, unknown: Int64? = nil) {
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.deniesUnencryptedObjectUploads = deniesUnencryptedObjectUploads
@@ -1018,6 +1043,7 @@ extension Macie2 {
         /// The name of the bucket begins with the specified value.
         public let prefix: String?
 
+        @inlinable
         public init(eq: [String]? = nil, gt: Int64? = nil, gte: Int64? = nil, lt: Int64? = nil, lte: Int64? = nil, neq: [String]? = nil, prefix: String? = nil) {
             self.eq = eq
             self.gt = gt
@@ -1047,6 +1073,7 @@ extension Macie2 {
         /// The permissions settings of the bucket policy for the bucket. This value is null if a bucket policy hasn't been defined for the bucket.
         public let bucketPolicy: BucketPolicy?
 
+        @inlinable
         public init(accessControlList: AccessControlList? = nil, blockPublicAccess: BlockPublicAccess? = nil, bucketPolicy: BucketPolicy? = nil) {
             self.accessControlList = accessControlList
             self.blockPublicAccess = blockPublicAccess
@@ -1119,6 +1146,7 @@ extension Macie2 {
         /// Specifies whether versioning is enabled for the bucket.
         public let versioning: Bool?
 
+        @inlinable
         public init(accountId: String? = nil, allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, automatedDiscoveryMonitoringStatus: AutomatedDiscoveryMonitoringStatus? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastAutomatedDiscoveryTime: Date? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sensitivityScore: Int? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
@@ -1186,6 +1214,7 @@ extension Macie2 {
         /// The bucket-level permissions settings for the bucket.
         public let bucketLevelPermissions: BucketLevelPermissions?
 
+        @inlinable
         public init(accountLevelPermissions: AccountLevelPermissions? = nil, bucketLevelPermissions: BucketLevelPermissions? = nil) {
             self.accountLevelPermissions = accountLevelPermissions
             self.bucketLevelPermissions = bucketLevelPermissions
@@ -1203,6 +1232,7 @@ extension Macie2 {
         /// Specifies whether the bucket policy allows the general public to have write access to the bucket.
         public let allowsPublicWriteAccess: Bool?
 
+        @inlinable
         public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
@@ -1220,6 +1250,7 @@ extension Macie2 {
         /// The account-level and bucket-level permissions settings for the bucket.
         public let permissionConfiguration: BucketPermissionConfiguration?
 
+        @inlinable
         public init(effectivePermission: EffectivePermission? = nil, permissionConfiguration: BucketPermissionConfiguration? = nil) {
             self.effectivePermission = effectivePermission
             self.permissionConfiguration = permissionConfiguration
@@ -1237,6 +1268,7 @@ extension Macie2 {
         /// The server-side encryption algorithm that's used by default to encrypt objects that are added to the bucket. Possible values are: AES256 - New objects use SSE-S3 encryption. They're encrypted with an Amazon S3 managed key. aws:kms - New objects use SSE-KMS encryption. They're encrypted with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a customer managed key. aws:kms:dsse - New objects use DSSE-KMS encryption. They're encrypted with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a customer managed key. NONE - The bucket's default encryption settings don't specify server-side encryption behavior for new objects.
         public let type: `Type`?
 
+        @inlinable
         public init(kmsMasterKeyId: String? = nil, type: `Type`? = nil) {
             self.kmsMasterKeyId = kmsMasterKeyId
             self.type = type
@@ -1254,6 +1286,7 @@ extension Macie2 {
         /// The sort order to apply to the results, based on the value specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -1275,6 +1308,7 @@ extension Macie2 {
         /// The aggregated statistical data for all buckets that have a sensitivity score of 51-100.
         public let sensitive: SensitivityAggregations?
 
+        @inlinable
         public init(classificationError: SensitivityAggregations? = nil, notClassified: SensitivityAggregations? = nil, notSensitive: SensitivityAggregations? = nil, sensitive: SensitivityAggregations? = nil) {
             self.classificationError = classificationError
             self.notClassified = notClassified
@@ -1300,6 +1334,7 @@ extension Macie2 {
         /// The row number of the row that contains the sensitive data.
         public let row: Int64?
 
+        @inlinable
         public init(cellReference: String? = nil, column: Int64? = nil, columnName: String? = nil, row: Int64? = nil) {
             self.cellReference = cellReference
             self.column = column
@@ -1327,6 +1362,7 @@ extension Macie2 {
         /// The status and other details of the finding.
         public let result: ClassificationResult?
 
+        @inlinable
         public init(detailedResultsLocation: String? = nil, jobArn: String? = nil, jobId: String? = nil, originType: OriginType? = nil, result: ClassificationResult? = nil) {
             self.detailedResultsLocation = detailedResultsLocation
             self.jobArn = jobArn
@@ -1348,6 +1384,7 @@ extension Macie2 {
         /// The S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(s3Destination: S3Destination? = nil) {
             self.s3Destination = s3Destination
         }
@@ -1371,6 +1408,7 @@ extension Macie2 {
         /// The status of the finding.
         public let status: ClassificationResultStatus?
 
+        @inlinable
         public init(additionalOccurrences: Bool? = nil, customDataIdentifiers: CustomDataIdentifiers? = nil, mimeType: String? = nil, sensitiveData: [SensitiveDataItem]? = nil, sizeClassified: Int64? = nil, status: ClassificationResultStatus? = nil) {
             self.additionalOccurrences = additionalOccurrences
             self.customDataIdentifiers = customDataIdentifiers
@@ -1396,6 +1434,7 @@ extension Macie2 {
         /// A brief description of the status of the finding. This value is null if the status (code) of the finding is COMPLETE. Amazon Macie uses this value to notify you of any errors, warnings, or considerations that might impact your analysis of the finding and the affected S3 object. Possible values are: ARCHIVE_CONTAINS_UNPROCESSED_FILES - The object is an archive file and Macie extracted and analyzed only some or none of the files in the archive. To determine which files Macie analyzed, if any, refer to the corresponding sensitive data discovery result for the finding (classificationDetails.detailedResultsLocation). ARCHIVE_EXCEEDS_SIZE_LIMIT - The object is an archive file whose total storage size exceeds the size quota for this type of archive. ARCHIVE_NESTING_LEVEL_OVER_LIMIT - The object is an archive file whose nested depth exceeds the quota for the maximum number of nested levels that Macie analyzes for this type of archive. ARCHIVE_TOTAL_BYTES_EXTRACTED_OVER_LIMIT - The object is an archive file that exceeds the quota for the maximum amount of data that Macie extracts and analyzes for this type of archive. ARCHIVE_TOTAL_DOCUMENTS_PROCESSED_OVER_LIMIT - The object is an archive file that contains more than the maximum number of files that Macie extracts and analyzes for this type of archive. FILE_EXCEEDS_SIZE_LIMIT - The storage size of the object exceeds the size quota for this type of file. INVALID_ENCRYPTION - The object is encrypted using server-side encryption but Macie isn't allowed to use the key. Macie can't decrypt and analyze the object. INVALID_KMS_KEY - The object is encrypted with an KMS key that was disabled or is being deleted. Macie can't decrypt and analyze the object. INVALID_OBJECT_STATE - The object doesn't use a supported Amazon S3 storage class. JSON_NESTING_LEVEL_OVER_LIMIT - The object contains JSON data and the nested depth of the data exceeds the quota for the number of nested levels that Macie analyzes for this type of file. MALFORMED_FILE - The object is a malformed or corrupted file. An error occurred when Macie attempted to detect the file's type or extract data from the file. MALFORMED_OR_FILE_SIZE_EXCEEDS_LIMIT - The object is a Microsoft Office file that is malformed or exceeds the size quota for this type of file. If the file is malformed, an error occurred when Macie attempted to extract data from the file. NO_SUCH_BUCKET_AVAILABLE - The object was in a bucket that was deleted shortly before or when Macie attempted to analyze the object. OBJECT_VERSION_MISMATCH - The object was changed while Macie was analyzing it. OOXML_UNCOMPRESSED_RATIO_EXCEEDS_LIMIT - The object is an Office Open XML file whose compression ratio exceeds the compression quota for this type of file. OOXML_UNCOMPRESSED_SIZE_EXCEEDS_LIMIT - The object is an Office Open XML file that exceeds the size quota for this type of file. PERMISSION_DENIED - Macie isn't allowed to access the object. The object's permissions settings prevent Macie from analyzing the object. SOURCE_OBJECT_NO_LONGER_AVAILABLE - The object was deleted shortly before or when Macie attempted to analyze it. TIME_CUT_OFF_REACHED - Macie started analyzing the object but additional analysis would exceed the time quota for analyzing an object. UNABLE_TO_PARSE_FILE - The object is a file that contains structured data and an error occurred when Macie attempted to parse the data. UNSUPPORTED_FILE_TYPE_EXCEPTION - The object is a file that uses an unsupported file or storage format. For information about quotas, supported storage classes, and supported file and storage formats, see Quotas and Supported storage classes and formats in the Amazon Macie User Guide.
         public let reason: String?
 
+        @inlinable
         public init(code: String? = nil, reason: String? = nil) {
             self.code = code
             self.reason = reason
@@ -1413,6 +1452,7 @@ extension Macie2 {
         /// The name of the classification scope: automated-sensitive-data-discovery.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -1436,6 +1476,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the allow list. An allow list can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, criteria: AllowListCriteria? = nil, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.criteria = criteria
@@ -1469,6 +1510,7 @@ extension Macie2 {
         /// The unique identifier for the allow list.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1508,6 +1550,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the job. A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowListIds: [String]? = nil, clientToken: String? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobType: JobType? = nil, managedDataIdentifierIds: [String]? = nil, managedDataIdentifierSelector: ManagedDataIdentifierSelector? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, tags: [String: String]? = nil) {
             self.allowListIds = allowListIds
             self.clientToken = clientToken
@@ -1547,6 +1590,7 @@ extension Macie2 {
         /// The unique identifier for the job.
         public let jobId: String?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -1578,6 +1622,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1607,6 +1652,7 @@ extension Macie2 {
         /// The unique identifier for the custom data identifier that was created.
         public let customDataIdentifierId: String?
 
+        @inlinable
         public init(customDataIdentifierId: String? = nil) {
             self.customDataIdentifierId = customDataIdentifierId
         }
@@ -1632,6 +1678,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the filter. A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: FindingsFilterAction? = nil, clientToken: String? = CreateFindingsFilterRequest.idempotencyToken(), description: String? = nil, findingCriteria: FindingCriteria? = nil, name: String? = nil, position: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
@@ -1659,6 +1706,7 @@ extension Macie2 {
         /// The unique identifier for the filter that was created.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1678,6 +1726,7 @@ extension Macie2 {
         /// Custom text to include in the email message that contains the invitation. The text can contain as many as 80 alphanumeric characters.
         public let message: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, disableEmailNotification: Bool? = nil, message: String? = nil) {
             self.accountIds = accountIds
             self.disableEmailNotification = disableEmailNotification
@@ -1695,6 +1744,7 @@ extension Macie2 {
         /// An array of objects, one for each account whose invitation hasn't been processed. Each object identifies the account and explains why the invitation hasn't been processed for the account.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1710,6 +1760,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the account in Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(account: AccountDetail? = nil, tags: [String: String]? = nil) {
             self.account = account
             self.tags = tags
@@ -1725,6 +1776,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the account that was associated with the administrator account.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1738,6 +1790,7 @@ extension Macie2 {
         /// An array of finding types, one for each type of sample finding to create. To create a sample of every type of finding that Amazon Macie supports, don't include this array in your request.
         public let findingTypes: [FindingType]?
 
+        @inlinable
         public init(findingTypes: [FindingType]? = nil) {
             self.findingTypes = findingTypes
         }
@@ -1755,6 +1808,7 @@ extension Macie2 {
         /// An array of conditions, one for each condition that determines which buckets to include or exclude from the job. If you specify more than one condition, Amazon Macie uses AND logic to join the conditions.
         public let and: [CriteriaForJob]?
 
+        @inlinable
         public init(and: [CriteriaForJob]? = nil) {
             self.and = and
         }
@@ -1770,6 +1824,7 @@ extension Macie2 {
         /// A tag-based condition that defines an operator and tag keys, tag values, or tag key and value pairs for including or excluding buckets from the job.
         public let tagCriterion: TagCriterionForJob?
 
+        @inlinable
         public init(simpleCriterion: SimpleCriterionForJob? = nil, tagCriterion: TagCriterionForJob? = nil) {
             self.simpleCriterion = simpleCriterion
             self.tagCriterion = tagCriterion
@@ -1797,6 +1852,7 @@ extension Macie2 {
         /// The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Macie uses OR logic to join the values.
         public let neq: [String]?
 
+        @inlinable
         public init(eq: [String]? = nil, eqExactMatch: [String]? = nil, gt: Int64? = nil, gte: Int64? = nil, lt: Int64? = nil, lte: Int64? = nil, neq: [String]? = nil) {
             self.eq = eq
             self.eqExactMatch = eqExactMatch
@@ -1831,6 +1887,7 @@ extension Macie2 {
         /// The custom name of the custom data identifier.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1854,6 +1911,7 @@ extension Macie2 {
         /// The total number of occurrences of the data that was detected by the custom data identifiers and produced the finding.
         public let totalCount: Int64?
 
+        @inlinable
         public init(detections: [CustomDetection]? = nil, totalCount: Int64? = nil) {
             self.detections = detections
             self.totalCount = totalCount
@@ -1875,6 +1933,7 @@ extension Macie2 {
         /// The location of 1-15 occurrences of the sensitive data that the custom data identifier detected. A finding includes location data for a maximum of 15 occurrences of sensitive data.
         public let occurrences: Occurrences?
 
+        @inlinable
         public init(arn: String? = nil, count: Int64? = nil, name: String? = nil, occurrences: Occurrences? = nil) {
             self.arn = arn
             self.count = count
@@ -1898,6 +1957,7 @@ extension Macie2 {
         /// An array that lists Amazon Web Services account IDs, one for each account that sent an invitation to decline.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1911,6 +1971,7 @@ extension Macie2 {
         /// An array of objects, one for each account whose invitation hasn't been declined. Each object identifies the account and explains why the request hasn't been processed for that account.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1928,6 +1989,7 @@ extension Macie2 {
         /// The type of sensitive data that was detected. For example, AWS_CREDENTIALS, PHONE_NUMBER, or ADDRESS.
         public let type: String?
 
+        @inlinable
         public init(count: Int64? = nil, occurrences: Occurrences? = nil, type: String? = nil) {
             self.count = count
             self.occurrences = occurrences
@@ -1947,6 +2009,7 @@ extension Macie2 {
         /// Specifies whether to force deletion of the allow list, even if active classification jobs are configured to use the list. When you try to delete an allow list, Amazon Macie checks for classification jobs that use the list and have a status other than COMPLETE or CANCELLED. By default, Macie rejects your request if any jobs meet these criteria. To skip these checks and delete the list, set this value to true. To delete the list only if no active jobs are configured to use it, set this value to false.
         public let ignoreJobChecks: String?
 
+        @inlinable
         public init(id: String, ignoreJobChecks: String? = nil) {
             self.id = id
             self.ignoreJobChecks = ignoreJobChecks
@@ -1970,6 +2033,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1991,6 +2055,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2012,6 +2077,7 @@ extension Macie2 {
         /// An array that lists Amazon Web Services account IDs, one for each account that sent an invitation to delete.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -2025,6 +2091,7 @@ extension Macie2 {
         /// An array of objects, one for each account whose invitation hasn't been deleted. Each object identifies the account and explains why the request hasn't been processed for that account.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2038,6 +2105,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2065,6 +2133,7 @@ extension Macie2 {
         /// The criteria to use to sort the query results.
         public let sortCriteria: BucketSortCriteria?
 
+        @inlinable
         public init(criteria: [String: BucketCriteriaAdditionalProperties]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: BucketSortCriteria? = nil) {
             self.criteria = criteria
             self.maxResults = maxResults
@@ -2086,6 +2155,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(buckets: [BucketMetadata]? = nil, nextToken: String? = nil) {
             self.buckets = buckets
             self.nextToken = nextToken
@@ -2101,6 +2171,7 @@ extension Macie2 {
         /// The unique identifier for the classification job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2160,6 +2231,7 @@ extension Macie2 {
         /// If the current status of the job is USER_PAUSED, specifies when the job was paused and when the job or job run will expire and be cancelled if it isn't resumed. This value is present only if the value for jobStatus is USER_PAUSED.
         public let userPausedDetails: UserPausedDetails?
 
+        @inlinable
         public init(allowListIds: [String]? = nil, clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: Date? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, lastRunTime: Date? = nil, managedDataIdentifierIds: [String]? = nil, managedDataIdentifierSelector: ManagedDataIdentifierSelector? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.allowListIds = allowListIds
             self.clientToken = clientToken
@@ -2219,6 +2291,7 @@ extension Macie2 {
         /// Specifies whether the maximum number of Amazon Macie member accounts are part of the organization.
         public let maxAccountLimitReached: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil, maxAccountLimitReached: Bool? = nil) {
             self.autoEnable = autoEnable
             self.maxAccountLimitReached = maxAccountLimitReached
@@ -2234,6 +2307,7 @@ extension Macie2 {
         /// An occurrence of the specified type of sensitive data. Each occurrence contains 1-128 characters.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -2257,6 +2331,7 @@ extension Macie2 {
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
         public let type: DataIdentifierType?
 
+        @inlinable
         public init(arn: String? = nil, count: Int64? = nil, id: String? = nil, name: String? = nil, suppressed: Bool? = nil, type: DataIdentifierType? = nil) {
             self.arn = arn
             self.count = count
@@ -2288,6 +2363,7 @@ extension Macie2 {
         /// The Amazon Web Services account ID of the delegated Amazon Macie administrator account.
         public let adminAccountId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
@@ -2325,6 +2401,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2346,6 +2423,7 @@ extension Macie2 {
         /// The name of the domain.
         public let domainName: String?
 
+        @inlinable
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -2363,6 +2441,7 @@ extension Macie2 {
         /// Specifies the new status for the account. To enable Amazon Macie and start all Macie activities for the account, set this value to ENABLED.
         public let status: MacieStatus?
 
+        @inlinable
         public init(clientToken: String? = EnableMacieRequest.idempotencyToken(), findingPublishingFrequency: FindingPublishingFrequency? = nil, status: MacieStatus? = nil) {
             self.clientToken = clientToken
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -2386,6 +2465,7 @@ extension Macie2 {
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
         public let clientToken: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil, clientToken: String? = EnableOrganizationAdminAccountRequest.idempotencyToken()) {
             self.adminAccountId = adminAccountId
             self.clientToken = clientToken
@@ -2413,6 +2493,7 @@ extension Macie2 {
         /// The details of the session that was created for the credentials, including the entity that issued the session.
         public let sessionContext: SessionContext?
 
+        @inlinable
         public init(accessKeyId: String? = nil, accountId: String? = nil, arn: String? = nil, principalId: String? = nil, sessionContext: SessionContext? = nil) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
@@ -2470,6 +2551,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, archived: Bool? = nil, category: FindingCategory? = nil, classificationDetails: ClassificationDetails? = nil, count: Int64? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, policyDetails: PolicyDetails? = nil, region: String? = nil, resourcesAffected: ResourcesAffected? = nil, sample: Bool? = nil, schemaVersion: String? = nil, severity: Severity? = nil, title: String? = nil, type: FindingType? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.archived = archived
@@ -2519,6 +2601,7 @@ extension Macie2 {
         /// The invocation details of the API operation that an entity invoked for the affected resource, if the value for the actionType property is AWS_API_CALL.
         public let apiCallDetails: ApiCallDetails?
 
+        @inlinable
         public init(actionType: FindingActionType? = nil, apiCallDetails: ApiCallDetails? = nil) {
             self.actionType = actionType
             self.apiCallDetails = apiCallDetails
@@ -2538,6 +2621,7 @@ extension Macie2 {
         /// The type and other characteristics of the entity that performed the action on the affected resource. This value is null if the action was performed by an anonymous (unauthenticated) entity.
         public let userIdentity: UserIdentity?
 
+        @inlinable
         public init(domainDetails: DomainDetails? = nil, ipAddressDetails: IpAddressDetails? = nil, userIdentity: UserIdentity? = nil) {
             self.domainDetails = domainDetails
             self.ipAddressDetails = ipAddressDetails
@@ -2555,6 +2639,7 @@ extension Macie2 {
         /// A condition that specifies the property, operator, and one or more values to use to filter the results.
         public let criterion: [String: CriterionAdditionalProperties]?
 
+        @inlinable
         public init(criterion: [String: CriterionAdditionalProperties]? = nil) {
             self.criterion = criterion
         }
@@ -2570,6 +2655,7 @@ extension Macie2 {
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: FindingStatisticsSortAttributeName? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -2593,6 +2679,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies which tags (keys and values) are associated with the filter.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: FindingsFilterAction? = nil, arn: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.arn = arn
@@ -2618,6 +2705,7 @@ extension Macie2 {
         /// The Amazon Web Services account ID for the administrator account. If the accounts are associated by an Amazon Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
         public let administrator: Invitation?
 
+        @inlinable
         public init(administrator: Invitation? = nil) {
             self.administrator = administrator
         }
@@ -2631,6 +2719,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2666,6 +2755,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, criteria: AllowListCriteria? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: AllowListStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2714,6 +2804,7 @@ extension Macie2 {
         /// The current status of automated sensitive data discovery for the organization or account. Possible values are: ENABLED, use the specified settings to perform automated sensitive data discovery activities; and, DISABLED, don't perform automated sensitive data discovery activities.
         public let status: AutomatedDiscoveryStatus?
 
+        @inlinable
         public init(autoEnableOrganizationMembers: AutoEnableMode? = nil, classificationScopeId: String? = nil, disabledAt: Date? = nil, firstEnabledAt: Date? = nil, lastUpdatedAt: Date? = nil, sensitivityInspectionTemplateId: String? = nil, status: AutomatedDiscoveryStatus? = nil) {
             self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
             self.classificationScopeId = classificationScopeId
@@ -2739,6 +2830,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Web Services account.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -2779,6 +2871,7 @@ extension Macie2 {
         /// The total storage size, in bytes, of the objects that Amazon Macie can't analyze in the buckets. These objects don't use a supported storage class or don't have a file name extension for a supported file or storage format.
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
+        @inlinable
         public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountByObjectEncryptionRequirement: BucketCountPolicyAllowsUnencryptedObjectUploads? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, bucketStatisticsBySensitivity: BucketStatisticsBySensitivity? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.bucketCount = bucketCount
             self.bucketCountByEffectivePermission = bucketCountByEffectivePermission
@@ -2822,6 +2915,7 @@ extension Macie2 {
         /// The location where data classification results are stored, and the encryption settings that are used when storing results in that location.
         public let configuration: ClassificationExportConfiguration?
 
+        @inlinable
         public init(configuration: ClassificationExportConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -2835,6 +2929,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2856,6 +2951,7 @@ extension Macie2 {
         /// The S3 buckets that are excluded from automated sensitive data discovery.
         public let s3: S3ClassificationScope?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, s3: S3ClassificationScope? = nil) {
             self.id = id
             self.name = name
@@ -2873,6 +2969,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2913,6 +3010,7 @@ extension Macie2 {
         /// A map of key-value pairs that identifies the tags (keys and values) that are associated with the custom data identifier.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, deleted: Bool? = nil, description: String? = nil, id: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2954,6 +3052,7 @@ extension Macie2 {
         /// The criteria to use to sort the query results.
         public let sortCriteria: FindingStatisticsSortCriteria?
 
+        @inlinable
         public init(findingCriteria: FindingCriteria? = nil, groupBy: GroupBy? = nil, size: Int? = nil, sortCriteria: FindingStatisticsSortCriteria? = nil) {
             self.findingCriteria = findingCriteria
             self.groupBy = groupBy
@@ -2973,6 +3072,7 @@ extension Macie2 {
         /// An array of objects, one for each group of findings that matches the filter criteria specified in the request.
         public let countsByGroup: [GroupCount]?
 
+        @inlinable
         public init(countsByGroup: [GroupCount]? = nil) {
             self.countsByGroup = countsByGroup
         }
@@ -2986,6 +3086,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3017,6 +3118,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies which tags (keys and values) are associated with the filter.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: FindingsFilterAction? = nil, arn: String? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, id: String? = nil, name: String? = nil, position: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.arn = arn
@@ -3048,6 +3150,7 @@ extension Macie2 {
         /// The configuration settings that determine which findings are published to Security Hub.
         public let securityHubConfiguration: SecurityHubConfiguration?
 
+        @inlinable
         public init(securityHubConfiguration: SecurityHubConfiguration? = nil) {
             self.securityHubConfiguration = securityHubConfiguration
         }
@@ -3063,6 +3166,7 @@ extension Macie2 {
         /// The criteria for sorting the results of the request.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(findingIds: [String]? = nil, sortCriteria: SortCriteria? = nil) {
             self.findingIds = findingIds
             self.sortCriteria = sortCriteria
@@ -3078,6 +3182,7 @@ extension Macie2 {
         /// An array of objects, one for each finding that matches the criteria specified in the request.
         public let findings: [Finding]?
 
+        @inlinable
         public init(findings: [Finding]? = nil) {
             self.findings = findings
         }
@@ -3095,6 +3200,7 @@ extension Macie2 {
         /// The total number of invitations that were received by the account, not including the currently accepted invitation.
         public let invitationsCount: Int64?
 
+        @inlinable
         public init(invitationsCount: Int64? = nil) {
             self.invitationsCount = invitationsCount
         }
@@ -3122,6 +3228,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String? = nil, status: MacieStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.findingPublishingFrequency = findingPublishingFrequency
@@ -3147,6 +3254,7 @@ extension Macie2 {
         /// (Deprecated) The Amazon Web Services account ID for the administrator account. If the accounts are associated by a Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
         public let master: Invitation?
 
+        @inlinable
         public init(master: Invitation? = nil) {
             self.master = master
         }
@@ -3160,6 +3268,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3195,6 +3304,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, administratorAccountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.administratorAccountId = administratorAccountId
@@ -3224,6 +3334,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -3248,6 +3359,7 @@ extension Macie2 {
         /// The sensitive data discovery statistics for the bucket. The statistics capture the results of automated sensitive data discovery activities that Amazon Macie has performed for the bucket.
         public let statistics: ResourceStatistics?
 
+        @inlinable
         public init(profileUpdatedAt: Date? = nil, sensitivityScore: Int? = nil, sensitivityScoreOverridden: Bool? = nil, statistics: ResourceStatistics? = nil) {
             self.profileUpdatedAt = profileUpdatedAt
             self.sensitivityScore = sensitivityScore
@@ -3273,6 +3385,7 @@ extension Macie2 {
         /// The access method and settings that are used to retrieve the sensitive data.
         public let retrievalConfiguration: RetrievalConfiguration?
 
+        @inlinable
         public init(configuration: RevealConfiguration? = nil, retrievalConfiguration: RetrievalConfiguration? = nil) {
             self.configuration = configuration
             self.retrievalConfiguration = retrievalConfiguration
@@ -3288,6 +3401,7 @@ extension Macie2 {
         /// The unique identifier for the finding.
         public let findingId: String
 
+        @inlinable
         public init(findingId: String) {
             self.findingId = findingId
         }
@@ -3307,6 +3421,7 @@ extension Macie2 {
         /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are: ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie. INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available in the current Amazon Web Services Region, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve. INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve. MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data. MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account. OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file. OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled. RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve. ROLE_TOO_PERMISSIVE - Your account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Macie can’t assume the role to retrieve the sensitive data. UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data finding. UNSUPPORTED_OBJECT_TYPE - The affected S3 object uses a file or storage format that Macie doesn't support for retrieving occurrences of sensitive data. This value is null if sensitive data can be retrieved for the finding.
         public let reasons: [UnavailabilityReasonCode]?
 
+        @inlinable
         public init(code: AvailabilityCode? = nil, reasons: [UnavailabilityReasonCode]? = nil) {
             self.code = code
             self.reasons = reasons
@@ -3322,6 +3437,7 @@ extension Macie2 {
         /// The unique identifier for the finding.
         public let findingId: String
 
+        @inlinable
         public init(findingId: String) {
             self.findingId = findingId
         }
@@ -3343,6 +3459,7 @@ extension Macie2 {
         /// The status of the request to retrieve occurrences of sensitive data reported by the finding. Possible values are: ERROR - An error occurred when Amazon Macie attempted to locate, retrieve, or encrypt the sensitive data. The error value indicates the nature of the error that occurred. PROCESSING - Macie is processing the request. SUCCESS - Macie successfully located, retrieved, and encrypted the sensitive data.
         public let status: RevealRequestStatus?
 
+        @inlinable
         public init(error: String? = nil, sensitiveDataOccurrences: [String: [DetectedDataDetails]]? = nil, status: RevealRequestStatus? = nil) {
             self.error = error
             self.sensitiveDataOccurrences = sensitiveDataOccurrences
@@ -3360,6 +3477,7 @@ extension Macie2 {
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3385,6 +3503,7 @@ extension Macie2 {
         /// The unique identifier for the template.
         public let sensitivityInspectionTemplateId: String?
 
+        @inlinable
         public init(description: String? = nil, excludes: SensitivityInspectionTemplateExcludes? = nil, includes: SensitivityInspectionTemplateIncludes? = nil, name: String? = nil, sensitivityInspectionTemplateId: String? = nil) {
             self.description = description
             self.excludes = excludes
@@ -3414,6 +3533,7 @@ extension Macie2 {
         /// The inclusive time period to query usage data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for the preceding 30 days.
         public let timeRange: TimeRange?
 
+        @inlinable
         public init(filterBy: [UsageStatisticsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UsageStatisticsSortBy? = nil, timeRange: TimeRange? = nil) {
             self.filterBy = filterBy
             self.maxResults = maxResults
@@ -3439,6 +3559,7 @@ extension Macie2 {
         /// The inclusive time period that the usage data applies to. Possible values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days.
         public let timeRange: TimeRange?
 
+        @inlinable
         public init(nextToken: String? = nil, records: [UsageRecord]? = nil, timeRange: TimeRange? = nil) {
             self.nextToken = nextToken
             self.records = records
@@ -3456,6 +3577,7 @@ extension Macie2 {
         /// The inclusive time period to retrieve the data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides aggregated usage data for the preceding 30 days.
         public let timeRange: String?
 
+        @inlinable
         public init(timeRange: String? = nil) {
             self.timeRange = timeRange
         }
@@ -3475,6 +3597,7 @@ extension Macie2 {
         /// An array of objects that contains the results of the query. Each object contains the data for a specific usage metric.
         public let usageTotals: [UsageTotal]?
 
+        @inlinable
         public init(timeRange: TimeRange? = nil, usageTotals: [UsageTotal]? = nil) {
             self.timeRange = timeRange
             self.usageTotals = usageTotals
@@ -3492,6 +3615,7 @@ extension Macie2 {
         /// The name of the property that defines the group in the query results, as specified by the groupBy property in the query request.
         public let groupKey: String?
 
+        @inlinable
         public init(count: Int64? = nil, groupKey: String? = nil) {
             self.count = count
             self.groupKey = groupKey
@@ -3513,6 +3637,7 @@ extension Macie2 {
         /// The username of the IAM user who performed the action.
         public let userName: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, principalId: String? = nil, userName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -3539,6 +3664,7 @@ extension Macie2 {
         /// The status of the relationship between the account that sent the invitation and the account that received the invitation.
         public let relationshipStatus: RelationshipStatus?
 
+        @inlinable
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: Date? = nil, relationshipStatus: RelationshipStatus? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -3566,6 +3692,7 @@ extension Macie2 {
         /// The registered owner of the IP address.
         public let ipOwner: IpOwner?
 
+        @inlinable
         public init(ipAddressV4: String? = nil, ipCity: IpCity? = nil, ipCountry: IpCountry? = nil, ipGeoLocation: IpGeoLocation? = nil, ipOwner: IpOwner? = nil) {
             self.ipAddressV4 = ipAddressV4
             self.ipCity = ipCity
@@ -3587,6 +3714,7 @@ extension Macie2 {
         /// The name of the city.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -3602,6 +3730,7 @@ extension Macie2 {
         /// The name of the country that the IP address originated from.
         public let name: String?
 
+        @inlinable
         public init(code: String? = nil, name: String? = nil) {
             self.code = code
             self.name = name
@@ -3619,6 +3748,7 @@ extension Macie2 {
         /// The longitude coordinate of the location, rounded to four decimal places.
         public let lon: Double?
 
+        @inlinable
         public init(lat: Double? = nil, lon: Double? = nil) {
             self.lat = lat
             self.lon = lon
@@ -3640,6 +3770,7 @@ extension Macie2 {
         /// The name of the organization that owned the IP address.
         public let org: String?
 
+        @inlinable
         public init(asn: String? = nil, asnOrg: String? = nil, isp: String? = nil, org: String? = nil) {
             self.asn = asn
             self.asnOrg = asnOrg
@@ -3666,6 +3797,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastJobRunTime: Date?
 
+        @inlinable
         public init(isDefinedInJob: IsDefinedInJob? = nil, isMonitoredByJob: IsMonitoredByJob? = nil, lastJobId: String? = nil, lastJobRunTime: Date? = nil) {
             self.isDefinedInJob = isDefinedInJob
             self.isMonitoredByJob = isMonitoredByJob
@@ -3689,6 +3821,7 @@ extension Macie2 {
         /// Specifies a weekly recurrence pattern for running the job.
         public let weeklySchedule: WeeklySchedule?
 
+        @inlinable
         public init(dailySchedule: DailySchedule? = nil, monthlySchedule: MonthlySchedule? = nil, weeklySchedule: WeeklySchedule? = nil) {
             self.dailySchedule = dailySchedule
             self.monthlySchedule = monthlySchedule
@@ -3708,6 +3841,7 @@ extension Macie2 {
         /// A tag-based condition that defines the operator and tag keys or tag key and value pairs for including or excluding objects from the job.
         public let tagScopeTerm: TagScopeTerm?
 
+        @inlinable
         public init(simpleScopeTerm: SimpleScopeTerm? = nil, tagScopeTerm: TagScopeTerm? = nil) {
             self.simpleScopeTerm = simpleScopeTerm
             self.tagScopeTerm = tagScopeTerm
@@ -3723,6 +3857,7 @@ extension Macie2 {
         /// An array of conditions, one for each property- or tag-based condition that determines which objects to include or exclude from the job. If you specify more than one condition, Amazon Macie uses AND logic to join the conditions.
         public let and: [JobScopeTerm]?
 
+        @inlinable
         public init(and: [JobScopeTerm]? = nil) {
             self.and = and
         }
@@ -3753,6 +3888,7 @@ extension Macie2 {
         /// If the current status of the job is USER_PAUSED, specifies when the job was paused and when the job or job run will expire and be cancelled if it isn't resumed. This value is present only if the value for jobStatus is USER_PAUSED.
         public let userPausedDetails: UserPausedDetails?
 
+        @inlinable
         public init(bucketCriteria: S3BucketCriteriaForJob? = nil, bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: Date? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, name: String? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.bucketCriteria = bucketCriteria
             self.bucketDefinitions = bucketDefinitions
@@ -3784,6 +3920,7 @@ extension Macie2 {
         /// One part of a key-value pair that comprises a tag. A tag value acts as a descriptor for a tag key. A tag value can be an empty string.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3799,6 +3936,7 @@ extension Macie2 {
         /// Specifies whether any account- or bucket-level access errors occurred when the job ran. For a recurring job, this value indicates the error status of the job's most recent run. Possible values are: ERROR - One or more errors occurred. Amazon Macie didn't process all the data specified for the job. NONE - No errors occurred. Macie processed all the data specified for the job.
         public let code: LastRunErrorStatusCode?
 
+        @inlinable
         public init(code: LastRunErrorStatusCode? = nil) {
             self.code = code
         }
@@ -3814,6 +3952,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3840,6 +3979,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(allowLists: [AllowListSummary]? = nil, nextToken: String? = nil) {
             self.allowLists = allowLists
             self.nextToken = nextToken
@@ -3859,6 +3999,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.maxResults = maxResults
@@ -3887,6 +4028,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [AutomatedDiscoveryAccount]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3908,6 +4050,7 @@ extension Macie2 {
         /// The criteria to use to sort the results.
         public let sortCriteria: ListJobsSortCriteria?
 
+        @inlinable
         public init(filterCriteria: ListJobsFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: ListJobsSortCriteria? = nil) {
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -3929,6 +4072,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [JobSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3946,6 +4090,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(name: String? = nil, nextToken: String? = nil) {
             self.name = name
             self.nextToken = nextToken
@@ -3967,6 +4112,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(classificationScopes: [ClassificationScopeSummary]? = nil, nextToken: String? = nil) {
             self.classificationScopes = classificationScopes
             self.nextToken = nextToken
@@ -3984,6 +4130,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4001,6 +4148,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [CustomDataIdentifierSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4018,6 +4166,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4044,6 +4193,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(findingsFilterListItems: [FindingsFilterListItem]? = nil, nextToken: String? = nil) {
             self.findingsFilterListItems = findingsFilterListItems
             self.nextToken = nextToken
@@ -4065,6 +4215,7 @@ extension Macie2 {
         /// The criteria to use to sort the results.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(findingCriteria: FindingCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.findingCriteria = findingCriteria
             self.maxResults = maxResults
@@ -4086,6 +4237,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(findingIds: [String]? = nil, nextToken: String? = nil) {
             self.findingIds = findingIds
             self.nextToken = nextToken
@@ -4103,6 +4255,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4129,6 +4282,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -4146,6 +4300,7 @@ extension Macie2 {
         /// An array of objects, one for each condition that determines which jobs to include in the results.
         public let includes: [ListJobsFilterTerm]?
 
+        @inlinable
         public init(excludes: [ListJobsFilterTerm]? = nil, includes: [ListJobsFilterTerm]? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -4165,6 +4320,7 @@ extension Macie2 {
         /// An array that lists one or more values to use to filter the results.
         public let values: [String]?
 
+        @inlinable
         public init(comparator: JobComparator? = nil, key: ListJobsFilterKey? = nil, values: [String]? = nil) {
             self.comparator = comparator
             self.key = key
@@ -4184,6 +4340,7 @@ extension Macie2 {
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: ListJobsSortAttributeName? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -4199,6 +4356,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -4214,6 +4372,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ManagedDataIdentifierSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4233,6 +4392,7 @@ extension Macie2 {
         /// Specifies which accounts to include in the response, based on the status of an account's relationship with the administrator account. By default, the response includes only current member accounts. To include all accounts, set this value to false.
         public let onlyAssociated: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4261,6 +4421,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -4278,6 +4439,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4304,6 +4466,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(adminAccounts: [AdminAccount]? = nil, nextToken: String? = nil) {
             self.adminAccounts = adminAccounts
             self.nextToken = nextToken
@@ -4321,6 +4484,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
         public let resourceArn: String?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceArn: String? = nil) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -4342,6 +4506,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(artifacts: [ResourceProfileArtifact]? = nil, nextToken: String? = nil) {
             self.artifacts = artifacts
             self.nextToken = nextToken
@@ -4361,6 +4526,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
         public let resourceArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4389,6 +4555,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(detections: [Detection]? = nil, nextToken: String? = nil) {
             self.detections = detections
             self.nextToken = nextToken
@@ -4406,6 +4573,7 @@ extension Macie2 {
         /// The nextToken string that specifies which page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4432,6 +4600,7 @@ extension Macie2 {
         /// An array that specifies the unique identifier and name of the sensitivity inspection template for the account.
         public let sensitivityInspectionTemplates: [SensitivityInspectionTemplatesEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, sensitivityInspectionTemplates: [SensitivityInspectionTemplatesEntry]? = nil) {
             self.nextToken = nextToken
             self.sensitivityInspectionTemplates = sensitivityInspectionTemplates
@@ -4447,6 +4616,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4464,6 +4634,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies which tags (keys and values) are associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4479,6 +4650,7 @@ extension Macie2 {
         /// The unique identifier for the managed data identifier. This is a string that describes the type of sensitive data that the managed data identifier detects. For example: OPENSSH_PRIVATE_KEY for OpenSSH private keys, CREDIT_CARD_NUMBER for credit card numbers, or USA_PASSPORT_NUMBER for US passport numbers.
         public let id: String?
 
+        @inlinable
         public init(category: SensitiveDataItemCategory? = nil, id: String? = nil) {
             self.category = category
             self.id = id
@@ -4525,6 +4697,7 @@ extension Macie2 {
         /// The total storage size, in bytes, of the objects that Amazon Macie can't analyze in the bucket. These objects don't use a supported storage class or don't have a file name extension for a supported file or storage format.
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
+        @inlinable
         public init(accountId: String? = nil, automatedDiscoveryMonitoringStatus: AutomatedDiscoveryMonitoringStatus? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastAutomatedDiscoveryTime: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, sensitivityScore: Int? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.accountId = accountId
             self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
@@ -4568,6 +4741,7 @@ extension Macie2 {
         /// The details of an S3 bucket that Amazon Macie monitors and analyzes.
         public let matchingBucket: MatchingBucket?
 
+        @inlinable
         public init(matchingBucket: MatchingBucket? = nil) {
             self.matchingBucket = matchingBucket
         }
@@ -4599,6 +4773,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, administratorAccountId: String? = nil, arn: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.administratorAccountId = administratorAccountId
@@ -4628,6 +4803,7 @@ extension Macie2 {
         /// The numeric day of the month when Amazon Macie runs the job. This value can be an integer from 1 through 31. If this value exceeds the number of days in a certain month, Macie doesn't run the job that month. Macie runs the job only during months that have the specified day. For example, if this value is 31 and a month has only 30 days, Macie doesn't run the job that month. To run the job every month, specify a value that's less than 29.
         public let dayOfMonth: Int?
 
+        @inlinable
         public init(dayOfMonth: Int? = nil) {
             self.dayOfMonth = dayOfMonth
         }
@@ -4649,6 +4825,7 @@ extension Macie2 {
         /// The total number of objects that Amazon Macie doesn't have current encryption metadata for. Macie can't provide current data about the encryption settings for these objects.
         public let unknown: Int64?
 
+        @inlinable
         public init(customerManaged: Int64? = nil, kmsManaged: Int64? = nil, s3Managed: Int64? = nil, unencrypted: Int64? = nil, unknown: Int64? = nil) {
             self.customerManaged = customerManaged
             self.kmsManaged = kmsManaged
@@ -4674,6 +4851,7 @@ extension Macie2 {
         /// The total storage size (in bytes) or number of objects that Amazon Macie can't analyze because the objects use an unsupported storage class or don't have a file name extension for a supported file or storage format.
         public let total: Int64?
 
+        @inlinable
         public init(fileType: Int64? = nil, storageClass: Int64? = nil, total: Int64? = nil) {
             self.fileType = fileType
             self.storageClass = storageClass
@@ -4699,6 +4877,7 @@ extension Macie2 {
         /// An array of objects, one for each occurrence of sensitive data in an Apache Avro object container, Apache Parquet file, JSON file, or JSON Lines file. This value is null for all other types of files. For an Avro object container or Parquet file, each Record object specifies a record index and the path to a field in a record that contains the sensitive data. For a JSON or JSON Lines file, each Record object specifies the path to a field or array that contains the sensitive data. For a JSON Lines file, it also specifies the index of the line that contains the data.
         public let records: [Record]?
 
+        @inlinable
         public init(cells: [Cell]? = nil, lineRanges: [Range]? = nil, offsetRanges: [Range]? = nil, pages: [Page]? = nil, records: [Record]? = nil) {
             self.cells = cells
             self.lineRanges = lineRanges
@@ -4724,6 +4903,7 @@ extension Macie2 {
         /// The page number of the page that contains the sensitive data.
         public let pageNumber: Int64?
 
+        @inlinable
         public init(lineRange: Range? = nil, offsetRange: Range? = nil, pageNumber: Int64? = nil) {
             self.lineRange = lineRange
             self.offsetRange = offsetRange
@@ -4743,6 +4923,7 @@ extension Macie2 {
         /// The entity that performed the action that produced the finding.
         public let actor: FindingActor?
 
+        @inlinable
         public init(action: FindingAction? = nil, actor: FindingActor? = nil) {
             self.action = action
             self.actor = actor
@@ -4758,6 +4939,7 @@ extension Macie2 {
         /// The location to store data classification results in, and the encryption settings to use when storing results in that location.
         public let configuration: ClassificationExportConfiguration?
 
+        @inlinable
         public init(configuration: ClassificationExportConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -4771,6 +4953,7 @@ extension Macie2 {
         /// The location where the data classification results are stored, and the encryption settings that are used when storing results in that location.
         public let configuration: ClassificationExportConfiguration?
 
+        @inlinable
         public init(configuration: ClassificationExportConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -4786,6 +4969,7 @@ extension Macie2 {
         /// The configuration settings that determine which findings to publish to Security Hub.
         public let securityHubConfiguration: SecurityHubConfiguration?
 
+        @inlinable
         public init(clientToken: String? = PutFindingsPublicationConfigurationRequest.idempotencyToken(), securityHubConfiguration: SecurityHubConfiguration? = nil) {
             self.clientToken = clientToken
             self.securityHubConfiguration = securityHubConfiguration
@@ -4809,6 +4993,7 @@ extension Macie2 {
         /// The number of characters, with spaces and starting from 1, from the beginning of the first line that contains the sensitive data (start) to the beginning of the sensitive data.
         public let startColumn: Int64?
 
+        @inlinable
         public init(end: Int64? = nil, start: Int64? = nil, startColumn: Int64? = nil) {
             self.end = end
             self.start = start
@@ -4828,6 +5013,7 @@ extension Macie2 {
         /// For an Avro object container or Parquet file, the record index, starting from 0, for the record that contains the sensitive data. For a JSON Lines file, the line index, starting from 0, for the line that contains the sensitive data. This value is always 0 for JSON files.
         public let recordIndex: Int64?
 
+        @inlinable
         public init(jsonPath: String? = nil, recordIndex: Int64? = nil) {
             self.jsonPath = jsonPath
             self.recordIndex = recordIndex
@@ -4847,6 +5033,7 @@ extension Macie2 {
         /// An array of Amazon Web Services account IDs, one for each Amazon Web Services account that owns a bucket that the bucket is configured to replicate one or more objects to.
         public let replicationAccounts: [String]?
 
+        @inlinable
         public init(replicated: Bool? = nil, replicatedExternally: Bool? = nil, replicationAccounts: [String]? = nil) {
             self.replicated = replicated
             self.replicatedExternally = replicatedExternally
@@ -4868,6 +5055,7 @@ extension Macie2 {
         /// Specifies whether Amazon Macie found sensitive data in the object.
         public let sensitive: Bool?
 
+        @inlinable
         public init(arn: String? = nil, classificationResultStatus: String? = nil, sensitive: Bool? = nil) {
             self.arn = arn
             self.classificationResultStatus = classificationResultStatus
@@ -4901,6 +5089,7 @@ extension Macie2 {
         /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to the permissions settings for the objects or the permissions settings for the keys that were used to encrypt the objects.
         public let totalItemsSkippedPermissionDenied: Int64?
 
+        @inlinable
         public init(totalBytesClassified: Int64? = nil, totalDetections: Int64? = nil, totalDetectionsSuppressed: Int64? = nil, totalItemsClassified: Int64? = nil, totalItemsSensitive: Int64? = nil, totalItemsSkipped: Int64? = nil, totalItemsSkippedInvalidEncryption: Int64? = nil, totalItemsSkippedInvalidKms: Int64? = nil, totalItemsSkippedPermissionDenied: Int64? = nil) {
             self.totalBytesClassified = totalBytesClassified
             self.totalDetections = totalDetections
@@ -4932,6 +5121,7 @@ extension Macie2 {
         /// The details of the S3 object that the finding applies to.
         public let s3Object: S3Object?
 
+        @inlinable
         public init(s3Bucket: S3Bucket? = nil, s3Object: S3Object? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Object = s3Object
@@ -4951,6 +5141,7 @@ extension Macie2 {
         /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
         public let roleName: String?
 
+        @inlinable
         public init(externalId: String? = nil, retrievalMode: RetrievalMode? = nil, roleName: String? = nil) {
             self.externalId = externalId
             self.retrievalMode = retrievalMode
@@ -4970,6 +5161,7 @@ extension Macie2 {
         /// The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 objects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         public let status: RevealStatus?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, status: RevealStatus? = nil) {
             self.kmsKeyId = kmsKeyId
             self.status = status
@@ -5005,6 +5197,7 @@ extension Macie2 {
         /// The tags that are associated with the bucket.
         public let tags: [KeyValuePair]?
 
+        @inlinable
         public init(allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: ServerSideEncryption? = nil, name: String? = nil, owner: S3BucketOwner? = nil, publicAccess: BucketPublicAccess? = nil, tags: [KeyValuePair]? = nil) {
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.arn = arn
@@ -5034,6 +5227,7 @@ extension Macie2 {
         /// The property- and tag-based conditions that determine which buckets to include in the job.
         public let includes: CriteriaBlockForJob?
 
+        @inlinable
         public init(excludes: CriteriaBlockForJob? = nil, includes: CriteriaBlockForJob? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -5051,6 +5245,7 @@ extension Macie2 {
         /// An array that lists the names of the buckets.
         public let buckets: [String]?
 
+        @inlinable
         public init(accountId: String? = nil, buckets: [String]? = nil) {
             self.accountId = accountId
             self.buckets = buckets
@@ -5068,6 +5263,7 @@ extension Macie2 {
         /// The canonical user ID for the account that owns the bucket.
         public let id: String?
 
+        @inlinable
         public init(displayName: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.id = id
@@ -5083,6 +5279,7 @@ extension Macie2 {
         /// The S3 buckets that are excluded.
         public let excludes: S3ClassificationScopeExclusion?
 
+        @inlinable
         public init(excludes: S3ClassificationScopeExclusion? = nil) {
             self.excludes = excludes
         }
@@ -5096,6 +5293,7 @@ extension Macie2 {
         /// An array of strings, one for each S3 bucket that is excluded. Each string is the full name of an excluded bucket.
         public let bucketNames: [String]?
 
+        @inlinable
         public init(bucketNames: [String]? = nil) {
             self.bucketNames = bucketNames
         }
@@ -5111,6 +5309,7 @@ extension Macie2 {
         /// Specifies how to apply the changes to the exclusion list. Valid values are: ADD - Append the specified bucket names to the current list. REMOVE - Remove the specified bucket names from the current list. REPLACE - Overwrite the current list with the specified list of bucket names. If you specify this value, Amazon Macie removes all existing names from the list and adds all the specified names to the list.
         public let operation: ClassificationScopeUpdateOperation?
 
+        @inlinable
         public init(bucketNames: [String]? = nil, operation: ClassificationScopeUpdateOperation? = nil) {
             self.bucketNames = bucketNames
             self.operation = operation
@@ -5132,6 +5331,7 @@ extension Macie2 {
         /// The names of the S3 buckets to add or remove from the list.
         public let excludes: S3ClassificationScopeExclusionUpdate?
 
+        @inlinable
         public init(excludes: S3ClassificationScopeExclusionUpdate? = nil) {
             self.excludes = excludes
         }
@@ -5153,6 +5353,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's enabled in the same Amazon Web Services Region as the bucket.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(bucketName: String? = nil, keyPrefix: String? = nil, kmsKeyArn: String? = nil) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
@@ -5174,6 +5375,7 @@ extension Macie2 {
         /// The property- and tag-based conditions that determine which S3 objects to include or exclude from the analysis. Each time the job runs, the job uses these criteria to determine which objects to analyze.
         public let scoping: Scoping?
 
+        @inlinable
         public init(bucketCriteria: S3BucketCriteriaForJob? = nil, bucketDefinitions: [S3BucketDefinitionForJob]? = nil, scoping: Scoping? = nil) {
             self.bucketCriteria = bucketCriteria
             self.bucketDefinitions = bucketDefinitions
@@ -5214,6 +5416,7 @@ extension Macie2 {
         /// The identifier for the affected version of the object.
         public let versionId: String?
 
+        @inlinable
         public init(bucketArn: String? = nil, eTag: String? = nil, extension: String? = nil, key: String? = nil, lastModified: Date? = nil, path: String? = nil, publicAccess: Bool? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, storageClass: StorageClass? = nil, tags: [KeyValuePair]? = nil, versionId: String? = nil) {
             self.bucketArn = bucketArn
             self.eTag = eTag
@@ -5251,6 +5454,7 @@ extension Macie2 {
         /// The full name (key) of the object.
         public let objectKey: String?
 
+        @inlinable
         public init(bucketName: String? = nil, objectKey: String? = nil) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -5277,6 +5481,7 @@ extension Macie2 {
         /// The property- and tag-based conditions that determine which objects to include in the analysis.
         public let includes: JobScopingBlock?
 
+        @inlinable
         public init(excludes: JobScopingBlock? = nil, includes: JobScopingBlock? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -5294,6 +5499,7 @@ extension Macie2 {
         /// The property- and tag-based conditions that determine which buckets to include in the results.
         public let includes: SearchResourcesCriteriaBlock?
 
+        @inlinable
         public init(excludes: SearchResourcesCriteriaBlock? = nil, includes: SearchResourcesCriteriaBlock? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -5311,6 +5517,7 @@ extension Macie2 {
         /// A tag-based condition that defines an operator and tag keys, tag values, or tag key and value pairs for including or excluding resources from the results.
         public let tagCriterion: SearchResourcesTagCriterion?
 
+        @inlinable
         public init(simpleCriterion: SearchResourcesSimpleCriterion? = nil, tagCriterion: SearchResourcesTagCriterion? = nil) {
             self.simpleCriterion = simpleCriterion
             self.tagCriterion = tagCriterion
@@ -5326,6 +5533,7 @@ extension Macie2 {
         /// An array of objects, one for each property- or tag-based condition that includes or excludes resources from the query results. If you specify more than one condition, Amazon Macie uses AND logic to join the conditions.
         public let and: [SearchResourcesCriteria]?
 
+        @inlinable
         public init(and: [SearchResourcesCriteria]? = nil) {
             self.and = and
         }
@@ -5345,6 +5553,7 @@ extension Macie2 {
         /// The criteria to use to sort the results.
         public let sortCriteria: SearchResourcesSortCriteria?
 
+        @inlinable
         public init(bucketCriteria: SearchResourcesBucketCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SearchResourcesSortCriteria? = nil) {
             self.bucketCriteria = bucketCriteria
             self.maxResults = maxResults
@@ -5366,6 +5575,7 @@ extension Macie2 {
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
 
+        @inlinable
         public init(matchingResources: [MatchingResource]? = nil, nextToken: String? = nil) {
             self.matchingResources = matchingResources
             self.nextToken = nextToken
@@ -5385,6 +5595,7 @@ extension Macie2 {
         /// An array that lists one or more values to use in the condition. If you specify multiple values, Amazon Macie uses OR logic to join the values. Valid values for each supported property (key) are: ACCOUNT_ID - A string that represents the unique identifier for the Amazon Web Services account that owns the resource. AUTOMATED_DISCOVERY_MONITORING_STATUS - A string that represents an enumerated value that Macie defines for the BucketMetadata.automatedDiscoveryMonitoringStatus property of an S3 bucket. S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated value that Macie defines for the BucketPublicAccess.effectivePermission property of an S3 bucket. S3_BUCKET_NAME - A string that represents the name of an S3 bucket. S3_BUCKET_SHARED_ACCESS - A string that represents an enumerated value that Macie defines for the BucketMetadata.sharedAccess property of an S3 bucket. Values are case sensitive. Also, Macie doesn't support use of partial values or wildcard characters in values.
         public let values: [String]?
 
+        @inlinable
         public init(comparator: SearchResourcesComparator? = nil, key: SearchResourcesSimpleCriterionKey? = nil, values: [String]? = nil) {
             self.comparator = comparator
             self.key = key
@@ -5404,6 +5615,7 @@ extension Macie2 {
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: SearchResourcesSortAttributeName? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -5421,6 +5633,7 @@ extension Macie2 {
         /// The tag keys, tag values, or tag key and value pairs to use in the condition.
         public let tagValues: [SearchResourcesTagCriterionPair]?
 
+        @inlinable
         public init(comparator: SearchResourcesComparator? = nil, tagValues: [SearchResourcesTagCriterionPair]? = nil) {
             self.comparator = comparator
             self.tagValues = tagValues
@@ -5438,6 +5651,7 @@ extension Macie2 {
         /// The tag value to use in the condition.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5455,6 +5669,7 @@ extension Macie2 {
         /// Specifies whether to publish policy findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all new and updated policy findings that weren't suppressed by a findings filter. The default value is true.
         public let publishPolicyFindings: Bool?
 
+        @inlinable
         public init(publishClassificationFindings: Bool? = nil, publishPolicyFindings: Bool? = nil) {
             self.publishClassificationFindings = publishClassificationFindings
             self.publishPolicyFindings = publishPolicyFindings
@@ -5474,6 +5689,7 @@ extension Macie2 {
         /// The total number of occurrences of the sensitive data that was detected.
         public let totalCount: Int64?
 
+        @inlinable
         public init(category: SensitiveDataItemCategory? = nil, detections: [DefaultDetection]? = nil, totalCount: Int64? = nil) {
             self.category = category
             self.detections = detections
@@ -5497,6 +5713,7 @@ extension Macie2 {
         /// The total storage size, in bytes, of the buckets. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each object in the buckets. This value doesn't reflect the storage size of all versions of the objects in the buckets.
         public let totalSizeInBytes: Int64?
 
+        @inlinable
         public init(classifiableSizeInBytes: Int64? = nil, publiclyAccessibleCount: Int64? = nil, totalCount: Int64? = nil, totalSizeInBytes: Int64? = nil) {
             self.classifiableSizeInBytes = classifiableSizeInBytes
             self.publiclyAccessibleCount = publiclyAccessibleCount
@@ -5516,6 +5733,7 @@ extension Macie2 {
         /// An array of unique identifiers, one for each managed data identifier to exclude. To retrieve a list of valid values, use the ListManagedDataIdentifiers operation.
         public let managedDataIdentifierIds: [String]?
 
+        @inlinable
         public init(managedDataIdentifierIds: [String]? = nil) {
             self.managedDataIdentifierIds = managedDataIdentifierIds
         }
@@ -5533,6 +5751,7 @@ extension Macie2 {
         /// An array of unique identifiers, one for each managed data identifier to include. Amazon Macie uses these managed data identifiers in addition to managed data identifiers that are subsequently released and recommended for automated sensitive data discovery. To retrieve a list of valid values for the managed data identifiers that are currently available, use the ListManagedDataIdentifiers operation.
         public let managedDataIdentifierIds: [String]?
 
+        @inlinable
         public init(allowListIds: [String]? = nil, customDataIdentifierIds: [String]? = nil, managedDataIdentifierIds: [String]? = nil) {
             self.allowListIds = allowListIds
             self.customDataIdentifierIds = customDataIdentifierIds
@@ -5552,6 +5771,7 @@ extension Macie2 {
         /// The name of the sensitivity inspection template: automated-sensitive-data-discovery.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -5569,6 +5789,7 @@ extension Macie2 {
         /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key that's used to encrypt data in the bucket or the object. This value is null if an KMS key isn't used to encrypt the data.
         public let kmsMasterKeyId: String?
 
+        @inlinable
         public init(encryptionType: EncryptionType? = nil, kmsMasterKeyId: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -5588,6 +5809,7 @@ extension Macie2 {
         /// The value for the metric specified by the UsageByAccount.type field in the response.
         public let value: Int64?
 
+        @inlinable
         public init(isServiceLimited: Bool? = nil, unit: Unit? = nil, value: Int64? = nil) {
             self.isServiceLimited = isServiceLimited
             self.unit = unit
@@ -5607,6 +5829,7 @@ extension Macie2 {
         /// The source and type of credentials that were issued to the entity.
         public let sessionIssuer: SessionIssuer?
 
+        @inlinable
         public init(attributes: SessionContextAttributes? = nil, sessionIssuer: SessionIssuer? = nil) {
             self.attributes = attributes
             self.sessionIssuer = sessionIssuer
@@ -5625,6 +5848,7 @@ extension Macie2 {
         /// Specifies whether the credentials were authenticated with a multi-factor authentication (MFA) device.
         public let mfaAuthenticated: Bool?
 
+        @inlinable
         public init(creationDate: Date? = nil, mfaAuthenticated: Bool? = nil) {
             self.creationDate = creationDate
             self.mfaAuthenticated = mfaAuthenticated
@@ -5648,6 +5872,7 @@ extension Macie2 {
         /// The name or alias of the user or role that issued the session. This value is null if the credentials were obtained from a root account that doesn't have an alias.
         public let userName: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, principalId: String? = nil, type: String? = nil, userName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -5671,6 +5896,7 @@ extension Macie2 {
         /// The numerical representation of the finding's severity, ranging from 1 (least severe) to 3 (most severe).
         public let score: Int64?
 
+        @inlinable
         public init(description: SeverityDescription? = nil, score: Int64? = nil) {
             self.description = description
             self.score = score
@@ -5688,6 +5914,7 @@ extension Macie2 {
         /// The severity to assign to a finding: if the number of occurrences is greater than or equal to the specified threshold (occurrencesThreshold); and, if applicable, the number of occurrences is less than the threshold for the next consecutive severity level for the custom data identifier, moving from LOW to HIGH.
         public let severity: DataIdentifierSeverity?
 
+        @inlinable
         public init(occurrencesThreshold: Int64? = nil, severity: DataIdentifierSeverity? = nil) {
             self.occurrencesThreshold = occurrencesThreshold
             self.severity = severity
@@ -5707,6 +5934,7 @@ extension Macie2 {
         /// An array that lists one or more values to use in the condition. If you specify multiple values, Amazon Macie uses OR logic to join the values. Valid values for each supported property (key) are: ACCOUNT_ID - A string that represents the unique identifier for the Amazon Web Services account that owns the bucket. S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated value that Macie defines for the BucketPublicAccess.effectivePermission property of a bucket. S3_BUCKET_NAME - A string that represents the name of a bucket. S3_BUCKET_SHARED_ACCESS - A string that represents an enumerated value that Macie defines for the BucketMetadata.sharedAccess property of a bucket. Values are case sensitive. Also, Macie doesn't support use of partial values or wildcard characters in these values.
         public let values: [String]?
 
+        @inlinable
         public init(comparator: JobComparator? = nil, key: SimpleCriterionKeyForJob? = nil, values: [String]? = nil) {
             self.comparator = comparator
             self.key = key
@@ -5728,6 +5956,7 @@ extension Macie2 {
         /// An array that lists the values to use in the condition. If the value for the key property is OBJECT_EXTENSION or OBJECT_KEY, this array can specify multiple values and Amazon Macie uses OR logic to join the values. Otherwise, this array can specify only one value. Valid values for each supported property (key) are: OBJECT_EXTENSION - A string that represents the file name extension of an object. For example: docx or pdf OBJECT_KEY - A string that represents the key prefix (folder name or path) of an object. For example: logs or awslogs/eventlogs. This value applies a condition to objects whose keys (names) begin with the specified value. OBJECT_LAST_MODIFIED_DATE - The date and time (in UTC and extended ISO 8601 format) when an object was created or last changed, whichever is latest. For example: 2023-09-24T14:31:13Z OBJECT_SIZE - An integer that represents the storage size (in bytes) of an object. Macie doesn't support use of wildcard characters in these values. Also, string values are case sensitive.
         public let values: [String]?
 
+        @inlinable
         public init(comparator: JobComparator? = nil, key: ScopeFilterKey? = nil, values: [String]? = nil) {
             self.comparator = comparator
             self.key = key
@@ -5747,6 +5976,7 @@ extension Macie2 {
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -5764,6 +5994,7 @@ extension Macie2 {
         /// The number of times that the job has run.
         public let numberOfRuns: Double?
 
+        @inlinable
         public init(approximateNumberOfObjectsToProcess: Double? = nil, numberOfRuns: Double? = nil) {
             self.approximateNumberOfObjectsToProcess = approximateNumberOfObjectsToProcess
             self.numberOfRuns = numberOfRuns
@@ -5781,6 +6012,7 @@ extension Macie2 {
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
         public let type: DataIdentifierType?
 
+        @inlinable
         public init(id: String? = nil, type: DataIdentifierType? = nil) {
             self.id = id
             self.type = type
@@ -5798,6 +6030,7 @@ extension Macie2 {
         /// The tag keys, tag values, or tag key and value pairs to use in the condition.
         public let tagValues: [TagCriterionPairForJob]?
 
+        @inlinable
         public init(comparator: JobComparator? = nil, tagValues: [TagCriterionPairForJob]? = nil) {
             self.comparator = comparator
             self.tagValues = tagValues
@@ -5815,6 +6048,7 @@ extension Macie2 {
         /// The tag value to use in the condition.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5832,6 +6066,7 @@ extension Macie2 {
         /// A map of key-value pairs that specifies the tags to associate with the resource. A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5863,6 +6098,7 @@ extension Macie2 {
         /// The type of object to apply the condition to.
         public let target: TagTarget?
 
+        @inlinable
         public init(comparator: JobComparator? = nil, key: String? = nil, tagValues: [TagValuePair]? = nil, target: TagTarget? = nil) {
             self.comparator = comparator
             self.key = key
@@ -5884,6 +6120,7 @@ extension Macie2 {
         /// The tag value, associated with the specified tag key (key), to use in the condition. To specify only a tag key for a condition, specify the tag key for the key property and set this value to an empty string.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5907,6 +6144,7 @@ extension Macie2 {
         /// The sample text to inspect by using the custom data identifier. The text can contain as many as 1,000 characters.
         public let sampleText: String?
 
+        @inlinable
         public init(ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, regex: String? = nil, sampleText: String? = nil) {
             self.ignoreWords = ignoreWords
             self.keywords = keywords
@@ -5928,6 +6166,7 @@ extension Macie2 {
         /// The number of occurrences of sample text that matched the criteria specified by the custom data identifier.
         public let matchCount: Int?
 
+        @inlinable
         public init(matchCount: Int? = nil) {
             self.matchCount = matchCount
         }
@@ -5945,6 +6184,7 @@ extension Macie2 {
         /// The reason why the request hasn't been processed.
         public let errorMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
             self.accountId = accountId
             self.errorCode = errorCode
@@ -5964,6 +6204,7 @@ extension Macie2 {
         /// One or more tags (keys) to remove from the resource. In an HTTP request to remove multiple tags, append the tagKeys parameter and argument for each tag to remove, separated by an ampersand (&amp;).
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5993,6 +6234,7 @@ extension Macie2 {
         /// A custom name for the allow list. The name can contain as many as 128 characters.
         public let name: String?
 
+        @inlinable
         public init(criteria: AllowListCriteria? = nil, description: String? = nil, id: String, name: String? = nil) {
             self.criteria = criteria
             self.description = description
@@ -6032,6 +6274,7 @@ extension Macie2 {
         /// The unique identifier for the allow list.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -6049,6 +6292,7 @@ extension Macie2 {
         /// The new status of automated sensitive data discovery for the organization or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also disable automated sensitive data discovery for all member accounts in the organization.
         public let status: AutomatedDiscoveryStatus?
 
+        @inlinable
         public init(autoEnableOrganizationMembers: AutoEnableMode? = nil, status: AutomatedDiscoveryStatus? = nil) {
             self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
             self.status = status
@@ -6070,6 +6314,7 @@ extension Macie2 {
         /// The new status for the job. Valid values are: CANCELLED - Stops the job permanently and cancels it. This value is valid only if the job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED. If you specify this value and the job's current status is RUNNING, Amazon Macie immediately begins to stop all processing tasks for the job. You can't resume or restart a job after you cancel it. RUNNING - Resumes the job. This value is valid only if the job's current status is USER_PAUSED. If you paused the job while it was actively running and you specify this value less than 30 days after you paused the job, Macie immediately resumes processing from the point where you paused the job. Otherwise, Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's current status is IDLE, PAUSED, or RUNNING. If you specify this value and the job's current status is RUNNING, Macie immediately begins to pause all processing tasks for the job. If you pause a one-time job and you don't resume it within 30 days, the job expires and Macie cancels the job. If you pause a recurring job when its status is RUNNING and you don't resume it within 30 days, the job run expires and Macie cancels the run. To check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -6097,6 +6342,7 @@ extension Macie2 {
         /// The S3 buckets to add or remove from the exclusion list defined by the classification scope.
         public let s3: S3ClassificationScopeUpdate?
 
+        @inlinable
         public init(id: String, s3: S3ClassificationScopeUpdate? = nil) {
             self.id = id
             self.s3 = s3
@@ -6138,6 +6384,7 @@ extension Macie2 {
         /// The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
         public let position: Int?
 
+        @inlinable
         public init(action: FindingsFilterAction? = nil, clientToken: String? = UpdateFindingsFilterRequest.idempotencyToken(), description: String? = nil, findingCriteria: FindingCriteria? = nil, id: String, name: String? = nil, position: Int? = nil) {
             self.action = action
             self.clientToken = clientToken
@@ -6176,6 +6423,7 @@ extension Macie2 {
         /// The unique identifier for the filter that was updated.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -6193,6 +6441,7 @@ extension Macie2 {
         /// Specifies a new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
         public let status: MacieStatus?
 
+        @inlinable
         public init(findingPublishingFrequency: FindingPublishingFrequency? = nil, status: MacieStatus? = nil) {
             self.findingPublishingFrequency = findingPublishingFrequency
             self.status = status
@@ -6214,6 +6463,7 @@ extension Macie2 {
         /// Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
         public let status: MacieStatus?
 
+        @inlinable
         public init(id: String, status: MacieStatus? = nil) {
             self.id = id
             self.status = status
@@ -6239,6 +6489,7 @@ extension Macie2 {
         /// Specifies whether to enable Amazon Macie automatically for accounts that are added to the organization in Organizations.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -6258,6 +6509,7 @@ extension Macie2 {
         /// An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
         public let suppressDataIdentifiers: [SuppressDataIdentifier]?
 
+        @inlinable
         public init(resourceArn: String? = nil, suppressDataIdentifiers: [SuppressDataIdentifier]? = nil) {
             self.resourceArn = resourceArn
             self.suppressDataIdentifiers = suppressDataIdentifiers
@@ -6285,6 +6537,7 @@ extension Macie2 {
         /// The new sensitivity score for the bucket. Valid values are: 100, assign the maximum score and apply the Sensitive label to the bucket; and, null (empty), assign a score that Amazon Macie calculates automatically after you submit the request.
         public let sensitivityScoreOverride: Int?
 
+        @inlinable
         public init(resourceArn: String? = nil, sensitivityScoreOverride: Int? = nil) {
             self.resourceArn = resourceArn
             self.sensitivityScoreOverride = sensitivityScoreOverride
@@ -6312,6 +6565,7 @@ extension Macie2 {
         /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. The trust and permissions policies for the role must meet all requirements for Macie to assume the role.
         public let roleName: String?
 
+        @inlinable
         public init(retrievalMode: RetrievalMode? = nil, roleName: String? = nil) {
             self.retrievalMode = retrievalMode
             self.roleName = roleName
@@ -6335,6 +6589,7 @@ extension Macie2 {
         /// The access method and settings to use when retrieving the sensitive data.
         public let retrievalConfiguration: UpdateRetrievalConfiguration?
 
+        @inlinable
         public init(configuration: RevealConfiguration? = nil, retrievalConfiguration: UpdateRetrievalConfiguration? = nil) {
             self.configuration = configuration
             self.retrievalConfiguration = retrievalConfiguration
@@ -6357,6 +6612,7 @@ extension Macie2 {
         /// The access method and settings to use when retrieving the sensitive data.
         public let retrievalConfiguration: RetrievalConfiguration?
 
+        @inlinable
         public init(configuration: RevealConfiguration? = nil, retrievalConfiguration: RetrievalConfiguration? = nil) {
             self.configuration = configuration
             self.retrievalConfiguration = retrievalConfiguration
@@ -6378,6 +6634,7 @@ extension Macie2 {
         /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when performing automated sensitive data discovery.
         public let includes: SensitivityInspectionTemplateIncludes?
 
+        @inlinable
         public init(description: String? = nil, excludes: SensitivityInspectionTemplateExcludes? = nil, id: String, includes: SensitivityInspectionTemplateIncludes? = nil) {
             self.description = description
             self.excludes = excludes
@@ -6415,6 +6672,7 @@ extension Macie2 {
         /// The name of the metric. Possible values are: AUTOMATED_OBJECT_MONITORING, to monitor S3 objects for automated sensitive data discovery; AUTOMATED_SENSITIVE_DATA_DISCOVERY, to analyze S3 objects for automated sensitive data discovery; DATA_INVENTORY_EVALUATION, to monitor S3 buckets; and, SENSITIVE_DATA_DISCOVERY, to run classification jobs.
         public let type: UsageType?
 
+        @inlinable
         public init(currency: Currency? = nil, estimatedCost: String? = nil, serviceLimit: ServiceLimit? = nil, type: UsageType? = nil) {
             self.currency = currency
             self.estimatedCost = estimatedCost
@@ -6442,6 +6700,7 @@ extension Macie2 {
         /// An array of objects that contains usage data and quotas for the account. Each object contains the data for a specific usage metric and the corresponding quota.
         public let usage: [UsageByAccount]?
 
+        @inlinable
         public init(accountId: String? = nil, automatedDiscoveryFreeTrialStartDate: Date? = nil, freeTrialStartDate: Date? = nil, usage: [UsageByAccount]? = nil) {
             self.accountId = accountId
             self.automatedDiscoveryFreeTrialStartDate = automatedDiscoveryFreeTrialStartDate
@@ -6465,6 +6724,7 @@ extension Macie2 {
         /// An array that lists values to use in the condition, based on the value for the field specified by the key property. If the value for the key property is accountId, this array can specify multiple values. Otherwise, this array can specify only one value. Valid values for each supported field are: accountId - The unique identifier for an Amazon Web Services account. freeTrialStartDate - The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for an account. serviceLimit - A Boolean (true or false) value that indicates whether an account has reached its monthly quota. total - A string that represents the current estimated cost for an account.
         public let values: [String]?
 
+        @inlinable
         public init(comparator: UsageStatisticsFilterComparator? = nil, key: UsageStatisticsFilterKey? = nil, values: [String]? = nil) {
             self.comparator = comparator
             self.key = key
@@ -6484,6 +6744,7 @@ extension Macie2 {
         /// The sort order to apply to the results, based on the value for the field specified by the key property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(key: UsageStatisticsSortKey? = nil, orderBy: OrderBy? = nil) {
             self.key = key
             self.orderBy = orderBy
@@ -6503,6 +6764,7 @@ extension Macie2 {
         /// The name of the metric. Possible values are: AUTOMATED_OBJECT_MONITORING, to monitor S3 objects for automated sensitive data discovery; AUTOMATED_SENSITIVE_DATA_DISCOVERY, to analyze S3 objects for automated sensitive data discovery; DATA_INVENTORY_EVALUATION, to monitor S3 buckets; and, SENSITIVE_DATA_DISCOVERY, to run classification jobs.
         public let type: UsageType?
 
+        @inlinable
         public init(currency: Currency? = nil, estimatedCost: String? = nil, type: UsageType? = nil) {
             self.currency = currency
             self.estimatedCost = estimatedCost
@@ -6532,6 +6794,7 @@ extension Macie2 {
         /// The type of entity that performed the action.
         public let type: UserIdentityType?
 
+        @inlinable
         public init(assumedRole: AssumedRole? = nil, awsAccount: AwsAccount? = nil, awsService: AwsService? = nil, federatedUser: FederatedUser? = nil, iamUser: IamUser? = nil, root: UserIdentityRoot? = nil, type: UserIdentityType? = nil) {
             self.assumedRole = assumedRole
             self.awsAccount = awsAccount
@@ -6561,6 +6824,7 @@ extension Macie2 {
         /// The unique identifier for the entity that performed the action.
         public let principalId: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, principalId: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -6584,6 +6848,7 @@ extension Macie2 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var jobPausedAt: Date?
 
+        @inlinable
         public init(jobExpiresAt: Date? = nil, jobImminentExpirationHealthEventArn: String? = nil, jobPausedAt: Date? = nil) {
             self.jobExpiresAt = jobExpiresAt
             self.jobImminentExpirationHealthEventArn = jobImminentExpirationHealthEventArn
@@ -6601,6 +6866,7 @@ extension Macie2 {
         /// The day of the week when Amazon Macie runs the job.
         public let dayOfWeek: DayOfWeek?
 
+        @inlinable
         public init(dayOfWeek: DayOfWeek? = nil) {
             self.dayOfWeek = dayOfWeek
         }

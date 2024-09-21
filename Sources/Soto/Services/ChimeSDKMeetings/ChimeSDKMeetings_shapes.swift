@@ -162,6 +162,7 @@ extension ChimeSDKMeetings {
         /// The join token used by the Amazon Chime SDK attendee.
         public let joinToken: String?
 
+        @inlinable
         public init(attendeeId: String? = nil, capabilities: AttendeeCapabilities? = nil, externalUserId: String? = nil, joinToken: String? = nil) {
             self.attendeeId = attendeeId
             self.capabilities = capabilities
@@ -185,6 +186,7 @@ extension ChimeSDKMeetings {
         /// The video capability assigned to an attendee.
         public let video: MediaCapabilities
 
+        @inlinable
         public init(audio: MediaCapabilities, content: MediaCapabilities, video: MediaCapabilities) {
             self.audio = audio
             self.content = content
@@ -202,6 +204,7 @@ extension ChimeSDKMeetings {
         /// The maximum number of attendees allowed into the meeting.
         public let maxCount: Int?
 
+        @inlinable
         public init(maxCount: Int? = nil) {
             self.maxCount = maxCount
         }
@@ -220,6 +223,7 @@ extension ChimeSDKMeetings {
         /// A list of one or more attendee IDs.
         public let attendeeId: String
 
+        @inlinable
         public init(attendeeId: String) {
             self.attendeeId = attendeeId
         }
@@ -237,6 +241,7 @@ extension ChimeSDKMeetings {
         /// Makes echo reduction available to clients who connect to the meeting.
         public let echoReduction: MeetingFeatureStatus?
 
+        @inlinable
         public init(echoReduction: MeetingFeatureStatus? = nil) {
             self.echoReduction = echoReduction
         }
@@ -252,6 +257,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK ID of the meeting to which you're adding attendees.
         public let meetingId: String
 
+        @inlinable
         public init(attendees: [CreateAttendeeRequestItem], meetingId: String) {
             self.attendees = attendees
             self.meetingId = meetingId
@@ -284,6 +290,7 @@ extension ChimeSDKMeetings {
         /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
         public let errors: [CreateAttendeeError]?
 
+        @inlinable
         public init(attendees: [Attendee]? = nil, errors: [CreateAttendeeError]? = nil) {
             self.attendees = attendees
             self.errors = errors
@@ -303,6 +310,7 @@ extension ChimeSDKMeetings {
         /// The ID of the meeting associated with the update request.
         public let meetingId: String
 
+        @inlinable
         public init(capabilities: AttendeeCapabilities, excludedAttendeeIds: [AttendeeIdItem], meetingId: String) {
             self.capabilities = capabilities
             self.excludedAttendeeIds = excludedAttendeeIds
@@ -336,6 +344,7 @@ extension ChimeSDKMeetings {
         /// The maximum resolution for the meeting content.  Defaults to FHD. To use UHD, you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees.
         public let maxResolution: ContentResolution?
 
+        @inlinable
         public init(maxResolution: ContentResolution? = nil) {
             self.maxResolution = maxResolution
         }
@@ -353,6 +362,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalUserId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, externalUserId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -374,6 +384,7 @@ extension ChimeSDKMeetings {
         /// The unique ID of the meeting.
         public let meetingId: String
 
+        @inlinable
         public init(capabilities: AttendeeCapabilities? = nil, externalUserId: String, meetingId: String) {
             self.capabilities = capabilities
             self.externalUserId = externalUserId
@@ -406,6 +417,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalUserId: String
 
+        @inlinable
         public init(capabilities: AttendeeCapabilities? = nil, externalUserId: String) {
             self.capabilities = capabilities
             self.externalUserId = externalUserId
@@ -426,6 +438,7 @@ extension ChimeSDKMeetings {
         /// The attendee information, including attendee ID and join token.
         public let attendee: Attendee?
 
+        @inlinable
         public init(attendee: Attendee? = nil) {
             self.attendee = attendee
         }
@@ -455,6 +468,7 @@ extension ChimeSDKMeetings {
         /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.
         public let tenantIds: [String]?
 
+        @inlinable
         public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
@@ -511,6 +525,7 @@ extension ChimeSDKMeetings {
         /// The meeting information, including the meeting ID and  MediaPlacement.
         public let meeting: Meeting?
 
+        @inlinable
         public init(meeting: Meeting? = nil) {
             self.meeting = meeting
         }
@@ -542,6 +557,7 @@ extension ChimeSDKMeetings {
         /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.
         public let tenantIds: [String]?
 
+        @inlinable
         public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil, tags: [Tag]? = nil, tenantIds: [String]? = nil) {
             self.attendees = attendees
             self.clientRequestToken = clientRequestToken
@@ -609,6 +625,7 @@ extension ChimeSDKMeetings {
         /// The meeting information, including the meeting ID and  MediaPlacement.
         public let meeting: Meeting?
 
+        @inlinable
         public init(attendees: [Attendee]? = nil, errors: [CreateAttendeeError]? = nil, meeting: Meeting? = nil) {
             self.attendees = attendees
             self.errors = errors
@@ -628,6 +645,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -652,6 +670,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -683,6 +702,7 @@ extension ChimeSDKMeetings {
         /// The name of the vocabulary passed to Amazon Transcribe Medical.
         public let vocabularyName: String?
 
+        @inlinable
         public init(contentIdentificationType: TranscribeMedicalContentIdentificationType? = nil, languageCode: TranscribeMedicalLanguageCode, region: TranscribeMedicalRegion? = nil, specialty: TranscribeMedicalSpecialty, type: TranscribeMedicalType, vocabularyName: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.languageCode = languageCode
@@ -740,6 +760,7 @@ extension ChimeSDKMeetings {
         /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If you use Amazon Transcribe in multiple Regions, the vocabulary must be available in Amazon Transcribe in each Region. If you don't include IdentifyLanguage and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.
         public let vocabularyNames: String?
 
+        @inlinable
         public init(contentIdentificationType: TranscribeContentIdentificationType? = nil, contentRedactionType: TranscribeContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: TranscribeLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: TranscribePartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: TranscribeLanguageCode? = nil, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -805,6 +826,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -829,6 +851,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK attendee information.
         public let attendee: Attendee?
 
+        @inlinable
         public init(attendee: Attendee? = nil) {
             self.attendee = attendee
         }
@@ -842,6 +865,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -863,6 +887,7 @@ extension ChimeSDKMeetings {
         /// The Amazon Chime SDK meeting information.
         public let meeting: Meeting?
 
+        @inlinable
         public init(meeting: Meeting? = nil) {
             self.meeting = meeting
         }
@@ -880,6 +905,7 @@ extension ChimeSDKMeetings {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, meetingId: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.meetingId = meetingId
@@ -910,6 +936,7 @@ extension ChimeSDKMeetings {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(attendees: [Attendee]? = nil, nextToken: String? = nil) {
             self.attendees = attendees
             self.nextToken = nextToken
@@ -925,6 +952,7 @@ extension ChimeSDKMeetings {
         /// The ARN of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -948,6 +976,7 @@ extension ChimeSDKMeetings {
         /// The tags requested for the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -975,6 +1004,7 @@ extension ChimeSDKMeetings {
         /// The turn control URL.   This parameter is deprecated and no longer used by the Amazon Chime SDK.
         public let turnControlUrl: String?
 
+        @inlinable
         public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
@@ -1018,6 +1048,7 @@ extension ChimeSDKMeetings {
         /// Array of strings.
         public let tenantIds: [String]?
 
+        @inlinable
         public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingArn: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, meetingId: String? = nil, primaryMeetingId: String? = nil, tenantIds: [String]? = nil) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
@@ -1053,6 +1084,7 @@ extension ChimeSDKMeetings {
         /// The configuration settings for the video features available to a meeting.
         public let video: VideoFeatures?
 
+        @inlinable
         public init(attendee: AttendeeFeatures? = nil, audio: AudioFeatures? = nil, content: ContentFeatures? = nil, video: VideoFeatures? = nil) {
             self.attendee = attendee
             self.audio = audio
@@ -1080,6 +1112,7 @@ extension ChimeSDKMeetings {
         /// The ARN of the SQS queue.
         public let sqsQueueArn: String?
 
+        @inlinable
         public init(lambdaFunctionArn: String? = nil, snsTopicArn: String? = nil, sqsQueueArn: String? = nil) {
             self.lambdaFunctionArn = lambdaFunctionArn
             self.snsTopicArn = snsTopicArn
@@ -1111,6 +1144,7 @@ extension ChimeSDKMeetings {
         /// The configuration for the current transcription operation. Must contain EngineTranscribeSettings or  EngineTranscribeMedicalSettings.
         public let transcriptionConfiguration: TranscriptionConfiguration
 
+        @inlinable
         public init(meetingId: String, transcriptionConfiguration: TranscriptionConfiguration) {
             self.meetingId = meetingId
             self.transcriptionConfiguration = transcriptionConfiguration
@@ -1137,6 +1171,7 @@ extension ChimeSDKMeetings {
         /// The unique ID of the meeting for which you stop transcription.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -1160,6 +1195,7 @@ extension ChimeSDKMeetings {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1185,6 +1221,7 @@ extension ChimeSDKMeetings {
         /// Lists the requested tags.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1216,6 +1253,7 @@ extension ChimeSDKMeetings {
         /// The transcription configuration settings passed to Amazon Transcribe.
         public let engineTranscribeSettings: EngineTranscribeSettings?
 
+        @inlinable
         public init(engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings? = nil, engineTranscribeSettings: EngineTranscribeSettings? = nil) {
             self.engineTranscribeMedicalSettings = engineTranscribeMedicalSettings
             self.engineTranscribeSettings = engineTranscribeSettings
@@ -1238,6 +1276,7 @@ extension ChimeSDKMeetings {
         /// The tag keys being removed from the resources.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1273,6 +1312,7 @@ extension ChimeSDKMeetings {
         /// The ID of the meeting associated with the update request.
         public let meetingId: String
 
+        @inlinable
         public init(attendeeId: String, capabilities: AttendeeCapabilities, meetingId: String) {
             self.attendeeId = attendeeId
             self.capabilities = capabilities
@@ -1301,6 +1341,7 @@ extension ChimeSDKMeetings {
         /// The updated attendee data.
         public let attendee: Attendee?
 
+        @inlinable
         public init(attendee: Attendee? = nil) {
             self.attendee = attendee
         }
@@ -1314,6 +1355,7 @@ extension ChimeSDKMeetings {
         /// The maximum video resolution for the meeting. Applies to all attendees.  Defaults to HD. To use FHD, you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size  limit of 250 attendees.
         public let maxResolution: VideoResolution?
 
+        @inlinable
         public init(maxResolution: VideoResolution? = nil) {
             self.maxResolution = maxResolution
         }

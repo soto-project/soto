@@ -56,6 +56,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the server that hosts your virtual machines.
         public let serverArn: String
 
+        @inlinable
         public init(gatewayArn: String, serverArn: String) {
             self.gatewayArn = gatewayArn
             self.serverArn = serverArn
@@ -80,6 +81,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of a gateway.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -103,6 +105,7 @@ extension BackupGateway {
         /// The minute of the hour to start the bandwidth rate limit interval. The  interval begins at the start of that minute. To begin an interval exactly at  the start of the hour, use the value 0.
         public let startMinuteOfHour: Int
 
+        @inlinable
         public init(averageUploadRateLimitInBitsPerSec: Int64? = nil, daysOfWeek: [Int], endHourOfDay: Int, endMinuteOfHour: Int, startHourOfDay: Int, startMinuteOfHour: Int) {
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
             self.daysOfWeek = daysOfWeek
@@ -151,6 +154,7 @@ extension BackupGateway {
         /// A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(activationKey: String, gatewayDisplayName: String, gatewayType: GatewayType, tags: [Tag]? = nil) {
             self.activationKey = activationKey
             self.gatewayDisplayName = gatewayDisplayName
@@ -182,6 +186,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway you create.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -195,6 +200,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway to delete.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -214,6 +220,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway you deleted.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -227,6 +234,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor to delete.
         public let hypervisorArn: String
 
+        @inlinable
         public init(hypervisorArn: String) {
             self.hypervisorArn = hypervisorArn
         }
@@ -246,6 +254,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor you deleted.
         public let hypervisorArn: String?
 
+        @inlinable
         public init(hypervisorArn: String? = nil) {
             self.hypervisorArn = hypervisorArn
         }
@@ -259,6 +268,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway to disassociate.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -278,6 +288,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway you disassociated.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -299,6 +310,7 @@ extension BackupGateway {
         /// The last time Backup gateway communicated with the gateway, in Unix format and UTC time.
         public let lastSeenTime: Date?
 
+        @inlinable
         public init(gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
@@ -334,6 +346,7 @@ extension BackupGateway {
         /// The DNS name for the virtual private cloud (VPC) endpoint the gateway  uses to connect to the cloud for backup gateway.
         public let vpcEndpoint: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil, maintenanceStartTime: MaintenanceStartTime? = nil, nextUpdateAvailabilityTime: Date? = nil, vpcEndpoint: String? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
@@ -361,6 +374,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -382,6 +396,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
         public let gatewayArn: String?
 
+        @inlinable
         public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]? = nil, gatewayArn: String? = nil) {
             self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
             self.gatewayArn = gatewayArn
@@ -397,6 +412,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -416,6 +432,7 @@ extension BackupGateway {
         /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
         public let gateway: GatewayDetails?
 
+        @inlinable
         public init(gateway: GatewayDetails? = nil) {
             self.gateway = gateway
         }
@@ -429,6 +446,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String
 
+        @inlinable
         public init(hypervisorArn: String) {
             self.hypervisorArn = hypervisorArn
         }
@@ -448,6 +466,7 @@ extension BackupGateway {
         /// Details about the requested hypervisor.
         public let hypervisor: HypervisorDetails?
 
+        @inlinable
         public init(hypervisor: HypervisorDetails? = nil) {
             self.hypervisor = hypervisor
         }
@@ -461,6 +480,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String
 
+        @inlinable
         public init(hypervisorArn: String) {
             self.hypervisorArn = hypervisorArn
         }
@@ -484,6 +504,7 @@ extension BackupGateway {
         /// This is a display of the mappings of on-premises VMware tags to the  Amazon Web Services tags.
         public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]?
 
+        @inlinable
         public init(hypervisorArn: String? = nil, iamRoleArn: String? = nil, vmwareToAwsTagMappings: [VmwareToAwsTagMapping]? = nil) {
             self.hypervisorArn = hypervisorArn
             self.iamRoleArn = iamRoleArn
@@ -501,6 +522,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the virtual machine.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -520,6 +542,7 @@ extension BackupGateway {
         /// This object contains the basic attributes of VirtualMachine contained by the output of  GetVirtualMachine
         public let virtualMachine: VirtualMachineDetails?
 
+        @inlinable
         public init(virtualMachine: VirtualMachineDetails? = nil) {
             self.virtualMachine = virtualMachine
         }
@@ -541,6 +564,7 @@ extension BackupGateway {
         /// The state of the hypervisor.
         public let state: HypervisorState?
 
+        @inlinable
         public init(host: String? = nil, hypervisorArn: String? = nil, kmsKeyArn: String? = nil, name: String? = nil, state: HypervisorState? = nil) {
             self.host = host
             self.hypervisorArn = hypervisorArn
@@ -578,6 +602,7 @@ extension BackupGateway {
         /// This is the current state of the specified hypervisor. The possible states are PENDING, ONLINE,  OFFLINE, or ERROR.
         public let state: HypervisorState?
 
+        @inlinable
         public init(host: String? = nil, hypervisorArn: String? = nil, kmsKeyArn: String? = nil, lastSuccessfulMetadataSyncTime: Date? = nil, latestMetadataSyncStatus: SyncMetadataStatus? = nil, latestMetadataSyncStatusMessage: String? = nil, logGroupArn: String? = nil, name: String? = nil, state: HypervisorState? = nil) {
             self.host = host
             self.hypervisorArn = hypervisorArn
@@ -617,6 +642,7 @@ extension BackupGateway {
         /// The username for the hypervisor.
         public let username: String?
 
+        @inlinable
         public init(host: String, kmsKeyArn: String? = nil, name: String, password: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.host = host
             self.kmsKeyArn = kmsKeyArn
@@ -661,6 +687,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor you disassociated.
         public let hypervisorArn: String?
 
+        @inlinable
         public init(hypervisorArn: String? = nil) {
             self.hypervisorArn = hypervisorArn
         }
@@ -676,6 +703,7 @@ extension BackupGateway {
         /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -700,6 +728,7 @@ extension BackupGateway {
         /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(gateways: [Gateway]? = nil, nextToken: String? = nil) {
             self.gateways = gateways
             self.nextToken = nextToken
@@ -717,6 +746,7 @@ extension BackupGateway {
         /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -741,6 +771,7 @@ extension BackupGateway {
         /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(hypervisors: [Hypervisor]? = nil, nextToken: String? = nil) {
             self.hypervisors = hypervisors
             self.nextToken = nextToken
@@ -756,6 +787,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the resource's tags to list.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -777,6 +809,7 @@ extension BackupGateway {
         /// A list of the resource's tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -796,6 +829,7 @@ extension BackupGateway {
         /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(hypervisorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.hypervisorArn = hypervisorArn
             self.maxResults = maxResults
@@ -825,6 +859,7 @@ extension BackupGateway {
         /// A list of your VirtualMachine objects, ordered by their Amazon Resource Names (ARNs).
         public let virtualMachines: [VirtualMachine]?
 
+        @inlinable
         public init(nextToken: String? = nil, virtualMachines: [VirtualMachine]? = nil) {
             self.nextToken = nextToken
             self.virtualMachines = virtualMachines
@@ -846,6 +881,7 @@ extension BackupGateway {
         /// The minute component of the maintenance start time represented as mm, where  mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
         public let minuteOfHour: Int
 
+        @inlinable
         public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, hourOfDay: Int, minuteOfHour: Int) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -867,6 +903,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
         public let gatewayArn: String
 
+        @inlinable
         public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval], gatewayArn: String) {
             self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
             self.gatewayArn = gatewayArn
@@ -892,6 +929,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -909,6 +947,7 @@ extension BackupGateway {
         /// This action requests the mappings of on-premises VMware tags to the  Amazon Web Services tags.
         public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]
 
+        @inlinable
         public init(hypervisorArn: String, iamRoleArn: String, vmwareToAwsTagMappings: [VmwareToAwsTagMapping]) {
             self.hypervisorArn = hypervisorArn
             self.iamRoleArn = iamRoleArn
@@ -938,6 +977,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String?
 
+        @inlinable
         public init(hypervisorArn: String? = nil) {
             self.hypervisorArn = hypervisorArn
         }
@@ -959,6 +999,7 @@ extension BackupGateway {
         /// The minute of the hour to start maintenance on a gateway.
         public let minuteOfHour: Int
 
+        @inlinable
         public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayArn: String, hourOfDay: Int, minuteOfHour: Int) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -994,6 +1035,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of a gateway for which you set the maintenance start time.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -1007,6 +1049,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String
 
+        @inlinable
         public init(hypervisorArn: String) {
             self.hypervisorArn = hypervisorArn
         }
@@ -1026,6 +1069,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String?
 
+        @inlinable
         public init(hypervisorArn: String? = nil) {
             self.hypervisorArn = hypervisorArn
         }
@@ -1041,6 +1085,7 @@ extension BackupGateway {
         /// The value part of a tag's key-value pair.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1066,6 +1111,7 @@ extension BackupGateway {
         /// A list of tags to assign to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1090,6 +1136,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the resource you tagged.
         public let resourceARN: String?
 
+        @inlinable
         public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
@@ -1109,6 +1156,7 @@ extension BackupGateway {
         /// The username for the hypervisor.
         public let username: String?
 
+        @inlinable
         public init(gatewayArn: String, host: String, password: String? = nil, username: String? = nil) {
             self.gatewayArn = gatewayArn
             self.host = host
@@ -1149,6 +1197,7 @@ extension BackupGateway {
         /// The list of tag keys specifying which tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1175,6 +1224,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the resource from which you removed tags.
         public let resourceARN: String?
 
+        @inlinable
         public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
@@ -1190,6 +1240,7 @@ extension BackupGateway {
         /// The updated display name of the gateway.
         public let gatewayDisplayName: String?
 
+        @inlinable
         public init(gatewayArn: String, gatewayDisplayName: String? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
@@ -1214,6 +1265,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway you updated.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -1227,6 +1279,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway to be updated.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -1246,6 +1299,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the gateway you updated.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -1269,6 +1323,7 @@ extension BackupGateway {
         /// The updated username for the hypervisor.
         public let username: String?
 
+        @inlinable
         public init(host: String? = nil, hypervisorArn: String, logGroupArn: String? = nil, name: String? = nil, password: String? = nil, username: String? = nil) {
             self.host = host
             self.hypervisorArn = hypervisorArn
@@ -1312,6 +1367,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the hypervisor you updated.
         public let hypervisorArn: String?
 
+        @inlinable
         public init(hypervisorArn: String? = nil) {
             self.hypervisorArn = hypervisorArn
         }
@@ -1335,6 +1391,7 @@ extension BackupGateway {
         /// The Amazon Resource Name (ARN) of the virtual machine. For example, arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
         public let resourceArn: String?
 
+        @inlinable
         public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil) {
             self.hostName = hostName
             self.hypervisorId = hypervisorId
@@ -1370,6 +1427,7 @@ extension BackupGateway {
         /// These are the details of the VMware tags associated with the specified  virtual machine.
         public let vmwareTags: [VmwareTag]?
 
+        @inlinable
         public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil, vmwareTags: [VmwareTag]? = nil) {
             self.hostName = hostName
             self.hypervisorId = hypervisorId
@@ -1399,6 +1457,7 @@ extension BackupGateway {
         /// This is the user-defined name of a VMware tag.
         public let vmwareTagName: String?
 
+        @inlinable
         public init(vmwareCategory: String? = nil, vmwareTagDescription: String? = nil, vmwareTagName: String? = nil) {
             self.vmwareCategory = vmwareCategory
             self.vmwareTagDescription = vmwareTagDescription
@@ -1422,6 +1481,7 @@ extension BackupGateway {
         /// This is the user-defined name of a VMware tag.
         public let vmwareTagName: String
 
+        @inlinable
         public init(awsTagKey: String, awsTagValue: String, vmwareCategory: String, vmwareTagName: String) {
             self.awsTagKey = awsTagKey
             self.awsTagValue = awsTagValue

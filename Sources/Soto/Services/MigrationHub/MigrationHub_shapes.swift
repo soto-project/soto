@@ -65,6 +65,7 @@ extension MigrationHub {
         /// The timestamp when the application status was last updated.
         public let lastUpdatedTime: Date?
 
+        @inlinable
         public init(applicationId: String? = nil, applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: Date? = nil) {
             self.applicationId = applicationId
             self.applicationStatus = applicationStatus
@@ -88,6 +89,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(createdArtifact: CreatedArtifact, dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String) {
             self.createdArtifact = createdArtifact
             self.dryRun = dryRun
@@ -127,6 +129,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(discoveredResource: DiscoveredResource, dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String) {
             self.discoveredResource = discoveredResource
             self.dryRun = dryRun
@@ -162,6 +165,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream. Do not store personal data in this field.
         public let progressUpdateStreamName: String
 
+        @inlinable
         public init(dryRun: Bool? = nil, progressUpdateStreamName: String) {
             self.dryRun = dryRun
             self.progressUpdateStreamName = progressUpdateStreamName
@@ -189,6 +193,7 @@ extension MigrationHub {
         /// An ARN that uniquely identifies the result of a migration task.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
@@ -214,6 +219,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream. Do not store personal data in this field.
         public let progressUpdateStreamName: String
 
+        @inlinable
         public init(dryRun: Bool? = nil, progressUpdateStreamName: String) {
             self.dryRun = dryRun
             self.progressUpdateStreamName = progressUpdateStreamName
@@ -239,6 +245,7 @@ extension MigrationHub {
         /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -260,6 +267,7 @@ extension MigrationHub {
         /// The timestamp when the application status was last updated.
         public let lastUpdatedTime: Date?
 
+        @inlinable
         public init(applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: Date? = nil) {
             self.applicationStatus = applicationStatus
             self.lastUpdatedTime = lastUpdatedTime
@@ -277,6 +285,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(migrationTaskName: String, progressUpdateStream: String) {
             self.migrationTaskName = migrationTaskName
             self.progressUpdateStream = progressUpdateStream
@@ -301,6 +310,7 @@ extension MigrationHub {
         /// Object encapsulating information about the migration task.
         public let migrationTask: MigrationTask?
 
+        @inlinable
         public init(migrationTask: MigrationTask? = nil) {
             self.migrationTask = migrationTask
         }
@@ -320,6 +330,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(createdArtifactName: String, dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String) {
             self.createdArtifactName = createdArtifactName
             self.dryRun = dryRun
@@ -361,6 +372,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(configurationId: String, dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String) {
             self.configurationId = configurationId
             self.dryRun = dryRun
@@ -398,6 +410,7 @@ extension MigrationHub {
         /// A description that can be free-form text to record additional detail about the discovered resource for clarity or later reference.
         public let description: String?
 
+        @inlinable
         public init(configurationId: String, description: String? = nil) {
             self.configurationId = configurationId
             self.description = description
@@ -425,6 +438,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream. >
         public let progressUpdateStream: String
 
+        @inlinable
         public init(dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String) {
             self.dryRun = dryRun
             self.migrationTaskName = migrationTaskName
@@ -459,6 +473,7 @@ extension MigrationHub {
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationIds = applicationIds
             self.maxResults = maxResults
@@ -492,6 +507,7 @@ extension MigrationHub {
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationStateList: [ApplicationState]? = nil, nextToken: String? = nil) {
             self.applicationStateList = applicationStateList
             self.nextToken = nextToken
@@ -513,6 +529,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(maxResults: Int? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
             self.maxResults = maxResults
             self.migrationTaskName = migrationTaskName
@@ -547,6 +564,7 @@ extension MigrationHub {
         /// If there are more created artifacts than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
         public let nextToken: String?
 
+        @inlinable
         public init(createdArtifactList: [CreatedArtifact]? = nil, nextToken: String? = nil) {
             self.createdArtifactList = createdArtifactList
             self.nextToken = nextToken
@@ -568,6 +586,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
+        @inlinable
         public init(maxResults: Int? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
             self.maxResults = maxResults
             self.migrationTaskName = migrationTaskName
@@ -602,6 +621,7 @@ extension MigrationHub {
         /// If there are more discovered resources than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
         public let nextToken: String?
 
+        @inlinable
         public init(discoveredResourceList: [DiscoveredResource]? = nil, nextToken: String? = nil) {
             self.discoveredResourceList = discoveredResourceList
             self.nextToken = nextToken
@@ -621,6 +641,7 @@ extension MigrationHub {
         /// Filter migration tasks by discovered resource name.
         public let resourceName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -650,6 +671,7 @@ extension MigrationHub {
         /// If there are more migration tasks than the max result, return the next token to be passed to the next call as a bookmark of where to start from.
         public let nextToken: String?
 
+        @inlinable
         public init(migrationTaskSummaryList: [MigrationTaskSummary]? = nil, nextToken: String? = nil) {
             self.migrationTaskSummaryList = migrationTaskSummaryList
             self.nextToken = nextToken
@@ -667,6 +689,7 @@ extension MigrationHub {
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -691,6 +714,7 @@ extension MigrationHub {
         /// List of progress update streams up to the max number of results passed in the input.
         public let progressUpdateStreamSummaryList: [ProgressUpdateStreamSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, progressUpdateStreamSummaryList: [ProgressUpdateStreamSummary]? = nil) {
             self.nextToken = nextToken
             self.progressUpdateStreamSummaryList = progressUpdateStreamSummaryList
@@ -714,6 +738,7 @@ extension MigrationHub {
         /// The timestamp when the task was gathered.
         public let updateDateTime: Date?
 
+        @inlinable
         public init(migrationTaskName: String? = nil, progressUpdateStream: String? = nil, resourceAttributeList: [ResourceAttribute]? = nil, task: Task? = nil, updateDateTime: Date? = nil) {
             self.migrationTaskName = migrationTaskName
             self.progressUpdateStream = progressUpdateStream
@@ -745,6 +770,7 @@ extension MigrationHub {
         /// The timestamp when the task was gathered.
         public let updateDateTime: Date?
 
+        @inlinable
         public init(migrationTaskName: String? = nil, progressPercent: Int? = nil, progressUpdateStream: String? = nil, status: Status? = nil, statusDetail: String? = nil, updateDateTime: Date? = nil) {
             self.migrationTaskName = migrationTaskName
             self.progressPercent = progressPercent
@@ -774,6 +800,7 @@ extension MigrationHub {
         /// The timestamp when the application state changed.
         public let updateDateTime: Date?
 
+        @inlinable
         public init(applicationId: String, dryRun: Bool? = nil, status: ApplicationStatus, updateDateTime: Date? = nil) {
             self.applicationId = applicationId
             self.dryRun = dryRun
@@ -813,6 +840,7 @@ extension MigrationHub {
         /// The timestamp when the task was gathered.
         public let updateDateTime: Date
 
+        @inlinable
         public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int = 0, progressUpdateStream: String, task: Task, updateDateTime: Date) {
             self.dryRun = dryRun
             self.migrationTaskName = migrationTaskName
@@ -851,6 +879,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream. Do not store personal data in this field.
         public let progressUpdateStreamName: String?
 
+        @inlinable
         public init(progressUpdateStreamName: String? = nil) {
             self.progressUpdateStreamName = progressUpdateStreamName
         }
@@ -871,6 +900,7 @@ extension MigrationHub {
         ///  If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values.   If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching.
         public let resourceAttributeList: [ResourceAttribute]
 
+        @inlinable
         public init(dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String, resourceAttributeList: [ResourceAttribute]) {
             self.dryRun = dryRun
             self.migrationTaskName = migrationTaskName
@@ -910,6 +940,7 @@ extension MigrationHub {
         /// Value of the resource type.
         public let value: String
 
+        @inlinable
         public init(type: ResourceAttributeType, value: String) {
             self.type = type
             self.value = value
@@ -935,6 +966,7 @@ extension MigrationHub {
         /// Details of task status as notified by a migration tool. A tool might use this field to provide clarifying information about the status that is unique to that tool or that explains an error state.
         public let statusDetail: String?
 
+        @inlinable
         public init(progressPercent: Int? = nil, status: Status, statusDetail: String? = nil) {
             self.progressPercent = progressPercent
             self.status = status

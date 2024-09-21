@@ -38,6 +38,7 @@ extension EC2InstanceConnect {
         /// The public key material. To use the public key, you must have the matching private key.
         public let sshPublicKey: String
 
+        @inlinable
         public init(availabilityZone: String? = nil, instanceId: String, instanceOSUser: String, sshPublicKey: String) {
             self.availabilityZone = availabilityZone
             self.instanceId = instanceId
@@ -73,6 +74,7 @@ extension EC2InstanceConnect {
         /// Is true if the request succeeds and an error otherwise.
         public let success: Bool?
 
+        @inlinable
         public init(requestId: String? = nil, success: Bool? = nil) {
             self.requestId = requestId
             self.success = success
@@ -92,6 +94,7 @@ extension EC2InstanceConnect {
         /// The public key material. To use the public key, you must have the matching private key. For information about the supported key formats and lengths, see Requirements for key pairs in the Amazon EC2 User Guide.
         public let sshPublicKey: String
 
+        @inlinable
         public init(instanceId: String, serialPort: Int? = nil, sshPublicKey: String) {
             self.instanceId = instanceId
             self.serialPort = serialPort
@@ -121,6 +124,7 @@ extension EC2InstanceConnect {
         /// Is true if the request succeeds and an error otherwise.
         public let success: Bool?
 
+        @inlinable
         public init(requestId: String? = nil, success: Bool? = nil) {
             self.requestId = requestId
             self.success = success

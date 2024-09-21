@@ -76,6 +76,7 @@ extension WorkLink {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(acmCertificateArn: String, displayName: String? = nil, domainName: String, fleetArn: String) {
             self.acmCertificateArn = acmCertificateArn
             self.displayName = displayName
@@ -113,6 +114,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(authorizationProviderType: AuthorizationProviderType, domainName: String? = nil, fleetArn: String) {
             self.authorizationProviderType = authorizationProviderType
             self.domainName = domainName
@@ -138,6 +140,7 @@ extension WorkLink {
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String?
 
+        @inlinable
         public init(authorizationProviderId: String? = nil) {
             self.authorizationProviderId = authorizationProviderId
         }
@@ -155,6 +158,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(certificate: String, displayName: String? = nil, fleetArn: String) {
             self.certificate = certificate
             self.displayName = displayName
@@ -181,6 +185,7 @@ extension WorkLink {
         /// A unique identifier for the CA.
         public let websiteCaId: String?
 
+        @inlinable
         public init(websiteCaId: String? = nil) {
             self.websiteCaId = websiteCaId
         }
@@ -200,6 +205,7 @@ extension WorkLink {
         ///  The tags to add to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(displayName: String? = nil, fleetName: String, optimizeForEndUserLocation: Bool? = nil, tags: [String: String]? = nil) {
             self.displayName = displayName
             self.fleetName = fleetName
@@ -234,6 +240,7 @@ extension WorkLink {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String?
 
+        @inlinable
         public init(fleetArn: String? = nil) {
             self.fleetArn = fleetArn
         }
@@ -247,6 +254,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -269,6 +277,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -287,6 +296,7 @@ extension WorkLink {
         /// The ARN of the Amazon Kinesis data stream that will receive the audit events.
         public let auditStreamArn: String?
 
+        @inlinable
         public init(auditStreamArn: String? = nil) {
             self.auditStreamArn = auditStreamArn
         }
@@ -300,6 +310,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -322,6 +333,7 @@ extension WorkLink {
         /// The VPC with connectivity to associated websites.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -339,6 +351,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -357,6 +370,7 @@ extension WorkLink {
         /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
         public let deviceCaCertificate: String?
 
+        @inlinable
         public init(deviceCaCertificate: String? = nil) {
             self.deviceCaCertificate = deviceCaCertificate
         }
@@ -372,6 +386,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(deviceId: String, fleetArn: String) {
             self.deviceId = deviceId
             self.fleetArn = fleetArn
@@ -410,6 +425,7 @@ extension WorkLink {
         /// The user name associated with the device.
         public let username: String?
 
+        @inlinable
         public init(firstAccessedTime: Date? = nil, lastAccessedTime: Date? = nil, manufacturer: String? = nil, model: String? = nil, operatingSystem: String? = nil, operatingSystemVersion: String? = nil, patchLevel: String? = nil, status: DeviceStatus? = nil, username: String? = nil) {
             self.firstAccessedTime = firstAccessedTime
             self.lastAccessedTime = lastAccessedTime
@@ -441,6 +457,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -472,6 +489,7 @@ extension WorkLink {
         /// The current state for the domain.
         public let domainStatus: DomainStatus?
 
+        @inlinable
         public init(acmCertificateArn: String? = nil, createdTime: Date? = nil, displayName: String? = nil, domainName: String? = nil, domainStatus: DomainStatus? = nil) {
             self.acmCertificateArn = acmCertificateArn
             self.createdTime = createdTime
@@ -493,6 +511,7 @@ extension WorkLink {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -525,6 +544,7 @@ extension WorkLink {
         /// The tags attached to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(companyCode: String? = nil, createdTime: Date? = nil, displayName: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: Date? = nil, optimizeForEndUserLocation: Bool? = nil, tags: [String: String]? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
@@ -552,6 +572,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(fleetArn: String) {
             self.fleetArn = fleetArn
         }
@@ -574,6 +595,7 @@ extension WorkLink {
         /// The SAML metadata document uploaded to the user’s identity provider.
         public let serviceProviderSamlMetadata: String?
 
+        @inlinable
         public init(identityProviderSamlMetadata: String? = nil, identityProviderType: IdentityProviderType? = nil, serviceProviderSamlMetadata: String? = nil) {
             self.identityProviderSamlMetadata = identityProviderSamlMetadata
             self.identityProviderType = identityProviderType
@@ -593,6 +615,7 @@ extension WorkLink {
         /// A unique identifier for the certificate authority.
         public let websiteCaId: String
 
+        @inlinable
         public init(fleetArn: String, websiteCaId: String) {
             self.fleetArn = fleetArn
             self.websiteCaId = websiteCaId
@@ -619,6 +642,7 @@ extension WorkLink {
         /// The certificate name to display.
         public let displayName: String?
 
+        @inlinable
         public init(certificate: String? = nil, createdTime: Date? = nil, displayName: String? = nil) {
             self.certificate = certificate
             self.createdTime = createdTime
@@ -638,6 +662,7 @@ extension WorkLink {
         /// The status of the device.
         public let deviceStatus: DeviceStatus?
 
+        @inlinable
         public init(deviceId: String? = nil, deviceStatus: DeviceStatus? = nil) {
             self.deviceId = deviceId
             self.deviceStatus = deviceStatus
@@ -655,6 +680,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -684,6 +710,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(authorizationProviderId: String, fleetArn: String) {
             self.authorizationProviderId = authorizationProviderId
             self.fleetArn = fleetArn
@@ -712,6 +739,7 @@ extension WorkLink {
         /// A unique identifier for the CA.
         public let websiteCaId: String
 
+        @inlinable
         public init(fleetArn: String, websiteCaId: String) {
             self.fleetArn = fleetArn
             self.websiteCaId = websiteCaId
@@ -744,6 +772,7 @@ extension WorkLink {
         /// The status of the domain.
         public let domainStatus: DomainStatus
 
+        @inlinable
         public init(createdTime: Date, displayName: String? = nil, domainName: String, domainStatus: DomainStatus) {
             self.createdTime = createdTime
             self.displayName = displayName
@@ -777,6 +806,7 @@ extension WorkLink {
         /// The tags attached to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(companyCode: String? = nil, createdTime: Date? = nil, displayName: String? = nil, fleetArn: String? = nil, fleetName: String? = nil, fleetStatus: FleetStatus? = nil, lastUpdatedTime: Date? = nil, tags: [String: String]? = nil) {
             self.companyCode = companyCode
             self.createdTime = createdTime
@@ -808,6 +838,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -836,6 +867,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [DeviceSummary]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -855,6 +887,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -883,6 +916,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(domains: [DomainSummary]? = nil, nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -900,6 +934,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -924,6 +959,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetSummaryList: [FleetSummary]? = nil, nextToken: String? = nil) {
             self.fleetSummaryList = fleetSummaryList
             self.nextToken = nextToken
@@ -939,6 +975,7 @@ extension WorkLink {
         /// The Amazon Resource Name (ARN) of the fleet.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -961,6 +998,7 @@ extension WorkLink {
         /// The tags attached to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -978,6 +1016,7 @@ extension WorkLink {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -1006,6 +1045,7 @@ extension WorkLink {
         /// The website authorization providers.
         public let websiteAuthorizationProviders: [WebsiteAuthorizationProviderSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, websiteAuthorizationProviders: [WebsiteAuthorizationProviderSummary]? = nil) {
             self.nextToken = nextToken
             self.websiteAuthorizationProviders = websiteAuthorizationProviders
@@ -1025,6 +1065,7 @@ extension WorkLink {
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
@@ -1053,6 +1094,7 @@ extension WorkLink {
         /// Information about the certificates.
         public let websiteCertificateAuthorities: [WebsiteCaSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, websiteCertificateAuthorities: [WebsiteCaSummary]? = nil) {
             self.nextToken = nextToken
             self.websiteCertificateAuthorities = websiteCertificateAuthorities
@@ -1070,6 +1112,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -1099,6 +1142,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(domainName: String, fleetArn: String) {
             self.domainName = domainName
             self.fleetArn = fleetArn
@@ -1128,6 +1172,7 @@ extension WorkLink {
         /// The name of the user.
         public let username: String
 
+        @inlinable
         public init(fleetArn: String, username: String) {
             self.fleetArn = fleetArn
             self.username = username
@@ -1156,6 +1201,7 @@ extension WorkLink {
         /// The tags to add to the resource. A tag is a key-value pair.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1196,6 +1242,7 @@ extension WorkLink {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1233,6 +1280,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(auditStreamArn: String? = nil, fleetArn: String) {
             self.auditStreamArn = auditStreamArn
             self.fleetArn = fleetArn
@@ -1264,6 +1312,7 @@ extension WorkLink {
         /// The VPC with connectivity to associated websites.
         public let vpcId: String
 
+        @inlinable
         public init(fleetArn: String, securityGroupIds: [String], subnetIds: [String], vpcId: String) {
             self.fleetArn = fleetArn
             self.securityGroupIds = securityGroupIds
@@ -1302,6 +1351,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(deviceCaCertificate: String? = nil, fleetArn: String) {
             self.deviceCaCertificate = deviceCaCertificate
             self.fleetArn = fleetArn
@@ -1333,6 +1383,7 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
 
+        @inlinable
         public init(displayName: String? = nil, domainName: String, fleetArn: String) {
             self.displayName = displayName
             self.domainName = domainName
@@ -1367,6 +1418,7 @@ extension WorkLink {
         /// The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
         public let optimizeForEndUserLocation: Bool?
 
+        @inlinable
         public init(displayName: String? = nil, fleetArn: String, optimizeForEndUserLocation: Bool? = nil) {
             self.displayName = displayName
             self.fleetArn = fleetArn
@@ -1398,6 +1450,7 @@ extension WorkLink {
         /// The type of identity provider.
         public let identityProviderType: IdentityProviderType
 
+        @inlinable
         public init(fleetArn: String, identityProviderSamlMetadata: String? = nil, identityProviderType: IdentityProviderType) {
             self.fleetArn = fleetArn
             self.identityProviderSamlMetadata = identityProviderSamlMetadata
@@ -1432,6 +1485,7 @@ extension WorkLink {
         /// The domain name of the authorization provider. This applies only to SAML-based authorization providers.
         public let domainName: String?
 
+        @inlinable
         public init(authorizationProviderId: String? = nil, authorizationProviderType: AuthorizationProviderType, createdTime: Date? = nil, domainName: String? = nil) {
             self.authorizationProviderId = authorizationProviderId
             self.authorizationProviderType = authorizationProviderType
@@ -1455,6 +1509,7 @@ extension WorkLink {
         /// A unique identifier for the CA.
         public let websiteCaId: String?
 
+        @inlinable
         public init(createdTime: Date? = nil, displayName: String? = nil, websiteCaId: String? = nil) {
             self.createdTime = createdTime
             self.displayName = displayName

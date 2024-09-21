@@ -36,6 +36,7 @@ extension CloudFrontKeyValueStore {
         /// The Amazon Resource Name (ARN) of the Key Value Store.
         public let kvsARN: String
 
+        @inlinable
         public init(ifMatch: String, key: String, kvsARN: String) {
             self.ifMatch = ifMatch
             self.key = key
@@ -64,6 +65,7 @@ extension CloudFrontKeyValueStore {
         /// The key of the key value pair to be deleted.
         public let key: String
 
+        @inlinable
         public init(key: String) {
             self.key = key
         }
@@ -86,6 +88,7 @@ extension CloudFrontKeyValueStore {
         /// Total size of the Key Value Store after the successful delete, in bytes.
         public let totalSizeInBytes: Int64
 
+        @inlinable
         public init(eTag: String, itemCount: Int, totalSizeInBytes: Int64) {
             self.eTag = eTag
             self.itemCount = itemCount
@@ -110,6 +113,7 @@ extension CloudFrontKeyValueStore {
         /// The Amazon Resource Name (ARN) of the Key Value Store.
         public let kvsARN: String
 
+        @inlinable
         public init(kvsARN: String) {
             self.kvsARN = kvsARN
         }
@@ -146,6 +150,7 @@ extension CloudFrontKeyValueStore {
         /// Total size of the Key Value Store in bytes.
         public let totalSizeInBytes: Int64
 
+        @inlinable
         public init(created: Date, eTag: String, failureReason: String? = nil, itemCount: Int, kvsARN: String, lastModified: Date? = nil, status: String? = nil, totalSizeInBytes: Int64) {
             self.created = created
             self.eTag = eTag
@@ -187,6 +192,7 @@ extension CloudFrontKeyValueStore {
         /// The Amazon Resource Name (ARN) of the Key Value Store.
         public let kvsARN: String
 
+        @inlinable
         public init(key: String, kvsARN: String) {
             self.key = key
             self.kvsARN = kvsARN
@@ -219,6 +225,7 @@ extension CloudFrontKeyValueStore {
         /// The value of the key value pair.
         public let value: String
 
+        @inlinable
         public init(itemCount: Int, key: String, totalSizeInBytes: Int64, value: String) {
             self.itemCount = itemCount
             self.key = key
@@ -242,6 +249,7 @@ extension CloudFrontKeyValueStore {
         /// If nextToken is returned in the response, there are more results available. Make the next call using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(kvsARN: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.kvsARN = kvsARN
             self.maxResults = maxResults
@@ -270,6 +278,7 @@ extension CloudFrontKeyValueStore {
         /// If nextToken is returned in the response, there are more results available. Make the next call using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListKeysResponseListItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -287,6 +296,7 @@ extension CloudFrontKeyValueStore {
         /// The value of the key value pair.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -308,6 +318,7 @@ extension CloudFrontKeyValueStore {
         /// The value to put.
         public let value: String
 
+        @inlinable
         public init(ifMatch: String, key: String, kvsARN: String, value: String) {
             self.ifMatch = ifMatch
             self.key = key
@@ -342,6 +353,7 @@ extension CloudFrontKeyValueStore {
         /// The value for the key value pair to put.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -366,6 +378,7 @@ extension CloudFrontKeyValueStore {
         /// Total size of the Key Value Store after the successful put, in bytes.
         public let totalSizeInBytes: Int64
 
+        @inlinable
         public init(eTag: String, itemCount: Int, totalSizeInBytes: Int64) {
             self.eTag = eTag
             self.itemCount = itemCount
@@ -396,6 +409,7 @@ extension CloudFrontKeyValueStore {
         /// List of key value pairs to put.
         public let puts: [PutKeyRequestListItem]?
 
+        @inlinable
         public init(deletes: [DeleteKeyRequestListItem]? = nil, ifMatch: String, kvsARN: String, puts: [PutKeyRequestListItem]? = nil) {
             self.deletes = deletes
             self.ifMatch = ifMatch
@@ -437,6 +451,7 @@ extension CloudFrontKeyValueStore {
         /// Total size of the Key Value Store after the successful update, in bytes.
         public let totalSizeInBytes: Int64
 
+        @inlinable
         public init(eTag: String, itemCount: Int, totalSizeInBytes: Int64) {
             self.eTag = eTag
             self.itemCount = itemCount

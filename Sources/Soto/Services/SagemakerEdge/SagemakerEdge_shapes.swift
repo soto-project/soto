@@ -62,6 +62,7 @@ extension SagemakerEdge {
         /// The type of the checksum.
         public let type: ChecksumType?
 
+        @inlinable
         public init(sum: String? = nil, type: ChecksumType? = nil) {
             self.sum = sum
             self.type = type
@@ -83,6 +84,7 @@ extension SagemakerEdge {
         /// The desired state of the model.
         public let state: ModelState?
 
+        @inlinable
         public init(checksum: Checksum? = nil, modelHandle: String? = nil, s3Url: String? = nil, state: ModelState? = nil) {
             self.checksum = checksum
             self.modelHandle = modelHandle
@@ -116,6 +118,7 @@ extension SagemakerEdge {
         /// Returns the error message for the deployment status result.
         public let statusReason: String?
 
+        @inlinable
         public init(desiredState: ModelState? = nil, modelHandle: String? = nil, modelName: String? = nil, modelVersion: String? = nil, rollbackFailureReason: String? = nil, state: ModelState? = nil, status: DeploymentStatus? = nil, statusReason: String? = nil) {
             self.desiredState = desiredState
             self.modelHandle = modelHandle
@@ -165,6 +168,7 @@ extension SagemakerEdge {
         /// Returns the detailed error message.
         public let deploymentStatusMessage: String?
 
+        @inlinable
         public init(deploymentEndTime: Date? = nil, deploymentModels: [DeploymentModel]? = nil, deploymentName: String? = nil, deploymentStartTime: Date? = nil, deploymentStatus: String? = nil, deploymentStatusMessage: String? = nil) {
             self.deploymentEndTime = deploymentEndTime
             self.deploymentModels = deploymentModels
@@ -206,6 +210,7 @@ extension SagemakerEdge {
         /// The type of the deployment.
         public let type: DeploymentType?
 
+        @inlinable
         public init(definitions: [Definition]? = nil, deploymentName: String? = nil, failureHandlingPolicy: FailureHandlingPolicy? = nil, type: DeploymentType? = nil) {
             self.definitions = definitions
             self.deploymentName = deploymentName
@@ -231,6 +236,7 @@ extension SagemakerEdge {
         /// Returns the value of the metric.
         public let value: Double?
 
+        @inlinable
         public init(dimension: String? = nil, metricName: String? = nil, timestamp: Date? = nil, value: Double? = nil) {
             self.dimension = dimension
             self.metricName = metricName
@@ -261,6 +267,7 @@ extension SagemakerEdge {
         /// The unique name of the device you want to get the configuration of active deployments from.
         public let deviceName: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, deviceName: String? = nil) {
             self.deviceFleetName = deviceFleetName
             self.deviceName = deviceName
@@ -285,6 +292,7 @@ extension SagemakerEdge {
         /// Returns a list of the configurations of the active deployments on the device.
         public let deployments: [EdgeDeployment]?
 
+        @inlinable
         public init(deployments: [EdgeDeployment]? = nil) {
             self.deployments = deployments
         }
@@ -300,6 +308,7 @@ extension SagemakerEdge {
         /// The unique name of the device you want to get the registration status from.
         public let deviceName: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, deviceName: String? = nil) {
             self.deviceFleetName = deviceFleetName
             self.deviceName = deviceName
@@ -326,6 +335,7 @@ extension SagemakerEdge {
         /// Describes if the device is currently registered with SageMaker Edge Manager.
         public let deviceRegistration: String?
 
+        @inlinable
         public init(cacheTTL: String? = nil, deviceRegistration: String? = nil) {
             self.cacheTTL = cacheTTL
             self.deviceRegistration = deviceRegistration
@@ -349,6 +359,7 @@ extension SagemakerEdge {
         /// The version of the model.
         public let modelVersion: String?
 
+        @inlinable
         public init(latestInference: Date? = nil, latestSampleTime: Date? = nil, modelMetrics: [EdgeMetric]? = nil, modelName: String? = nil, modelVersion: String? = nil) {
             self.latestInference = latestInference
             self.latestSampleTime = latestSampleTime
@@ -392,6 +403,7 @@ extension SagemakerEdge {
         /// Returns a list of models deployed on the the device.
         public let models: [Model]?
 
+        @inlinable
         public init(agentMetrics: [EdgeMetric]? = nil, agentVersion: String? = nil, deploymentResult: DeploymentResult? = nil, deviceFleetName: String? = nil, deviceName: String? = nil, models: [Model]? = nil) {
             self.agentMetrics = agentMetrics
             self.agentVersion = agentVersion

@@ -178,6 +178,7 @@ extension GreengrassV2 {
         /// The name of the IoT thing that represents the client device to associate.
         public let thingName: String
 
+        @inlinable
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -200,6 +201,7 @@ extension GreengrassV2 {
         /// The name of the IoT thing whose associate request failed.
         public let thingName: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, thingName: String? = nil) {
             self.code = code
             self.message = message
@@ -217,6 +219,7 @@ extension GreengrassV2 {
         /// The Amazon Resource Name (ARN) of the service role to associate with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
         public let roleArn: String
 
+        @inlinable
         public init(roleArn: String) {
             self.roleArn = roleArn
         }
@@ -230,6 +233,7 @@ extension GreengrassV2 {
         /// The time when the service role was associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
         public let associatedAt: String?
 
+        @inlinable
         public init(associatedAt: String? = nil) {
             self.associatedAt = associatedAt
         }
@@ -245,6 +249,7 @@ extension GreengrassV2 {
         /// The name of the IoT thing that represents the associated client device.
         public let thingName: String?
 
+        @inlinable
         public init(associationTimestamp: Date? = nil, thingName: String? = nil) {
             self.associationTimestamp = associationTimestamp
             self.thingName = thingName
@@ -262,6 +267,7 @@ extension GreengrassV2 {
         /// The list of client devices to associate.
         public let entries: [AssociateClientDeviceWithCoreDeviceEntry]?
 
+        @inlinable
         public init(coreDeviceThingName: String, entries: [AssociateClientDeviceWithCoreDeviceEntry]? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.entries = entries
@@ -293,6 +299,7 @@ extension GreengrassV2 {
         /// The list of any errors for the entries in the request. Each error entry contains the name of the IoT thing that failed to associate.
         public let errorEntries: [AssociateClientDeviceWithCoreDeviceErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [AssociateClientDeviceWithCoreDeviceErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -308,6 +315,7 @@ extension GreengrassV2 {
         /// The list of client devices to disassociate.
         public let entries: [DisassociateClientDeviceFromCoreDeviceEntry]?
 
+        @inlinable
         public init(coreDeviceThingName: String, entries: [DisassociateClientDeviceFromCoreDeviceEntry]? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.entries = entries
@@ -339,6 +347,7 @@ extension GreengrassV2 {
         /// The list of any errors for the entries in the request. Each error entry contains the name of the IoT thing that failed to disassociate.
         public let errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -352,6 +361,7 @@ extension GreengrassV2 {
         /// The ID of the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
         }
@@ -373,6 +383,7 @@ extension GreengrassV2 {
         /// A message that communicates if the cancel was successful.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -394,6 +405,7 @@ extension GreengrassV2 {
         /// A message that communicates details about the vendor guidance state of the component version. This message communicates why a component version is discontinued or deleted.
         public let vendorGuidanceMessage: String?
 
+        @inlinable
         public init(componentState: CloudComponentState? = nil, errors: [String: String]? = nil, message: String? = nil, vendorGuidance: VendorGuidance? = nil, vendorGuidanceMessage: String? = nil) {
             self.componentState = componentState
             self.errors = errors
@@ -419,6 +431,7 @@ extension GreengrassV2 {
         /// The latest version of the component and its details.
         public let latestVersion: ComponentLatestVersion?
 
+        @inlinable
         public init(arn: String? = nil, componentName: String? = nil, latestVersion: ComponentLatestVersion? = nil) {
             self.arn = arn
             self.componentName = componentName
@@ -440,6 +453,7 @@ extension GreengrassV2 {
         /// The version requirements for the component's dependencies. Greengrass core devices get the version requirements from component recipes. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning.
         public let versionRequirements: [String: String]?
 
+        @inlinable
         public init(componentName: String? = nil, componentVersion: String? = nil, versionRequirements: [String: String]? = nil) {
             self.componentName = componentName
             self.componentVersion = componentVersion
@@ -470,6 +484,7 @@ extension GreengrassV2 {
         /// The list of configuration nodes to reset to default values on target devices. Use JSON pointers to specify each node to reset. JSON pointers start with a forward slash (/) and use forward slashes to separate the key for each level in the object. For more information, see the JSON pointer specification and Reset configuration updates in the IoT Greengrass V2 Developer Guide.
         public let reset: [String]?
 
+        @inlinable
         public init(merge: String? = nil, reset: [String]? = nil) {
             self.merge = merge
             self.reset = reset
@@ -495,6 +510,7 @@ extension GreengrassV2 {
         /// The component version requirement for the component dependency. IoT Greengrass V2 uses semantic version constraints. For more information, see Semantic Versioning.
         public let versionRequirement: String?
 
+        @inlinable
         public init(dependencyType: ComponentDependencyType? = nil, versionRequirement: String? = nil) {
             self.dependencyType = dependencyType
             self.versionRequirement = versionRequirement
@@ -518,6 +534,7 @@ extension GreengrassV2 {
         /// The system user and group that the IoT Greengrass Core software uses to run component processes on the core device. If you omit this parameter, the IoT Greengrass Core software uses the system user and group that you configure for the core device. For more information, see Configure the user and group that run components in the IoT Greengrass V2 Developer Guide.
         public let runWith: ComponentRunWith?
 
+        @inlinable
         public init(componentVersion: String, configurationUpdate: ComponentConfigurationUpdate? = nil, runWith: ComponentRunWith? = nil) {
             self.componentVersion = componentVersion
             self.configurationUpdate = configurationUpdate
@@ -552,6 +569,7 @@ extension GreengrassV2 {
         /// The publisher of the component version.
         public let publisher: String?
 
+        @inlinable
         public init(arn: String? = nil, componentVersion: String? = nil, creationTimestamp: Date? = nil, description: String? = nil, platforms: [ComponentPlatform]? = nil, publisher: String? = nil) {
             self.arn = arn
             self.componentVersion = componentVersion
@@ -577,6 +595,7 @@ extension GreengrassV2 {
         /// The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, IoT Greengrass creates a friendly name from the os and architecture of the platform.
         public let name: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, name: String? = nil) {
             self.attributes = attributes
             self.name = name
@@ -604,6 +623,7 @@ extension GreengrassV2 {
         /// The Windows user to use to run this component on Windows core devices. The user must exist on each Windows core device, and its name and password must be in the LocalSystem account's Credentials Manager instance. If you omit this parameter, the IoT Greengrass Core software uses the default Windows user that you configure on the Greengrass nucleus component. For more information, see Configure the user and group that run components.
         public let windowsUser: String?
 
+        @inlinable
         public init(posixUser: String? = nil, systemResourceLimits: SystemResourceLimits? = nil, windowsUser: String? = nil) {
             self.posixUser = posixUser
             self.systemResourceLimits = systemResourceLimits
@@ -631,6 +651,7 @@ extension GreengrassV2 {
         /// The version of the component.
         public let componentVersion: String?
 
+        @inlinable
         public init(arn: String? = nil, componentName: String? = nil, componentVersion: String? = nil) {
             self.arn = arn
             self.componentName = componentName
@@ -654,6 +675,7 @@ extension GreengrassV2 {
         /// The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices.
         public let portNumber: Int?
 
+        @inlinable
         public init(hostAddress: String? = nil, id: String? = nil, metadata: String? = nil, portNumber: Int? = nil) {
             self.hostAddress = hostAddress
             self.id = id
@@ -682,6 +704,7 @@ extension GreengrassV2 {
         /// The status of the core device. Core devices can have the following statuses:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
 
+        @inlinable
         public init(coreDeviceThingName: String? = nil, lastStatusUpdateTimestamp: Date? = nil, status: CoreDeviceStatus? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.lastStatusUpdateTimestamp = lastStatusUpdateTimestamp
@@ -705,6 +728,7 @@ extension GreengrassV2 {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateComponentVersionRequest.idempotencyToken(), inlineRecipe: AWSBase64Data? = nil, lambdaFunction: LambdaFunctionRecipeSource? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.inlineRecipe = inlineRecipe
@@ -746,6 +770,7 @@ extension GreengrassV2 {
         /// The status of the component version in IoT Greengrass V2. This status is different from the status of the component on a core device.
         public let status: CloudComponentStatus
 
+        @inlinable
         public init(arn: String? = nil, componentName: String, componentVersion: String, creationTimestamp: Date, status: CloudComponentStatus) {
             self.arn = arn
             self.componentName = componentName
@@ -781,6 +806,7 @@ extension GreengrassV2 {
         /// The ARN of the target IoT thing or thing group. When creating a subdeployment, the targetARN can only be a thing group.
         public let targetArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateDeploymentRequest.idempotencyToken(), components: [String: ComponentDeploymentSpecification]? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, parentTargetArn: String? = nil, tags: [String: String]? = nil, targetArn: String) {
             self.clientToken = clientToken
             self.components = components
@@ -834,6 +860,7 @@ extension GreengrassV2 {
         /// The ID of the IoT job that applies the deployment to target devices.
         public let iotJobId: String?
 
+        @inlinable
         public init(deploymentId: String? = nil, iotJobArn: String? = nil, iotJobId: String? = nil) {
             self.deploymentId = deploymentId
             self.iotJobArn = iotJobArn
@@ -851,6 +878,7 @@ extension GreengrassV2 {
         /// The ARN of the component version.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -872,6 +900,7 @@ extension GreengrassV2 {
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
 
+        @inlinable
         public init(coreDeviceThingName: String) {
             self.coreDeviceThingName = coreDeviceThingName
         }
@@ -894,6 +923,7 @@ extension GreengrassV2 {
         /// The ID of the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
         }
@@ -929,6 +959,7 @@ extension GreengrassV2 {
         /// The ARN of the target IoT thing or thing group. When creating a subdeployment, the targetARN can only be a thing group.
         public let targetArn: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentStatus: DeploymentStatus? = nil, isLatestForTarget: Bool? = nil, parentTargetArn: String? = nil, revisionId: String? = nil, targetArn: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.deploymentId = deploymentId
@@ -958,6 +989,7 @@ extension GreengrassV2 {
         /// The amount of time in seconds that each component on a device has to report that it's safe to update. If the component waits for longer than this timeout, then the deployment proceeds on the device. Default: 60
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(action: DeploymentComponentUpdatePolicyAction? = nil, timeoutInSeconds: Int? = nil) {
             self.action = action
             self.timeoutInSeconds = timeoutInSeconds
@@ -973,6 +1005,7 @@ extension GreengrassV2 {
         /// The amount of time in seconds that a component can validate its configuration updates. If the validation time exceeds this timeout, then the deployment proceeds for the device. Default: 30
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(timeoutInSeconds: Int? = nil) {
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -990,6 +1023,7 @@ extension GreengrassV2 {
         /// The timeout configuration for the job. This configuration defines the amount of time each device has to complete the job.
         public let timeoutConfig: IoTJobTimeoutConfig?
 
+        @inlinable
         public init(abortConfig: IoTJobAbortConfig? = nil, jobExecutionsRolloutConfig: IoTJobExecutionsRolloutConfig? = nil, timeoutConfig: IoTJobTimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
@@ -1016,6 +1050,7 @@ extension GreengrassV2 {
         /// The failure handling policy for the configuration deployment. This policy defines what to do if the deployment fails. Default: ROLLBACK
         public let failureHandlingPolicy: DeploymentFailureHandlingPolicy?
 
+        @inlinable
         public init(componentUpdatePolicy: DeploymentComponentUpdatePolicy? = nil, configurationValidationPolicy: DeploymentConfigurationValidationPolicy? = nil, failureHandlingPolicy: DeploymentFailureHandlingPolicy? = nil) {
             self.componentUpdatePolicy = componentUpdatePolicy
             self.configurationValidationPolicy = configurationValidationPolicy
@@ -1033,6 +1068,7 @@ extension GreengrassV2 {
         /// The ARN of the component version.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1070,6 +1106,7 @@ extension GreengrassV2 {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, componentName: String? = nil, componentVersion: String? = nil, creationTimestamp: Date? = nil, description: String? = nil, platforms: [ComponentPlatform]? = nil, publisher: String? = nil, status: CloudComponentStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.componentName = componentName
@@ -1099,6 +1136,7 @@ extension GreengrassV2 {
         /// The name of the IoT thing that represents the client device to disassociate.
         public let thingName: String
 
+        @inlinable
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -1121,6 +1159,7 @@ extension GreengrassV2 {
         /// The name of the IoT thing whose disassociate request failed.
         public let thingName: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, thingName: String? = nil) {
             self.code = code
             self.message = message
@@ -1142,6 +1181,7 @@ extension GreengrassV2 {
         /// The time when the service role was disassociated from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
         public let disassociatedAt: String?
 
+        @inlinable
         public init(disassociatedAt: String? = nil) {
             self.disassociatedAt = disassociatedAt
         }
@@ -1175,6 +1215,7 @@ extension GreengrassV2 {
         /// The ARN of the target IoT thing or thing group.
         public let targetArn: String
 
+        @inlinable
         public init(coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus, creationTimestamp: Date, deploymentId: String, deploymentName: String, description: String? = nil, iotJobArn: String? = nil, iotJobId: String? = nil, modifiedTimestamp: Date, reason: String? = nil, statusDetails: EffectiveDeploymentStatusDetails? = nil, targetArn: String) {
             self.coreDeviceExecutionStatus = coreDeviceExecutionStatus
             self.creationTimestamp = creationTimestamp
@@ -1210,6 +1251,7 @@ extension GreengrassV2 {
         /// Contains tags which describe the error. You can use the error types to classify errors to assist with remediating the failure. The response will be an empty list if there is no error.
         public let errorTypes: [String]?
 
+        @inlinable
         public init(errorStack: [String]? = nil, errorTypes: [String]? = nil) {
             self.errorStack = errorStack
             self.errorTypes = errorTypes
@@ -1227,6 +1269,7 @@ extension GreengrassV2 {
         /// The format of the recipe.
         public let recipeOutputFormat: RecipeOutputFormat?
 
+        @inlinable
         public init(arn: String, recipeOutputFormat: RecipeOutputFormat? = nil) {
             self.arn = arn
             self.recipeOutputFormat = recipeOutputFormat
@@ -1254,6 +1297,7 @@ extension GreengrassV2 {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(recipe: AWSBase64Data, recipeOutputFormat: RecipeOutputFormat, tags: [String: String]? = nil) {
             self.recipe = recipe
             self.recipeOutputFormat = recipeOutputFormat
@@ -1277,6 +1321,7 @@ extension GreengrassV2 {
         /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs. All Amazon Web Services Regions except US East (N. Virginia) use REGIONAL in all cases. In the US East (N. Virginia) Region the default is GLOBAL, but you can change it to REGIONAL with this parameter.
         public let s3EndpointType: S3EndpointType?
 
+        @inlinable
         public init(arn: String, artifactName: String, iotEndpointType: IotEndpointType? = nil, s3EndpointType: S3EndpointType? = nil) {
             self.arn = arn
             self.artifactName = artifactName
@@ -1305,6 +1350,7 @@ extension GreengrassV2 {
         /// The URL of the artifact.
         public let preSignedUrl: String
 
+        @inlinable
         public init(preSignedUrl: String) {
             self.preSignedUrl = preSignedUrl
         }
@@ -1318,6 +1364,7 @@ extension GreengrassV2 {
         /// The name of the core device. This is also the name of the IoT thing.
         public let thingName: String
 
+        @inlinable
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -1342,6 +1389,7 @@ extension GreengrassV2 {
         /// A message about the connectivity information request.
         public let message: String?
 
+        @inlinable
         public init(connectivityInfo: [ConnectivityInfo]? = nil, message: String? = nil) {
             self.connectivityInfo = connectivityInfo
             self.message = message
@@ -1357,6 +1405,7 @@ extension GreengrassV2 {
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String
 
+        @inlinable
         public init(coreDeviceThingName: String) {
             self.coreDeviceThingName = coreDeviceThingName
         }
@@ -1391,6 +1440,7 @@ extension GreengrassV2 {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(architecture: String? = nil, coreDeviceThingName: String? = nil, coreVersion: String? = nil, lastStatusUpdateTimestamp: Date? = nil, platform: String? = nil, status: CoreDeviceStatus? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.coreDeviceThingName = coreDeviceThingName
@@ -1416,6 +1466,7 @@ extension GreengrassV2 {
         /// The ID of the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
         }
@@ -1463,6 +1514,7 @@ extension GreengrassV2 {
         /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
+        @inlinable
         public init(components: [String: ComponentDeploymentSpecification]? = nil, creationTimestamp: Date? = nil, deploymentId: String? = nil, deploymentName: String? = nil, deploymentPolicies: DeploymentPolicies? = nil, deploymentStatus: DeploymentStatus? = nil, iotJobArn: String? = nil, iotJobConfiguration: DeploymentIoTJobConfiguration? = nil, iotJobId: String? = nil, isLatestForTarget: Bool? = nil, parentTargetArn: String? = nil, revisionId: String? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
             self.components = components
             self.creationTimestamp = creationTimestamp
@@ -1508,6 +1560,7 @@ extension GreengrassV2 {
         /// The ARN of the service role that is associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
         public let roleArn: String?
 
+        @inlinable
         public init(associatedAt: String? = nil, roleArn: String? = nil) {
             self.associatedAt = associatedAt
             self.roleArn = roleArn
@@ -1539,6 +1592,7 @@ extension GreengrassV2 {
         /// The status codes that indicate the reason for failure whenever the lifecycleState has an error or is in a broken state.  Greengrass nucleus v2.8.0 or later is required to get an accurate lifecycleStatusCodes response. This response can be inaccurate in earlier Greengrass nucleus versions.
         public let lifecycleStatusCodes: [String]?
 
+        @inlinable
         public init(componentName: String? = nil, componentVersion: String? = nil, isRoot: Bool? = nil, lastInstallationSource: String? = nil, lastReportedTimestamp: Date? = nil, lastStatusChangeTimestamp: Date? = nil, lifecycleState: InstalledComponentLifecycleState? = nil, lifecycleStateDetails: String? = nil, lifecycleStatusCodes: [String]? = nil) {
             self.componentName = componentName
             self.componentVersion = componentVersion
@@ -1568,6 +1622,7 @@ extension GreengrassV2 {
         /// The list of criteria that define when and how to cancel the configuration deployment.
         public let criteriaList: [IoTJobAbortCriteria]
 
+        @inlinable
         public init(criteriaList: [IoTJobAbortCriteria]) {
             self.criteriaList = criteriaList
         }
@@ -1594,6 +1649,7 @@ extension GreengrassV2 {
         /// The minimum percentage of failureType failures that occur before the job can cancel. This parameter supports up to two digits after the decimal (for example, you can specify 10.9 or 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
+        @inlinable
         public init(action: IoTJobAbortAction, failureType: IoTJobExecutionFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
             self.action = action
             self.failureType = failureType
@@ -1620,6 +1676,7 @@ extension GreengrassV2 {
         /// The maximum number of devices that receive a pending job notification, per minute.
         public let maximumPerMinute: Int?
 
+        @inlinable
         public init(exponentialRate: IoTJobExponentialRolloutRate? = nil, maximumPerMinute: Int? = nil) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
@@ -1645,6 +1702,7 @@ extension GreengrassV2 {
         /// The criteria to increase the rollout rate for the job.
         public let rateIncreaseCriteria: IoTJobRateIncreaseCriteria
 
+        @inlinable
         public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: IoTJobRateIncreaseCriteria) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
@@ -1672,6 +1730,7 @@ extension GreengrassV2 {
         /// The number of devices to successfully run the configuration job before the rollout rate increases.
         public let numberOfSucceededThings: Int?
 
+        @inlinable
         public init(numberOfNotifiedThings: Int? = nil, numberOfSucceededThings: Int? = nil) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
@@ -1692,6 +1751,7 @@ extension GreengrassV2 {
         /// The amount of time, in minutes, that devices have to complete the job. The timer starts when the job status is set to IN_PROGRESS. If the job status doesn't change to a terminal state before the time expires, then the job status is set to TIMED_OUT. The timeout interval must be between 1 minute and 7 days (10080 minutes).
         public let inProgressTimeoutInMinutes: Int64?
 
+        @inlinable
         public init(inProgressTimeoutInMinutes: Int64? = nil) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }
@@ -1711,6 +1771,7 @@ extension GreengrassV2 {
         /// The list of volumes that the container can access.
         public let volumes: [LambdaVolumeMount]?
 
+        @inlinable
         public init(devices: [LambdaDeviceMount]? = nil, memorySizeInKB: Int? = nil, mountROSysfs: Bool? = nil, volumes: [LambdaVolumeMount]? = nil) {
             self.devices = devices
             self.memorySizeInKB = memorySizeInKB
@@ -1734,6 +1795,7 @@ extension GreengrassV2 {
         /// The permission to access the device: read/only (ro) or read/write (rw). Default: ro
         public let permission: LambdaFilesystemPermission?
 
+        @inlinable
         public init(addGroupOwner: Bool? = nil, path: String, permission: LambdaFilesystemPermission? = nil) {
             self.addGroupOwner = addGroupOwner
             self.path = path
@@ -1753,6 +1815,7 @@ extension GreengrassV2 {
         /// The type of event source. Choose from the following options:    PUB_SUB – Subscribe to local publish/subscribe messages. This event source type doesn't support MQTT wildcards (+ and #) in the event source topic.    IOT_CORE – Subscribe to Amazon Web Services IoT Core MQTT messages. This event source type supports MQTT wildcards (+ and #) in the event source topic.
         public let type: LambdaEventSourceType
 
+        @inlinable
         public init(topic: String, type: LambdaEventSourceType) {
             self.topic = topic
             self.type = type
@@ -1788,6 +1851,7 @@ extension GreengrassV2 {
         /// The maximum amount of time in seconds that the Lambda function can process a work item.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(environmentVariables: [String: String]? = nil, eventSources: [LambdaEventSource]? = nil, execArgs: [String]? = nil, inputPayloadEncodingType: LambdaInputPayloadEncodingType? = nil, linuxProcessParams: LambdaLinuxProcessParams? = nil, maxIdleTimeInSeconds: Int? = nil, maxInstancesCount: Int? = nil, maxQueueSize: Int? = nil, pinned: Bool? = nil, statusTimeoutInSeconds: Int? = nil, timeoutInSeconds: Int? = nil) {
             self.environmentVariables = environmentVariables
             self.eventSources = eventSources
@@ -1837,6 +1901,7 @@ extension GreengrassV2 {
         /// The ARN of the Lambda function. The ARN must include the version of the function to import. You can't use version aliases like $LATEST.
         public let lambdaArn: String
 
+        @inlinable
         public init(componentDependencies: [String: ComponentDependencyRequirement]? = nil, componentLambdaParameters: LambdaExecutionParameters? = nil, componentName: String? = nil, componentPlatforms: [ComponentPlatform]? = nil, componentVersion: String? = nil, lambdaArn: String) {
             self.componentDependencies = componentDependencies
             self.componentLambdaParameters = componentLambdaParameters
@@ -1878,6 +1943,7 @@ extension GreengrassV2 {
         /// The isolation mode for the process that contains the Lambda function. The process can run in an isolated runtime environment inside the IoT Greengrass container, or as a regular process outside any container. Default: GreengrassContainer
         public let isolationMode: LambdaIsolationMode?
 
+        @inlinable
         public init(containerParams: LambdaContainerParams? = nil, isolationMode: LambdaIsolationMode? = nil) {
             self.containerParams = containerParams
             self.isolationMode = isolationMode
@@ -1899,6 +1965,7 @@ extension GreengrassV2 {
         /// The path to the physical volume in the file system.
         public let sourcePath: String
 
+        @inlinable
         public init(addGroupOwner: Bool? = nil, destinationPath: String, permission: LambdaFilesystemPermission? = nil, sourcePath: String) {
             self.addGroupOwner = addGroupOwner
             self.destinationPath = destinationPath
@@ -1922,6 +1989,7 @@ extension GreengrassV2 {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreDeviceThingName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.maxResults = maxResults
@@ -1952,6 +2020,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(associatedClientDevices: [AssociatedClientDevice]? = nil, nextToken: String? = nil) {
             self.associatedClientDevices = associatedClientDevices
             self.nextToken = nextToken
@@ -1971,6 +2040,7 @@ extension GreengrassV2 {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
@@ -2000,6 +2070,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(componentVersions: [ComponentVersionListItem]? = nil, nextToken: String? = nil) {
             self.componentVersions = componentVersions
             self.nextToken = nextToken
@@ -2019,6 +2090,7 @@ extension GreengrassV2 {
         /// The scope of the components to list. Default: PRIVATE
         public let scope: ComponentVisibilityScope?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, scope: ComponentVisibilityScope? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2047,6 +2119,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(components: [Component]? = nil, nextToken: String? = nil) {
             self.components = components
             self.nextToken = nextToken
@@ -2068,6 +2141,7 @@ extension GreengrassV2 {
         /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have successfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device.
         public let thingGroupArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: CoreDeviceStatus? = nil, thingGroupArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2099,6 +2173,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreDevices: [CoreDevice]? = nil, nextToken: String? = nil) {
             self.coreDevices = coreDevices
             self.nextToken = nextToken
@@ -2122,6 +2197,7 @@ extension GreengrassV2 {
         /// The ARN of the target IoT thing or thing group.
         public let targetArn: String?
 
+        @inlinable
         public init(historyFilter: DeploymentHistoryFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, parentTargetArn: String? = nil, targetArn: String? = nil) {
             self.historyFilter = historyFilter
             self.maxResults = maxResults
@@ -2156,6 +2232,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(deployments: [Deployment]? = nil, nextToken: String? = nil) {
             self.deployments = deployments
             self.nextToken = nextToken
@@ -2175,6 +2252,7 @@ extension GreengrassV2 {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreDeviceThingName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.maxResults = maxResults
@@ -2205,6 +2283,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(effectiveDeployments: [EffectiveDeployment]? = nil, nextToken: String? = nil) {
             self.effectiveDeployments = effectiveDeployments
             self.nextToken = nextToken
@@ -2226,6 +2305,7 @@ extension GreengrassV2 {
         /// The filter for the list of components. Choose from the following options:    ALL – The list includes all components installed on the core device.    ROOT – The list includes only root components, which are components that you specify in a deployment. When you choose this option, the list doesn't include components that the core device installs as dependencies of other components.   Default: ROOT
         public let topologyFilter: InstalledComponentTopologyFilter?
 
+        @inlinable
         public init(coreDeviceThingName: String, maxResults: Int? = nil, nextToken: String? = nil, topologyFilter: InstalledComponentTopologyFilter? = nil) {
             self.coreDeviceThingName = coreDeviceThingName
             self.maxResults = maxResults
@@ -2258,6 +2338,7 @@ extension GreengrassV2 {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(installedComponents: [InstalledComponent]? = nil, nextToken: String? = nil) {
             self.installedComponents = installedComponents
             self.nextToken = nextToken
@@ -2273,6 +2354,7 @@ extension GreengrassV2 {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2294,6 +2376,7 @@ extension GreengrassV2 {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2309,6 +2392,7 @@ extension GreengrassV2 {
         /// The platform to use to resolve compatible components.
         public let platform: ComponentPlatform?
 
+        @inlinable
         public init(componentCandidates: [ComponentCandidate]? = nil, platform: ComponentPlatform? = nil) {
             self.componentCandidates = componentCandidates
             self.platform = platform
@@ -2331,6 +2415,7 @@ extension GreengrassV2 {
         /// A list of components that meet the requirements that you specify in the request. This list includes each component's recipe that you can use to install the component.
         public let resolvedComponentVersions: [ResolvedComponentVersion]?
 
+        @inlinable
         public init(resolvedComponentVersions: [ResolvedComponentVersion]? = nil) {
             self.resolvedComponentVersions = resolvedComponentVersions
         }
@@ -2354,6 +2439,7 @@ extension GreengrassV2 {
         /// The vendor guidance state for the component version. This state indicates whether the component version has any issues that you should consider before you deploy it. The vendor guidance state can be:    ACTIVE – This component version is available and recommended for use.    DISCONTINUED – This component version has been discontinued by its publisher. You can deploy this component version, but we recommend that you use a different version of this component.    DELETED – This component version has been deleted by its publisher, so you can't deploy it. If you have any existing deployments that specify this component version, those deployments will fail.
         public let vendorGuidance: VendorGuidance?
 
+        @inlinable
         public init(arn: String? = nil, componentName: String? = nil, componentVersion: String? = nil, message: String? = nil, recipe: AWSBase64Data? = nil, vendorGuidance: VendorGuidance? = nil) {
             self.arn = arn
             self.componentName = componentName
@@ -2379,6 +2465,7 @@ extension GreengrassV2 {
         /// The maximum amount of RAM, expressed in kilobytes, that a component's processes can use on the core device.
         public let memory: Int64?
 
+        @inlinable
         public init(cpus: Double? = nil, memory: Int64? = nil) {
             self.cpus = cpus
             self.memory = memory
@@ -2402,6 +2489,7 @@ extension GreengrassV2 {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2440,6 +2528,7 @@ extension GreengrassV2 {
         /// A list of keys for tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2475,6 +2564,7 @@ extension GreengrassV2 {
         /// The name of the core device. This is also the name of the IoT thing.
         public let thingName: String
 
+        @inlinable
         public init(connectivityInfo: [ConnectivityInfo], thingName: String) {
             self.connectivityInfo = connectivityInfo
             self.thingName = thingName
@@ -2506,6 +2596,7 @@ extension GreengrassV2 {
         /// The new version of the connectivity information for the core device.
         public let version: String?
 
+        @inlinable
         public init(message: String? = nil, version: String? = nil) {
             self.message = message
             self.version = version

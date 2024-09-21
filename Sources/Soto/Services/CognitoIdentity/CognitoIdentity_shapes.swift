@@ -62,6 +62,7 @@ extension CognitoIdentity {
         /// TRUE if server-side token validation is enabled for the identity provider’s token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC token or AWS credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error.
         public let serverSideTokenCheck: Bool?
 
+        @inlinable
         public init(clientId: String? = nil, providerName: String? = nil, serverSideTokenCheck: Bool? = nil) {
             self.clientId = clientId
             self.providerName = providerName
@@ -104,6 +105,7 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
+        @inlinable
         public init(allowClassicFlow: Bool? = nil, allowUnauthenticatedIdentities: Bool = false, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
             self.allowClassicFlow = allowClassicFlow
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
@@ -172,6 +174,7 @@ extension CognitoIdentity {
         /// The Session Token portion of the credentials
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Date? = nil, secretKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -191,6 +194,7 @@ extension CognitoIdentity {
         /// A list of 1-60 identities that you want to delete.
         public let identityIdsToDelete: [String]
 
+        @inlinable
         public init(identityIdsToDelete: [String]) {
             self.identityIdsToDelete = identityIdsToDelete
         }
@@ -214,6 +218,7 @@ extension CognitoIdentity {
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
         public let unprocessedIdentityIds: [UnprocessedIdentityId]?
 
+        @inlinable
         public init(unprocessedIdentityIds: [UnprocessedIdentityId]? = nil) {
             self.unprocessedIdentityIds = unprocessedIdentityIds
         }
@@ -227,6 +232,7 @@ extension CognitoIdentity {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -246,6 +252,7 @@ extension CognitoIdentity {
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
 
+        @inlinable
         public init(identityId: String) {
             self.identityId = identityId
         }
@@ -265,6 +272,7 @@ extension CognitoIdentity {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -288,6 +296,7 @@ extension CognitoIdentity {
         /// A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax "provider_name": "provider_user_identifier". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as Facebook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
         public let logins: [String: String]?
 
+        @inlinable
         public init(customRoleArn: String? = nil, identityId: String, logins: [String: String]? = nil) {
             self.customRoleArn = customRoleArn
             self.identityId = identityId
@@ -322,6 +331,7 @@ extension CognitoIdentity {
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
 
+        @inlinable
         public init(credentials: Credentials? = nil, identityId: String? = nil) {
             self.credentials = credentials
             self.identityId = identityId
@@ -341,6 +351,7 @@ extension CognitoIdentity {
         /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito user pool: cognito-idp..amazonaws.com/, for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
         public let logins: [String: String]?
 
+        @inlinable
         public init(accountId: String? = nil, identityPoolId: String, logins: [String: String]? = nil) {
             self.accountId = accountId
             self.identityPoolId = identityPoolId
@@ -374,6 +385,7 @@ extension CognitoIdentity {
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
 
+        @inlinable
         public init(identityId: String? = nil) {
             self.identityId = identityId
         }
@@ -387,6 +399,7 @@ extension CognitoIdentity {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -410,6 +423,7 @@ extension CognitoIdentity {
         /// The map of roles associated with this pool. Currently only authenticated and unauthenticated roles are supported.
         public let roles: [String: String]?
 
+        @inlinable
         public init(identityPoolId: String? = nil, roleMappings: [String: RoleMapping]? = nil, roles: [String: String]? = nil) {
             self.identityPoolId = identityPoolId
             self.roleMappings = roleMappings
@@ -435,6 +449,7 @@ extension CognitoIdentity {
         /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew.
         public let tokenDuration: Int64?
 
+        @inlinable
         public init(identityId: String? = nil, identityPoolId: String, logins: [String: String], principalTags: [String: String]? = nil, tokenDuration: Int64? = nil) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
@@ -483,6 +498,7 @@ extension CognitoIdentity {
         /// An OpenID token.
         public let token: String?
 
+        @inlinable
         public init(identityId: String? = nil, token: String? = nil) {
             self.identityId = identityId
             self.token = token
@@ -500,6 +516,7 @@ extension CognitoIdentity {
         /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenID Connect provider, always include the id_token.
         public let logins: [String: String]?
 
+        @inlinable
         public init(identityId: String, logins: [String: String]? = nil) {
             self.identityId = identityId
             self.logins = logins
@@ -530,6 +547,7 @@ extension CognitoIdentity {
         /// An OpenID token, valid for 10 minutes.
         public let token: String?
 
+        @inlinable
         public init(identityId: String? = nil, token: String? = nil) {
             self.identityId = identityId
             self.token = token
@@ -547,6 +565,7 @@ extension CognitoIdentity {
         /// You can use this operation to get the provider name.
         public let identityProviderName: String
 
+        @inlinable
         public init(identityPoolId: String, identityProviderName: String) {
             self.identityPoolId = identityPoolId
             self.identityProviderName = identityProviderName
@@ -576,6 +595,7 @@ extension CognitoIdentity {
         /// You can use this operation to list
         public let useDefaults: Bool?
 
+        @inlinable
         public init(identityPoolId: String? = nil, identityProviderName: String? = nil, principalTags: [String: String]? = nil, useDefaults: Bool? = nil) {
             self.identityPoolId = identityPoolId
             self.identityProviderName = identityProviderName
@@ -601,6 +621,7 @@ extension CognitoIdentity {
         /// The provider names.
         public let logins: [String]?
 
+        @inlinable
         public init(creationDate: Date? = nil, identityId: String? = nil, lastModifiedDate: Date? = nil, logins: [String]? = nil) {
             self.creationDate = creationDate
             self.identityId = identityId
@@ -638,6 +659,7 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
+        @inlinable
         public init(allowClassicFlow: Bool? = nil, allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolId: String, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
             self.allowClassicFlow = allowClassicFlow
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
@@ -707,6 +729,7 @@ extension CognitoIdentity {
         /// A string that you provide.
         public let identityPoolName: String?
 
+        @inlinable
         public init(identityPoolId: String? = nil, identityPoolName: String? = nil) {
             self.identityPoolId = identityPoolId
             self.identityPoolName = identityPoolName
@@ -728,6 +751,7 @@ extension CognitoIdentity {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(hideDisabled: Bool? = nil, identityPoolId: String, maxResults: Int, nextToken: String? = nil) {
             self.hideDisabled = hideDisabled
             self.identityPoolId = identityPoolId
@@ -762,6 +786,7 @@ extension CognitoIdentity {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(identities: [IdentityDescription]? = nil, identityPoolId: String? = nil, nextToken: String? = nil) {
             self.identities = identities
             self.identityPoolId = identityPoolId
@@ -781,6 +806,7 @@ extension CognitoIdentity {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -806,6 +832,7 @@ extension CognitoIdentity {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(identityPools: [IdentityPoolShortDescription]? = nil, nextToken: String? = nil) {
             self.identityPools = identityPools
             self.nextToken = nextToken
@@ -821,6 +848,7 @@ extension CognitoIdentity {
         /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -839,6 +867,7 @@ extension CognitoIdentity {
         /// The tags that are assigned to the identity pool.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -860,6 +889,7 @@ extension CognitoIdentity {
         /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
         public let nextToken: String?
 
+        @inlinable
         public init(developerUserIdentifier: String? = nil, identityId: String? = nil, identityPoolId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.developerUserIdentifier = developerUserIdentifier
             self.identityId = identityId
@@ -901,6 +931,7 @@ extension CognitoIdentity {
         /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
         public let nextToken: String?
 
+        @inlinable
         public init(developerUserIdentifierList: [String]? = nil, identityId: String? = nil, nextToken: String? = nil) {
             self.developerUserIdentifierList = developerUserIdentifierList
             self.identityId = identityId
@@ -924,6 +955,7 @@ extension CognitoIdentity {
         /// A brief string that the claim must match, for example, "paid" or "yes".
         public let value: String
 
+        @inlinable
         public init(claim: String, matchType: MappingRuleMatchType, roleARN: String, value: String) {
             self.claim = claim
             self.matchType = matchType
@@ -959,6 +991,7 @@ extension CognitoIdentity {
         /// User identifier for the source user. The value should be a DeveloperUserIdentifier.
         public let sourceUserIdentifier: String
 
+        @inlinable
         public init(destinationUserIdentifier: String, developerProviderName: String, identityPoolId: String, sourceUserIdentifier: String) {
             self.destinationUserIdentifier = destinationUserIdentifier
             self.developerProviderName = developerProviderName
@@ -991,6 +1024,7 @@ extension CognitoIdentity {
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
 
+        @inlinable
         public init(identityId: String? = nil) {
             self.identityId = identityId
         }
@@ -1008,6 +1042,7 @@ extension CognitoIdentity {
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
         public let type: RoleMappingType
 
+        @inlinable
         public init(ambiguousRoleResolution: AmbiguousRoleResolutionType? = nil, rulesConfiguration: RulesConfigurationType? = nil, type: RoleMappingType) {
             self.ambiguousRoleResolution = ambiguousRoleResolution
             self.rulesConfiguration = rulesConfiguration
@@ -1029,6 +1064,7 @@ extension CognitoIdentity {
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
         public let rules: [MappingRule]
 
+        @inlinable
         public init(rules: [MappingRule]) {
             self.rules = rules
         }
@@ -1054,6 +1090,7 @@ extension CognitoIdentity {
         /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
         public let roles: [String: String]
 
+        @inlinable
         public init(identityPoolId: String, roleMappings: [String: RoleMapping]? = nil, roles: [String: String]) {
             self.identityPoolId = identityPoolId
             self.roleMappings = roleMappings
@@ -1097,6 +1134,7 @@ extension CognitoIdentity {
         /// You can use this operation to use default (username and clientID) attribute mappings.
         public let useDefaults: Bool?
 
+        @inlinable
         public init(identityPoolId: String, identityProviderName: String, principalTags: [String: String]? = nil, useDefaults: Bool? = nil) {
             self.identityPoolId = identityPoolId
             self.identityProviderName = identityProviderName
@@ -1137,6 +1175,7 @@ extension CognitoIdentity {
         /// You can use this operation to select default (username and clientID) attribute mappings.
         public let useDefaults: Bool?
 
+        @inlinable
         public init(identityPoolId: String? = nil, identityProviderName: String? = nil, principalTags: [String: String]? = nil, useDefaults: Bool? = nil) {
             self.identityPoolId = identityPoolId
             self.identityProviderName = identityProviderName
@@ -1158,6 +1197,7 @@ extension CognitoIdentity {
         /// The tags to assign to the identity pool.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1193,6 +1233,7 @@ extension CognitoIdentity {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
 
+        @inlinable
         public init(developerProviderName: String, developerUserIdentifier: String, identityId: String, identityPoolId: String) {
             self.developerProviderName = developerProviderName
             self.developerUserIdentifier = developerUserIdentifier
@@ -1230,6 +1271,7 @@ extension CognitoIdentity {
         /// Provider names to unlink from this identity.
         public let loginsToRemove: [String]
 
+        @inlinable
         public init(identityId: String, logins: [String: String], loginsToRemove: [String]) {
             self.identityId = identityId
             self.logins = logins
@@ -1266,6 +1308,7 @@ extension CognitoIdentity {
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, identityId: String? = nil) {
             self.errorCode = errorCode
             self.identityId = identityId
@@ -1283,6 +1326,7 @@ extension CognitoIdentity {
         /// The keys of the tags to remove from the user pool.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

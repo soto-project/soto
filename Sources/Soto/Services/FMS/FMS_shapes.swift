@@ -237,6 +237,7 @@ extension FMS {
         /// A boolean value that excludes the accounts in AccountScope$Accounts from the administrator's scope. If true, the Firewall Manager administrator can apply policies to all members of the organization except for the accounts listed in AccountScope$Accounts. You can either specify a list of accounts to exclude by AccountScope$Accounts, or you can enable management of all accounts by AccountScope$AllAccountsEnabled. You cannot specify both.
         public let excludeSpecifiedAccounts: Bool?
 
+        @inlinable
         public init(accounts: [String]? = nil, allAccountsEnabled: Bool? = nil, excludeSpecifiedAccounts: Bool? = nil) {
             self.accounts = accounts
             self.allAccountsEnabled = allAccountsEnabled
@@ -264,6 +265,7 @@ extension FMS {
         /// The ID of the remediation target.
         public let resourceId: String?
 
+        @inlinable
         public init(description: String? = nil, resourceId: String? = nil) {
             self.description = description
             self.resourceId = resourceId
@@ -283,6 +285,7 @@ extension FMS {
         /// The current status of the request to onboard a member account as an Firewall Manager administrator.    ONBOARDING - The account is onboarding to Firewall Manager as an administrator.    ONBOARDING_COMPLETE - Firewall Manager The account is onboarded to Firewall Manager as an administrator, and can perform actions on the resources defined in their AdminScope.    OFFBOARDING - The account is being removed as an Firewall Manager administrator.    OFFBOARDING_COMPLETE - The account has been removed as an Firewall Manager administrator.
         public let status: OrganizationStatus?
 
+        @inlinable
         public init(adminAccount: String? = nil, defaultAdmin: Bool? = nil, status: OrganizationStatus? = nil) {
             self.adminAccount = adminAccount
             self.defaultAdmin = defaultAdmin
@@ -306,6 +309,7 @@ extension FMS {
         /// Defines the Amazon Web Services Regions that the specified Firewall Manager administrator can perform actions in.
         public let regionScope: RegionScope?
 
+        @inlinable
         public init(accountScope: AccountScope? = nil, organizationalUnitScope: OrganizationalUnitScope? = nil, policyTypeScope: PolicyTypeScope? = nil, regionScope: RegionScope? = nil) {
             self.accountScope = accountScope
             self.organizationalUnitScope = organizationalUnitScope
@@ -336,6 +340,7 @@ extension FMS {
         /// The IP protocol name or number. The name can be one of tcp, udp, or icmp. For information on possible numbers, see Protocol Numbers.
         public let `protocol`: String
 
+        @inlinable
         public init(appName: String, port: Int64, protocol: String) {
             self.appName = appName
             self.port = port
@@ -376,6 +381,7 @@ extension FMS {
         /// A map of previous version numbers to their corresponding App object arrays.
         public let previousAppsList: [String: [App]]?
 
+        @inlinable
         public init(appsList: [App], createTime: Date? = nil, lastUpdateTime: Date? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousAppsList: [String: [App]]? = nil) {
             self.appsList = appsList
             self.createTime = createTime
@@ -427,6 +433,7 @@ extension FMS {
         /// The name of the applications list.
         public let listName: String?
 
+        @inlinable
         public init(appsList: [App]? = nil, listArn: String? = nil, listId: String? = nil, listName: String? = nil) {
             self.appsList = appsList
             self.listArn = listArn
@@ -446,6 +453,7 @@ extension FMS {
         /// The Amazon Web Services account ID to associate with Firewall Manager as the Firewall Manager default administrator account. This account must be a member account of the organization in Organizations whose resources you want to protect. For more information about Organizations, see Managing the Amazon Web Services Accounts in Your Organization.
         public let adminAccount: String
 
+        @inlinable
         public init(adminAccount: String) {
             self.adminAccount = adminAccount
         }
@@ -465,6 +473,7 @@ extension FMS {
         /// The name of the third-party firewall vendor.
         public let thirdPartyFirewall: ThirdPartyFirewall
 
+        @inlinable
         public init(thirdPartyFirewall: ThirdPartyFirewall) {
             self.thirdPartyFirewall = thirdPartyFirewall
         }
@@ -478,6 +487,7 @@ extension FMS {
         /// The current status for setting a Firewall Manager policy administrator's account as an administrator of the third-party firewall tenant.    ONBOARDING - The Firewall Manager policy administrator is being designated as a tenant administrator.    ONBOARD_COMPLETE - The Firewall Manager policy administrator is designated as a tenant administrator.    OFFBOARDING - The Firewall Manager policy administrator is being removed as a tenant administrator.    OFFBOARD_COMPLETE - The Firewall Manager policy administrator has been removed as a tenant administrator.    NOT_EXIST - The Firewall Manager policy administrator doesn't exist as a tenant administrator.
         public let thirdPartyFirewallStatus: ThirdPartyFirewallAssociationStatus?
 
+        @inlinable
         public init(thirdPartyFirewallStatus: ThirdPartyFirewallAssociationStatus? = nil) {
             self.thirdPartyFirewallStatus = thirdPartyFirewallStatus
         }
@@ -493,6 +503,7 @@ extension FMS {
         /// The resource ID of the EC2 instance.
         public let violationTarget: String?
 
+        @inlinable
         public init(awsEc2NetworkInterfaceViolations: [AwsEc2NetworkInterfaceViolation]? = nil, violationTarget: String? = nil) {
             self.awsEc2NetworkInterfaceViolations = awsEc2NetworkInterfaceViolations
             self.violationTarget = violationTarget
@@ -510,6 +521,7 @@ extension FMS {
         /// The resource ID of the network interface.
         public let violationTarget: String?
 
+        @inlinable
         public init(violatingSecurityGroups: [String]? = nil, violationTarget: String? = nil) {
             self.violatingSecurityGroups = violatingSecurityGroups
             self.violationTarget = violationTarget
@@ -531,6 +543,7 @@ extension FMS {
         /// A description of the security group that violates the policy.
         public let violationTargetDescription: String?
 
+        @inlinable
         public init(partialMatches: [PartialMatch]? = nil, possibleSecurityGroupRemediationActions: [SecurityGroupRemediationAction]? = nil, violationTarget: String? = nil, violationTargetDescription: String? = nil) {
             self.partialMatches = partialMatches
             self.possibleSecurityGroupRemediationActions = possibleSecurityGroupRemediationActions
@@ -552,6 +565,7 @@ extension FMS {
         /// A unique identifier for the resource set, used in a request to refer to the resource set.
         public let resourceSetIdentifier: String
 
+        @inlinable
         public init(items: [String], resourceSetIdentifier: String) {
             self.items = items
             self.resourceSetIdentifier = resourceSetIdentifier
@@ -580,6 +594,7 @@ extension FMS {
         /// A unique identifier for the resource set, used in a request to refer to the resource set.
         public let resourceSetIdentifier: String
 
+        @inlinable
         public init(failedItems: [FailedItem], resourceSetIdentifier: String) {
             self.failedItems = failedItems
             self.resourceSetIdentifier = resourceSetIdentifier
@@ -597,6 +612,7 @@ extension FMS {
         /// A unique identifier for the resource set, used in a request to refer to the resource set.
         public let resourceSetIdentifier: String
 
+        @inlinable
         public init(items: [String], resourceSetIdentifier: String) {
             self.items = items
             self.resourceSetIdentifier = resourceSetIdentifier
@@ -625,6 +641,7 @@ extension FMS {
         /// A unique identifier for the resource set, used in a request to refer to the resource set.
         public let resourceSetIdentifier: String
 
+        @inlinable
         public init(failedItems: [FailedItem], resourceSetIdentifier: String) {
             self.failedItems = failedItems
             self.resourceSetIdentifier = resourceSetIdentifier
@@ -646,6 +663,7 @@ extension FMS {
         /// The reason that the resource is not protected by the policy.
         public let violationReason: ViolationReason?
 
+        @inlinable
         public init(metadata: [String: String]? = nil, resourceId: String? = nil, resourceType: String? = nil, violationReason: ViolationReason? = nil) {
             self.metadata = metadata
             self.resourceId = resourceId
@@ -669,6 +687,7 @@ extension FMS {
         /// The VPC that's associated with the remediation action.
         public let vpc: ActionTarget?
 
+        @inlinable
         public init(description: String? = nil, fmsCanRemediate: Bool? = nil, vpc: ActionTarget? = nil) {
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
@@ -692,6 +711,7 @@ extension FMS {
         /// The network ACL that's associated with the remediation action.
         public let networkAclId: ActionTarget?
 
+        @inlinable
         public init(description: String? = nil, fmsCanRemediate: Bool? = nil, networkAclEntriesToBeCreated: [EntryDescription]? = nil, networkAclId: ActionTarget? = nil) {
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
@@ -711,6 +731,7 @@ extension FMS {
         /// The ID of the applications list that you want to delete. You can retrieve this ID from PutAppsList, ListAppsLists, and GetAppsList.
         public let listId: String
 
+        @inlinable
         public init(listId: String) {
             self.listId = listId
         }
@@ -736,6 +757,7 @@ extension FMS {
         /// The network ACL that's associated with the remediation action.
         public let networkAclId: ActionTarget?
 
+        @inlinable
         public init(description: String? = nil, fmsCanRemediate: Bool? = nil, networkAclEntriesToBeDeleted: [EntryDescription]? = nil, networkAclId: ActionTarget? = nil) {
             self.description = description
             self.fmsCanRemediate = fmsCanRemediate
@@ -761,6 +783,7 @@ extension FMS {
         /// The ID of the policy that you want to delete. You can retrieve this ID from PutPolicy and ListPolicies.
         public let policyId: String
 
+        @inlinable
         public init(deleteAllPolicyResources: Bool? = nil, policyId: String) {
             self.deleteAllPolicyResources = deleteAllPolicyResources
             self.policyId = policyId
@@ -782,6 +805,7 @@ extension FMS {
         /// The ID of the protocols list that you want to delete. You can retrieve this ID from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
         public let listId: String
 
+        @inlinable
         public init(listId: String) {
             self.listId = listId
         }
@@ -801,6 +825,7 @@ extension FMS {
         /// A unique identifier for the resource set, used in a request to refer to the resource set.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -824,6 +849,7 @@ extension FMS {
         /// The name of the third-party firewall vendor.
         public let thirdPartyFirewall: ThirdPartyFirewall
 
+        @inlinable
         public init(thirdPartyFirewall: ThirdPartyFirewall) {
             self.thirdPartyFirewall = thirdPartyFirewall
         }
@@ -837,6 +863,7 @@ extension FMS {
         /// The current status for the disassociation of a Firewall Manager administrators account with a third-party firewall.
         public let thirdPartyFirewallStatus: ThirdPartyFirewallAssociationStatus?
 
+        @inlinable
         public init(thirdPartyFirewallStatus: ThirdPartyFirewallAssociationStatus? = nil) {
             self.thirdPartyFirewallStatus = thirdPartyFirewallStatus
         }
@@ -856,6 +883,7 @@ extension FMS {
         /// The universal resource identifier (URI) of the discovered resource.
         public let uri: String?
 
+        @inlinable
         public init(accountId: String? = nil, name: String? = nil, type: String? = nil, uri: String? = nil) {
             self.accountId = accountId
             self.name = name
@@ -877,6 +905,7 @@ extension FMS {
         /// A description of the violation that specifies the rule group and VPC.
         public let violationTargetDescription: String?
 
+        @inlinable
         public init(violationTarget: String? = nil, violationTargetDescription: String? = nil) {
             self.violationTarget = violationTarget
             self.violationTargetDescription = violationTargetDescription
@@ -896,6 +925,7 @@ extension FMS {
         /// A description of the violation that specifies the rule group and VPC.
         public let violationTargetDescription: String?
 
+        @inlinable
         public init(numberOfRuleGroupsAlreadyAssociated: Int? = nil, violationTarget: String? = nil, violationTargetDescription: String? = nil) {
             self.numberOfRuleGroupsAlreadyAssociated = numberOfRuleGroupsAlreadyAssociated
             self.violationTarget = violationTarget
@@ -921,6 +951,7 @@ extension FMS {
         /// A description of the violation that specifies the VPC and the rule group that's already associated with it.
         public let violationTargetDescription: String?
 
+        @inlinable
         public init(conflictingPolicyId: String? = nil, conflictingPriority: Int? = nil, unavailablePriorities: [Int]? = nil, violationTarget: String? = nil, violationTargetDescription: String? = nil) {
             self.conflictingPolicyId = conflictingPolicyId
             self.conflictingPriority = conflictingPriority
@@ -948,6 +979,7 @@ extension FMS {
         /// The ID of the subnet for the EC2 route table that is associated with the remediation action.
         public let subnetId: ActionTarget?
 
+        @inlinable
         public init(description: String? = nil, gatewayId: ActionTarget? = nil, routeTableId: ActionTarget, subnetId: ActionTarget? = nil) {
             self.description = description
             self.gatewayId = gatewayId
@@ -971,6 +1003,7 @@ extension FMS {
         /// The VPC ID of the copied EC2 route table that is associated with the remediation action.
         public let vpcId: ActionTarget
 
+        @inlinable
         public init(description: String? = nil, routeTableId: ActionTarget, vpcId: ActionTarget) {
             self.description = description
             self.routeTableId = routeTableId
@@ -1000,6 +1033,7 @@ extension FMS {
         /// Information about the ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints only.
         public let vpcEndpointId: ActionTarget?
 
+        @inlinable
         public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, gatewayId: ActionTarget? = nil, routeTableId: ActionTarget, vpcEndpointId: ActionTarget? = nil) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -1027,6 +1061,7 @@ extension FMS {
         /// Information about the ID of a VPC.
         public let vpcId: ActionTarget
 
+        @inlinable
         public init(description: String? = nil, vpcId: ActionTarget) {
             self.description = description
             self.vpcId = vpcId
@@ -1050,6 +1085,7 @@ extension FMS {
         /// Information about the ID of the route table.
         public let routeTableId: ActionTarget
 
+        @inlinable
         public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, routeTableId: ActionTarget) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -1081,6 +1117,7 @@ extension FMS {
         /// Information about the ID of the route table.
         public let routeTableId: ActionTarget
 
+        @inlinable
         public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, gatewayId: ActionTarget? = nil, routeTableId: ActionTarget) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -1108,6 +1145,7 @@ extension FMS {
         /// Information about the ID of the new route table to associate with the subnet.
         public let routeTableId: ActionTarget
 
+        @inlinable
         public init(associationId: ActionTarget, description: String? = nil, routeTableId: ActionTarget) {
             self.associationId = associationId
             self.description = description
@@ -1130,6 +1168,7 @@ extension FMS {
         /// Specifies whether the entry is managed by Firewall Manager or by a user, and, for Firewall Manager-managed entries, specifies whether the entry  is among those that run first in the network ACL or those that run last.
         public let entryType: EntryType?
 
+        @inlinable
         public init(entryDetail: NetworkAclEntry? = nil, entryRuleNumber: Int? = nil, entryType: EntryType? = nil) {
             self.entryDetail = entryDetail
             self.entryRuleNumber = entryRuleNumber
@@ -1157,6 +1196,7 @@ extension FMS {
         /// The evaluation location within the ordered list of entries where the ExpectedEntry should be, according to the network ACL policy specifications.
         public let expectedEvaluationOrder: String?
 
+        @inlinable
         public init(actualEvaluationOrder: String? = nil, entriesWithConflicts: [EntryDescription]? = nil, entryAtExpectedEvaluationOrder: EntryDescription? = nil, entryViolationReasons: [EntryViolationReason]? = nil, expectedEntry: EntryDescription? = nil, expectedEvaluationOrder: String? = nil) {
             self.actualEvaluationOrder = actualEvaluationOrder
             self.entriesWithConflicts = entriesWithConflicts
@@ -1184,6 +1224,7 @@ extension FMS {
         /// The number of resources that are noncompliant with the specified policy. For WAF and Shield Advanced policies, a resource is considered noncompliant if it is not associated with the policy. For security group policies, a resource is considered noncompliant if it doesn't comply with the rules of the policy and remediation is disabled or not possible.
         public let violatorCount: Int64?
 
+        @inlinable
         public init(complianceStatus: PolicyComplianceStatusType? = nil, evaluationLimitExceeded: Bool? = nil, violatorCount: Int64? = nil) {
             self.complianceStatus = complianceStatus
             self.evaluationLimitExceeded = evaluationLimitExceeded
@@ -1211,6 +1252,7 @@ extension FMS {
         /// Information about the route table ID.
         public let routeTableId: String?
 
+        @inlinable
         public init(allowedTargets: [String]? = nil, contributingSubnets: [String]? = nil, ipV4Cidr: String? = nil, ipV6Cidr: String? = nil, prefixListId: String? = nil, routeTableId: String? = nil) {
             self.allowedTargets = allowedTargets
             self.contributingSubnets = contributingSubnets
@@ -1236,6 +1278,7 @@ extension FMS {
         /// A FirewallCreationConfig that you can copy into your current policy's SecurityServiceData in order to remedy scope violations.
         public let firewallCreationConfig: String?
 
+        @inlinable
         public init(description: String? = nil, firewallCreationConfig: String? = nil) {
             self.description = description
             self.firewallCreationConfig = firewallCreationConfig
@@ -1253,6 +1296,7 @@ extension FMS {
         /// The univeral resource indicator (URI) of the resource that failed.
         public let uri: String?
 
+        @inlinable
         public init(reason: FailedItemReason? = nil, uri: String? = nil) {
             self.reason = reason
             self.uri = uri
@@ -1276,6 +1320,7 @@ extension FMS {
         /// The VPC ID of the firewall subnet that violates the policy scope.
         public let vpcId: String?
 
+        @inlinable
         public init(firewallSubnetId: String? = nil, subnetAvailabilityZone: String? = nil, subnetAvailabilityZoneId: String? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
             self.firewallSubnetId = firewallSubnetId
             self.subnetAvailabilityZone = subnetAvailabilityZone
@@ -1303,6 +1348,7 @@ extension FMS {
         /// The resource ID of the VPC associated with the deleted VPC subnet.
         public let vpcId: String?
 
+        @inlinable
         public init(firewallSubnetId: String? = nil, subnetAvailabilityZone: String? = nil, subnetAvailabilityZoneId: String? = nil, vpcId: String? = nil) {
             self.firewallSubnetId = firewallSubnetId
             self.subnetAvailabilityZone = subnetAvailabilityZone
@@ -1328,6 +1374,7 @@ extension FMS {
         /// The status of the account that you set as the Firewall Manager default administrator.
         public let roleStatus: AccountRoleStatus?
 
+        @inlinable
         public init(adminAccount: String? = nil, roleStatus: AccountRoleStatus? = nil) {
             self.adminAccount = adminAccount
             self.roleStatus = roleStatus
@@ -1343,6 +1390,7 @@ extension FMS {
         /// The administrator account that you want to get the details for.
         public let adminAccount: String
 
+        @inlinable
         public init(adminAccount: String) {
             self.adminAccount = adminAccount
         }
@@ -1364,6 +1412,7 @@ extension FMS {
         /// The current status of the request to onboard a member account as an Firewall Manager administrator.    ONBOARDING - The account is onboarding to Firewall Manager as an administrator.    ONBOARDING_COMPLETE - Firewall Manager The account is onboarded to Firewall Manager as an administrator, and can perform actions on the resources defined in their AdminScope.    OFFBOARDING - The account is being removed as an Firewall Manager administrator.    OFFBOARDING_COMPLETE - The account has been removed as an Firewall Manager administrator.
         public let status: OrganizationStatus?
 
+        @inlinable
         public init(adminScope: AdminScope? = nil, status: OrganizationStatus? = nil) {
             self.adminScope = adminScope
             self.status = status
@@ -1381,6 +1430,7 @@ extension FMS {
         /// The ID of the Firewall Manager applications list that you want the details for.
         public let listId: String
 
+        @inlinable
         public init(defaultList: Bool? = nil, listId: String) {
             self.defaultList = defaultList
             self.listId = listId
@@ -1404,6 +1454,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the applications list.
         public let appsListArn: String?
 
+        @inlinable
         public init(appsList: AppsListData? = nil, appsListArn: String? = nil) {
             self.appsList = appsList
             self.appsListArn = appsListArn
@@ -1421,6 +1472,7 @@ extension FMS {
         /// The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies.
         public let policyId: String
 
+        @inlinable
         public init(memberAccount: String, policyId: String) {
             self.memberAccount = memberAccount
             self.policyId = policyId
@@ -1445,6 +1497,7 @@ extension FMS {
         /// Information about the resources and the policy that you specified in the GetComplianceDetail request.
         public let policyComplianceDetail: PolicyComplianceDetail?
 
+        @inlinable
         public init(policyComplianceDetail: PolicyComplianceDetail? = nil) {
             self.policyComplianceDetail = policyComplianceDetail
         }
@@ -1464,6 +1517,7 @@ extension FMS {
         /// The SNS topic that records Firewall Manager activity.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(snsRoleName: String? = nil, snsTopicArn: String? = nil) {
             self.snsRoleName = snsRoleName
             self.snsTopicArn = snsTopicArn
@@ -1479,6 +1533,7 @@ extension FMS {
         /// The ID of the Firewall Manager policy that you want the details for.
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -1500,6 +1555,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the specified policy.
         public let policyArn: String?
 
+        @inlinable
         public init(policy: Policy? = nil, policyArn: String? = nil) {
             self.policy = policy
             self.policyArn = policyArn
@@ -1525,6 +1581,7 @@ extension FMS {
         /// The start of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, maxResults: Int? = nil, memberAccountId: String? = nil, nextToken: String? = nil, policyId: String, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1568,6 +1625,7 @@ extension FMS {
         /// The service type that is protected by the policy. Currently, this is always SHIELD_ADVANCED.
         public let serviceType: SecurityServiceType?
 
+        @inlinable
         public init(adminAccountId: String? = nil, data: String? = nil, nextToken: String? = nil, serviceType: SecurityServiceType? = nil) {
             self.adminAccountId = adminAccountId
             self.data = data
@@ -1589,6 +1647,7 @@ extension FMS {
         /// The ID of the Firewall Manager protocols list that you want the details for.
         public let listId: String
 
+        @inlinable
         public init(defaultList: Bool? = nil, listId: String) {
             self.defaultList = defaultList
             self.listId = listId
@@ -1612,6 +1671,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the specified protocols list.
         public let protocolsListArn: String?
 
+        @inlinable
         public init(protocolsList: ProtocolsListData? = nil, protocolsListArn: String? = nil) {
             self.protocolsList = protocolsList
             self.protocolsListArn = protocolsListArn
@@ -1627,6 +1687,7 @@ extension FMS {
         /// A unique identifier for the resource set, used in a request to refer to the resource set.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1648,6 +1709,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the resource set.
         public let resourceSetArn: String
 
+        @inlinable
         public init(resourceSet: ResourceSet, resourceSetArn: String) {
             self.resourceSet = resourceSet
             self.resourceSetArn = resourceSetArn
@@ -1663,6 +1725,7 @@ extension FMS {
         /// The name of the third-party firewall vendor.
         public let thirdPartyFirewall: ThirdPartyFirewall
 
+        @inlinable
         public init(thirdPartyFirewall: ThirdPartyFirewall) {
             self.thirdPartyFirewall = thirdPartyFirewall
         }
@@ -1678,6 +1741,7 @@ extension FMS {
         /// The current status for setting a Firewall Manager policy administrators account as an administrator of the third-party firewall tenant.    ONBOARDING - The Firewall Manager policy administrator is being designated as a tenant administrator.    ONBOARD_COMPLETE - The Firewall Manager policy administrator is designated as a tenant administrator.    OFFBOARDING - The Firewall Manager policy administrator is being removed as a tenant administrator.    OFFBOARD_COMPLETE - The Firewall Manager policy administrator has been removed as a tenant administrator.    NOT_EXIST - The Firewall Manager policy administrator doesn't exist as a tenant administrator.
         public let thirdPartyFirewallStatus: ThirdPartyFirewallAssociationStatus?
 
+        @inlinable
         public init(marketplaceOnboardingStatus: MarketplaceSubscriptionOnboardingStatus? = nil, thirdPartyFirewallStatus: ThirdPartyFirewallAssociationStatus? = nil) {
             self.marketplaceOnboardingStatus = marketplaceOnboardingStatus
             self.thirdPartyFirewallStatus = thirdPartyFirewallStatus
@@ -1699,6 +1763,7 @@ extension FMS {
         /// The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference. Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, AWS::EC2::SecurityGroup, AWS::NetworkFirewall::FirewallPolicy, and AWS::EC2::Subnet.
         public let resourceType: String
 
+        @inlinable
         public init(memberAccount: String, policyId: String, resourceId: String, resourceType: String) {
             self.memberAccount = memberAccount
             self.policyId = policyId
@@ -1733,6 +1798,7 @@ extension FMS {
         /// Violation detail for a resource.
         public let violationDetail: ViolationDetail?
 
+        @inlinable
         public init(violationDetail: ViolationDetail? = nil) {
             self.violationDetail = violationDetail
         }
@@ -1754,6 +1820,7 @@ extension FMS {
         /// The VPC where the violation was found.
         public let vpc: String?
 
+        @inlinable
         public init(currentAssociatedNetworkAcl: String? = nil, entryViolations: [EntryViolation]? = nil, subnet: String? = nil, subnetAvailabilityZone: String? = nil, vpc: String? = nil) {
             self.currentAssociatedNetworkAcl = currentAssociatedNetworkAcl
             self.entryViolations = entryViolations
@@ -1777,6 +1844,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1802,6 +1870,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(adminAccounts: [AdminAccountSummary]? = nil, nextToken: String? = nil) {
             self.adminAccounts = adminAccounts
             self.nextToken = nextToken
@@ -1819,6 +1888,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1844,6 +1914,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(adminAccounts: [String]? = nil, nextToken: String? = nil) {
             self.adminAccounts = adminAccounts
             self.nextToken = nextToken
@@ -1863,6 +1934,7 @@ extension FMS {
         /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, Firewall Manager returns this token in the response. For all but the first request, you provide the token returned by the prior request in the request parameters, to retrieve the next batch of objects.
         public let nextToken: String?
 
+        @inlinable
         public init(defaultLists: Bool? = nil, maxResults: Int, nextToken: String? = nil) {
             self.defaultLists = defaultLists
             self.maxResults = maxResults
@@ -1890,6 +1962,7 @@ extension FMS {
         /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, Firewall Manager returns this token in the response. You can use this token in subsequent requests to retrieve the next batch of objects.
         public let nextToken: String?
 
+        @inlinable
         public init(appsLists: [AppsListDataSummary]? = nil, nextToken: String? = nil) {
             self.appsLists = appsLists
             self.nextToken = nextToken
@@ -1909,6 +1982,7 @@ extension FMS {
         /// The ID of the Firewall Manager policy that you want the details for.
         public let policyId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, policyId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1939,6 +2013,7 @@ extension FMS {
         /// An array of PolicyComplianceStatus objects.
         public let policyComplianceStatusList: [PolicyComplianceStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, policyComplianceStatusList: [PolicyComplianceStatus]? = nil) {
             self.nextToken = nextToken
             self.policyComplianceStatusList = policyComplianceStatusList
@@ -1960,6 +2035,7 @@ extension FMS {
         /// The type of resources to discover.
         public let resourceType: String
 
+        @inlinable
         public init(maxResults: Int? = nil, memberAccountIds: [String], nextToken: String? = nil, resourceType: String) {
             self.maxResults = maxResults
             self.memberAccountIds = memberAccountIds
@@ -1997,6 +2073,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DiscoveredResource]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2014,6 +2091,7 @@ extension FMS {
         /// If you specify a value for MaxResults and you have more account IDs than the number that you specify for MaxResults, Firewall Manager returns a NextToken value in the response that allows you to list another group of IDs. For the second and subsequent ListMemberAccountsRequest requests, specify the value of NextToken from the previous response to get information about another batch of member account IDs.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2039,6 +2117,7 @@ extension FMS {
         /// If you have more member account IDs than the number that you specified for MaxResults in the request, the response includes a NextToken value. To list more IDs, submit another ListMemberAccounts request, and specify the NextToken value from the response in the NextToken value in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(memberAccounts: [String]? = nil, nextToken: String? = nil) {
             self.memberAccounts = memberAccounts
             self.nextToken = nextToken
@@ -2056,6 +2135,7 @@ extension FMS {
         /// If you specify a value for MaxResults and you have more PolicySummary objects than the number that you specify for MaxResults, Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicySummary objects. For the second and subsequent ListPolicies requests, specify the value of NextToken from the previous response to get information about another batch of PolicySummary objects.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2081,6 +2161,7 @@ extension FMS {
         /// An array of PolicySummary objects.
         public let policyList: [PolicySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, policyList: [PolicySummary]? = nil) {
             self.nextToken = nextToken
             self.policyList = policyList
@@ -2100,6 +2181,7 @@ extension FMS {
         /// If you specify a value for MaxResults in your list request, and you have more objects than the maximum, Firewall Manager returns this token in the response. For all but the first request, you provide the token returned by the prior request in the request parameters, to retrieve the next batch of objects.
         public let nextToken: String?
 
+        @inlinable
         public init(defaultLists: Bool? = nil, maxResults: Int, nextToken: String? = nil) {
             self.defaultLists = defaultLists
             self.maxResults = maxResults
@@ -2127,6 +2209,7 @@ extension FMS {
         /// An array of ProtocolsListDataSummary objects.
         public let protocolsLists: [ProtocolsListDataSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, protocolsLists: [ProtocolsListDataSummary]? = nil) {
             self.nextToken = nextToken
             self.protocolsLists = protocolsLists
@@ -2146,6 +2229,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.identifier = identifier
             self.maxResults = maxResults
@@ -2176,6 +2260,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Resource], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2193,6 +2278,7 @@ extension FMS {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Firewall Manager returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2218,6 +2304,7 @@ extension FMS {
         /// An array of ResourceSetSummary objects.
         public let resourceSets: [ResourceSetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceSets: [ResourceSetSummary]? = nil) {
             self.nextToken = nextToken
             self.resourceSets = resourceSets
@@ -2233,6 +2320,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager resources that support tagging are policies, applications lists, and protocols lists.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2252,6 +2340,7 @@ extension FMS {
         /// The tags associated with the resource.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -2273,6 +2362,7 @@ extension FMS {
         /// The name of the third-party firewall vendor.
         public let thirdPartyFirewall: ThirdPartyFirewall
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil, thirdPartyFirewall: ThirdPartyFirewall) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2301,6 +2391,7 @@ extension FMS {
         /// third-party firewall vendor is associated with. Each ThirdPartyFirewallFirewallPolicies element contains the firewall policy name and ID.
         public let thirdPartyFirewallFirewallPolicies: [ThirdPartyFirewallFirewallPolicy]?
 
+        @inlinable
         public init(nextToken: String? = nil, thirdPartyFirewallFirewallPolicies: [ThirdPartyFirewallFirewallPolicy]? = nil) {
             self.nextToken = nextToken
             self.thirdPartyFirewallFirewallPolicies = thirdPartyFirewallFirewallPolicies
@@ -2316,6 +2407,7 @@ extension FMS {
         /// The definition of the first and last rules for the network ACL policy.
         public let networkAclEntrySet: NetworkAclEntrySet
 
+        @inlinable
         public init(networkAclEntrySet: NetworkAclEntrySet) {
             self.networkAclEntrySet = networkAclEntrySet
         }
@@ -2345,6 +2437,7 @@ extension FMS {
         /// Indicates whether to allow or deny the traffic that matches the rule.
         public let ruleAction: NetworkAclRuleAction
 
+        @inlinable
         public init(cidrBlock: String? = nil, egress: Bool, icmpTypeCode: NetworkAclIcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, portRange: NetworkAclPortRange? = nil, protocol: String, ruleAction: NetworkAclRuleAction) {
             self.cidrBlock = cidrBlock
             self.egress = egress
@@ -2388,6 +2481,7 @@ extension FMS {
         /// The rules that you want to run last in the Firewall Manager managed network ACLs.   Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates.   You must specify at least one first entry or one last entry in any network ACL policy.
         public let lastEntries: [NetworkAclEntry]?
 
+        @inlinable
         public init(firstEntries: [NetworkAclEntry]? = nil, forceRemediateForFirstEntries: Bool, forceRemediateForLastEntries: Bool, lastEntries: [NetworkAclEntry]? = nil) {
             self.firstEntries = firstEntries
             self.forceRemediateForFirstEntries = forceRemediateForFirstEntries
@@ -2418,6 +2512,7 @@ extension FMS {
         /// ICMP type.
         public let type: Int?
 
+        @inlinable
         public init(code: Int? = nil, type: Int? = nil) {
             self.code = code
             self.type = type
@@ -2442,6 +2537,7 @@ extension FMS {
         /// The ending port number of the range.
         public let to: Int?
 
+        @inlinable
         public init(from: Int? = nil, to: Int? = nil) {
             self.from = from
             self.to = to
@@ -2470,6 +2566,7 @@ extension FMS {
         /// Information about the VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(routeTableId: String? = nil, violatingRoutes: [Route]? = nil, violationTarget: String? = nil, vpcId: String? = nil) {
             self.routeTableId = routeTableId
             self.violatingRoutes = violatingRoutes
@@ -2517,6 +2614,7 @@ extension FMS {
         /// Information about the VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(actualFirewallSubnetRoutes: [Route]? = nil, actualInternetGatewayRoutes: [Route]? = nil, currentFirewallSubnetRouteTable: String? = nil, currentInternetGatewayRouteTable: String? = nil, expectedFirewallEndpoint: String? = nil, expectedFirewallSubnetRoutes: [ExpectedRoute]? = nil, expectedInternetGatewayRoutes: [ExpectedRoute]? = nil, firewallSubnetId: String? = nil, internetGatewayId: String? = nil, isRouteTableUsedInDifferentAZ: Bool? = nil, routeTableId: String? = nil, subnetAvailabilityZone: String? = nil, subnetId: String? = nil, violatingRoutes: [Route]? = nil, vpcId: String? = nil) {
             self.actualFirewallSubnetRoutes = actualFirewallSubnetRoutes
             self.actualInternetGatewayRoutes = actualInternetGatewayRoutes
@@ -2588,6 +2686,7 @@ extension FMS {
         /// Information about the VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(actualFirewallEndpoint: String? = nil, actualFirewallSubnetId: String? = nil, actualFirewallSubnetRoutes: [Route]? = nil, actualInternetGatewayRoutes: [Route]? = nil, affectedSubnets: [String]? = nil, currentFirewallSubnetRouteTable: String? = nil, currentInternetGatewayRouteTable: String? = nil, expectedFirewallEndpoint: String? = nil, expectedFirewallSubnetId: String? = nil, expectedFirewallSubnetRoutes: [ExpectedRoute]? = nil, expectedInternetGatewayRoutes: [ExpectedRoute]? = nil, internetGatewayId: String? = nil, isRouteTableUsedInDifferentAZ: Bool? = nil, routeTableId: String? = nil, violatingRoute: Route? = nil, vpcId: String? = nil) {
             self.actualFirewallEndpoint = actualFirewallEndpoint
             self.actualFirewallSubnetId = actualFirewallSubnetId
@@ -2639,6 +2738,7 @@ extension FMS {
         /// The resource ID of the VPC associated with a violating subnet.
         public let vpc: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, currentRouteTable: String? = nil, expectedRouteTable: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
             self.availabilityZone = availabilityZone
             self.currentRouteTable = currentRouteTable
@@ -2664,6 +2764,7 @@ extension FMS {
         /// Information about the VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(expectedRoutes: [ExpectedRoute]? = nil, violationTarget: String? = nil, vpcId: String? = nil) {
             self.expectedRoutes = expectedRoutes
             self.violationTarget = violationTarget
@@ -2687,6 +2788,7 @@ extension FMS {
         /// The resource ID of the VPC associated with a violating subnet.
         public let vpc: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, targetViolationReason: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
@@ -2712,6 +2814,7 @@ extension FMS {
         /// The resource ID of the VPC associated with a violating subnet.
         public let vpc: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, targetViolationReason: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
@@ -2731,6 +2834,7 @@ extension FMS {
         /// Defines the deployment model to use for the firewall policy. To use a distributed model, set PolicyOption to NULL.
         public let firewallDeploymentModel: FirewallDeploymentModel?
 
+        @inlinable
         public init(firewallDeploymentModel: FirewallDeploymentModel? = nil) {
             self.firewallDeploymentModel = firewallDeploymentModel
         }
@@ -2760,6 +2864,7 @@ extension FMS {
         /// The stateless rule groups that are used in the Network Firewall firewall policy.
         public let statelessRuleGroups: [StatelessRuleGroup]?
 
+        @inlinable
         public init(statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroups: [StatefulRuleGroup]? = nil, statelessCustomActions: [String]? = nil, statelessDefaultActions: [String]? = nil, statelessFragmentDefaultActions: [String]? = nil, statelessRuleGroups: [StatelessRuleGroup]? = nil) {
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
@@ -2789,6 +2894,7 @@ extension FMS {
         /// The ID of the Network Firewall or VPC resource that's in violation.
         public let violationTarget: String?
 
+        @inlinable
         public init(currentPolicyDescription: NetworkFirewallPolicyDescription? = nil, expectedPolicyDescription: NetworkFirewallPolicyDescription? = nil, violationTarget: String? = nil) {
             self.currentPolicyDescription = currentPolicyDescription
             self.expectedPolicyDescription = expectedPolicyDescription
@@ -2806,6 +2912,7 @@ extension FMS {
         /// The action that changes the rule group from DROP to ALERT. This only applies to managed rule groups.
         public let action: NetworkFirewallOverrideAction?
 
+        @inlinable
         public init(action: NetworkFirewallOverrideAction? = nil) {
             self.action = action
         }
@@ -2827,6 +2934,7 @@ extension FMS {
         /// Information about the VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(firewallEndpoint: String? = nil, firewallSubnetId: String? = nil, routeTableId: String? = nil, violatingRoutes: [Route]? = nil, vpcId: String? = nil) {
             self.firewallEndpoint = firewallEndpoint
             self.firewallSubnetId = firewallSubnetId
@@ -2854,6 +2962,7 @@ extension FMS {
         /// Information about the VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(gatewayId: String? = nil, routeTableId: String? = nil, violatingRoutes: [Route]? = nil, vpcId: String? = nil) {
             self.gatewayId = gatewayId
             self.routeTableId = routeTableId
@@ -2877,6 +2986,7 @@ extension FMS {
         /// The list of OUs within the organization that the specified Firewall Manager administrator either can or cannot apply policies to, based on the value of OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits. If OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits is set to true, then the Firewall Manager administrator can apply policies to all OUs in the organization except for the OUs in this list. If OrganizationalUnitScope$ExcludeSpecifiedOrganizationalUnits is set to false, then the Firewall Manager administrator can only apply policies to the OUs in this list.
         public let organizationalUnits: [String]?
 
+        @inlinable
         public init(allOrganizationalUnitsEnabled: Bool? = nil, excludeSpecifiedOrganizationalUnits: Bool? = nil, organizationalUnits: [String]? = nil) {
             self.allOrganizationalUnitsEnabled = allOrganizationalUnitsEnabled
             self.excludeSpecifiedOrganizationalUnits = excludeSpecifiedOrganizationalUnits
@@ -2904,6 +3014,7 @@ extension FMS {
         /// The violation reason.
         public let targetViolationReasons: [String]?
 
+        @inlinable
         public init(reference: String? = nil, targetViolationReasons: [String]? = nil) {
             self.reference = reference
             self.targetViolationReasons = targetViolationReasons
@@ -2947,6 +3058,7 @@ extension FMS {
         /// Details about the security service that is being used to protect the resources.
         public let securityServicePolicyData: SecurityServicePolicyData
 
+        @inlinable
         public init(deleteUnusedFMManagedResources: Bool? = nil, excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyDescription: String? = nil, policyId: String? = nil, policyName: String, policyStatus: CustomerPolicyStatus? = nil, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceSetIds: [String]? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
             self.deleteUnusedFMManagedResources = deleteUnusedFMManagedResources
             self.excludeMap = excludeMap
@@ -3032,6 +3144,7 @@ extension FMS {
         /// An array of resources that aren't protected by the WAF or Shield Advanced policy or that aren't in compliance with the security group policy.
         public let violators: [ComplianceViolator]?
 
+        @inlinable
         public init(evaluationLimitExceeded: Bool? = nil, expiredAt: Date? = nil, issueInfoMap: [DependentServiceName: String]? = nil, memberAccount: String? = nil, policyId: String? = nil, policyOwner: String? = nil, violators: [ComplianceViolator]? = nil) {
             self.evaluationLimitExceeded = evaluationLimitExceeded
             self.expiredAt = expiredAt
@@ -3069,6 +3182,7 @@ extension FMS {
         /// The Amazon Web Services account that created the Firewall Manager policy.
         public let policyOwner: String?
 
+        @inlinable
         public init(evaluationResults: [EvaluationResult]? = nil, issueInfoMap: [DependentServiceName: String]? = nil, lastUpdated: Date? = nil, memberAccount: String? = nil, policyId: String? = nil, policyName: String? = nil, policyOwner: String? = nil) {
             self.evaluationResults = evaluationResults
             self.issueInfoMap = issueInfoMap
@@ -3098,6 +3212,7 @@ extension FMS {
         /// Defines the policy options for a third-party firewall policy.
         public let thirdPartyFirewallPolicy: ThirdPartyFirewallPolicy?
 
+        @inlinable
         public init(networkAclCommonPolicy: NetworkAclCommonPolicy? = nil, networkFirewallPolicy: NetworkFirewallPolicy? = nil, thirdPartyFirewallPolicy: ThirdPartyFirewallPolicy? = nil) {
             self.networkAclCommonPolicy = networkAclCommonPolicy
             self.networkFirewallPolicy = networkFirewallPolicy
@@ -3133,6 +3248,7 @@ extension FMS {
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an WAF policy, a Shield Advanced policy, or a security group policy.
         public let securityServiceType: SecurityServiceType?
 
+        @inlinable
         public init(deleteUnusedFMManagedResources: Bool? = nil, policyArn: String? = nil, policyId: String? = nil, policyName: String? = nil, policyStatus: CustomerPolicyStatus? = nil, remediationEnabled: Bool? = nil, resourceType: String? = nil, securityServiceType: SecurityServiceType? = nil) {
             self.deleteUnusedFMManagedResources = deleteUnusedFMManagedResources
             self.policyArn = policyArn
@@ -3162,6 +3278,7 @@ extension FMS {
         /// The list of policy types that the specified Firewall Manager administrator can manage.
         public let policyTypes: [SecurityServiceType]?
 
+        @inlinable
         public init(allPolicyTypesEnabled: Bool? = nil, policyTypes: [SecurityServiceType]? = nil) {
             self.allPolicyTypesEnabled = allPolicyTypesEnabled
             self.policyTypes = policyTypes
@@ -3185,6 +3302,7 @@ extension FMS {
         /// The ordered list of remediation actions.
         public let orderedRemediationActions: [RemediationActionWithOrder]
 
+        @inlinable
         public init(description: String? = nil, isDefaultAction: Bool? = nil, orderedRemediationActions: [RemediationActionWithOrder]) {
             self.description = description
             self.isDefaultAction = isDefaultAction
@@ -3204,6 +3322,7 @@ extension FMS {
         /// A description of the possible remediation actions list.
         public let description: String?
 
+        @inlinable
         public init(actions: [PossibleRemediationAction]? = nil, description: String? = nil) {
             self.actions = actions
             self.description = description
@@ -3231,6 +3350,7 @@ extension FMS {
         /// An array of protocols in the Firewall Manager protocols list.
         public let protocolsList: [String]
 
+        @inlinable
         public init(createTime: Date? = nil, lastUpdateTime: Date? = nil, listId: String? = nil, listName: String, listUpdateToken: String? = nil, previousProtocolsList: [String: [String]]? = nil, protocolsList: [String]) {
             self.createTime = createTime
             self.lastUpdateTime = lastUpdateTime
@@ -3284,6 +3404,7 @@ extension FMS {
         /// An array of protocols in the Firewall Manager protocols list.
         public let protocolsList: [String]?
 
+        @inlinable
         public init(listArn: String? = nil, listId: String? = nil, listName: String? = nil, protocolsList: [String]? = nil) {
             self.listArn = listArn
             self.listId = listId
@@ -3305,6 +3426,7 @@ extension FMS {
         /// Configures the resources that the specified Firewall Manager administrator can manage. As a best practice, set the administrative scope according to the principles of least privilege. Only grant the administrator the specific resources or permissions that they need to perform the duties of their role.
         public let adminScope: AdminScope?
 
+        @inlinable
         public init(adminAccount: String, adminScope: AdminScope? = nil) {
             self.adminAccount = adminAccount
             self.adminScope = adminScope
@@ -3329,6 +3451,7 @@ extension FMS {
         /// The tags associated with the resource.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(appsList: AppsListData, tagList: [Tag]? = nil) {
             self.appsList = appsList
             self.tagList = tagList
@@ -3354,6 +3477,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the applications list.
         public let appsListArn: String?
 
+        @inlinable
         public init(appsList: AppsListData? = nil, appsListArn: String? = nil) {
             self.appsList = appsList
             self.appsListArn = appsListArn
@@ -3371,6 +3495,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the SNS topic that collects notifications from Firewall Manager.
         public let snsTopicArn: String
 
+        @inlinable
         public init(snsRoleName: String, snsTopicArn: String) {
             self.snsRoleName = snsRoleName
             self.snsTopicArn = snsTopicArn
@@ -3397,6 +3522,7 @@ extension FMS {
         /// The tags to add to the Amazon Web Services resource.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(policy: Policy, tagList: [Tag]? = nil) {
             self.policy = policy
             self.tagList = tagList
@@ -3422,6 +3548,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the policy.
         public let policyArn: String?
 
+        @inlinable
         public init(policy: Policy? = nil, policyArn: String? = nil) {
             self.policy = policy
             self.policyArn = policyArn
@@ -3439,6 +3566,7 @@ extension FMS {
         /// The tags associated with the resource.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(protocolsList: ProtocolsListData, tagList: [Tag]? = nil) {
             self.protocolsList = protocolsList
             self.tagList = tagList
@@ -3464,6 +3592,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the protocols list.
         public let protocolsListArn: String?
 
+        @inlinable
         public init(protocolsList: ProtocolsListData? = nil, protocolsListArn: String? = nil) {
             self.protocolsList = protocolsList
             self.protocolsListArn = protocolsListArn
@@ -3481,6 +3610,7 @@ extension FMS {
         /// Retrieves the tags associated with the specified resource set. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(resourceSet: ResourceSet, tagList: [Tag]? = nil) {
             self.resourceSet = resourceSet
             self.tagList = tagList
@@ -3506,6 +3636,7 @@ extension FMS {
         /// The Amazon Resource Name (ARN) of the resource set.
         public let resourceSetArn: String
 
+        @inlinable
         public init(resourceSet: ResourceSet, resourceSetArn: String) {
             self.resourceSet = resourceSet
             self.resourceSetArn = resourceSetArn
@@ -3523,6 +3654,7 @@ extension FMS {
         /// The Amazon Web Services Regions that the specified Firewall Manager administrator can perform actions in.
         public let regions: [String]?
 
+        @inlinable
         public init(allRegionsEnabled: Bool? = nil, regions: [String]? = nil) {
             self.allRegionsEnabled = allRegionsEnabled
             self.regions = regions
@@ -3571,6 +3703,7 @@ extension FMS {
         /// Information about the ReplaceNetworkAclAssociation action in Amazon EC2.
         public let replaceNetworkAclAssociationAction: ReplaceNetworkAclAssociationAction?
 
+        @inlinable
         public init(createNetworkAclAction: CreateNetworkAclAction? = nil, createNetworkAclEntriesAction: CreateNetworkAclEntriesAction? = nil, deleteNetworkAclEntriesAction: DeleteNetworkAclEntriesAction? = nil, description: String? = nil, ec2AssociateRouteTableAction: EC2AssociateRouteTableAction? = nil, ec2CopyRouteTableAction: EC2CopyRouteTableAction? = nil, ec2CreateRouteAction: EC2CreateRouteAction? = nil, ec2CreateRouteTableAction: EC2CreateRouteTableAction? = nil, ec2DeleteRouteAction: EC2DeleteRouteAction? = nil, ec2ReplaceRouteAction: EC2ReplaceRouteAction? = nil, ec2ReplaceRouteTableAssociationAction: EC2ReplaceRouteTableAssociationAction? = nil, fmsPolicyUpdateFirewallCreationConfigAction: FMSPolicyUpdateFirewallCreationConfigAction? = nil, replaceNetworkAclAssociationAction: ReplaceNetworkAclAssociationAction? = nil) {
             self.createNetworkAclAction = createNetworkAclAction
             self.createNetworkAclEntriesAction = createNetworkAclEntriesAction
@@ -3610,6 +3743,7 @@ extension FMS {
         /// Information about an action you can take to remediate a violation.
         public let remediationAction: RemediationAction?
 
+        @inlinable
         public init(order: Int? = nil, remediationAction: RemediationAction? = nil) {
             self.order = order
             self.remediationAction = remediationAction
@@ -3630,6 +3764,7 @@ extension FMS {
         /// The network ACL that's associated with the remediation action.
         public let networkAclId: ActionTarget?
 
+        @inlinable
         public init(associationId: ActionTarget? = nil, description: String? = nil, fmsCanRemediate: Bool? = nil, networkAclId: ActionTarget? = nil) {
             self.associationId = associationId
             self.description = description
@@ -3651,6 +3786,7 @@ extension FMS {
         /// The resource's universal resource indicator (URI).
         public let uri: String
 
+        @inlinable
         public init(accountId: String? = nil, uri: String) {
             self.accountId = accountId
             self.uri = uri
@@ -3679,6 +3815,7 @@ extension FMS {
         ///  To make an unconditional change to the resource set, omit the token in your update request. Without the token, Firewall Manager performs your updates regardless of whether the resource set has changed since you last retrieved it. To make a conditional change to the resource set, provide the token in your update request. Firewall Manager uses the token to ensure that the resource set hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the resource set again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String, resourceSetStatus: ResourceSetStatus? = nil, resourceTypeList: [String], updateToken: String? = nil) {
             self.description = description
             self.id = id
@@ -3731,6 +3868,7 @@ extension FMS {
         /// Indicates whether the resource set is in or out of an admin's Region scope.    ACTIVE - The administrator can manage and delete the resource set.    OUT_OF_ADMIN_SCOPE - The administrator can view the resource set, but they can't edit or delete the resource set. Existing protections stay in place. Any new resource that come into scope of the resource set won't be protected.
         public let resourceSetStatus: ResourceSetStatus?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, resourceSetStatus: ResourceSetStatus? = nil) {
             self.description = description
             self.id = id
@@ -3754,6 +3892,7 @@ extension FMS {
         /// The resource tag value. To specify an empty string value, either don't provide this or specify it as "".
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3822,6 +3961,7 @@ extension FMS {
         /// The violation details for a third-party firewall's subnet that's been deleted.
         public let thirdPartyFirewallMissingSubnetViolation: ThirdPartyFirewallMissingSubnetViolation?
 
+        @inlinable
         public init(awsEc2InstanceViolation: AwsEc2InstanceViolation? = nil, awsEc2NetworkInterfaceViolation: AwsEc2NetworkInterfaceViolation? = nil, awsVPCSecurityGroupViolation: AwsVPCSecurityGroupViolation? = nil, dnsDuplicateRuleGroupViolation: DnsDuplicateRuleGroupViolation? = nil, dnsRuleGroupLimitExceededViolation: DnsRuleGroupLimitExceededViolation? = nil, dnsRuleGroupPriorityConflictViolation: DnsRuleGroupPriorityConflictViolation? = nil, firewallSubnetIsOutOfScopeViolation: FirewallSubnetIsOutOfScopeViolation? = nil, firewallSubnetMissingVPCEndpointViolation: FirewallSubnetMissingVPCEndpointViolation? = nil, invalidNetworkAclEntriesViolation: InvalidNetworkAclEntriesViolation? = nil, networkFirewallBlackHoleRouteDetectedViolation: NetworkFirewallBlackHoleRouteDetectedViolation? = nil, networkFirewallInternetTrafficNotInspectedViolation: NetworkFirewallInternetTrafficNotInspectedViolation? = nil, networkFirewallInvalidRouteConfigurationViolation: NetworkFirewallInvalidRouteConfigurationViolation? = nil, networkFirewallMissingExpectedRoutesViolation: NetworkFirewallMissingExpectedRoutesViolation? = nil, networkFirewallMissingExpectedRTViolation: NetworkFirewallMissingExpectedRTViolation? = nil, networkFirewallMissingFirewallViolation: NetworkFirewallMissingFirewallViolation? = nil, networkFirewallMissingSubnetViolation: NetworkFirewallMissingSubnetViolation? = nil, networkFirewallPolicyModifiedViolation: NetworkFirewallPolicyModifiedViolation? = nil, networkFirewallUnexpectedFirewallRoutesViolation: NetworkFirewallUnexpectedFirewallRoutesViolation? = nil, networkFirewallUnexpectedGatewayRoutesViolation: NetworkFirewallUnexpectedGatewayRoutesViolation? = nil, possibleRemediationActions: PossibleRemediationActions? = nil, routeHasOutOfScopeEndpointViolation: RouteHasOutOfScopeEndpointViolation? = nil, thirdPartyFirewallMissingExpectedRouteTableViolation: ThirdPartyFirewallMissingExpectedRouteTableViolation? = nil, thirdPartyFirewallMissingFirewallViolation: ThirdPartyFirewallMissingFirewallViolation? = nil, thirdPartyFirewallMissingSubnetViolation: ThirdPartyFirewallMissingSubnetViolation? = nil) {
             self.awsEc2InstanceViolation = awsEc2InstanceViolation
             self.awsEc2NetworkInterfaceViolation = awsEc2NetworkInterfaceViolation
@@ -3887,6 +4027,7 @@ extension FMS {
         /// The type of target for the route.
         public let targetType: TargetType?
 
+        @inlinable
         public init(destination: String? = nil, destinationType: DestinationType? = nil, target: String? = nil, targetType: TargetType? = nil) {
             self.destination = destination
             self.destinationType = destinationType
@@ -3928,6 +4069,7 @@ extension FMS {
         /// The VPC ID of the route that violates the policy scope.
         public let vpcId: String?
 
+        @inlinable
         public init(currentFirewallSubnetRouteTable: String? = nil, currentInternetGatewayRouteTable: String? = nil, firewallSubnetId: String? = nil, firewallSubnetRoutes: [Route]? = nil, internetGatewayId: String? = nil, internetGatewayRoutes: [Route]? = nil, routeTableId: String? = nil, subnetAvailabilityZone: String? = nil, subnetAvailabilityZoneId: String? = nil, subnetId: String? = nil, violatingRoutes: [Route]? = nil, vpcId: String? = nil) {
             self.currentFirewallSubnetRouteTable = currentFirewallSubnetRouteTable
             self.currentInternetGatewayRouteTable = currentInternetGatewayRouteTable
@@ -3969,6 +4111,7 @@ extension FMS {
         /// The final state of the rule specified in the ViolationTarget after it is remediated.
         public let remediationResult: SecurityGroupRuleDescription?
 
+        @inlinable
         public init(description: String? = nil, isDefaultAction: Bool? = nil, remediationActionType: RemediationActionType? = nil, remediationResult: SecurityGroupRuleDescription? = nil) {
             self.description = description
             self.isDefaultAction = isDefaultAction
@@ -3998,6 +4141,7 @@ extension FMS {
         /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code. A value of -1 indicates all ICMP/ICMPv6 codes.
         public let toPort: Int64?
 
+        @inlinable
         public init(fromPort: Int64? = nil, ipv4Range: String? = nil, ipv6Range: String? = nil, prefixListId: String? = nil, protocol: String? = nil, toPort: Int64? = nil) {
             self.fromPort = fromPort
             self.ipv4Range = ipv4Range
@@ -4026,6 +4170,7 @@ extension FMS {
         /// The service that the policy is using to protect the resources. This specifies the type of policy that is created, either an WAF policy, a Shield Advanced policy, or a security group policy. For security group policies, Firewall Manager supports one security group for each common policy and for each content audit policy. This is an adjustable limit that you can increase by contacting Amazon Web Services Support.
         public let type: SecurityServiceType
 
+        @inlinable
         public init(managedServiceData: String? = nil, policyOption: PolicyOption? = nil, type: SecurityServiceType) {
             self.managedServiceData = managedServiceData
             self.policyOption = policyOption
@@ -4055,6 +4200,7 @@ extension FMS {
         /// Indicates how Network Firewall should handle traffic when a network connection breaks midstream.    DROP - Fail closed and drop all subsequent traffic going to the firewall.    CONTINUE - Continue to apply rules to subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on context. For example, with a stateful rule that drops HTTP traffic, Network Firewall won't match subsequent traffic because the it won't have the context from session initialization, which defines the application layer protocol as HTTP. However, a TCP-layer rule using a flow:stateless rule would still match, and so would the aws:drop_strict default action.     REJECT - Fail closed and drop all subsequent traffic going to the firewall. With this option, Network Firewall also sends a TCP reject packet back to the client so the client can immediately establish a new session. With the new session, Network Firewall will have context and will apply rules appropriately. For applications that are reliant on long-lived TCP connections that trigger Gateway Load Balancer idle timeouts, this is the recommended setting.     FMS_IGNORE - Firewall Manager doesn't monitor or modify the Network Firewall stream exception policy settings.    For more information, see  Stream exception policy in your firewall policy  in the Network Firewall Developer Guide. Default: FMS_IGNORE
         public let streamExceptionPolicy: StreamExceptionPolicy?
 
+        @inlinable
         public init(ruleOrder: RuleOrder? = nil, streamExceptionPolicy: StreamExceptionPolicy? = nil) {
             self.ruleOrder = ruleOrder
             self.streamExceptionPolicy = streamExceptionPolicy
@@ -4081,6 +4227,7 @@ extension FMS {
         /// The name of the rule group.
         public let ruleGroupName: String?
 
+        @inlinable
         public init(override: NetworkFirewallStatefulRuleGroupOverride? = nil, priority: Int? = nil, resourceId: String? = nil, ruleGroupName: String? = nil) {
             self.override = override
             self.priority = priority
@@ -4104,6 +4251,7 @@ extension FMS {
         /// The name of the rule group.
         public let ruleGroupName: String?
 
+        @inlinable
         public init(priority: Int? = nil, resourceId: String? = nil, ruleGroupName: String? = nil) {
             self.priority = priority
             self.resourceId = resourceId
@@ -4123,6 +4271,7 @@ extension FMS {
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4148,6 +4297,7 @@ extension FMS {
         /// The tags to add to the resource.
         public let tagList: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tagList: [Tag]) {
             self.resourceArn = resourceArn
             self.tagList = tagList
@@ -4179,6 +4329,7 @@ extension FMS {
         /// The name of the specified firewall policy.
         public let firewallPolicyName: String?
 
+        @inlinable
         public init(firewallPolicyId: String? = nil, firewallPolicyName: String? = nil) {
             self.firewallPolicyId = firewallPolicyId
             self.firewallPolicyName = firewallPolicyName
@@ -4202,6 +4353,7 @@ extension FMS {
         /// The resource ID of the VPC associated with a fireawll subnet that's causing the violation.
         public let vpc: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, currentRouteTable: String? = nil, expectedRouteTable: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
             self.availabilityZone = availabilityZone
             self.currentRouteTable = currentRouteTable
@@ -4229,6 +4381,7 @@ extension FMS {
         /// The resource ID of the VPC associated with a third-party firewall.
         public let vpc: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, targetViolationReason: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
@@ -4254,6 +4407,7 @@ extension FMS {
         /// The resource ID of the VPC associated with a subnet that's causing the violation.
         public let vpc: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, targetViolationReason: String? = nil, violationTarget: String? = nil, vpc: String? = nil) {
             self.availabilityZone = availabilityZone
             self.targetViolationReason = targetViolationReason
@@ -4273,6 +4427,7 @@ extension FMS {
         /// Defines the deployment model to use for the third-party firewall policy.
         public let firewallDeploymentModel: FirewallDeploymentModel?
 
+        @inlinable
         public init(firewallDeploymentModel: FirewallDeploymentModel? = nil) {
             self.firewallDeploymentModel = firewallDeploymentModel
         }
@@ -4288,6 +4443,7 @@ extension FMS {
         /// The keys of the tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4331,6 +4487,7 @@ extension FMS {
         /// List of violations for the requested resource.
         public let resourceViolations: [ResourceViolation]
 
+        @inlinable
         public init(memberAccount: String, policyId: String, resourceDescription: String? = nil, resourceId: String, resourceTags: [Tag]? = nil, resourceType: String, resourceViolations: [ResourceViolation]) {
             self.memberAccount = memberAccount
             self.policyId = policyId

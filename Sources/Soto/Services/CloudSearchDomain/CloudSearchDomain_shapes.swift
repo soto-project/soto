@@ -48,6 +48,7 @@ extension CloudSearchDomain {
         /// The  facet value being counted.
         public let value: String?
 
+        @inlinable
         public init(count: Int64? = nil, value: String? = nil) {
             self.count = count
             self.value = value
@@ -63,6 +64,7 @@ extension CloudSearchDomain {
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
 
+        @inlinable
         public init(buckets: [Bucket]? = nil) {
             self.buckets = buckets
         }
@@ -76,6 +78,7 @@ extension CloudSearchDomain {
         /// The description for a warning returned by the document service.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -103,6 +106,7 @@ extension CloudSearchDomain {
         /// The sum of all field values in the result set squared.
         public let sumOfSquares: Double?
 
+        @inlinable
         public init(count: Int64? = nil, max: String? = nil, mean: String? = nil, min: String? = nil, missing: Int64? = nil, stddev: Double? = nil, sum: Double? = nil, sumOfSquares: Double? = nil) {
             self.count = count
             self.max = max
@@ -136,6 +140,7 @@ extension CloudSearchDomain {
         /// The document ID of a document that matches the search request.
         public let id: String?
 
+        @inlinable
         public init(exprs: [String: String]? = nil, fields: [String: [String]]? = nil, highlights: [String: String]? = nil, id: String? = nil) {
             self.exprs = exprs
             self.fields = fields
@@ -161,6 +166,7 @@ extension CloudSearchDomain {
         /// The index of the first matching document.
         public let start: Int64?
 
+        @inlinable
         public init(cursor: String? = nil, found: Int64? = nil, hit: [Hit]? = nil, start: Int64? = nil) {
             self.cursor = cursor
             self.found = found
@@ -212,6 +218,7 @@ extension CloudSearchDomain {
         /// Specifies one or more fields for which to get statistics information. Each specified field must be facet-enabled in the domain configuration. The fields are specified in JSON using the form: {"FIELD-A":{},"FIELD-B":{}} There are currently no options supported for statistics.
         public let stats: String?
 
+        @inlinable
         public init(cursor: String? = nil, expr: String? = nil, facet: String? = nil, filterQuery: String? = nil, highlight: String? = nil, partial: Bool? = nil, query: String, queryOptions: String? = nil, queryParser: QueryParser? = nil, return: String? = nil, size: Int64? = nil, sort: String? = nil, start: Int64? = nil, stats: String? = nil) {
             self.cursor = cursor
             self.expr = expr
@@ -261,6 +268,7 @@ extension CloudSearchDomain {
         /// The status information returned for the search request.
         public let status: SearchStatus?
 
+        @inlinable
         public init(facets: [String: BucketInfo]? = nil, hits: Hits? = nil, stats: [String: FieldStats]? = nil, status: SearchStatus? = nil) {
             self.facets = facets
             self.hits = hits
@@ -282,6 +290,7 @@ extension CloudSearchDomain {
         /// How long it took to process the request, in milliseconds.
         public let timems: Int64?
 
+        @inlinable
         public init(rid: String? = nil, timems: Int64? = nil) {
             self.rid = rid
             self.timems = timems
@@ -301,6 +310,7 @@ extension CloudSearchDomain {
         /// The documents that match the query string.
         public let suggestions: [SuggestionMatch]?
 
+        @inlinable
         public init(found: Int64? = nil, query: String? = nil, suggestions: [SuggestionMatch]? = nil) {
             self.found = found
             self.query = query
@@ -322,6 +332,7 @@ extension CloudSearchDomain {
         /// Specifies the name of the suggester to use to find suggested matches.
         public let suggester: String
 
+        @inlinable
         public init(query: String, size: Int64? = nil, suggester: String) {
             self.query = query
             self.size = size
@@ -345,6 +356,7 @@ extension CloudSearchDomain {
         /// Container for the matching search suggestion information.
         public let suggest: SuggestModel?
 
+        @inlinable
         public init(status: SuggestStatus? = nil, suggest: SuggestModel? = nil) {
             self.status = status
             self.suggest = suggest
@@ -362,6 +374,7 @@ extension CloudSearchDomain {
         /// How long it took to process the request, in milliseconds.
         public let timems: Int64?
 
+        @inlinable
         public init(rid: String? = nil, timems: Int64? = nil) {
             self.rid = rid
             self.timems = timems
@@ -381,6 +394,7 @@ extension CloudSearchDomain {
         /// The string that matches the query string specified in the SuggestRequest.
         public let suggestion: String?
 
+        @inlinable
         public init(id: String? = nil, score: Int64? = nil, suggestion: String? = nil) {
             self.id = id
             self.score = score
@@ -401,6 +415,7 @@ extension CloudSearchDomain {
         /// A batch of documents formatted in JSON or HTML.
         public let documents: AWSHTTPBody
 
+        @inlinable
         public init(contentType: ContentType, documents: AWSHTTPBody) {
             self.contentType = contentType
             self.documents = documents
@@ -426,6 +441,7 @@ extension CloudSearchDomain {
         /// Any warnings returned by the document service about the documents being uploaded.
         public let warnings: [DocumentServiceWarning]?
 
+        @inlinable
         public init(adds: Int64? = nil, deletes: Int64? = nil, status: String? = nil, warnings: [DocumentServiceWarning]? = nil) {
             self.adds = adds
             self.deletes = deletes

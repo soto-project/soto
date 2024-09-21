@@ -64,6 +64,7 @@ extension ECRPublic {
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
         public let expiresAt: Date?
 
+        @inlinable
         public init(authorizationToken: String? = nil, expiresAt: Date? = nil) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
@@ -83,6 +84,7 @@ extension ECRPublic {
         /// The name of the repository that's associated with the image layers to check.
         public let repositoryName: String
 
+        @inlinable
         public init(layerDigests: [String], registryId: String? = nil, repositoryName: String) {
             self.layerDigests = layerDigests
             self.registryId = registryId
@@ -115,6 +117,7 @@ extension ECRPublic {
         /// A list of image layer objects that correspond to the image layer references in the request.
         public let layers: [Layer]?
 
+        @inlinable
         public init(failures: [LayerFailure]? = nil, layers: [Layer]? = nil) {
             self.failures = failures
             self.layers = layers
@@ -134,6 +137,7 @@ extension ECRPublic {
         /// The repository in a public registry that contains the image to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(imageIds: [ImageIdentifier], registryId: String? = nil, repositoryName: String) {
             self.imageIds = imageIds
             self.registryId = registryId
@@ -166,6 +170,7 @@ extension ECRPublic {
         /// The image IDs of the deleted images.
         public let imageIds: [ImageIdentifier]?
 
+        @inlinable
         public init(failures: [ImageFailure]? = nil, imageIds: [ImageIdentifier]? = nil) {
             self.failures = failures
             self.imageIds = imageIds
@@ -187,6 +192,7 @@ extension ECRPublic {
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
         public let uploadId: String
 
+        @inlinable
         public init(layerDigests: [String], registryId: String? = nil, repositoryName: String, uploadId: String) {
             self.layerDigests = layerDigests
             self.registryId = registryId
@@ -226,6 +232,7 @@ extension ECRPublic {
         /// The upload ID that's associated with the layer.
         public let uploadId: String?
 
+        @inlinable
         public init(layerDigest: String? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
             self.layerDigest = layerDigest
             self.registryId = registryId
@@ -249,6 +256,7 @@ extension ECRPublic {
         /// The metadata that you apply to each repository to help categorize and organize your repositories. Each tag consists of a key and an optional value. You define both of them. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
+        @inlinable
         public init(catalogData: RepositoryCatalogDataInput? = nil, repositoryName: String, tags: [Tag]? = nil) {
             self.catalogData = catalogData
             self.repositoryName = repositoryName
@@ -278,6 +286,7 @@ extension ECRPublic {
         /// The repository that was created.
         public let repository: Repository?
 
+        @inlinable
         public init(catalogData: RepositoryCatalogData? = nil, repository: Repository? = nil) {
             self.catalogData = catalogData
             self.repository = repository
@@ -295,6 +304,7 @@ extension ECRPublic {
         /// The name of the repository that's associated with the repository policy to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -321,6 +331,7 @@ extension ECRPublic {
         /// The repository name that's associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -342,6 +353,7 @@ extension ECRPublic {
         /// The name of the repository to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(force: Bool? = nil, registryId: String? = nil, repositoryName: String) {
             self.force = force
             self.registryId = registryId
@@ -366,6 +378,7 @@ extension ECRPublic {
         /// The repository that was deleted.
         public let repository: Repository?
 
+        @inlinable
         public init(repository: Repository? = nil) {
             self.repository = repository
         }
@@ -385,6 +398,7 @@ extension ECRPublic {
         /// The name of the repository that contains the image tag details to describe.
         public let repositoryName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -415,6 +429,7 @@ extension ECRPublic {
         /// The nextToken value to include in a future DescribeImageTags request. When the results of a DescribeImageTags request exceed maxResults, you can use this value to retrieve the next page of results. If there are no more results to return, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(imageTagDetails: [ImageTagDetail]? = nil, nextToken: String? = nil) {
             self.imageTagDetails = imageTagDetails
             self.nextToken = nextToken
@@ -438,6 +453,7 @@ extension ECRPublic {
         /// The repository that contains the images to describe.
         public let repositoryName: String
 
+        @inlinable
         public init(imageIds: [ImageIdentifier]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.imageIds = imageIds
             self.maxResults = maxResults
@@ -475,6 +491,7 @@ extension ECRPublic {
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, you can use this value to retrieve the next page of results. If there are no more results to return, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(imageDetails: [ImageDetail]? = nil, nextToken: String? = nil) {
             self.imageDetails = imageDetails
             self.nextToken = nextToken
@@ -492,6 +509,7 @@ extension ECRPublic {
         /// The nextToken value that's returned from a previous paginated DescribeRegistries request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. If there are no more results to return, this value is null.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -514,6 +532,7 @@ extension ECRPublic {
         /// An object that contains the details for a public registry.
         public let registries: [Registry]
 
+        @inlinable
         public init(nextToken: String? = nil, registries: [Registry]) {
             self.nextToken = nextToken
             self.registries = registries
@@ -535,6 +554,7 @@ extension ECRPublic {
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
         public let repositoryNames: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -569,6 +589,7 @@ extension ECRPublic {
         /// A list of repository objects corresponding to valid repositories.
         public let repositories: [Repository]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositories: [Repository]? = nil) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -588,6 +609,7 @@ extension ECRPublic {
         /// An authorization token data object that corresponds to a public registry.
         public let authorizationData: AuthorizationData?
 
+        @inlinable
         public init(authorizationData: AuthorizationData? = nil) {
             self.authorizationData = authorizationData
         }
@@ -605,6 +627,7 @@ extension ECRPublic {
         /// The catalog metadata for the public registry.
         public let registryCatalogData: RegistryCatalogData
 
+        @inlinable
         public init(registryCatalogData: RegistryCatalogData) {
             self.registryCatalogData = registryCatalogData
         }
@@ -620,6 +643,7 @@ extension ECRPublic {
         /// The name of the repository to retrieve the catalog metadata for.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -642,6 +666,7 @@ extension ECRPublic {
         /// The catalog metadata for the repository.
         public let catalogData: RepositoryCatalogData?
 
+        @inlinable
         public init(catalogData: RepositoryCatalogData? = nil) {
             self.catalogData = catalogData
         }
@@ -657,6 +682,7 @@ extension ECRPublic {
         /// The name of the repository with the policy to retrieve.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -683,6 +709,7 @@ extension ECRPublic {
         /// The repository name that's associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -708,6 +735,7 @@ extension ECRPublic {
         /// The name of the repository that's associated with the image.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageId: ImageIdentifier? = nil, imageManifest: String? = nil, imageManifestMediaType: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.imageManifest = imageManifest
@@ -743,6 +771,7 @@ extension ECRPublic {
         /// The name of the repository where this image belongs.
         public let repositoryName: String?
 
+        @inlinable
         public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
@@ -774,6 +803,7 @@ extension ECRPublic {
         /// The image ID that's associated with the failure.
         public let imageId: ImageIdentifier?
 
+        @inlinable
         public init(failureCode: ImageFailureCode? = nil, failureReason: String? = nil, imageId: ImageIdentifier? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -793,6 +823,7 @@ extension ECRPublic {
         /// The tag that's used for the image.
         public let imageTag: String?
 
+        @inlinable
         public init(imageDigest: String? = nil, imageTag: String? = nil) {
             self.imageDigest = imageDigest
             self.imageTag = imageTag
@@ -817,6 +848,7 @@ extension ECRPublic {
         /// The tag that's associated with the image.
         public let imageTag: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, imageDetail: ReferencedImageDetail? = nil, imageTag: String? = nil) {
             self.createdAt = createdAt
             self.imageDetail = imageDetail
@@ -836,6 +868,7 @@ extension ECRPublic {
         /// The name of the repository that you want to upload layers to.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -861,6 +894,7 @@ extension ECRPublic {
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
         public let uploadId: String?
 
+        @inlinable
         public init(partSize: Int64? = nil, uploadId: String? = nil) {
             self.partSize = partSize
             self.uploadId = uploadId
@@ -882,6 +916,7 @@ extension ECRPublic {
         /// The media type of the layer, such as application/vnd.docker.image.rootfs.diff.tar.gzip or application/vnd.oci.image.layer.v1.tar+gzip.
         public let mediaType: String?
 
+        @inlinable
         public init(layerAvailability: LayerAvailability? = nil, layerDigest: String? = nil, layerSize: Int64? = nil, mediaType: String? = nil) {
             self.layerAvailability = layerAvailability
             self.layerDigest = layerDigest
@@ -905,6 +940,7 @@ extension ECRPublic {
         /// The layer digest that's associated with the failure.
         public let layerDigest: String?
 
+        @inlinable
         public init(failureCode: LayerFailureCode? = nil, failureReason: String? = nil, layerDigest: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -922,6 +958,7 @@ extension ECRPublic {
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resource is an Amazon ECR Public repository.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -940,6 +977,7 @@ extension ECRPublic {
         /// The tags for the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -963,6 +1001,7 @@ extension ECRPublic {
         /// The name of the repository where the image is put.
         public let repositoryName: String
 
+        @inlinable
         public init(imageDigest: String? = nil, imageManifest: String, imageManifestMediaType: String? = nil, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.imageDigest = imageDigest
             self.imageManifest = imageManifest
@@ -998,6 +1037,7 @@ extension ECRPublic {
         /// Details of the image uploaded.
         public let image: Image?
 
+        @inlinable
         public init(image: Image? = nil) {
             self.image = image
         }
@@ -1011,6 +1051,7 @@ extension ECRPublic {
         /// The display name for a public registry. The display name is shown as the repository author in the Amazon ECR Public Gallery.  The registry display name is only publicly visible in the Amazon ECR Public Gallery for verified accounts.
         public let displayName: String?
 
+        @inlinable
         public init(displayName: String? = nil) {
             self.displayName = displayName
         }
@@ -1028,6 +1069,7 @@ extension ECRPublic {
         /// The catalog data for the public registry.
         public let registryCatalogData: RegistryCatalogData
 
+        @inlinable
         public init(registryCatalogData: RegistryCatalogData) {
             self.registryCatalogData = registryCatalogData
         }
@@ -1045,6 +1087,7 @@ extension ECRPublic {
         /// The name of the repository to create or update the catalog data for.
         public let repositoryName: String
 
+        @inlinable
         public init(catalogData: RepositoryCatalogDataInput, registryId: String? = nil, repositoryName: String) {
             self.catalogData = catalogData
             self.registryId = registryId
@@ -1070,6 +1113,7 @@ extension ECRPublic {
         /// The catalog data for the repository.
         public let catalogData: RepositoryCatalogData?
 
+        @inlinable
         public init(catalogData: RepositoryCatalogData? = nil) {
             self.catalogData = catalogData
         }
@@ -1091,6 +1135,7 @@ extension ECRPublic {
         /// The size, in bytes, of the image in the repository. If the image is a manifest list, this is the max size of all manifests in the list.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it might return a larger image size than the image sizes that are returned by DescribeImages.
         public let imageSizeInBytes: Int64?
 
+        @inlinable
         public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageSizeInBytes: Int64? = nil) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
@@ -1120,6 +1165,7 @@ extension ECRPublic {
         /// Indicates whether the account is a verified Amazon Web Services Marketplace vendor. If an account is verified, each public repository receives a verified account badge on the Amazon ECR Public Gallery.
         public let verified: Bool
 
+        @inlinable
         public init(aliases: [RegistryAlias], registryArn: String, registryId: String, registryUri: String, verified: Bool) {
             self.aliases = aliases
             self.registryArn = registryArn
@@ -1147,6 +1193,7 @@ extension ECRPublic {
         /// The status of the registry alias.
         public let status: RegistryAliasStatus
 
+        @inlinable
         public init(defaultRegistryAlias: Bool, name: String, primaryRegistryAlias: Bool, status: RegistryAliasStatus) {
             self.defaultRegistryAlias = defaultRegistryAlias
             self.name = name
@@ -1166,6 +1213,7 @@ extension ECRPublic {
         /// The display name for a public registry. This appears on the Amazon ECR Public Gallery.  Only accounts that have the verified account badge can have a registry display name.
         public let displayName: String?
 
+        @inlinable
         public init(displayName: String? = nil) {
             self.displayName = displayName
         }
@@ -1187,6 +1235,7 @@ extension ECRPublic {
         /// The URI for the repository. You can use this URI for container image push and pull operations.
         public let repositoryUri: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
             self.registryId = registryId
@@ -1220,6 +1269,7 @@ extension ECRPublic {
         /// The longform usage details of the contents of the repository. The usage text provides context for users of the repository.
         public let usageText: String?
 
+        @inlinable
         public init(aboutText: String? = nil, architectures: [String]? = nil, description: String? = nil, logoUrl: String? = nil, marketplaceCertified: Bool? = nil, operatingSystems: [String]? = nil, usageText: String? = nil) {
             self.aboutText = aboutText
             self.architectures = architectures
@@ -1255,6 +1305,7 @@ extension ECRPublic {
         /// Detailed information about how to use the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and additional usage details for users of the repository. The text must be in markdown format.
         public let usageText: String?
 
+        @inlinable
         public init(aboutText: String? = nil, architectures: [String]? = nil, description: String? = nil, logoImageBlob: AWSBase64Data? = nil, operatingSystems: [String]? = nil, usageText: String? = nil) {
             self.aboutText = aboutText
             self.architectures = architectures
@@ -1301,6 +1352,7 @@ extension ECRPublic {
         /// The name of the repository to receive the policy.
         public let repositoryName: String
 
+        @inlinable
         public init(force: Bool? = nil, policyText: String, registryId: String? = nil, repositoryName: String) {
             self.force = force
             self.policyText = policyText
@@ -1332,6 +1384,7 @@ extension ECRPublic {
         /// The repository name that's associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -1351,6 +1404,7 @@ extension ECRPublic {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1374,6 +1428,7 @@ extension ECRPublic {
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1404,6 +1459,7 @@ extension ECRPublic {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1443,6 +1499,7 @@ extension ECRPublic {
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
         public let uploadId: String
 
+        @inlinable
         public init(layerPartBlob: AWSBase64Data, partFirstByte: Int64, partLastByte: Int64, registryId: String? = nil, repositoryName: String, uploadId: String) {
             self.layerPartBlob = layerPartBlob
             self.partFirstByte = partFirstByte
@@ -1484,6 +1541,7 @@ extension ECRPublic {
         /// The upload ID that's associated with the request.
         public let uploadId: String?
 
+        @inlinable
         public init(lastByteReceived: Int64? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
             self.lastByteReceived = lastByteReceived
             self.registryId = registryId

@@ -56,6 +56,7 @@ extension ResourceGroupsTaggingAPI {
         /// These tag keys on the resource are noncompliant with the effective tag policy.
         public let noncompliantKeys: [String]?
 
+        @inlinable
         public init(complianceStatus: Bool? = nil, keysWithNoncompliantValues: [String]? = nil, noncompliantKeys: [String]? = nil) {
             self.complianceStatus = complianceStatus
             self.keysWithNoncompliantValues = keysWithNoncompliantValues
@@ -83,6 +84,7 @@ extension ResourceGroupsTaggingAPI {
         /// Reports the status of the operation. The operation status can be one of the following:    RUNNING - Report creation is in progress.    SUCCEEDED - Report creation is complete. You can open the report from the Amazon S3 bucket that you specified when you ran StartReportCreation.    FAILED - Report creation timed out or the Amazon S3 bucket is not accessible.     NO REPORT - No report was generated in the last 90 days.
         public let status: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, s3Location: String? = nil, startDate: String? = nil, status: String? = nil) {
             self.errorMessage = errorMessage
             self.s3Location = s3Location
@@ -106,6 +108,7 @@ extension ResourceGroupsTaggingAPI {
         /// The HTTP status code of the common error.
         public let statusCode: Int?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, statusCode: Int? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -135,6 +138,7 @@ extension ResourceGroupsTaggingAPI {
         /// Specifies target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources with the specified target IDs.
         public let targetIdFilters: [String]?
 
+        @inlinable
         public init(groupBy: [GroupByAttribute]? = nil, maxResults: Int? = nil, paginationToken: String? = nil, regionFilters: [String]? = nil, resourceTypeFilters: [String]? = nil, tagKeyFilters: [String]? = nil, targetIdFilters: [String]? = nil) {
             self.groupBy = groupBy
             self.maxResults = maxResults
@@ -194,6 +198,7 @@ extension ResourceGroupsTaggingAPI {
         /// A table that shows counts of noncompliant resources.
         public let summaryList: [Summary]?
 
+        @inlinable
         public init(paginationToken: String? = nil, summaryList: [Summary]? = nil) {
             self.paginationToken = paginationToken
             self.summaryList = summaryList
@@ -223,6 +228,7 @@ extension ResourceGroupsTaggingAPI {
         /// Amazon Web Services recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
         public let tagsPerPage: Int?
 
+        @inlinable
         public init(excludeCompliantResources: Bool? = nil, includeComplianceDetails: Bool? = nil, paginationToken: String? = nil, resourceARNList: [String]? = nil, resourcesPerPage: Int? = nil, resourceTypeFilters: [String]? = nil, tagFilters: [TagFilter]? = nil, tagsPerPage: Int? = nil) {
             self.excludeCompliantResources = excludeCompliantResources
             self.includeComplianceDetails = includeComplianceDetails
@@ -272,6 +278,7 @@ extension ResourceGroupsTaggingAPI {
         /// A list of resource ARNs and the tags (keys and values) associated with  each.
         public let resourceTagMappingList: [ResourceTagMapping]?
 
+        @inlinable
         public init(paginationToken: String? = nil, resourceTagMappingList: [ResourceTagMapping]? = nil) {
             self.paginationToken = paginationToken
             self.resourceTagMappingList = resourceTagMappingList
@@ -287,6 +294,7 @@ extension ResourceGroupsTaggingAPI {
         /// Specifies a PaginationToken response value from a  previous request to indicate that you want the next page of results. Leave this parameter empty  in your initial request.
         public let paginationToken: String?
 
+        @inlinable
         public init(paginationToken: String? = nil) {
             self.paginationToken = paginationToken
         }
@@ -307,6 +315,7 @@ extension ResourceGroupsTaggingAPI {
         /// A list of all tag keys in the Amazon Web Services account.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(paginationToken: String? = nil, tagKeys: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagKeys = tagKeys
@@ -324,6 +333,7 @@ extension ResourceGroupsTaggingAPI {
         /// Specifies a PaginationToken response value from a  previous request to indicate that you want the next page of results. Leave this parameter empty  in your initial request.
         public let paginationToken: String?
 
+        @inlinable
         public init(key: String, paginationToken: String? = nil) {
             self.key = key
             self.paginationToken = paginationToken
@@ -349,6 +359,7 @@ extension ResourceGroupsTaggingAPI {
         /// A list of all tag values for the specified key currently used in the specified Amazon Web Services Region for the calling account.
         public let tagValues: [String]?
 
+        @inlinable
         public init(paginationToken: String? = nil, tagValues: [String]? = nil) {
             self.paginationToken = paginationToken
             self.tagValues = tagValues
@@ -368,6 +379,7 @@ extension ResourceGroupsTaggingAPI {
         /// The tags that have been applied to one or more Amazon Web Services resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(complianceDetails: ComplianceDetails? = nil, resourceARN: String? = nil, tags: [Tag]? = nil) {
             self.complianceDetails = complianceDetails
             self.resourceARN = resourceARN
@@ -385,6 +397,7 @@ extension ResourceGroupsTaggingAPI {
         /// The name of the Amazon S3 bucket where the report will be stored; for example:  awsexamplebucket  For more information on S3 bucket requirements, including an example bucket policy, see the example S3 bucket policy on this page.
         public let s3Bucket: String
 
+        @inlinable
         public init(s3Bucket: String) {
             self.s3Bucket = s3Bucket
         }
@@ -418,6 +431,7 @@ extension ResourceGroupsTaggingAPI {
         /// Whether the target is an account, an OU, or the organization root.
         public let targetIdType: TargetIdType?
 
+        @inlinable
         public init(lastUpdated: String? = nil, nonCompliantResources: Int64? = nil, region: String? = nil, resourceType: String? = nil, targetId: String? = nil, targetIdType: TargetIdType? = nil) {
             self.lastUpdated = lastUpdated
             self.nonCompliantResources = nonCompliantResources
@@ -443,6 +457,7 @@ extension ResourceGroupsTaggingAPI {
         /// One part of a key-value pair that make up a tag. A value acts as a  descriptor within a tag category (key). The value can be empty or null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -460,6 +475,7 @@ extension ResourceGroupsTaggingAPI {
         /// One part of a key-value pair that make up a tag. A value acts as a  descriptor within a tag category (key). The value can be empty or null.
         public let values: [String]?
 
+        @inlinable
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -488,6 +504,7 @@ extension ResourceGroupsTaggingAPI {
         /// Specifies a list of tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceARNList: [String], tags: [String: String]) {
             self.resourceARNList = resourceARNList
             self.tags = tags
@@ -522,6 +539,7 @@ extension ResourceGroupsTaggingAPI {
         /// A map containing a key-value pair for each failed item that couldn't be tagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
         public let failedResourcesMap: [String: FailureInfo]?
 
+        @inlinable
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
         }
@@ -537,6 +555,7 @@ extension ResourceGroupsTaggingAPI {
         /// Specifies a list of tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARNList: [String], tagKeys: [String]) {
             self.resourceARNList = resourceARNList
             self.tagKeys = tagKeys
@@ -569,6 +588,7 @@ extension ResourceGroupsTaggingAPI {
         /// A map containing a key-value pair for each failed item that couldn't be untagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
         public let failedResourcesMap: [String: FailureInfo]?
 
+        @inlinable
         public init(failedResourcesMap: [String: FailureInfo]? = nil) {
             self.failedResourcesMap = failedResourcesMap
         }

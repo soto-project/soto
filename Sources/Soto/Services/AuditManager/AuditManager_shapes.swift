@@ -239,6 +239,7 @@ extension AuditManager {
         ///  The name of the Amazon Web Services account.
         public let name: String?
 
+        @inlinable
         public init(emailAddress: String? = nil, id: String? = nil, name: String? = nil) {
             self.emailAddress = emailAddress
             self.id = id
@@ -268,6 +269,7 @@ extension AuditManager {
         ///  The name of the Amazon Web Service.
         public let serviceName: String?
 
+        @inlinable
         public init(serviceName: String? = nil) {
             self.serviceName = serviceName
         }
@@ -295,6 +297,7 @@ extension AuditManager {
         ///  The tags that are associated with the assessment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, awsAccount: AWSAccount? = nil, framework: AssessmentFramework? = nil, metadata: AssessmentMetadata? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.awsAccount = awsAccount
@@ -332,6 +335,7 @@ extension AuditManager {
         ///  The status of the control.
         public let status: ControlStatus?
 
+        @inlinable
         public init(assessmentReportEvidenceCount: Int? = nil, comments: [ControlComment]? = nil, description: String? = nil, evidenceCount: Int? = nil, evidenceSources: [String]? = nil, id: String? = nil, name: String? = nil, response: ControlResponse? = nil, status: ControlStatus? = nil) {
             self.assessmentReportEvidenceCount = assessmentReportEvidenceCount
             self.comments = comments
@@ -375,6 +379,7 @@ extension AuditManager {
         ///  The total number of evidence objects that are retrieved automatically for the control set.
         public let systemEvidenceCount: Int?
 
+        @inlinable
         public init(controls: [AssessmentControl]? = nil, delegations: [Delegation]? = nil, description: String? = nil, id: String? = nil, manualEvidenceCount: Int? = nil, roles: [Role]? = nil, status: ControlSetStatus? = nil, systemEvidenceCount: Int? = nil) {
             self.controls = controls
             self.delegations = delegations
@@ -436,6 +441,7 @@ extension AuditManager {
         ///  The total amount of evidence in the evidence folder.
         public let totalEvidence: Int?
 
+        @inlinable
         public init(assessmentId: String? = nil, assessmentReportSelectionCount: Int? = nil, author: String? = nil, controlId: String? = nil, controlName: String? = nil, controlSetId: String? = nil, dataSource: String? = nil, date: Date? = nil, evidenceAwsServiceSourceCount: Int? = nil, evidenceByTypeComplianceCheckCount: Int? = nil, evidenceByTypeComplianceCheckIssuesCount: Int? = nil, evidenceByTypeConfigurationDataCount: Int? = nil, evidenceByTypeManualCount: Int? = nil, evidenceByTypeUserActivityCount: Int? = nil, evidenceResourcesIncludedCount: Int? = nil, id: String? = nil, name: String? = nil, totalEvidence: Int? = nil) {
             self.assessmentId = assessmentId
             self.assessmentReportSelectionCount = assessmentReportSelectionCount
@@ -488,6 +494,7 @@ extension AuditManager {
         public let id: String?
         public let metadata: FrameworkMetadata?
 
+        @inlinable
         public init(arn: String? = nil, controlSets: [AssessmentControlSet]? = nil, id: String? = nil, metadata: FrameworkMetadata? = nil) {
             self.arn = arn
             self.controlSets = controlSets
@@ -527,6 +534,7 @@ extension AuditManager {
         ///  The framework type, such as a standard framework or a custom framework.
         public let type: FrameworkType?
 
+        @inlinable
         public init(arn: String? = nil, complianceType: String? = nil, controlsCount: Int? = nil, controlSetsCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, logo: String? = nil, name: String? = nil, type: FrameworkType? = nil) {
             self.arn = arn
             self.complianceType = complianceType
@@ -588,6 +596,7 @@ extension AuditManager {
         ///  The status of the share request.
         public let status: ShareRequestStatus?
 
+        @inlinable
         public init(comment: String? = nil, complianceType: String? = nil, creationTime: Date? = nil, customControlsCount: Int? = nil, destinationAccount: String? = nil, destinationRegion: String? = nil, expirationTime: Date? = nil, frameworkDescription: String? = nil, frameworkId: String? = nil, frameworkName: String? = nil, id: String? = nil, lastUpdated: Date? = nil, sourceAccount: String? = nil, standardControlsCount: Int? = nil, status: ShareRequestStatus? = nil) {
             self.comment = comment
             self.complianceType = complianceType
@@ -649,6 +658,7 @@ extension AuditManager {
         ///  The overall status of the assessment.
         public let status: AssessmentStatus?
 
+        @inlinable
         public init(assessmentReportsDestination: AssessmentReportsDestination? = nil, complianceType: String? = nil, creationTime: Date? = nil, delegations: [Delegation]? = nil, description: String? = nil, id: String? = nil, lastUpdated: Date? = nil, name: String? = nil, roles: [Role]? = nil, scope: Scope? = nil, status: AssessmentStatus? = nil) {
             self.assessmentReportsDestination = assessmentReportsDestination
             self.complianceType = complianceType
@@ -696,6 +706,7 @@ extension AuditManager {
         ///  The current status of the assessment.
         public let status: AssessmentStatus?
 
+        @inlinable
         public init(complianceType: String? = nil, creationTime: Date? = nil, delegations: [Delegation]? = nil, id: String? = nil, lastUpdated: Date? = nil, name: String? = nil, roles: [Role]? = nil, status: AssessmentStatus? = nil) {
             self.complianceType = complianceType
             self.creationTime = creationTime
@@ -739,6 +750,7 @@ extension AuditManager {
         ///  The current status of the specified assessment report.
         public let status: AssessmentReportStatus?
 
+        @inlinable
         public init(assessmentId: String? = nil, assessmentName: String? = nil, author: String? = nil, awsAccountId: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: AssessmentReportStatus? = nil) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
@@ -772,6 +784,7 @@ extension AuditManager {
         ///  The identifier for the evidence.
         public let evidenceId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, evidenceId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -803,6 +816,7 @@ extension AuditManager {
         ///  The current status of the assessment report.
         public let status: AssessmentReportStatus?
 
+        @inlinable
         public init(assessmentId: String? = nil, assessmentName: String? = nil, author: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: AssessmentReportStatus? = nil) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
@@ -832,6 +846,7 @@ extension AuditManager {
         ///  The destination type, such as Amazon S3.
         public let destinationType: AssessmentReportDestinationType?
 
+        @inlinable
         public init(destination: String? = nil, destinationType: AssessmentReportDestinationType? = nil) {
             self.destination = destination
             self.destinationType = destinationType
@@ -855,6 +870,7 @@ extension AuditManager {
         ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
 
+        @inlinable
         public init(assessmentId: String, evidenceFolderId: String) {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
@@ -893,6 +909,7 @@ extension AuditManager {
         ///  The list of evidence identifiers.
         public let evidenceIds: [String]
 
+        @inlinable
         public init(assessmentId: String, evidenceFolderId: String, evidenceIds: [String]) {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
@@ -934,6 +951,7 @@ extension AuditManager {
         ///  The list of evidence identifiers.
         public let evidenceIds: [String]?
 
+        @inlinable
         public init(errors: [AssessmentReportEvidenceError]? = nil, evidenceIds: [String]? = nil) {
             self.errors = errors
             self.evidenceIds = evidenceIds
@@ -953,6 +971,7 @@ extension AuditManager {
         ///  The error message that the BatchCreateDelegationByAssessment API returned.
         public let errorMessage: String?
 
+        @inlinable
         public init(createDelegationRequest: CreateDelegationRequest? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
             self.createDelegationRequest = createDelegationRequest
             self.errorCode = errorCode
@@ -972,6 +991,7 @@ extension AuditManager {
         ///  The API request to batch create delegations in Audit Manager.
         public let createDelegationRequests: [CreateDelegationRequest]
 
+        @inlinable
         public init(assessmentId: String, createDelegationRequests: [CreateDelegationRequest]) {
             self.assessmentId = assessmentId
             self.createDelegationRequests = createDelegationRequests
@@ -1006,6 +1026,7 @@ extension AuditManager {
         ///  A list of errors that the BatchCreateDelegationByAssessment API returned.
         public let errors: [BatchCreateDelegationByAssessmentError]?
 
+        @inlinable
         public init(delegations: [Delegation]? = nil, errors: [BatchCreateDelegationByAssessmentError]? = nil) {
             self.delegations = delegations
             self.errors = errors
@@ -1025,6 +1046,7 @@ extension AuditManager {
         ///  The error message that the BatchDeleteDelegationByAssessment API returned.
         public let errorMessage: String?
 
+        @inlinable
         public init(delegationId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
             self.delegationId = delegationId
             self.errorCode = errorCode
@@ -1044,6 +1066,7 @@ extension AuditManager {
         ///  The identifiers for the delegations.
         public let delegationIds: [String]
 
+        @inlinable
         public init(assessmentId: String, delegationIds: [String]) {
             self.assessmentId = assessmentId
             self.delegationIds = delegationIds
@@ -1078,6 +1101,7 @@ extension AuditManager {
         ///  A list of errors that the BatchDeleteDelegationByAssessment API returned.
         public let errors: [BatchDeleteDelegationByAssessmentError]?
 
+        @inlinable
         public init(errors: [BatchDeleteDelegationByAssessmentError]? = nil) {
             self.errors = errors
         }
@@ -1095,6 +1119,7 @@ extension AuditManager {
         ///  The list of evidence identifiers.
         public let evidenceIds: [String]
 
+        @inlinable
         public init(assessmentId: String, evidenceFolderId: String, evidenceIds: [String]) {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
@@ -1136,6 +1161,7 @@ extension AuditManager {
         ///  The identifier for the evidence.
         public let evidenceIds: [String]?
 
+        @inlinable
         public init(errors: [AssessmentReportEvidenceError]? = nil, evidenceIds: [String]? = nil) {
             self.errors = errors
             self.evidenceIds = evidenceIds
@@ -1155,6 +1181,7 @@ extension AuditManager {
         ///  Manual evidence that can't be collected automatically by Audit Manager.
         public let manualEvidence: ManualEvidence?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, manualEvidence: ManualEvidence? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1178,6 +1205,7 @@ extension AuditManager {
         ///  The list of manual evidence objects.
         public let manualEvidence: [ManualEvidence]
 
+        @inlinable
         public init(assessmentId: String, controlId: String, controlSetId: String, manualEvidence: [ManualEvidence]) {
             self.assessmentId = assessmentId
             self.controlId = controlId
@@ -1220,6 +1248,7 @@ extension AuditManager {
         ///  A list of errors that the BatchImportEvidenceToAssessmentControl API returned.
         public let errors: [BatchImportEvidenceToAssessmentControlError]?
 
+        @inlinable
         public init(errors: [BatchImportEvidenceToAssessmentControlError]? = nil) {
             self.errors = errors
         }
@@ -1241,6 +1270,7 @@ extension AuditManager {
         ///  The object that was changed, such as an assessment, control, or control set.
         public let objectType: ObjectTypeEnum?
 
+        @inlinable
         public init(action: ActionEnum? = nil, createdAt: Date? = nil, createdBy: String? = nil, objectName: String? = nil, objectType: ObjectTypeEnum? = nil) {
             self.action = action
             self.createdAt = createdAt
@@ -1292,6 +1322,7 @@ extension AuditManager {
         ///  Specifies whether the control is a standard control or a custom control.
         public let type: ControlType?
 
+        @inlinable
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, arn: String? = nil, controlMappingSources: [ControlMappingSource]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String? = nil, state: ControlState? = nil, tags: [String: String]? = nil, testingInformation: String? = nil, type: ControlType? = nil) {
             self.actionPlanInstructions = actionPlanInstructions
             self.actionPlanTitle = actionPlanTitle
@@ -1339,6 +1370,7 @@ extension AuditManager {
         ///  The time when the comment was posted.
         public let postedDate: Date?
 
+        @inlinable
         public init(authorName: String? = nil, commentBody: String? = nil, postedDate: Date? = nil) {
             self.authorName = authorName
             self.commentBody = commentBody
@@ -1366,6 +1398,7 @@ extension AuditManager {
         /// The total number of controls in the control domain.
         public let totalControlsCount: Int?
 
+        @inlinable
         public init(controlsCountByNoncompliantEvidence: Int? = nil, evidenceInsights: EvidenceInsights? = nil, id: String? = nil, lastUpdated: Date? = nil, name: String? = nil, totalControlsCount: Int? = nil) {
             self.controlsCountByNoncompliantEvidence = controlsCountByNoncompliantEvidence
             self.evidenceInsights = evidenceInsights
@@ -1397,6 +1430,7 @@ extension AuditManager {
         /// The name of the assessment control.
         public let name: String?
 
+        @inlinable
         public init(controlSetName: String? = nil, evidenceInsights: EvidenceInsights? = nil, id: String? = nil, lastUpdated: Date? = nil, name: String? = nil) {
             self.controlSetName = controlSetName
             self.evidenceInsights = evidenceInsights
@@ -1424,6 +1458,7 @@ extension AuditManager {
         /// The name of the control.
         public let name: String?
 
+        @inlinable
         public init(evidenceInsights: EvidenceInsights? = nil, id: String? = nil, lastUpdated: Date? = nil, name: String? = nil) {
             self.evidenceInsights = evidenceInsights
             self.id = id
@@ -1456,6 +1491,7 @@ extension AuditManager {
         ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
 
+        @inlinable
         public init(sourceDescription: String? = nil, sourceFrequency: SourceFrequency? = nil, sourceId: String? = nil, sourceKeyword: SourceKeyword? = nil, sourceName: String? = nil, sourceSetUpOption: SourceSetUpOption? = nil, sourceType: SourceType? = nil, troubleshootingText: String? = nil) {
             self.sourceDescription = sourceDescription
             self.sourceFrequency = sourceFrequency
@@ -1506,6 +1542,7 @@ extension AuditManager {
         ///  The name of the control.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, controlSources: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.controlSources = controlSources
@@ -1533,6 +1570,7 @@ extension AuditManager {
         ///  The name of the control set.
         public let name: String?
 
+        @inlinable
         public init(controls: [Control]? = nil, id: String? = nil, name: String? = nil) {
             self.controls = controls
             self.id = id
@@ -1550,6 +1588,7 @@ extension AuditManager {
         ///  The unique identifier of the control.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1571,6 +1610,7 @@ extension AuditManager {
         ///  The name of the control set.
         public let name: String
 
+        @inlinable
         public init(controls: [CreateAssessmentFrameworkControl]? = nil, name: String) {
             self.controls = controls
             self.name = name
@@ -1604,6 +1644,7 @@ extension AuditManager {
         ///  The tags that are associated with the framework.
         public let tags: [String: String]?
 
+        @inlinable
         public init(complianceType: String? = nil, controlSets: [CreateAssessmentFrameworkControlSet], description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.complianceType = complianceType
             self.controlSets = controlSets
@@ -1648,6 +1689,7 @@ extension AuditManager {
         ///  The name of the new framework that the CreateAssessmentFramework API returned.
         public let framework: Framework?
 
+        @inlinable
         public init(framework: Framework? = nil) {
             self.framework = framework
         }
@@ -1667,6 +1709,7 @@ extension AuditManager {
         /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually added to a report using the console, or associated with a report using the API.  To use this parameter, the enablementStatus of evidence finder must be ENABLED.  For examples and help resolving queryStatement validation exceptions, see Troubleshooting evidence finder issues in the Audit Manager User Guide.
         public let queryStatement: String?
 
+        @inlinable
         public init(assessmentId: String, description: String? = nil, name: String, queryStatement: String? = nil) {
             self.assessmentId = assessmentId
             self.description = description
@@ -1708,6 +1751,7 @@ extension AuditManager {
         ///  The new assessment report that the CreateAssessmentReport API returned.
         public let assessmentReport: AssessmentReport?
 
+        @inlinable
         public init(assessmentReport: AssessmentReport? = nil) {
             self.assessmentReport = assessmentReport
         }
@@ -1732,6 +1776,7 @@ extension AuditManager {
         ///  The tags that are associated with the assessment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assessmentReportsDestination: AssessmentReportsDestination, description: String? = nil, frameworkId: String, name: String, roles: [Role], scope: Scope, tags: [String: String]? = nil) {
             self.assessmentReportsDestination = assessmentReportsDestination
             self.description = description
@@ -1780,6 +1825,7 @@ extension AuditManager {
     public struct CreateAssessmentResponse: AWSDecodableShape {
         public let assessment: Assessment?
 
+        @inlinable
         public init(assessment: Assessment? = nil) {
             self.assessment = assessment
         }
@@ -1804,6 +1850,7 @@ extension AuditManager {
         ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
 
+        @inlinable
         public init(sourceDescription: String? = nil, sourceFrequency: SourceFrequency? = nil, sourceKeyword: SourceKeyword? = nil, sourceName: String? = nil, sourceSetUpOption: SourceSetUpOption? = nil, sourceType: SourceType? = nil, troubleshootingText: String? = nil) {
             self.sourceDescription = sourceDescription
             self.sourceFrequency = sourceFrequency
@@ -1851,6 +1898,7 @@ extension AuditManager {
         ///  The steps to follow to determine if the control is satisfied.
         public let testingInformation: String?
 
+        @inlinable
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, controlMappingSources: [CreateControlMappingSource], description: String? = nil, name: String, tags: [String: String]? = nil, testingInformation: String? = nil) {
             self.actionPlanInstructions = actionPlanInstructions
             self.actionPlanTitle = actionPlanTitle
@@ -1902,6 +1950,7 @@ extension AuditManager {
         ///  The new control that the CreateControl API returned.
         public let control: Control?
 
+        @inlinable
         public init(control: Control? = nil) {
             self.control = control
         }
@@ -1921,6 +1970,7 @@ extension AuditManager {
         ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
         public let roleType: RoleType?
 
+        @inlinable
         public init(comment: String? = nil, controlSetId: String? = nil, roleArn: String? = nil, roleType: RoleType? = nil) {
             self.comment = comment
             self.controlSetId = controlSetId
@@ -1953,6 +2003,7 @@ extension AuditManager {
         /// The destination type, such as Amazon S3.
         public let destinationType: ExportDestinationType?
 
+        @inlinable
         public init(destination: String? = nil, destinationType: ExportDestinationType? = nil) {
             self.destination = destination
             self.destinationType = destinationType
@@ -1994,6 +2045,7 @@ extension AuditManager {
         ///  The status of the delegation.
         public let status: DelegationStatus?
 
+        @inlinable
         public init(assessmentId: String? = nil, assessmentName: String? = nil, comment: String? = nil, controlSetId: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, id: String? = nil, lastUpdated: Date? = nil, roleArn: String? = nil, roleType: RoleType? = nil, status: DelegationStatus? = nil) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
@@ -2039,6 +2091,7 @@ extension AuditManager {
         ///  The current status of the delegation.
         public let status: DelegationStatus?
 
+        @inlinable
         public init(assessmentId: String? = nil, assessmentName: String? = nil, controlSetName: String? = nil, creationTime: Date? = nil, id: String? = nil, roleArn: String? = nil, status: DelegationStatus? = nil) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
@@ -2064,6 +2117,7 @@ extension AuditManager {
         ///  The identifier for the custom framework.
         public let frameworkId: String
 
+        @inlinable
         public init(frameworkId: String) {
             self.frameworkId = frameworkId
         }
@@ -2093,6 +2147,7 @@ extension AuditManager {
         /// Specifies whether the share request is a sent request or a received request.
         public let requestType: ShareRequestType
 
+        @inlinable
         public init(requestId: String, requestType: ShareRequestType) {
             self.requestId = requestId
             self.requestType = requestType
@@ -2124,6 +2179,7 @@ extension AuditManager {
         ///  The unique identifier for the assessment report.
         public let assessmentReportId: String
 
+        @inlinable
         public init(assessmentId: String, assessmentReportId: String) {
             self.assessmentId = assessmentId
             self.assessmentReportId = assessmentReportId
@@ -2156,6 +2212,7 @@ extension AuditManager {
         ///  The identifier for the assessment.
         public let assessmentId: String
 
+        @inlinable
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
         }
@@ -2183,6 +2240,7 @@ extension AuditManager {
         ///  The unique identifier for the control.
         public let controlId: String
 
+        @inlinable
         public init(controlId: String) {
             self.controlId = controlId
         }
@@ -2214,6 +2272,7 @@ extension AuditManager {
         ///  The registration status of the account.
         public let status: AccountStatus?
 
+        @inlinable
         public init(status: AccountStatus? = nil) {
             self.status = status
         }
@@ -2227,6 +2286,7 @@ extension AuditManager {
         ///  The identifier for the administrator account.
         public let adminAccountId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
@@ -2250,6 +2310,7 @@ extension AuditManager {
         /// Specifies which Audit Manager data will be deleted when you deregister Audit Manager.   If you set the value to ALL, all of your data is deleted within seven days of deregistration.   If you set the value to DEFAULT, none of your data is deleted at the time of deregistration. However, keep in mind that the Audit Manager data retention policy still applies. As a result, any evidence data will be deleted two years after its creation date. Your other Audit Manager resources will continue to exist indefinitely.
         public let deleteResources: DeleteResources?
 
+        @inlinable
         public init(deleteResources: DeleteResources? = nil) {
             self.deleteResources = deleteResources
         }
@@ -2265,6 +2326,7 @@ extension AuditManager {
         ///  The unique identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
 
+        @inlinable
         public init(assessmentId: String, evidenceFolderId: String) {
             self.assessmentId = assessmentId
             self.evidenceFolderId = evidenceFolderId
@@ -2327,6 +2389,7 @@ extension AuditManager {
         ///  The timestamp that represents when the evidence was collected.
         public let time: Date?
 
+        @inlinable
         public init(assessmentReportSelection: String? = nil, attributes: [String: String]? = nil, awsAccountId: String? = nil, awsOrganization: String? = nil, complianceCheck: String? = nil, dataSource: String? = nil, eventName: String? = nil, eventSource: String? = nil, evidenceAwsAccountId: String? = nil, evidenceByType: String? = nil, evidenceFolderId: String? = nil, iamId: String? = nil, id: String? = nil, resourcesIncluded: [Resource]? = nil, time: Date? = nil) {
             self.assessmentReportSelection = assessmentReportSelection
             self.attributes = attributes
@@ -2374,6 +2437,7 @@ extension AuditManager {
         /// The Amazon Resource Name (ARN) of the CloudTrail Lake event data store that’s used by evidence finder. The event data store is the lake of evidence data that evidence finder runs queries against.
         public let eventDataStoreArn: String?
 
+        @inlinable
         public init(backfillStatus: EvidenceFinderBackfillStatus? = nil, enablementStatus: EvidenceFinderEnablementStatus? = nil, error: String? = nil, eventDataStoreArn: String? = nil) {
             self.backfillStatus = backfillStatus
             self.enablementStatus = enablementStatus
@@ -2397,6 +2461,7 @@ extension AuditManager {
         /// The number of compliance check evidence that Audit Manager classified as non-compliant. This includes evidence that was collected from Security Hub with a Fail ruling, or collected from Config with a Non-compliant ruling.
         public let noncompliantEvidenceCount: Int?
 
+        @inlinable
         public init(compliantEvidenceCount: Int? = nil, inconclusiveEvidenceCount: Int? = nil, noncompliantEvidenceCount: Int? = nil) {
             self.compliantEvidenceCount = compliantEvidenceCount
             self.inconclusiveEvidenceCount = inconclusiveEvidenceCount
@@ -2440,6 +2505,7 @@ extension AuditManager {
         ///  Specifies whether the framework is a standard framework or a custom framework.
         public let type: FrameworkType?
 
+        @inlinable
         public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: FrameworkType? = nil) {
             self.arn = arn
             self.complianceType = complianceType
@@ -2485,6 +2551,7 @@ extension AuditManager {
         ///  The name of the framework.
         public let name: String?
 
+        @inlinable
         public init(complianceType: String? = nil, description: String? = nil, logo: String? = nil, name: String? = nil) {
             self.complianceType = complianceType
             self.description = description
@@ -2508,6 +2575,7 @@ extension AuditManager {
         ///  The status of the Amazon Web Services account.
         public let status: AccountStatus?
 
+        @inlinable
         public init(status: AccountStatus? = nil) {
             self.status = status
         }
@@ -2521,6 +2589,7 @@ extension AuditManager {
         ///  The identifier for the framework.
         public let frameworkId: String
 
+        @inlinable
         public init(frameworkId: String) {
             self.frameworkId = frameworkId
         }
@@ -2544,6 +2613,7 @@ extension AuditManager {
         ///  The framework that the GetAssessmentFramework API returned.
         public let framework: Framework?
 
+        @inlinable
         public init(framework: Framework? = nil) {
             self.framework = framework
         }
@@ -2559,6 +2629,7 @@ extension AuditManager {
         ///  The unique identifier for the assessment report.
         public let assessmentReportId: String
 
+        @inlinable
         public init(assessmentId: String, assessmentReportId: String) {
             self.assessmentId = assessmentId
             self.assessmentReportId = assessmentReportId
@@ -2586,6 +2657,7 @@ extension AuditManager {
     public struct GetAssessmentReportUrlResponse: AWSDecodableShape {
         public let preSignedUrl: URL?
 
+        @inlinable
         public init(preSignedUrl: URL? = nil) {
             self.preSignedUrl = preSignedUrl
         }
@@ -2599,6 +2671,7 @@ extension AuditManager {
         /// The unique identifier for the assessment.
         public let assessmentId: String
 
+        @inlinable
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
         }
@@ -2622,6 +2695,7 @@ extension AuditManager {
         public let assessment: Assessment?
         public let userRole: Role?
 
+        @inlinable
         public init(assessment: Assessment? = nil, userRole: Role? = nil) {
             self.assessment = assessment
             self.userRole = userRole
@@ -2645,6 +2719,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentId: String, controlId: String? = nil, controlSetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentId = assessmentId
             self.controlId = controlId
@@ -2689,6 +2764,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(changeLogs: [ChangeLog]? = nil, nextToken: String? = nil) {
             self.changeLogs = changeLogs
             self.nextToken = nextToken
@@ -2704,6 +2780,7 @@ extension AuditManager {
         ///  The identifier for the control.
         public let controlId: String
 
+        @inlinable
         public init(controlId: String) {
             self.controlId = controlId
         }
@@ -2727,6 +2804,7 @@ extension AuditManager {
         ///  The details of the control that the GetControl API returned.
         public let control: Control?
 
+        @inlinable
         public init(control: Control? = nil) {
             self.control = control
         }
@@ -2742,6 +2820,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2771,6 +2850,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(delegations: [DelegationMetadata]? = nil, nextToken: String? = nil) {
             self.delegations = delegations
             self.nextToken = nextToken
@@ -2794,6 +2874,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentId: String, controlSetId: String, evidenceFolderId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentId = assessmentId
             self.controlSetId = controlSetId
@@ -2838,6 +2919,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(evidence: [Evidence]? = nil, nextToken: String? = nil) {
             self.evidence = evidence
             self.nextToken = nextToken
@@ -2853,6 +2935,7 @@ extension AuditManager {
         /// The file that you want to upload. For a list of supported file formats, see Supported file types for manual evidence in the Audit Manager User Guide.
         public let fileName: String
 
+        @inlinable
         public init(fileName: String) {
             self.fileName = fileName
         }
@@ -2878,6 +2961,7 @@ extension AuditManager {
         /// The presigned URL that was generated.
         public let uploadUrl: String?
 
+        @inlinable
         public init(evidenceFileName: String? = nil, uploadUrl: String? = nil) {
             self.evidenceFileName = evidenceFileName
             self.uploadUrl = uploadUrl
@@ -2897,6 +2981,7 @@ extension AuditManager {
         ///  The unique identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String
 
+        @inlinable
         public init(assessmentId: String, controlSetId: String, evidenceFolderId: String) {
             self.assessmentId = assessmentId
             self.controlSetId = controlSetId
@@ -2930,6 +3015,7 @@ extension AuditManager {
         ///  The folder that the evidence is stored in.
         public let evidenceFolder: AssessmentEvidenceFolder?
 
+        @inlinable
         public init(evidenceFolder: AssessmentEvidenceFolder? = nil) {
             self.evidenceFolder = evidenceFolder
         }
@@ -2951,6 +3037,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentId: String, controlId: String, controlSetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentId = assessmentId
             self.controlId = controlId
@@ -2995,6 +3082,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(evidenceFolders: [AssessmentEvidenceFolder]? = nil, nextToken: String? = nil) {
             self.evidenceFolders = evidenceFolders
             self.nextToken = nextToken
@@ -3014,6 +3102,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentId = assessmentId
             self.maxResults = maxResults
@@ -3048,6 +3137,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(evidenceFolders: [AssessmentEvidenceFolder]? = nil, nextToken: String? = nil) {
             self.evidenceFolders = evidenceFolders
             self.nextToken = nextToken
@@ -3069,6 +3159,7 @@ extension AuditManager {
         ///  The unique identifier for the evidence.
         public let evidenceId: String
 
+        @inlinable
         public init(assessmentId: String, controlSetId: String, evidenceFolderId: String, evidenceId: String) {
             self.assessmentId = assessmentId
             self.controlSetId = controlSetId
@@ -3107,6 +3198,7 @@ extension AuditManager {
         ///  The evidence that the GetEvidence API returned.
         public let evidence: Evidence?
 
+        @inlinable
         public init(evidence: Evidence? = nil) {
             self.evidence = evidence
         }
@@ -3120,6 +3212,7 @@ extension AuditManager {
         /// The unique identifier for the assessment.
         public let assessmentId: String
 
+        @inlinable
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
         }
@@ -3143,6 +3236,7 @@ extension AuditManager {
         ///  The assessment analytics data that the GetInsightsByAssessment API returned.
         public let insights: InsightsByAssessment?
 
+        @inlinable
         public init(insights: InsightsByAssessment? = nil) {
             self.insights = insights
         }
@@ -3160,6 +3254,7 @@ extension AuditManager {
         /// The analytics data that the GetInsights API returned.
         public let insights: Insights?
 
+        @inlinable
         public init(insights: Insights? = nil) {
             self.insights = insights
         }
@@ -3179,6 +3274,7 @@ extension AuditManager {
         ///  The identifier for the organization.
         public let organizationId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil, organizationId: String? = nil) {
             self.adminAccountId = adminAccountId
             self.organizationId = organizationId
@@ -3198,6 +3294,7 @@ extension AuditManager {
         ///  The metadata that's associated with the Amazon Web Service.
         public let serviceMetadata: [ServiceMetadata]?
 
+        @inlinable
         public init(serviceMetadata: [ServiceMetadata]? = nil) {
             self.serviceMetadata = serviceMetadata
         }
@@ -3211,6 +3308,7 @@ extension AuditManager {
         ///  The list of setting attribute enum values.
         public let attribute: SettingAttribute
 
+        @inlinable
         public init(attribute: SettingAttribute) {
             self.attribute = attribute
         }
@@ -3228,6 +3326,7 @@ extension AuditManager {
         ///  The settings object that holds all supported Audit Manager settings.
         public let settings: Settings?
 
+        @inlinable
         public init(settings: Settings? = nil) {
             self.settings = settings
         }
@@ -3253,6 +3352,7 @@ extension AuditManager {
         /// The total number of controls across all active assessments.
         public let totalAssessmentControlsCount: Int?
 
+        @inlinable
         public init(activeAssessmentsCount: Int? = nil, assessmentControlsCountByNoncompliantEvidence: Int? = nil, compliantEvidenceCount: Int? = nil, inconclusiveEvidenceCount: Int? = nil, lastUpdated: Date? = nil, noncompliantEvidenceCount: Int? = nil, totalAssessmentControlsCount: Int? = nil) {
             self.activeAssessmentsCount = activeAssessmentsCount
             self.assessmentControlsCountByNoncompliantEvidence = assessmentControlsCountByNoncompliantEvidence
@@ -3288,6 +3388,7 @@ extension AuditManager {
         /// The total number of controls in the assessment.
         public let totalAssessmentControlsCount: Int?
 
+        @inlinable
         public init(assessmentControlsCountByNoncompliantEvidence: Int? = nil, compliantEvidenceCount: Int? = nil, inconclusiveEvidenceCount: Int? = nil, lastUpdated: Date? = nil, noncompliantEvidenceCount: Int? = nil, totalAssessmentControlsCount: Int? = nil) {
             self.assessmentControlsCountByNoncompliantEvidence = assessmentControlsCountByNoncompliantEvidence
             self.compliantEvidenceCount = compliantEvidenceCount
@@ -3317,6 +3418,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentId: String, controlDomainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentId = assessmentId
             self.controlDomainId = controlDomainId
@@ -3356,6 +3458,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlInsightsByAssessment: [ControlInsightsMetadataByAssessmentItem]? = nil, nextToken: String? = nil) {
             self.controlInsightsByAssessment = controlInsightsByAssessment
             self.nextToken = nextToken
@@ -3375,6 +3478,7 @@ extension AuditManager {
         ///  Specifies whether the share request is a sent request or a received request.
         public let requestType: ShareRequestType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, requestType: ShareRequestType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3406,6 +3510,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentFrameworkShareRequests: [AssessmentFrameworkShareRequest]? = nil, nextToken: String? = nil) {
             self.assessmentFrameworkShareRequests = assessmentFrameworkShareRequests
             self.nextToken = nextToken
@@ -3425,6 +3530,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(frameworkType: FrameworkType, maxResults: Int? = nil, nextToken: String? = nil) {
             self.frameworkType = frameworkType
             self.maxResults = maxResults
@@ -3456,6 +3562,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(frameworkMetadataList: [AssessmentFrameworkMetadata]? = nil, nextToken: String? = nil) {
             self.frameworkMetadataList = frameworkMetadataList
             self.nextToken = nextToken
@@ -3473,6 +3580,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3502,6 +3610,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentReports: [AssessmentReportMetadata]? = nil, nextToken: String? = nil) {
             self.assessmentReports = assessmentReports
             self.nextToken = nextToken
@@ -3521,6 +3630,7 @@ extension AuditManager {
         ///  The current status of the assessment.
         public let status: AssessmentStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: AssessmentStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3552,6 +3662,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentMetadata: [AssessmentMetadataItem]? = nil, nextToken: String? = nil) {
             self.assessmentMetadata = assessmentMetadata
             self.nextToken = nextToken
@@ -3571,6 +3682,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentId = assessmentId
             self.maxResults = maxResults
@@ -3605,6 +3717,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlDomainInsights: [ControlDomainInsights]? = nil, nextToken: String? = nil) {
             self.controlDomainInsights = controlDomainInsights
             self.nextToken = nextToken
@@ -3622,6 +3735,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3651,6 +3765,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlDomainInsights: [ControlDomainInsights]? = nil, nextToken: String? = nil) {
             self.controlDomainInsights = controlDomainInsights
             self.nextToken = nextToken
@@ -3670,6 +3785,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlDomainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.controlDomainId = controlDomainId
             self.maxResults = maxResults
@@ -3704,6 +3820,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlInsightsMetadata: [ControlInsightsMetadataItem]? = nil, nextToken: String? = nil) {
             self.controlInsightsMetadata = controlInsightsMetadata
             self.nextToken = nextToken
@@ -3725,6 +3842,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlCatalogId: String? = nil, controlType: ControlType, maxResults: Int? = nil, nextToken: String? = nil) {
             self.controlCatalogId = controlCatalogId
             self.controlType = controlType
@@ -3761,6 +3879,7 @@ extension AuditManager {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controlMetadataList: [ControlMetadata]? = nil, nextToken: String? = nil) {
             self.controlMetadataList = controlMetadataList
             self.nextToken = nextToken
@@ -3780,6 +3899,7 @@ extension AuditManager {
         /// The control mapping data source that the keywords apply to.
         public let source: DataSourceType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, source: DataSourceType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3811,6 +3931,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(keywords: [String]? = nil, nextToken: String? = nil) {
             self.keywords = keywords
             self.nextToken = nextToken
@@ -3828,6 +3949,7 @@ extension AuditManager {
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3857,6 +3979,7 @@ extension AuditManager {
         ///  The returned list of notifications.
         public let notifications: [Notification]?
 
+        @inlinable
         public init(nextToken: String? = nil, notifications: [Notification]? = nil) {
             self.nextToken = nextToken
             self.notifications = notifications
@@ -3872,6 +3995,7 @@ extension AuditManager {
         ///  The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3895,6 +4019,7 @@ extension AuditManager {
         ///  The list of tags that the ListTagsForResource API returned.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3912,6 +4037,7 @@ extension AuditManager {
         /// The plain text response that's entered and saved as manual evidence.
         public let textResponse: String?
 
+        @inlinable
         public init(evidenceFileName: String? = nil, s3ResourcePath: String? = nil, textResponse: String? = nil) {
             self.evidenceFileName = evidenceFileName
             self.s3ResourcePath = s3ResourcePath
@@ -3955,6 +4081,7 @@ extension AuditManager {
         ///  The sender of the notification.
         public let source: String?
 
+        @inlinable
         public init(assessmentId: String? = nil, assessmentName: String? = nil, controlSetId: String? = nil, controlSetName: String? = nil, description: String? = nil, eventTime: Date? = nil, id: String? = nil, source: String? = nil) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
@@ -3984,6 +4111,7 @@ extension AuditManager {
         ///  The KMS key details.
         public let kmsKey: String?
 
+        @inlinable
         public init(delegatedAdminAccount: String? = nil, kmsKey: String? = nil) {
             self.delegatedAdminAccount = delegatedAdminAccount
             self.kmsKey = kmsKey
@@ -4008,6 +4136,7 @@ extension AuditManager {
         ///  The status of the account registration request.
         public let status: AccountStatus?
 
+        @inlinable
         public init(status: AccountStatus? = nil) {
             self.status = status
         }
@@ -4021,6 +4150,7 @@ extension AuditManager {
         ///  The identifier for the delegated administrator account.
         public let adminAccountId: String
 
+        @inlinable
         public init(adminAccountId: String) {
             self.adminAccountId = adminAccountId
         }
@@ -4042,6 +4172,7 @@ extension AuditManager {
         ///  The identifier for the organization.
         public let organizationId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil, organizationId: String? = nil) {
             self.adminAccountId = adminAccountId
             self.organizationId = organizationId
@@ -4061,6 +4192,7 @@ extension AuditManager {
         ///  The value of the resource.
         public let value: String?
 
+        @inlinable
         public init(arn: String? = nil, complianceCheck: String? = nil, value: String? = nil) {
             self.arn = arn
             self.complianceCheck = complianceCheck
@@ -4080,6 +4212,7 @@ extension AuditManager {
         ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
         public let roleType: RoleType
 
+        @inlinable
         public init(roleArn: String, roleType: RoleType) {
             self.roleArn = roleArn
             self.roleType = roleType
@@ -4103,12 +4236,14 @@ extension AuditManager {
         ///  The Amazon Web Services services that are included in the scope of the assessment.   This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
         public let awsServices: [AWSService]?
 
+        @inlinable
         public init(awsAccounts: [AWSAccount]? = nil) {
             self.awsAccounts = awsAccounts
             self.awsServices = nil
         }
 
         @available(*, deprecated, message: "Members awsServices have been deprecated")
+        @inlinable
         public init(awsAccounts: [AWSAccount]? = nil, awsServices: [AWSService]? = nil) {
             self.awsAccounts = awsAccounts
             self.awsServices = awsServices
@@ -4141,6 +4276,7 @@ extension AuditManager {
         ///  The name of the Amazon Web Service.
         public let name: String?
 
+        @inlinable
         public init(category: String? = nil, description: String? = nil, displayName: String? = nil, name: String? = nil) {
             self.category = category
             self.description = description
@@ -4174,6 +4310,7 @@ extension AuditManager {
         ///  The designated Amazon Simple Notification Service (Amazon SNS) topic.
         public let snsTopic: String?
 
+        @inlinable
         public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultExportDestination: DefaultExportDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnablement: EvidenceFinderEnablement? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultExportDestination = defaultExportDestination
@@ -4203,6 +4340,7 @@ extension AuditManager {
         ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules. For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the following rule identifier: INCOMING_SSH_DISABLED. Make sure to use the rule identifier, not the rule name.  Keyword example for managed rules:   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the custom rule from a managed rule.  Keyword example for custom rules:   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.  Keyword examples for service-linked rules:   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled       The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended.  Keep in mind the following requirements, depending on the data source type that you're using.    For Config:    For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDERSCORES. For example, CLOUDWATCH_LOG_GROUP_ENCRYPTED. For accuracy, we recommend that you reference the list of supported Config managed rules.   For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the Config console to verify your custom rule name.     For Security Hub: The format varies for Security Hub control names. For accuracy, we recommend that you reference the list of supported Security Hub controls.   For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of supported API calls.   For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Service prefix and action names in the Service Authorization Reference.
         public let keywordValue: String?
 
+        @inlinable
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
             self.keywordInputType = keywordInputType
             self.keywordValue = keywordValue
@@ -4230,6 +4368,7 @@ extension AuditManager {
         ///  The unique identifier for the custom framework to be shared.
         public let frameworkId: String
 
+        @inlinable
         public init(comment: String? = nil, destinationAccount: String, destinationRegion: String, frameworkId: String) {
             self.comment = comment
             self.destinationAccount = destinationAccount
@@ -4269,6 +4408,7 @@ extension AuditManager {
         ///  The share request that's created by the StartAssessmentFrameworkShare API.
         public let assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest?
 
+        @inlinable
         public init(assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest? = nil) {
             self.assessmentFrameworkShareRequest = assessmentFrameworkShareRequest
         }
@@ -4284,6 +4424,7 @@ extension AuditManager {
         ///  The tags that are associated with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4325,6 +4466,7 @@ extension AuditManager {
         ///  The unique identifier for the internet resource.
         public let link: String?
 
+        @inlinable
         public init(hyperlinkName: String? = nil, link: String? = nil) {
             self.hyperlinkName = hyperlinkName
             self.link = link
@@ -4342,6 +4484,7 @@ extension AuditManager {
         ///  The name or key of the tag.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4386,6 +4529,7 @@ extension AuditManager {
         ///  The status of the control.
         public let controlStatus: ControlStatus?
 
+        @inlinable
         public init(assessmentId: String, commentBody: String? = nil, controlId: String, controlSetId: String, controlStatus: ControlStatus? = nil) {
             self.assessmentId = assessmentId
             self.commentBody = commentBody
@@ -4428,6 +4572,7 @@ extension AuditManager {
         ///  The name of the updated control set that the UpdateAssessmentControl API returned.
         public let control: AssessmentControl?
 
+        @inlinable
         public init(control: AssessmentControl? = nil) {
             self.control = control
         }
@@ -4447,6 +4592,7 @@ extension AuditManager {
         ///  The status of the control set that's being updated.
         public let status: ControlSetStatus
 
+        @inlinable
         public init(assessmentId: String, comment: String, controlSetId: String, status: ControlSetStatus) {
             self.assessmentId = assessmentId
             self.comment = comment
@@ -4483,6 +4629,7 @@ extension AuditManager {
         ///  The name of the updated control set that the UpdateAssessmentControlSetStatus API returned.
         public let controlSet: AssessmentControlSet?
 
+        @inlinable
         public init(controlSet: AssessmentControlSet? = nil) {
             self.controlSet = controlSet
         }
@@ -4500,6 +4647,7 @@ extension AuditManager {
         ///  The name of the control set.
         public let name: String
 
+        @inlinable
         public init(controls: [CreateAssessmentFrameworkControl], id: String? = nil, name: String) {
             self.controls = controls
             self.id = id
@@ -4538,6 +4686,7 @@ extension AuditManager {
         ///  The name of the framework to be updated.
         public let name: String
 
+        @inlinable
         public init(complianceType: String? = nil, controlSets: [UpdateAssessmentFrameworkControlSet], description: String? = nil, frameworkId: String, name: String) {
             self.complianceType = complianceType
             self.controlSets = controlSets
@@ -4586,6 +4735,7 @@ extension AuditManager {
         ///  The name of the framework.
         public let framework: Framework?
 
+        @inlinable
         public init(framework: Framework? = nil) {
             self.framework = framework
         }
@@ -4603,6 +4753,7 @@ extension AuditManager {
         /// Specifies whether the share request is a sent request or a received request.
         public let requestType: ShareRequestType
 
+        @inlinable
         public init(action: ShareRequestAction, requestId: String, requestType: ShareRequestType) {
             self.action = action
             self.requestId = requestId
@@ -4633,6 +4784,7 @@ extension AuditManager {
         ///  The updated share request that's returned by the UpdateAssessmentFrameworkShare operation.
         public let assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest?
 
+        @inlinable
         public init(assessmentFrameworkShareRequest: AssessmentFrameworkShareRequest? = nil) {
             self.assessmentFrameworkShareRequest = assessmentFrameworkShareRequest
         }
@@ -4656,6 +4808,7 @@ extension AuditManager {
         ///  The scope of the assessment.
         public let scope: Scope
 
+        @inlinable
         public init(assessmentDescription: String? = nil, assessmentId: String, assessmentName: String? = nil, assessmentReportsDestination: AssessmentReportsDestination? = nil, roles: [Role]? = nil, scope: Scope) {
             self.assessmentDescription = assessmentDescription
             self.assessmentId = assessmentId
@@ -4705,6 +4858,7 @@ extension AuditManager {
         ///  The response object for the UpdateAssessment API. This is the name of the updated assessment.
         public let assessment: Assessment?
 
+        @inlinable
         public init(assessment: Assessment? = nil) {
             self.assessment = assessment
         }
@@ -4720,6 +4874,7 @@ extension AuditManager {
         ///  The current status of the assessment.
         public let status: AssessmentStatus
 
+        @inlinable
         public init(assessmentId: String, status: AssessmentStatus) {
             self.assessmentId = assessmentId
             self.status = status
@@ -4747,6 +4902,7 @@ extension AuditManager {
         ///  The name of the updated assessment that the UpdateAssessmentStatus API returned.
         public let assessment: Assessment?
 
+        @inlinable
         public init(assessment: Assessment? = nil) {
             self.assessment = assessment
         }
@@ -4772,6 +4928,7 @@ extension AuditManager {
         ///  The steps that you should follow to determine if the control is met.
         public let testingInformation: String?
 
+        @inlinable
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, controlId: String, controlMappingSources: [ControlMappingSource], description: String? = nil, name: String, testingInformation: String? = nil) {
             self.actionPlanInstructions = actionPlanInstructions
             self.actionPlanTitle = actionPlanTitle
@@ -4829,6 +4986,7 @@ extension AuditManager {
         ///  The name of the updated control set that the UpdateControl API returned.
         public let control: Control?
 
+        @inlinable
         public init(control: Control? = nil) {
             self.control = control
         }
@@ -4854,6 +5012,7 @@ extension AuditManager {
         ///  The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to.
         public let snsTopic: String?
 
+        @inlinable
         public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultExportDestination: DefaultExportDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultExportDestination = defaultExportDestination
@@ -4893,6 +5052,7 @@ extension AuditManager {
         ///  The current list of settings.
         public let settings: Settings?
 
+        @inlinable
         public init(settings: Settings? = nil) {
             self.settings = settings
         }
@@ -4906,6 +5066,7 @@ extension AuditManager {
         ///  The relative path of the Amazon S3 bucket that the assessment report is stored in.
         public let s3RelativePath: String
 
+        @inlinable
         public init(s3RelativePath: String) {
             self.s3RelativePath = s3RelativePath
         }
@@ -4933,6 +5094,7 @@ extension AuditManager {
         ///  Represents any errors that occurred when validating the assessment report.
         public let validationErrors: [String]?
 
+        @inlinable
         public init(signatureAlgorithm: String? = nil, signatureDateTime: String? = nil, signatureKeyId: String? = nil, signatureValid: Bool? = nil, validationErrors: [String]? = nil) {
             self.signatureAlgorithm = signatureAlgorithm
             self.signatureDateTime = signatureDateTime

@@ -99,6 +99,7 @@ extension DocDBElastic {
         /// A list of EC2 VPC security groups associated with thie elastic cluster.
         public let vpcSecurityGroupIds: [String]
 
+        @inlinable
         public init(adminUserName: String, authType: Auth, backupRetentionPeriod: Int? = nil, clusterArn: String, clusterEndpoint: String, clusterName: String, createTime: String, kmsKeyId: String, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String, shardCapacity: Int, shardCount: Int, shardInstanceCount: Int? = nil, shards: [Shard]? = nil, status: Status, subnetIds: [String], vpcSecurityGroupIds: [String]) {
             self.adminUserName = adminUserName
             self.authType = authType
@@ -148,6 +149,7 @@ extension DocDBElastic {
         /// The status of the elastic cluster.
         public let status: Status
 
+        @inlinable
         public init(clusterArn: String, clusterName: String, status: Status) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -185,6 +187,7 @@ extension DocDBElastic {
         /// A list of EC2 VPC security groups to associate with the elastic cluster.
         public let vpcSecurityGroupIds: [String]
 
+        @inlinable
         public init(adminUserName: String, clusterArn: String, clusterCreationTime: String, kmsKeyId: String, snapshotArn: String, snapshotCreationTime: String, snapshotName: String, snapshotType: SnapshotType? = nil, status: Status, subnetIds: [String], vpcSecurityGroupIds: [String]) {
             self.adminUserName = adminUserName
             self.clusterArn = clusterArn
@@ -226,6 +229,7 @@ extension DocDBElastic {
         /// The status of the elastic cluster snapshot.
         public let status: Status
 
+        @inlinable
         public init(clusterArn: String, snapshotArn: String, snapshotCreationTime: String, snapshotName: String, status: Status) {
             self.clusterArn = clusterArn
             self.snapshotArn = snapshotArn
@@ -255,6 +259,7 @@ extension DocDBElastic {
         /// The identifier of the new elastic cluster snapshot to create from the source cluster snapshot.  This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: elastic-cluster-snapshot-5
         public let targetSnapshotName: String
 
+        @inlinable
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, snapshotArn: String, tags: [String: String]? = nil, targetSnapshotName: String) {
             self.copyTags = copyTags
             self.kmsKeyId = kmsKeyId
@@ -293,6 +298,7 @@ extension DocDBElastic {
     public struct CopyClusterSnapshotOutput: AWSDecodableShape {
         public let snapshot: ClusterSnapshot
 
+        @inlinable
         public init(snapshot: ClusterSnapshot) {
             self.snapshot = snapshot
         }
@@ -334,6 +340,7 @@ extension DocDBElastic {
         /// A list of EC2 VPC security groups to associate with the new elastic cluster.
         public let vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(adminUserName: String, adminUserPassword: String, authType: Auth, backupRetentionPeriod: Int? = nil, clientToken: String? = CreateClusterInput.idempotencyToken(), clusterName: String, kmsKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, shardCapacity: Int, shardCount: Int, shardInstanceCount: Int? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.adminUserName = adminUserName
             self.adminUserPassword = adminUserPassword
@@ -384,6 +391,7 @@ extension DocDBElastic {
         /// The new elastic cluster that has been created.
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }
@@ -401,6 +409,7 @@ extension DocDBElastic {
         /// The tags to be assigned to the new elastic cluster snapshot.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clusterArn: String, snapshotName: String, tags: [String: String]? = nil) {
             self.clusterArn = clusterArn
             self.snapshotName = snapshotName
@@ -427,6 +436,7 @@ extension DocDBElastic {
         /// Returns information about the new elastic cluster snapshot.
         public let snapshot: ClusterSnapshot
 
+        @inlinable
         public init(snapshot: ClusterSnapshot) {
             self.snapshot = snapshot
         }
@@ -440,6 +450,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster that is to be deleted.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -457,6 +468,7 @@ extension DocDBElastic {
         /// Returns information about the newly deleted elastic cluster.
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }
@@ -470,6 +482,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster snapshot that is to be deleted.
         public let snapshotArn: String
 
+        @inlinable
         public init(snapshotArn: String) {
             self.snapshotArn = snapshotArn
         }
@@ -487,6 +500,7 @@ extension DocDBElastic {
         /// Returns information about the newly deleted elastic cluster snapshot.
         public let snapshot: ClusterSnapshot
 
+        @inlinable
         public init(snapshot: ClusterSnapshot) {
             self.snapshot = snapshot
         }
@@ -500,6 +514,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -517,6 +532,7 @@ extension DocDBElastic {
         /// Returns information about a specific elastic cluster.
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }
@@ -530,6 +546,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster snapshot.
         public let snapshotArn: String
 
+        @inlinable
         public init(snapshotArn: String) {
             self.snapshotArn = snapshotArn
         }
@@ -547,6 +564,7 @@ extension DocDBElastic {
         /// Returns information about a specific elastic cluster snapshot.
         public let snapshot: ClusterSnapshot
 
+        @inlinable
         public init(snapshot: ClusterSnapshot) {
             self.snapshot = snapshot
         }
@@ -566,6 +584,7 @@ extension DocDBElastic {
         /// The type of cluster snapshots to be returned. You can specify one of the following values:    automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your Amazon Web Services account.    manual - Return all cluster snapshots that you have manually created for your Amazon Web Services account.
         public let snapshotType: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, snapshotType: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -591,6 +610,7 @@ extension DocDBElastic {
         /// A list of snapshots for a specified elastic cluster.
         public let snapshots: [ClusterSnapshotInList]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [ClusterSnapshotInList]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -608,6 +628,7 @@ extension DocDBElastic {
         /// A pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -629,6 +650,7 @@ extension DocDBElastic {
         /// A pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
         public let nextToken: String?
 
+        @inlinable
         public init(clusters: [ClusterInList]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -644,6 +666,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -666,6 +689,7 @@ extension DocDBElastic {
         /// The list of tags for the specified elastic cluster resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -693,6 +717,7 @@ extension DocDBElastic {
         /// A list of EC2 VPC security groups to associate with the elastic cluster.
         public let vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(clusterName: String, kmsKeyId: String? = nil, shardCapacity: Int? = nil, shardInstanceCount: Int? = nil, snapshotArn: String, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.clusterName = clusterName
             self.kmsKeyId = kmsKeyId
@@ -741,6 +766,7 @@ extension DocDBElastic {
         /// Returns information about a the restored elastic cluster.
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }
@@ -758,6 +784,7 @@ extension DocDBElastic {
         /// The current status of the shard.
         public let status: Status
 
+        @inlinable
         public init(createTime: String, shardId: String, status: Status) {
             self.createTime = createTime
             self.shardId = shardId
@@ -775,6 +802,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -791,6 +819,7 @@ extension DocDBElastic {
     public struct StartClusterOutput: AWSDecodableShape {
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }
@@ -804,6 +833,7 @@ extension DocDBElastic {
         /// The ARN identifier of the elastic cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -820,6 +850,7 @@ extension DocDBElastic {
     public struct StopClusterOutput: AWSDecodableShape {
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }
@@ -835,6 +866,7 @@ extension DocDBElastic {
         /// The tags that are assigned to the elastic cluster resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -873,6 +905,7 @@ extension DocDBElastic {
         /// The tag keys to be removed from the elastic cluster resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -929,6 +962,7 @@ extension DocDBElastic {
         /// A list of EC2 VPC security groups to associate with the elastic cluster.
         public let vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(adminUserPassword: String? = nil, authType: Auth? = nil, backupRetentionPeriod: Int? = nil, clientToken: String? = UpdateClusterInput.idempotencyToken(), clusterArn: String, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, shardCapacity: Int? = nil, shardCount: Int? = nil, shardInstanceCount: Int? = nil, subnetIds: [String]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.adminUserPassword = adminUserPassword
             self.authType = authType
@@ -980,6 +1014,7 @@ extension DocDBElastic {
         /// Returns information about the updated elastic cluster.
         public let cluster: Cluster
 
+        @inlinable
         public init(cluster: Cluster) {
             self.cluster = cluster
         }

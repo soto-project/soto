@@ -187,6 +187,7 @@ extension Batch {
         /// The size of the array job.
         public let size: Int?
 
+        @inlinable
         public init(size: Int? = nil) {
             self.size = size
         }
@@ -204,6 +205,7 @@ extension Batch {
         /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
         public let statusSummary: [String: Int]?
 
+        @inlinable
         public init(index: Int? = nil, size: Int? = nil, statusSummary: [String: Int]? = nil) {
             self.index = index
             self.size = size
@@ -223,6 +225,7 @@ extension Batch {
         /// The size of the array job. This parameter is returned for parent array jobs.
         public let size: Int?
 
+        @inlinable
         public init(index: Int? = nil, size: Int? = nil) {
             self.index = index
             self.size = size
@@ -248,6 +251,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with the job attempt. Each container attempt receives a task ARN when they reach the STARTING status.
         public let taskArn: String?
 
+        @inlinable
         public init(containerInstanceArn: String? = nil, exitCode: Int? = nil, logStreamName: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
             self.containerInstanceArn = containerInstanceArn
             self.exitCode = exitCode
@@ -279,6 +283,7 @@ extension Batch {
         /// The properties for a task definition that describes the container and volume definitions of an Amazon ECS task.
         public let taskProperties: [AttemptEcsTaskDetails]?
 
+        @inlinable
         public init(container: AttemptContainerDetail? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, taskProperties: [AttemptEcsTaskDetails]? = nil) {
             self.container = container
             self.startedAt = startedAt
@@ -304,6 +309,7 @@ extension Batch {
         /// The ARN of the Amazon ECS task.
         public let taskArn: String?
 
+        @inlinable
         public init(containerInstanceArn: String? = nil, containers: [AttemptTaskContainerDetails]? = nil, taskArn: String? = nil) {
             self.containerInstanceArn = containerInstanceArn
             self.containers = containers
@@ -329,6 +335,7 @@ extension Batch {
         /// A short (255 max characters) string that's easy to understand and provides additional details for a running or stopped container.
         public let reason: String?
 
+        @inlinable
         public init(exitCode: Int? = nil, logStreamName: String? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil) {
             self.exitCode = exitCode
             self.logStreamName = logStreamName
@@ -352,6 +359,7 @@ extension Batch {
         /// A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the Batch activity logs.
         public let reason: String?
 
+        @inlinable
         public init(jobId: String? = nil, reason: String? = nil) {
             self.jobId = jobId
             self.reason = reason
@@ -401,6 +409,7 @@ extension Batch {
         /// Unique identifier for the compute environment.
         public let uuid: String?
 
+        @inlinable
         public init(computeEnvironmentArn: String? = nil, computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, containerOrchestrationType: OrchestrationType? = nil, context: String? = nil, ecsClusterArn: String? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil, uuid: String? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
@@ -446,6 +455,7 @@ extension Batch {
         /// The order of the compute environment. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first.
         public let order: Int?
 
+        @inlinable
         public init(computeEnvironment: String? = nil, order: Int? = nil) {
             self.computeEnvironment = computeEnvironment
             self.order = order
@@ -493,6 +503,7 @@ extension Batch {
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.
         public let type: CRType?
 
+        @inlinable
         public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
@@ -514,6 +525,7 @@ extension Batch {
         }
 
         @available(*, deprecated, message: "Members imageId have been deprecated")
+        @inlinable
         public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
@@ -597,6 +609,7 @@ extension Batch {
         /// Specifies whether the AMI ID is updated to the latest one that's supported by Batch when the compute environment has an infrastructure update. The default value is false.  An AMI ID can either be specified in the imageId or imageIdOverride parameters or be determined by the launch template that's specified in the launchTemplate parameter. If an AMI ID is specified any of these ways, this parameter is ignored. For more information about to update AMI IDs during an infrastructure update, see Updating the AMI ID in the Batch User Guide.  When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.
         public let updateToLatestImageVersion: Bool?
 
+        @inlinable
         public init(allocationStrategy: CRUpdateAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil, updateToLatestImageVersion: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
@@ -704,6 +717,7 @@ extension Batch {
         /// A list of volumes that are associated with the job.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, exitCode: Int? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, runtimePlatform: RuntimePlatform? = nil, secrets: [Secret]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
@@ -783,6 +797,7 @@ extension Batch {
         /// This parameter is deprecated, use resourceRequirements to override the vcpus parameter that's set in the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on Amazon EC2 resources, it overrides the vcpus parameter set in the job definition, but doesn't override any vCPU requirement specified in the resourceRequirements structure in the job definition. To override vCPU requirements that are specified in the resourceRequirements structure in the job definition, resourceRequirements must be specified in the SubmitJob request, with type set to VCPU and value set to the new value. For more information, see Can't override job definition resource requirements in the Batch User Guide.
         public let vcpus: Int?
 
+        @inlinable
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
             self.command = command
             self.environment = environment
@@ -793,6 +808,7 @@ extension Batch {
         }
 
         @available(*, deprecated, message: "Members memory, vcpus have been deprecated")
+        @inlinable
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int? = nil) {
             self.command = command
             self.environment = environment
@@ -860,6 +876,7 @@ extension Batch {
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, runtimePlatform: RuntimePlatform? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
@@ -887,6 +904,7 @@ extension Batch {
         }
 
         @available(*, deprecated, message: "Members memory, vcpus have been deprecated")
+        @inlinable
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, fargatePlatformConfiguration: FargatePlatformConfiguration? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkConfiguration: NetworkConfiguration? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, runtimePlatform: RuntimePlatform? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
@@ -946,6 +964,7 @@ extension Batch {
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public let reason: String?
 
+        @inlinable
         public init(exitCode: Int? = nil, reason: String? = nil) {
             self.exitCode = exitCode
             self.reason = reason
@@ -977,6 +996,7 @@ extension Batch {
         /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved.  This parameter is only supported when the type parameter is set to UNMANAGED.
         public let unmanagedvCpus: Int?
 
+        @inlinable
         public init(computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, context: String? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil) {
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
@@ -1019,6 +1039,7 @@ extension Batch {
         /// The name of the compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let computeEnvironmentName: String?
 
+        @inlinable
         public init(computeEnvironmentArn: String? = nil, computeEnvironmentName: String? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
@@ -1046,6 +1067,7 @@ extension Batch {
         /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueName: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueName = jobQueueName
@@ -1083,6 +1105,7 @@ extension Batch {
         /// The name of the job queue.
         public let jobQueueName: String?
 
+        @inlinable
         public init(jobQueueArn: String? = nil, jobQueueName: String? = nil) {
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -1102,6 +1125,7 @@ extension Batch {
         /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations.
         public let tags: [String: String]?
 
+        @inlinable
         public init(fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.fairsharePolicy = fairsharePolicy
             self.name = name
@@ -1131,6 +1155,7 @@ extension Batch {
         /// The name of the scheduling policy.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1146,6 +1171,7 @@ extension Batch {
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
         public let computeEnvironment: String?
 
+        @inlinable
         public init(computeEnvironment: String? = nil) {
             self.computeEnvironment = computeEnvironment
         }
@@ -1163,6 +1189,7 @@ extension Batch {
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
         public let jobQueue: String?
 
+        @inlinable
         public init(jobQueue: String? = nil) {
             self.jobQueue = jobQueue
         }
@@ -1180,6 +1207,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the scheduling policy to delete.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1197,6 +1225,7 @@ extension Batch {
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister.
         public let jobDefinition: String?
 
+        @inlinable
         public init(jobDefinition: String? = nil) {
             self.jobDefinition = jobDefinition
         }
@@ -1218,6 +1247,7 @@ extension Batch {
         /// The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(computeEnvironments: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.computeEnvironments = computeEnvironments
             self.maxResults = maxResults
@@ -1237,6 +1267,7 @@ extension Batch {
         /// The nextToken value to include in a future DescribeComputeEnvironments request. When the results of a DescribeComputeEnvironments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(computeEnvironments: [ComputeEnvironmentDetail]? = nil, nextToken: String? = nil) {
             self.computeEnvironments = computeEnvironments
             self.nextToken = nextToken
@@ -1260,6 +1291,7 @@ extension Batch {
         /// The status used to filter job definitions.
         public let status: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil, jobDefinitions: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
             self.jobDefinitions = jobDefinitions
@@ -1283,6 +1315,7 @@ extension Batch {
         /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(jobDefinitions: [JobDefinition]? = nil, nextToken: String? = nil) {
             self.jobDefinitions = jobDefinitions
             self.nextToken = nextToken
@@ -1302,6 +1335,7 @@ extension Batch {
         /// The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(jobQueues: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobQueues = jobQueues
             self.maxResults = maxResults
@@ -1321,6 +1355,7 @@ extension Batch {
         /// The nextToken value to include in a future DescribeJobQueues request. When the results of a DescribeJobQueues request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(jobQueues: [JobQueueDetail]? = nil, nextToken: String? = nil) {
             self.jobQueues = jobQueues
             self.nextToken = nextToken
@@ -1336,6 +1371,7 @@ extension Batch {
         /// A list of up to 100 job IDs.
         public let jobs: [String]?
 
+        @inlinable
         public init(jobs: [String]? = nil) {
             self.jobs = jobs
         }
@@ -1349,6 +1385,7 @@ extension Batch {
         /// The list of jobs.
         public let jobs: [JobDetail]?
 
+        @inlinable
         public init(jobs: [JobDetail]? = nil) {
             self.jobs = jobs
         }
@@ -1362,6 +1399,7 @@ extension Batch {
         /// A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
         public let arns: [String]?
 
+        @inlinable
         public init(arns: [String]? = nil) {
             self.arns = arns
         }
@@ -1375,6 +1413,7 @@ extension Batch {
         /// The list of scheduling policies.
         public let schedulingPolicies: [SchedulingPolicyDetail]?
 
+        @inlinable
         public init(schedulingPolicies: [SchedulingPolicyDetail]? = nil) {
             self.schedulingPolicies = schedulingPolicies
         }
@@ -1392,6 +1431,7 @@ extension Batch {
         /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
         public let permissions: [DeviceCgroupPermission]?
 
+        @inlinable
         public init(containerPath: String? = nil, hostPath: String? = nil, permissions: [DeviceCgroupPermission]? = nil) {
             self.containerPath = containerPath
             self.hostPath = hostPath
@@ -1411,6 +1451,7 @@ extension Batch {
         /// Whether or not to use the Batch job IAM role defined in a job definition when mounting the Amazon EFS file system. If enabled, transit encryption must be enabled in the EFSVolumeConfiguration. If this parameter is omitted, the default value of DISABLED is used. For more information, see Using Amazon EFS access points in the Batch User Guide. EFS IAM authorization requires that TransitEncryption be ENABLED and that a JobRoleArn is specified.
         public let iam: EFSAuthorizationConfigIAM?
 
+        @inlinable
         public init(accessPointId: String? = nil, iam: EFSAuthorizationConfigIAM? = nil) {
             self.accessPointId = accessPointId
             self.iam = iam
@@ -1434,6 +1475,7 @@ extension Batch {
         /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server. If you don't specify a transit encryption port, it uses the port selection strategy that the Amazon EFS mount helper uses. The value must be between 0 and 65,535. For more information, see EFS mount helper in the Amazon Elastic File System User Guide.
         public let transitEncryptionPort: Int?
 
+        @inlinable
         public init(authorizationConfig: EFSAuthorizationConfig? = nil, fileSystemId: String? = nil, rootDirectory: String? = nil, transitEncryption: EFSTransitEncryption? = nil, transitEncryptionPort: Int? = nil) {
             self.authorizationConfig = authorizationConfig
             self.fileSystemId = fileSystemId
@@ -1459,6 +1501,7 @@ extension Batch {
         /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   ECS_AL1   Amazon Linux. Amazon Linux has reached the end-of-life of standard support. For more information, see Amazon Linux AMI.    EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux AMI (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  EKS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
         public let imageType: String?
 
+        @inlinable
         public init(imageIdOverride: String? = nil, imageKubernetesVersion: String? = nil, imageType: String? = nil) {
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
@@ -1485,6 +1528,7 @@ extension Batch {
         /// An object that contains the properties for the Amazon ECS task definition of a job.  This object is currently limited to one element.
         public let taskProperties: [EcsTaskProperties]?
 
+        @inlinable
         public init(taskProperties: [EcsTaskProperties]? = nil) {
             self.taskProperties = taskProperties
         }
@@ -1498,6 +1542,7 @@ extension Batch {
         /// The properties for the Amazon ECS task definition of a job.
         public let taskProperties: [EcsTaskDetails]?
 
+        @inlinable
         public init(taskProperties: [EcsTaskDetails]? = nil) {
             self.taskProperties = taskProperties
         }
@@ -1511,6 +1556,7 @@ extension Batch {
         /// The overrides for the Amazon ECS task definition of a job.  This object is currently limited to one element.
         public let taskProperties: [TaskPropertiesOverride]?
 
+        @inlinable
         public init(taskProperties: [TaskPropertiesOverride]? = nil) {
             self.taskProperties = taskProperties
         }
@@ -1546,6 +1592,7 @@ extension Batch {
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(containerInstanceArn: String? = nil, containers: [TaskContainerDetails]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, ipcMode: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pidMode: String? = nil, platformVersion: String? = nil, runtimePlatform: RuntimePlatform? = nil, taskArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containerInstanceArn = containerInstanceArn
             self.containers = containers
@@ -1599,6 +1646,7 @@ extension Batch {
         /// A list of volumes that are associated with the job.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(containers: [TaskContainerProperties]? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, ipcMode: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pidMode: String? = nil, platformVersion: String? = nil, runtimePlatform: RuntimePlatform? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containers = containers
             self.ephemeralStorage = ephemeralStorage
@@ -1634,6 +1682,7 @@ extension Batch {
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public let reason: String?
 
+        @inlinable
         public init(exitCode: Int? = nil, name: String? = nil, reason: String? = nil) {
             self.exitCode = exitCode
             self.name = name
@@ -1665,6 +1714,7 @@ extension Batch {
         /// The Unix timestamp (in milliseconds) for when the attempt was stopped. This happens when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public let stoppedAt: Int64?
 
+        @inlinable
         public init(containers: [EksAttemptContainerDetail]? = nil, eksClusterArn: String? = nil, initContainers: [EksAttemptContainerDetail]? = nil, nodeName: String? = nil, podName: String? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.containers = containers
             self.eksClusterArn = eksClusterArn
@@ -1694,6 +1744,7 @@ extension Batch {
         /// The namespace of the Amazon EKS cluster. Batch manages pods in this namespace. The value can't left empty or null. It must be fewer than 64 characters long, can't be set to default, can't start with "kube-," and must match this regular expression: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$. For more information, see Namespaces in the Kubernetes documentation.
         public let kubernetesNamespace: String?
 
+        @inlinable
         public init(eksClusterArn: String? = nil, kubernetesNamespace: String? = nil) {
             self.eksClusterArn = eksClusterArn
             self.kubernetesNamespace = kubernetesNamespace
@@ -1725,6 +1776,7 @@ extension Batch {
         /// The volume mounts for the container. Batch supports emptyDir, hostPath, and secret volume types. For more information about volumes and volume mounts in Kubernetes, see Volumes in the Kubernetes documentation.
         public let volumeMounts: [EksContainerVolumeMount]?
 
+        @inlinable
         public init(args: [String]? = nil, command: [String]? = nil, env: [EksContainerEnvironmentVariable]? = nil, image: String? = nil, imagePullPolicy: String? = nil, name: String? = nil, resources: EksContainerResourceRequirements? = nil, securityContext: EksContainerSecurityContext? = nil, volumeMounts: [EksContainerVolumeMount]? = nil) {
             self.args = args
             self.command = command
@@ -1778,6 +1830,7 @@ extension Batch {
         /// The volume mounts for the container. Batch supports emptyDir, hostPath, and secret volume types. For more information about volumes and volume mounts in Kubernetes, see Volumes in the Kubernetes documentation.
         public let volumeMounts: [EksContainerVolumeMount]?
 
+        @inlinable
         public init(args: [String]? = nil, command: [String]? = nil, env: [EksContainerEnvironmentVariable]? = nil, exitCode: Int? = nil, image: String? = nil, imagePullPolicy: String? = nil, name: String? = nil, reason: String? = nil, resources: EksContainerResourceRequirements? = nil, securityContext: EksContainerSecurityContext? = nil, volumeMounts: [EksContainerVolumeMount]? = nil) {
             self.args = args
             self.command = command
@@ -1813,6 +1866,7 @@ extension Batch {
         /// The value of the environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1838,6 +1892,7 @@ extension Batch {
         /// The type and amount of resources to assign to a container. These override the settings in the job definition. The supported resources include memory, cpu, and nvidia.com/gpu. For more information, see Resource management for pods and containers in the Kubernetes documentation.
         public let resources: EksContainerResourceRequirements?
 
+        @inlinable
         public init(args: [String]? = nil, command: [String]? = nil, env: [EksContainerEnvironmentVariable]? = nil, image: String? = nil, name: String? = nil, resources: EksContainerResourceRequirements? = nil) {
             self.args = args
             self.command = command
@@ -1867,6 +1922,7 @@ extension Batch {
         /// The type and quantity of the resources to request for the container. The values vary based on the name that's specified. Resources can be requested by using either the limits or the requests objects.  memory  The memory hard limit (in MiB) for the container, using whole integers, with a "Mi" suffix. If your container attempts to exceed the memory specified, the container is terminated. You must specify at least 4 MiB of memory for a job. memory can be specified in limits, requests, or both. If memory is specified in both, then the value that's specified in limits must be equal to the value that's specified in requests.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.   cpu  The number of CPUs that are reserved for the container. Values must be an even multiple of 0.25. cpu can be specified in limits, requests, or both. If cpu is specified in both, then the value that's specified in limits must be at least as large as the value that's specified in requests.  nvidia.com/gpu  The number of GPUs that are reserved for the container. Values must be a whole integer. nvidia.com/gpu can be specified in limits, requests, or both. If nvidia.com/gpu is specified in both, then the value that's specified in limits must be equal to the value that's specified in requests.
         public let requests: [String: String]?
 
+        @inlinable
         public init(limits: [String: String]? = nil, requests: [String: String]? = nil) {
             self.limits = limits
             self.requests = requests
@@ -1903,6 +1959,7 @@ extension Batch {
         /// When this parameter is specified, the container is run as the specified user ID (uid). If this parameter isn't specified, the default is the user that's specified in the image metadata. This parameter maps to RunAsUser and MustRanAs policy in the Users and groups pod security policies in the Kubernetes documentation.
         public let runAsUser: Int64?
 
+        @inlinable
         public init(allowPrivilegeEscalation: Bool? = nil, privileged: Bool? = nil, readOnlyRootFilesystem: Bool? = nil, runAsGroup: Int64? = nil, runAsNonRoot: Bool? = nil, runAsUser: Int64? = nil) {
             self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
@@ -1930,6 +1987,7 @@ extension Batch {
         /// If this value is true, the container has read-only access to the volume. Otherwise, the container can write to the volume. The default value is false.
         public let readOnly: Bool?
 
+        @inlinable
         public init(mountPath: String? = nil, name: String? = nil, readOnly: Bool? = nil) {
             self.mountPath = mountPath
             self.name = name
@@ -1949,6 +2007,7 @@ extension Batch {
         /// The maximum size of the volume. By default, there's no maximum size defined.
         public let sizeLimit: String?
 
+        @inlinable
         public init(medium: String? = nil, sizeLimit: String? = nil) {
             self.medium = medium
             self.sizeLimit = sizeLimit
@@ -1969,6 +2028,7 @@ extension Batch {
         /// The path of the file or directory on the host to mount into containers on the pod.
         public let path: String?
 
+        @inlinable
         public init(path: String? = nil) {
             self.path = path
         }
@@ -1982,6 +2042,7 @@ extension Batch {
         /// Key-value pairs used to identify, sort, and organize cube resources. Can contain up to 63 uppercase letters, lowercase letters, numbers, hyphens (-), and underscores (_). Labels can be added or modified at any time. Each resource can have multiple labels, but each key must be unique for a given object.
         public let labels: [String: String]?
 
+        @inlinable
         public init(labels: [String: String]? = nil) {
             self.labels = labels
         }
@@ -2011,6 +2072,7 @@ extension Batch {
         /// Specifies the volumes for a job definition that uses Amazon EKS resources.
         public let volumes: [EksVolume]?
 
+        @inlinable
         public init(containers: [EksContainer]? = nil, dnsPolicy: String? = nil, hostNetwork: Bool? = nil, imagePullSecrets: [ImagePullSecret]? = nil, initContainers: [EksContainer]? = nil, metadata: EksMetadata? = nil, serviceAccountName: String? = nil, shareProcessNamespace: Bool? = nil, volumes: [EksVolume]? = nil) {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
@@ -2072,6 +2134,7 @@ extension Batch {
         /// Specifies the volumes for a job definition using Amazon EKS resources.
         public let volumes: [EksVolume]?
 
+        @inlinable
         public init(containers: [EksContainerDetail]? = nil, dnsPolicy: String? = nil, hostNetwork: Bool? = nil, imagePullSecrets: [ImagePullSecret]? = nil, initContainers: [EksContainerDetail]? = nil, metadata: EksMetadata? = nil, nodeName: String? = nil, podName: String? = nil, serviceAccountName: String? = nil, shareProcessNamespace: Bool? = nil, volumes: [EksVolume]? = nil) {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
@@ -2109,6 +2172,7 @@ extension Batch {
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public let metadata: EksMetadata?
 
+        @inlinable
         public init(containers: [EksContainerOverride]? = nil, initContainers: [EksContainerOverride]? = nil, metadata: EksMetadata? = nil) {
             self.containers = containers
             self.initContainers = initContainers
@@ -2135,6 +2199,7 @@ extension Batch {
         /// The properties for the Kubernetes pod resources of a job.
         public let podProperties: EksPodProperties?
 
+        @inlinable
         public init(podProperties: EksPodProperties? = nil) {
             self.podProperties = podProperties
         }
@@ -2152,6 +2217,7 @@ extension Batch {
         /// The properties for the Kubernetes pod resources of a job.
         public let podProperties: EksPodPropertiesDetail?
 
+        @inlinable
         public init(podProperties: EksPodPropertiesDetail? = nil) {
             self.podProperties = podProperties
         }
@@ -2165,6 +2231,7 @@ extension Batch {
         /// The overrides for the Kubernetes pod resources of a job.
         public let podProperties: EksPodPropertiesOverride?
 
+        @inlinable
         public init(podProperties: EksPodPropertiesOverride? = nil) {
             self.podProperties = podProperties
         }
@@ -2184,6 +2251,7 @@ extension Batch {
         /// The name of the secret. The name must be allowed as a DNS subdomain name. For more information, see DNS subdomain names in the Kubernetes documentation.
         public let secretName: String?
 
+        @inlinable
         public init(optional: Bool? = nil, secretName: String? = nil) {
             self.optional = optional
             self.secretName = secretName
@@ -2205,6 +2273,7 @@ extension Batch {
         /// Specifies the configuration of a Kubernetes secret volume. For more information, see secret in the Kubernetes documentation.
         public let secret: EksSecret?
 
+        @inlinable
         public init(emptyDir: EksEmptyDir? = nil, hostPath: EksHostPath? = nil, name: String? = nil, secret: EksSecret? = nil) {
             self.emptyDir = emptyDir
             self.hostPath = hostPath
@@ -2228,6 +2297,7 @@ extension Batch {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         public let sizeInGiB: Int?
 
+        @inlinable
         public init(sizeInGiB: Int? = nil) {
             self.sizeInGiB = sizeInGiB
         }
@@ -2247,6 +2317,7 @@ extension Batch {
         /// Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters. It can contain letters, numbers, periods (.), colons (:), and white spaces (including spaces or tabs). It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
         public let onStatusReason: String?
 
+        @inlinable
         public init(action: RetryAction? = nil, onExitCode: String? = nil, onReason: String? = nil, onStatusReason: String? = nil) {
             self.action = action
             self.onExitCode = onExitCode
@@ -2270,6 +2341,7 @@ extension Batch {
         /// An array of SharedIdentifier objects that contain the weights for the fair share identifiers for the fair share policy. Fair share identifiers that aren't included have a default weight of 1.0.
         public let shareDistribution: [ShareAttributes]?
 
+        @inlinable
         public init(computeReservation: Int? = nil, shareDecaySeconds: Int? = nil, shareDistribution: [ShareAttributes]? = nil) {
             self.computeReservation = computeReservation
             self.shareDecaySeconds = shareDecaySeconds
@@ -2287,6 +2359,7 @@ extension Batch {
         /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see Fargate platform versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
 
+        @inlinable
         public init(platformVersion: String? = nil) {
             self.platformVersion = platformVersion
         }
@@ -2302,6 +2375,7 @@ extension Batch {
         /// The Unix timestamp (in milliseconds) for when each of the first 100 RUNNABLE jobs were last updated.
         public let lastUpdatedAt: Int64?
 
+        @inlinable
         public init(jobs: [FrontOfQueueJobSummary]? = nil, lastUpdatedAt: Int64? = nil) {
             self.jobs = jobs
             self.lastUpdatedAt = lastUpdatedAt
@@ -2319,6 +2393,7 @@ extension Batch {
         /// The ARN for a job in a named job queue.
         public let jobArn: String?
 
+        @inlinable
         public init(earliestTimeAtPosition: Int64? = nil, jobArn: String? = nil) {
             self.earliestTimeAtPosition = earliestTimeAtPosition
             self.jobArn = jobArn
@@ -2334,6 +2409,7 @@ extension Batch {
         /// The job queue’s name or full queue Amazon Resource Name (ARN).
         public let jobQueue: String?
 
+        @inlinable
         public init(jobQueue: String? = nil) {
             self.jobQueue = jobQueue
         }
@@ -2347,6 +2423,7 @@ extension Batch {
         /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
         public let frontOfQueue: FrontOfQueueDetail?
 
+        @inlinable
         public init(frontOfQueue: FrontOfQueueDetail? = nil) {
             self.frontOfQueue = frontOfQueue
         }
@@ -2360,6 +2437,7 @@ extension Batch {
         /// The path on the host container instance that's presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location doesn't exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.  This parameter isn't applicable to jobs that run on Fargate resources. Don't provide this for these jobs.
         public let sourcePath: String?
 
+        @inlinable
         public init(sourcePath: String? = nil) {
             self.sourcePath = sourcePath
         }
@@ -2373,6 +2451,7 @@ extension Batch {
         /// Provides a unique identifier for the ImagePullSecret. This object is required when EksPodProperties$imagePullSecrets is used.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2418,6 +2497,7 @@ extension Batch {
         /// The type of job definition. It's either container or multinode. If the job is run on Fargate resources, then multinode isn't supported. For more information about multi-node parallel jobs, see Creating a multi-node parallel job definition in the Batch User Guide.
         public let type: String?
 
+        @inlinable
         public init(containerOrchestrationType: OrchestrationType? = nil, containerProperties: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, revision: Int? = nil, schedulingPriority: Int? = nil, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String? = nil) {
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
@@ -2465,6 +2545,7 @@ extension Batch {
         /// The type of the job dependency.
         public let type: ArrayJobDependency?
 
+        @inlinable
         public init(jobId: String? = nil, type: ArrayJobDependency? = nil) {
             self.jobId = jobId
             self.type = type
@@ -2536,6 +2617,7 @@ extension Batch {
         /// The timeout configuration for the job.
         public let timeout: JobTimeout?
 
+        @inlinable
         public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, ecsProperties: EcsPropertiesDetail? = nil, eksAttempts: [EksAttemptDetail]? = nil, eksProperties: EksPropertiesDetail? = nil, isCancelled: Bool? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
@@ -2623,6 +2705,7 @@ extension Batch {
         /// The tags that are applied to the job queue. For more information, see Tagging your Batch resources in Batch User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueueArn: String? = nil, jobQueueName: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil, status: JQStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
@@ -2660,6 +2743,7 @@ extension Batch {
         /// The state of the job needed to trigger the action. The only supported value is RUNNABLE.
         public let state: JobStateTimeLimitActionsState?
 
+        @inlinable
         public init(action: JobStateTimeLimitActionsAction? = nil, maxTimeSeconds: Int? = nil, reason: String? = nil, state: JobStateTimeLimitActionsState? = nil) {
             self.action = action
             self.maxTimeSeconds = maxTimeSeconds
@@ -2701,6 +2785,7 @@ extension Batch {
         /// The Unix timestamp for when the job was stopped. More specifically, it's when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public let stoppedAt: Int64?
 
+        @inlinable
         public init(arrayProperties: ArrayPropertiesSummary? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, nodeProperties: NodePropertiesSummary? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.arrayProperties = arrayProperties
             self.container = container
@@ -2736,6 +2821,7 @@ extension Batch {
         /// The job timeout time (in seconds) that's measured from the job attempt's startedAt timestamp. After this time passes, Batch terminates your jobs if they aren't finished. The minimum value for the timeout is 60 seconds. For array jobs, the timeout applies to the child jobs, not to the parent array job. For multi-node parallel (MNP) jobs, the timeout applies to the whole job, not to the individual nodes.
         public let attemptDurationSeconds: Int?
 
+        @inlinable
         public init(attemptDurationSeconds: Int? = nil) {
             self.attemptDurationSeconds = attemptDurationSeconds
         }
@@ -2751,6 +2837,7 @@ extension Batch {
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2768,6 +2855,7 @@ extension Batch {
         /// The filter values.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -2787,6 +2875,7 @@ extension Batch {
         /// The version number of the launch template, $Latest, or $Default. If the value is $Latest, the latest version of the launch template is used. If the value is $Default, the default version of the launch template is used.  If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Latest or $Default is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  Default: $Default.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -2814,6 +2903,7 @@ extension Batch {
         /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide this parameter for this resource type.
         public let tmpfs: [Tmpfs]?
 
+        @inlinable
         public init(devices: [Device]? = nil, initProcessEnabled: Bool? = nil, maxSwap: Int? = nil, sharedMemorySize: Int? = nil, swappiness: Int? = nil, tmpfs: [Tmpfs]? = nil) {
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
@@ -2849,6 +2939,7 @@ extension Batch {
         /// The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(arrayJobId: String? = nil, filters: [KeyValuesPair]? = nil, jobQueue: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, multiNodeJobId: String? = nil, nextToken: String? = nil) {
             self.arrayJobId = arrayJobId
             self.filters = filters
@@ -2876,6 +2967,7 @@ extension Batch {
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaryList: [JobSummary]? = nil, nextToken: String? = nil) {
             self.jobSummaryList = jobSummaryList
             self.nextToken = nextToken
@@ -2893,6 +2985,7 @@ extension Batch {
         /// The nextToken value that's returned from a previous paginated ListSchedulingPolicies request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2910,6 +3003,7 @@ extension Batch {
         /// A list of scheduling policies that match the request.
         public let schedulingPolicies: [SchedulingPolicyListingDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, schedulingPolicies: [SchedulingPolicyListingDetail]? = nil) {
             self.nextToken = nextToken
             self.schedulingPolicies = schedulingPolicies
@@ -2925,6 +3019,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) that identifies the resource that tags are listed for. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2942,6 +3037,7 @@ extension Batch {
         /// The tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2959,6 +3055,7 @@ extension Batch {
         /// The secrets to pass to the log configuration. For more information, see Specifying sensitive data in the Batch User Guide.
         public let secretOptions: [Secret]?
 
+        @inlinable
         public init(logDriver: LogDriver? = nil, options: [String: String]? = nil, secretOptions: [Secret]? = nil) {
             self.logDriver = logDriver
             self.options = options
@@ -2980,6 +3077,7 @@ extension Batch {
         /// The name of the volume to mount.
         public let sourceVolume: String?
 
+        @inlinable
         public init(containerPath: String? = nil, readOnly: Bool? = nil, sourceVolume: String? = nil) {
             self.containerPath = containerPath
             self.readOnly = readOnly
@@ -2997,6 +3095,7 @@ extension Batch {
         /// Indicates whether the job has a public IP address. For a job that's running on Fargate resources in a private subnet to send outbound traffic to the internet (for example, to pull container images), the private subnet requires a NAT gateway be attached to route requests to the internet. For more information, see Amazon ECS task networking in the Amazon Elastic Container Service Developer Guide. The default value is "DISABLED".
         public let assignPublicIp: AssignPublicIp?
 
+        @inlinable
         public init(assignPublicIp: AssignPublicIp? = nil) {
             self.assignPublicIp = assignPublicIp
         }
@@ -3014,6 +3113,7 @@ extension Batch {
         /// The private IPv4 address for the network interface.
         public let privateIpv4Address: String?
 
+        @inlinable
         public init(attachmentId: String? = nil, ipv6Address: String? = nil, privateIpv4Address: String? = nil) {
             self.attachmentId = attachmentId
             self.ipv6Address = ipv6Address
@@ -3033,6 +3133,7 @@ extension Batch {
         /// The node index for the node. Node index numbering starts at zero. This index is also available on the node with the AWS_BATCH_JOB_NODE_INDEX environment variable.
         public let nodeIndex: Int?
 
+        @inlinable
         public init(isMainNode: Bool? = nil, nodeIndex: Int? = nil) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
@@ -3050,6 +3151,7 @@ extension Batch {
         /// The number of nodes to use with a multi-node parallel job. This value overrides the number of nodes that are specified in the job definition. To use this override, you must meet the following conditions:   There must be at least one node range in your job definition that has an open upper boundary, such as : or n:.   The lower boundary of the node range that's specified in the job definition must be fewer than the number of nodes specified in the override.   The main node index that's specified in the job definition must be fewer than the number of nodes specified in the override.
         public let numNodes: Int?
 
+        @inlinable
         public init(nodePropertyOverrides: [NodePropertyOverride]? = nil, numNodes: Int? = nil) {
             self.nodePropertyOverrides = nodePropertyOverrides
             self.numNodes = numNodes
@@ -3075,6 +3177,7 @@ extension Batch {
         /// The number of nodes that are associated with a multi-node parallel job.
         public let numNodes: Int?
 
+        @inlinable
         public init(mainNode: Int? = nil, nodeRangeProperties: [NodeRangeProperty]? = nil, numNodes: Int? = nil) {
             self.mainNode = mainNode
             self.nodeRangeProperties = nodeRangeProperties
@@ -3102,6 +3205,7 @@ extension Batch {
         /// The number of nodes that are associated with a multi-node parallel job.
         public let numNodes: Int?
 
+        @inlinable
         public init(isMainNode: Bool? = nil, nodeIndex: Int? = nil, numNodes: Int? = nil) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
@@ -3127,6 +3231,7 @@ extension Batch {
         /// The range of nodes, using node index values, that's used to override. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range.
         public let targetNodes: String?
 
+        @inlinable
         public init(containerOverrides: ContainerOverrides? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
@@ -3160,6 +3265,7 @@ extension Batch {
         /// The range of nodes, using node index values. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range. Your accumulative node ranges must account for all nodes (0:n). You can nest node ranges (for example, 0:10 and 4:5). In this case, the 4:5 range properties override the 0:10 properties.
         public let targetNodes: String?
 
+        @inlinable
         public init(container: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
             self.container = container
             self.ecsProperties = ecsProperties
@@ -3209,6 +3315,7 @@ extension Batch {
         /// The type of job definition. For more information about multi-node parallel jobs, see Creating a multi-node parallel job definition in the Batch User Guide.   If the value is container, then one of the following is required: containerProperties, ecsProperties, or eksProperties.   If the value is multinode, then nodeProperties is required.    If the job is run on Fargate resources, then multinode isn't supported.
         public let type: JobDefinitionType?
 
+        @inlinable
         public init(containerProperties: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType? = nil) {
             self.containerProperties = containerProperties
             self.ecsProperties = ecsProperties
@@ -3262,6 +3369,7 @@ extension Batch {
         /// The revision of the job definition.
         public let revision: Int?
 
+        @inlinable
         public init(jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, revision: Int? = nil) {
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
@@ -3279,6 +3387,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.
         public let credentialsParameter: String?
 
+        @inlinable
         public init(credentialsParameter: String? = nil) {
             self.credentialsParameter = credentialsParameter
         }
@@ -3296,6 +3405,7 @@ extension Batch {
         ///
         public let value: String?
 
+        @inlinable
         public init(type: ResourceType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -3313,6 +3423,7 @@ extension Batch {
         /// Array of up to 5 objects that specify the conditions where jobs are retried or failed. If this parameter is specified, then the attempts parameter must also be specified. If none of the listed conditions match, then the job is retried.
         public let evaluateOnExit: [EvaluateOnExit]?
 
+        @inlinable
         public init(attempts: Int? = nil, evaluateOnExit: [EvaluateOnExit]? = nil) {
             self.attempts = attempts
             self.evaluateOnExit = evaluateOnExit
@@ -3330,6 +3441,7 @@ extension Batch {
         /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL.  The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration.   The Batch Scheduler checks the compute environments that are attached to the job queue before registering a task definition with Fargate. In this scenario, the job queue is where the job is submitted. If the job requires a Windows container and the first compute environment is LINUX, the compute environment is skipped and the next compute environment is checked until a Windows-based compute environment is found.   Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate. A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public let operatingSystemFamily: String?
 
+        @inlinable
         public init(cpuArchitecture: String? = nil, operatingSystemFamily: String? = nil) {
             self.cpuArchitecture = cpuArchitecture
             self.operatingSystemFamily = operatingSystemFamily
@@ -3351,6 +3463,7 @@ extension Batch {
         /// The tags that you apply to the scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
@@ -3370,6 +3483,7 @@ extension Batch {
         /// Amazon Resource Name (ARN) of the scheduling policy.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -3385,6 +3499,7 @@ extension Batch {
         /// The secret to expose to the container. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.  If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Region as the job you're launching, then you can use either the full Amazon Resource Name (ARN) or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
         public let valueFrom: String?
 
+        @inlinable
         public init(name: String? = nil, valueFrom: String? = nil) {
             self.name = name
             self.valueFrom = valueFrom
@@ -3402,6 +3517,7 @@ extension Batch {
         /// The weight factor for the fair share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
         public let weightFactor: Float?
 
+        @inlinable
         public init(shareIdentifier: String? = nil, weightFactor: Float? = nil) {
             self.shareIdentifier = shareIdentifier
             self.weightFactor = weightFactor
@@ -3447,6 +3563,7 @@ extension Batch {
         /// The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which Batch terminates your jobs if they haven't finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
         public let timeout: JobTimeout?
 
+        @inlinable
         public init(arrayProperties: ArrayProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, jobDefinition: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriorityOverride: Int? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.containerOverrides = containerOverrides
@@ -3506,6 +3623,7 @@ extension Batch {
         /// The name of the job.
         public let jobName: String?
 
+        @inlinable
         public init(jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil) {
             self.jobArn = jobArn
             self.jobId = jobId
@@ -3525,6 +3643,7 @@ extension Batch {
         /// The tags that you apply to the resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3562,6 +3681,7 @@ extension Batch {
         /// A unique identifier for the container.
         public let containerName: String?
 
+        @inlinable
         public init(condition: String? = nil, containerName: String? = nil) {
             self.condition = condition
             self.containerName = containerName
@@ -3615,6 +3735,7 @@ extension Batch {
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.  When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security.  You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gi     uid:group          This parameter is not supported for Windows containers.
         public let user: String?
 
+        @inlinable
         public init(command: [String]? = nil, dependsOn: [TaskContainerDependency]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, exitCode: Int? = nil, image: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil) {
             self.command = command
             self.dependsOn = dependsOn
@@ -3672,6 +3793,7 @@ extension Batch {
         /// The type and amount of resources to assign to a container. This overrides the settings in the job definition. The supported resources include GPU, MEMORY, and VCPU.
         public let resourceRequirements: [ResourceRequirement]?
 
+        @inlinable
         public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, name: String? = nil, resourceRequirements: [ResourceRequirement]? = nil) {
             self.command = command
             self.environment = environment
@@ -3721,6 +3843,7 @@ extension Batch {
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.  When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security.  You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gi     uid:group     This parameter is not supported for Windows containers.
         public let user: String?
 
+        @inlinable
         public init(command: [String]? = nil, dependsOn: [TaskContainerDependency]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, image: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil) {
             self.command = command
             self.dependsOn = dependsOn
@@ -3764,6 +3887,7 @@ extension Batch {
         /// The overrides for the container definition of a job.
         public let containers: [TaskContainerOverrides]?
 
+        @inlinable
         public init(containers: [TaskContainerOverrides]? = nil) {
             self.containers = containers
         }
@@ -3779,6 +3903,7 @@ extension Batch {
         /// A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the Batch activity logs.
         public let reason: String?
 
+        @inlinable
         public init(jobId: String? = nil, reason: String? = nil) {
             self.jobId = jobId
             self.reason = reason
@@ -3802,6 +3927,7 @@ extension Batch {
         /// The size (in MiB) of the tmpfs volume.
         public let size: Int?
 
+        @inlinable
         public init(containerPath: String? = nil, mountOptions: [String]? = nil, size: Int? = nil) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
@@ -3823,6 +3949,7 @@ extension Batch {
         /// The soft limit for the ulimit type.
         public let softLimit: Int?
 
+        @inlinable
         public init(hardLimit: Int? = nil, name: String? = nil, softLimit: Int? = nil) {
             self.hardLimit = hardLimit
             self.name = name
@@ -3842,6 +3969,7 @@ extension Batch {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3886,6 +4014,7 @@ extension Batch {
         /// Specifies the updated infrastructure update policy for the compute environment. For more information about infrastructure updates, see Updating compute environments in the Batch User Guide.
         public let updatePolicy: UpdatePolicy?
 
+        @inlinable
         public init(computeEnvironment: String? = nil, computeResources: ComputeResourceUpdate? = nil, context: String? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
             self.computeEnvironment = computeEnvironment
             self.computeResources = computeResources
@@ -3918,6 +4047,7 @@ extension Batch {
         /// The name of the compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let computeEnvironmentName: String?
 
+        @inlinable
         public init(computeEnvironmentArn: String? = nil, computeEnvironmentName: String? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
@@ -3943,6 +4073,7 @@ extension Batch {
         /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
 
+        @inlinable
         public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String? = nil, jobStateTimeLimitActions: [JobStateTimeLimitAction]? = nil, priority: Int? = nil, schedulingPolicyArn: String? = nil, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueue = jobQueue
@@ -3968,6 +4099,7 @@ extension Batch {
         /// The name of the job queue.
         public let jobQueueName: String?
 
+        @inlinable
         public init(jobQueueArn: String? = nil, jobQueueName: String? = nil) {
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -3985,6 +4117,7 @@ extension Batch {
         /// Specifies whether jobs are automatically terminated when the computer environment infrastructure is updated. The default value is false.
         public let terminateJobsOnUpdate: Bool?
 
+        @inlinable
         public init(jobExecutionTimeoutMinutes: Int64? = nil, terminateJobsOnUpdate: Bool? = nil) {
             self.jobExecutionTimeoutMinutes = jobExecutionTimeoutMinutes
             self.terminateJobsOnUpdate = terminateJobsOnUpdate
@@ -4007,6 +4140,7 @@ extension Batch {
         /// The fair share policy.
         public let fairsharePolicy: FairsharePolicy?
 
+        @inlinable
         public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
@@ -4030,6 +4164,7 @@ extension Batch {
         /// The name of the volume. It can be up to 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_). This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
 
+        @inlinable
         public init(efsVolumeConfiguration: EFSVolumeConfiguration? = nil, host: Host? = nil, name: String? = nil) {
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host

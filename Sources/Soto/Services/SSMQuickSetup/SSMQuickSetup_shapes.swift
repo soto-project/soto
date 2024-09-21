@@ -62,6 +62,7 @@ extension SSMQuickSetup {
         /// The version of the Quick Setup type used.
         public let typeVersion: String?
 
+        @inlinable
         public init(id: String? = nil, localDeploymentAdministrationRoleArn: String? = nil, localDeploymentExecutionRoleName: String? = nil, parameters: [String: String], type: String, typeVersion: String? = nil) {
             self.id = id
             self.localDeploymentAdministrationRoleArn = localDeploymentAdministrationRoleArn
@@ -93,6 +94,7 @@ extension SSMQuickSetup {
         /// The version of the Quick Setup type to use.
         public let typeVersion: String?
 
+        @inlinable
         public init(localDeploymentAdministrationRoleArn: String? = nil, localDeploymentExecutionRoleName: String? = nil, parameters: [String: String], type: String, typeVersion: String? = nil) {
             self.localDeploymentAdministrationRoleArn = localDeploymentAdministrationRoleArn
             self.localDeploymentExecutionRoleName = localDeploymentExecutionRoleName
@@ -120,6 +122,7 @@ extension SSMQuickSetup {
         /// The version of the Quick Setup type used by the configuration definition.
         public let typeVersion: String?
 
+        @inlinable
         public init(firstClassParameters: [String: String]? = nil, id: String? = nil, type: String? = nil, typeVersion: String? = nil) {
             self.firstClassParameters = firstClassParameters
             self.id = id
@@ -147,6 +150,7 @@ extension SSMQuickSetup {
         /// Summaries of the state of the configuration manager. These summaries include an aggregate of the statuses from the configuration definition associated with the configuration manager. This includes deployment statuses, association statuses, drift statuses, health checks, and more.
         public let statusSummaries: [StatusSummary]?
 
+        @inlinable
         public init(configurationDefinitionSummaries: [ConfigurationDefinitionSummary]? = nil, description: String? = nil, managerArn: String, name: String? = nil, statusSummaries: [StatusSummary]? = nil) {
             self.configurationDefinitionSummaries = configurationDefinitionSummaries
             self.description = description
@@ -174,6 +178,7 @@ extension SSMQuickSetup {
         /// Key-value pairs of metadata to assign to the configuration manager.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configurationDefinitions: [ConfigurationDefinitionInput], description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.configurationDefinitions = configurationDefinitions
             self.description = description
@@ -193,6 +198,7 @@ extension SSMQuickSetup {
         /// The ARN for the newly created configuration manager.
         public let managerArn: String
 
+        @inlinable
         public init(managerArn: String) {
             self.managerArn = managerArn
         }
@@ -206,6 +212,7 @@ extension SSMQuickSetup {
         /// The ID of the configuration manager.
         public let managerArn: String
 
+        @inlinable
         public init(managerArn: String) {
             self.managerArn = managerArn
         }
@@ -225,6 +232,7 @@ extension SSMQuickSetup {
         /// The values for the filter keys.
         public let values: [String]
 
+        @inlinable
         public init(key: String, values: [String]) {
             self.key = key
             self.values = values
@@ -240,6 +248,7 @@ extension SSMQuickSetup {
         /// The ARN of the configuration manager.
         public let managerArn: String
 
+        @inlinable
         public init(managerArn: String) {
             self.managerArn = managerArn
         }
@@ -271,6 +280,7 @@ extension SSMQuickSetup {
         /// Key-value pairs of metadata to assign to the configuration manager.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configurationDefinitions: [ConfigurationDefinition]? = nil, createdAt: Date? = nil, description: String? = nil, lastModifiedAt: Date? = nil, managerArn: String, name: String? = nil, statusSummaries: [StatusSummary]? = nil, tags: [String: String]? = nil) {
             self.configurationDefinitions = configurationDefinitions
             self.createdAt = createdAt
@@ -298,6 +308,7 @@ extension SSMQuickSetup {
         /// Returns details about the settings for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
         public let serviceSettings: ServiceSettings?
 
+        @inlinable
         public init(serviceSettings: ServiceSettings? = nil) {
             self.serviceSettings = serviceSettings
         }
@@ -315,6 +326,7 @@ extension SSMQuickSetup {
         /// The token to use when requesting a specific set of items from a list.
         public let startingToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxItems: Int? = nil, startingToken: String? = nil) {
             self.filters = filters
             self.maxItems = maxItems
@@ -334,6 +346,7 @@ extension SSMQuickSetup {
         /// The token to use when requesting the next set of configuration managers. If there are no additional operations to return, the string is empty.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationManagersList: [ConfigurationManagerSummary]? = nil, nextToken: String? = nil) {
             self.configurationManagersList = configurationManagersList
             self.nextToken = nextToken
@@ -349,6 +362,7 @@ extension SSMQuickSetup {
         /// An array of Quick Setup types.
         public let quickSetupTypeList: [QuickSetupTypeOutput]?
 
+        @inlinable
         public init(quickSetupTypeList: [QuickSetupTypeOutput]? = nil) {
             self.quickSetupTypeList = quickSetupTypeList
         }
@@ -362,6 +376,7 @@ extension SSMQuickSetup {
         /// The ARN of the resource the tag is assigned to.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -379,6 +394,7 @@ extension SSMQuickSetup {
         /// Key-value pairs of metadata assigned to the resource.
         public let tags: [TagEntry]?
 
+        @inlinable
         public init(tags: [TagEntry]? = nil) {
             self.tags = tags
         }
@@ -394,6 +410,7 @@ extension SSMQuickSetup {
         /// The type of the Quick Setup configuration.
         public let type: String?
 
+        @inlinable
         public init(latestVersion: String? = nil, type: String? = nil) {
             self.latestVersion = latestVersion
             self.type = type
@@ -409,6 +426,7 @@ extension SSMQuickSetup {
         /// The IAM role used to enable Explorer.
         public let explorerEnablingRoleArn: String?
 
+        @inlinable
         public init(explorerEnablingRoleArn: String? = nil) {
             self.explorerEnablingRoleArn = explorerEnablingRoleArn
         }
@@ -430,6 +448,7 @@ extension SSMQuickSetup {
         /// The type of a status summary.
         public let statusType: StatusType
 
+        @inlinable
         public init(lastUpdatedAt: Date, status: Status? = nil, statusDetails: [String: String]? = nil, statusMessage: String? = nil, statusType: StatusType) {
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -453,6 +472,7 @@ extension SSMQuickSetup {
         /// The value for the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -470,6 +490,7 @@ extension SSMQuickSetup {
         /// Key-value pairs of metadata to assign to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -493,6 +514,7 @@ extension SSMQuickSetup {
         /// The keys of the tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -522,6 +544,7 @@ extension SSMQuickSetup {
         /// The version of the Quick Setup type to use.
         public let typeVersion: String?
 
+        @inlinable
         public init(id: String, localDeploymentAdministrationRoleArn: String? = nil, localDeploymentExecutionRoleName: String? = nil, managerArn: String, parameters: [String: String]? = nil, typeVersion: String? = nil) {
             self.id = id
             self.localDeploymentAdministrationRoleArn = localDeploymentAdministrationRoleArn
@@ -558,6 +581,7 @@ extension SSMQuickSetup {
         /// A name for the configuration manager.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, managerArn: String, name: String? = nil) {
             self.description = description
             self.managerArn = managerArn
@@ -582,6 +606,7 @@ extension SSMQuickSetup {
         /// The IAM role used to enable Explorer.
         public let explorerEnablingRoleArn: String?
 
+        @inlinable
         public init(explorerEnablingRoleArn: String? = nil) {
             self.explorerEnablingRoleArn = explorerEnablingRoleArn
         }

@@ -118,6 +118,7 @@ extension MediaPackageVod {
         public let sourceRoleArn: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -147,6 +148,7 @@ extension MediaPackageVod {
         /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
         public let secretsRoleArn: String?
 
+        @inlinable
         public init(cdnIdentifierSecret: String? = nil, secretsRoleArn: String? = nil) {
             self.cdnIdentifierSecret = cdnIdentifierSecret
             self.secretsRoleArn = secretsRoleArn
@@ -163,6 +165,7 @@ extension MediaPackageVod {
         public let constantInitializationVector: String?
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(constantInitializationVector: String? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.spekeKeyProvider = spekeKeyProvider
@@ -184,6 +187,7 @@ extension MediaPackageVod {
         /// rounded to the nearest multiple of the source fragment duration.
         public let segmentDurationSeconds: Int?
 
+        @inlinable
         public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest]? = nil, includeEncoderConfigurationInSegments: Bool? = nil, segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -204,6 +208,7 @@ extension MediaPackageVod {
         /// The ID of a MediaPackage VOD PackagingGroup resource.
         public let id: String
 
+        @inlinable
         public init(egressAccessLogs: EgressAccessLogs? = nil, id: String) {
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -234,6 +239,7 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
@@ -268,6 +274,7 @@ extension MediaPackageVod {
         public let sourceRoleArn: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.id = id
             self.packagingGroupId = packagingGroupId
@@ -306,6 +313,7 @@ extension MediaPackageVod {
         public let sourceRoleArn: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -342,6 +350,7 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -378,6 +387,7 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
@@ -410,6 +420,7 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(authorization: Authorization? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.authorization = authorization
             self.egressAccessLogs = egressAccessLogs
@@ -438,6 +449,7 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
@@ -462,6 +474,7 @@ extension MediaPackageVod {
     public struct DashEncryption: AWSEncodableShape & AWSDecodableShape {
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -484,6 +497,7 @@ extension MediaPackageVod {
         public let scteMarkersSource: ScteMarkersSource?
         public let streamSelection: StreamSelection?
 
+        @inlinable
         public init(manifestLayout: ManifestLayout? = nil, manifestName: String? = nil, minBufferTimeSeconds: Int? = nil, profile: Profile? = nil, scteMarkersSource: ScteMarkersSource? = nil, streamSelection: StreamSelection? = nil) {
             self.manifestLayout = manifestLayout
             self.manifestName = manifestName
@@ -522,6 +536,7 @@ extension MediaPackageVod {
         /// Determines the type of SegmentTemplate included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in each SegmentTemplate, with $Number$ media URLs.
         public let segmentTemplateFormat: SegmentTemplateFormat?
 
+        @inlinable
         public init(dashManifests: [DashManifest]? = nil, encryption: DashEncryption? = nil, includeEncoderConfigurationInSegments: Bool? = nil, includeIframeOnlyStream: Bool? = nil, periodTriggers: [PeriodTriggersElement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
@@ -547,6 +562,7 @@ extension MediaPackageVod {
         /// The ID of the MediaPackage VOD Asset resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -568,6 +584,7 @@ extension MediaPackageVod {
         /// The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -589,6 +606,7 @@ extension MediaPackageVod {
         /// The ID of the MediaPackage VOD PackagingGroup resource to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -610,6 +628,7 @@ extension MediaPackageVod {
         /// The ID of an MediaPackage VOD Asset resource.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -642,6 +661,7 @@ extension MediaPackageVod {
         public let sourceRoleArn: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, egressEndpoints: [EgressEndpoint]? = nil, id: String? = nil, packagingGroupId: String? = nil, resourceId: String? = nil, sourceArn: String? = nil, sourceRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -671,6 +691,7 @@ extension MediaPackageVod {
         /// The ID of a MediaPackage VOD PackagingConfiguration resource.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -699,6 +720,7 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
@@ -728,6 +750,7 @@ extension MediaPackageVod {
         /// The ID of a MediaPackage VOD PackagingGroup resource.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -756,6 +779,7 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
@@ -783,6 +807,7 @@ extension MediaPackageVod {
         /// Customize the log group name.
         public let logGroupName: String?
 
+        @inlinable
         public init(logGroupName: String? = nil) {
             self.logGroupName = logGroupName
         }
@@ -800,6 +825,7 @@ extension MediaPackageVod {
         /// The URL of the parent manifest for the repackaged Asset.
         public let url: String?
 
+        @inlinable
         public init(packagingConfigurationId: String? = nil, status: String? = nil, url: String? = nil) {
             self.packagingConfigurationId = packagingConfigurationId
             self.status = status
@@ -819,6 +845,7 @@ extension MediaPackageVod {
         /// A collection of video encryption presets.
         public let presetSpeke20Video: PresetSpeke20Video?
 
+        @inlinable
         public init(presetSpeke20Audio: PresetSpeke20Audio? = nil, presetSpeke20Video: PresetSpeke20Video? = nil) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
@@ -838,6 +865,7 @@ extension MediaPackageVod {
         public let encryptionMethod: EncryptionMethod?
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -877,6 +905,7 @@ extension MediaPackageVod {
         public let repeatExtXKey: Bool?
         public let streamSelection: StreamSelection?
 
+        @inlinable
         public init(adMarkers: AdMarkers? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, programDateTimeIntervalSeconds: Int? = nil, repeatExtXKey: Bool? = nil, streamSelection: StreamSelection? = nil) {
             self.adMarkers = adMarkers
             self.includeIframeOnlyStream = includeIframeOnlyStream
@@ -908,6 +937,7 @@ extension MediaPackageVod {
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
+        @inlinable
         public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest]? = nil, includeDvbSubtitles: Bool? = nil, segmentDurationSeconds: Int? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -933,6 +963,7 @@ extension MediaPackageVod {
         /// Returns Assets associated with the specified PackagingGroup.
         public let packagingGroupId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -961,6 +992,7 @@ extension MediaPackageVod {
         /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(assets: [AssetShallow]? = nil, nextToken: String? = nil) {
             self.assets = assets
             self.nextToken = nextToken
@@ -980,6 +1012,7 @@ extension MediaPackageVod {
         /// Returns MediaPackage VOD PackagingConfigurations associated with the specified PackagingGroup.
         public let packagingGroupId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1008,6 +1041,7 @@ extension MediaPackageVod {
         /// A list of MediaPackage VOD PackagingConfiguration resources.
         public let packagingConfigurations: [PackagingConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, packagingConfigurations: [PackagingConfiguration]? = nil) {
             self.nextToken = nextToken
             self.packagingConfigurations = packagingConfigurations
@@ -1025,6 +1059,7 @@ extension MediaPackageVod {
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1051,6 +1086,7 @@ extension MediaPackageVod {
         /// A list of MediaPackage VOD PackagingGroup resources.
         public let packagingGroups: [PackagingGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, packagingGroups: [PackagingGroup]? = nil) {
             self.nextToken = nextToken
             self.packagingGroups = packagingGroups
@@ -1066,6 +1102,7 @@ extension MediaPackageVod {
         /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1083,6 +1120,7 @@ extension MediaPackageVod {
         /// A collection of tags associated with a resource
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1095,6 +1133,7 @@ extension MediaPackageVod {
     public struct MssEncryption: AWSEncodableShape & AWSDecodableShape {
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -1109,6 +1148,7 @@ extension MediaPackageVod {
         public let manifestName: String?
         public let streamSelection: StreamSelection?
 
+        @inlinable
         public init(manifestName: String? = nil, streamSelection: StreamSelection? = nil) {
             self.manifestName = manifestName
             self.streamSelection = streamSelection
@@ -1127,6 +1167,7 @@ extension MediaPackageVod {
         /// The duration (in seconds) of each segment.
         public let segmentDurationSeconds: Int?
 
+        @inlinable
         public init(encryption: MssEncryption? = nil, mssManifests: [MssManifest]? = nil, segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.mssManifests = mssManifests
@@ -1155,6 +1196,7 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
@@ -1195,6 +1237,7 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
@@ -1228,6 +1271,7 @@ extension MediaPackageVod {
         /// The URL of the external key provider service.
         public let url: String?
 
+        @inlinable
         public init(encryptionContractConfiguration: EncryptionContractConfiguration? = nil, roleArn: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.roleArn = roleArn
@@ -1251,6 +1295,7 @@ extension MediaPackageVod {
         /// A directive that determines the order of streams in the output.
         public let streamOrder: StreamOrder?
 
+        @inlinable
         public init(maxVideoBitsPerSecond: Int? = nil, minVideoBitsPerSecond: Int? = nil, streamOrder: StreamOrder? = nil) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
@@ -1270,6 +1315,7 @@ extension MediaPackageVod {
         /// A collection of tags associated with a resource
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1293,6 +1339,7 @@ extension MediaPackageVod {
         /// A comma-separated list of the tag keys to remove from the resource.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1313,6 +1360,7 @@ extension MediaPackageVod {
         /// The ID of a MediaPackage VOD PackagingGroup resource.
         public let id: String
 
+        @inlinable
         public init(authorization: Authorization? = nil, id: String) {
             self.authorization = authorization
             self.id = id
@@ -1345,6 +1393,7 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn

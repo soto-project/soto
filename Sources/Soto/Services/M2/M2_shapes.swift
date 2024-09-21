@@ -457,6 +457,7 @@ extension M2 {
         /// A positive integer value representing the offset to mark the start of the alternate key part in the record byte array.
         public let offset: Int
 
+        @inlinable
         public init(allowDuplicates: Bool? = nil, length: Int, name: String? = nil, offset: Int) {
             self.allowDuplicates = allowDuplicates
             self.length = length
@@ -500,6 +501,7 @@ extension M2 {
         /// Indicates the status of the latest version of the application.
         public let versionStatus: ApplicationVersionLifecycle?
 
+        @inlinable
         public init(applicationArn: String, applicationId: String, applicationVersion: Int, creationTime: Date, deploymentStatus: ApplicationDeploymentLifecycle? = nil, description: String? = nil, engineType: EngineType, environmentId: String? = nil, lastStartTime: Date? = nil, name: String, roleArn: String? = nil, status: ApplicationLifecycle, versionStatus: ApplicationVersionLifecycle? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -543,6 +545,7 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
+        @inlinable
         public init(applicationVersion: Int, creationTime: Date, status: ApplicationVersionLifecycle, statusReason: String? = nil) {
             self.applicationVersion = applicationVersion
             self.creationTime = creationTime
@@ -580,6 +583,7 @@ extension M2 {
         /// The status of a particular batch job execution.
         public let status: BatchJobExecutionStatus
 
+        @inlinable
         public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier? = nil, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobType: BatchJobType? = nil, returnCode: String? = nil, startTime: Date, status: BatchJobExecutionStatus) {
             self.applicationId = applicationId
             self.batchJobIdentifier = batchJobIdentifier
@@ -613,6 +617,7 @@ extension M2 {
         /// The unique identifier of the batch job execution.
         public let executionId: String
 
+        @inlinable
         public init(applicationId: String, executionId: String) {
             self.applicationId = applicationId
             self.executionId = executionId
@@ -655,6 +660,7 @@ extension M2 {
         /// A list of tags to apply to the application.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateApplicationRequest.idempotencyToken(), definition: Definition, description: String? = nil, engineType: EngineType, kmsKeyId: String? = nil, name: String, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.definition = definition
@@ -700,6 +706,7 @@ extension M2 {
         /// The version number of the application.
         public let applicationVersion: Int
 
+        @inlinable
         public init(applicationArn: String, applicationId: String, applicationVersion: Int) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -721,6 +728,7 @@ extension M2 {
         /// The data set import task configuration.
         public let importConfig: DataSetImportConfig
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = CreateDataSetImportTaskRequest.idempotencyToken(), importConfig: DataSetImportConfig) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -750,6 +758,7 @@ extension M2 {
         /// The task identifier. This operation is asynchronous. Use this identifier with the GetDataSetImportTask operation to obtain the status of this task.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -769,6 +778,7 @@ extension M2 {
         /// The identifier of the runtime environment where you want to deploy this application.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, applicationVersion: Int, clientToken: String? = CreateDeploymentRequest.idempotencyToken(), environmentId: String) {
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
@@ -802,6 +812,7 @@ extension M2 {
         /// The unique identifier of the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
         }
@@ -841,6 +852,7 @@ extension M2 {
         /// The tags for the runtime environment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), description: String? = nil, engineType: EngineType, engineVersion: String? = nil, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, name: String, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -904,6 +916,7 @@ extension M2 {
         /// The unique identifier of the runtime environment.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -925,6 +938,7 @@ extension M2 {
         /// The storage type of the data set: database or file system. For Micro Focus, database corresponds to datastore and file system corresponds to EFS/FSX. For Blu Age, there is no support of file system and database corresponds to Blusam.
         public let storageType: String?
 
+        @inlinable
         public init(datasetName: String, datasetOrg: DatasetOrgAttributes, recordLength: RecordLength, relativePath: String? = nil, storageType: String? = nil) {
             self.datasetName = datasetName
             self.datasetOrg = datasetOrg
@@ -952,6 +966,7 @@ extension M2 {
         /// The location of the data set.
         public let externalLocation: ExternalLocation
 
+        @inlinable
         public init(dataSet: DataSet, externalLocation: ExternalLocation) {
             self.dataSet = dataSet
             self.externalLocation = externalLocation
@@ -980,6 +995,7 @@ extension M2 {
         /// The total number of data set imports.
         public let total: Int
 
+        @inlinable
         public init(failed: Int, inProgress: Int, pending: Int, succeeded: Int, total: Int) {
             self.failed = failed
             self.inProgress = inProgress
@@ -1007,6 +1023,7 @@ extension M2 {
         /// The identifier of the data set import task.
         public let taskId: String
 
+        @inlinable
         public init(status: DataSetTaskLifecycle, statusReason: String? = nil, summary: DataSetImportSummary, taskId: String) {
             self.status = status
             self.statusReason = statusReason
@@ -1036,6 +1053,7 @@ extension M2 {
         /// The last time the data set was updated.
         public let lastUpdatedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataSetName: String, dataSetOrg: String? = nil, format: String? = nil, lastReferencedTime: Date? = nil, lastUpdatedTime: Date? = nil) {
             self.creationTime = creationTime
             self.dataSetName = dataSetName
@@ -1061,6 +1079,7 @@ extension M2 {
         /// The unique identifier of the runtime environment where the application was previously deployed.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, environmentId: String) {
             self.applicationId = applicationId
             self.environmentId = environmentId
@@ -1089,6 +1108,7 @@ extension M2 {
         /// The unique identifier of the application you want to delete.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1114,6 +1134,7 @@ extension M2 {
         /// The unique identifier of the runtime environment you want to delete.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -1143,6 +1164,7 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
+        @inlinable
         public init(applicationVersion: Int, status: DeploymentLifecycle, statusReason: String? = nil) {
             self.applicationVersion = applicationVersion
             self.status = status
@@ -1172,6 +1194,7 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
+        @inlinable
         public init(applicationId: String, applicationVersion: Int, creationTime: Date, deploymentId: String, environmentId: String, status: DeploymentLifecycle, statusReason: String? = nil) {
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
@@ -1199,6 +1222,7 @@ extension M2 {
         /// The mount point for the file system.
         public let mountPoint: String
 
+        @inlinable
         public init(fileSystemId: String, mountPoint: String) {
             self.fileSystemId = fileSystemId
             self.mountPoint = mountPoint
@@ -1221,6 +1245,7 @@ extension M2 {
         /// The version of the engine type used by the application.
         public let engineVersion: String
 
+        @inlinable
         public init(engineType: String, engineVersion: String) {
             self.engineType = engineType
             self.engineVersion = engineVersion
@@ -1250,6 +1275,7 @@ extension M2 {
         /// The status of the runtime environment
         public let status: EnvironmentLifecycle
 
+        @inlinable
         public init(creationTime: Date, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, instanceType: String, name: String, status: EnvironmentLifecycle) {
             self.creationTime = creationTime
             self.engineType = engineType
@@ -1279,6 +1305,7 @@ extension M2 {
         /// The path to the file containing the batch job definition.
         public let folderPath: String?
 
+        @inlinable
         public init(fileName: String, folderPath: String? = nil) {
             self.fileName = fileName
             self.folderPath = folderPath
@@ -1296,6 +1323,7 @@ extension M2 {
         /// The relative path to the file name for the batch job identifier.
         public let folderPath: String?
 
+        @inlinable
         public init(fileName: String, folderPath: String? = nil) {
             self.fileName = fileName
             self.folderPath = folderPath
@@ -1313,6 +1341,7 @@ extension M2 {
         /// The mount point for the file system.
         public let mountPoint: String
 
+        @inlinable
         public init(fileSystemId: String, mountPoint: String) {
             self.fileSystemId = fileSystemId
             self.mountPoint = mountPoint
@@ -1335,6 +1364,7 @@ extension M2 {
         /// The disposition of the data set in the catalog.
         public let rollDisposition: String?
 
+        @inlinable
         public init(limit: Int? = nil, rollDisposition: String? = nil) {
             self.limit = limit
             self.rollDisposition = rollDisposition
@@ -1352,6 +1382,7 @@ extension M2 {
         /// The disposition of the data set in the catalog.
         public let rollDisposition: String?
 
+        @inlinable
         public init(limit: Int? = nil, rollDisposition: String? = nil) {
             self.limit = limit
             self.rollDisposition = rollDisposition
@@ -1367,6 +1398,7 @@ extension M2 {
         /// The identifier of the application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1426,6 +1458,7 @@ extension M2 {
         /// Returns the Amazon Resource Names (ARNs) of the target groups that are attached to the network load balancer.
         public let targetGroupArns: [String]?
 
+        @inlinable
         public init(applicationArn: String, applicationId: String, creationTime: Date, deployedVersion: DeployedVersionSummary? = nil, description: String? = nil, engineType: EngineType, environmentId: String? = nil, kmsKeyId: String? = nil, lastStartTime: Date? = nil, latestVersion: ApplicationVersionSummary, listenerArns: [String]? = nil, listenerPorts: [Int]? = nil, loadBalancerDnsName: String? = nil, logGroups: [LogGroupSummary]? = nil, name: String, roleArn: String? = nil, status: ApplicationLifecycle, statusReason: String? = nil, tags: [String: String]? = nil, targetGroupArns: [String]? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -1479,6 +1512,7 @@ extension M2 {
         /// The specific version of the application.
         public let applicationVersion: Int
 
+        @inlinable
         public init(applicationId: String, applicationVersion: Int) {
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
@@ -1515,6 +1549,7 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
+        @inlinable
         public init(applicationVersion: Int, creationTime: Date, definitionContent: String, description: String? = nil, name: String, status: ApplicationVersionLifecycle, statusReason: String? = nil) {
             self.applicationVersion = applicationVersion
             self.creationTime = creationTime
@@ -1542,6 +1577,7 @@ extension M2 {
         /// The unique identifier of the batch job execution.
         public let executionId: String
 
+        @inlinable
         public init(applicationId: String, executionId: String) {
             self.applicationId = applicationId
             self.executionId = executionId
@@ -1590,6 +1626,7 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
+        @inlinable
         public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier? = nil, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobStepRestartMarker: JobStepRestartMarker? = nil, jobType: BatchJobType? = nil, jobUser: String? = nil, returnCode: String? = nil, startTime: Date, status: BatchJobExecutionStatus, statusReason: String? = nil) {
             self.applicationId = applicationId
             self.batchJobIdentifier = batchJobIdentifier
@@ -1629,6 +1666,7 @@ extension M2 {
         /// The name of the data set.
         public let dataSetName: String
 
+        @inlinable
         public init(applicationId: String, dataSetName: String) {
             self.applicationId = applicationId
             self.dataSetName = dataSetName
@@ -1669,6 +1707,7 @@ extension M2 {
         /// The length of records in the data set.
         public let recordLength: Int?
 
+        @inlinable
         public init(blocksize: Int? = nil, creationTime: Date? = nil, dataSetName: String, dataSetOrg: DatasetDetailOrgAttributes? = nil, fileSize: Int64? = nil, lastReferencedTime: Date? = nil, lastUpdatedTime: Date? = nil, location: String? = nil, recordLength: Int? = nil) {
             self.blocksize = blocksize
             self.creationTime = creationTime
@@ -1700,6 +1739,7 @@ extension M2 {
         /// The task identifier returned by the CreateDataSetImportTask operation.
         public let taskId: String
 
+        @inlinable
         public init(applicationId: String, taskId: String) {
             self.applicationId = applicationId
             self.taskId = taskId
@@ -1728,6 +1768,7 @@ extension M2 {
         /// The task identifier.
         public let taskId: String
 
+        @inlinable
         public init(status: DataSetTaskLifecycle, summary: DataSetImportSummary? = nil, taskId: String) {
             self.status = status
             self.summary = summary
@@ -1747,6 +1788,7 @@ extension M2 {
         /// The unique identifier for the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(applicationId: String, deploymentId: String) {
             self.applicationId = applicationId
             self.deploymentId = deploymentId
@@ -1783,6 +1825,7 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
+        @inlinable
         public init(applicationId: String, applicationVersion: Int, creationTime: Date, deploymentId: String, environmentId: String, status: DeploymentLifecycle, statusReason: String? = nil) {
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
@@ -1808,6 +1851,7 @@ extension M2 {
         /// The unique identifier of the runtime environment.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -1871,6 +1915,7 @@ extension M2 {
         /// The unique identifier for the VPC used with this runtime environment.
         public let vpcId: String
 
+        @inlinable
         public init(actualCapacity: Int? = nil, creationTime: Date, description: String? = nil, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, loadBalancerArn: String? = nil, name: String, pendingMaintenance: PendingMaintenance? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String], status: EnvironmentLifecycle, statusReason: String? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcId: String) {
             self.actualCapacity = actualCapacity
             self.creationTime = creationTime
@@ -1926,6 +1971,7 @@ extension M2 {
         /// Single sign-on AWS Blu Insights URL.
         public let signedBiUrl: String
 
+        @inlinable
         public init(signedBiUrl: String) {
             self.signedBiUrl = signedBiUrl
         }
@@ -1939,6 +1985,7 @@ extension M2 {
         /// The number of instances in a high availability configuration. The minimum possible value is 1 and the maximum is 100.
         public let desiredCapacity: Int
 
+        @inlinable
         public init(desiredCapacity: Int) {
             self.desiredCapacity = desiredCapacity
         }
@@ -1962,6 +2009,7 @@ extension M2 {
         /// Specifies if a step can be restarted or not.
         public let stepRestartable: Bool?
 
+        @inlinable
         public init(procStepName: String? = nil, procStepNumber: Int? = nil, stepCondCode: String? = nil, stepName: String? = nil, stepNumber: Int? = nil, stepRestartable: Bool? = nil) {
             self.procStepName = procStepName
             self.procStepNumber = procStepNumber
@@ -1991,6 +2039,7 @@ extension M2 {
         /// The step name that a job was restarted to.
         public let toStep: String?
 
+        @inlinable
         public init(fromProcStep: String? = nil, fromStep: String, toProcStep: String? = nil, toStep: String? = nil) {
             self.fromProcStep = fromProcStep
             self.fromStep = fromStep
@@ -2014,6 +2063,7 @@ extension M2 {
         /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -2044,6 +2094,7 @@ extension M2 {
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationVersions: [ApplicationVersionSummary], nextToken: String? = nil) {
             self.applicationVersions = applicationVersions
             self.nextToken = nextToken
@@ -2065,6 +2116,7 @@ extension M2 {
         /// A pagination token to control the number of applications displayed in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentId: String? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
@@ -2102,6 +2154,7 @@ extension M2 {
         /// A pagination token that's returned when the response doesn't contain all applications.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [ApplicationSummary], nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -2123,6 +2176,7 @@ extension M2 {
         /// If the batch job definition is a FileBatchJobDefinition, the prefix allows you to search on the file names of FileBatchJobDefinitions.
         public let prefix: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, prefix: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -2155,6 +2209,7 @@ extension M2 {
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(batchJobDefinitions: [BatchJobDefinition], nextToken: String? = nil) {
             self.batchJobDefinitions = batchJobDefinitions
             self.nextToken = nextToken
@@ -2184,6 +2239,7 @@ extension M2 {
         /// The status of the batch job executions.
         public let status: BatchJobExecutionStatus?
 
+        @inlinable
         public init(applicationId: String, executionIds: [String]? = nil, jobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startedAfter: Date? = nil, startedBefore: Date? = nil, status: BatchJobExecutionStatus? = nil) {
             self.applicationId = applicationId
             self.executionIds = executionIds
@@ -2230,6 +2286,7 @@ extension M2 {
         /// A pagination token that's returned when the response doesn't contain all batch job executions.
         public let nextToken: String?
 
+        @inlinable
         public init(batchJobExecutions: [BatchJobExecutionSummary], nextToken: String? = nil) {
             self.batchJobExecutions = batchJobExecutions
             self.nextToken = nextToken
@@ -2247,6 +2304,7 @@ extension M2 {
         /// The unique identifier of each batch job execution.
         public let executionId: String
 
+        @inlinable
         public init(applicationId: String, executionId: String) {
             self.applicationId = applicationId
             self.executionId = executionId
@@ -2271,6 +2329,7 @@ extension M2 {
         /// Returns all the batch job steps and related information for a batch job that previously ran.
         public let batchJobSteps: [JobStep]?
 
+        @inlinable
         public init(batchJobSteps: [JobStep]? = nil) {
             self.batchJobSteps = batchJobSteps
         }
@@ -2288,6 +2347,7 @@ extension M2 {
         /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -2318,6 +2378,7 @@ extension M2 {
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSetImportTasks: [DataSetImportTask], nextToken: String? = nil) {
             self.dataSetImportTasks = dataSetImportTasks
             self.nextToken = nextToken
@@ -2341,6 +2402,7 @@ extension M2 {
         /// The prefix of the data set name, which you can use to filter the list of data sets.
         public let prefix: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nameFilter: String? = nil, nextToken: String? = nil, prefix: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -2377,6 +2439,7 @@ extension M2 {
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSets: [DataSetSummary], nextToken: String? = nil) {
             self.dataSets = dataSets
             self.nextToken = nextToken
@@ -2396,6 +2459,7 @@ extension M2 {
         /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -2426,6 +2490,7 @@ extension M2 {
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(deployments: [DeploymentSummary], nextToken: String? = nil) {
             self.deployments = deployments
             self.nextToken = nextToken
@@ -2445,6 +2510,7 @@ extension M2 {
         /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(engineType: EngineType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.maxResults = maxResults
@@ -2474,6 +2540,7 @@ extension M2 {
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(engineVersions: [EngineVersionsSummary], nextToken: String? = nil) {
             self.engineVersions = engineVersions
             self.nextToken = nextToken
@@ -2495,6 +2562,7 @@ extension M2 {
         /// A pagination token to control the number of runtime environments displayed in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(engineType: EngineType? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.maxResults = maxResults
@@ -2531,6 +2599,7 @@ extension M2 {
         /// A pagination token that's returned when the response doesn't contain all the runtime environments.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [EnvironmentSummary], nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -2546,6 +2615,7 @@ extension M2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2567,6 +2637,7 @@ extension M2 {
         /// The tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -2582,6 +2653,7 @@ extension M2 {
         /// The type of log.
         public let logType: String
 
+        @inlinable
         public init(logGroupName: String, logType: String) {
             self.logGroupName = logGroupName
             self.logType = logType
@@ -2599,6 +2671,7 @@ extension M2 {
         /// The time the scheduled maintenance is to start.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -2616,6 +2689,7 @@ extension M2 {
         /// The maintenance schedule for the runtime engine version.
         public let schedule: MaintenanceSchedule?
 
+        @inlinable
         public init(engineVersion: String? = nil, schedule: MaintenanceSchedule? = nil) {
             self.engineVersion = engineVersion
             self.schedule = schedule
@@ -2635,6 +2709,7 @@ extension M2 {
         /// An array containing one or more filename extensions, allowing you to specify which files to be included as PDS member.
         public let memberFileExtensions: [String]
 
+        @inlinable
         public init(encoding: String? = nil, format: String, memberFileExtensions: [String]) {
             self.encoding = encoding
             self.format = format
@@ -2662,6 +2737,7 @@ extension M2 {
         /// The format of the data set records.
         public let format: String
 
+        @inlinable
         public init(encoding: String, format: String) {
             self.encoding = encoding
             self.format = format
@@ -2681,6 +2757,7 @@ extension M2 {
         /// A positive integer value representing the offset to mark the start of the primary key in the record byte array.
         public let offset: Int
 
+        @inlinable
         public init(length: Int, name: String? = nil, offset: Int) {
             self.length = length
             self.name = name
@@ -2700,6 +2777,7 @@ extension M2 {
         /// The format of the data set records.
         public let format: String
 
+        @inlinable
         public init(encoding: String? = nil, format: String) {
             self.encoding = encoding
             self.format = format
@@ -2717,6 +2795,7 @@ extension M2 {
         /// The format of the data set records.
         public let format: String
 
+        @inlinable
         public init(encoding: String, format: String) {
             self.encoding = encoding
             self.format = format
@@ -2734,6 +2813,7 @@ extension M2 {
         /// The minimum record length of a record.
         public let min: Int
 
+        @inlinable
         public init(max: Int = 0, min: Int = 0) {
             self.max = max
             self.min = min
@@ -2751,6 +2831,7 @@ extension M2 {
         /// The restart step information for the most recent restart operation.
         public let jobStepRestartMarker: JobStepRestartMarker
 
+        @inlinable
         public init(executionId: String, jobStepRestartMarker: JobStepRestartMarker) {
             self.executionId = executionId
             self.jobStepRestartMarker = jobStepRestartMarker
@@ -2774,6 +2855,7 @@ extension M2 {
         /// The key prefix that specifies the path to the folder in the S3 bucket that has the batch job definitions.
         public let keyPrefix: String?
 
+        @inlinable
         public init(bucket: String, identifier: JobIdentifier, keyPrefix: String? = nil) {
             self.bucket = bucket
             self.identifier = identifier
@@ -2791,6 +2873,7 @@ extension M2 {
         /// The name of the script containing the batch job definition.
         public let scriptName: String
 
+        @inlinable
         public init(scriptName: String) {
             self.scriptName = scriptName
         }
@@ -2804,6 +2887,7 @@ extension M2 {
         /// The name of the script containing the batch job definition.
         public let scriptName: String
 
+        @inlinable
         public init(scriptName: String) {
             self.scriptName = scriptName
         }
@@ -2817,6 +2901,7 @@ extension M2 {
         /// The unique identifier of the application you want to start.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2846,6 +2931,7 @@ extension M2 {
         /// The collection of batch job parameters. For details about limits for keys and values, see Coding variables in JCL.
         public let jobParams: [String: String]?
 
+        @inlinable
         public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier, jobParams: [String: String]? = nil) {
             self.applicationId = applicationId
             self.batchJobIdentifier = batchJobIdentifier
@@ -2882,6 +2968,7 @@ extension M2 {
         /// The unique identifier of this execution of the batch job.
         public let executionId: String
 
+        @inlinable
         public init(executionId: String) {
             self.executionId = executionId
         }
@@ -2897,6 +2984,7 @@ extension M2 {
         /// Stopping an application process can take a long time. Setting this parameter to true lets you force stop the application so you don't need to wait until the process finishes to apply another action on the application. The default value is false.
         public let forceStop: Bool?
 
+        @inlinable
         public init(applicationId: String, forceStop: Bool? = nil) {
             self.applicationId = applicationId
             self.forceStop = forceStop
@@ -2928,6 +3016,7 @@ extension M2 {
         /// The tags to add to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2966,6 +3055,7 @@ extension M2 {
         /// The keys of the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3004,6 +3094,7 @@ extension M2 {
         /// The description of the application to update.
         public let description: String?
 
+        @inlinable
         public init(applicationId: String, currentApplicationVersion: Int, definition: Definition? = nil, description: String? = nil) {
             self.applicationId = applicationId
             self.currentApplicationVersion = currentApplicationVersion
@@ -3038,6 +3129,7 @@ extension M2 {
         /// The new version of the application.
         public let applicationVersion: Int
 
+        @inlinable
         public init(applicationVersion: Int) {
             self.applicationVersion = applicationVersion
         }
@@ -3063,6 +3155,7 @@ extension M2 {
         /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
 
+        @inlinable
         public init(applyDuringMaintenanceWindow: Bool? = nil, desiredCapacity: Int? = nil, engineVersion: String? = nil, environmentId: String, forceUpdate: Bool? = nil, instanceType: String? = nil, preferredMaintenanceWindow: String? = nil) {
             self.applyDuringMaintenanceWindow = applyDuringMaintenanceWindow
             self.desiredCapacity = desiredCapacity
@@ -3105,6 +3198,7 @@ extension M2 {
         /// The unique identifier of the runtime environment that was updated.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -3126,6 +3220,7 @@ extension M2 {
         /// The primary key of the data set.
         public let primaryKey: PrimaryKey?
 
+        @inlinable
         public init(alternateKeys: [AlternateKey]? = nil, compressed: Bool? = nil, encoding: String? = nil, format: String, primaryKey: PrimaryKey? = nil) {
             self.alternateKeys = alternateKeys
             self.compressed = compressed
@@ -3157,6 +3252,7 @@ extension M2 {
         /// The record format of the data set.
         public let recordFormat: String?
 
+        @inlinable
         public init(alternateKeys: [AlternateKey]? = nil, cacheAtStartup: Bool? = nil, compressed: Bool? = nil, encoding: String? = nil, primaryKey: PrimaryKey? = nil, recordFormat: String? = nil) {
             self.alternateKeys = alternateKeys
             self.cacheAtStartup = cacheAtStartup
@@ -3180,6 +3276,7 @@ extension M2 {
         /// The URI of the Amazon S3 bucket.
         public let s3Location: String?
 
+        @inlinable
         public init(s3Location: String? = nil) {
             self.s3Location = s3Location
         }

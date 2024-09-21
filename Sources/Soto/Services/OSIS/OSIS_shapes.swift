@@ -73,6 +73,7 @@ extension OSIS {
         /// Whether persistent buffering should be enabled.
         public let persistentBufferEnabled: Bool
 
+        @inlinable
         public init(persistentBufferEnabled: Bool) {
             self.persistentBufferEnabled = persistentBufferEnabled
         }
@@ -92,6 +93,7 @@ extension OSIS {
         /// The current status of the stage that the change is in.
         public let status: ChangeProgressStageStatuses?
 
+        @inlinable
         public init(description: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ChangeProgressStageStatuses? = nil) {
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
@@ -117,6 +119,7 @@ extension OSIS {
         /// The total number of stages required for the pipeline configuration change.
         public let totalNumberOfStages: Int?
 
+        @inlinable
         public init(changeProgressStages: [ChangeProgressStage]? = nil, startTime: Date? = nil, status: ChangeProgressStatuses? = nil, totalNumberOfStages: Int? = nil) {
             self.changeProgressStages = changeProgressStages
             self.startTime = startTime
@@ -136,6 +139,7 @@ extension OSIS {
         /// The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/vendedlogs/OpenSearchService/pipelines.
         public let logGroup: String
 
+        @inlinable
         public init(logGroup: String) {
             self.logGroup = logGroup
         }
@@ -171,6 +175,7 @@ extension OSIS {
         /// Container for the values required to configure VPC access for the pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with a public endpoint.
         public let vpcOptions: VpcOptions?
 
+        @inlinable
         public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int, minUnits: Int, pipelineConfigurationBody: String, pipelineName: String, tags: [Tag]? = nil, vpcOptions: VpcOptions? = nil) {
             self.bufferOptions = bufferOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -216,6 +221,7 @@ extension OSIS {
         /// Container for information about the created pipeline.
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -229,6 +235,7 @@ extension OSIS {
         /// The name of the pipeline to delete.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -256,6 +263,7 @@ extension OSIS {
         /// The ARN of the KMS key used to encrypt buffer data. By default, data is encrypted using an Amazon Web Services owned key.
         public let kmsKeyArn: String
 
+        @inlinable
         public init(kmsKeyArn: String) {
             self.kmsKeyArn = kmsKeyArn
         }
@@ -276,6 +284,7 @@ extension OSIS {
         /// The format format of the blueprint to retrieve.
         public let format: String?
 
+        @inlinable
         public init(blueprintName: String, format: String? = nil) {
             self.blueprintName = blueprintName
             self.format = format
@@ -301,6 +310,7 @@ extension OSIS {
         /// The format of the blueprint.
         public let format: String?
 
+        @inlinable
         public init(blueprint: PipelineBlueprint? = nil, format: String? = nil) {
             self.blueprint = blueprint
             self.format = format
@@ -316,6 +326,7 @@ extension OSIS {
         /// The name of the pipeline.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -339,6 +350,7 @@ extension OSIS {
         /// The current status of the change happening on the pipeline.
         public let changeProgressStatuses: [ChangeProgressStatus]?
 
+        @inlinable
         public init(changeProgressStatuses: [ChangeProgressStatus]? = nil) {
             self.changeProgressStatuses = changeProgressStatuses
         }
@@ -352,6 +364,7 @@ extension OSIS {
         /// The name of the pipeline.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -375,6 +388,7 @@ extension OSIS {
         /// Detailed information about the requested pipeline.
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -392,6 +406,7 @@ extension OSIS {
         /// A list of available blueprints for Data Prepper.
         public let blueprints: [PipelineBlueprintSummary]?
 
+        @inlinable
         public init(blueprints: [PipelineBlueprintSummary]? = nil) {
             self.blueprints = blueprints
         }
@@ -407,6 +422,7 @@ extension OSIS {
         /// If your initial ListPipelines operation returns a nextToken, you can include the returned nextToken in subsequent ListPipelines operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -435,6 +451,7 @@ extension OSIS {
         /// A list of all existing Data Prepper pipelines.
         public let pipelines: [PipelineSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelines: [PipelineSummary]? = nil) {
             self.nextToken = nextToken
             self.pipelines = pipelines
@@ -450,6 +467,7 @@ extension OSIS {
         /// The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -473,6 +491,7 @@ extension OSIS {
         /// A list of tags associated with the given pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -488,6 +507,7 @@ extension OSIS {
         /// Whether logs should be published.
         public let isLoggingEnabled: Bool?
 
+        @inlinable
         public init(cloudWatchLogDestination: CloudWatchLogDestination? = nil, isLoggingEnabled: Bool? = nil) {
             self.cloudWatchLogDestination = cloudWatchLogDestination
             self.isLoggingEnabled = isLoggingEnabled
@@ -539,6 +559,7 @@ extension OSIS {
         /// The VPC endpoint service name for the pipeline.
         public let vpcEndpointService: String?
 
+        @inlinable
         public init(bufferOptions: BufferOptions? = nil, createdAt: Date? = nil, destinations: [PipelineDestination]? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, serviceVpcEndpoints: [ServiceVpcEndpoint]? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil, vpcEndpoints: [VpcEndpoint]? = nil, vpcEndpointService: String? = nil) {
             self.bufferOptions = bufferOptions
             self.createdAt = createdAt
@@ -596,6 +617,7 @@ extension OSIS {
         /// The use case that the blueprint relates to.
         public let useCase: String?
 
+        @inlinable
         public init(blueprintName: String? = nil, displayDescription: String? = nil, displayName: String? = nil, pipelineConfigurationBody: String? = nil, service: String? = nil, useCase: String? = nil) {
             self.blueprintName = blueprintName
             self.displayDescription = displayDescription
@@ -627,6 +649,7 @@ extension OSIS {
         /// The use case that the blueprint relates to.
         public let useCase: String?
 
+        @inlinable
         public init(blueprintName: String? = nil, displayDescription: String? = nil, displayName: String? = nil, service: String? = nil, useCase: String? = nil) {
             self.blueprintName = blueprintName
             self.displayDescription = displayDescription
@@ -650,6 +673,7 @@ extension OSIS {
         /// The name of the service receiving data from the pipeline.
         public let serviceName: String?
 
+        @inlinable
         public init(endpoint: String? = nil, serviceName: String? = nil) {
             self.endpoint = endpoint
             self.serviceName = serviceName
@@ -665,6 +689,7 @@ extension OSIS {
         /// A description of why a pipeline has a certain status.
         public let description: String?
 
+        @inlinable
         public init(description: String? = nil) {
             self.description = description
         }
@@ -695,6 +720,7 @@ extension OSIS {
         /// A list of tags associated with the given pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdAt: Date? = nil, destinations: [PipelineDestination]? = nil, lastUpdatedAt: Date? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineName: String? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
             self.destinations = destinations
@@ -728,6 +754,7 @@ extension OSIS {
         /// The unique identifier of the VPC endpoint that was created.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(serviceName: VpcEndpointServiceName? = nil, vpcEndpointId: String? = nil) {
             self.serviceName = serviceName
             self.vpcEndpointId = vpcEndpointId
@@ -743,6 +770,7 @@ extension OSIS {
         /// The name of the pipeline to start.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -765,6 +793,7 @@ extension OSIS {
     public struct StartPipelineResponse: AWSDecodableShape {
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -778,6 +807,7 @@ extension OSIS {
         /// The name of the pipeline to stop.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -800,6 +830,7 @@ extension OSIS {
     public struct StopPipelineResponse: AWSDecodableShape {
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -815,6 +846,7 @@ extension OSIS {
         /// The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -840,6 +872,7 @@ extension OSIS {
         /// The list of key-value tags to add to the pipeline.
         public let tags: [Tag]
 
+        @inlinable
         public init(arn: String, tags: [Tag]) {
             self.arn = arn
             self.tags = tags
@@ -876,6 +909,7 @@ extension OSIS {
         /// The tag keys to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -919,6 +953,7 @@ extension OSIS {
         /// The name of the pipeline to update.
         public let pipelineName: String
 
+        @inlinable
         public init(bufferOptions: BufferOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String) {
             self.bufferOptions = bufferOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -967,6 +1002,7 @@ extension OSIS {
         /// Container for information about the updated pipeline.
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -980,6 +1016,7 @@ extension OSIS {
         /// The pipeline configuration in YAML format. The command accepts the pipeline configuration as a string or within a .yaml file. If you provide the configuration as a string, each new line must be escaped with \n.
         public let pipelineConfigurationBody: String
 
+        @inlinable
         public init(pipelineConfigurationBody: String) {
             self.pipelineConfigurationBody = pipelineConfigurationBody
         }
@@ -1000,6 +1037,7 @@ extension OSIS {
         /// A boolean indicating whether or not the pipeline configuration is valid.
         public let isValid: Bool?
 
+        @inlinable
         public init(errors: [ValidationMessage]? = nil, isValid: Bool? = nil) {
             self.errors = errors
             self.isValid = isValid
@@ -1015,6 +1053,7 @@ extension OSIS {
         /// The validation message.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1030,6 +1069,7 @@ extension OSIS {
         /// The CIDR block to be reserved for OpenSearch Ingestion to create elastic network interfaces (ENIs).
         public let cidrBlock: String?
 
+        @inlinable
         public init(attachToVpc: Bool, cidrBlock: String? = nil) {
             self.attachToVpc = attachToVpc
             self.cidrBlock = cidrBlock
@@ -1053,6 +1093,7 @@ extension OSIS {
         /// Information about the VPC, including associated subnets and security groups.
         public let vpcOptions: VpcOptions?
 
+        @inlinable
         public init(vpcEndpointId: String? = nil, vpcId: String? = nil, vpcOptions: VpcOptions? = nil) {
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
@@ -1076,6 +1117,7 @@ extension OSIS {
         /// Defines whether you or Amazon OpenSearch Ingestion service create and manage the VPC endpoint configured for the pipeline.
         public let vpcEndpointManagement: VpcEndpointManagement?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String], vpcAttachmentOptions: VpcAttachmentOptions? = nil, vpcEndpointManagement: VpcEndpointManagement? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds

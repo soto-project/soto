@@ -170,6 +170,7 @@ extension AppFabric {
         /// An API key for an application.
         public let apiKey: String
 
+        @inlinable
         public init(apiKey: String) {
             self.apiKey = apiKey
         }
@@ -208,6 +209,7 @@ extension AppFabric {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(app: String, appAuthorizationArn: String, appBundleArn: String, authType: AuthType, authUrl: String? = nil, createdAt: Date, persona: Persona? = nil, status: AppAuthorizationStatus, tenant: Tenant, updatedAt: Date) {
             self.app = app
             self.appAuthorizationArn = appAuthorizationArn
@@ -250,6 +252,7 @@ extension AppFabric {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(app: String, appAuthorizationArn: String, appBundleArn: String, status: AppAuthorizationStatus, tenant: Tenant, updatedAt: Date) {
             self.app = app
             self.appAuthorizationArn = appAuthorizationArn
@@ -275,6 +278,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used to encrypt the application data.
         public let customerManagedKeyArn: String?
 
+        @inlinable
         public init(arn: String, customerManagedKeyArn: String? = nil) {
             self.arn = arn
             self.customerManagedKeyArn = customerManagedKeyArn
@@ -290,6 +294,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) of the app bundle.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -303,6 +308,7 @@ extension AppFabric {
         /// Contains information about an audit log destination.
         public let destination: Destination
 
+        @inlinable
         public init(destination: Destination) {
             self.destination = destination
         }
@@ -322,6 +328,7 @@ extension AppFabric {
         /// The event schema in which the audit logs need to be formatted.
         public let schema: Schema
 
+        @inlinable
         public init(format: Format, schema: Schema) {
             self.format = format
             self.schema = schema
@@ -339,6 +346,7 @@ extension AppFabric {
         /// The redirect URL that is specified in the AuthURL and the application client.
         public let redirectUri: String
 
+        @inlinable
         public init(code: String, redirectUri: String) {
             self.code = code
             self.redirectUri = redirectUri
@@ -363,6 +371,7 @@ extension AppFabric {
         /// The tasks IDs to use for the request.
         public let taskIdList: [String]
 
+        @inlinable
         public init(appBundleIdentifier: String, taskIdList: [String]) {
             self.appBundleIdentifier = appBundleIdentifier
             self.taskIdList = taskIdList
@@ -389,6 +398,7 @@ extension AppFabric {
         /// Contains a list of user access results.
         public let userAccessResultsList: [UserAccessResultItem]?
 
+        @inlinable
         public init(userAccessResultsList: [UserAccessResultItem]? = nil) {
             self.userAccessResultsList = userAccessResultsList
         }
@@ -406,6 +416,7 @@ extension AppFabric {
         /// Contains OAuth2 authorization information. This is required if the app authorization for the request is configured with an OAuth2 (oauth2) authorization type.
         public let authRequest: AuthRequest?
 
+        @inlinable
         public init(appAuthorizationIdentifier: String, appBundleIdentifier: String, authRequest: AuthRequest? = nil) {
             self.appAuthorizationIdentifier = appAuthorizationIdentifier
             self.appBundleIdentifier = appBundleIdentifier
@@ -439,6 +450,7 @@ extension AppFabric {
         /// Contains a summary of the app authorization.
         public let appAuthorizationSummary: AppAuthorizationSummary
 
+        @inlinable
         public init(appAuthorizationSummary: AppAuthorizationSummary) {
             self.appAuthorizationSummary = appAuthorizationSummary
         }
@@ -464,6 +476,7 @@ extension AppFabric {
         /// Contains information about an application tenant, such as the application display name and identifier.
         public let tenant: Tenant
 
+        @inlinable
         public init(app: String, appBundleIdentifier: String, authType: AuthType, clientToken: String? = CreateAppAuthorizationRequest.idempotencyToken(), credential: Credential, tags: [Tag]? = nil, tenant: Tenant) {
             self.app = app
             self.appBundleIdentifier = appBundleIdentifier
@@ -515,6 +528,7 @@ extension AppFabric {
         /// Contains information about an app authorization.
         public let appAuthorization: AppAuthorization
 
+        @inlinable
         public init(appAuthorization: AppAuthorization) {
             self.appAuthorization = appAuthorization
         }
@@ -532,6 +546,7 @@ extension AppFabric {
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateAppBundleRequest.idempotencyToken(), customerManagedKeyIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.customerManagedKeyIdentifier = customerManagedKeyIdentifier
@@ -560,6 +575,7 @@ extension AppFabric {
         /// Contains information about an app bundle.
         public let appBundle: AppBundle
 
+        @inlinable
         public init(appBundle: AppBundle) {
             self.appBundle = appBundle
         }
@@ -583,6 +599,7 @@ extension AppFabric {
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appBundleIdentifier: String, clientToken: String? = CreateIngestionDestinationRequest.idempotencyToken(), destinationConfiguration: DestinationConfiguration, ingestionIdentifier: String, processingConfiguration: ProcessingConfiguration, tags: [Tag]? = nil) {
             self.appBundleIdentifier = appBundleIdentifier
             self.clientToken = clientToken
@@ -630,6 +647,7 @@ extension AppFabric {
         /// Contains information about an ingestion destination.
         public let ingestionDestination: IngestionDestination
 
+        @inlinable
         public init(ingestionDestination: IngestionDestination) {
             self.ingestionDestination = ingestionDestination
         }
@@ -653,6 +671,7 @@ extension AppFabric {
         /// The ID of the application tenant.
         public let tenantId: String
 
+        @inlinable
         public init(app: String, appBundleIdentifier: String, clientToken: String? = CreateIngestionRequest.idempotencyToken(), ingestionType: IngestionType, tags: [Tag]? = nil, tenantId: String) {
             self.app = app
             self.appBundleIdentifier = appBundleIdentifier
@@ -701,6 +720,7 @@ extension AppFabric {
         /// Contains information about an ingestion.
         public let ingestion: Ingestion
 
+        @inlinable
         public init(ingestion: Ingestion) {
             self.ingestion = ingestion
         }
@@ -716,6 +736,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
         public let appBundleIdentifier: String
 
+        @inlinable
         public init(appAuthorizationIdentifier: String, appBundleIdentifier: String) {
             self.appAuthorizationIdentifier = appAuthorizationIdentifier
             self.appBundleIdentifier = appBundleIdentifier
@@ -748,6 +769,7 @@ extension AppFabric {
         /// The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted.
         public let appBundleIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
         }
@@ -779,6 +801,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionDestinationIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionDestinationIdentifier = ingestionDestinationIdentifier
@@ -818,6 +841,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionIdentifier = ingestionIdentifier
@@ -850,6 +874,7 @@ extension AppFabric {
         /// The name of the Amazon Kinesis Data Firehose delivery stream.
         public let streamName: String
 
+        @inlinable
         public init(streamName: String) {
             self.streamName = streamName
         }
@@ -870,6 +895,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
         public let appBundleIdentifier: String
 
+        @inlinable
         public init(appAuthorizationIdentifier: String, appBundleIdentifier: String) {
             self.appAuthorizationIdentifier = appAuthorizationIdentifier
             self.appBundleIdentifier = appBundleIdentifier
@@ -898,6 +924,7 @@ extension AppFabric {
         /// Contains information about an app authorization.
         public let appAuthorization: AppAuthorization
 
+        @inlinable
         public init(appAuthorization: AppAuthorization) {
             self.appAuthorization = appAuthorization
         }
@@ -911,6 +938,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle to use for the request.
         public let appBundleIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
         }
@@ -934,6 +962,7 @@ extension AppFabric {
         /// Contains information about an app bundle.
         public let appBundle: AppBundle
 
+        @inlinable
         public init(appBundle: AppBundle) {
             self.appBundle = appBundle
         }
@@ -951,6 +980,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionDestinationIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionDestinationIdentifier = ingestionDestinationIdentifier
@@ -984,6 +1014,7 @@ extension AppFabric {
         /// Contains information about an ingestion destination.
         public let ingestionDestination: IngestionDestination
 
+        @inlinable
         public init(ingestionDestination: IngestionDestination) {
             self.ingestionDestination = ingestionDestination
         }
@@ -999,6 +1030,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionIdentifier = ingestionIdentifier
@@ -1027,6 +1059,7 @@ extension AppFabric {
         /// Contains information about an ingestion.
         public let ingestion: Ingestion
 
+        @inlinable
         public init(ingestion: Ingestion) {
             self.ingestion = ingestion
         }
@@ -1056,6 +1089,7 @@ extension AppFabric {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(app: String, appBundleArn: String, arn: String, createdAt: Date, ingestionType: IngestionType, state: IngestionState, tenantId: String, updatedAt: Date) {
             self.app = app
             self.appBundleArn = appBundleArn
@@ -1099,6 +1133,7 @@ extension AppFabric {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String, createdAt: Date? = nil, destinationConfiguration: DestinationConfiguration, ingestionArn: String, processingConfiguration: ProcessingConfiguration, status: IngestionDestinationStatus? = nil, statusReason: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1126,6 +1161,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) of the ingestion destination.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1145,6 +1181,7 @@ extension AppFabric {
         /// The ID of the application tenant.
         public let tenantId: String
 
+        @inlinable
         public init(app: String, arn: String, state: IngestionState, tenantId: String) {
             self.app = app
             self.arn = arn
@@ -1168,6 +1205,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(appBundleIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appBundleIdentifier = appBundleIdentifier
             self.maxResults = maxResults
@@ -1201,6 +1239,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(appAuthorizationSummaryList: [AppAuthorizationSummary], nextToken: String? = nil) {
             self.appAuthorizationSummaryList = appAuthorizationSummaryList
             self.nextToken = nextToken
@@ -1218,6 +1257,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1246,6 +1286,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(appBundleSummaryList: [AppBundleSummary], nextToken: String? = nil) {
             self.appBundleSummaryList = appBundleSummaryList
             self.nextToken = nextToken
@@ -1267,6 +1308,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionIdentifier = ingestionIdentifier
@@ -1303,6 +1345,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(ingestionDestinations: [IngestionDestinationSummary], nextToken: String? = nil) {
             self.ingestionDestinations = ingestionDestinations
             self.nextToken = nextToken
@@ -1322,6 +1365,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(appBundleIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appBundleIdentifier = appBundleIdentifier
             self.maxResults = maxResults
@@ -1353,6 +1397,7 @@ extension AppFabric {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(ingestions: [IngestionSummary], nextToken: String? = nil) {
             self.ingestions = ingestions
             self.nextToken = nextToken
@@ -1368,6 +1413,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1391,6 +1437,7 @@ extension AppFabric {
         /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1406,6 +1453,7 @@ extension AppFabric {
         /// The client secret of the client application.
         public let clientSecret: String
 
+        @inlinable
         public init(clientId: String, clientSecret: String) {
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -1430,6 +1478,7 @@ extension AppFabric {
         /// The object key to use.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -1454,6 +1503,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionIdentifier = ingestionIdentifier
@@ -1488,6 +1538,7 @@ extension AppFabric {
         /// The email address of the target user.
         public let email: String
 
+        @inlinable
         public init(appBundleIdentifier: String, email: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.email = email
@@ -1511,6 +1562,7 @@ extension AppFabric {
         /// Contains a list of user access task information.
         public let userAccessTasksList: [UserAccessTaskItem]?
 
+        @inlinable
         public init(userAccessTasksList: [UserAccessTaskItem]? = nil) {
             self.userAccessTasksList = userAccessTasksList
         }
@@ -1526,6 +1578,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.ingestionIdentifier = ingestionIdentifier
@@ -1560,6 +1613,7 @@ extension AppFabric {
         /// Tag value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1583,6 +1637,7 @@ extension AppFabric {
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1620,6 +1675,7 @@ extension AppFabric {
         /// The message of the error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1637,6 +1693,7 @@ extension AppFabric {
         /// The ID of the application tenant.
         public let tenantIdentifier: String
 
+        @inlinable
         public init(tenantDisplayName: String, tenantIdentifier: String) {
             self.tenantDisplayName = tenantDisplayName
             self.tenantIdentifier = tenantIdentifier
@@ -1661,6 +1718,7 @@ extension AppFabric {
         /// The keys of the key-value pairs for the tag or tags you want to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1701,6 +1759,7 @@ extension AppFabric {
         /// Contains information about an application tenant, such as the application display name and identifier.
         public let tenant: Tenant?
 
+        @inlinable
         public init(appAuthorizationIdentifier: String, appBundleIdentifier: String, credential: Credential? = nil, tenant: Tenant? = nil) {
             self.appAuthorizationIdentifier = appAuthorizationIdentifier
             self.appBundleIdentifier = appBundleIdentifier
@@ -1738,6 +1797,7 @@ extension AppFabric {
         /// Contains information about an app authorization.
         public let appAuthorization: AppAuthorization
 
+        @inlinable
         public init(appAuthorization: AppAuthorization) {
             self.appAuthorization = appAuthorization
         }
@@ -1757,6 +1817,7 @@ extension AppFabric {
         /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to use for the request.
         public let ingestionIdentifier: String
 
+        @inlinable
         public init(appBundleIdentifier: String, destinationConfiguration: DestinationConfiguration, ingestionDestinationIdentifier: String, ingestionIdentifier: String) {
             self.appBundleIdentifier = appBundleIdentifier
             self.destinationConfiguration = destinationConfiguration
@@ -1795,6 +1856,7 @@ extension AppFabric {
         /// Contains information about an ingestion destination.
         public let ingestionDestination: IngestionDestination
 
+        @inlinable
         public init(ingestionDestination: IngestionDestination) {
             self.ingestionDestination = ingestionDestination
         }
@@ -1830,6 +1892,7 @@ extension AppFabric {
         /// The status of the user returned by the application.
         public let userStatus: String?
 
+        @inlinable
         public init(app: String? = nil, email: String? = nil, resultStatus: ResultStatus? = nil, taskError: TaskError? = nil, taskId: String? = nil, tenantDisplayName: String? = nil, tenantId: String? = nil, userFirstName: String? = nil, userFullName: String? = nil, userId: String? = nil, userLastName: String? = nil, userStatus: String? = nil) {
             self.app = app
             self.email = email
@@ -1871,6 +1934,7 @@ extension AppFabric {
         /// The ID of the application tenant.
         public let tenantId: String
 
+        @inlinable
         public init(app: String, error: TaskError? = nil, taskId: String? = nil, tenantId: String) {
             self.app = app
             self.error = error
@@ -1890,6 +1954,7 @@ extension AppFabric {
         /// Contains information about an audit log destination configuration.
         public let auditLog: AuditLogDestinationConfiguration?
 
+        @inlinable
         public init(auditLog: AuditLogDestinationConfiguration? = nil) {
             self.auditLog = auditLog
         }
@@ -1907,6 +1972,7 @@ extension AppFabric {
         /// Contains information about an audit log processing configuration.
         public let auditLog: AuditLogProcessingConfiguration?
 
+        @inlinable
         public init(auditLog: AuditLogProcessingConfiguration? = nil) {
             self.auditLog = auditLog
         }

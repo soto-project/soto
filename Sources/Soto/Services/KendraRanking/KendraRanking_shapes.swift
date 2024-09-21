@@ -41,6 +41,7 @@ extension KendraRanking {
         /// The amount of extra capacity for your rescore execution  plan. A single extra capacity unit for a rescore execution  plan provides 0.01 rescore requests per second. You can add  up to 1000 extra capacity units.
         public let rescoreCapacityUnits: Int
 
+        @inlinable
         public init(rescoreCapacityUnits: Int) {
             self.rescoreCapacityUnits = rescoreCapacityUnits
         }
@@ -66,6 +67,7 @@ extension KendraRanking {
         /// A list of key-value pairs that identify or categorize your  rescore execution plan. You can also use tags to help control  access to the rescore execution plan. Tag keys and values can  consist of Unicode letters, digits, white space, and any of  the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
+        @inlinable
         public init(capacityUnits: CapacityUnitsConfiguration? = nil, clientToken: String? = CreateRescoreExecutionPlanRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.capacityUnits = capacityUnits
             self.clientToken = clientToken
@@ -105,6 +107,7 @@ extension KendraRanking {
         /// The identifier of the rescore execution plan.
         public let id: String
 
+        @inlinable
         public init(arn: String, id: String) {
             self.arn = arn
             self.id = id
@@ -120,6 +123,7 @@ extension KendraRanking {
         /// The identifier of the rescore execution plan that you  want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -143,6 +147,7 @@ extension KendraRanking {
         /// The identifier of the rescore execution plan that you want  to get information on.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -182,6 +187,7 @@ extension KendraRanking {
         /// The Unix timestamp of when the rescore execution plan was  last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, name: String? = nil, status: RescoreExecutionPlanStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.capacityUnits = capacityUnits
@@ -223,6 +229,7 @@ extension KendraRanking {
         /// The title of the search service's document represented as  a list of tokens or words. You must choose to provide  Title or TokenizedTitle. You cannot provide both.
         public let tokenizedTitle: [String]?
 
+        @inlinable
         public init(body: String? = nil, groupId: String? = nil, id: String, originalScore: Float, title: String? = nil, tokenizedBody: [String]? = nil, tokenizedTitle: [String]? = nil) {
             self.body = body
             self.groupId = groupId
@@ -274,6 +281,7 @@ extension KendraRanking {
         /// If the response is truncated, Amazon Kendra Intelligent  Ranking returns a pagination token in the response. You can use  this pagination token to retrieve the next set of rescore  execution plans.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -303,6 +311,7 @@ extension KendraRanking {
         /// An array of summary information for one or more rescore  execution plans.
         public let summaryItems: [RescoreExecutionPlanSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaryItems: [RescoreExecutionPlanSummary]? = nil) {
             self.nextToken = nextToken
             self.summaryItems = summaryItems
@@ -318,6 +327,7 @@ extension KendraRanking {
         /// The Amazon Resource Name (ARN) of the rescore execution  plan to get a list of tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -336,6 +346,7 @@ extension KendraRanking {
         /// A list of tags associated with the rescore execution  plan.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -357,6 +368,7 @@ extension KendraRanking {
         /// The Unix timestamp when the rescore execution plan  was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: RescoreExecutionPlanStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
@@ -382,6 +394,7 @@ extension KendraRanking {
         /// The input query from the search service.
         public let searchQuery: String
 
+        @inlinable
         public init(documents: [Document], rescoreExecutionPlanId: String, searchQuery: String) {
             self.documents = documents
             self.rescoreExecutionPlanId = rescoreExecutionPlanId
@@ -420,6 +433,7 @@ extension KendraRanking {
         /// A list of result items for documents with new relevancy  scores. The results are in descending order.
         public let resultItems: [RescoreResultItem]?
 
+        @inlinable
         public init(rescoreId: String? = nil, resultItems: [RescoreResultItem]? = nil) {
             self.rescoreId = rescoreId
             self.resultItems = resultItems
@@ -437,6 +451,7 @@ extension KendraRanking {
         /// The relevancy score or rank that Amazon Kendra  Intelligent Ranking gives to the result.
         public let score: Float?
 
+        @inlinable
         public init(documentId: String? = nil, score: Float? = nil) {
             self.documentId = documentId
             self.score = score
@@ -454,6 +469,7 @@ extension KendraRanking {
         /// The value associated with the tag. The value can be an  empty string but it can't be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -477,6 +493,7 @@ extension KendraRanking {
         /// A list of tag keys to add to a rescore execution plan.  If a tag already exists, the existing value is replaced  with the new value.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -507,6 +524,7 @@ extension KendraRanking {
         /// A list of tag keys to remove from the rescore execution  plan. If a tag key does not exist on the resource, it is  ignored.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -542,6 +560,7 @@ extension KendraRanking {
         /// A new name for the rescore execution plan.
         public let name: String?
 
+        @inlinable
         public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, id: String, name: String? = nil) {
             self.capacityUnits = capacityUnits
             self.description = description

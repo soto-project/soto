@@ -48,6 +48,7 @@ extension SSOOIDC {
         /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If this value is not specified, IAM Identity Center authorizes all scopes that are configured for the client during the call to RegisterClient.
         public let scope: [String]?
 
+        @inlinable
         public init(clientId: String, clientSecret: String, code: String? = nil, codeVerifier: String? = nil, deviceCode: String? = nil, grantType: String, redirectUri: String? = nil, refreshToken: String? = nil, scope: [String]? = nil) {
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -85,6 +86,7 @@ extension SSOOIDC {
         /// Used to notify the client that the returned token is an access token. The supported token type is Bearer.
         public let tokenType: String?
 
+        @inlinable
         public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
@@ -126,6 +128,7 @@ extension SSOOIDC {
         /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that is passed as the subject of the exchange. The following value is supported: * Access Token - urn:ietf:params:oauth:token-type:access_token
         public let subjectTokenType: String?
 
+        @inlinable
         public init(assertion: String? = nil, clientId: String, code: String? = nil, codeVerifier: String? = nil, grantType: String, redirectUri: String? = nil, refreshToken: String? = nil, requestedTokenType: String? = nil, scope: [String]? = nil, subjectToken: String? = nil, subjectTokenType: String? = nil) {
             self.assertion = assertion
             self.clientId = clientId
@@ -171,6 +174,7 @@ extension SSOOIDC {
         /// Used to notify the requester that the returned token is an access token. The supported token type is Bearer.
         public let tokenType: String?
 
+        @inlinable
         public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, issuedTokenType: String? = nil, refreshToken: String? = nil, scope: [String]? = nil, tokenType: String? = nil) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
@@ -208,6 +212,7 @@ extension SSOOIDC {
         /// The list of scopes that are defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token.
         public let scopes: [String]?
 
+        @inlinable
         public init(clientName: String, clientType: String, entitledApplicationArn: String? = nil, grantTypes: [String]? = nil, issuerUrl: String? = nil, redirectUris: [String]? = nil, scopes: [String]? = nil) {
             self.clientName = clientName
             self.clientType = clientType
@@ -243,6 +248,7 @@ extension SSOOIDC {
         /// An endpoint that the client can use to create tokens.
         public let tokenEndpoint: String?
 
+        @inlinable
         public init(authorizationEndpoint: String? = nil, clientId: String? = nil, clientIdIssuedAt: Int64? = nil, clientSecret: String? = nil, clientSecretExpiresAt: Int64? = nil, tokenEndpoint: String? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -270,6 +276,7 @@ extension SSOOIDC {
         /// The URL for the Amazon Web Services access portal. For more information, see Using the Amazon Web Services access portal in the IAM Identity Center User Guide.
         public let startUrl: String
 
+        @inlinable
         public init(clientId: String, clientSecret: String, startUrl: String) {
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -297,6 +304,7 @@ extension SSOOIDC {
         /// An alternate URL that the client can use to automatically launch a browser. This process skips the manual step in which the user visits the verification page and enters their code.
         public let verificationUriComplete: String?
 
+        @inlinable
         public init(deviceCode: String? = nil, expiresIn: Int? = nil, interval: Int? = nil, userCode: String? = nil, verificationUri: String? = nil, verificationUriComplete: String? = nil) {
             self.deviceCode = deviceCode
             self.expiresIn = expiresIn

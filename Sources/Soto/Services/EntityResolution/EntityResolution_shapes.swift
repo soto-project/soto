@@ -146,6 +146,7 @@ extension EntityResolution {
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
 
+        @inlinable
         public init(action: [String], arn: String, condition: String? = nil, effect: StatementEffect, principal: [String], statementId: String) {
             self.action = action
             self.arn = arn
@@ -203,6 +204,7 @@ extension EntityResolution {
         /// A unique identifier for the current revision of the policy.
         public let token: String
 
+        @inlinable
         public init(arn: String, policy: String? = nil, token: String) {
             self.arn = arn
             self.policy = policy
@@ -224,6 +226,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(inputSource: String? = nil, uniqueIds: [String], workflowName: String) {
             self.inputSource = inputSource
             self.uniqueIds = uniqueIds
@@ -262,6 +265,7 @@ extension EntityResolution {
         /// The status of the batch delete unique ID operation.
         public let status: DeleteUniqueIdStatus
 
+        @inlinable
         public init(deleted: [DeletedUniqueId], disconnectedUniqueIds: [String], errors: [DeleteUniqueIdError], status: DeleteUniqueIdStatus) {
             self.deleted = deleted
             self.disconnectedUniqueIds = disconnectedUniqueIds
@@ -293,6 +297,7 @@ extension EntityResolution {
         /// The name of the workflow. There can't be multiple IdMappingWorkflows with the same name.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
@@ -356,6 +361,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
@@ -393,6 +399,7 @@ extension EntityResolution {
         /// The type of ID namespace. There are two types: SOURCE and TARGET.  The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
         public let type: IdNamespaceType
 
+        @inlinable
         public init(description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, type: IdNamespaceType) {
             self.description = description
             self.idMappingWorkflowProperties = idMappingWorkflowProperties
@@ -461,6 +468,7 @@ extension EntityResolution {
         /// The timestamp of when the ID namespace was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceArn: String, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, type: IdNamespaceType, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
@@ -506,6 +514,7 @@ extension EntityResolution {
         /// The name of the workflow. There can't be multiple MatchingWorkflows with the same name.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, incrementalRunConfig: IncrementalRunConfig? = nil, inputSourceConfig: [InputSource], outputSourceConfig: [OutputSource], resolutionTechniques: ResolutionTechniques, roleArn: String, tags: [String: String]? = nil, workflowName: String) {
             self.description = description
             self.incrementalRunConfig = incrementalRunConfig
@@ -571,6 +580,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, incrementalRunConfig: IncrementalRunConfig? = nil, inputSourceConfig: [InputSource], outputSourceConfig: [OutputSource], resolutionTechniques: ResolutionTechniques, roleArn: String, workflowArn: String, workflowName: String) {
             self.description = description
             self.incrementalRunConfig = incrementalRunConfig
@@ -604,6 +614,7 @@ extension EntityResolution {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, mappedInputFields: [SchemaInputAttribute], schemaName: String, tags: [String: String]? = nil) {
             self.description = description
             self.mappedInputFields = mappedInputFields
@@ -647,6 +658,7 @@ extension EntityResolution {
         /// The name of the schema.
         public let schemaName: String
 
+        @inlinable
         public init(description: String, mappedInputFields: [SchemaInputAttribute], schemaArn: String, schemaName: String) {
             self.description = description
             self.mappedInputFields = mappedInputFields
@@ -666,6 +678,7 @@ extension EntityResolution {
         /// The name of the workflow to be deleted.
         public let workflowName: String
 
+        @inlinable
         public init(workflowName: String) {
             self.workflowName = workflowName
         }
@@ -689,6 +702,7 @@ extension EntityResolution {
         /// A successful operation message.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -702,6 +716,7 @@ extension EntityResolution {
         /// The name of the ID namespace.
         public let idNamespaceName: String
 
+        @inlinable
         public init(idNamespaceName: String) {
             self.idNamespaceName = idNamespaceName
         }
@@ -725,6 +740,7 @@ extension EntityResolution {
         /// A successful operation message.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -738,6 +754,7 @@ extension EntityResolution {
         /// The name of the workflow to be retrieved.
         public let workflowName: String
 
+        @inlinable
         public init(workflowName: String) {
             self.workflowName = workflowName
         }
@@ -761,6 +778,7 @@ extension EntityResolution {
         /// A successful operation message.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -776,6 +794,7 @@ extension EntityResolution {
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
 
+        @inlinable
         public init(arn: String, statementId: String) {
             self.arn = arn
             self.statementId = statementId
@@ -806,6 +825,7 @@ extension EntityResolution {
         /// A unique identifier for the deleted policy.
         public let token: String
 
+        @inlinable
         public init(arn: String, policy: String? = nil, token: String) {
             self.arn = arn
             self.policy = policy
@@ -823,6 +843,7 @@ extension EntityResolution {
         /// The name of the schema to delete.
         public let schemaName: String
 
+        @inlinable
         public init(schemaName: String) {
             self.schemaName = schemaName
         }
@@ -846,6 +867,7 @@ extension EntityResolution {
         /// A successful operation message.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -861,6 +883,7 @@ extension EntityResolution {
         /// The unique ID that could not be deleted.
         public let uniqueId: String
 
+        @inlinable
         public init(errorType: DeleteUniqueIdErrorType, uniqueId: String) {
             self.errorType = errorType
             self.uniqueId = uniqueId
@@ -876,6 +899,7 @@ extension EntityResolution {
         ///  The unique ID of the deleted item.
         public let uniqueId: String
 
+        @inlinable
         public init(uniqueId: String) {
             self.uniqueId = uniqueId
         }
@@ -889,6 +913,7 @@ extension EntityResolution {
         /// The error message from the job, if there is one.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorMessage: String? = nil) {
             self.errorMessage = errorMessage
         }
@@ -904,6 +929,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(jobId: String, workflowName: String) {
             self.jobId = jobId
             self.workflowName = workflowName
@@ -939,6 +965,7 @@ extension EntityResolution {
         /// The current status of the job.
         public let status: JobStatus
 
+        @inlinable
         public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: IdMappingJobMetrics? = nil, outputSourceConfig: [IdMappingJobOutputSource]? = nil, startTime: Date, status: JobStatus) {
             self.endTime = endTime
             self.errorDetails = errorDetails
@@ -964,6 +991,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(workflowName: String) {
             self.workflowName = workflowName
         }
@@ -1005,6 +1033,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.description = description
@@ -1036,6 +1065,7 @@ extension EntityResolution {
         /// The name of the ID namespace.
         public let idNamespaceName: String
 
+        @inlinable
         public init(idNamespaceName: String) {
             self.idNamespaceName = idNamespaceName
         }
@@ -1075,6 +1105,7 @@ extension EntityResolution {
         /// The timestamp of when the ID namespace was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceArn: String, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, type: IdNamespaceType, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
@@ -1110,6 +1141,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(applyNormalization: Bool? = nil, record: [String: String], workflowName: String) {
             self.applyNormalization = applyNormalization
             self.record = record
@@ -1142,6 +1174,7 @@ extension EntityResolution {
         /// The rule the record matched on.
         public let matchRule: String?
 
+        @inlinable
         public init(matchId: String? = nil, matchRule: String? = nil) {
             self.matchId = matchId
             self.matchRule = matchRule
@@ -1159,6 +1192,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(jobId: String, workflowName: String) {
             self.jobId = jobId
             self.workflowName = workflowName
@@ -1197,6 +1231,7 @@ extension EntityResolution {
         /// The current status of the job.
         public let status: JobStatus
 
+        @inlinable
         public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: JobMetrics? = nil, outputSourceConfig: [JobOutputSource]? = nil, startTime: Date, status: JobStatus) {
             self.endTime = endTime
             self.errorDetails = errorDetails
@@ -1222,6 +1257,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(workflowName: String) {
             self.workflowName = workflowName
         }
@@ -1265,6 +1301,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, incrementalRunConfig: IncrementalRunConfig? = nil, inputSourceConfig: [InputSource], outputSourceConfig: [OutputSource], resolutionTechniques: ResolutionTechniques, roleArn: String, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.description = description
@@ -1298,6 +1335,7 @@ extension EntityResolution {
         /// The Amazon Resource Name (ARN) of the resource for which the policy need to be returned.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1323,6 +1361,7 @@ extension EntityResolution {
         /// A unique identifier for the current revision of the policy.
         public let token: String
 
+        @inlinable
         public init(arn: String, policy: String? = nil, token: String) {
             self.arn = arn
             self.policy = policy
@@ -1342,6 +1381,7 @@ extension EntityResolution {
         /// The ARN (Amazon Resource Name) of the product that the provider service provides.
         public let providerServiceName: String
 
+        @inlinable
         public init(providerName: String, providerServiceName: String) {
             self.providerName = providerName
             self.providerServiceName = providerServiceName
@@ -1394,6 +1434,7 @@ extension EntityResolution {
         /// The type of provider service.
         public let providerServiceType: ServiceType
 
+        @inlinable
         public init(anonymizedOutput: Bool, providerComponentSchema: ProviderComponentSchema? = nil, providerConfigurationDefinition: String? = nil, providerEndpointConfiguration: ProviderEndpointConfiguration, providerEntityOutputDefinition: String, providerIdNameSpaceConfiguration: ProviderIdNameSpaceConfiguration? = nil, providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration? = nil, providerJobConfiguration: String? = nil, providerName: String, providerServiceArn: String, providerServiceDisplayName: String, providerServiceName: String, providerServiceType: ServiceType) {
             self.anonymizedOutput = anonymizedOutput
             self.providerComponentSchema = providerComponentSchema
@@ -1431,6 +1472,7 @@ extension EntityResolution {
         /// The name of the schema to be retrieved.
         public let schemaName: String
 
+        @inlinable
         public init(schemaName: String) {
             self.schemaName = schemaName
         }
@@ -1468,6 +1510,7 @@ extension EntityResolution {
         /// The timestamp of when the SchemaMapping was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, hasWorkflows: Bool, mappedInputFields: [SchemaInputAttribute], schemaArn: String, schemaName: String, tags: [String: String]? = nil, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
@@ -1505,6 +1548,7 @@ extension EntityResolution {
         /// The total number of records that were processed.
         public let totalRecordsProcessed: Int?
 
+        @inlinable
         public init(inputRecords: Int? = nil, recordsNotProcessed: Int? = nil, totalMappedRecords: Int? = nil, totalMappedSourceRecords: Int? = nil, totalMappedTargetRecords: Int? = nil, totalRecordsProcessed: Int? = nil) {
             self.inputRecords = inputRecords
             self.recordsNotProcessed = recordsNotProcessed
@@ -1532,6 +1576,7 @@ extension EntityResolution {
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf as part of workflow execution.
         public let roleArn: String
 
+        @inlinable
         public init(kmsArn: String? = nil, outputS3Path: String, roleArn: String) {
             self.kmsArn = kmsArn
             self.outputS3Path = outputS3Path
@@ -1565,6 +1610,7 @@ extension EntityResolution {
         ///  The rules that can be used for ID mapping.
         public let rules: [Rule]?
 
+        @inlinable
         public init(attributeMatchingModel: AttributeMatchingModel, recordMatchingModel: RecordMatchingModel, ruleDefinitionType: IdMappingWorkflowRuleDefinitionType, rules: [Rule]? = nil) {
             self.attributeMatchingModel = attributeMatchingModel
             self.recordMatchingModel = recordMatchingModel
@@ -1594,6 +1640,7 @@ extension EntityResolution {
         ///  An object which defines any additional configurations required by rule-based matching.
         public let ruleBasedProperties: IdMappingRuleBasedProperties?
 
+        @inlinable
         public init(idMappingType: IdMappingType, providerProperties: ProviderProperties? = nil, ruleBasedProperties: IdMappingRuleBasedProperties? = nil) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
@@ -1620,6 +1667,7 @@ extension EntityResolution {
         /// The type of ID namespace. There are two types: SOURCE and TARGET.  The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId which all sourceIds will resolve to.
         public let type: IdNamespaceType?
 
+        @inlinable
         public init(inputSourceARN: String, schemaName: String? = nil, type: IdNamespaceType? = nil) {
             self.inputSourceARN = inputSourceARN
             self.schemaName = schemaName
@@ -1645,6 +1693,7 @@ extension EntityResolution {
         /// The S3 path to which Entity Resolution will write the output table.
         public let outputS3Path: String
 
+        @inlinable
         public init(kmsArn: String? = nil, outputS3Path: String) {
             self.kmsArn = kmsArn
             self.outputS3Path = outputS3Path
@@ -1673,6 +1722,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(createdAt: Date, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.updatedAt = updatedAt
@@ -1692,6 +1742,7 @@ extension EntityResolution {
         /// The type of ID mapping.
         public let idMappingType: IdMappingType
 
+        @inlinable
         public init(idMappingType: IdMappingType) {
             self.idMappingType = idMappingType
         }
@@ -1709,6 +1760,7 @@ extension EntityResolution {
         ///  An object which defines any additional configurations required by rule-based matching.
         public let ruleBasedProperties: NamespaceRuleBasedProperties?
 
+        @inlinable
         public init(idMappingType: IdMappingType, providerProperties: NamespaceProviderProperties? = nil, ruleBasedProperties: NamespaceRuleBasedProperties? = nil) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
@@ -1733,6 +1785,7 @@ extension EntityResolution {
         /// The name of the schema.
         public let schemaName: String?
 
+        @inlinable
         public init(inputSourceARN: String, schemaName: String? = nil) {
             self.inputSourceARN = inputSourceARN
             self.schemaName = schemaName
@@ -1766,6 +1819,7 @@ extension EntityResolution {
         /// The timestamp of when the ID namespace was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowMetadata]? = nil, idNamespaceArn: String, idNamespaceName: String, type: IdNamespaceType, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
@@ -1791,6 +1845,7 @@ extension EntityResolution {
         /// The type of incremental run. It takes only one value: IMMEDIATE.
         public let incrementalRunType: IncrementalRunType?
 
+        @inlinable
         public init(incrementalRunType: IncrementalRunType? = nil) {
             self.incrementalRunType = incrementalRunType
         }
@@ -1808,6 +1863,7 @@ extension EntityResolution {
         /// The name of the schema to be retrieved.
         public let schemaName: String
 
+        @inlinable
         public init(applyNormalization: Bool? = nil, inputSourceARN: String, schemaName: String) {
             self.applyNormalization = applyNormalization
             self.inputSourceARN = inputSourceARN
@@ -1831,6 +1887,7 @@ extension EntityResolution {
         /// The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET
         public let intermediateS3Path: String
 
+        @inlinable
         public init(intermediateS3Path: String) {
             self.intermediateS3Path = intermediateS3Path
         }
@@ -1856,6 +1913,7 @@ extension EntityResolution {
         /// The total number of records processed.
         public let totalRecordsProcessed: Int?
 
+        @inlinable
         public init(inputRecords: Int? = nil, matchIDs: Int? = nil, recordsNotProcessed: Int? = nil, totalRecordsProcessed: Int? = nil) {
             self.inputRecords = inputRecords
             self.matchIDs = matchIDs
@@ -1879,6 +1937,7 @@ extension EntityResolution {
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf as part of workflow execution.
         public let roleArn: String
 
+        @inlinable
         public init(kmsArn: String? = nil, outputS3Path: String, roleArn: String) {
             self.kmsArn = kmsArn
             self.outputS3Path = outputS3Path
@@ -1902,6 +1961,7 @@ extension EntityResolution {
         /// The current status of the job.
         public let status: JobStatus
 
+        @inlinable
         public init(endTime: Date? = nil, jobId: String, startTime: Date, status: JobStatus) {
             self.endTime = endTime
             self.jobId = jobId
@@ -1925,6 +1985,7 @@ extension EntityResolution {
         /// The name of the workflow to be retrieved.
         public let workflowName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workflowName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1955,6 +2016,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobSummary]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -1972,6 +2034,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1999,6 +2062,7 @@ extension EntityResolution {
         /// A list of IdMappingWorkflowSummary objects.
         public let workflowSummaries: [IdMappingWorkflowSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workflowSummaries: [IdMappingWorkflowSummary]? = nil) {
             self.nextToken = nextToken
             self.workflowSummaries = workflowSummaries
@@ -2016,6 +2080,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2043,6 +2108,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(idNamespaceSummaries: [IdNamespaceSummary]? = nil, nextToken: String? = nil) {
             self.idNamespaceSummaries = idNamespaceSummaries
             self.nextToken = nextToken
@@ -2062,6 +2128,7 @@ extension EntityResolution {
         /// The name of the workflow to be retrieved.
         public let workflowName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workflowName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2094,6 +2161,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobSummary]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -2111,6 +2179,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2138,6 +2207,7 @@ extension EntityResolution {
         /// A list of MatchingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, and UpdatedAt.
         public let workflowSummaries: [MatchingWorkflowSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workflowSummaries: [MatchingWorkflowSummary]? = nil) {
             self.nextToken = nextToken
             self.workflowSummaries = workflowSummaries
@@ -2157,6 +2227,7 @@ extension EntityResolution {
         /// The name of the provider. This name is typically the company name.
         public let providerName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, providerName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2189,6 +2260,7 @@ extension EntityResolution {
         /// A list of ProviderServices objects.
         public let providerServiceSummaries: [ProviderServiceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, providerServiceSummaries: [ProviderServiceSummary]? = nil) {
             self.nextToken = nextToken
             self.providerServiceSummaries = providerServiceSummaries
@@ -2206,6 +2278,7 @@ extension EntityResolution {
         /// The pagination token from the previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2233,6 +2306,7 @@ extension EntityResolution {
         /// A list of SchemaMappingSummary objects, each of which contain the fields SchemaName, SchemaArn, CreatedAt, UpdatedAt.
         public let schemaList: [SchemaMappingSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemaList: [SchemaMappingSummary]? = nil) {
             self.nextToken = nextToken
             self.schemaList = schemaList
@@ -2248,6 +2322,7 @@ extension EntityResolution {
         /// The ARN of the resource for which you want to view tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2269,6 +2344,7 @@ extension EntityResolution {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -2290,6 +2366,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(createdAt: Date, resolutionType: ResolutionType, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.resolutionType = resolutionType
@@ -2313,6 +2390,7 @@ extension EntityResolution {
         /// The Amazon Resource Name (ARN) of the provider service.
         public let providerServiceArn: String
 
+        @inlinable
         public init(providerConfiguration: String? = nil, providerServiceArn: String) {
             self.providerConfiguration = providerConfiguration
             self.providerServiceArn = providerServiceArn
@@ -2340,6 +2418,7 @@ extension EntityResolution {
         ///  The rules for the ID namespace.
         public let rules: [Rule]?
 
+        @inlinable
         public init(attributeMatchingModel: AttributeMatchingModel? = nil, recordMatchingModels: [RecordMatchingModel]? = nil, ruleDefinitionTypes: [IdMappingWorkflowRuleDefinitionType]? = nil, rules: [Rule]? = nil) {
             self.attributeMatchingModel = attributeMatchingModel
             self.recordMatchingModels = recordMatchingModels
@@ -2367,6 +2446,7 @@ extension EntityResolution {
         /// A name of a column to be written to the output. This must be an InputField name in the schema mapping.
         public let name: String
 
+        @inlinable
         public init(hashed: Bool? = nil, name: String) {
             self.hashed = hashed
             self.name = name
@@ -2393,6 +2473,7 @@ extension EntityResolution {
         /// The S3 path to which Entity Resolution will write the output table.
         public let outputS3Path: String
 
+        @inlinable
         public init(applyNormalization: Bool? = nil, kmsArn: String? = nil, output: [OutputAttribute], outputS3Path: String) {
             self.applyNormalization = applyNormalization
             self.kmsArn = kmsArn
@@ -2424,6 +2505,7 @@ extension EntityResolution {
         /// Input schema for the provider service.
         public let schemas: [[String]]?
 
+        @inlinable
         public init(providerSchemaAttributes: [ProviderSchemaAttribute]? = nil, schemas: [[String]]? = nil) {
             self.providerSchemaAttributes = providerSchemaAttributes
             self.schemas = schemas
@@ -2443,6 +2525,7 @@ extension EntityResolution {
         /// Configurations required for the target ID namespace.
         public let providerTargetConfigurationDefinition: String?
 
+        @inlinable
         public init(description: String? = nil, providerSourceConfigurationDefinition: String? = nil, providerTargetConfigurationDefinition: String? = nil) {
             self.description = description
             self.providerSourceConfigurationDefinition = providerSourceConfigurationDefinition
@@ -2462,6 +2545,7 @@ extension EntityResolution {
         /// The S3 bucket actions that the provider requires permission for.
         public let requiredBucketActions: [String]?
 
+        @inlinable
         public init(awsAccountIds: [String]? = nil, requiredBucketActions: [String]? = nil) {
             self.awsAccountIds = awsAccountIds
             self.requiredBucketActions = requiredBucketActions
@@ -2483,6 +2567,7 @@ extension EntityResolution {
         /// The revision ID on Data Exchange.
         public let revisionId: String
 
+        @inlinable
         public init(assetId: String, dataSetId: String, listingId: String, revisionId: String) {
             self.assetId = assetId
             self.dataSetId = dataSetId
@@ -2506,6 +2591,7 @@ extension EntityResolution {
         /// The ARN of the provider service.
         public let providerServiceArn: String
 
+        @inlinable
         public init(intermediateSourceConfiguration: IntermediateSourceConfiguration? = nil, providerConfiguration: String? = nil, providerServiceArn: String) {
             self.intermediateSourceConfiguration = intermediateSourceConfiguration
             self.providerConfiguration = providerConfiguration
@@ -2536,6 +2622,7 @@ extension EntityResolution {
         /// The type of the provider schema attribute.
         public let type: SchemaAttributeType
 
+        @inlinable
         public init(fieldName: String, hashing: Bool? = nil, subType: String? = nil, type: SchemaAttributeType) {
             self.fieldName = fieldName
             self.hashing = hashing
@@ -2563,6 +2650,7 @@ extension EntityResolution {
         /// The type of provider service.
         public let providerServiceType: ServiceType
 
+        @inlinable
         public init(providerName: String, providerServiceArn: String, providerServiceDisplayName: String, providerServiceName: String, providerServiceType: ServiceType) {
             self.providerName = providerName
             self.providerServiceArn = providerServiceArn
@@ -2588,6 +2676,7 @@ extension EntityResolution {
         /// A unique identifier for the current revision of the policy.
         public let token: String?
 
+        @inlinable
         public init(arn: String, policy: String, token: String? = nil) {
             self.arn = arn
             self.policy = policy
@@ -2625,6 +2714,7 @@ extension EntityResolution {
         /// A unique identifier for the current revision of the policy.
         public let token: String
 
+        @inlinable
         public init(arn: String, policy: String? = nil, token: String) {
             self.arn = arn
             self.policy = policy
@@ -2646,6 +2736,7 @@ extension EntityResolution {
         /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
         public let ruleBasedProperties: RuleBasedProperties?
 
+        @inlinable
         public init(providerProperties: ProviderProperties? = nil, resolutionType: ResolutionType, ruleBasedProperties: RuleBasedProperties? = nil) {
             self.providerProperties = providerProperties
             self.resolutionType = resolutionType
@@ -2670,6 +2761,7 @@ extension EntityResolution {
         /// A name for the matching rule.
         public let ruleName: String
 
+        @inlinable
         public init(matchingKeys: [String], ruleName: String) {
             self.matchingKeys = matchingKeys
             self.ruleName = ruleName
@@ -2696,6 +2788,7 @@ extension EntityResolution {
         /// A list of Rule objects, each of which have fields RuleName and MatchingKeys.
         public let rules: [Rule]
 
+        @inlinable
         public init(attributeMatchingModel: AttributeMatchingModel, matchPurpose: MatchPurpose? = nil, rules: [Rule]) {
             self.attributeMatchingModel = attributeMatchingModel
             self.matchPurpose = matchPurpose
@@ -2729,6 +2822,7 @@ extension EntityResolution {
         /// The type of the attribute, selected from a list of values.
         public let type: SchemaAttributeType
 
+        @inlinable
         public init(fieldName: String, groupName: String? = nil, hashed: Bool? = nil, matchKey: String? = nil, subType: String? = nil, type: SchemaAttributeType) {
             self.fieldName = fieldName
             self.groupName = groupName
@@ -2771,6 +2865,7 @@ extension EntityResolution {
         /// The timestamp of when the SchemaMapping was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, hasWorkflows: Bool, schemaArn: String, schemaName: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.hasWorkflows = hasWorkflows
@@ -2794,6 +2889,7 @@ extension EntityResolution {
         /// The name of the ID mapping job to be retrieved.
         public let workflowName: String
 
+        @inlinable
         public init(outputSourceConfig: [IdMappingJobOutputSource]? = nil, workflowName: String) {
             self.outputSourceConfig = outputSourceConfig
             self.workflowName = workflowName
@@ -2826,6 +2922,7 @@ extension EntityResolution {
         /// A list of OutputSource objects.
         public let outputSourceConfig: [IdMappingJobOutputSource]?
 
+        @inlinable
         public init(jobId: String, outputSourceConfig: [IdMappingJobOutputSource]? = nil) {
             self.jobId = jobId
             self.outputSourceConfig = outputSourceConfig
@@ -2841,6 +2938,7 @@ extension EntityResolution {
         /// The name of the matching job to be retrieved.
         public let workflowName: String
 
+        @inlinable
         public init(workflowName: String) {
             self.workflowName = workflowName
         }
@@ -2864,6 +2962,7 @@ extension EntityResolution {
         /// The ID of the job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2879,6 +2978,7 @@ extension EntityResolution {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2916,6 +3016,7 @@ extension EntityResolution {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2958,6 +3059,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
@@ -3023,6 +3125,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
@@ -3056,6 +3159,7 @@ extension EntityResolution {
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in this IdNamespace on your behalf as part of a workflow run.
         public let roleArn: String?
 
+        @inlinable
         public init(description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil) {
             self.description = description
             self.idMappingWorkflowProperties = idMappingWorkflowProperties
@@ -3121,6 +3225,7 @@ extension EntityResolution {
         /// The timestamp of when the ID namespace was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceArn: String, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, type: IdNamespaceType, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
@@ -3162,6 +3267,7 @@ extension EntityResolution {
         /// The name of the workflow to be retrieved.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, incrementalRunConfig: IncrementalRunConfig? = nil, inputSourceConfig: [InputSource], outputSourceConfig: [OutputSource], resolutionTechniques: ResolutionTechniques, roleArn: String, workflowName: String) {
             self.description = description
             self.incrementalRunConfig = incrementalRunConfig
@@ -3228,6 +3334,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(description: String? = nil, incrementalRunConfig: IncrementalRunConfig? = nil, inputSourceConfig: [InputSource], outputSourceConfig: [OutputSource], resolutionTechniques: ResolutionTechniques, roleArn: String, workflowName: String) {
             self.description = description
             self.incrementalRunConfig = incrementalRunConfig
@@ -3257,6 +3364,7 @@ extension EntityResolution {
         /// The name of the schema. There can't be multiple SchemaMappings with the same name.
         public let schemaName: String
 
+        @inlinable
         public init(description: String? = nil, mappedInputFields: [SchemaInputAttribute], schemaName: String) {
             self.description = description
             self.mappedInputFields = mappedInputFields
@@ -3299,6 +3407,7 @@ extension EntityResolution {
         /// The name of the schema.
         public let schemaName: String
 
+        @inlinable
         public init(description: String? = nil, mappedInputFields: [SchemaInputAttribute], schemaArn: String, schemaName: String) {
             self.description = description
             self.mappedInputFields = mappedInputFields
@@ -3318,6 +3427,7 @@ extension EntityResolution {
         /// The identifiers of the provider service, from Data Exchange.
         public let marketplaceConfiguration: ProviderMarketplaceConfiguration?
 
+        @inlinable
         public init(marketplaceConfiguration: ProviderMarketplaceConfiguration? = nil) {
             self.marketplaceConfiguration = marketplaceConfiguration
         }

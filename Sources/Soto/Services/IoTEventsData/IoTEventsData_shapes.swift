@@ -80,6 +80,7 @@ extension IoTEventsData {
         /// The note that you can leave when you acknowledge the alarm.
         public let note: String?
 
+        @inlinable
         public init(note: String? = nil) {
             self.note = note
         }
@@ -100,6 +101,7 @@ extension IoTEventsData {
         /// The request ID. Each ID must be unique within each batch.
         public let requestId: String
 
+        @inlinable
         public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
@@ -145,6 +147,7 @@ extension IoTEventsData {
         /// A non-negative integer that reflects the severity level of the alarm.
         public let severity: Int?
 
+        @inlinable
         public init(alarmModelName: String? = nil, alarmModelVersion: String? = nil, alarmState: AlarmState? = nil, creationTime: Date? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, severity: Int? = nil) {
             self.alarmModelName = alarmModelName
             self.alarmModelVersion = alarmModelVersion
@@ -185,6 +188,7 @@ extension IoTEventsData {
         /// Contains information about alarm state changes.
         public let systemEvent: SystemEvent?
 
+        @inlinable
         public init(customerAction: CustomerAction? = nil, ruleEvaluation: RuleEvaluation? = nil, stateName: AlarmStateName? = nil, systemEvent: SystemEvent? = nil) {
             self.customerAction = customerAction
             self.ruleEvaluation = ruleEvaluation
@@ -224,6 +228,7 @@ extension IoTEventsData {
         /// 		To change the alarm to the NORMAL state, you must acknowledge the alarm.
         public let stateName: AlarmStateName?
 
+        @inlinable
         public init(alarmModelName: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, stateName: AlarmStateName? = nil) {
             self.alarmModelName = alarmModelName
             self.alarmModelVersion = alarmModelVersion
@@ -247,6 +252,7 @@ extension IoTEventsData {
         /// The list of acknowledge action requests. You can specify up to 10 requests per operation.
         public let acknowledgeActionRequests: [AcknowledgeAlarmActionRequest]
 
+        @inlinable
         public init(acknowledgeActionRequests: [AcknowledgeAlarmActionRequest]) {
             self.acknowledgeActionRequests = acknowledgeActionRequests
         }
@@ -268,6 +274,7 @@ extension IoTEventsData {
         /// Each error entry contains an entry ID that helps you identify the entry that failed.
         public let errorEntries: [BatchAlarmActionErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -285,6 +292,7 @@ extension IoTEventsData {
         /// The request ID. Each ID must be unique within each batch.
         public let requestId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, requestId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -306,6 +314,7 @@ extension IoTEventsData {
         /// The ID of the message that caused the error. (See the value of the "messageId" in the detectors object of the DeleteDetectorRequest.)
         public let messageId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -323,6 +332,7 @@ extension IoTEventsData {
         /// The list of one or more detectors to be deleted.
         public let detectors: [DeleteDetectorRequest]
 
+        @inlinable
         public init(detectors: [DeleteDetectorRequest]) {
             self.detectors = detectors
         }
@@ -343,6 +353,7 @@ extension IoTEventsData {
         /// A list of errors associated with the request, or an empty array ([]) if there are no errors. Each error entry contains a messageId that helps you identify the entry that failed.
         public let batchDeleteDetectorErrorEntries: [BatchDeleteDetectorErrorEntry]?
 
+        @inlinable
         public init(batchDeleteDetectorErrorEntries: [BatchDeleteDetectorErrorEntry]? = nil) {
             self.batchDeleteDetectorErrorEntries = batchDeleteDetectorErrorEntries
         }
@@ -356,6 +367,7 @@ extension IoTEventsData {
         /// The list of disable action requests. You can specify up to 10 requests per operation.
         public let disableActionRequests: [DisableAlarmActionRequest]
 
+        @inlinable
         public init(disableActionRequests: [DisableAlarmActionRequest]) {
             self.disableActionRequests = disableActionRequests
         }
@@ -377,6 +389,7 @@ extension IoTEventsData {
         /// Each error entry contains an entry ID that helps you identify the entry that failed.
         public let errorEntries: [BatchAlarmActionErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -390,6 +403,7 @@ extension IoTEventsData {
         /// The list of enable action requests. You can specify up to 10 requests per operation.
         public let enableActionRequests: [EnableAlarmActionRequest]
 
+        @inlinable
         public init(enableActionRequests: [EnableAlarmActionRequest]) {
             self.enableActionRequests = enableActionRequests
         }
@@ -411,6 +425,7 @@ extension IoTEventsData {
         /// Each error entry contains an entry ID that helps you identify the entry that failed.
         public let errorEntries: [BatchAlarmActionErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -428,6 +443,7 @@ extension IoTEventsData {
         /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the "message" object.)
         public let messageId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -445,6 +461,7 @@ extension IoTEventsData {
         /// The list of messages to send. Each message has the following format: '{ "messageId": "string", "inputName": "string", "payload": "string"}'
         public let messages: [Message]
 
+        @inlinable
         public init(messages: [Message]) {
             self.messages = messages
         }
@@ -465,6 +482,7 @@ extension IoTEventsData {
         /// A list of any errors encountered when sending the messages.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
 
+        @inlinable
         public init(batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]? = nil) {
             self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
         }
@@ -478,6 +496,7 @@ extension IoTEventsData {
         /// The list of reset action requests. You can specify up to 10 requests per operation.
         public let resetActionRequests: [ResetAlarmActionRequest]
 
+        @inlinable
         public init(resetActionRequests: [ResetAlarmActionRequest]) {
             self.resetActionRequests = resetActionRequests
         }
@@ -499,6 +518,7 @@ extension IoTEventsData {
         /// Each error entry contains an entry ID that helps you identify the entry that failed.
         public let errorEntries: [BatchAlarmActionErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -512,6 +532,7 @@ extension IoTEventsData {
         /// The list of snooze action requests. You can specify up to 10 requests per operation.
         public let snoozeActionRequests: [SnoozeAlarmActionRequest]
 
+        @inlinable
         public init(snoozeActionRequests: [SnoozeAlarmActionRequest]) {
             self.snoozeActionRequests = snoozeActionRequests
         }
@@ -533,6 +554,7 @@ extension IoTEventsData {
         /// Each error entry contains an entry ID that helps you identify the entry that failed.
         public let errorEntries: [BatchAlarmActionErrorEntry]?
 
+        @inlinable
         public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
             self.errorEntries = errorEntries
         }
@@ -550,6 +572,7 @@ extension IoTEventsData {
         /// The "messageId" of the update request that caused the error. (The value of the "messageId" in the update request "Detector" object.)
         public let messageId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, messageId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -567,6 +590,7 @@ extension IoTEventsData {
         /// The list of detectors (instances) to update, along with the values to update.
         public let detectors: [UpdateDetectorRequest]
 
+        @inlinable
         public init(detectors: [UpdateDetectorRequest]) {
             self.detectors = detectors
         }
@@ -587,6 +611,7 @@ extension IoTEventsData {
         /// A list of those detector updates that resulted in errors. (If an error is listed here, the specific update did not occur.)
         public let batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]?
 
+        @inlinable
         public init(batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]? = nil) {
             self.batchUpdateDetectorErrorEntries = batchUpdateDetectorErrorEntries
         }
@@ -610,6 +635,7 @@ extension IoTEventsData {
         /// Contains the configuration information of a snooze action.
         public let snoozeActionConfiguration: SnoozeActionConfiguration?
 
+        @inlinable
         public init(acknowledgeActionConfiguration: AcknowledgeActionConfiguration? = nil, actionName: CustomerActionName? = nil, disableActionConfiguration: DisableActionConfiguration? = nil, enableActionConfiguration: EnableActionConfiguration? = nil, resetActionConfiguration: ResetActionConfiguration? = nil, snoozeActionConfiguration: SnoozeActionConfiguration? = nil) {
             self.acknowledgeActionConfiguration = acknowledgeActionConfiguration
             self.actionName = actionName
@@ -637,6 +663,7 @@ extension IoTEventsData {
         /// The ID to assign to the DeleteDetectorRequest. Each "messageId" must be unique within each batch sent.
         public let messageId: String
 
+        @inlinable
         public init(detectorModelName: String, keyValue: String? = nil, messageId: String) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -669,6 +696,7 @@ extension IoTEventsData {
         /// key.
         public let keyValue: String?
 
+        @inlinable
         public init(alarmModelName: String, keyValue: String? = nil) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
@@ -697,6 +725,7 @@ extension IoTEventsData {
         /// Contains information about an alarm.
         public let alarm: Alarm?
 
+        @inlinable
         public init(alarm: Alarm? = nil) {
             self.alarm = alarm
         }
@@ -712,6 +741,7 @@ extension IoTEventsData {
         /// A filter used to limit results to detectors (instances) created because of the given key ID.
         public let keyValue: String?
 
+        @inlinable
         public init(detectorModelName: String, keyValue: String? = nil) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -740,6 +770,7 @@ extension IoTEventsData {
         /// Information about the detector (instance).
         public let detector: Detector?
 
+        @inlinable
         public init(detector: Detector? = nil) {
             self.detector = detector
         }
@@ -763,6 +794,7 @@ extension IoTEventsData {
         /// The current state of the detector (instance).
         public let state: DetectorState?
 
+        @inlinable
         public init(creationTime: Date? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, state: DetectorState? = nil) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
@@ -790,6 +822,7 @@ extension IoTEventsData {
         /// The current values of the detector's variables.
         public let variables: [Variable]
 
+        @inlinable
         public init(stateName: String, timers: [Timer], variables: [Variable]) {
             self.stateName = stateName
             self.timers = timers
@@ -811,6 +844,7 @@ extension IoTEventsData {
         /// The new values of the detector's variables. Any variable whose value isn't specified is cleared.
         public let variables: [VariableDefinition]
 
+        @inlinable
         public init(stateName: String, timers: [TimerDefinition], variables: [VariableDefinition]) {
             self.stateName = stateName
             self.timers = timers
@@ -839,6 +873,7 @@ extension IoTEventsData {
         /// The name of the state.
         public let stateName: String?
 
+        @inlinable
         public init(stateName: String? = nil) {
             self.stateName = stateName
         }
@@ -862,6 +897,7 @@ extension IoTEventsData {
         /// The current state of the detector (instance).
         public let state: DetectorStateSummary?
 
+        @inlinable
         public init(creationTime: Date? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, state: DetectorStateSummary? = nil) {
             self.creationTime = creationTime
             self.detectorModelName = detectorModelName
@@ -885,6 +921,7 @@ extension IoTEventsData {
         /// The note that you can leave when you disable the alarm.
         public let note: String?
 
+        @inlinable
         public init(note: String? = nil) {
             self.note = note
         }
@@ -905,6 +942,7 @@ extension IoTEventsData {
         /// The request ID. Each ID must be unique within each batch.
         public let requestId: String
 
+        @inlinable
         public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
@@ -937,6 +975,7 @@ extension IoTEventsData {
         /// The note that you can leave when you enable the alarm.
         public let note: String?
 
+        @inlinable
         public init(note: String? = nil) {
             self.note = note
         }
@@ -957,6 +996,7 @@ extension IoTEventsData {
         /// The request ID. Each ID must be unique within each batch.
         public let requestId: String
 
+        @inlinable
         public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
@@ -993,6 +1033,7 @@ extension IoTEventsData {
         /// The token that you can use to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.alarmModelName = alarmModelName
             self.maxResults = maxResults
@@ -1025,6 +1066,7 @@ extension IoTEventsData {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmSummaries: [AlarmSummary]? = nil, nextToken: String? = nil) {
             self.alarmSummaries = alarmSummaries
             self.nextToken = nextToken
@@ -1046,6 +1088,7 @@ extension IoTEventsData {
         /// A filter that limits results to those detectors (instances) in the given state.
         public let stateName: String?
 
+        @inlinable
         public init(detectorModelName: String, maxResults: Int? = nil, nextToken: String? = nil, stateName: String? = nil) {
             self.detectorModelName = detectorModelName
             self.maxResults = maxResults
@@ -1082,6 +1125,7 @@ extension IoTEventsData {
         /// or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorSummaries: [DetectorSummary]? = nil, nextToken: String? = nil) {
             self.detectorSummaries = detectorSummaries
             self.nextToken = nextToken
@@ -1103,6 +1147,7 @@ extension IoTEventsData {
         /// The timestamp associated with the message.
         public let timestamp: TimestampValue?
 
+        @inlinable
         public init(inputName: String, messageId: String, payload: AWSBase64Data, timestamp: TimestampValue? = nil) {
             self.inputName = inputName
             self.messageId = messageId
@@ -1132,6 +1177,7 @@ extension IoTEventsData {
         /// The note that you can leave when you reset the alarm.
         public let note: String?
 
+        @inlinable
         public init(note: String? = nil) {
             self.note = note
         }
@@ -1152,6 +1198,7 @@ extension IoTEventsData {
         /// The request ID. Each ID must be unique within each batch.
         public let requestId: String
 
+        @inlinable
         public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
@@ -1184,6 +1231,7 @@ extension IoTEventsData {
         /// Information needed to compare two values with a comparison operator.
         public let simpleRuleEvaluation: SimpleRuleEvaluation?
 
+        @inlinable
         public init(simpleRuleEvaluation: SimpleRuleEvaluation? = nil) {
             self.simpleRuleEvaluation = simpleRuleEvaluation
         }
@@ -1201,6 +1249,7 @@ extension IoTEventsData {
         /// The threshold value, on the right side of the comparison operator.
         public let thresholdValue: String?
 
+        @inlinable
         public init(inputPropertyValue: String? = nil, operator: ComparisonOperator? = nil, thresholdValue: String? = nil) {
             self.inputPropertyValue = inputPropertyValue
             self.`operator` = `operator`
@@ -1220,6 +1269,7 @@ extension IoTEventsData {
         /// The snooze time in seconds. The alarm automatically changes to the NORMAL state after this duration.
         public let snoozeDuration: Int?
 
+        @inlinable
         public init(note: String? = nil, snoozeDuration: Int? = nil) {
             self.note = note
             self.snoozeDuration = snoozeDuration
@@ -1244,6 +1294,7 @@ extension IoTEventsData {
         /// The snooze time in seconds. The alarm automatically changes to the NORMAL state after this duration.
         public let snoozeDuration: Int
 
+        @inlinable
         public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String, snoozeDuration: Int) {
             self.alarmModelName = alarmModelName
             self.keyValue = keyValue
@@ -1278,6 +1329,7 @@ extension IoTEventsData {
         /// The trigger type. If the value is SNOOZE_TIMEOUT, the snooze duration ends and the alarm automatically changes to the NORMAL state.
         public let triggerType: TriggerType?
 
+        @inlinable
         public init(triggerType: TriggerType? = nil) {
             self.triggerType = triggerType
         }
@@ -1293,6 +1345,7 @@ extension IoTEventsData {
         /// Contains the configuration information of alarm state changes.
         public let stateChangeConfiguration: StateChangeConfiguration?
 
+        @inlinable
         public init(eventType: EventType? = nil, stateChangeConfiguration: StateChangeConfiguration? = nil) {
             self.eventType = eventType
             self.stateChangeConfiguration = stateChangeConfiguration
@@ -1310,6 +1363,7 @@ extension IoTEventsData {
         /// The expiration time for the timer.
         public let timestamp: Date
 
+        @inlinable
         public init(name: String, timestamp: Date) {
             self.name = name
             self.timestamp = timestamp
@@ -1327,6 +1381,7 @@ extension IoTEventsData {
         /// The new setting of the timer (the number of seconds before the timer elapses).
         public let seconds: Int
 
+        @inlinable
         public init(name: String, seconds: Int) {
             self.name = name
             self.seconds = seconds
@@ -1347,6 +1402,7 @@ extension IoTEventsData {
         /// The value of the timestamp, in the Unix epoch format.
         public let timeInMillis: Int64?
 
+        @inlinable
         public init(timeInMillis: Int64? = nil) {
             self.timeInMillis = timeInMillis
         }
@@ -1371,6 +1427,7 @@ extension IoTEventsData {
         /// The new state, variable values, and timer settings of the detector (instance).
         public let state: DetectorStateDefinition
 
+        @inlinable
         public init(detectorModelName: String, keyValue: String? = nil, messageId: String, state: DetectorStateDefinition) {
             self.detectorModelName = detectorModelName
             self.keyValue = keyValue
@@ -1405,6 +1462,7 @@ extension IoTEventsData {
         /// The current value of the variable.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1422,6 +1480,7 @@ extension IoTEventsData {
         /// The new value of the variable.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value

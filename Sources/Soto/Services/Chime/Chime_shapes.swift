@@ -420,6 +420,7 @@ extension Chime {
         /// Supported licenses for the Amazon Chime account.
         public let supportedLicenses: [License]?
 
+        @inlinable
         public init(accountId: String, accountStatus: AccountStatus? = nil, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: Date? = nil, defaultLicense: License? = nil, name: String, signinDelegateGroups: [SigninDelegateGroup]? = nil, supportedLicenses: [License]? = nil) {
             self.accountId = accountId
             self.accountStatus = accountStatus
@@ -451,6 +452,7 @@ extension Chime {
         /// Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see  Join a Meeting without the Amazon Chime App.
         public let enableDialOut: Bool?
 
+        @inlinable
         public init(disableRemoteControl: Bool? = nil, enableDialOut: Bool? = nil) {
             self.disableRemoteControl = disableRemoteControl
             self.enableDialOut = enableDialOut
@@ -484,6 +486,7 @@ extension Chime {
         /// The address suffix, such as the N in 8th Avenue N.
         public let streetSuffix: String?
 
+        @inlinable
         public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, postDirectional: String? = nil, preDirectional: String? = nil, state: String? = nil, streetName: String? = nil, streetNumber: String? = nil, streetSuffix: String? = nil) {
             self.city = city
             self.country = country
@@ -517,6 +520,7 @@ extension Chime {
         /// Starts or stops Alexa for Business.
         public let isAlexaForBusinessEnabled: Bool?
 
+        @inlinable
         public init(alexaForBusinessRoomArn: String? = nil, isAlexaForBusinessEnabled: Bool? = nil) {
             self.alexaForBusinessRoomArn = alexaForBusinessRoomArn
             self.isAlexaForBusinessEnabled = isAlexaForBusinessEnabled
@@ -540,6 +544,7 @@ extension Chime {
         /// The name of an AppInstance.
         public let name: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.createdTimestamp = createdTimestamp
@@ -565,6 +570,7 @@ extension Chime {
         /// The time at which an administrator was created.
         public let createdTimestamp: Date?
 
+        @inlinable
         public init(admin: Identity? = nil, appInstanceArn: String? = nil, createdTimestamp: Date? = nil) {
             self.admin = admin
             self.appInstanceArn = appInstanceArn
@@ -582,6 +588,7 @@ extension Chime {
         /// The details of the AppInstanceAdmin.
         public let admin: Identity?
 
+        @inlinable
         public init(admin: Identity? = nil) {
             self.admin = admin
         }
@@ -595,6 +602,7 @@ extension Chime {
         /// The length of time in days to retain the messages in a channel.
         public let channelRetentionSettings: ChannelRetentionSettings?
 
+        @inlinable
         public init(channelRetentionSettings: ChannelRetentionSettings? = nil) {
             self.channelRetentionSettings = channelRetentionSettings
         }
@@ -614,6 +622,7 @@ extension Chime {
         /// The resource ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(appInstanceDataType: AppInstanceDataType, resourceArn: String) {
             self.appInstanceDataType = appInstanceDataType
             self.resourceArn = resourceArn
@@ -639,6 +648,7 @@ extension Chime {
         /// The name of the AppInstance.
         public let name: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
@@ -664,6 +674,7 @@ extension Chime {
         /// The name of the AppInstanceUser.
         public let name: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
@@ -687,6 +698,7 @@ extension Chime {
         /// The type of ChannelMembership.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(readMarkerTimestamp: Date? = nil, type: ChannelMembershipType? = nil) {
             self.readMarkerTimestamp = readMarkerTimestamp
             self.type = type
@@ -706,6 +718,7 @@ extension Chime {
         /// The name of an AppInstanceUser.
         public let name: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
@@ -727,6 +740,7 @@ extension Chime {
         /// The configuration for the video artifacts.
         public let video: VideoArtifactsConfiguration
 
+        @inlinable
         public init(audio: AudioArtifactsConfiguration, content: ContentArtifactsConfiguration, video: VideoArtifactsConfiguration) {
             self.audio = audio
             self.content = content
@@ -748,6 +762,7 @@ extension Chime {
         /// The user ID.
         public let userId: String
 
+        @inlinable
         public init(accountId: String, e164PhoneNumber: String, userId: String) {
             self.accountId = accountId
             self.e164PhoneNumber = e164PhoneNumber
@@ -783,6 +798,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], forceAssociate: Bool? = nil, voiceConnectorGroupId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.forceAssociate = forceAssociate
@@ -814,6 +830,7 @@ extension Chime {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -831,6 +848,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], forceAssociate: Bool? = nil, voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.forceAssociate = forceAssociate
@@ -862,6 +880,7 @@ extension Chime {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and  error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -877,6 +896,7 @@ extension Chime {
         /// The sign-in delegate groups.
         public let signinDelegateGroups: [SigninDelegateGroup]
 
+        @inlinable
         public init(accountId: String, signinDelegateGroups: [SigninDelegateGroup]) {
             self.accountId = accountId
             self.signinDelegateGroups = signinDelegateGroups
@@ -913,6 +933,7 @@ extension Chime {
         /// The join token used by the Amazon Chime SDK attendee.
         public let joinToken: String?
 
+        @inlinable
         public init(attendeeId: String? = nil, externalUserId: String? = nil, joinToken: String? = nil) {
             self.attendeeId = attendeeId
             self.externalUserId = externalUserId
@@ -930,6 +951,7 @@ extension Chime {
         /// The MUX type of the audio artifact configuration object.
         public let muxType: AudioMuxType
 
+        @inlinable
         public init(muxType: AudioMuxType) {
             self.muxType = muxType
         }
@@ -949,6 +971,7 @@ extension Chime {
         /// The membership types set for the channel users.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String? = nil, invitedBy: Identity? = nil, members: [Identity]? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.invitedBy = invitedBy
@@ -970,6 +993,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(attendees: [CreateAttendeeRequestItem], meetingId: String) {
             self.attendees = attendees
             self.meetingId = meetingId
@@ -1000,6 +1024,7 @@ extension Chime {
         /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
         public let errors: [CreateAttendeeError]?
 
+        @inlinable
         public init(attendees: [Attendee]? = nil, errors: [CreateAttendeeError]? = nil) {
             self.attendees = attendees
             self.errors = errors
@@ -1019,6 +1044,7 @@ extension Chime {
         /// The ARN of the member that the service couldn't add.
         public let memberArn: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, memberArn: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1042,6 +1068,7 @@ extension Chime {
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArns: [String], type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1086,6 +1113,7 @@ extension Chime {
         /// If the action fails for one or more of the memberships in the request, a list of the memberships is returned, along with error codes and error messages.
         public let errors: [BatchCreateChannelMembershipError]?
 
+        @inlinable
         public init(batchChannelMemberships: BatchChannelMemberships? = nil, errors: [BatchCreateChannelMembershipError]? = nil) {
             self.batchChannelMemberships = batchChannelMemberships
             self.errors = errors
@@ -1105,6 +1133,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, membershipItemList: [MembershipItem], roomId: String) {
             self.accountId = accountId
             self.membershipItemList = membershipItemList
@@ -1137,6 +1166,7 @@ extension Chime {
         /// If the action fails for one or more of the member IDs in the request, a list of the member IDs is returned, along with error codes and error messages.
         public let errors: [MemberError]?
 
+        @inlinable
         public init(errors: [MemberError]? = nil) {
             self.errors = errors
         }
@@ -1150,6 +1180,7 @@ extension Chime {
         /// List of phone number IDs.
         public let phoneNumberIds: [String]
 
+        @inlinable
         public init(phoneNumberIds: [String]) {
             self.phoneNumberIds = phoneNumberIds
         }
@@ -1167,6 +1198,7 @@ extension Chime {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -1182,6 +1214,7 @@ extension Chime {
         /// The request containing the user IDs to suspend.
         public let userIdList: [String]
 
+        @inlinable
         public init(accountId: String, userIdList: [String]) {
             self.accountId = accountId
             self.userIdList = userIdList
@@ -1211,6 +1244,7 @@ extension Chime {
         /// If the BatchSuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
 
+        @inlinable
         public init(userErrors: [UserError]? = nil) {
             self.userErrors = userErrors
         }
@@ -1226,6 +1260,7 @@ extension Chime {
         /// The request containing the user IDs to unsuspend.
         public let userIdList: [String]
 
+        @inlinable
         public init(accountId: String, userIdList: [String]) {
             self.accountId = accountId
             self.userIdList = userIdList
@@ -1255,6 +1290,7 @@ extension Chime {
         /// If the BatchUnsuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
 
+        @inlinable
         public init(userErrors: [UserError]? = nil) {
             self.userErrors = userErrors
         }
@@ -1268,6 +1304,7 @@ extension Chime {
         /// The request containing the phone number IDs and product types or calling names to update.
         public let updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]
 
+        @inlinable
         public init(updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]) {
             self.updatePhoneNumberRequestItems = updatePhoneNumberRequestItems
         }
@@ -1287,6 +1324,7 @@ extension Chime {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -1302,6 +1340,7 @@ extension Chime {
         /// The request containing the user IDs and details to update.
         public let updateUserRequestItems: [UpdateUserRequestItem]
 
+        @inlinable
         public init(accountId: String, updateUserRequestItems: [UpdateUserRequestItem]) {
             self.accountId = accountId
             self.updateUserRequestItems = updateUserRequestItems
@@ -1331,6 +1370,7 @@ extension Chime {
         /// If the BatchUpdateUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
 
+        @inlinable
         public init(userErrors: [UserError]? = nil) {
             self.userErrors = userErrors
         }
@@ -1362,6 +1402,7 @@ extension Chime {
         /// The unique ID for the bot user.
         public let userId: String?
 
+        @inlinable
         public init(botEmail: String? = nil, botId: String? = nil, botType: BotType? = nil, createdTimestamp: Date? = nil, disabled: Bool? = nil, displayName: String? = nil, securityToken: String? = nil, updatedTimestamp: Date? = nil, userId: String? = nil) {
             self.botEmail = botEmail
             self.botId = botId
@@ -1391,6 +1432,7 @@ extension Chime {
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
 
+        @inlinable
         public init(cdrBucket: String? = nil) {
             self.cdrBucket = cdrBucket
         }
@@ -1416,6 +1458,7 @@ extension Chime {
         /// The numeric portion of a candidate address.
         public let streetNumber: String?
 
+        @inlinable
         public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, state: String? = nil, streetInfo: String? = nil, streetNumber: String? = nil) {
             self.city = city
             self.country = country
@@ -1457,6 +1500,7 @@ extension Chime {
         /// The channel's privacy setting.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
             self.createdBy = createdBy
@@ -1492,6 +1536,7 @@ extension Chime {
         /// The member being banned from the channel.
         public let member: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, member: Identity? = nil) {
             self.channelArn = channelArn
             self.createdBy = createdBy
@@ -1511,6 +1556,7 @@ extension Chime {
         /// The member being banned from a channel.
         public let member: Identity?
 
+        @inlinable
         public init(member: Identity? = nil) {
             self.member = member
         }
@@ -1534,6 +1580,7 @@ extension Chime {
         /// The membership type set for the channel member.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String? = nil, createdTimestamp: Date? = nil, invitedBy: Identity? = nil, lastUpdatedTimestamp: Date? = nil, member: Identity? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.createdTimestamp = createdTimestamp
@@ -1559,6 +1606,7 @@ extension Chime {
         /// Summary of the details of a Channel.
         public let channelSummary: ChannelSummary?
 
+        @inlinable
         public init(appInstanceUserMembershipSummary: AppInstanceUserMembershipSummary? = nil, channelSummary: ChannelSummary? = nil) {
             self.appInstanceUserMembershipSummary = appInstanceUserMembershipSummary
             self.channelSummary = channelSummary
@@ -1574,6 +1622,7 @@ extension Chime {
         /// A member's summary data.
         public let member: Identity?
 
+        @inlinable
         public init(member: Identity? = nil) {
             self.member = member
         }
@@ -1607,6 +1656,7 @@ extension Chime {
         /// The message type.
         public let type: ChannelMessageType?
 
+        @inlinable
         public init(channelArn: String? = nil, content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, type: ChannelMessageType? = nil) {
             self.channelArn = channelArn
             self.content = content
@@ -1656,6 +1706,7 @@ extension Chime {
         /// The type of message.
         public let type: ChannelMessageType?
 
+        @inlinable
         public init(content: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, type: ChannelMessageType? = nil) {
             self.content = content
             self.createdTimestamp = createdTimestamp
@@ -1685,6 +1736,7 @@ extension Chime {
         /// Summary of the details of a Channel.
         public let channelSummary: ChannelSummary?
 
+        @inlinable
         public init(channelSummary: ChannelSummary? = nil) {
             self.channelSummary = channelSummary
         }
@@ -1704,6 +1756,7 @@ extension Chime {
         /// The moderator's data.
         public let moderator: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, moderator: Identity? = nil) {
             self.channelArn = channelArn
             self.createdBy = createdBy
@@ -1723,6 +1776,7 @@ extension Chime {
         /// The data for a moderator.
         public let moderator: Identity?
 
+        @inlinable
         public init(moderator: Identity? = nil) {
             self.moderator = moderator
         }
@@ -1736,6 +1790,7 @@ extension Chime {
         /// The time in days to retain the messages in a channel.
         public let retentionDays: Int?
 
+        @inlinable
         public init(retentionDays: Int? = nil) {
             self.retentionDays = retentionDays
         }
@@ -1764,6 +1819,7 @@ extension Chime {
         /// The privacy setting of the channel.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(channelArn: String? = nil, lastMessageTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
             self.lastMessageTimestamp = lastMessageTimestamp
@@ -1789,6 +1845,7 @@ extension Chime {
         /// The source configuration for a specified media capture pipeline.
         public let sourceConfiguration: SourceConfiguration?
 
+        @inlinable
         public init(artifactsConfiguration: ArtifactsConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil) {
             self.artifactsConfiguration = artifactsConfiguration
             self.sourceConfiguration = sourceConfiguration
@@ -1810,6 +1867,7 @@ extension Chime {
         /// Indicates whether the content artifact is enabled or disabled.
         public let state: ArtifactsState
 
+        @inlinable
         public init(muxType: ContentMuxType? = nil, state: ArtifactsState) {
             self.muxType = muxType
             self.state = state
@@ -1825,6 +1883,7 @@ extension Chime {
         /// The number of days for which to retain conversation messages.
         public let retentionDays: Int?
 
+        @inlinable
         public init(retentionDays: Int? = nil) {
             self.retentionDays = retentionDays
         }
@@ -1843,6 +1902,7 @@ extension Chime {
         /// The name of the Amazon Chime account.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1862,6 +1922,7 @@ extension Chime {
         /// The Amazon Chime account details.
         public let account: Account?
 
+        @inlinable
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -1877,6 +1938,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
@@ -1909,6 +1971,7 @@ extension Chime {
         /// The ARN of the of the admin for the AppInstance.
         public let appInstanceArn: String?
 
+        @inlinable
         public init(appInstanceAdmin: Identity? = nil, appInstanceArn: String? = nil) {
             self.appInstanceAdmin = appInstanceAdmin
             self.appInstanceArn = appInstanceArn
@@ -1930,6 +1993,7 @@ extension Chime {
         /// Tags assigned to the AppInstance.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String = CreateAppInstanceRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.metadata = metadata
@@ -1965,6 +2029,7 @@ extension Chime {
         /// The Amazon Resource Number (ARN) of the AppInstance.
         public let appInstanceArn: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil) {
             self.appInstanceArn = appInstanceArn
         }
@@ -1988,6 +2053,7 @@ extension Chime {
         /// Tags assigned to the AppInstanceUser.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appInstanceArn: String, appInstanceUserId: String, clientRequestToken: String = CreateAppInstanceUserRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceUserId = appInstanceUserId
@@ -2033,6 +2099,7 @@ extension Chime {
         /// The user's ARN.
         public let appInstanceUserArn: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -2050,6 +2117,7 @@ extension Chime {
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, externalUserId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2071,6 +2139,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(externalUserId: String, meetingId: String, tags: [Tag]? = nil) {
             self.externalUserId = externalUserId
             self.meetingId = meetingId
@@ -2108,6 +2177,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(externalUserId: String, tags: [Tag]? = nil) {
             self.externalUserId = externalUserId
             self.tags = tags
@@ -2133,6 +2203,7 @@ extension Chime {
         /// The attendee information, including attendee ID and join token.
         public let attendee: Attendee?
 
+        @inlinable
         public init(attendee: Attendee? = nil) {
             self.attendee = attendee
         }
@@ -2150,6 +2221,7 @@ extension Chime {
         /// The domain of the Amazon Chime Enterprise account.
         public let domain: String?
 
+        @inlinable
         public init(accountId: String, displayName: String, domain: String? = nil) {
             self.accountId = accountId
             self.displayName = displayName
@@ -2179,6 +2251,7 @@ extension Chime {
         /// The bot details.
         public let bot: Bot?
 
+        @inlinable
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -2196,6 +2269,7 @@ extension Chime {
         /// The ARN of the member being banned.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2233,6 +2307,7 @@ extension Chime {
         /// The ChannelArn and BannedIdentity of the member in the ban response.
         public let member: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, member: Identity? = nil) {
             self.channelArn = channelArn
             self.member = member
@@ -2254,6 +2329,7 @@ extension Chime {
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArn: String, type: ChannelMembershipType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2294,6 +2370,7 @@ extension Chime {
         /// The ARN and metadata of the member being added.
         public let member: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, member: Identity? = nil) {
             self.channelArn = channelArn
             self.member = member
@@ -2313,6 +2390,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(channelArn: String, channelModeratorArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
@@ -2350,6 +2428,7 @@ extension Chime {
         /// The ARNs of the channel and the moderator.
         public let channelModerator: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, channelModerator: Identity? = nil) {
             self.channelArn = channelArn
             self.channelModerator = channelModerator
@@ -2379,6 +2458,7 @@ extension Chime {
         /// The tags for the creation request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appInstanceArn: String, chimeBearer: String? = nil, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), metadata: String? = nil, mode: ChannelMode? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.chimeBearer = chimeBearer
@@ -2440,6 +2520,7 @@ extension Chime {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(channelArn: String? = nil) {
             self.channelArn = channelArn
         }
@@ -2463,6 +2544,7 @@ extension Chime {
         /// Source type from which the media artifacts will be captured. A Chime SDK Meeting  is the only supported source.
         public let sourceType: MediaPipelineSourceType
 
+        @inlinable
         public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.clientRequestToken = clientRequestToken
@@ -2499,6 +2581,7 @@ extension Chime {
         /// A media capture pipeline object, the ID, source type, source ARN, sink type, and  sink ARN of a media capture pipeline object.
         public let mediaCapturePipeline: MediaCapturePipeline?
 
+        @inlinable
         public init(mediaCapturePipeline: MediaCapturePipeline? = nil) {
             self.mediaCapturePipeline = mediaCapturePipeline
         }
@@ -2518,6 +2601,7 @@ extension Chime {
         /// Phone number called when inviting someone to a meeting.
         public let toPhoneNumber: String
 
+        @inlinable
         public init(fromPhoneNumber: String, joinToken: String, meetingId: String, toPhoneNumber: String) {
             self.fromPhoneNumber = fromPhoneNumber
             self.joinToken = joinToken
@@ -2554,6 +2638,7 @@ extension Chime {
         /// Unique ID that tracks API calls.
         public let transactionId: String?
 
+        @inlinable
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -2615,6 +2700,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String? = nil, mediaRegion: String? = nil, meetingHostId: String? = nil, notificationsConfiguration: MeetingNotificationConfiguration? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
@@ -2656,6 +2742,7 @@ extension Chime {
         /// .
         public let meeting: Meeting?
 
+        @inlinable
         public init(meeting: Meeting? = nil) {
             self.meeting = meeting
         }
@@ -2720,6 +2807,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attendees: [CreateAttendeeRequestItem]? = nil, clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String? = nil, mediaRegion: String? = nil, meetingHostId: String? = nil, notificationsConfiguration: MeetingNotificationConfiguration? = nil, tags: [Tag]? = nil) {
             self.attendees = attendees
             self.clientRequestToken = clientRequestToken
@@ -2770,6 +2858,7 @@ extension Chime {
         /// A meeting created using the Amazon Chime SDK.
         public let meeting: Meeting?
 
+        @inlinable
         public init(attendees: [Attendee]? = nil, errors: [CreateAttendeeError]? = nil, meeting: Meeting? = nil) {
             self.attendees = attendees
             self.errors = errors
@@ -2789,6 +2878,7 @@ extension Chime {
         /// The phone number product type.
         public let productType: PhoneNumberProductType
 
+        @inlinable
         public init(e164PhoneNumbers: [String], productType: PhoneNumberProductType) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.productType = productType
@@ -2810,6 +2900,7 @@ extension Chime {
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
+        @inlinable
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
             self.phoneNumberOrder = phoneNumberOrder
         }
@@ -2837,6 +2928,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(capabilities: [Capability], expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participantPhoneNumbers: [String], voiceConnectorId: String) {
             self.capabilities = capabilities
             self.expiryMinutes = expiryMinutes
@@ -2890,6 +2982,7 @@ extension Chime {
         /// The proxy session details.
         public let proxySession: ProxySession?
 
+        @inlinable
         public init(proxySession: ProxySession? = nil) {
             self.proxySession = proxySession
         }
@@ -2909,6 +3002,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, memberId: String, role: RoomMembershipRole? = nil, roomId: String) {
             self.accountId = accountId
             self.memberId = memberId
@@ -2941,6 +3035,7 @@ extension Chime {
         /// The room membership details.
         public let roomMembership: RoomMembership?
 
+        @inlinable
         public init(roomMembership: RoomMembership? = nil) {
             self.roomMembership = roomMembership
         }
@@ -2958,6 +3053,7 @@ extension Chime {
         /// The room name.
         public let name: String
 
+        @inlinable
         public init(accountId: String, clientRequestToken: String? = CreateRoomRequest.idempotencyToken(), name: String) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
@@ -2989,6 +3085,7 @@ extension Chime {
         /// The room details.
         public let room: Room?
 
+        @inlinable
         public init(room: Room? = nil) {
             self.room = room
         }
@@ -3008,6 +3105,7 @@ extension Chime {
         /// The phone number that the service should call.
         public let toPhoneNumber: String
 
+        @inlinable
         public init(fromPhoneNumber: String, sipHeaders: [String: String]? = nil, sipMediaApplicationId: String, toPhoneNumber: String) {
             self.fromPhoneNumber = fromPhoneNumber
             self.sipHeaders = sipHeaders
@@ -3042,6 +3140,7 @@ extension Chime {
         /// The actual call.
         public let sipMediaApplicationCall: SipMediaApplicationCall?
 
+        @inlinable
         public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
             self.sipMediaApplicationCall = sipMediaApplicationCall
         }
@@ -3059,6 +3158,7 @@ extension Chime {
         /// The SIP media application name.
         public let name: String
 
+        @inlinable
         public init(awsRegion: String, endpoints: [SipMediaApplicationEndpoint], name: String) {
             self.awsRegion = awsRegion
             self.endpoints = endpoints
@@ -3086,6 +3186,7 @@ extension Chime {
         /// The SIP media application details.
         public let sipMediaApplication: SipMediaApplication?
 
+        @inlinable
         public init(sipMediaApplication: SipMediaApplication? = nil) {
             self.sipMediaApplication = sipMediaApplication
         }
@@ -3107,6 +3208,7 @@ extension Chime {
         /// If TriggerType is RequestUriHostname, the value can be the outbound host name of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP  request matches the RequestUriHostname, or if the To header in the incoming SIP request matches the  ToPhoneNumber value.
         public let triggerValue: String
 
+        @inlinable
         public init(disabled: Bool? = nil, name: String, targetApplications: [SipRuleTargetApplication], triggerType: SipRuleTriggerType, triggerValue: String) {
             self.disabled = disabled
             self.name = name
@@ -3139,6 +3241,7 @@ extension Chime {
         /// Returns the SIP rule information, including the rule ID, triggers, and target applications.
         public let sipRule: SipRule?
 
+        @inlinable
         public init(sipRule: SipRule? = nil) {
             self.sipRule = sipRule
         }
@@ -3158,6 +3261,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
+        @inlinable
         public init(accountId: String, email: String? = nil, username: String? = nil, userType: UserType? = nil) {
             self.accountId = accountId
             self.email = email
@@ -3190,6 +3294,7 @@ extension Chime {
         /// The user on the Amazon Chime account.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -3205,6 +3310,7 @@ extension Chime {
         /// The Amazon Chime Voice Connectors to route inbound calls to.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
+        @inlinable
         public init(name: String, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.name = name
             self.voiceConnectorItems = voiceConnectorItems
@@ -3228,6 +3334,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
+        @inlinable
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
             self.voiceConnectorGroup = voiceConnectorGroup
         }
@@ -3247,6 +3354,7 @@ extension Chime {
         /// When enabled, requires encryption for the Amazon Chime Voice Connector.
         public let requireEncryption: Bool
 
+        @inlinable
         public init(awsRegion: VoiceConnectorAwsRegion? = nil, name: String, requireEncryption: Bool) {
             self.awsRegion = awsRegion
             self.name = name
@@ -3269,6 +3377,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
+        @inlinable
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -3284,6 +3393,7 @@ extension Chime {
         /// The RFC2617 compliant user name associated with the SIP credentials, in US-ASCII format.
         public let username: String?
 
+        @inlinable
         public init(password: String? = nil, username: String? = nil) {
             self.password = password
             self.username = username
@@ -3303,6 +3413,7 @@ extension Chime {
         /// The DNIS phone number to route test emergency calls to, in E.164 format.
         public let testPhoneNumber: String?
 
+        @inlinable
         public init(callingCountry: String, emergencyPhoneNumber: String, testPhoneNumber: String? = nil) {
             self.callingCountry = callingCountry
             self.emergencyPhoneNumber = emergencyPhoneNumber
@@ -3326,6 +3437,7 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -3353,6 +3465,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
@@ -3381,6 +3494,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -3404,6 +3518,7 @@ extension Chime {
         /// The ARN of the streaming configurations being deleted.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -3427,6 +3542,7 @@ extension Chime {
         /// The ARN of the user request being deleted.
         public let appInstanceUserArn: String
 
+        @inlinable
         public init(appInstanceUserArn: String) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -3452,6 +3568,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -3480,6 +3597,7 @@ extension Chime {
         /// The ARN of the AppInstanceUser that you want to reinstate.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3517,6 +3635,7 @@ extension Chime {
         /// The ARN of the member that you're removing from the channel.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3554,6 +3673,7 @@ extension Chime {
         /// The ID of the message being deleted.
         public let messageId: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, messageId: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3591,6 +3711,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(channelArn: String, channelModeratorArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
@@ -3626,6 +3747,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3656,6 +3778,7 @@ extension Chime {
         /// The bot ID.
         public let botId: String
 
+        @inlinable
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -3680,6 +3803,7 @@ extension Chime {
         /// The ID of the media capture pipeline being deleted.
         public let mediaPipelineId: String
 
+        @inlinable
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
         }
@@ -3701,6 +3825,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -3722,6 +3847,7 @@ extension Chime {
         /// The phone number ID.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -3741,6 +3867,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(proxySessionId: String, voiceConnectorId: String) {
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
@@ -3773,6 +3900,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, memberId: String, roomId: String) {
             self.accountId = accountId
             self.memberId = memberId
@@ -3802,6 +3930,7 @@ extension Chime {
         /// The chat room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, roomId: String) {
             self.accountId = accountId
             self.roomId = roomId
@@ -3826,6 +3955,7 @@ extension Chime {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -3847,6 +3977,7 @@ extension Chime {
         /// The SIP rule ID.
         public let sipRuleId: String
 
+        @inlinable
         public init(sipRuleId: String) {
             self.sipRuleId = sipRuleId
         }
@@ -3868,6 +3999,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -3889,6 +4021,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(voiceConnectorGroupId: String) {
             self.voiceConnectorGroupId = voiceConnectorGroupId
         }
@@ -3910,6 +4043,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -3931,6 +4065,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -3954,6 +4089,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -3975,6 +4111,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -3998,6 +4135,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(usernames: [String], voiceConnectorId: String) {
             self.usernames = usernames
             self.voiceConnectorId = voiceConnectorId
@@ -4023,6 +4161,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -4046,6 +4185,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
@@ -4074,6 +4214,7 @@ extension Chime {
         /// The ARN and name of the AppInstanceUser, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
         public let appInstanceAdmin: AppInstanceAdmin?
 
+        @inlinable
         public init(appInstanceAdmin: AppInstanceAdmin? = nil) {
             self.appInstanceAdmin = appInstanceAdmin
         }
@@ -4087,6 +4228,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -4110,6 +4252,7 @@ extension Chime {
         /// The ARN, metadata, created and last-updated timestamps, and the name of the AppInstance. All timestamps use epoch milliseconds.
         public let appInstance: AppInstance?
 
+        @inlinable
         public init(appInstance: AppInstance? = nil) {
             self.appInstance = appInstance
         }
@@ -4123,6 +4266,7 @@ extension Chime {
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
 
+        @inlinable
         public init(appInstanceUserArn: String) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -4146,6 +4290,7 @@ extension Chime {
         /// The name of the AppInstanceUser.
         public let appInstanceUser: AppInstanceUser?
 
+        @inlinable
         public init(appInstanceUser: AppInstanceUser? = nil) {
             self.appInstanceUser = appInstanceUser
         }
@@ -4163,6 +4308,7 @@ extension Chime {
         /// The ARN of the member being banned.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -4196,6 +4342,7 @@ extension Chime {
         /// The details of the ban.
         public let channelBan: ChannelBan?
 
+        @inlinable
         public init(channelBan: ChannelBan? = nil) {
             self.channelBan = channelBan
         }
@@ -4213,6 +4360,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(appInstanceUserArn: String, channelArn: String, chimeBearer: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
@@ -4246,6 +4394,7 @@ extension Chime {
         /// The channel to which a user belongs.
         public let channelMembership: ChannelMembershipForAppInstanceUserSummary?
 
+        @inlinable
         public init(channelMembership: ChannelMembershipForAppInstanceUserSummary? = nil) {
             self.channelMembership = channelMembership
         }
@@ -4263,6 +4412,7 @@ extension Chime {
         /// The ARN of the member.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -4296,6 +4446,7 @@ extension Chime {
         /// The details of the membership.
         public let channelMembership: ChannelMembership?
 
+        @inlinable
         public init(channelMembership: ChannelMembership? = nil) {
             self.channelMembership = channelMembership
         }
@@ -4313,6 +4464,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(appInstanceUserArn: String, channelArn: String, chimeBearer: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
@@ -4346,6 +4498,7 @@ extension Chime {
         /// The moderated channel.
         public let channel: ChannelModeratedByAppInstanceUserSummary?
 
+        @inlinable
         public init(channel: ChannelModeratedByAppInstanceUserSummary? = nil) {
             self.channel = channel
         }
@@ -4363,6 +4516,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(channelArn: String, channelModeratorArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
@@ -4396,6 +4550,7 @@ extension Chime {
         /// The details of the channel moderator.
         public let channelModerator: ChannelModerator?
 
+        @inlinable
         public init(channelModerator: ChannelModerator? = nil) {
             self.channelModerator = channelModerator
         }
@@ -4411,6 +4566,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -4439,6 +4595,7 @@ extension Chime {
         /// The channel details.
         public let channel: Channel?
 
+        @inlinable
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -4454,6 +4611,7 @@ extension Chime {
         /// The user ID.
         public let userId: String
 
+        @inlinable
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -4479,6 +4637,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], voiceConnectorGroupId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorGroupId = voiceConnectorGroupId
@@ -4507,6 +4666,7 @@ extension Chime {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -4522,6 +4682,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorId = voiceConnectorId
@@ -4550,6 +4711,7 @@ extension Chime {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -4565,6 +4727,7 @@ extension Chime {
         /// The sign-in delegate group names.
         public let groupNames: [String]
 
+        @inlinable
         public init(accountId: String, groupNames: [String]) {
             self.accountId = accountId
             self.groupNames = groupNames
@@ -4595,6 +4758,7 @@ extension Chime {
         /// The Dialed Number Identification Service (DNIS) emergency calling configuration details.
         public let dnis: [DNISEmergencyCallingConfiguration]?
 
+        @inlinable
         public init(dnis: [DNISEmergencyCallingConfiguration]? = nil) {
             self.dnis = dnis
         }
@@ -4624,6 +4788,7 @@ extension Chime {
         /// The name of the vocabulary passed to Amazon Transcribe Medical.
         public let vocabularyName: String?
 
+        @inlinable
         public init(contentIdentificationType: TranscribeMedicalContentIdentificationType? = nil, languageCode: TranscribeMedicalLanguageCode, region: TranscribeMedicalRegion? = nil, specialty: TranscribeMedicalSpecialty, type: TranscribeMedicalType, vocabularyName: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.languageCode = languageCode
@@ -4677,6 +4842,7 @@ extension Chime {
         /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If you use Amazon Transcribe in multiple Regions, the vocabulary must be available in Amazon Transcribe in each Region. If you don't include IdentifyLanguage and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.
         public let vocabularyNames: String?
 
+        @inlinable
         public init(contentIdentificationType: TranscribeContentIdentificationType? = nil, contentRedactionType: TranscribeContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: TranscribeLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: TranscribePartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: TranscribeLanguageCode? = nil, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -4742,6 +4908,7 @@ extension Chime {
         /// HTTPS endpoint that allows a bot to receive outgoing events.
         public let outboundEventsHTTPSEndpoint: String?
 
+        @inlinable
         public init(botId: String? = nil, lambdaFunctionArn: String? = nil, outboundEventsHTTPSEndpoint: String? = nil) {
             self.botId = botId
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -4761,6 +4928,7 @@ extension Chime {
         /// The country.
         public let country: String
 
+        @inlinable
         public init(areaCode: String, country: String) {
             self.areaCode = areaCode
             self.country = country
@@ -4781,6 +4949,7 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -4802,6 +4971,7 @@ extension Chime {
         /// The Amazon Chime account details.
         public let account: Account?
 
+        @inlinable
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -4815,6 +4985,7 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -4836,6 +5007,7 @@ extension Chime {
         /// The Amazon Chime account settings.
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -4849,6 +5021,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -4874,6 +5047,7 @@ extension Chime {
         /// The timestamp representing the time at which the specified items are retained, in Epoch Seconds.
         public let initiateDeletionTimestamp: Date?
 
+        @inlinable
         public init(appInstanceRetentionSettings: AppInstanceRetentionSettings? = nil, initiateDeletionTimestamp: Date? = nil) {
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
@@ -4889,6 +5063,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -4912,6 +5087,7 @@ extension Chime {
         /// The streaming settings.
         public let appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]?
 
+        @inlinable
         public init(appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]? = nil) {
             self.appInstanceStreamingConfigurations = appInstanceStreamingConfigurations
         }
@@ -4927,6 +5103,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -4951,6 +5128,7 @@ extension Chime {
         /// The Amazon Chime SDK attendee information.
         public let attendee: Attendee?
 
+        @inlinable
         public init(attendee: Attendee? = nil) {
             self.attendee = attendee
         }
@@ -4966,6 +5144,7 @@ extension Chime {
         /// The bot ID.
         public let botId: String
 
+        @inlinable
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -4990,6 +5169,7 @@ extension Chime {
         /// The chat bot details.
         public let bot: Bot?
 
+        @inlinable
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -5007,6 +5187,7 @@ extension Chime {
         /// The ID of the message.
         public let messageId: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, messageId: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -5040,6 +5221,7 @@ extension Chime {
         /// The details of and content in the message.
         public let channelMessage: ChannelMessage?
 
+        @inlinable
         public init(channelMessage: ChannelMessage? = nil) {
             self.channelMessage = channelMessage
         }
@@ -5055,6 +5237,7 @@ extension Chime {
         /// The bot ID.
         public let botId: String
 
+        @inlinable
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -5079,6 +5262,7 @@ extension Chime {
         /// The events configuration details.
         public let eventsConfiguration: EventsConfiguration?
 
+        @inlinable
         public init(eventsConfiguration: EventsConfiguration? = nil) {
             self.eventsConfiguration = eventsConfiguration
         }
@@ -5094,6 +5278,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
 
+        @inlinable
         public init(businessCalling: BusinessCallingSettings? = nil, voiceConnector: VoiceConnectorSettings? = nil) {
             self.businessCalling = businessCalling
             self.voiceConnector = voiceConnector
@@ -5109,6 +5294,7 @@ extension Chime {
         /// The ID of the pipeline that you want to get.
         public let mediaPipelineId: String
 
+        @inlinable
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
         }
@@ -5130,6 +5316,7 @@ extension Chime {
         /// The media capture pipeline object.
         public let mediaCapturePipeline: MediaCapturePipeline?
 
+        @inlinable
         public init(mediaCapturePipeline: MediaCapturePipeline? = nil) {
             self.mediaCapturePipeline = mediaCapturePipeline
         }
@@ -5143,6 +5330,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -5164,6 +5352,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting information.
         public let meeting: Meeting?
 
+        @inlinable
         public init(meeting: Meeting? = nil) {
             self.meeting = meeting
         }
@@ -5181,6 +5370,7 @@ extension Chime {
         /// The endpoint returned in the response.
         public let endpoint: MessagingSessionEndpoint?
 
+        @inlinable
         public init(endpoint: MessagingSessionEndpoint? = nil) {
             self.endpoint = endpoint
         }
@@ -5194,6 +5384,7 @@ extension Chime {
         /// The ID for the phone number order.
         public let phoneNumberOrderId: String
 
+        @inlinable
         public init(phoneNumberOrderId: String) {
             self.phoneNumberOrderId = phoneNumberOrderId
         }
@@ -5215,6 +5406,7 @@ extension Chime {
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
+        @inlinable
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
             self.phoneNumberOrder = phoneNumberOrder
         }
@@ -5228,6 +5420,7 @@ extension Chime {
         /// The phone number ID.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -5245,6 +5438,7 @@ extension Chime {
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
 
+        @inlinable
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -5261,6 +5455,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var callingNameUpdatedTimestamp: Date?
 
+        @inlinable
         public init(callingName: String? = nil, callingNameUpdatedTimestamp: Date? = nil) {
             self.callingName = callingName
             self.callingNameUpdatedTimestamp = callingNameUpdatedTimestamp
@@ -5278,6 +5473,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(proxySessionId: String, voiceConnectorId: String) {
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
@@ -5306,6 +5502,7 @@ extension Chime {
         /// The proxy session details.
         public let proxySession: ProxySession?
 
+        @inlinable
         public init(proxySession: ProxySession? = nil) {
             self.proxySession = proxySession
         }
@@ -5319,6 +5516,7 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -5343,6 +5541,7 @@ extension Chime {
         /// The retention settings.
         public let retentionSettings: RetentionSettings?
 
+        @inlinable
         public init(initiateDeletionTimestamp: Date? = nil, retentionSettings: RetentionSettings? = nil) {
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
             self.retentionSettings = retentionSettings
@@ -5360,6 +5559,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, roomId: String) {
             self.accountId = accountId
             self.roomId = roomId
@@ -5384,6 +5584,7 @@ extension Chime {
         /// The room details.
         public let room: Room?
 
+        @inlinable
         public init(room: Room? = nil) {
             self.room = room
         }
@@ -5397,6 +5598,7 @@ extension Chime {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -5418,6 +5620,7 @@ extension Chime {
         /// The actual logging configuration.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
         }
@@ -5431,6 +5634,7 @@ extension Chime {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -5452,6 +5656,7 @@ extension Chime {
         /// The SIP media application details.
         public let sipMediaApplication: SipMediaApplication?
 
+        @inlinable
         public init(sipMediaApplication: SipMediaApplication? = nil) {
             self.sipMediaApplication = sipMediaApplication
         }
@@ -5465,6 +5670,7 @@ extension Chime {
         /// The SIP rule ID.
         public let sipRuleId: String
 
+        @inlinable
         public init(sipRuleId: String) {
             self.sipRuleId = sipRuleId
         }
@@ -5486,6 +5692,7 @@ extension Chime {
         /// The SIP rule details.
         public let sipRule: SipRule?
 
+        @inlinable
         public init(sipRule: SipRule? = nil) {
             self.sipRule = sipRule
         }
@@ -5501,6 +5708,7 @@ extension Chime {
         /// The user ID.
         public let userId: String
 
+        @inlinable
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -5525,6 +5733,7 @@ extension Chime {
         /// The user details.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -5540,6 +5749,7 @@ extension Chime {
         /// The user ID.
         public let userId: String
 
+        @inlinable
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -5559,6 +5769,7 @@ extension Chime {
         /// The user settings.
         public let userSettings: UserSettings?
 
+        @inlinable
         public init(userSettings: UserSettings? = nil) {
             self.userSettings = userSettings
         }
@@ -5572,6 +5783,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5593,6 +5805,7 @@ extension Chime {
         /// The emergency calling configuration details.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
+        @inlinable
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration? = nil) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
         }
@@ -5606,6 +5819,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(voiceConnectorGroupId: String) {
             self.voiceConnectorGroupId = voiceConnectorGroupId
         }
@@ -5627,6 +5841,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
+        @inlinable
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
             self.voiceConnectorGroup = voiceConnectorGroup
         }
@@ -5640,6 +5855,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5661,6 +5877,7 @@ extension Chime {
         /// The logging configuration details.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -5674,6 +5891,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5695,6 +5913,7 @@ extension Chime {
         /// The origination setting details.
         public let origination: Origination?
 
+        @inlinable
         public init(origination: Origination? = nil) {
             self.origination = origination
         }
@@ -5708,6 +5927,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5731,6 +5951,7 @@ extension Chime {
         /// The proxy configuration details.
         public let proxy: Proxy?
 
+        @inlinable
         public init(proxy: Proxy? = nil) {
             self.proxy = proxy
         }
@@ -5744,6 +5965,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5765,6 +5987,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
+        @inlinable
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -5778,6 +6001,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5799,6 +6023,7 @@ extension Chime {
         /// The streaming configuration details.
         public let streamingConfiguration: StreamingConfiguration?
 
+        @inlinable
         public init(streamingConfiguration: StreamingConfiguration? = nil) {
             self.streamingConfiguration = streamingConfiguration
         }
@@ -5812,6 +6037,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5833,6 +6059,7 @@ extension Chime {
         /// The termination health details.
         public let terminationHealth: TerminationHealth?
 
+        @inlinable
         public init(terminationHealth: TerminationHealth? = nil) {
             self.terminationHealth = terminationHealth
         }
@@ -5846,6 +6073,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5867,6 +6095,7 @@ extension Chime {
         /// The termination setting details.
         public let termination: Termination?
 
+        @inlinable
         public init(termination: Termination? = nil) {
             self.termination = termination
         }
@@ -5882,6 +6111,7 @@ extension Chime {
         /// The name in an Identity.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -5903,6 +6133,7 @@ extension Chime {
         /// The status of the invite.
         public let status: InviteStatus?
 
+        @inlinable
         public init(emailAddress: String? = nil, emailStatus: EmailStatus? = nil, inviteId: String? = nil, status: InviteStatus? = nil) {
             self.emailAddress = emailAddress
             self.emailStatus = emailStatus
@@ -5926,6 +6157,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
+        @inlinable
         public init(accountId: String, userEmailList: [String], userType: UserType? = nil) {
             self.accountId = accountId
             self.userEmailList = userEmailList
@@ -5958,6 +6190,7 @@ extension Chime {
         /// The email invitation details.
         public let invites: [Invite]?
 
+        @inlinable
         public init(invites: [Invite]? = nil) {
             self.invites = invites
         }
@@ -5977,6 +6210,7 @@ extension Chime {
         /// User email address with which to filter results.
         public let userEmail: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, userEmail: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -6011,6 +6245,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
@@ -6030,6 +6265,7 @@ extension Chime {
         /// The token returned from previous API requests until the number of administrators is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
@@ -6065,6 +6301,7 @@ extension Chime {
         /// The token returned from previous API requests until the number of administrators is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceAdmins: [AppInstanceAdminSummary]? = nil, appInstanceArn: String? = nil, nextToken: String? = nil) {
             self.appInstanceAdmins = appInstanceAdmins
             self.appInstanceArn = appInstanceArn
@@ -6086,6 +6323,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
@@ -6121,6 +6359,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, appInstanceUsers: [AppInstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceUsers = appInstanceUsers
@@ -6140,6 +6379,7 @@ extension Chime {
         /// The token passed by previous API requests until you reach the maximum number of AppInstances.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6168,6 +6408,7 @@ extension Chime {
         /// The token passed by previous API requests until the maximum number of AppInstances is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstances: [AppInstanceSummary]? = nil, nextToken: String? = nil) {
             self.appInstances = appInstances
             self.nextToken = nextToken
@@ -6185,6 +6426,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -6209,6 +6451,7 @@ extension Chime {
         /// A list of tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -6226,6 +6469,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, meetingId: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.meetingId = meetingId
@@ -6255,6 +6499,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(attendees: [Attendee]? = nil, nextToken: String? = nil) {
             self.attendees = attendees
             self.nextToken = nextToken
@@ -6274,6 +6519,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -6303,6 +6549,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(bots: [Bot]? = nil, nextToken: String? = nil) {
             self.bots = bots
             self.nextToken = nextToken
@@ -6324,6 +6571,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested bans are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -6364,6 +6612,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested bans are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelBans: [ChannelBanSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelBans = channelBans
@@ -6387,6 +6636,7 @@ extension Chime {
         /// The token returned from previous API requests until the number of channel memberships is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.chimeBearer = chimeBearer
@@ -6425,6 +6675,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelMemberships: [ChannelMembershipForAppInstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.channelMemberships = channelMemberships
             self.nextToken = nextToken
@@ -6448,6 +6699,7 @@ extension Chime {
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -6490,6 +6742,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested channel memberships are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelMemberships: [ChannelMembershipSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelMemberships = channelMemberships
@@ -6519,6 +6772,7 @@ extension Chime {
         /// The order in which you want messages sorted. Default is Descending, based on time created.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, sortOrder: SortOrder? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -6565,6 +6819,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested messages are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelMessages: [ChannelMessageSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelMessages = channelMessages
@@ -6588,6 +6843,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested moderators are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -6628,6 +6884,7 @@ extension Chime {
         /// The token passed by previous API calls until all requested moderators are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelModerators: [ChannelModeratorSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelModerators = channelModerators
@@ -6651,6 +6908,7 @@ extension Chime {
         /// The token returned from previous API requests until the number of channels moderated by the user is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.chimeBearer = chimeBearer
@@ -6689,6 +6947,7 @@ extension Chime {
         /// The token returned from previous API requests until the number of channels moderated by the user is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelModeratedByAppInstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -6712,6 +6971,7 @@ extension Chime {
         /// The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(appInstanceArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.appInstanceArn = appInstanceArn
             self.chimeBearer = chimeBearer
@@ -6752,6 +7012,7 @@ extension Chime {
         /// The token returned from previous API requests until the number of channels is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -6769,6 +7030,7 @@ extension Chime {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6795,6 +7057,7 @@ extension Chime {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(mediaCapturePipelines: [MediaCapturePipeline]? = nil, nextToken: String? = nil) {
             self.mediaCapturePipelines = mediaCapturePipelines
             self.nextToken = nextToken
@@ -6810,6 +7073,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -6831,6 +7095,7 @@ extension Chime {
         /// A list of tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -6846,6 +7111,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6872,6 +7138,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(meetings: [Meeting]? = nil, nextToken: String? = nil) {
             self.meetings = meetings
             self.nextToken = nextToken
@@ -6889,6 +7156,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6915,6 +7183,7 @@ extension Chime {
         /// The phone number order details.
         public let phoneNumberOrders: [PhoneNumberOrder]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumberOrders: [PhoneNumberOrder]? = nil) {
             self.nextToken = nextToken
             self.phoneNumberOrders = phoneNumberOrders
@@ -6940,6 +7209,7 @@ extension Chime {
         /// The phone number status.
         public let status: PhoneNumberStatus?
 
+        @inlinable
         public init(filterName: PhoneNumberAssociationName? = nil, filterValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil) {
             self.filterName = filterName
             self.filterValue = filterValue
@@ -6974,6 +7244,7 @@ extension Chime {
         /// The phone number details.
         public let phoneNumbers: [PhoneNumber]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumbers: [PhoneNumber]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -6995,6 +7266,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: ProxySessionStatus? = nil, voiceConnectorId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7029,6 +7301,7 @@ extension Chime {
         /// The proxy session details.
         public let proxySessions: [ProxySession]?
 
+        @inlinable
         public init(nextToken: String? = nil, proxySessions: [ProxySession]? = nil) {
             self.nextToken = nextToken
             self.proxySessions = proxySessions
@@ -7050,6 +7323,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, roomId: String) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -7082,6 +7356,7 @@ extension Chime {
         /// The room membership details.
         public let roomMemberships: [RoomMembership]?
 
+        @inlinable
         public init(nextToken: String? = nil, roomMemberships: [RoomMembership]? = nil) {
             self.nextToken = nextToken
             self.roomMemberships = roomMemberships
@@ -7103,6 +7378,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, memberId: String? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -7134,6 +7410,7 @@ extension Chime {
         /// The room details.
         public let rooms: [Room]?
 
+        @inlinable
         public init(nextToken: String? = nil, rooms: [Room]? = nil) {
             self.nextToken = nextToken
             self.rooms = rooms
@@ -7151,6 +7428,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7178,6 +7456,7 @@ extension Chime {
         /// List of SIP media applications and application details.
         public let sipMediaApplications: [SipMediaApplication]?
 
+        @inlinable
         public init(nextToken: String? = nil, sipMediaApplications: [SipMediaApplication]? = nil) {
             self.nextToken = nextToken
             self.sipMediaApplications = sipMediaApplications
@@ -7197,6 +7476,7 @@ extension Chime {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sipMediaApplicationId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7227,6 +7507,7 @@ extension Chime {
         /// List of SIP rules and rule details.
         public let sipRules: [SipRule]?
 
+        @inlinable
         public init(nextToken: String? = nil, sipRules: [SipRule]? = nil) {
             self.nextToken = nextToken
             self.sipRules = sipRules
@@ -7242,6 +7523,7 @@ extension Chime {
         /// The phone number product type.
         public let productType: PhoneNumberProductType
 
+        @inlinable
         public init(productType: PhoneNumberProductType) {
             self.productType = productType
         }
@@ -7259,6 +7541,7 @@ extension Chime {
         /// The supported phone number countries.
         public let phoneNumberCountries: [PhoneNumberCountry]?
 
+        @inlinable
         public init(phoneNumberCountries: [PhoneNumberCountry]? = nil) {
             self.phoneNumberCountries = phoneNumberCountries
         }
@@ -7272,6 +7555,7 @@ extension Chime {
         /// The resource ARN.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -7295,6 +7579,7 @@ extension Chime {
         /// A list of tag-key value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -7316,6 +7601,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, userEmail: String? = nil, userType: UserType? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -7350,6 +7636,7 @@ extension Chime {
         /// List of users and user details.
         public let users: [User]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -7367,6 +7654,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7393,6 +7681,7 @@ extension Chime {
         /// The details of the Amazon Chime Voice Connector groups.
         public let voiceConnectorGroups: [VoiceConnectorGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, voiceConnectorGroups: [VoiceConnectorGroup]? = nil) {
             self.nextToken = nextToken
             self.voiceConnectorGroups = voiceConnectorGroups
@@ -7408,6 +7697,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -7429,6 +7719,7 @@ extension Chime {
         /// A list of user names.
         public let usernames: [String]?
 
+        @inlinable
         public init(usernames: [String]? = nil) {
             self.usernames = usernames
         }
@@ -7444,6 +7735,7 @@ extension Chime {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -7470,6 +7762,7 @@ extension Chime {
         /// The details of the Amazon Chime Voice Connectors.
         public let voiceConnectors: [VoiceConnector]?
 
+        @inlinable
         public init(nextToken: String? = nil, voiceConnectors: [VoiceConnector]? = nil) {
             self.nextToken = nextToken
             self.voiceConnectors = voiceConnectors
@@ -7487,6 +7780,7 @@ extension Chime {
         /// Boolean that enables SIP message logs to Amazon CloudWatch logs.
         public let enableSIPLogs: Bool?
 
+        @inlinable
         public init(enableMediaMetricLogs: Bool? = nil, enableSIPLogs: Bool? = nil) {
             self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
@@ -7504,6 +7798,7 @@ extension Chime {
         /// The user ID.
         public let userId: String
 
+        @inlinable
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -7550,6 +7845,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, createdTimestamp: Date? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.createdTimestamp = createdTimestamp
@@ -7593,6 +7889,7 @@ extension Chime {
         /// The turn control URL.   This parameter is is no longer supported and no longer used by the Amazon Chime SDK.
         public let turnControlUrl: String?
 
+        @inlinable
         public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
@@ -7626,6 +7923,7 @@ extension Chime {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
 
+        @inlinable
         public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingId: String? = nil) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
@@ -7647,6 +7945,7 @@ extension Chime {
         /// The SQS queue ARN.
         public let sqsQueueArn: String?
 
+        @inlinable
         public init(snsTopicArn: String? = nil, sqsQueueArn: String? = nil) {
             self.snsTopicArn = snsTopicArn
             self.sqsQueueArn = sqsQueueArn
@@ -7679,6 +7978,7 @@ extension Chime {
         /// The member type.
         public let memberType: MemberType?
 
+        @inlinable
         public init(accountId: String? = nil, email: String? = nil, fullName: String? = nil, memberId: String? = nil, memberType: MemberType? = nil) {
             self.accountId = accountId
             self.email = email
@@ -7704,6 +8004,7 @@ extension Chime {
         /// The member ID.
         public let memberId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, memberId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -7723,6 +8024,7 @@ extension Chime {
         /// The member role.
         public let role: RoomMembershipRole?
 
+        @inlinable
         public init(memberId: String? = nil, role: RoomMembershipRole? = nil) {
             self.memberId = memberId
             self.role = role
@@ -7742,6 +8044,7 @@ extension Chime {
         /// The endpoint to which you establish a websocket connection.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -7757,6 +8060,7 @@ extension Chime {
         /// The phone number status.
         public let status: OrderedPhoneNumberStatus?
 
+        @inlinable
         public init(e164PhoneNumber: String? = nil, status: OrderedPhoneNumberStatus? = nil) {
             self.e164PhoneNumber = e164PhoneNumber
             self.status = status
@@ -7774,6 +8078,7 @@ extension Chime {
         /// The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20. This parameter is not required, but you must specify this parameter or Disabled.
         public let routes: [OriginationRoute]?
 
+        @inlinable
         public init(disabled: Bool? = nil, routes: [OriginationRoute]? = nil) {
             self.disabled = disabled
             self.routes = routes
@@ -7803,6 +8108,7 @@ extension Chime {
         /// The weight associated with the host. If hosts are equal in priority, calls are redistributed among them based on their relative weight.
         public let weight: Int?
 
+        @inlinable
         public init(host: String? = nil, port: Int? = nil, priority: Int? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int? = nil) {
             self.host = host
             self.port = port
@@ -7835,6 +8141,7 @@ extension Chime {
         /// The participant's proxy phone number.
         public let proxyPhoneNumber: String?
 
+        @inlinable
         public init(phoneNumber: String? = nil, proxyPhoneNumber: String? = nil) {
             self.phoneNumber = phoneNumber
             self.proxyPhoneNumber = proxyPhoneNumber
@@ -7877,6 +8184,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
             self.associations = associations
             self.callingName = callingName
@@ -7919,6 +8227,7 @@ extension Chime {
         /// Contains the ID for the entity specified in Name.
         public let value: String?
 
+        @inlinable
         public init(associatedTimestamp: Date? = nil, name: PhoneNumberAssociationName? = nil, value: String? = nil) {
             self.associatedTimestamp = associatedTimestamp
             self.name = name
@@ -7946,6 +8255,7 @@ extension Chime {
         /// Allows or denies outbound SMS messaging for the specified phone number.
         public let outboundSMS: Bool?
 
+        @inlinable
         public init(inboundCall: Bool? = nil, inboundMMS: Bool? = nil, inboundSMS: Bool? = nil, outboundCall: Bool? = nil, outboundMMS: Bool? = nil, outboundSMS: Bool? = nil) {
             self.inboundCall = inboundCall
             self.inboundMMS = inboundMMS
@@ -7971,6 +8281,7 @@ extension Chime {
         /// The supported phone number types.
         public let supportedPhoneNumberTypes: [PhoneNumberType]?
 
+        @inlinable
         public init(countryCode: String? = nil, supportedPhoneNumberTypes: [PhoneNumberType]? = nil) {
             self.countryCode = countryCode
             self.supportedPhoneNumberTypes = supportedPhoneNumberTypes
@@ -7990,6 +8301,7 @@ extension Chime {
         /// The phone number ID for which the action failed.
         public let phoneNumberId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, phoneNumberId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -8019,6 +8331,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.orderedPhoneNumbers = orderedPhoneNumbers
@@ -8048,6 +8361,7 @@ extension Chime {
         /// The countries for proxy phone numbers to be selected from.
         public let phoneNumberCountries: [String]?
 
+        @inlinable
         public init(defaultSessionExpiryMinutes: Int? = nil, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberCountries: [String]? = nil) {
             self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
             self.disabled = disabled
@@ -8094,6 +8408,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, createdTimestamp: Date? = nil, endedTimestamp: Date? = nil, expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participants: [Participant]? = nil, proxySessionId: String? = nil, status: ProxySessionStatus? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
             self.capabilities = capabilities
             self.createdTimestamp = createdTimestamp
@@ -8133,6 +8448,7 @@ extension Chime {
         /// The time in days to retain data. Data type: number.
         public let appInstanceRetentionSettings: AppInstanceRetentionSettings
 
+        @inlinable
         public init(appInstanceArn: String, appInstanceRetentionSettings: AppInstanceRetentionSettings) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
@@ -8163,6 +8479,7 @@ extension Chime {
         /// The time at which the API deletes data.
         public let initiateDeletionTimestamp: Date?
 
+        @inlinable
         public init(appInstanceRetentionSettings: AppInstanceRetentionSettings? = nil, initiateDeletionTimestamp: Date? = nil) {
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
@@ -8180,6 +8497,7 @@ extension Chime {
         /// The streaming configurations set for an AppInstance.
         public let appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]
 
+        @inlinable
         public init(appInstanceArn: String, appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceStreamingConfigurations = appInstanceStreamingConfigurations
@@ -8212,6 +8530,7 @@ extension Chime {
         /// The streaming configurations of an AppInstance.
         public let appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]?
 
+        @inlinable
         public init(appInstanceStreamingConfigurations: [AppInstanceStreamingConfiguration]? = nil) {
             self.appInstanceStreamingConfigurations = appInstanceStreamingConfigurations
         }
@@ -8231,6 +8550,7 @@ extension Chime {
         /// HTTPS endpoint that allows the bot to receive outgoing events.
         public let outboundEventsHTTPSEndpoint: String?
 
+        @inlinable
         public init(accountId: String, botId: String, lambdaFunctionArn: String? = nil, outboundEventsHTTPSEndpoint: String? = nil) {
             self.accountId = accountId
             self.botId = botId
@@ -8262,6 +8582,7 @@ extension Chime {
         /// The configuration that allows a bot to receive outgoing events. Can be an HTTPS endpoint or an  AWS Lambda function ARN.
         public let eventsConfiguration: EventsConfiguration?
 
+        @inlinable
         public init(eventsConfiguration: EventsConfiguration? = nil) {
             self.eventsConfiguration = eventsConfiguration
         }
@@ -8277,6 +8598,7 @@ extension Chime {
         /// The retention settings.
         public let retentionSettings: RetentionSettings
 
+        @inlinable
         public init(accountId: String, retentionSettings: RetentionSettings) {
             self.accountId = accountId
             self.retentionSettings = retentionSettings
@@ -8306,6 +8628,7 @@ extension Chime {
         /// The retention settings.
         public let retentionSettings: RetentionSettings?
 
+        @inlinable
         public init(initiateDeletionTimestamp: Date? = nil, retentionSettings: RetentionSettings? = nil) {
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
             self.retentionSettings = retentionSettings
@@ -8323,6 +8646,7 @@ extension Chime {
         /// The actual logging configuration.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationId: String, sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationId = sipMediaApplicationId
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
@@ -8348,6 +8672,7 @@ extension Chime {
         /// The logging configuration of the SIP media application.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
         }
@@ -8363,6 +8688,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration, voiceConnectorId: String) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
             self.voiceConnectorId = voiceConnectorId
@@ -8389,6 +8715,7 @@ extension Chime {
         /// The emergency calling configuration details.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
+        @inlinable
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration? = nil) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
         }
@@ -8404,6 +8731,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration, voiceConnectorId: String) {
             self.loggingConfiguration = loggingConfiguration
             self.voiceConnectorId = voiceConnectorId
@@ -8429,6 +8757,7 @@ extension Chime {
         /// The updated logging configuration details.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -8444,6 +8773,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(origination: Origination, voiceConnectorId: String) {
             self.origination = origination
             self.voiceConnectorId = voiceConnectorId
@@ -8470,6 +8800,7 @@ extension Chime {
         /// The updated origination setting details.
         public let origination: Origination?
 
+        @inlinable
         public init(origination: Origination? = nil) {
             self.origination = origination
         }
@@ -8491,6 +8822,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(defaultSessionExpiryMinutes: Int, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberPoolCountries: [String], voiceConnectorId: String) {
             self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
             self.disabled = disabled
@@ -8533,6 +8865,7 @@ extension Chime {
         /// The proxy configuration details.
         public let proxy: Proxy?
 
+        @inlinable
         public init(proxy: Proxy? = nil) {
             self.proxy = proxy
         }
@@ -8548,6 +8881,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(streamingConfiguration: StreamingConfiguration, voiceConnectorId: String) {
             self.streamingConfiguration = streamingConfiguration
             self.voiceConnectorId = voiceConnectorId
@@ -8574,6 +8908,7 @@ extension Chime {
         /// The updated streaming configuration details.
         public let streamingConfiguration: StreamingConfiguration?
 
+        @inlinable
         public init(streamingConfiguration: StreamingConfiguration? = nil) {
             self.streamingConfiguration = streamingConfiguration
         }
@@ -8589,6 +8924,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(credentials: [Credential]? = nil, voiceConnectorId: String) {
             self.credentials = credentials
             self.voiceConnectorId = voiceConnectorId
@@ -8616,6 +8952,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(termination: Termination, voiceConnectorId: String) {
             self.termination = termination
             self.voiceConnectorId = voiceConnectorId
@@ -8642,6 +8979,7 @@ extension Chime {
         /// The updated termination setting details.
         public let termination: Termination?
 
+        @inlinable
         public init(termination: Termination? = nil) {
             self.termination = termination
         }
@@ -8659,6 +8997,7 @@ extension Chime {
         /// The ID of the message being redacted.
         public let messageId: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, messageId: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -8694,6 +9033,7 @@ extension Chime {
         /// The ID of the message being redacted.
         public let messageId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, messageId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
@@ -8713,6 +9053,7 @@ extension Chime {
         /// The message ID.
         public let messageId: String
 
+        @inlinable
         public init(accountId: String, conversationId: String, messageId: String) {
             self.accountId = accountId
             self.conversationId = conversationId
@@ -8748,6 +9089,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, messageId: String, roomId: String) {
             self.accountId = accountId
             self.messageId = messageId
@@ -8781,6 +9123,7 @@ extension Chime {
         /// The bot ID.
         public let botId: String
 
+        @inlinable
         public init(accountId: String, botId: String) {
             self.accountId = accountId
             self.botId = botId
@@ -8805,6 +9148,7 @@ extension Chime {
         /// A resource that allows Enterprise account administrators to configure an interface that receives events from Amazon Chime.
         public let bot: Bot?
 
+        @inlinable
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -8820,6 +9164,7 @@ extension Chime {
         /// The user ID.
         public let userId: String
 
+        @inlinable
         public init(accountId: String, userId: String) {
             self.accountId = accountId
             self.userId = userId
@@ -8844,6 +9189,7 @@ extension Chime {
         /// The user details and new personal meeting PIN.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -8857,6 +9203,7 @@ extension Chime {
         /// The phone number.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -8878,6 +9225,7 @@ extension Chime {
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
 
+        @inlinable
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -8893,6 +9241,7 @@ extension Chime {
         /// The chat room retention settings.
         public let roomRetentionSettings: RoomRetentionSettings?
 
+        @inlinable
         public init(conversationRetentionSettings: ConversationRetentionSettings? = nil, roomRetentionSettings: RoomRetentionSettings? = nil) {
             self.conversationRetentionSettings = conversationRetentionSettings
             self.roomRetentionSettings = roomRetentionSettings
@@ -8925,6 +9274,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(accountId: String? = nil, createdBy: String? = nil, createdTimestamp: Date? = nil, name: String? = nil, roomId: String? = nil, updatedTimestamp: Date? = nil) {
             self.accountId = accountId
             self.createdBy = createdBy
@@ -8957,6 +9307,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(invitedBy: String? = nil, member: Member? = nil, role: RoomMembershipRole? = nil, roomId: String? = nil, updatedTimestamp: Date? = nil) {
             self.invitedBy = invitedBy
             self.member = member
@@ -8978,6 +9329,7 @@ extension Chime {
         /// The number of days for which to retain chat-room messages.
         public let retentionDays: Int?
 
+        @inlinable
         public init(retentionDays: Int? = nil) {
             self.retentionDays = retentionDays
         }
@@ -9010,6 +9362,7 @@ extension Chime {
         /// The toll-free prefix that you use to filter results. Only applies to the US.
         public let tollFreePrefix: String?
 
+        @inlinable
         public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberType: PhoneNumberType? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
             self.areaCode = areaCode
             self.city = city
@@ -9052,6 +9405,7 @@ extension Chime {
         /// The token used to retrieve the next page of search results.
         public let nextToken: String?
 
+        @inlinable
         public init(e164PhoneNumbers: [String]? = nil, nextToken: String? = nil) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.nextToken = nextToken
@@ -9069,6 +9423,7 @@ extension Chime {
         /// The external user IDs of the streams selected for a media capture pipeline.
         public let externalUserIds: [String]?
 
+        @inlinable
         public init(attendeeIds: [String]? = nil, externalUserIds: [String]? = nil) {
             self.attendeeIds = attendeeIds
             self.externalUserIds = externalUserIds
@@ -9108,6 +9463,7 @@ extension Chime {
         /// The type of message, STANDARD or CONTROL.
         public let type: ChannelMessageType
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, metadata: String? = nil, persistence: ChannelMessagePersistenceType, type: ChannelMessageType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -9161,6 +9517,7 @@ extension Chime {
         /// The ID string assigned to each message.
         public let messageId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, messageId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
@@ -9176,6 +9533,7 @@ extension Chime {
         /// The group name.
         public let groupName: String?
 
+        @inlinable
         public init(groupName: String? = nil) {
             self.groupName = groupName
         }
@@ -9205,6 +9563,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(awsRegion: String? = nil, createdTimestamp: Date? = nil, endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationId: String? = nil, updatedTimestamp: Date? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
@@ -9228,6 +9587,7 @@ extension Chime {
         /// The transaction ID of a call.
         public let transactionId: String?
 
+        @inlinable
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -9241,6 +9601,7 @@ extension Chime {
         /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias. The function must be created in the same AWS Region as the SIP media application.
         public let lambdaArn: String?
 
+        @inlinable
         public init(lambdaArn: String? = nil) {
             self.lambdaArn = lambdaArn
         }
@@ -9259,6 +9620,7 @@ extension Chime {
         /// Enables application message logs for the SIP media application.
         public let enableSipMediaApplicationMessageLogs: Bool?
 
+        @inlinable
         public init(enableSipMediaApplicationMessageLogs: Bool? = nil) {
             self.enableSipMediaApplicationMessageLogs = enableSipMediaApplicationMessageLogs
         }
@@ -9288,6 +9650,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, disabled: Bool? = nil, name: String? = nil, sipRuleId: String? = nil, targetApplications: [SipRuleTargetApplication]? = nil, triggerType: SipRuleTriggerType? = nil, triggerValue: String? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.disabled = disabled
@@ -9319,6 +9682,7 @@ extension Chime {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String?
 
+        @inlinable
         public init(awsRegion: String? = nil, priority: Int? = nil, sipMediaApplicationId: String? = nil) {
             self.awsRegion = awsRegion
             self.priority = priority
@@ -9341,6 +9705,7 @@ extension Chime {
         /// The selected video streams to capture for a specified media capture pipeline. The number of video streams can't exceed 25.
         public let selectedVideoStreams: SelectedVideoStreams?
 
+        @inlinable
         public init(selectedVideoStreams: SelectedVideoStreams? = nil) {
             self.selectedVideoStreams = selectedVideoStreams
         }
@@ -9360,6 +9725,7 @@ extension Chime {
         /// The configuration for the current transcription operation. Must contain EngineTranscribeSettings or EngineTranscribeMedicalSettings.
         public let transcriptionConfiguration: TranscriptionConfiguration
 
+        @inlinable
         public init(meetingId: String, transcriptionConfiguration: TranscriptionConfiguration) {
             self.meetingId = meetingId
             self.transcriptionConfiguration = transcriptionConfiguration
@@ -9390,6 +9756,7 @@ extension Chime {
         /// The unique ID of the meeting for which you stop transcription.
         public let meetingId: String
 
+        @inlinable
         public init(meetingId: String) {
             self.meetingId = meetingId
         }
@@ -9419,6 +9786,7 @@ extension Chime {
         /// The streaming notification targets.
         public let streamingNotificationTargets: [StreamingNotificationTarget]?
 
+        @inlinable
         public init(dataRetentionInHours: Int, disabled: Bool? = nil, streamingNotificationTargets: [StreamingNotificationTarget]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
@@ -9442,6 +9810,7 @@ extension Chime {
         /// The streaming notification target.
         public let notificationTarget: NotificationTarget
 
+        @inlinable
         public init(notificationTarget: NotificationTarget) {
             self.notificationTarget = notificationTarget
         }
@@ -9457,6 +9826,7 @@ extension Chime {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -9483,6 +9853,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(attendeeId: String, meetingId: String, tags: [Tag]) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -9518,6 +9889,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(meetingId: String, tags: [Tag]) {
             self.meetingId = meetingId
             self.tags = tags
@@ -9550,6 +9922,7 @@ extension Chime {
         /// The tag key-value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -9580,6 +9953,7 @@ extension Chime {
         /// Allows or denies SMS messaging.
         public let sms: Bool
 
+        @inlinable
         public init(inboundCalling: Bool, outboundCalling: Bool, sms: Bool) {
             self.inboundCalling = inboundCalling
             self.outboundCalling = outboundCalling
@@ -9605,6 +9979,7 @@ extension Chime {
         /// When termination settings are disabled, outbound calls can not be made.
         public let disabled: Bool?
 
+        @inlinable
         public init(callingRegions: [String]? = nil, cidrAllowedList: [String]? = nil, cpsLimit: Int? = nil, defaultPhoneNumber: String? = nil, disabled: Bool? = nil) {
             self.callingRegions = callingRegions
             self.cidrAllowedList = cidrAllowedList
@@ -9634,6 +10009,7 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var timestamp: Date?
 
+        @inlinable
         public init(source: String? = nil, timestamp: Date? = nil) {
             self.source = source
             self.timestamp = timestamp
@@ -9651,6 +10027,7 @@ extension Chime {
         /// The transcription configuration settings passed to Amazon Transcribe.
         public let engineTranscribeSettings: EngineTranscribeSettings?
 
+        @inlinable
         public init(engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings? = nil, engineTranscribeSettings: EngineTranscribeSettings? = nil) {
             self.engineTranscribeMedicalSettings = engineTranscribeMedicalSettings
             self.engineTranscribeSettings = engineTranscribeSettings
@@ -9674,6 +10051,7 @@ extension Chime {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(attendeeId: String, meetingId: String, tagKeys: [String]) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
@@ -9710,6 +10088,7 @@ extension Chime {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(meetingId: String, tagKeys: [String]) {
             self.meetingId = meetingId
             self.tagKeys = tagKeys
@@ -9743,6 +10122,7 @@ extension Chime {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -9774,6 +10154,7 @@ extension Chime {
         /// The new name for the specified Amazon Chime account.
         public let name: String?
 
+        @inlinable
         public init(accountId: String, defaultLicense: License? = nil, name: String? = nil) {
             self.accountId = accountId
             self.defaultLicense = defaultLicense
@@ -9805,6 +10186,7 @@ extension Chime {
         /// The updated Amazon Chime account details.
         public let account: Account?
 
+        @inlinable
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -9820,6 +10202,7 @@ extension Chime {
         /// The Amazon Chime account settings to update.
         public let accountSettings: AccountSettings
 
+        @inlinable
         public init(accountId: String, accountSettings: AccountSettings) {
             self.accountId = accountId
             self.accountSettings = accountSettings
@@ -9853,6 +10236,7 @@ extension Chime {
         /// The name that you want to change.
         public let name: String
 
+        @inlinable
         public init(appInstanceArn: String, metadata: String? = nil, name: String) {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
@@ -9888,6 +10272,7 @@ extension Chime {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil) {
             self.appInstanceArn = appInstanceArn
         }
@@ -9905,6 +10290,7 @@ extension Chime {
         /// The name of the AppInstanceUser.
         public let name: String
 
+        @inlinable
         public init(appInstanceUserArn: String, metadata: String? = nil, name: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
@@ -9940,6 +10326,7 @@ extension Chime {
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -9957,6 +10344,7 @@ extension Chime {
         /// When true, stops the specified bot from running in your account.
         public let disabled: Bool?
 
+        @inlinable
         public init(accountId: String, botId: String, disabled: Bool? = nil) {
             self.accountId = accountId
             self.botId = botId
@@ -9985,6 +10373,7 @@ extension Chime {
         /// The updated bot details.
         public let bot: Bot?
 
+        @inlinable
         public init(bot: Bot? = nil) {
             self.bot = bot
         }
@@ -10006,6 +10395,7 @@ extension Chime {
         /// The metadata of the message being updated.
         public let metadata: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, content: String? = nil, messageId: String, metadata: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -10052,6 +10442,7 @@ extension Chime {
         /// The ID string of the message being updated.
         public let messageId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, messageId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
@@ -10069,6 +10460,7 @@ extension Chime {
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -10097,6 +10489,7 @@ extension Chime {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(channelArn: String? = nil) {
             self.channelArn = channelArn
         }
@@ -10118,6 +10511,7 @@ extension Chime {
         /// The name of the channel.
         public let name: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, metadata: String? = nil, mode: ChannelMode, name: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -10161,6 +10555,7 @@ extension Chime {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(channelArn: String? = nil) {
             self.channelArn = channelArn
         }
@@ -10176,6 +10571,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
 
+        @inlinable
         public init(businessCalling: BusinessCallingSettings? = nil, voiceConnector: VoiceConnectorSettings? = nil) {
             self.businessCalling = businessCalling
             self.voiceConnector = voiceConnector
@@ -10195,6 +10591,7 @@ extension Chime {
         /// The product type.
         public let productType: PhoneNumberProductType?
 
+        @inlinable
         public init(callingName: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.callingName = callingName
             self.phoneNumberId = phoneNumberId
@@ -10227,6 +10624,7 @@ extension Chime {
         /// The product type to update.
         public let productType: PhoneNumberProductType?
 
+        @inlinable
         public init(callingName: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.callingName = callingName
             self.phoneNumberId = phoneNumberId
@@ -10249,6 +10647,7 @@ extension Chime {
         /// The updated phone number details.
         public let phoneNumber: PhoneNumber?
 
+        @inlinable
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -10262,6 +10661,7 @@ extension Chime {
         /// The default outbound calling name for the account.
         public let callingName: String
 
+        @inlinable
         public init(callingName: String) {
             self.callingName = callingName
         }
@@ -10285,6 +10685,7 @@ extension Chime {
         /// The Amazon Chime voice connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(capabilities: [Capability], expiryMinutes: Int? = nil, proxySessionId: String, voiceConnectorId: String) {
             self.capabilities = capabilities
             self.expiryMinutes = expiryMinutes
@@ -10321,6 +10722,7 @@ extension Chime {
         /// The proxy session details.
         public let proxySession: ProxySession?
 
+        @inlinable
         public init(proxySession: ProxySession? = nil) {
             self.proxySession = proxySession
         }
@@ -10340,6 +10742,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, memberId: String, role: RoomMembershipRole? = nil, roomId: String) {
             self.accountId = accountId
             self.memberId = memberId
@@ -10371,6 +10774,7 @@ extension Chime {
         /// The room membership details.
         public let roomMembership: RoomMembership?
 
+        @inlinable
         public init(roomMembership: RoomMembership? = nil) {
             self.roomMembership = roomMembership
         }
@@ -10388,6 +10792,7 @@ extension Chime {
         /// The room ID.
         public let roomId: String
 
+        @inlinable
         public init(accountId: String, name: String? = nil, roomId: String) {
             self.accountId = accountId
             self.name = name
@@ -10416,6 +10821,7 @@ extension Chime {
         /// The room details.
         public let room: Room?
 
+        @inlinable
         public init(room: Room? = nil) {
             self.room = room
         }
@@ -10433,6 +10839,7 @@ extension Chime {
         /// The ID of the call transaction.
         public let transactionId: String
 
+        @inlinable
         public init(arguments: [String: String], sipMediaApplicationId: String, transactionId: String) {
             self.arguments = arguments
             self.sipMediaApplicationId = sipMediaApplicationId
@@ -10462,6 +10869,7 @@ extension Chime {
         /// A Call instance for a SIP media application.
         public let sipMediaApplicationCall: SipMediaApplicationCall?
 
+        @inlinable
         public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
             self.sipMediaApplicationCall = sipMediaApplicationCall
         }
@@ -10479,6 +10887,7 @@ extension Chime {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationId: String) {
             self.endpoints = endpoints
             self.name = name
@@ -10514,6 +10923,7 @@ extension Chime {
         /// The updated SIP media application details.
         public let sipMediaApplication: SipMediaApplication?
 
+        @inlinable
         public init(sipMediaApplication: SipMediaApplication? = nil) {
             self.sipMediaApplication = sipMediaApplication
         }
@@ -10533,6 +10943,7 @@ extension Chime {
         /// The new value of the list of target applications.
         public let targetApplications: [SipRuleTargetApplication]?
 
+        @inlinable
         public init(disabled: Bool? = nil, name: String, sipRuleId: String, targetApplications: [SipRuleTargetApplication]? = nil) {
             self.disabled = disabled
             self.name = name
@@ -10571,6 +10982,7 @@ extension Chime {
         /// Updated SIP rule details.
         public let sipRule: SipRule?
 
+        @inlinable
         public init(sipRule: SipRule? = nil) {
             self.sipRule = sipRule
         }
@@ -10592,6 +11004,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
+        @inlinable
         public init(accountId: String, alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, licenseType: License? = nil, userId: String, userType: UserType? = nil) {
             self.accountId = accountId
             self.alexaForBusinessMetadata = alexaForBusinessMetadata
@@ -10632,6 +11045,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
+        @inlinable
         public init(alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, licenseType: License? = nil, userId: String, userType: UserType? = nil) {
             self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.licenseType = licenseType
@@ -10655,6 +11069,7 @@ extension Chime {
         /// The updated user details.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -10672,6 +11087,7 @@ extension Chime {
         /// The user settings to update.
         public let userSettings: UserSettings
 
+        @inlinable
         public init(accountId: String, userId: String, userSettings: UserSettings) {
             self.accountId = accountId
             self.userId = userId
@@ -10699,6 +11115,7 @@ extension Chime {
         /// The VoiceConnectorItems to associate with the group.
         public let voiceConnectorItems: [VoiceConnectorItem]
 
+        @inlinable
         public init(name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {
             self.name = name
             self.voiceConnectorGroupId = voiceConnectorGroupId
@@ -10732,6 +11149,7 @@ extension Chime {
         /// The updated Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
+        @inlinable
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
             self.voiceConnectorGroup = voiceConnectorGroup
         }
@@ -10749,6 +11167,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(name: String, requireEncryption: Bool, voiceConnectorId: String) {
             self.name = name
             self.requireEncryption = requireEncryption
@@ -10779,6 +11198,7 @@ extension Chime {
         /// The updated Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
+        @inlinable
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -10818,6 +11238,7 @@ extension Chime {
         /// The user type.
         public let userType: UserType?
 
+        @inlinable
         public init(accountId: String? = nil, alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, displayName: String? = nil, invitedOn: Date? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, primaryProvisionedNumber: String? = nil, registeredOn: Date? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil, userType: UserType? = nil) {
             self.accountId = accountId
             self.alexaForBusinessMetadata = alexaForBusinessMetadata
@@ -10859,6 +11280,7 @@ extension Chime {
         /// The user ID for which the action failed.
         public let userId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, userId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -10876,6 +11298,7 @@ extension Chime {
         /// The telephony settings associated with the user.
         public let telephony: TelephonySettings
 
+        @inlinable
         public init(telephony: TelephonySettings) {
             self.telephony = telephony
         }
@@ -10901,6 +11324,7 @@ extension Chime {
         /// The address street number, such as 200 or 2121.
         public let streetNumber: String
 
+        @inlinable
         public init(awsAccountId: String, city: String, country: String, postalCode: String, state: String, streetInfo: String, streetNumber: String) {
             self.awsAccountId = awsAccountId
             self.city = city
@@ -10942,6 +11366,7 @@ extension Chime {
         /// Number indicating the result of address validation.  0 means the address was perfect as is and successfully validated. 1 means the address was corrected. 2 means the address sent was  not close enough and was not validated.
         public let validationResult: Int?
 
+        @inlinable
         public init(address: Address? = nil, addressExternalId: String? = nil, candidateAddressList: [CandidateAddress]? = nil, validationResult: Int? = nil) {
             self.address = address
             self.addressExternalId = addressExternalId
@@ -10963,6 +11388,7 @@ extension Chime {
         /// Indicates whether the video artifact is enabled or disabled.
         public let state: ArtifactsState
 
+        @inlinable
         public init(muxType: VideoMuxType? = nil, state: ArtifactsState) {
             self.muxType = muxType
             self.state = state
@@ -10995,6 +11421,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String?
 
+        @inlinable
         public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
@@ -11034,6 +11461,7 @@ extension Chime {
         /// The Amazon Chime Voice Connectors to which to route inbound calls.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -11059,6 +11487,7 @@ extension Chime {
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(priority: Int, voiceConnectorId: String) {
             self.priority = priority
             self.voiceConnectorId = voiceConnectorId
@@ -11080,6 +11509,7 @@ extension Chime {
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
 
+        @inlinable
         public init(cdrBucket: String? = nil) {
             self.cdrBucket = cdrBucket
         }

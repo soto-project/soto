@@ -412,6 +412,7 @@ extension WAFRegional {
         ///
         public let type: WafRuleType?
 
+        @inlinable
         public init(action: WafAction? = nil, excludedRules: [ExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int, ruleId: String, type: WafRuleType? = nil) {
             self.action = action
             self.excludedRules = excludedRules
@@ -446,6 +447,7 @@ extension WAFRegional {
         /// A unique identifier (ID) for the web ACL.
         public let webACLId: String
 
+        @inlinable
         public init(resourceArn: String, webACLId: String) {
             self.resourceArn = resourceArn
             self.webACLId = webACLId
@@ -482,6 +484,7 @@ extension WAFRegional {
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
         public let name: String?
 
+        @inlinable
         public init(byteMatchSetId: String, byteMatchTuples: [ByteMatchTuple], name: String? = nil) {
             self.byteMatchSetId = byteMatchSetId
             self.byteMatchTuples = byteMatchTuples
@@ -503,6 +506,7 @@ extension WAFRegional {
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
         public let name: String
 
+        @inlinable
         public init(byteMatchSetId: String, name: String) {
             self.byteMatchSetId = byteMatchSetId
             self.name = name
@@ -522,6 +526,7 @@ extension WAFRegional {
         /// 			exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
         public let byteMatchTuple: ByteMatchTuple
 
+        @inlinable
         public init(action: ChangeAction, byteMatchTuple: ByteMatchTuple) {
             self.action = action
             self.byteMatchTuple = byteMatchTuple
@@ -610,6 +615,7 @@ extension WAFRegional {
         /// 		       Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, targetString: AWSBase64Data, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
@@ -636,6 +642,7 @@ extension WAFRegional {
         /// 			ByteMatchSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -663,6 +670,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(byteMatchSet: ByteMatchSet? = nil, changeToken: String? = nil) {
             self.byteMatchSet = byteMatchSet
             self.changeToken = changeToken
@@ -680,6 +688,7 @@ extension WAFRegional {
         /// A friendly name or description of the GeoMatchSet. You can't change Name after you create the GeoMatchSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -707,6 +716,7 @@ extension WAFRegional {
         /// The GeoMatchSet returned in the CreateGeoMatchSet response. The GeoMatchSet contains no GeoMatchConstraints.
         public let geoMatchSet: GeoMatchSet?
 
+        @inlinable
         public init(changeToken: String? = nil, geoMatchSet: GeoMatchSet? = nil) {
             self.changeToken = changeToken
             self.geoMatchSet = geoMatchSet
@@ -724,6 +734,7 @@ extension WAFRegional {
         /// A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -751,6 +762,7 @@ extension WAFRegional {
         /// The IPSet returned in the CreateIPSet response.
         public let ipSet: IPSet?
 
+        @inlinable
         public init(changeToken: String? = nil, ipSet: IPSet? = nil) {
             self.changeToken = changeToken
             self.ipSet = ipSet
@@ -775,6 +787,7 @@ extension WAFRegional {
         public let rateLimit: Int64
         public let tags: [Tag]?
 
+        @inlinable
         public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
@@ -818,6 +831,7 @@ extension WAFRegional {
         /// The RateBasedRule that is returned in the CreateRateBasedRule response.
         public let rule: RateBasedRule?
 
+        @inlinable
         public init(changeToken: String? = nil, rule: RateBasedRule? = nil) {
             self.changeToken = changeToken
             self.rule = rule
@@ -836,6 +850,7 @@ extension WAFRegional {
         /// 			RegexMatchSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -863,6 +878,7 @@ extension WAFRegional {
         /// A RegexMatchSet that contains no RegexMatchTuple objects.
         public let regexMatchSet: RegexMatchSet?
 
+        @inlinable
         public init(changeToken: String? = nil, regexMatchSet: RegexMatchSet? = nil) {
             self.changeToken = changeToken
             self.regexMatchSet = regexMatchSet
@@ -881,6 +897,7 @@ extension WAFRegional {
         /// 			RegexPatternSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -908,6 +925,7 @@ extension WAFRegional {
         /// A RegexPatternSet that contains no objects.
         public let regexPatternSet: RegexPatternSet?
 
+        @inlinable
         public init(changeToken: String? = nil, regexPatternSet: RegexPatternSet? = nil) {
             self.changeToken = changeToken
             self.regexPatternSet = regexPatternSet
@@ -928,6 +946,7 @@ extension WAFRegional {
         public let name: String
         public let tags: [Tag]?
 
+        @inlinable
         public init(changeToken: String, metricName: String, name: String, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
@@ -965,6 +984,7 @@ extension WAFRegional {
         /// An empty  RuleGroup.
         public let ruleGroup: RuleGroup?
 
+        @inlinable
         public init(changeToken: String? = nil, ruleGroup: RuleGroup? = nil) {
             self.changeToken = changeToken
             self.ruleGroup = ruleGroup
@@ -986,6 +1006,7 @@ extension WAFRegional {
         public let name: String
         public let tags: [Tag]?
 
+        @inlinable
         public init(changeToken: String, metricName: String, name: String, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
@@ -1024,6 +1045,7 @@ extension WAFRegional {
         /// The Rule returned in the CreateRule response.
         public let rule: Rule?
 
+        @inlinable
         public init(changeToken: String? = nil, rule: Rule? = nil) {
             self.changeToken = changeToken
             self.rule = rule
@@ -1042,6 +1064,7 @@ extension WAFRegional {
         /// 			SizeConstraintSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -1069,6 +1092,7 @@ extension WAFRegional {
         /// A SizeConstraintSet that contains no SizeConstraint objects.
         public let sizeConstraintSet: SizeConstraintSet?
 
+        @inlinable
         public init(changeToken: String? = nil, sizeConstraintSet: SizeConstraintSet? = nil) {
             self.changeToken = changeToken
             self.sizeConstraintSet = sizeConstraintSet
@@ -1087,6 +1111,7 @@ extension WAFRegional {
         /// 			after you create the SqlInjectionMatchSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -1114,6 +1139,7 @@ extension WAFRegional {
         /// A SqlInjectionMatchSet.
         public let sqlInjectionMatchSet: SqlInjectionMatchSet?
 
+        @inlinable
         public init(changeToken: String? = nil, sqlInjectionMatchSet: SqlInjectionMatchSet? = nil) {
             self.changeToken = changeToken
             self.sqlInjectionMatchSet = sqlInjectionMatchSet
@@ -1133,6 +1159,7 @@ extension WAFRegional {
         /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
         public let webACLId: String
 
+        @inlinable
         public init(ignoreUnsupportedType: Bool, s3BucketName: String, webACLId: String) {
             self.ignoreUnsupportedType = ignoreUnsupportedType
             self.s3BucketName = s3BucketName
@@ -1159,6 +1186,7 @@ extension WAFRegional {
         /// The URL of the template created in Amazon S3.
         public let s3ObjectUrl: String
 
+        @inlinable
         public init(s3ObjectUrl: String) {
             self.s3ObjectUrl = s3ObjectUrl
         }
@@ -1181,6 +1209,7 @@ extension WAFRegional {
         public let name: String
         public let tags: [Tag]?
 
+        @inlinable
         public init(changeToken: String, defaultAction: WafAction, metricName: String, name: String, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.defaultAction = defaultAction
@@ -1221,6 +1250,7 @@ extension WAFRegional {
         /// The WebACL returned in the CreateWebACL response.
         public let webACL: WebACL?
 
+        @inlinable
         public init(changeToken: String? = nil, webACL: WebACL? = nil) {
             self.changeToken = changeToken
             self.webACL = webACL
@@ -1239,6 +1269,7 @@ extension WAFRegional {
         /// 			after you create the XssMatchSet.
         public let name: String
 
+        @inlinable
         public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
@@ -1266,6 +1297,7 @@ extension WAFRegional {
         /// An XssMatchSet.
         public let xssMatchSet: XssMatchSet?
 
+        @inlinable
         public init(changeToken: String? = nil, xssMatchSet: XssMatchSet? = nil) {
             self.changeToken = changeToken
             self.xssMatchSet = xssMatchSet
@@ -1284,6 +1316,7 @@ extension WAFRegional {
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
 
+        @inlinable
         public init(byteMatchSetId: String, changeToken: String) {
             self.byteMatchSetId = byteMatchSetId
             self.changeToken = changeToken
@@ -1309,6 +1342,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1325,6 +1359,7 @@ extension WAFRegional {
         /// 			ListGeoMatchSets.
         public let geoMatchSetId: String
 
+        @inlinable
         public init(changeToken: String, geoMatchSetId: String) {
             self.changeToken = changeToken
             self.geoMatchSetId = geoMatchSetId
@@ -1350,6 +1385,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1366,6 +1402,7 @@ extension WAFRegional {
         /// 			ListIPSets.
         public let ipSetId: String
 
+        @inlinable
         public init(changeToken: String, ipSetId: String) {
             self.changeToken = changeToken
             self.ipSetId = ipSetId
@@ -1391,6 +1428,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1404,6 +1442,7 @@ extension WAFRegional {
         /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1427,6 +1466,7 @@ extension WAFRegional {
         /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to delete the policy. The user making the request must be the owner of the RuleGroup.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1452,6 +1492,7 @@ extension WAFRegional {
         /// The RuleId of the RateBasedRule that you want to delete. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
         public let ruleId: String
 
+        @inlinable
         public init(changeToken: String, ruleId: String) {
             self.changeToken = changeToken
             self.ruleId = ruleId
@@ -1476,6 +1517,7 @@ extension WAFRegional {
         /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1492,6 +1534,7 @@ extension WAFRegional {
         /// 			ListRegexMatchSets.
         public let regexMatchSetId: String
 
+        @inlinable
         public init(changeToken: String, regexMatchSetId: String) {
             self.changeToken = changeToken
             self.regexMatchSetId = regexMatchSetId
@@ -1517,6 +1560,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1533,6 +1577,7 @@ extension WAFRegional {
         /// 			ListRegexPatternSets.
         public let regexPatternSetId: String
 
+        @inlinable
         public init(changeToken: String, regexPatternSetId: String) {
             self.changeToken = changeToken
             self.regexPatternSetId = regexPatternSetId
@@ -1558,6 +1603,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1573,6 +1619,7 @@ extension WAFRegional {
         /// The RuleGroupId of the RuleGroup that you want to delete. RuleGroupId is returned by CreateRuleGroup and by  ListRuleGroups.
         public let ruleGroupId: String
 
+        @inlinable
         public init(changeToken: String, ruleGroupId: String) {
             self.changeToken = changeToken
             self.ruleGroupId = ruleGroupId
@@ -1597,6 +1644,7 @@ extension WAFRegional {
         /// The ChangeToken that you used to submit the DeleteRuleGroup request. You can also use this value  to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1613,6 +1661,7 @@ extension WAFRegional {
         /// 			ListRules.
         public let ruleId: String
 
+        @inlinable
         public init(changeToken: String, ruleId: String) {
             self.changeToken = changeToken
             self.ruleId = ruleId
@@ -1638,6 +1687,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1654,6 +1704,7 @@ extension WAFRegional {
         /// 			is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
 
+        @inlinable
         public init(changeToken: String, sizeConstraintSetId: String) {
             self.changeToken = changeToken
             self.sizeConstraintSetId = sizeConstraintSetId
@@ -1679,6 +1730,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1695,6 +1747,7 @@ extension WAFRegional {
         /// 			SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
 
+        @inlinable
         public init(changeToken: String, sqlInjectionMatchSetId: String) {
             self.changeToken = changeToken
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
@@ -1720,6 +1773,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1736,6 +1790,7 @@ extension WAFRegional {
         /// 			ListWebACLs.
         public let webACLId: String
 
+        @inlinable
         public init(changeToken: String, webACLId: String) {
             self.changeToken = changeToken
             self.webACLId = webACLId
@@ -1761,6 +1816,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1777,6 +1833,7 @@ extension WAFRegional {
         /// 			XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
 
+        @inlinable
         public init(changeToken: String, xssMatchSetId: String) {
             self.changeToken = changeToken
             self.xssMatchSetId = xssMatchSetId
@@ -1802,6 +1859,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -1815,6 +1873,7 @@ extension WAFRegional {
         /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1838,6 +1897,7 @@ extension WAFRegional {
         /// The unique identifier for the rule to exclude from the rule group.
         public let ruleId: String
 
+        @inlinable
         public init(ruleId: String) {
             self.ruleId = ruleId
         }
@@ -1878,6 +1938,7 @@ extension WAFRegional {
         ///
         public let type: MatchFieldType
 
+        @inlinable
         public init(data: String? = nil, type: MatchFieldType) {
             self.data = data
             self.type = type
@@ -1901,6 +1962,7 @@ extension WAFRegional {
         /// The country that you want AWS WAF to search for.
         public let value: GeoMatchConstraintValue
 
+        @inlinable
         public init(type: GeoMatchConstraintType, value: GeoMatchConstraintValue) {
             self.type = type
             self.value = value
@@ -1922,6 +1984,7 @@ extension WAFRegional {
         /// A friendly name or description of the GeoMatchSet. You can't change the name of an GeoMatchSet after you create it.
         public let name: String?
 
+        @inlinable
         public init(geoMatchConstraints: [GeoMatchConstraint], geoMatchSetId: String, name: String? = nil) {
             self.geoMatchConstraints = geoMatchConstraints
             self.geoMatchSetId = geoMatchSetId
@@ -1941,6 +2004,7 @@ extension WAFRegional {
         /// A friendly name or description of the GeoMatchSet. You can't change the name of an GeoMatchSet after you create it.
         public let name: String
 
+        @inlinable
         public init(geoMatchSetId: String, name: String) {
             self.geoMatchSetId = geoMatchSetId
             self.name = name
@@ -1958,6 +2022,7 @@ extension WAFRegional {
         /// The country from which web requests originate that you want AWS WAF to search for.
         public let geoMatchConstraint: GeoMatchConstraint
 
+        @inlinable
         public init(action: ChangeAction, geoMatchConstraint: GeoMatchConstraint) {
             self.action = action
             self.geoMatchConstraint = geoMatchConstraint
@@ -1974,6 +2039,7 @@ extension WAFRegional {
         /// 			CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
 
+        @inlinable
         public init(byteMatchSetId: String) {
             self.byteMatchSetId = byteMatchSetId
         }
@@ -1997,6 +2063,7 @@ extension WAFRegional {
         /// 				and TextTransformation     FieldToMatch: Contains Data and Type
         public let byteMatchSet: ByteMatchSet?
 
+        @inlinable
         public init(byteMatchSet: ByteMatchSet? = nil) {
             self.byteMatchSet = byteMatchSet
         }
@@ -2015,6 +2082,7 @@ extension WAFRegional {
         /// 			to get the current status of the request.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -2028,6 +2096,7 @@ extension WAFRegional {
         /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
         public let changeToken: String
 
+        @inlinable
         public init(changeToken: String) {
             self.changeToken = changeToken
         }
@@ -2047,6 +2116,7 @@ extension WAFRegional {
         /// The status of the change token.
         public let changeTokenStatus: ChangeTokenStatus?
 
+        @inlinable
         public init(changeTokenStatus: ChangeTokenStatus? = nil) {
             self.changeTokenStatus = changeTokenStatus
         }
@@ -2061,6 +2131,7 @@ extension WAFRegional {
         /// 			ListGeoMatchSets.
         public let geoMatchSetId: String
 
+        @inlinable
         public init(geoMatchSetId: String) {
             self.geoMatchSetId = geoMatchSetId
         }
@@ -2080,6 +2151,7 @@ extension WAFRegional {
         /// Information about the GeoMatchSet that you specified in the GetGeoMatchSet request. This includes the Type, which for a GeoMatchContraint is always Country, as well as the Value, which is the identifier for a specific country.
         public let geoMatchSet: GeoMatchSet?
 
+        @inlinable
         public init(geoMatchSet: GeoMatchSet? = nil) {
             self.geoMatchSet = geoMatchSet
         }
@@ -2094,6 +2166,7 @@ extension WAFRegional {
         /// 			ListIPSets.
         public let ipSetId: String
 
+        @inlinable
         public init(ipSetId: String) {
             self.ipSetId = ipSetId
         }
@@ -2116,6 +2189,7 @@ extension WAFRegional {
         /// 				object contains Type and Value
         public let ipSet: IPSet?
 
+        @inlinable
         public init(ipSet: IPSet? = nil) {
             self.ipSet = ipSet
         }
@@ -2129,6 +2203,7 @@ extension WAFRegional {
         /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2148,6 +2223,7 @@ extension WAFRegional {
         /// The LoggingConfiguration for the specified web ACL.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -2161,6 +2237,7 @@ extension WAFRegional {
         /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get the policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2180,6 +2257,7 @@ extension WAFRegional {
         /// The IAM policy attached to the specified RuleGroup.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2195,6 +2273,7 @@ extension WAFRegional {
         /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
         public let ruleId: String
 
+        @inlinable
         public init(nextMarker: String? = nil, ruleId: String) {
             self.nextMarker = nextMarker
             self.ruleId = ruleId
@@ -2221,6 +2300,7 @@ extension WAFRegional {
         /// A null value and not currently used.
         public let nextMarker: String?
 
+        @inlinable
         public init(managedKeys: [String]? = nil, nextMarker: String? = nil) {
             self.managedKeys = managedKeys
             self.nextMarker = nextMarker
@@ -2236,6 +2316,7 @@ extension WAFRegional {
         /// The RuleId of the RateBasedRule that you want to get. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
         public let ruleId: String
 
+        @inlinable
         public init(ruleId: String) {
             self.ruleId = ruleId
         }
@@ -2255,6 +2336,7 @@ extension WAFRegional {
         /// Information about the RateBasedRule that you specified in the GetRateBasedRule request.
         public let rule: RateBasedRule?
 
+        @inlinable
         public init(rule: RateBasedRule? = nil) {
             self.rule = rule
         }
@@ -2269,6 +2351,7 @@ extension WAFRegional {
         /// 			CreateRegexMatchSet and by ListRegexMatchSets.
         public let regexMatchSetId: String
 
+        @inlinable
         public init(regexMatchSetId: String) {
             self.regexMatchSetId = regexMatchSetId
         }
@@ -2288,6 +2371,7 @@ extension WAFRegional {
         /// Information about the RegexMatchSet that you specified in the GetRegexMatchSet request. For more information, see RegexMatchTuple.
         public let regexMatchSet: RegexMatchSet?
 
+        @inlinable
         public init(regexMatchSet: RegexMatchSet? = nil) {
             self.regexMatchSet = regexMatchSet
         }
@@ -2302,6 +2386,7 @@ extension WAFRegional {
         /// 			CreateRegexPatternSet and by ListRegexPatternSets.
         public let regexPatternSetId: String
 
+        @inlinable
         public init(regexPatternSetId: String) {
             self.regexPatternSetId = regexPatternSetId
         }
@@ -2321,6 +2406,7 @@ extension WAFRegional {
         /// Information about the RegexPatternSet that you specified in the GetRegexPatternSet request, including the identifier of the pattern set and the regular expression patterns you want AWS WAF to search for.
         public let regexPatternSet: RegexPatternSet?
 
+        @inlinable
         public init(regexPatternSet: RegexPatternSet? = nil) {
             self.regexPatternSet = regexPatternSet
         }
@@ -2334,6 +2420,7 @@ extension WAFRegional {
         /// The RuleGroupId of the RuleGroup that you want to get. RuleGroupId is returned by CreateRuleGroup and by  ListRuleGroups.
         public let ruleGroupId: String
 
+        @inlinable
         public init(ruleGroupId: String) {
             self.ruleGroupId = ruleGroupId
         }
@@ -2353,6 +2440,7 @@ extension WAFRegional {
         /// Information about the RuleGroup that you specified in the GetRuleGroup request.
         public let ruleGroup: RuleGroup?
 
+        @inlinable
         public init(ruleGroup: RuleGroup? = nil) {
             self.ruleGroup = ruleGroup
         }
@@ -2367,6 +2455,7 @@ extension WAFRegional {
         /// 			ListRules.
         public let ruleId: String
 
+        @inlinable
         public init(ruleId: String) {
             self.ruleId = ruleId
         }
@@ -2390,6 +2479,7 @@ extension WAFRegional {
         /// 				Type
         public let rule: Rule?
 
+        @inlinable
         public init(rule: Rule? = nil) {
             self.rule = rule
         }
@@ -2414,6 +2504,7 @@ extension WAFRegional {
         /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
         public let webAclId: String
 
+        @inlinable
         public init(maxItems: Int64, ruleId: String, timeWindow: TimeWindow, webAclId: String) {
             self.maxItems = maxItems
             self.ruleId = ruleId
@@ -2452,6 +2543,7 @@ extension WAFRegional {
         /// 			GetSampledRequests returns the time range for the first 5,000 requests. Times are in Coordinated Universal Time (UTC) format.
         public let timeWindow: TimeWindow?
 
+        @inlinable
         public init(populationSize: Int64? = nil, sampledRequests: [SampledHTTPRequest]? = nil, timeWindow: TimeWindow? = nil) {
             self.populationSize = populationSize
             self.sampledRequests = sampledRequests
@@ -2470,6 +2562,7 @@ extension WAFRegional {
         /// 			CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
 
+        @inlinable
         public init(sizeConstraintSetId: String) {
             self.sizeConstraintSetId = sizeConstraintSetId
         }
@@ -2493,6 +2586,7 @@ extension WAFRegional {
         /// 				and Size     FieldToMatch: Contains Data and Type
         public let sizeConstraintSet: SizeConstraintSet?
 
+        @inlinable
         public init(sizeConstraintSet: SizeConstraintSet? = nil) {
             self.sizeConstraintSet = sizeConstraintSet
         }
@@ -2507,6 +2601,7 @@ extension WAFRegional {
         /// 			is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
 
+        @inlinable
         public init(sqlInjectionMatchSetId: String) {
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
@@ -2530,6 +2625,7 @@ extension WAFRegional {
         /// 				TextTransformation     FieldToMatch: Contains Data and Type
         public let sqlInjectionMatchSet: SqlInjectionMatchSet?
 
+        @inlinable
         public init(sqlInjectionMatchSet: SqlInjectionMatchSet? = nil) {
             self.sqlInjectionMatchSet = sqlInjectionMatchSet
         }
@@ -2543,6 +2639,7 @@ extension WAFRegional {
         /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2562,6 +2659,7 @@ extension WAFRegional {
         /// Information about the web ACL that you specified in the GetWebACLForResource request. If there is no associated resource, a null WebACLSummary is returned.
         public let webACLSummary: WebACLSummary?
 
+        @inlinable
         public init(webACLSummary: WebACLSummary? = nil) {
             self.webACLSummary = webACLSummary
         }
@@ -2576,6 +2674,7 @@ extension WAFRegional {
         /// 			ListWebACLs.
         public let webACLId: String
 
+        @inlinable
         public init(webACLId: String) {
             self.webACLId = webACLId
         }
@@ -2599,6 +2698,7 @@ extension WAFRegional {
         /// 				Priority, and RuleId     Action: Contains Type
         public let webACL: WebACL?
 
+        @inlinable
         public init(webACL: WebACL? = nil) {
             self.webACL = webACL
         }
@@ -2613,6 +2713,7 @@ extension WAFRegional {
         /// 			is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
 
+        @inlinable
         public init(xssMatchSetId: String) {
             self.xssMatchSetId = xssMatchSetId
         }
@@ -2636,6 +2737,7 @@ extension WAFRegional {
         /// 				TextTransformation     FieldToMatch: Contains Data and Type
         public let xssMatchSet: XssMatchSet?
 
+        @inlinable
         public init(xssMatchSet: XssMatchSet? = nil) {
             self.xssMatchSet = xssMatchSet
         }
@@ -2651,6 +2753,7 @@ extension WAFRegional {
         /// The value of one of the headers in the sampled web request.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2680,6 +2783,7 @@ extension WAFRegional {
         /// The part of a web request that identifies the resource, for example, /images/daily-ad.jpg.
         public let uri: String?
 
+        @inlinable
         public init(clientIP: String? = nil, country: String? = nil, headers: [HTTPHeader]? = nil, httpVersion: String? = nil, method: String? = nil, uri: String? = nil) {
             self.clientIP = clientIP
             self.country = country
@@ -2712,6 +2816,7 @@ extension WAFRegional {
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
         public let name: String?
 
+        @inlinable
         public init(ipSetDescriptors: [IPSetDescriptor], ipSetId: String, name: String? = nil) {
             self.ipSetDescriptors = ipSetDescriptors
             self.ipSetId = ipSetId
@@ -2742,6 +2847,7 @@ extension WAFRegional {
         ///
         public let value: String
 
+        @inlinable
         public init(type: IPSetDescriptorType, value: String) {
             self.type = type
             self.value = value
@@ -2766,6 +2872,7 @@ extension WAFRegional {
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
         public let name: String
 
+        @inlinable
         public init(ipSetId: String, name: String) {
             self.ipSetId = ipSetId
             self.name = name
@@ -2783,6 +2890,7 @@ extension WAFRegional {
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
         public let ipSetDescriptor: IPSetDescriptor
 
+        @inlinable
         public init(action: ChangeAction, ipSetDescriptor: IPSetDescriptor) {
             self.action = action
             self.ipSetDescriptor = ipSetDescriptor
@@ -2806,6 +2914,7 @@ extension WAFRegional {
         /// The RuleGroupId of the RuleGroup for which you want to get a list of ActivatedRule objects.
         public let ruleGroupId: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, ruleGroupId: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -2836,6 +2945,7 @@ extension WAFRegional {
         /// If you have more ActivatedRules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ActivatedRules, submit another ListActivatedRulesInRuleGroup request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(activatedRules: [ActivatedRule]? = nil, nextMarker: String? = nil) {
             self.activatedRules = activatedRules
             self.nextMarker = nextMarker
@@ -2858,6 +2968,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of ByteMatchSets.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -2886,6 +2997,7 @@ extension WAFRegional {
         /// 			NextMarker value in the next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(byteMatchSets: [ByteMatchSetSummary]? = nil, nextMarker: String? = nil) {
             self.byteMatchSets = byteMatchSets
             self.nextMarker = nextMarker
@@ -2908,6 +3020,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of GeoMatchSet objects.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -2936,6 +3049,7 @@ extension WAFRegional {
         /// 			NextMarker value in the next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(geoMatchSets: [GeoMatchSetSummary]? = nil, nextMarker: String? = nil) {
             self.geoMatchSets = geoMatchSets
             self.nextMarker = nextMarker
@@ -2955,6 +3069,7 @@ extension WAFRegional {
         /// AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -2980,6 +3095,7 @@ extension WAFRegional {
         /// To list more IPSet objects, submit another ListIPSets request, and in the next request use the NextMarker response value as the NextMarker value.
         public let nextMarker: String?
 
+        @inlinable
         public init(ipSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
             self.ipSets = ipSets
             self.nextMarker = nextMarker
@@ -3000,6 +3116,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of ListLoggingConfigurations.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3025,6 +3142,7 @@ extension WAFRegional {
         /// If you have more LoggingConfigurations than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more LoggingConfigurations, submit another ListLoggingConfigurations request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(loggingConfigurations: [LoggingConfiguration]? = nil, nextMarker: String? = nil) {
             self.loggingConfigurations = loggingConfigurations
             self.nextMarker = nextMarker
@@ -3042,6 +3160,7 @@ extension WAFRegional {
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3067,6 +3186,7 @@ extension WAFRegional {
         /// An array of RuleSummary objects.
         public let rules: [RuleSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, rules: [RuleSummary]? = nil) {
             self.nextMarker = nextMarker
             self.rules = rules
@@ -3089,6 +3209,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of RegexMatchSet objects.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3117,6 +3238,7 @@ extension WAFRegional {
         /// An array of RegexMatchSetSummary objects.
         public let regexMatchSets: [RegexMatchSetSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, regexMatchSets: [RegexMatchSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.regexMatchSets = regexMatchSets
@@ -3139,6 +3261,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of RegexPatternSet objects.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3167,6 +3290,7 @@ extension WAFRegional {
         /// An array of RegexPatternSetSummary objects.
         public let regexPatternSets: [RegexPatternSetSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, regexPatternSets: [RegexPatternSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.regexPatternSets = regexPatternSets
@@ -3184,6 +3308,7 @@ extension WAFRegional {
         /// The unique identifier (ID) of the web ACL for which to list the associated resources.
         public let webACLId: String
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, webACLId: String) {
             self.resourceType = resourceType
             self.webACLId = webACLId
@@ -3205,6 +3330,7 @@ extension WAFRegional {
         /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
         public let resourceArns: [String]?
 
+        @inlinable
         public init(resourceArns: [String]? = nil) {
             self.resourceArns = resourceArns
         }
@@ -3220,6 +3346,7 @@ extension WAFRegional {
         /// If you specify a value for Limit and you have more RuleGroups than the value of Limit,  AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups.  For the second and subsequent ListRuleGroups requests, specify the value of NextMarker  from the previous response to get information about another batch of RuleGroups.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3245,6 +3372,7 @@ extension WAFRegional {
         /// An array of RuleGroup objects.
         public let ruleGroups: [RuleGroupSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, ruleGroups: [RuleGroupSummary]? = nil) {
             self.nextMarker = nextMarker
             self.ruleGroups = ruleGroups
@@ -3266,6 +3394,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of Rules.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3293,6 +3422,7 @@ extension WAFRegional {
         /// An array of RuleSummary objects.
         public let rules: [RuleSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, rules: [RuleSummary]? = nil) {
             self.nextMarker = nextMarker
             self.rules = rules
@@ -3314,6 +3444,7 @@ extension WAFRegional {
         /// 			For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker 			from the previous response to get information about another batch of SizeConstraintSets.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3342,6 +3473,7 @@ extension WAFRegional {
         /// An array of SizeConstraintSetSummary objects.
         public let sizeConstraintSets: [SizeConstraintSetSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, sizeConstraintSets: [SizeConstraintSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.sizeConstraintSets = sizeConstraintSets
@@ -3364,6 +3496,7 @@ extension WAFRegional {
         /// 			value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3392,6 +3525,7 @@ extension WAFRegional {
         /// An array of SqlInjectionMatchSetSummary objects.
         public let sqlInjectionMatchSets: [SqlInjectionMatchSetSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, sqlInjectionMatchSets: [SqlInjectionMatchSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.sqlInjectionMatchSets = sqlInjectionMatchSets
@@ -3414,6 +3548,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of subscribed rule groups.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3442,6 +3577,7 @@ extension WAFRegional {
         /// An array of RuleGroup objects.
         public let ruleGroups: [SubscribedRuleGroupSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, ruleGroups: [SubscribedRuleGroupSummary]? = nil) {
             self.nextMarker = nextMarker
             self.ruleGroups = ruleGroups
@@ -3458,6 +3594,7 @@ extension WAFRegional {
         public let nextMarker: String?
         public let resourceARN: String
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, resourceARN: String) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3486,6 +3623,7 @@ extension WAFRegional {
         public let nextMarker: String?
         public let tagInfoForResource: TagInfoForResource?
 
+        @inlinable
         public init(nextMarker: String? = nil, tagInfoForResource: TagInfoForResource? = nil) {
             self.nextMarker = nextMarker
             self.tagInfoForResource = tagInfoForResource
@@ -3508,6 +3646,7 @@ extension WAFRegional {
         /// 			from the previous response to get information about another batch of WebACL objects.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3536,6 +3675,7 @@ extension WAFRegional {
         /// An array of WebACLSummary objects.
         public let webACLs: [WebACLSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, webACLs: [WebACLSummary]? = nil) {
             self.nextMarker = nextMarker
             self.webACLs = webACLs
@@ -3558,6 +3698,7 @@ extension WAFRegional {
         /// 			value of NextMarker from the previous response to get information about another batch of XssMatchSets.
         public let nextMarker: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3586,6 +3727,7 @@ extension WAFRegional {
         /// An array of XssMatchSetSummary objects.
         public let xssMatchSets: [XssMatchSetSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, xssMatchSets: [XssMatchSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.xssMatchSets = xssMatchSets
@@ -3605,6 +3747,7 @@ extension WAFRegional {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         public let resourceArn: String
 
+        @inlinable
         public init(logDestinationConfigs: [String], redactedFields: [FieldToMatch]? = nil, resourceArn: String) {
             self.logDestinationConfigs = logDestinationConfigs
             self.redactedFields = redactedFields
@@ -3649,6 +3792,7 @@ extension WAFRegional {
         /// The type of predicate in a Rule, such as ByteMatch or IPSet.
         public let type: PredicateType
 
+        @inlinable
         public init(dataId: String, negated: Bool, type: PredicateType) {
             self.dataId = dataId
             self.negated = negated
@@ -3672,6 +3816,7 @@ extension WAFRegional {
         /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor.  When specifying Type in RedactedFields, you must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD.
         public let loggingConfiguration: LoggingConfiguration
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -3689,6 +3834,7 @@ extension WAFRegional {
         /// The LoggingConfiguration that you submitted in the request.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -3704,6 +3850,7 @@ extension WAFRegional {
         /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -3742,6 +3889,7 @@ extension WAFRegional {
         /// A unique identifier for a RateBasedRule. You use RuleId to get more information about a RateBasedRule (see GetRateBasedRule), update a RateBasedRule (see UpdateRateBasedRule), insert a RateBasedRule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a RateBasedRule from AWS WAF (see DeleteRateBasedRule).
         public let ruleId: String
 
+        @inlinable
         public init(matchPredicates: [Predicate], metricName: String? = nil, name: String? = nil, rateKey: RateKey, rateLimit: Int64, ruleId: String) {
             self.matchPredicates = matchPredicates
             self.metricName = metricName
@@ -3777,6 +3925,7 @@ extension WAFRegional {
         ///
         public let regexMatchTuples: [RegexMatchTuple]?
 
+        @inlinable
         public init(name: String? = nil, regexMatchSetId: String? = nil, regexMatchTuples: [RegexMatchTuple]? = nil) {
             self.name = name
             self.regexMatchSetId = regexMatchSetId
@@ -3798,6 +3947,7 @@ extension WAFRegional {
         /// 		        RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
         public let regexMatchSetId: String
 
+        @inlinable
         public init(name: String, regexMatchSetId: String) {
             self.name = name
             self.regexMatchSetId = regexMatchSetId
@@ -3815,6 +3965,7 @@ extension WAFRegional {
         /// Information about the part of a web request that you want AWS WAF to inspect and the identifier of the regular expression (regex) pattern that you want AWS WAF to search for. If you specify DELETE for the value of Action, the RegexMatchTuple values must  exactly match the values in the RegexMatchTuple that you want to delete from the RegexMatchSet.
         public let regexMatchTuple: RegexMatchTuple
 
+        @inlinable
         public init(action: ChangeAction, regexMatchTuple: RegexMatchTuple) {
             self.action = action
             self.regexMatchTuple = regexMatchTuple
@@ -3864,6 +4015,7 @@ extension WAFRegional {
         /// 		       Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, regexPatternSetId: String, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.regexPatternSetId = regexPatternSetId
@@ -3892,6 +4044,7 @@ extension WAFRegional {
         /// Specifies the regular expression (regex) patterns that you want AWS WAF to search for, such as B[a@]dB[o0]t.
         public let regexPatternStrings: [String]
 
+        @inlinable
         public init(name: String? = nil, regexPatternSetId: String, regexPatternStrings: [String]) {
             self.name = name
             self.regexPatternSetId = regexPatternSetId
@@ -3911,6 +4064,7 @@ extension WAFRegional {
         /// The RegexPatternSetId for a RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet, update a RegexPatternSet, remove a RegexPatternSet from a RegexMatchSet, and delete a RegexPatternSet from AWS WAF.  RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
         public let regexPatternSetId: String
 
+        @inlinable
         public init(name: String, regexPatternSetId: String) {
             self.name = name
             self.regexPatternSetId = regexPatternSetId
@@ -3928,6 +4082,7 @@ extension WAFRegional {
         /// Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t.
         public let regexPatternString: String
 
+        @inlinable
         public init(action: ChangeAction, regexPatternString: String) {
             self.action = action
             self.regexPatternString = regexPatternString
@@ -3959,6 +4114,7 @@ extension WAFRegional {
         /// 		        RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
 
+        @inlinable
         public init(metricName: String? = nil, name: String? = nil, predicates: [Predicate], ruleId: String) {
             self.metricName = metricName
             self.name = name
@@ -3982,6 +4138,7 @@ extension WAFRegional {
         /// A unique identifier for a RuleGroup. You use RuleGroupId to get more information about a RuleGroup (see GetRuleGroup),  update a RuleGroup (see UpdateRuleGroup), insert a RuleGroup into a WebACL or delete a  one from a WebACL (see UpdateWebACL), or delete a RuleGroup from AWS WAF (see DeleteRuleGroup).  RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
         public let ruleGroupId: String
 
+        @inlinable
         public init(metricName: String? = nil, name: String? = nil, ruleGroupId: String) {
             self.metricName = metricName
             self.name = name
@@ -4001,6 +4158,7 @@ extension WAFRegional {
         /// A unique identifier for a RuleGroup. You use RuleGroupId to get more information about a RuleGroup (see GetRuleGroup),  update a RuleGroup (see UpdateRuleGroup), insert a RuleGroup into a WebACL or delete  one from a WebACL (see UpdateWebACL), or delete a RuleGroup from AWS WAF (see DeleteRuleGroup).  RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
         public let ruleGroupId: String
 
+        @inlinable
         public init(name: String, ruleGroupId: String) {
             self.name = name
             self.ruleGroupId = ruleGroupId
@@ -4018,6 +4176,7 @@ extension WAFRegional {
         /// The ActivatedRule object specifies a Rule that you want to insert or delete,  the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule  (ALLOW, BLOCK, or COUNT).
         public let activatedRule: ActivatedRule
 
+        @inlinable
         public init(action: ChangeAction, activatedRule: ActivatedRule) {
             self.action = action
             self.activatedRule = activatedRule
@@ -4042,6 +4201,7 @@ extension WAFRegional {
         /// 		        RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
 
+        @inlinable
         public init(name: String, ruleId: String) {
             self.name = name
             self.ruleId = ruleId
@@ -4060,6 +4220,7 @@ extension WAFRegional {
         /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
         public let predicate: Predicate
 
+        @inlinable
         public init(action: ChangeAction, predicate: Predicate) {
             self.action = action
             self.predicate = predicate
@@ -4089,6 +4250,7 @@ extension WAFRegional {
         /// 			that has a weight of 1.
         public let weight: Int64
 
+        @inlinable
         public init(action: String? = nil, request: HTTPRequest, ruleWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
             self.action = action
             self.request = request
@@ -4151,6 +4313,7 @@ extension WAFRegional {
         /// 		       Use this option to decode a URL-encoded value.
         public let textTransformation: TextTransformation
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator, fieldToMatch: FieldToMatch, size: Int64, textTransformation: TextTransformation) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
@@ -4185,6 +4348,7 @@ extension WAFRegional {
         /// 		        SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
 
+        @inlinable
         public init(name: String? = nil, sizeConstraints: [SizeConstraint], sizeConstraintSetId: String) {
             self.name = name
             self.sizeConstraints = sizeConstraints
@@ -4209,6 +4373,7 @@ extension WAFRegional {
         /// 		        SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
 
+        @inlinable
         public init(name: String, sizeConstraintSetId: String) {
             self.name = name
             self.sizeConstraintSetId = sizeConstraintSetId
@@ -4229,6 +4394,7 @@ extension WAFRegional {
         /// 			SizeConstraint is considered to match.
         public let sizeConstraint: SizeConstraint
 
+        @inlinable
         public init(action: ChangeAction, sizeConstraint: SizeConstraint) {
             self.action = action
             self.sizeConstraint = sizeConstraint
@@ -4257,6 +4423,7 @@ extension WAFRegional {
         /// Specifies the parts of web requests that you want to inspect for snippets of malicious SQL code.
         public let sqlInjectionMatchTuples: [SqlInjectionMatchTuple]
 
+        @inlinable
         public init(name: String? = nil, sqlInjectionMatchSetId: String, sqlInjectionMatchTuples: [SqlInjectionMatchTuple]) {
             self.name = name
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
@@ -4281,6 +4448,7 @@ extension WAFRegional {
         /// 		        SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
 
+        @inlinable
         public init(name: String, sqlInjectionMatchSetId: String) {
             self.name = name
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
@@ -4299,6 +4467,7 @@ extension WAFRegional {
         /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
         public let sqlInjectionMatchTuple: SqlInjectionMatchTuple
 
+        @inlinable
         public init(action: ChangeAction, sqlInjectionMatchTuple: SqlInjectionMatchTuple) {
             self.action = action
             self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
@@ -4340,6 +4509,7 @@ extension WAFRegional {
         /// 		       Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
@@ -4363,6 +4533,7 @@ extension WAFRegional {
         /// A unique identifier for a RuleGroup.
         public let ruleGroupId: String
 
+        @inlinable
         public init(metricName: String, name: String, ruleGroupId: String) {
             self.metricName = metricName
             self.name = name
@@ -4380,6 +4551,7 @@ extension WAFRegional {
         public let key: String
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4403,6 +4575,7 @@ extension WAFRegional {
         public let resourceARN: String?
         public let tagList: [Tag]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tagList: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tagList = tagList
@@ -4418,6 +4591,7 @@ extension WAFRegional {
         public let resourceARN: String
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4449,6 +4623,7 @@ extension WAFRegional {
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the  requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format.  UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".  You can specify any time range in the previous three hours.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -4464,6 +4639,7 @@ extension WAFRegional {
         public let resourceARN: String
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4503,6 +4679,7 @@ extension WAFRegional {
         /// 				and TextTransformation     FieldToMatch: Contains Data and Type
         public let updates: [ByteMatchSetUpdate]
 
+        @inlinable
         public init(byteMatchSetId: String, changeToken: String, updates: [ByteMatchSetUpdate]) {
             self.byteMatchSetId = byteMatchSetId
             self.changeToken = changeToken
@@ -4534,6 +4711,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4555,6 +4733,7 @@ extension WAFRegional {
         /// 			            You can have only one Type and Value per GeoMatchConstraint. To add multiple countries, include multiple GeoMatchSetUpdate objects in your request.
         public let updates: [GeoMatchSetUpdate]
 
+        @inlinable
         public init(changeToken: String, geoMatchSetId: String, updates: [GeoMatchSetUpdate]) {
             self.changeToken = changeToken
             self.geoMatchSetId = geoMatchSetId
@@ -4583,6 +4762,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4604,6 +4784,7 @@ extension WAFRegional {
         /// 	        You can insert a maximum of 1000 addresses in a single request.
         public let updates: [IPSetUpdate]
 
+        @inlinable
         public init(changeToken: String, ipSetId: String, updates: [IPSetUpdate]) {
             self.changeToken = changeToken
             self.ipSetId = ipSetId
@@ -4635,6 +4816,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4654,6 +4836,7 @@ extension WAFRegional {
         /// An array of RuleUpdate objects that you want to insert into or delete from a RateBasedRule.
         public let updates: [RuleUpdate]
 
+        @inlinable
         public init(changeToken: String, rateLimit: Int64, ruleId: String, updates: [RuleUpdate]) {
             self.changeToken = changeToken
             self.rateLimit = rateLimit
@@ -4687,6 +4870,7 @@ extension WAFRegional {
         /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4706,6 +4890,7 @@ extension WAFRegional {
         /// 			For more information, see RegexMatchTuple.
         public let updates: [RegexMatchSetUpdate]
 
+        @inlinable
         public init(changeToken: String, regexMatchSetId: String, updates: [RegexMatchSetUpdate]) {
             self.changeToken = changeToken
             self.regexMatchSetId = regexMatchSetId
@@ -4737,6 +4922,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4755,6 +4941,7 @@ extension WAFRegional {
         /// An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet.
         public let updates: [RegexPatternSetUpdate]
 
+        @inlinable
         public init(changeToken: String, regexPatternSetId: String, updates: [RegexPatternSetUpdate]) {
             self.changeToken = changeToken
             self.regexPatternSetId = regexPatternSetId
@@ -4786,6 +4973,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4805,6 +4993,7 @@ extension WAFRegional {
         /// 		        ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action.  For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let updates: [RuleGroupUpdate]
 
+        @inlinable
         public init(changeToken: String, ruleGroupId: String, updates: [RuleGroupUpdate]) {
             self.changeToken = changeToken
             self.ruleGroupId = ruleGroupId
@@ -4835,6 +5024,7 @@ extension WAFRegional {
         /// The ChangeToken that you used to submit the UpdateRuleGroup request. You can also use this value  to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4855,6 +5045,7 @@ extension WAFRegional {
         /// 		          RuleUpdate: Contains Action and Predicate     Predicate: Contains DataId, Negated, and Type     FieldToMatch: Contains Data and Type
         public let updates: [RuleUpdate]
 
+        @inlinable
         public init(changeToken: String, ruleId: String, updates: [RuleUpdate]) {
             self.changeToken = changeToken
             self.ruleId = ruleId
@@ -4885,6 +5076,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4906,6 +5098,7 @@ extension WAFRegional {
         /// 				and Size     FieldToMatch: Contains Data and Type
         public let updates: [SizeConstraintSetUpdate]
 
+        @inlinable
         public init(changeToken: String, sizeConstraintSetId: String, updates: [SizeConstraintSetUpdate]) {
             self.changeToken = changeToken
             self.sizeConstraintSetId = sizeConstraintSetId
@@ -4937,6 +5130,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -4957,6 +5151,7 @@ extension WAFRegional {
         /// 		          SqlInjectionMatchSetUpdate: Contains Action and SqlInjectionMatchTuple     SqlInjectionMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type
         public let updates: [SqlInjectionMatchSetUpdate]
 
+        @inlinable
         public init(changeToken: String, sqlInjectionMatchSetId: String, updates: [SqlInjectionMatchSetUpdate]) {
             self.changeToken = changeToken
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
@@ -4988,6 +5183,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -5011,6 +5207,7 @@ extension WAFRegional {
         /// 			ListWebACLs.
         public let webACLId: String
 
+        @inlinable
         public init(changeToken: String, defaultAction: WafAction? = nil, updates: [WebACLUpdate]? = nil, webACLId: String) {
             self.changeToken = changeToken
             self.defaultAction = defaultAction
@@ -5043,6 +5240,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -5062,6 +5260,7 @@ extension WAFRegional {
         /// 			XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
 
+        @inlinable
         public init(changeToken: String, updates: [XssMatchSetUpdate], xssMatchSetId: String) {
             self.changeToken = changeToken
             self.updates = updates
@@ -5093,6 +5292,7 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
+        @inlinable
         public init(changeToken: String? = nil) {
             self.changeToken = changeToken
         }
@@ -5109,6 +5309,7 @@ extension WAFRegional {
         /// 				for the default action for a WebACL.
         public let type: WafActionType
 
+        @inlinable
         public init(type: WafActionType) {
             self.type = type
         }
@@ -5122,6 +5323,7 @@ extension WAFRegional {
         ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action will take place.
         public let type: WafOverrideActionType
 
+        @inlinable
         public init(type: WafOverrideActionType) {
             self.type = type
         }
@@ -5150,6 +5352,7 @@ extension WAFRegional {
         /// 		        WebACLId is returned by CreateWebACL and by ListWebACLs.
         public let webACLId: String
 
+        @inlinable
         public init(defaultAction: WafAction, metricName: String? = nil, name: String? = nil, rules: [ActivatedRule], webACLArn: String? = nil, webACLId: String) {
             self.defaultAction = defaultAction
             self.metricName = metricName
@@ -5178,6 +5381,7 @@ extension WAFRegional {
         /// 		        WebACLId is returned by CreateWebACL and by ListWebACLs.
         public let webACLId: String
 
+        @inlinable
         public init(name: String, webACLId: String) {
             self.name = name
             self.webACLId = webACLId
@@ -5195,6 +5399,7 @@ extension WAFRegional {
         /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete,  the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule  (ALLOW, BLOCK, or COUNT).
         public let activatedRule: ActivatedRule
 
+        @inlinable
         public init(action: ChangeAction, activatedRule: ActivatedRule) {
             self.action = action
             self.activatedRule = activatedRule
@@ -5223,6 +5428,7 @@ extension WAFRegional {
         /// Specifies the parts of web requests that you want to inspect for cross-site scripting attacks.
         public let xssMatchTuples: [XssMatchTuple]
 
+        @inlinable
         public init(name: String? = nil, xssMatchSetId: String, xssMatchTuples: [XssMatchTuple]) {
             self.name = name
             self.xssMatchSetId = xssMatchSetId
@@ -5247,6 +5453,7 @@ extension WAFRegional {
         /// 		        XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
 
+        @inlinable
         public init(name: String, xssMatchSetId: String) {
             self.name = name
             self.xssMatchSetId = xssMatchSetId
@@ -5264,6 +5471,7 @@ extension WAFRegional {
         /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
         public let xssMatchTuple: XssMatchTuple
 
+        @inlinable
         public init(action: ChangeAction, xssMatchTuple: XssMatchTuple) {
             self.action = action
             self.xssMatchTuple = xssMatchTuple
@@ -5305,6 +5513,7 @@ extension WAFRegional {
         /// 		       Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation

@@ -91,6 +91,7 @@ extension Scheduler {
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
 
+        @inlinable
         public init(assignPublicIp: AssignPublicIp? = nil, securityGroups: [String]? = nil, subnets: [String]) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -127,6 +128,7 @@ extension Scheduler {
         /// The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into consideration after the base value, if defined, is satisfied.
         public let weight: Int?
 
+        @inlinable
         public init(base: Int? = nil, capacityProvider: String, weight: Int? = nil) {
             self.base = base
             self.capacityProvider = capacityProvider
@@ -157,6 +159,7 @@ extension Scheduler {
         /// The list of tags to associate with the schedule group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateScheduleGroupInput.idempotencyToken(), name: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.name = name
@@ -194,6 +197,7 @@ extension Scheduler {
         /// The Amazon Resource Name (ARN) of the schedule group.
         public let scheduleGroupArn: String
 
+        @inlinable
         public init(scheduleGroupArn: String) {
             self.scheduleGroupArn = scheduleGroupArn
         }
@@ -236,6 +240,7 @@ extension Scheduler {
         /// The schedule's target.
         public let target: Target
 
+        @inlinable
         public init(actionAfterCompletion: ActionAfterCompletion? = nil, clientToken: String? = CreateScheduleInput.idempotencyToken(), description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow, groupName: String? = nil, kmsKeyArn: String? = nil, name: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target) {
             self.actionAfterCompletion = actionAfterCompletion
             self.clientToken = clientToken
@@ -312,6 +317,7 @@ extension Scheduler {
         /// The Amazon Resource Name (ARN) of the schedule.
         public let scheduleArn: String
 
+        @inlinable
         public init(scheduleArn: String) {
             self.scheduleArn = scheduleArn
         }
@@ -325,6 +331,7 @@ extension Scheduler {
         /// The Amazon Resource Name (ARN) of the SQS queue specified as the destination for the dead-letter queue.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -345,6 +352,7 @@ extension Scheduler {
         /// The name of the schedule group to delete.
         public let name: String
 
+        @inlinable
         public init(clientToken: String? = DeleteScheduleGroupInput.idempotencyToken(), name: String) {
             self.clientToken = clientToken
             self.name = name
@@ -381,6 +389,7 @@ extension Scheduler {
         /// The name of the schedule to delete.
         public let name: String
 
+        @inlinable
         public init(clientToken: String? = DeleteScheduleInput.idempotencyToken(), groupName: String? = nil, name: String) {
             self.clientToken = clientToken
             self.groupName = groupName
@@ -444,6 +453,7 @@ extension Scheduler {
         /// The Amazon Resource Name (ARN) of the task definition to use if the event target is an Amazon ECS task.
         public let taskDefinitionArn: String
 
+        @inlinable
         public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, tags: [[String: String]]? = nil, taskCount: Int? = nil, taskDefinitionArn: String) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
@@ -511,6 +521,7 @@ extension Scheduler {
         /// The source of the event.
         public let source: String
 
+        @inlinable
         public init(detailType: String, source: String) {
             self.detailType = detailType
             self.source = source
@@ -536,6 +547,7 @@ extension Scheduler {
         /// Determines whether the schedule is invoked within a flexible time window.
         public let mode: FlexibleTimeWindowMode
 
+        @inlinable
         public init(maximumWindowInMinutes: Int? = nil, mode: FlexibleTimeWindowMode) {
             self.maximumWindowInMinutes = maximumWindowInMinutes
             self.mode = mode
@@ -556,6 +568,7 @@ extension Scheduler {
         /// The name of the schedule group to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -587,6 +600,7 @@ extension Scheduler {
         /// Specifies the state of the schedule group.
         public let state: ScheduleGroupState?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, lastModificationDate: Date? = nil, name: String? = nil, state: ScheduleGroupState? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -610,6 +624,7 @@ extension Scheduler {
         /// The name of the schedule to retrieve.
         public let name: String
 
+        @inlinable
         public init(groupName: String? = nil, name: String) {
             self.groupName = groupName
             self.name = name
@@ -671,6 +686,7 @@ extension Scheduler {
         /// The schedule target.
         public let target: Target?
 
+        @inlinable
         public init(actionAfterCompletion: ActionAfterCompletion? = nil, arn: String? = nil, creationDate: Date? = nil, description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow? = nil, groupName: String? = nil, kmsKeyArn: String? = nil, lastModificationDate: Date? = nil, name: String? = nil, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target? = nil) {
             self.actionAfterCompletion = actionAfterCompletion
             self.arn = arn
@@ -712,6 +728,7 @@ extension Scheduler {
         /// Specifies the shard to which EventBridge Scheduler sends the event. For more information, see Amazon Kinesis Data Streams terminology and concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKey: String
 
+        @inlinable
         public init(partitionKey: String) {
             self.partitionKey = partitionKey
         }
@@ -734,6 +751,7 @@ extension Scheduler {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namePrefix = namePrefix
@@ -767,6 +785,7 @@ extension Scheduler {
         /// The schedule groups that match the specified criteria.
         public let scheduleGroups: [ScheduleGroupSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, scheduleGroups: [ScheduleGroupSummary]) {
             self.nextToken = nextToken
             self.scheduleGroups = scheduleGroups
@@ -790,6 +809,7 @@ extension Scheduler {
         /// If specified, only lists the schedules whose current state matches the given filter.
         public let state: ScheduleState?
 
+        @inlinable
         public init(groupName: String? = nil, maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, state: ScheduleState? = nil) {
             self.groupName = groupName
             self.maxResults = maxResults
@@ -830,6 +850,7 @@ extension Scheduler {
         /// The schedules that match the specified criteria.
         public let schedules: [ScheduleSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, schedules: [ScheduleSummary]) {
             self.nextToken = nextToken
             self.schedules = schedules
@@ -845,6 +866,7 @@ extension Scheduler {
         /// The ARN of the EventBridge Scheduler resource for which you want to view tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -868,6 +890,7 @@ extension Scheduler {
         /// The list of tags associated with the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -881,6 +904,7 @@ extension Scheduler {
         /// Specifies the Amazon VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
+        @inlinable
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
@@ -900,6 +924,7 @@ extension Scheduler {
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
         public let type: PlacementConstraintType?
 
+        @inlinable
         public init(expression: String? = nil, type: PlacementConstraintType? = nil) {
             self.expression = expression
             self.type = type
@@ -921,6 +946,7 @@ extension Scheduler {
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public let type: PlacementStrategyType?
 
+        @inlinable
         public init(field: String? = nil, type: PlacementStrategyType? = nil) {
             self.field = field
             self.type = type
@@ -942,6 +968,7 @@ extension Scheduler {
         /// The maximum number of retry attempts to make before the request fails. Retry attempts with exponential backoff continue until either the maximum number of attempts is made or until the duration of the MaximumEventAgeInSeconds is reached.
         public let maximumRetryAttempts: Int?
 
+        @inlinable
         public init(maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -966,6 +993,7 @@ extension Scheduler {
         /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -989,6 +1017,7 @@ extension Scheduler {
         /// List of parameter names and values to use when executing the SageMaker Model Building Pipeline.
         public let pipelineParameterList: [SageMakerPipelineParameter]?
 
+        @inlinable
         public init(pipelineParameterList: [SageMakerPipelineParameter]? = nil) {
             self.pipelineParameterList = pipelineParameterList
         }
@@ -1017,6 +1046,7 @@ extension Scheduler {
         /// Specifies the state of the schedule group.
         public let state: ScheduleGroupState?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, lastModificationDate: Date? = nil, name: String? = nil, state: ScheduleGroupState? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1050,6 +1080,7 @@ extension Scheduler {
         /// The schedule's target details.
         public let target: TargetSummary?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, groupName: String? = nil, lastModificationDate: Date? = nil, name: String? = nil, state: ScheduleState? = nil, target: TargetSummary? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1075,6 +1106,7 @@ extension Scheduler {
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
 
+        @inlinable
         public init(messageGroupId: String? = nil) {
             self.messageGroupId = messageGroupId
         }
@@ -1095,6 +1127,7 @@ extension Scheduler {
         /// The value for the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1119,6 +1152,7 @@ extension Scheduler {
         /// The list of tags to associate with the schedule group.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1172,6 +1206,7 @@ extension Scheduler {
         /// The templated target type for the Amazon SQS  SendMessage API operation. Contains the message group ID to use when the target is a FIFO queue. If you specify an Amazon SQS FIFO queue as a target, the queue must have content-based deduplication enabled. For more information, see Using the Amazon SQS message deduplication ID in the Amazon SQS Developer Guide.
         public let sqsParameters: SqsParameters?
 
+        @inlinable
         public init(arn: String, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, eventBridgeParameters: EventBridgeParameters? = nil, input: String? = nil, kinesisParameters: KinesisParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String, sageMakerPipelineParameters: SageMakerPipelineParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.deadLetterConfig = deadLetterConfig
@@ -1219,6 +1254,7 @@ extension Scheduler {
         /// The Amazon Resource Name (ARN) of the target.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1234,6 +1270,7 @@ extension Scheduler {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1297,6 +1334,7 @@ extension Scheduler {
         /// The schedule target. You can use this operation to change the target that your schedule invokes.
         public let target: Target
 
+        @inlinable
         public init(actionAfterCompletion: ActionAfterCompletion? = nil, clientToken: String? = UpdateScheduleInput.idempotencyToken(), description: String? = nil, endDate: Date? = nil, flexibleTimeWindow: FlexibleTimeWindow, groupName: String? = nil, kmsKeyArn: String? = nil, name: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startDate: Date? = nil, state: ScheduleState? = nil, target: Target) {
             self.actionAfterCompletion = actionAfterCompletion
             self.clientToken = clientToken
@@ -1373,6 +1411,7 @@ extension Scheduler {
         /// The Amazon Resource Name (ARN) of the schedule that you updated.
         public let scheduleArn: String
 
+        @inlinable
         public init(scheduleArn: String) {
             self.scheduleArn = scheduleArn
         }

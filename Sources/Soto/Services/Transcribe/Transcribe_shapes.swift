@@ -396,6 +396,7 @@ extension Transcribe {
         /// The time, in milliseconds, when Amazon Transcribe starts searching for the specified criteria in your audio. If you include StartTime in your request, you must also include EndTime.
         public let startTime: Int64?
 
+        @inlinable
         public init(endTime: Int64? = nil, first: Int64? = nil, last: Int64? = nil, startTime: Int64? = nil) {
             self.endTime = endTime
             self.first = first
@@ -455,6 +456,7 @@ extension Transcribe {
         public let startTime: Date?
         public let transcript: Transcript?
 
+        @inlinable
         public init(callAnalyticsJobDetails: CallAnalyticsJobDetails? = nil, callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, channelDefinitions: [ChannelDefinition]? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: CallAnalyticsJobSettings? = nil, startTime: Date? = nil, transcript: Transcript? = nil) {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
@@ -498,6 +500,7 @@ extension Transcribe {
         /// Contains information about any skipped analytics features during the analysis of a call analytics job. This array lists all the analytics features that were skipped, along with their corresponding reason code and message.
         public let skipped: [CallAnalyticsSkippedFeature]?
 
+        @inlinable
         public init(skipped: [CallAnalyticsSkippedFeature]? = nil) {
             self.skipped = skipped
         }
@@ -525,6 +528,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to include in your Call Analytics transcription request. Custom vocabulary names are case sensitive.
         public let vocabularyName: String?
 
+        @inlinable
         public init(contentRedaction: ContentRedaction? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageModelName: String? = nil, languageOptions: [LanguageCode]? = nil, summarization: Summarization? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.contentRedaction = contentRedaction
             self.languageIdSettings = languageIdSettings
@@ -585,6 +589,7 @@ extension Transcribe {
         /// The date and time your Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
 
+        @inlinable
         public init(callAnalyticsJobDetails: CallAnalyticsJobDetails? = nil, callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, startTime: Date? = nil) {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
@@ -616,6 +621,7 @@ extension Transcribe {
         /// Provides a code indicating the reason why a specific analytics feature was skipped during the analysis of a call analytics job.
         public let reasonCode: CallAnalyticsSkippedReasonCode?
 
+        @inlinable
         public init(feature: CallAnalyticsFeature? = nil, message: String? = nil, reasonCode: CallAnalyticsSkippedReasonCode? = nil) {
             self.feature = feature
             self.message = message
@@ -641,6 +647,7 @@ extension Transcribe {
         /// The rules used to define a Call Analytics category. Each category can have between 1 and 20 rules.
         public let rules: [Rule]?
 
+        @inlinable
         public init(categoryName: String? = nil, createTime: Date? = nil, inputType: InputType? = nil, lastUpdateTime: Date? = nil, rules: [Rule]? = nil) {
             self.categoryName = categoryName
             self.createTime = createTime
@@ -664,6 +671,7 @@ extension Transcribe {
         /// Specify the speaker you want to define. Omitting this parameter is equivalent to specifying both participants.
         public let participantRole: ParticipantRole?
 
+        @inlinable
         public init(channelId: Int? = nil, participantRole: ParticipantRole? = nil) {
             self.channelId = channelId
             self.participantRole = participantRole
@@ -688,6 +696,7 @@ extension Transcribe {
         /// Specify the category of information you want to redact; PII (personally identifiable information) is the only valid value. You can use PiiEntityTypes to  choose which types of PII you want to redact. If you do not include PiiEntityTypes in  your request, all PII is redacted.
         public let redactionType: RedactionType
 
+        @inlinable
         public init(piiEntityTypes: [PiiEntityType]? = nil, redactionOutput: RedactionOutput, redactionType: RedactionType) {
             self.piiEntityTypes = piiEntityTypes
             self.redactionOutput = redactionOutput
@@ -713,6 +722,7 @@ extension Transcribe {
         /// Rules define a Call Analytics category. When creating a new category, you must create  between 1 and 20 rules for that category. For each rule, you specify a filter you want  applied to the attributes of a call. For example, you can choose a sentiment filter that  detects if a customer's sentiment was positive during the last 30 seconds of the call.
         public let rules: [Rule]
 
+        @inlinable
         public init(categoryName: String, inputType: InputType? = nil, rules: [Rule]) {
             self.categoryName = categoryName
             self.inputType = inputType
@@ -748,6 +758,7 @@ extension Transcribe {
         /// Provides you with the properties of your new category, including its associated rules.
         public let categoryProperties: CategoryProperties?
 
+        @inlinable
         public init(categoryProperties: CategoryProperties? = nil) {
             self.categoryProperties = categoryProperties
         }
@@ -769,6 +780,7 @@ extension Transcribe {
         /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom language model at the time you create this new model. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(baseModelName: BaseModelName, inputDataConfig: InputDataConfig, languageCode: CLMLanguageCode, modelName: String, tags: [Tag]? = nil) {
             self.baseModelName = baseModelName
             self.inputDataConfig = inputDataConfig
@@ -819,6 +831,7 @@ extension Transcribe {
         /// The status of your custom language model. When the status displays as COMPLETED, your model is ready to use.
         public let modelStatus: ModelStatus?
 
+        @inlinable
         public init(baseModelName: BaseModelName? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil) {
             self.baseModelName = baseModelName
             self.inputDataConfig = inputDataConfig
@@ -846,6 +859,7 @@ extension Transcribe {
         /// A unique name, chosen by you, for your new custom medical vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom medical vocabulary with the same name as an existing custom medical vocabulary, you get a ConflictException error.
         public let vocabularyName: String
 
+        @inlinable
         public init(languageCode: LanguageCode, tags: [Tag]? = nil, vocabularyFileUri: String, vocabularyName: String) {
             self.languageCode = languageCode
             self.tags = tags
@@ -895,6 +909,7 @@ extension Transcribe {
         /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -926,6 +941,7 @@ extension Transcribe {
         /// Use this parameter if you want to create your custom vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for creating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
         public let words: [String]?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, languageCode: LanguageCode, tags: [Tag]? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.languageCode = languageCode
@@ -985,6 +1001,7 @@ extension Transcribe {
         /// The name you chose for your custom vocabulary filter.
         public let vocabularyFilterName: String?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -1012,6 +1029,7 @@ extension Transcribe {
         /// A unique name, chosen by you, for your new custom vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom vocabulary with the same name as an existing custom vocabulary, you get a ConflictException error.
         public let vocabularyName: String
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, languageCode: LanguageCode, phrases: [String]? = nil, tags: [Tag]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.languageCode = languageCode
@@ -1074,6 +1092,7 @@ extension Transcribe {
         /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -1095,6 +1114,7 @@ extension Transcribe {
         /// The name of the Call Analytics category you want to delete. Category names are case sensitive.
         public let categoryName: String
 
+        @inlinable
         public init(categoryName: String) {
             self.categoryName = categoryName
         }
@@ -1122,6 +1142,7 @@ extension Transcribe {
         /// The name of the Call Analytics job you want to delete. Job names are case sensitive.
         public let callAnalyticsJobName: String
 
+        @inlinable
         public init(callAnalyticsJobName: String) {
             self.callAnalyticsJobName = callAnalyticsJobName
         }
@@ -1149,6 +1170,7 @@ extension Transcribe {
         /// The name of the custom language model you want to delete. Model names are case sensitive.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -1172,6 +1194,7 @@ extension Transcribe {
         /// The name of the Medical Scribe job you want to delete. Job names are case sensitive.
         public let medicalScribeJobName: String
 
+        @inlinable
         public init(medicalScribeJobName: String) {
             self.medicalScribeJobName = medicalScribeJobName
         }
@@ -1195,6 +1218,7 @@ extension Transcribe {
         /// The name of the medical transcription job you want to delete. Job names are case sensitive.
         public let medicalTranscriptionJobName: String
 
+        @inlinable
         public init(medicalTranscriptionJobName: String) {
             self.medicalTranscriptionJobName = medicalTranscriptionJobName
         }
@@ -1218,6 +1242,7 @@ extension Transcribe {
         /// The name of the custom medical vocabulary you want to delete. Custom medical vocabulary names are case sensitive.
         public let vocabularyName: String
 
+        @inlinable
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
         }
@@ -1241,6 +1266,7 @@ extension Transcribe {
         /// The name of the transcription job you want to delete. Job names are case sensitive.
         public let transcriptionJobName: String
 
+        @inlinable
         public init(transcriptionJobName: String) {
             self.transcriptionJobName = transcriptionJobName
         }
@@ -1264,6 +1290,7 @@ extension Transcribe {
         /// The name of the custom vocabulary filter you want to delete. Custom vocabulary filter names are case sensitive.
         public let vocabularyFilterName: String
 
+        @inlinable
         public init(vocabularyFilterName: String) {
             self.vocabularyFilterName = vocabularyFilterName
         }
@@ -1287,6 +1314,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to delete. Custom vocabulary names are case sensitive.
         public let vocabularyName: String
 
+        @inlinable
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
         }
@@ -1310,6 +1338,7 @@ extension Transcribe {
         /// The name of the custom language model you want information about. Model names are case sensitive.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -1333,6 +1362,7 @@ extension Transcribe {
         /// Provides information about the specified custom language model. This parameter also shows if the base language model you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use this DescribeLanguageModel to help identify the reason for this failure.
         public let languageModel: LanguageModel?
 
+        @inlinable
         public init(languageModel: LanguageModel? = nil) {
             self.languageModel = languageModel
         }
@@ -1346,6 +1376,7 @@ extension Transcribe {
         /// The name of the Call Analytics category you want information about. Category names are case sensitive.
         public let categoryName: String
 
+        @inlinable
         public init(categoryName: String) {
             self.categoryName = categoryName
         }
@@ -1369,6 +1400,7 @@ extension Transcribe {
         /// Provides you with the properties of the Call Analytics category you specified in your GetCallAnalyticsCategory request.
         public let categoryProperties: CategoryProperties?
 
+        @inlinable
         public init(categoryProperties: CategoryProperties? = nil) {
             self.categoryProperties = categoryProperties
         }
@@ -1382,6 +1414,7 @@ extension Transcribe {
         /// The name of the Call Analytics job you want information about. Job names are case sensitive.
         public let callAnalyticsJobName: String
 
+        @inlinable
         public init(callAnalyticsJobName: String) {
             self.callAnalyticsJobName = callAnalyticsJobName
         }
@@ -1405,6 +1438,7 @@ extension Transcribe {
         /// Provides detailed information about the specified Call Analytics job, including job status and, if applicable, failure reason.
         public let callAnalyticsJob: CallAnalyticsJob?
 
+        @inlinable
         public init(callAnalyticsJob: CallAnalyticsJob? = nil) {
             self.callAnalyticsJob = callAnalyticsJob
         }
@@ -1418,6 +1452,7 @@ extension Transcribe {
         /// The name of the Medical Scribe job you want information about. Job names are case sensitive.
         public let medicalScribeJobName: String
 
+        @inlinable
         public init(medicalScribeJobName: String) {
             self.medicalScribeJobName = medicalScribeJobName
         }
@@ -1441,6 +1476,7 @@ extension Transcribe {
         /// Provides detailed information about the specified Medical Scribe job, including  job status and, if applicable, failure reason
         public let medicalScribeJob: MedicalScribeJob?
 
+        @inlinable
         public init(medicalScribeJob: MedicalScribeJob? = nil) {
             self.medicalScribeJob = medicalScribeJob
         }
@@ -1454,6 +1490,7 @@ extension Transcribe {
         /// The name of the medical transcription job you want information about. Job names are case sensitive.
         public let medicalTranscriptionJobName: String
 
+        @inlinable
         public init(medicalTranscriptionJobName: String) {
             self.medicalTranscriptionJobName = medicalTranscriptionJobName
         }
@@ -1477,6 +1514,7 @@ extension Transcribe {
         /// Provides detailed information about the specified medical transcription job, including job status and, if applicable, failure reason.
         public let medicalTranscriptionJob: MedicalTranscriptionJob?
 
+        @inlinable
         public init(medicalTranscriptionJob: MedicalTranscriptionJob? = nil) {
             self.medicalTranscriptionJob = medicalTranscriptionJob
         }
@@ -1490,6 +1528,7 @@ extension Transcribe {
         /// The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive.
         public let vocabularyName: String
 
+        @inlinable
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
         }
@@ -1523,6 +1562,7 @@ extension Transcribe {
         /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.downloadUri = downloadUri
             self.failureReason = failureReason
@@ -1546,6 +1586,7 @@ extension Transcribe {
         /// The name of the transcription job you want information about. Job names are case sensitive.
         public let transcriptionJobName: String
 
+        @inlinable
         public init(transcriptionJobName: String) {
             self.transcriptionJobName = transcriptionJobName
         }
@@ -1569,6 +1610,7 @@ extension Transcribe {
         /// Provides detailed information about the specified transcription job, including job status and, if applicable, failure reason.
         public let transcriptionJob: TranscriptionJob?
 
+        @inlinable
         public init(transcriptionJob: TranscriptionJob? = nil) {
             self.transcriptionJob = transcriptionJob
         }
@@ -1582,6 +1624,7 @@ extension Transcribe {
         /// The name of the custom vocabulary filter you want information about. Custom vocabulary filter names are case sensitive.
         public let vocabularyFilterName: String
 
+        @inlinable
         public init(vocabularyFilterName: String) {
             self.vocabularyFilterName = vocabularyFilterName
         }
@@ -1611,6 +1654,7 @@ extension Transcribe {
         /// The name of the custom vocabulary filter you requested information about.
         public let vocabularyFilterName: String?
 
+        @inlinable
         public init(downloadUri: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.downloadUri = downloadUri
             self.languageCode = languageCode
@@ -1630,6 +1674,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want information about. Custom vocabulary names are case sensitive.
         public let vocabularyName: String
 
+        @inlinable
         public init(vocabularyName: String) {
             self.vocabularyName = vocabularyName
         }
@@ -1663,6 +1708,7 @@ extension Transcribe {
         /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.downloadUri = downloadUri
             self.failureReason = failureReason
@@ -1690,6 +1736,7 @@ extension Transcribe {
         /// The Amazon S3 location (URI) of the text files you want to use to tune your custom language model. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-model-tuning-data/
         public let tuningDataS3Uri: String?
 
+        @inlinable
         public init(dataAccessRoleArn: String, s3Uri: String, tuningDataS3Uri: String? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.s3Uri = s3Uri
@@ -1727,6 +1774,7 @@ extension Transcribe {
         /// Specify the duration of the interruptions in milliseconds. For example, you can flag speech that contains more than 10,000 milliseconds of interruptions.
         public let threshold: Int64?
 
+        @inlinable
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, participantRole: ParticipantRole? = nil, relativeTimeRange: RelativeTimeRange? = nil, threshold: Int64? = nil) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
@@ -1757,6 +1805,7 @@ extension Transcribe {
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3  location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs. Note that if you include DataAccessRoleArn in your request, you must also include AllowDeferredExecution.
         public let dataAccessRoleArn: String?
 
+        @inlinable
         public init(allowDeferredExecution: Bool? = nil, dataAccessRoleArn: String? = nil) {
             self.allowDeferredExecution = allowDeferredExecution
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1780,6 +1829,7 @@ extension Transcribe {
         /// Provides the language code for each language identified in your media.
         public let languageCode: LanguageCode?
 
+        @inlinable
         public init(durationInSeconds: Float? = nil, languageCode: LanguageCode? = nil) {
             self.durationInSeconds = durationInSeconds
             self.languageCode = languageCode
@@ -1799,6 +1849,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to use when processing your transcription job. Custom vocabulary names are case sensitive. The language of the specified custom vocabulary must match the language code that you specify in your transcription request. If the languages do not match, the custom vocabulary isn't applied. There are no errors or warnings associated with a language mismatch.
         public let vocabularyName: String?
 
+        @inlinable
         public init(languageModelName: String? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.languageModelName = languageModelName
             self.vocabularyFilterName = vocabularyFilterName
@@ -1844,6 +1895,7 @@ extension Transcribe {
         /// Shows if a more current base model is available for use with the specified custom language model. If false, your custom language model is using the most up-to-date base model. If true, there is a newer base model available than the one your language model is using. Note that to update a base model, you must recreate the custom language model using the new base model. Base model upgrades for existing custom language models are not supported.
         public let upgradeAvailability: Bool?
 
+        @inlinable
         public init(baseModelName: BaseModelName? = nil, createTime: Date? = nil, failureReason: String? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil, upgradeAvailability: Bool? = nil) {
             self.baseModelName = baseModelName
             self.createTime = createTime
@@ -1875,6 +1927,7 @@ extension Transcribe {
         /// If your ListCallAnalyticsCategories request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1903,6 +1956,7 @@ extension Transcribe {
         /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the NextToken parameter in your results output, then run your request again including NextToken with the value of the copied string. Repeat as needed to view all your results.
         public let nextToken: String?
 
+        @inlinable
         public init(categories: [CategoryProperties]? = nil, nextToken: String? = nil) {
             self.categories = categories
             self.nextToken = nextToken
@@ -1924,6 +1978,7 @@ extension Transcribe {
         /// Returns only Call Analytics jobs with the specified status. Jobs are ordered by creation date, with the newest job first. If you do not include Status, all Call Analytics jobs are returned.
         public let status: CallAnalyticsJobStatus?
 
+        @inlinable
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: CallAnalyticsJobStatus? = nil) {
             self.jobNameContains = jobNameContains
             self.maxResults = maxResults
@@ -1961,6 +2016,7 @@ extension Transcribe {
         /// Lists all Call Analytics jobs that have the status specified in your request. Jobs are ordered by creation date, with the newest job first.
         public let status: CallAnalyticsJobStatus?
 
+        @inlinable
         public init(callAnalyticsJobSummaries: [CallAnalyticsJobSummary]? = nil, nextToken: String? = nil, status: CallAnalyticsJobStatus? = nil) {
             self.callAnalyticsJobSummaries = callAnalyticsJobSummaries
             self.nextToken = nextToken
@@ -1984,6 +2040,7 @@ extension Transcribe {
         /// Returns only custom language models with the specified status. Language models are ordered by creation date, with the newest model first. If you do not include StatusEquals, all custom language models are returned.
         public let statusEquals: ModelStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, statusEquals: ModelStatus? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -2019,6 +2076,7 @@ extension Transcribe {
         /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the NextToken parameter in your results output, then run your request again including NextToken with the value of the copied string. Repeat as needed to view all your results.
         public let nextToken: String?
 
+        @inlinable
         public init(models: [LanguageModel]? = nil, nextToken: String? = nil) {
             self.models = models
             self.nextToken = nextToken
@@ -2040,6 +2098,7 @@ extension Transcribe {
         /// Returns only Medical Scribe jobs with the specified status. Jobs are ordered by creation date, with the newest job first. If you do not include Status, all Medical Scribe jobs are returned.
         public let status: MedicalScribeJobStatus?
 
+        @inlinable
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: MedicalScribeJobStatus? = nil) {
             self.jobNameContains = jobNameContains
             self.maxResults = maxResults
@@ -2077,6 +2136,7 @@ extension Transcribe {
         /// Lists all Medical Scribe jobs that have the status specified in your request. Jobs are ordered by creation date, with the newest job first.
         public let status: MedicalScribeJobStatus?
 
+        @inlinable
         public init(medicalScribeJobSummaries: [MedicalScribeJobSummary]? = nil, nextToken: String? = nil, status: MedicalScribeJobStatus? = nil) {
             self.medicalScribeJobSummaries = medicalScribeJobSummaries
             self.nextToken = nextToken
@@ -2100,6 +2160,7 @@ extension Transcribe {
         /// Returns only medical transcription jobs with the specified status. Jobs are ordered by creation date, with the newest job first. If you do not include Status, all medical transcription jobs are returned.
         public let status: TranscriptionJobStatus?
 
+        @inlinable
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
             self.jobNameContains = jobNameContains
             self.maxResults = maxResults
@@ -2137,6 +2198,7 @@ extension Transcribe {
         /// Lists all medical transcription jobs that have the status specified in your request. Jobs are ordered by creation date, with the newest job first.
         public let status: TranscriptionJobStatus?
 
+        @inlinable
         public init(medicalTranscriptionJobSummaries: [MedicalTranscriptionJobSummary]? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
             self.medicalTranscriptionJobSummaries = medicalTranscriptionJobSummaries
             self.nextToken = nextToken
@@ -2160,6 +2222,7 @@ extension Transcribe {
         /// Returns only custom medical vocabularies with the specified state. Custom vocabularies are ordered by creation date, with the newest vocabulary first. If you do not include StateEquals, all custom medical vocabularies are returned.
         public let stateEquals: VocabularyState?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -2197,6 +2260,7 @@ extension Transcribe {
         /// Provides information about the custom medical vocabularies that match the criteria specified in your request.
         public let vocabularies: [VocabularyInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, status: VocabularyState? = nil, vocabularies: [VocabularyInfo]? = nil) {
             self.nextToken = nextToken
             self.status = status
@@ -2214,6 +2278,7 @@ extension Transcribe {
         /// Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example, arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary, medical-vocabulary, vocabulary-filter, and language-model.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2239,6 +2304,7 @@ extension Transcribe {
         /// Lists all tags associated with the given transcription job, vocabulary, model, or resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2260,6 +2326,7 @@ extension Transcribe {
         /// Returns only transcription jobs with the specified status. Jobs are ordered by creation date, with the newest job first. If you do not include Status, all transcription jobs are returned.
         public let status: TranscriptionJobStatus?
 
+        @inlinable
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
             self.jobNameContains = jobNameContains
             self.maxResults = maxResults
@@ -2297,6 +2364,7 @@ extension Transcribe {
         /// Provides a summary of information about each result.
         public let transcriptionJobSummaries: [TranscriptionJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, status: TranscriptionJobStatus? = nil, transcriptionJobSummaries: [TranscriptionJobSummary]? = nil) {
             self.nextToken = nextToken
             self.status = status
@@ -2320,6 +2388,7 @@ extension Transcribe {
         /// Returns only custom vocabularies with the specified state. Vocabularies are ordered by creation date, with the newest vocabulary first. If you do not include StateEquals, all custom medical vocabularies are returned.
         public let stateEquals: VocabularyState?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -2357,6 +2426,7 @@ extension Transcribe {
         /// Provides information about the custom vocabularies that match the criteria specified in your request.
         public let vocabularies: [VocabularyInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, status: VocabularyState? = nil, vocabularies: [VocabularyInfo]? = nil) {
             self.nextToken = nextToken
             self.status = status
@@ -2378,6 +2448,7 @@ extension Transcribe {
         /// If your ListVocabularyFilters request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including NextToken with the value of the copied string. Repeat as needed to view all your results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -2411,6 +2482,7 @@ extension Transcribe {
         /// Provides information about the custom vocabulary filters that match the criteria specified in your request.
         public let vocabularyFilters: [VocabularyFilterInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, vocabularyFilters: [VocabularyFilterInfo]? = nil) {
             self.nextToken = nextToken
             self.vocabularyFilters = vocabularyFilters
@@ -2428,6 +2500,7 @@ extension Transcribe {
         /// The Amazon S3 location of the media file you want to redact. For example:    s3://DOC-EXAMPLE-BUCKET/my-media-file.flac     s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac    Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription request.   RedactedMediaFileUri produces a redacted audio file in addition to a  redacted transcript. It is only supported for Call Analytics (StartCallAnalyticsJob) transcription requests.
         public let redactedMediaFileUri: String?
 
+        @inlinable
         public init(mediaFileUri: String? = nil, redactedMediaFileUri: String? = nil) {
             self.mediaFileUri = mediaFileUri
             self.redactedMediaFileUri = redactedMediaFileUri
@@ -2454,6 +2527,7 @@ extension Transcribe {
         /// Specify the participant that you want to flag.  The options are CLINICIAN and PATIENT
         public let participantRole: MedicalScribeParticipantRole
 
+        @inlinable
         public init(channelId: Int, participantRole: MedicalScribeParticipantRole) {
             self.channelId = channelId
             self.participantRole = participantRole
@@ -2497,6 +2571,7 @@ extension Transcribe {
         /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(channelDefinitions: [MedicalScribeChannelDefinition]? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, failureReason: String? = nil, languageCode: MedicalScribeLanguageCode? = nil, media: Media? = nil, medicalScribeJobName: String? = nil, medicalScribeJobStatus: MedicalScribeJobStatus? = nil, medicalScribeOutput: MedicalScribeOutput? = nil, settings: MedicalScribeSettings? = nil, startTime: Date? = nil, tags: [Tag]? = nil) {
             self.channelDefinitions = channelDefinitions
             self.completionTime = completionTime
@@ -2546,6 +2621,7 @@ extension Transcribe {
         /// The date and time your Medical Scribe job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: MedicalScribeLanguageCode? = nil, medicalScribeJobName: String? = nil, medicalScribeJobStatus: MedicalScribeJobStatus? = nil, startTime: Date? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2573,6 +2649,7 @@ extension Transcribe {
         /// Holds the Amazon S3 URI for the Transcript.
         public let transcriptFileUri: String
 
+        @inlinable
         public init(clinicalDocumentUri: String, transcriptFileUri: String) {
             self.clinicalDocumentUri = clinicalDocumentUri
             self.transcriptFileUri = transcriptFileUri
@@ -2598,6 +2675,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to include in your Medical Scribe request. Custom vocabulary names are case sensitive.
         public let vocabularyName: String?
 
+        @inlinable
         public init(channelIdentification: Bool? = nil, maxSpeakerLabels: Int? = nil, showSpeakerLabels: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.channelIdentification = channelIdentification
             self.maxSpeakerLabels = maxSpeakerLabels
@@ -2632,6 +2710,7 @@ extension Transcribe {
         /// The Amazon S3 location of your transcript. You can use this URI to access or download your transcript. Note that this is the Amazon S3 location you specified in your request using the  OutputBucketName parameter.
         public let transcriptFileUri: String?
 
+        @inlinable
         public init(transcriptFileUri: String? = nil) {
             self.transcriptFileUri = transcriptFileUri
         }
@@ -2674,6 +2753,7 @@ extension Transcribe {
         /// Indicates whether the input media is a dictation or a conversation, as specified in the StartMedicalTranscriptionJob request.
         public let type: `Type`?
 
+        @inlinable
         public init(completionTime: Date? = nil, contentIdentificationType: MedicalContentIdentificationType? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: Date? = nil, tags: [Tag]? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
             self.contentIdentificationType = contentIdentificationType
@@ -2737,6 +2817,7 @@ extension Transcribe {
         /// Indicates whether the input media is a dictation or a conversation, as specified in the StartMedicalTranscriptionJob request.
         public let type: `Type`?
 
+        @inlinable
         public init(completionTime: Date? = nil, contentIdentificationType: MedicalContentIdentificationType? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
             self.contentIdentificationType = contentIdentificationType
@@ -2780,6 +2861,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to use when processing your medical transcription job. Custom vocabulary names are case sensitive. The language of the specified custom vocabulary must match the language code that you specify in your transcription request. If the languages do not match, the custom vocabulary isn't applied. There are no errors or warnings associated with a language mismatch. US English (en-US) is the only valid language for Amazon Transcribe Medical.
         public let vocabularyName: String?
 
+        @inlinable
         public init(channelIdentification: Bool? = nil, maxAlternatives: Int? = nil, maxSpeakerLabels: Int? = nil, showAlternatives: Bool? = nil, showSpeakerLabels: Bool? = nil, vocabularyName: String? = nil) {
             self.channelIdentification = channelIdentification
             self.maxAlternatives = maxAlternatives
@@ -2813,6 +2895,7 @@ extension Transcribe {
         /// The name of the custom language model you want to use when processing your transcription job. Note that custom language model names are case sensitive. The language of the specified custom language model must match the language code that you specify in your transcription request. If the languages do not match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch.
         public let languageModelName: String?
 
+        @inlinable
         public init(languageModelName: String? = nil) {
             self.languageModelName = languageModelName
         }
@@ -2838,6 +2921,7 @@ extension Transcribe {
         /// Specify the duration, in milliseconds, of the period of silence that you want to flag. For example, you can flag a silent period that lasts 30,000 milliseconds.
         public let threshold: Int64?
 
+        @inlinable
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, relativeTimeRange: RelativeTimeRange? = nil, threshold: Int64? = nil) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
@@ -2870,6 +2954,7 @@ extension Transcribe {
         /// The time, in percentage, when Amazon Transcribe starts searching for the specified criteria in your media file. If you include StartPercentage in your request, you must also include EndPercentage.
         public let startPercentage: Int?
 
+        @inlinable
         public init(endPercentage: Int? = nil, first: Int? = nil, last: Int? = nil, startPercentage: Int? = nil) {
             self.endPercentage = endPercentage
             self.first = first
@@ -2908,6 +2993,7 @@ extension Transcribe {
         /// Specify the sentiments that you want to flag.
         public let sentiments: [SentimentValue]
 
+        @inlinable
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, participantRole: ParticipantRole? = nil, relativeTimeRange: RelativeTimeRange? = nil, sentiments: [SentimentValue]) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
@@ -2950,6 +3036,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to use in your transcription job request. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public let vocabularyName: String?
 
+        @inlinable
         public init(channelIdentification: Bool? = nil, maxAlternatives: Int? = nil, maxSpeakerLabels: Int? = nil, showAlternatives: Bool? = nil, showSpeakerLabels: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.channelIdentification = channelIdentification
             self.maxAlternatives = maxAlternatives
@@ -3002,6 +3089,7 @@ extension Transcribe {
         /// Specify additional optional settings in your  request, including content redaction; allows you to apply custom language models, vocabulary filters, and custom vocabularies to your Call Analytics job.
         public let settings: CallAnalyticsJobSettings?
 
+        @inlinable
         public init(callAnalyticsJobName: String, channelDefinitions: [ChannelDefinition]? = nil, dataAccessRoleArn: String? = nil, media: Media, outputEncryptionKMSKeyId: String? = nil, outputLocation: String? = nil, settings: CallAnalyticsJobSettings? = nil) {
             self.callAnalyticsJobName = callAnalyticsJobName
             self.channelDefinitions = channelDefinitions
@@ -3060,6 +3148,7 @@ extension Transcribe {
         /// Provides detailed information about the current Call Analytics job, including job status and, if applicable, failure reason.
         public let callAnalyticsJob: CallAnalyticsJob?
 
+        @inlinable
         public init(callAnalyticsJob: CallAnalyticsJob? = nil) {
             self.callAnalyticsJob = callAnalyticsJob
         }
@@ -3088,6 +3177,7 @@ extension Transcribe {
         /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(channelDefinitions: [MedicalScribeChannelDefinition]? = nil, dataAccessRoleArn: String, kmsEncryptionContext: [String: String]? = nil, media: Media, medicalScribeJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, settings: MedicalScribeSettings, tags: [Tag]? = nil) {
             self.channelDefinitions = channelDefinitions
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -3166,6 +3256,7 @@ extension Transcribe {
         /// Provides detailed information about the current Medical Scribe job, including job status and, if applicable, failure reason.
         public let medicalScribeJob: MedicalScribeJob?
 
+        @inlinable
         public init(medicalScribeJob: MedicalScribeJob? = nil) {
             self.medicalScribeJob = medicalScribeJob
         }
@@ -3204,6 +3295,7 @@ extension Transcribe {
         /// Specify whether your input media contains only one person (DICTATION) or contains a conversation between two people (CONVERSATION). For example, DICTATION could be used for a medical professional wanting to transcribe voice memos; CONVERSATION could be used for transcribing the doctor-patient dialogue during the patient's office visit.
         public let type: `Type`
 
+        @inlinable
         public init(contentIdentificationType: MedicalContentIdentificationType? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, tags: [Tag]? = nil, type: `Type`) {
             self.contentIdentificationType = contentIdentificationType
             self.kmsEncryptionContext = kmsEncryptionContext
@@ -3294,6 +3386,7 @@ extension Transcribe {
         /// Provides detailed information about the current medical transcription job, including job status and, if applicable, failure reason.
         public let medicalTranscriptionJob: MedicalTranscriptionJob?
 
+        @inlinable
         public init(medicalTranscriptionJob: MedicalTranscriptionJob? = nil) {
             self.medicalTranscriptionJob = medicalTranscriptionJob
         }
@@ -3345,6 +3438,7 @@ extension Transcribe {
         /// A unique name, chosen by you, for your transcription job. The name that you specify is also used as the default name of your transcription output file. If you want to specify a different name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
         public let transcriptionJobName: String
 
+        @inlinable
         public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, toxicityDetection: [ToxicityDetectionSettings]? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
             self.identifyLanguage = identifyLanguage
@@ -3468,6 +3562,7 @@ extension Transcribe {
         /// Provides detailed information about the current transcription job, including job status and, if applicable, failure reason.
         public let transcriptionJob: TranscriptionJob?
 
+        @inlinable
         public init(transcriptionJob: TranscriptionJob? = nil) {
             self.transcriptionJob = transcriptionJob
         }
@@ -3483,6 +3578,7 @@ extension Transcribe {
         /// Specify the starting value that is assigned to the first subtitle segment. The default start index for Amazon Transcribe is 0, which differs from the more widely used standard of 1. If you're uncertain which value to use, we recommend choosing 1, as this may improve compatibility with other services.
         public let outputStartIndex: Int?
 
+        @inlinable
         public init(formats: [SubtitleFormat]? = nil, outputStartIndex: Int? = nil) {
             self.formats = formats
             self.outputStartIndex = outputStartIndex
@@ -3507,6 +3603,7 @@ extension Transcribe {
         /// The Amazon S3 location of your transcript. You can use this URI to access or download your subtitle file. Your subtitle file is stored in the same location as your transcript. If you specified both WebVTT and SubRip subtitle formats, two URIs are provided. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your subtitle file is stored in a service-managed bucket, and TranscriptFileUri provides you with a temporary URI you can use for secure access to your subtitle file.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15 minutes. If you get an AccesDenied error, you can get a new temporary URI by running a GetTranscriptionJob or ListTranscriptionJob request.
         public let subtitleFileUris: [String]?
 
+        @inlinable
         public init(formats: [SubtitleFormat]? = nil, outputStartIndex: Int? = nil, subtitleFileUris: [String]? = nil) {
             self.formats = formats
             self.outputStartIndex = outputStartIndex
@@ -3526,6 +3623,7 @@ extension Transcribe {
         /// 	        summarization.
         public let generateAbstractiveSummary: Bool
 
+        @inlinable
         public init(generateAbstractiveSummary: Bool) {
             self.generateAbstractiveSummary = generateAbstractiveSummary
         }
@@ -3541,6 +3639,7 @@ extension Transcribe {
         /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3564,6 +3663,7 @@ extension Transcribe {
         /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3600,6 +3700,7 @@ extension Transcribe {
         ///  If you include ToxicityDetection in your transcription request, you  must also include ToxicityCategories. The only accepted value for this  parameter is ALL.
         public let toxicityCategories: [ToxicityCategory]
 
+        @inlinable
         public init(toxicityCategories: [ToxicityCategory]) {
             self.toxicityCategories = toxicityCategories
         }
@@ -3620,6 +3721,7 @@ extension Transcribe {
         /// The Amazon S3 location of your transcript. You can use this URI to access or download your transcript. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and TranscriptFileUri provides you with a temporary URI you can use for secure access to your transcript.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15 minutes. If you get an AccesDenied error, you can get a new temporary URI by running a GetTranscriptionJob or ListTranscriptionJob request.
         public let transcriptFileUri: String?
 
+        @inlinable
         public init(redactedTranscriptFileUri: String? = nil, transcriptFileUri: String? = nil) {
             self.redactedTranscriptFileUri = redactedTranscriptFileUri
             self.transcriptFileUri = transcriptFileUri
@@ -3645,6 +3747,7 @@ extension Transcribe {
         /// Flag the presence or absence of an exact match to the phrases that you specify. For example, if you specify the phrase "speak to a manager" as your Targets value, only that exact phrase is flagged. Note that semantic matching is not supported. For example, if your customer says "speak to the manager", instead of "speak to a manager", your content is not flagged.
         public let transcriptFilterType: TranscriptFilterType
 
+        @inlinable
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, participantRole: ParticipantRole? = nil, relativeTimeRange: RelativeTimeRange? = nil, targets: [String], transcriptFilterType: TranscriptFilterType) {
             self.absoluteTimeRange = absoluteTimeRange
             self.negate = negate
@@ -3725,6 +3828,7 @@ extension Transcribe {
         /// Provides the status of the specified transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
+        @inlinable
         public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, toxicityDetection: [ToxicityDetectionSettings]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
@@ -3811,6 +3915,7 @@ extension Transcribe {
         /// Provides the status of your transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
+        @inlinable
         public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: Date? = nil, toxicityDetection: [ToxicityDetectionSettings]? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
@@ -3854,6 +3959,7 @@ extension Transcribe {
         /// Removes the specified tag keys from the specified Amazon Transcribe resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3895,6 +4001,7 @@ extension Transcribe {
         /// The rules used for the updated Call Analytics category. The rules you provide in this field replace the ones that are currently being used in the specified category.
         public let rules: [Rule]
 
+        @inlinable
         public init(categoryName: String, inputType: InputType? = nil, rules: [Rule]) {
             self.categoryName = categoryName
             self.inputType = inputType
@@ -3930,6 +4037,7 @@ extension Transcribe {
         /// Provides you with the properties of the Call Analytics category you specified in your UpdateCallAnalyticsCategory request.
         public let categoryProperties: CategoryProperties?
 
+        @inlinable
         public init(categoryProperties: CategoryProperties? = nil) {
             self.categoryProperties = categoryProperties
         }
@@ -3947,6 +4055,7 @@ extension Transcribe {
         /// The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive.
         public let vocabularyName: String
 
+        @inlinable
         public init(languageCode: LanguageCode, vocabularyFileUri: String, vocabularyName: String) {
             self.languageCode = languageCode
             self.vocabularyFileUri = vocabularyFileUri
@@ -3986,6 +4095,7 @@ extension Transcribe {
         /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -4011,6 +4121,7 @@ extension Transcribe {
         /// Use this parameter if you want to update your custom vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
         public let words: [String]?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.vocabularyFilterFileUri = vocabularyFilterFileUri
@@ -4059,6 +4170,7 @@ extension Transcribe {
         /// The name of the updated custom vocabulary filter.
         public let vocabularyFilterName: String?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -4084,6 +4196,7 @@ extension Transcribe {
         /// The name of the custom vocabulary you want to update. Custom vocabulary names are case sensitive.
         public let vocabularyName: String
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, languageCode: LanguageCode, phrases: [String]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.languageCode = languageCode
@@ -4136,6 +4249,7 @@ extension Transcribe {
         /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -4159,6 +4273,7 @@ extension Transcribe {
         /// A unique name, chosen by you, for your custom vocabulary filter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public let vocabularyFilterName: String?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -4182,6 +4297,7 @@ extension Transcribe {
         /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime

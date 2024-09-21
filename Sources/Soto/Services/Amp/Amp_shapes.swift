@@ -114,6 +114,7 @@ extension Amp {
         /// A structure that displays the current status of the alert manager definition..
         public let status: AlertManagerDefinitionStatus
 
+        @inlinable
         public init(createdAt: Date, data: AWSBase64Data, modifiedAt: Date, status: AlertManagerDefinitionStatus) {
             self.createdAt = createdAt
             self.data = data
@@ -135,6 +136,7 @@ extension Amp {
         /// If there is a failure, the reason for the failure.
         public let statusReason: String?
 
+        @inlinable
         public init(statusCode: AlertManagerDefinitionStatusCode, statusReason: String? = nil) {
             self.statusCode = statusCode
             self.statusReason = statusReason
@@ -150,6 +152,7 @@ extension Amp {
         /// ARN of the Amazon Managed Service for Prometheus workspace.
         public let workspaceArn: String
 
+        @inlinable
         public init(workspaceArn: String) {
             self.workspaceArn = workspaceArn
         }
@@ -171,6 +174,7 @@ extension Amp {
         /// The ID of the workspace to add the alert manager definition to.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = CreateAlertManagerDefinitionRequest.idempotencyToken(), data: AWSBase64Data, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
@@ -204,6 +208,7 @@ extension Amp {
         /// A structure that displays the current status of the alert manager definition.
         public let status: AlertManagerDefinitionStatus
 
+        @inlinable
         public init(status: AlertManagerDefinitionStatus) {
             self.status = status
         }
@@ -221,6 +226,7 @@ extension Amp {
         /// The ID of the workspace to create the logging configuration for.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = CreateLoggingConfigurationRequest.idempotencyToken(), logGroupArn: String, workspaceId: String) {
             self.clientToken = clientToken
             self.logGroupArn = logGroupArn
@@ -255,6 +261,7 @@ extension Amp {
         /// A structure that displays the current status of the logging configuration.
         public let status: LoggingConfigurationStatus
 
+        @inlinable
         public init(status: LoggingConfigurationStatus) {
             self.status = status
         }
@@ -276,6 +283,7 @@ extension Amp {
         /// The ID of the workspace to add the rule groups namespace.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = CreateRuleGroupsNamespaceRequest.idempotencyToken(), data: AWSBase64Data, name: String, tags: [String: String]? = nil, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
@@ -332,6 +340,7 @@ extension Amp {
         /// The list of tag keys and values that are associated with the namespace.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -361,6 +370,7 @@ extension Amp {
         /// (Optional) The list of tag keys and values to associate with the scraper.
         public let tags: [String: String]?
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = CreateScraperRequest.idempotencyToken(), destination: Destination, scrapeConfiguration: ScrapeConfiguration, source: Source, tags: [String: String]? = nil) {
             self.alias = alias
             self.clientToken = clientToken
@@ -409,6 +419,7 @@ extension Amp {
         /// The list of tag keys and values that are associated with the scraper.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, scraperId: String, status: ScraperStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.scraperId = scraperId
@@ -434,6 +445,7 @@ extension Amp {
         /// The list of tag keys and values to associate with the workspace.
         public let tags: [String: String]?
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.clientToken = clientToken
@@ -480,6 +492,7 @@ extension Amp {
         /// The unique ID for the new workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, kmsKeyArn: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceId: String) {
             self.arn = arn
             self.kmsKeyArn = kmsKeyArn
@@ -503,6 +516,7 @@ extension Amp {
         /// The ID of the workspace to delete the alert manager definition from.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteAlertManagerDefinitionRequest.idempotencyToken(), workspaceId: String) {
             self.clientToken = clientToken
             self.workspaceId = workspaceId
@@ -533,6 +547,7 @@ extension Amp {
         /// The ID of the workspace containing the logging configuration to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteLoggingConfigurationRequest.idempotencyToken(), workspaceId: String) {
             self.clientToken = clientToken
             self.workspaceId = workspaceId
@@ -565,6 +580,7 @@ extension Amp {
         /// The ID of the workspace containing the rule groups namespace and definition to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteRuleGroupsNamespaceRequest.idempotencyToken(), name: String, workspaceId: String) {
             self.clientToken = clientToken
             self.name = name
@@ -600,6 +616,7 @@ extension Amp {
         /// The ID of the scraper to delete.
         public let scraperId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteScraperRequest.idempotencyToken(), scraperId: String) {
             self.clientToken = clientToken
             self.scraperId = scraperId
@@ -630,6 +647,7 @@ extension Amp {
         /// The current status of the scraper.
         public let status: ScraperStatus
 
+        @inlinable
         public init(scraperId: String, status: ScraperStatus) {
             self.scraperId = scraperId
             self.status = status
@@ -647,6 +665,7 @@ extension Amp {
         /// The ID of the workspace to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteWorkspaceRequest.idempotencyToken(), workspaceId: String) {
             self.clientToken = clientToken
             self.workspaceId = workspaceId
@@ -675,6 +694,7 @@ extension Amp {
         /// The ID of the workspace to retrieve the alert manager definition from.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -698,6 +718,7 @@ extension Amp {
         /// The alert manager definition.
         public let alertManagerDefinition: AlertManagerDefinitionDescription
 
+        @inlinable
         public init(alertManagerDefinition: AlertManagerDefinitionDescription) {
             self.alertManagerDefinition = alertManagerDefinition
         }
@@ -711,6 +732,7 @@ extension Amp {
         /// The ID of the workspace to describe the logging configuration for.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -734,6 +756,7 @@ extension Amp {
         /// A structure that displays the information about the logging configuration.
         public let loggingConfiguration: LoggingConfigurationMetadata
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfigurationMetadata) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -749,6 +772,7 @@ extension Amp {
         /// The ID of the workspace containing the rule groups namespace.
         public let workspaceId: String
 
+        @inlinable
         public init(name: String, workspaceId: String) {
             self.name = name
             self.workspaceId = workspaceId
@@ -777,6 +801,7 @@ extension Amp {
         /// The information about the rule groups namespace.
         public let ruleGroupsNamespace: RuleGroupsNamespaceDescription
 
+        @inlinable
         public init(ruleGroupsNamespace: RuleGroupsNamespaceDescription) {
             self.ruleGroupsNamespace = ruleGroupsNamespace
         }
@@ -790,6 +815,7 @@ extension Amp {
         /// The ID of the scraper to describe.
         public let scraperId: String
 
+        @inlinable
         public init(scraperId: String) {
             self.scraperId = scraperId
         }
@@ -813,6 +839,7 @@ extension Amp {
         /// Contains details about the scraper.
         public let scraper: ScraperDescription
 
+        @inlinable
         public init(scraper: ScraperDescription) {
             self.scraper = scraper
         }
@@ -826,6 +853,7 @@ extension Amp {
         /// The ID of the workspace to describe.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -849,6 +877,7 @@ extension Amp {
         /// A structure that contains details about the workspace.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -866,6 +895,7 @@ extension Amp {
         /// A list of subnet IDs for the Amazon EKS cluster VPC configuration.
         public let subnetIds: [String]
 
+        @inlinable
         public init(clusterArn: String, securityGroupIds: [String]? = nil, subnetIds: [String]) {
             self.clusterArn = clusterArn
             self.securityGroupIds = securityGroupIds
@@ -903,6 +933,7 @@ extension Amp {
         /// The configuration file. Base 64 encoded.  For more information, see Scraper configurationin the Amazon Managed Service for Prometheus User  Guide.
         public let configuration: AWSBase64Data
 
+        @inlinable
         public init(configuration: AWSBase64Data) {
             self.configuration = configuration
         }
@@ -922,6 +953,7 @@ extension Amp {
         /// The ID of the workspace containing the rule groups namespaces.
         public let workspaceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, workspaceId: String) {
             self.maxResults = maxResults
             self.name = name
@@ -957,6 +989,7 @@ extension Amp {
         /// The returned list of rule groups namespaces.
         public let ruleGroupsNamespaces: [RuleGroupsNamespaceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, ruleGroupsNamespaces: [RuleGroupsNamespaceSummary]) {
             self.nextToken = nextToken
             self.ruleGroupsNamespaces = ruleGroupsNamespaces
@@ -976,6 +1009,7 @@ extension Amp {
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1011,6 +1045,7 @@ extension Amp {
         /// A list of ScraperSummary structures giving information about scrapers in the account that match the filters provided.
         public let scrapers: [ScraperSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, scrapers: [ScraperSummary]) {
             self.nextToken = nextToken
             self.scrapers = scrapers
@@ -1026,6 +1061,7 @@ extension Amp {
         /// The ARN of the resource to list tages for. Must be a workspace or rule groups namespace resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1043,6 +1079,7 @@ extension Amp {
         /// The list of tag keys and values associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1060,6 +1097,7 @@ extension Amp {
         /// The token for the next set of items to return. You receive this token from a previous call, and use it to get the next page of results. The other parameters must be the same as the initial call. For example, if your initial request has maxResults of 10, and there are 12 workspaces to return, then your initial request will return 10 and a nextToken. Using the next token in a subsequent call will return the remaining 2 workspaces.
         public let nextToken: String?
 
+        @inlinable
         public init(alias: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.alias = alias
             self.maxResults = maxResults
@@ -1089,6 +1127,7 @@ extension Amp {
         /// An array of WorkspaceSummary structures containing information about the workspaces requested.
         public let workspaces: [WorkspaceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, workspaces: [WorkspaceSummary]) {
             self.nextToken = nextToken
             self.workspaces = workspaces
@@ -1112,6 +1151,7 @@ extension Amp {
         /// The ID of the workspace the logging configuration is for.
         public let workspace: String
 
+        @inlinable
         public init(createdAt: Date, logGroupArn: String, modifiedAt: Date, status: LoggingConfigurationStatus, workspace: String) {
             self.createdAt = createdAt
             self.logGroupArn = logGroupArn
@@ -1135,6 +1175,7 @@ extension Amp {
         /// If failed, the reason for the failure.
         public let statusReason: String?
 
+        @inlinable
         public init(statusCode: LoggingConfigurationStatusCode, statusReason: String? = nil) {
             self.statusCode = statusCode
             self.statusReason = statusReason
@@ -1154,6 +1195,7 @@ extension Amp {
         /// The ID of the workspace to update the alert manager definition in.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = PutAlertManagerDefinitionRequest.idempotencyToken(), data: AWSBase64Data, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
@@ -1187,6 +1229,7 @@ extension Amp {
         /// A structure that returns the current status of the alert manager definition.
         public let status: AlertManagerDefinitionStatus
 
+        @inlinable
         public init(status: AlertManagerDefinitionStatus) {
             self.status = status
         }
@@ -1206,6 +1249,7 @@ extension Amp {
         /// The ID of the workspace where you are updating the rule groups namespace.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = PutRuleGroupsNamespaceRequest.idempotencyToken(), data: AWSBase64Data, name: String, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
@@ -1250,6 +1294,7 @@ extension Amp {
         /// The list of tag keys and values that are associated with the namespace.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -1281,6 +1326,7 @@ extension Amp {
         /// The list of tag keys and values that are associated with the rule groups namespace.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, createdAt: Date, data: AWSBase64Data, modifiedAt: Date, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1308,6 +1354,7 @@ extension Amp {
         /// The reason for the failure, if any.
         public let statusReason: String?
 
+        @inlinable
         public init(statusCode: RuleGroupsNamespaceStatusCode, statusReason: String? = nil) {
             self.statusCode = statusCode
             self.statusReason = statusReason
@@ -1333,6 +1380,7 @@ extension Amp {
         /// The list of tag keys and values that are associated with the rule groups namespace.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, createdAt: Date, modifiedAt: Date, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1378,6 +1426,7 @@ extension Amp {
         /// (Optional) The list of tag keys and values associated with the scraper.
         public let tags: [String: String]?
 
+        @inlinable
         public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, scrapeConfiguration: ScrapeConfiguration, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.arn = arn
@@ -1413,6 +1462,7 @@ extension Amp {
         /// The current status of the scraper.
         public let statusCode: ScraperStatusCode
 
+        @inlinable
         public init(statusCode: ScraperStatusCode) {
             self.statusCode = statusCode
         }
@@ -1446,6 +1496,7 @@ extension Amp {
         /// (Optional) The list of tag keys and values associated with the scraper.
         public let tags: [String: String]?
 
+        @inlinable
         public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.arn = arn
@@ -1481,6 +1532,7 @@ extension Amp {
         /// The list of tag keys and values to associate with the resource. Keys may not begin with aws:.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1519,6 +1571,7 @@ extension Amp {
         /// The keys of the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1554,6 +1607,7 @@ extension Amp {
         /// The ID of the workspace to update the logging configuration for.
         public let workspaceId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateLoggingConfigurationRequest.idempotencyToken(), logGroupArn: String, workspaceId: String) {
             self.clientToken = clientToken
             self.logGroupArn = logGroupArn
@@ -1588,6 +1642,7 @@ extension Amp {
         /// A structure that contains the current status of the logging configuration.
         public let status: LoggingConfigurationStatus
 
+        @inlinable
         public init(status: LoggingConfigurationStatus) {
             self.status = status
         }
@@ -1605,6 +1660,7 @@ extension Amp {
         /// The ID of the workspace to update.
         public let workspaceId: String
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = UpdateWorkspaceAliasRequest.idempotencyToken(), workspaceId: String) {
             self.alias = alias
             self.clientToken = clientToken
@@ -1654,6 +1710,7 @@ extension Amp {
         /// The unique ID for the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(alias: String? = nil, arn: String, createdAt: Date, kmsKeyArn: String? = nil, prometheusEndpoint: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceId: String) {
             self.alias = alias
             self.arn = arn
@@ -1681,6 +1738,7 @@ extension Amp {
         /// The current status of the workspace.
         public let statusCode: WorkspaceStatusCode
 
+        @inlinable
         public init(statusCode: WorkspaceStatusCode) {
             self.statusCode = statusCode
         }
@@ -1706,6 +1764,7 @@ extension Amp {
         /// The unique ID for the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(alias: String? = nil, arn: String, createdAt: Date, kmsKeyArn: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceId: String) {
             self.alias = alias
             self.arn = arn
@@ -1731,6 +1790,7 @@ extension Amp {
         /// The Amazon Managed Service for Prometheusworkspace to send metrics to.
         public let ampConfiguration: AmpConfiguration?
 
+        @inlinable
         public init(ampConfiguration: AmpConfiguration? = nil) {
             self.ampConfiguration = ampConfiguration
         }
@@ -1748,6 +1808,7 @@ extension Amp {
         /// The base 64 encoded scrape configuration file.
         public let configurationBlob: AWSBase64Data?
 
+        @inlinable
         public init(configurationBlob: AWSBase64Data? = nil) {
             self.configurationBlob = configurationBlob
         }
@@ -1761,6 +1822,7 @@ extension Amp {
         /// The Amazon EKS cluster from which a scraper collects metrics.
         public let eksConfiguration: EksConfiguration?
 
+        @inlinable
         public init(eksConfiguration: EksConfiguration? = nil) {
             self.eksConfiguration = eksConfiguration
         }

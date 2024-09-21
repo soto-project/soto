@@ -112,6 +112,7 @@ extension SnowDeviceManagement {
         /// The ID of the task that you are attempting to cancel. You can retrieve a task ID by using the ListTasks operation.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -134,6 +135,7 @@ extension SnowDeviceManagement {
         /// The ID of the task that you are attempting to cancel.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -155,6 +157,7 @@ extension SnowDeviceManagement {
         /// The amount of capacity used on the device.
         public let used: Int64?
 
+        @inlinable
         public init(available: Int64? = nil, name: String? = nil, total: Int64? = nil, unit: String? = nil, used: Int64? = nil) {
             self.available = available
             self.name = name
@@ -178,6 +181,7 @@ extension SnowDeviceManagement {
         /// The number of threads per core in the CPU.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(coreCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.coreCount = coreCount
             self.threadsPerCore = threadsPerCore
@@ -201,6 +205,7 @@ extension SnowDeviceManagement {
         /// A list of managed device IDs.
         public let targets: [String]
 
+        @inlinable
         public init(clientToken: String? = CreateTaskInput.idempotencyToken(), command: Command, description: String? = nil, tags: [String: String]? = nil, targets: [String]) {
             self.clientToken = clientToken
             self.command = command
@@ -235,6 +240,7 @@ extension SnowDeviceManagement {
         /// The ID of the task that you created.
         public let taskId: String?
 
+        @inlinable
         public init(taskArn: String? = nil, taskId: String? = nil) {
             self.taskArn = taskArn
             self.taskId = taskId
@@ -252,6 +258,7 @@ extension SnowDeviceManagement {
         /// The ID of the managed device.
         public let managedDeviceId: String
 
+        @inlinable
         public init(instanceIds: [String], managedDeviceId: String) {
             self.instanceIds = instanceIds
             self.managedDeviceId = managedDeviceId
@@ -278,6 +285,7 @@ extension SnowDeviceManagement {
         /// A list of structures containing information about each instance.
         public let instances: [InstanceSummary]?
 
+        @inlinable
         public init(instances: [InstanceSummary]? = nil) {
             self.instances = instances
         }
@@ -291,6 +299,7 @@ extension SnowDeviceManagement {
         /// The ID of the device that you are checking the information of.
         public let managedDeviceId: String
 
+        @inlinable
         public init(managedDeviceId: String) {
             self.managedDeviceId = managedDeviceId
         }
@@ -333,6 +342,7 @@ extension SnowDeviceManagement {
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associatedWithJob: String? = nil, deviceCapacities: [Capacity]? = nil, deviceState: UnlockState? = nil, deviceType: String? = nil, lastReachedOutAt: Date? = nil, lastUpdatedAt: Date? = nil, managedDeviceArn: String? = nil, managedDeviceId: String? = nil, physicalNetworkInterfaces: [PhysicalNetworkInterface]? = nil, software: SoftwareInformation? = nil, tags: [String: String]? = nil) {
             self.associatedWithJob = associatedWithJob
             self.deviceCapacities = deviceCapacities
@@ -368,6 +378,7 @@ extension SnowDeviceManagement {
         /// The ID of the task that the action is describing.
         public let taskId: String
 
+        @inlinable
         public init(managedDeviceId: String, taskId: String) {
             self.managedDeviceId = managedDeviceId
             self.taskId = taskId
@@ -404,6 +415,7 @@ extension SnowDeviceManagement {
         /// The ID of the task being executed on the device.
         public let taskId: String?
 
+        @inlinable
         public init(executionId: String? = nil, lastUpdatedAt: Date? = nil, managedDeviceId: String? = nil, startedAt: Date? = nil, state: ExecutionState? = nil, taskId: String? = nil) {
             self.executionId = executionId
             self.lastUpdatedAt = lastUpdatedAt
@@ -427,6 +439,7 @@ extension SnowDeviceManagement {
         /// The ID of the task to be described.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -465,6 +478,7 @@ extension SnowDeviceManagement {
         /// The ID of the task.
         public let taskId: String?
 
+        @inlinable
         public init(completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdatedAt: Date? = nil, state: TaskState? = nil, tags: [String: String]? = nil, targets: [String]? = nil, taskArn: String? = nil, taskId: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
@@ -500,6 +514,7 @@ extension SnowDeviceManagement {
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associatedWithJob: String? = nil, managedDeviceArn: String? = nil, managedDeviceId: String? = nil, tags: [String: String]? = nil) {
             self.associatedWithJob = associatedWithJob
             self.managedDeviceArn = managedDeviceArn
@@ -525,6 +540,7 @@ extension SnowDeviceManagement {
         /// The ID of the Amazon EBS volume.
         public let volumeId: String?
 
+        @inlinable
         public init(attachTime: Date? = nil, deleteOnTermination: Bool? = nil, status: AttachmentStatus? = nil, volumeId: String? = nil) {
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
@@ -550,6 +566,7 @@ extension SnowDeviceManagement {
         /// The ID of the task.
         public let taskId: String?
 
+        @inlinable
         public init(executionId: String? = nil, managedDeviceId: String? = nil, state: ExecutionState? = nil, taskId: String? = nil) {
             self.executionId = executionId
             self.managedDeviceId = managedDeviceId
@@ -592,6 +609,7 @@ extension SnowDeviceManagement {
         /// When the instance was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(amiLaunchIndex: Int? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, cpuOptions: CpuOptions? = nil, createdAt: Date? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, rootDeviceName: String? = nil, securityGroups: [SecurityGroupIdentifier]? = nil, state: InstanceState? = nil, updatedAt: Date? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.blockDeviceMappings = blockDeviceMappings
@@ -631,6 +649,7 @@ extension SnowDeviceManagement {
         /// The parameters used to automatically set up Amazon Elastic Block Store (Amazon EBS) volumes when the instance is launched.
         public let ebs: EbsInstanceBlockDevice?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: EbsInstanceBlockDevice? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -648,6 +667,7 @@ extension SnowDeviceManagement {
         /// The current state of the instance.
         public let name: InstanceStateName?
 
+        @inlinable
         public init(code: Int? = nil, name: InstanceStateName? = nil) {
             self.code = code
             self.name = name
@@ -665,6 +685,7 @@ extension SnowDeviceManagement {
         /// When the instance summary was last updated.
         public let lastUpdatedAt: Date?
 
+        @inlinable
         public init(instance: Instance? = nil, lastUpdatedAt: Date? = nil) {
             self.instance = instance
             self.lastUpdatedAt = lastUpdatedAt
@@ -686,6 +707,7 @@ extension SnowDeviceManagement {
         /// A structure used to filter the results by type of resource.
         public let type: String?
 
+        @inlinable
         public init(managedDeviceId: String, maxResults: Int? = nil, nextToken: String? = nil, type: String? = nil) {
             self.managedDeviceId = managedDeviceId
             self.maxResults = maxResults
@@ -721,6 +743,7 @@ extension SnowDeviceManagement {
         /// A structure defining the resource's type, Amazon Resource Name (ARN), and ID.
         public let resources: [ResourceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [ResourceSummary]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -740,6 +763,7 @@ extension SnowDeviceManagement {
         /// A pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -773,6 +797,7 @@ extension SnowDeviceManagement {
         /// A pagination token to continue to the next page of devices.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [DeviceSummary]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -794,6 +819,7 @@ extension SnowDeviceManagement {
         /// The ID of the task.
         public let taskId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, state: ExecutionState? = nil, taskId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -829,6 +855,7 @@ extension SnowDeviceManagement {
         /// A pagination token to continue to the next page of executions.
         public let nextToken: String?
 
+        @inlinable
         public init(executions: [ExecutionSummary]? = nil, nextToken: String? = nil) {
             self.executions = executions
             self.nextToken = nextToken
@@ -844,6 +871,7 @@ extension SnowDeviceManagement {
         /// The Amazon Resource Name (ARN) of the device or task.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -861,6 +889,7 @@ extension SnowDeviceManagement {
         /// The list of tags for the device or task.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -878,6 +907,7 @@ extension SnowDeviceManagement {
         /// A structure used to filter the list of tasks.
         public let state: TaskState?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, state: TaskState? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -909,6 +939,7 @@ extension SnowDeviceManagement {
         /// A list of task structures containing details about each task.
         public let tasks: [TaskSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [TaskSummary]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -936,6 +967,7 @@ extension SnowDeviceManagement {
         /// The physical network interface ID.
         public let physicalNetworkInterfaceId: String?
 
+        @inlinable
         public init(defaultGateway: String? = nil, ipAddress: String? = nil, ipAddressAssignment: IpAddressAssignment? = nil, macAddress: String? = nil, netmask: String? = nil, physicalConnectorType: PhysicalConnectorType? = nil, physicalNetworkInterfaceId: String? = nil) {
             self.defaultGateway = defaultGateway
             self.ipAddress = ipAddress
@@ -969,6 +1001,7 @@ extension SnowDeviceManagement {
         /// The resource type.
         public let resourceType: String
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, resourceType: String) {
             self.arn = arn
             self.id = id
@@ -988,6 +1021,7 @@ extension SnowDeviceManagement {
         /// The security group name.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -1007,6 +1041,7 @@ extension SnowDeviceManagement {
         /// The state of the software that is installed or that is being installed on the device.
         public let installState: String?
 
+        @inlinable
         public init(installedVersion: String? = nil, installingVersion: String? = nil, installState: String? = nil) {
             self.installedVersion = installedVersion
             self.installingVersion = installingVersion
@@ -1026,6 +1061,7 @@ extension SnowDeviceManagement {
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1053,6 +1089,7 @@ extension SnowDeviceManagement {
         /// The task ID.
         public let taskId: String
 
+        @inlinable
         public init(state: TaskState? = nil, tags: [String: String]? = nil, taskArn: String? = nil, taskId: String) {
             self.state = state
             self.tags = tags
@@ -1078,6 +1115,7 @@ extension SnowDeviceManagement {
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

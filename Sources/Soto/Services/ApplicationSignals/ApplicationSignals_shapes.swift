@@ -205,6 +205,7 @@ extension ApplicationSignals {
         /// The date and time that you want the report to be for. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Date
 
+        @inlinable
         public init(sloIds: [String], timestamp: Date) {
             self.sloIds = sloIds
             self.timestamp = timestamp
@@ -229,6 +230,7 @@ extension ApplicationSignals {
         /// The date and time that the report is for. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Date
 
+        @inlinable
         public init(errors: [ServiceLevelObjectiveBudgetReportError], reports: [ServiceLevelObjectiveBudgetReport], timestamp: Date) {
             self.errors = errors
             self.reports = reports
@@ -250,6 +252,7 @@ extension ApplicationSignals {
         /// The date and time when you want the first interval to start. Be sure to choose a time that configures the  intervals the way that you want. For example, if you want weekly intervals starting on Mondays at 6 a.m., be sure to specify a start time that is a Monday at 6 a.m. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  As soon as one calendar interval ends, another automatically begins.
         public let startTime: Date
 
+        @inlinable
         public init(duration: Int, durationUnit: DurationUnit, startTime: Date) {
             self.duration = duration
             self.durationUnit = durationUnit
@@ -281,6 +284,7 @@ extension ApplicationSignals {
         /// A list of key-value pairs to associate with the SLO. You can associate as many as 50 tags with an SLO. To be able to associate tags with the SLO when you create the SLO, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, goal: Goal? = nil, name: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.goal = goal
@@ -317,6 +321,7 @@ extension ApplicationSignals {
         /// A structure that contains information about the SLO that you just created.
         public let slo: ServiceLevelObjective
 
+        @inlinable
         public init(slo: ServiceLevelObjective) {
             self.slo = slo
         }
@@ -330,6 +335,7 @@ extension ApplicationSignals {
         /// The ARN or name of the service level objective to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -357,6 +363,7 @@ extension ApplicationSignals {
         /// The value of the dimension. Dimension values must contain only ASCII characters and must include  at least one non-whitespace character. ASCII control characters are not supported as part of dimension values.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -383,6 +390,7 @@ extension ApplicationSignals {
         /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, keyAttributes: [String: String], startTime: Date) {
             self.endTime = endTime
             self.keyAttributes = keyAttributes
@@ -417,6 +425,7 @@ extension ApplicationSignals {
         /// The ARN or name of the SLO that you want to retrieve information about. You can find the ARNs  of SLOs by using the ListServiceLevelObjectives operation.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -438,6 +447,7 @@ extension ApplicationSignals {
         /// A structure containing the information about the SLO.
         public let slo: ServiceLevelObjective
 
+        @inlinable
         public init(slo: ServiceLevelObjective) {
             self.slo = slo
         }
@@ -457,6 +467,7 @@ extension ApplicationSignals {
         /// The start time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057. This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, logGroupReferences: [[String: String]]? = nil, service: Service, startTime: Date) {
             self.endTime = endTime
             self.logGroupReferences = logGroupReferences
@@ -480,6 +491,7 @@ extension ApplicationSignals {
         /// The percentage of remaining budget over total budget that you want to get warnings for.  If you omit this parameter, the default of 50.0 is used.
         public let warningThreshold: Double?
 
+        @inlinable
         public init(attainmentGoal: Double? = nil, interval: Interval? = nil, warningThreshold: Double? = nil) {
             self.attainmentGoal = attainmentGoal
             self.interval = interval
@@ -509,6 +521,7 @@ extension ApplicationSignals {
         /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.keyAttributes = keyAttributes
@@ -555,6 +568,7 @@ extension ApplicationSignals {
         /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, nextToken: String? = nil, serviceDependencies: [ServiceDependency], startTime: Date) {
             self.endTime = endTime
             self.nextToken = nextToken
@@ -582,6 +596,7 @@ extension ApplicationSignals {
         /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.keyAttributes = keyAttributes
@@ -628,6 +643,7 @@ extension ApplicationSignals {
         /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, nextToken: String? = nil, serviceDependents: [ServiceDependent], startTime: Date) {
             self.endTime = endTime
             self.nextToken = nextToken
@@ -653,6 +669,7 @@ extension ApplicationSignals {
         /// The name of the operation that this SLO is associated with.
         public let operationName: String?
 
+        @inlinable
         public init(keyAttributes: [String: String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationName: String? = nil) {
             self.keyAttributes = keyAttributes
             self.maxResults = maxResults
@@ -695,6 +712,7 @@ extension ApplicationSignals {
         /// An array of structures, where each structure contains information about one SLO.
         public let sloSummaries: [ServiceLevelObjectiveSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, sloSummaries: [ServiceLevelObjectiveSummary]? = nil) {
             self.nextToken = nextToken
             self.sloSummaries = sloSummaries
@@ -718,6 +736,7 @@ extension ApplicationSignals {
         /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.keyAttributes = keyAttributes
@@ -764,6 +783,7 @@ extension ApplicationSignals {
         /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, nextToken: String? = nil, serviceOperations: [ServiceOperation], startTime: Date) {
             self.endTime = endTime
             self.nextToken = nextToken
@@ -789,6 +809,7 @@ extension ApplicationSignals {
         /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -823,6 +844,7 @@ extension ApplicationSignals {
         /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, nextToken: String? = nil, serviceSummaries: [ServiceSummary], startTime: Date) {
             self.endTime = endTime
             self.nextToken = nextToken
@@ -842,6 +864,7 @@ extension ApplicationSignals {
         /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is  arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -864,6 +887,7 @@ extension ApplicationSignals {
         /// The list of tag keys and values associated with the resource you specified.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -881,6 +905,7 @@ extension ApplicationSignals {
         /// The namespace of the metric. For more information, see  Namespaces.
         public let namespace: String?
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -922,6 +947,7 @@ extension ApplicationSignals {
         /// Use this only if you are using a metric math expression for the SLO.  Specify true for ReturnData for only the one expression result to use as the alarm. For all  other metrics and expressions in the same CreateServiceLevelObjective operation, specify ReturnData as false.
         public let returnData: Bool?
 
+        @inlinable
         public init(accountId: String? = nil, expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, period: Int? = nil, returnData: Bool? = nil) {
             self.accountId = accountId
             self.expression = expression
@@ -964,6 +990,7 @@ extension ApplicationSignals {
         /// The namespace of the metric. For more information, see  CloudWatchNamespaces.
         public let namespace: String
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, metricName: String, metricType: String, namespace: String) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -989,6 +1016,7 @@ extension ApplicationSignals {
         /// If you omit Unit then all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(metric: Metric, period: Int, stat: String, unit: StandardUnit? = nil) {
             self.metric = metric
             self.period = period
@@ -1017,6 +1045,7 @@ extension ApplicationSignals {
         /// A structure that contains information about the metric that the SLO monitors.
         public let requestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric
 
+        @inlinable
         public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator? = nil, metricThreshold: Double? = nil, requestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
@@ -1038,6 +1067,7 @@ extension ApplicationSignals {
         /// Use this structure to specify the metric to be used for the SLO.
         public let requestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig
 
+        @inlinable
         public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator? = nil, metricThreshold: Double? = nil, requestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
@@ -1067,6 +1097,7 @@ extension ApplicationSignals {
         /// This structure defines the metric that is used as the "total requests" number for a request-based SLO.  The number observed for this metric is divided by the number of "good requests" or "bad requests" that is  observed for the metric defined in  MonitoredRequestCountMetric.
         public let totalRequestCountMetric: [MetricDataQuery]
 
+        @inlinable
         public init(keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]) {
             self.keyAttributes = keyAttributes
             self.metricType = metricType
@@ -1096,6 +1127,7 @@ extension ApplicationSignals {
         /// Use this structure to define the metric that you want to use as the "total requests" number for a request-based SLO.  This result will be divided by the "good request" or "bad request" value defined in   MonitoredRequestCountMetric.
         public let totalRequestCountMetric: [MetricDataQuery]?
 
+        @inlinable
         public init(keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries? = nil, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]? = nil) {
             self.keyAttributes = keyAttributes
             self.metricType = metricType
@@ -1136,6 +1168,7 @@ extension ApplicationSignals {
         /// Specifies the rolling interval unit.
         public let durationUnit: DurationUnit
 
+        @inlinable
         public init(duration: Int, durationUnit: DurationUnit) {
             self.duration = duration
             self.durationUnit = durationUnit
@@ -1161,6 +1194,7 @@ extension ApplicationSignals {
         /// An array of structures that each contain information about one metric associated with this service.
         public let metricReferences: [MetricReference]
 
+        @inlinable
         public init(attributeMaps: [[String: String]]? = nil, keyAttributes: [String: String], logGroupReferences: [[String: String]]? = nil, metricReferences: [MetricReference]) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
@@ -1186,6 +1220,7 @@ extension ApplicationSignals {
         /// The name of the operation in this service that calls the dependency.
         public let operationName: String
 
+        @inlinable
         public init(dependencyKeyAttributes: [String: String], dependencyOperationName: String, metricReferences: [MetricReference], operationName: String) {
             self.dependencyKeyAttributes = dependencyKeyAttributes
             self.dependencyOperationName = dependencyOperationName
@@ -1211,6 +1246,7 @@ extension ApplicationSignals {
         /// If the invoked entity is an operation on an entity, the name of that dependent operation is displayed here.
         public let operationName: String?
 
+        @inlinable
         public init(dependentKeyAttributes: [String: String], dependentOperationName: String? = nil, metricReferences: [MetricReference], operationName: String? = nil) {
             self.dependentKeyAttributes = dependentKeyAttributes
             self.dependentOperationName = dependentOperationName
@@ -1234,6 +1270,7 @@ extension ApplicationSignals {
         /// A structure that contains information about the metric that the SLO monitors.
         public let sliMetric: ServiceLevelIndicatorMetric
 
+        @inlinable
         public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator, metricThreshold: Double, sliMetric: ServiceLevelIndicatorMetric) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
@@ -1255,6 +1292,7 @@ extension ApplicationSignals {
         /// Use this structure to specify the metric to be used for the SLO.
         public let sliMetricConfig: ServiceLevelIndicatorMetricConfig
 
+        @inlinable
         public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator, metricThreshold: Double, sliMetricConfig: ServiceLevelIndicatorMetricConfig) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
@@ -1282,6 +1320,7 @@ extension ApplicationSignals {
         /// If the SLO monitors a specific operation of the service, this field displays that operation name.
         public let operationName: String?
 
+        @inlinable
         public init(keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery], metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil) {
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
@@ -1311,6 +1350,7 @@ extension ApplicationSignals {
         /// The statistic to use for comparison to the threshold. It can be any CloudWatch statistic or extended statistic. For more information about statistics,  see CloudWatch statistics definitions.
         public let statistic: String?
 
+        @inlinable
         public init(keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil, periodSeconds: Int? = nil, statistic: String? = nil) {
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
@@ -1370,6 +1410,7 @@ extension ApplicationSignals {
         /// A structure containing information about the performance metric that this SLO monitors, if this is a period-based SLO.
         public let sli: ServiceLevelIndicator?
 
+        @inlinable
         public init(arn: String, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1419,6 +1460,7 @@ extension ApplicationSignals {
         /// The total number of seconds in the error budget for the interval. This field is included only  if the SLO is a period-based SLO.
         public let totalBudgetSeconds: Int?
 
+        @inlinable
         public init(arn: String, attainment: Double? = nil, budgetRequestsRemaining: Int? = nil, budgetSecondsRemaining: Int? = nil, budgetStatus: ServiceLevelObjectiveBudgetStatus, evaluationType: EvaluationType? = nil, goal: Goal? = nil, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil, totalBudgetRequests: Int? = nil, totalBudgetSeconds: Int? = nil) {
             self.arn = arn
             self.attainment = attainment
@@ -1460,6 +1502,7 @@ extension ApplicationSignals {
         /// The name of the SLO that this error is related to.
         public let name: String
 
+        @inlinable
         public init(arn: String, errorCode: String, errorMessage: String, name: String) {
             self.arn = arn
             self.errorCode = errorCode
@@ -1487,6 +1530,7 @@ extension ApplicationSignals {
         /// If this service level objective is specific to a single operation, this  field displays the name of that operation.
         public let operationName: String?
 
+        @inlinable
         public init(arn: String, createdTime: Date? = nil, keyAttributes: [String: String]? = nil, name: String, operationName: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1510,6 +1554,7 @@ extension ApplicationSignals {
         /// The name of the operation, discovered by Application Signals.
         public let name: String
 
+        @inlinable
         public init(metricReferences: [MetricReference], name: String) {
             self.metricReferences = metricReferences
             self.name = name
@@ -1529,6 +1574,7 @@ extension ApplicationSignals {
         /// An array of structures that each contain information about one metric associated with this service.
         public let metricReferences: [MetricReference]
 
+        @inlinable
         public init(attributeMaps: [[String: String]]? = nil, keyAttributes: [String: String], metricReferences: [MetricReference]) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
@@ -1556,6 +1602,7 @@ extension ApplicationSignals {
         /// The value for the specified tag key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1579,6 +1626,7 @@ extension ApplicationSignals {
         /// The list of key-value pairs to associate with the alarm.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1609,6 +1657,7 @@ extension ApplicationSignals {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1646,6 +1695,7 @@ extension ApplicationSignals {
         /// If this SLO is a period-based SLO, this structure defines the information about what performance metric this SLO will monitor.
         public let sliConfig: ServiceLevelIndicatorConfig?
 
+        @inlinable
         public init(description: String? = nil, goal: Goal? = nil, id: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil) {
             self.description = description
             self.goal = goal
@@ -1685,6 +1735,7 @@ extension ApplicationSignals {
         /// A structure that contains information about the SLO that you just updated.
         public let slo: ServiceLevelObjective
 
+        @inlinable
         public init(slo: ServiceLevelObjective) {
             self.slo = slo
         }

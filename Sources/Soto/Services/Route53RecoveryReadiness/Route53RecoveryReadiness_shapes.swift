@@ -48,6 +48,7 @@ extension Route53RecoveryReadiness {
         /// Tags on the resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
             self.cellArn = cellArn
             self.cellName = cellName
@@ -72,6 +73,7 @@ extension Route53RecoveryReadiness {
         public let cells: [String]?
         public let tags: [String: String]?
 
+        @inlinable
         public init(cellName: String? = nil, cells: [String]? = nil, tags: [String: String]? = nil) {
             self.cellName = cellName
             self.cells = cells
@@ -97,6 +99,7 @@ extension Route53RecoveryReadiness {
         /// Tags on the resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
             self.cellArn = cellArn
             self.cellName = cellName
@@ -118,6 +121,7 @@ extension Route53RecoveryReadiness {
         /// The cross-account authorization.
         public let crossAccountAuthorization: String?
 
+        @inlinable
         public init(crossAccountAuthorization: String? = nil) {
             self.crossAccountAuthorization = crossAccountAuthorization
         }
@@ -131,6 +135,7 @@ extension Route53RecoveryReadiness {
         /// The cross-account authorization.
         public let crossAccountAuthorization: String?
 
+        @inlinable
         public init(crossAccountAuthorization: String? = nil) {
             self.crossAccountAuthorization = crossAccountAuthorization
         }
@@ -147,6 +152,7 @@ extension Route53RecoveryReadiness {
         public let resourceSetName: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(readinessCheckName: String? = nil, resourceSetName: String? = nil, tags: [String: String]? = nil) {
             self.readinessCheckName = readinessCheckName
             self.resourceSetName = resourceSetName
@@ -169,6 +175,7 @@ extension Route53RecoveryReadiness {
         public let resourceSet: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(readinessCheckArn: String? = nil, readinessCheckName: String? = nil, resourceSet: String? = nil, tags: [String: String]? = nil) {
             self.readinessCheckArn = readinessCheckArn
             self.readinessCheckName = readinessCheckName
@@ -191,6 +198,7 @@ extension Route53RecoveryReadiness {
         public let recoveryGroupName: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(cells: [String]? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
             self.cells = cells
             self.recoveryGroupName = recoveryGroupName
@@ -214,6 +222,7 @@ extension Route53RecoveryReadiness {
         /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
             self.cells = cells
             self.recoveryGroupArn = recoveryGroupArn
@@ -239,6 +248,7 @@ extension Route53RecoveryReadiness {
         /// A tag to associate with the parameters for a resource set.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resources: [Resource]? = nil, resourceSetName: String? = nil, resourceSetType: String? = nil, tags: [String: String]? = nil) {
             self.resources = resources
             self.resourceSetName = resourceSetName
@@ -269,6 +279,7 @@ extension Route53RecoveryReadiness {
         public let resourceSetType: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(resources: [Resource]? = nil, resourceSetArn: String? = nil, resourceSetName: String? = nil, resourceSetType: String? = nil, tags: [String: String]? = nil) {
             self.resources = resources
             self.resourceSetArn = resourceSetArn
@@ -298,6 +309,7 @@ extension Route53RecoveryReadiness {
         /// The target resource of the DNS target resource.
         public let targetResource: TargetResource?
 
+        @inlinable
         public init(domainName: String? = nil, hostedZoneArn: String? = nil, recordSetId: String? = nil, recordType: String? = nil, targetResource: TargetResource? = nil) {
             self.domainName = domainName
             self.hostedZoneArn = hostedZoneArn
@@ -319,6 +331,7 @@ extension Route53RecoveryReadiness {
         /// The name of the cell.
         public let cellName: String
 
+        @inlinable
         public init(cellName: String) {
             self.cellName = cellName
         }
@@ -336,6 +349,7 @@ extension Route53RecoveryReadiness {
         /// The cross-account authorization.
         public let crossAccountAuthorization: String
 
+        @inlinable
         public init(crossAccountAuthorization: String) {
             self.crossAccountAuthorization = crossAccountAuthorization
         }
@@ -357,6 +371,7 @@ extension Route53RecoveryReadiness {
         /// Name of a readiness check.
         public let readinessCheckName: String
 
+        @inlinable
         public init(readinessCheckName: String) {
             self.readinessCheckName = readinessCheckName
         }
@@ -374,6 +389,7 @@ extension Route53RecoveryReadiness {
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
+        @inlinable
         public init(recoveryGroupName: String) {
             self.recoveryGroupName = recoveryGroupName
         }
@@ -391,6 +407,7 @@ extension Route53RecoveryReadiness {
         /// Name of a resource set.
         public let resourceSetName: String
 
+        @inlinable
         public init(resourceSetName: String) {
             self.resourceSetName = resourceSetName
         }
@@ -412,6 +429,7 @@ extension Route53RecoveryReadiness {
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryGroupName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -443,6 +461,7 @@ extension Route53RecoveryReadiness {
         /// A list of the recommendations for the customer's application.
         public let recommendations: [Recommendation]?
 
+        @inlinable
         public init(lastAuditTimestamp: Date? = nil, nextToken: String? = nil, recommendations: [Recommendation]? = nil) {
             self.lastAuditTimestamp = lastAuditTimestamp
             self.nextToken = nextToken
@@ -464,6 +483,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(cellName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.cellName = cellName
             self.maxResults = maxResults
@@ -494,6 +514,7 @@ extension Route53RecoveryReadiness {
         /// Summaries for the readiness checks that make up the cell.
         public let readinessChecks: [ReadinessCheckSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, readiness: Readiness? = nil, readinessChecks: [ReadinessCheckSummary]? = nil) {
             self.nextToken = nextToken
             self.readiness = readiness
@@ -511,6 +532,7 @@ extension Route53RecoveryReadiness {
         /// The name of the cell.
         public let cellName: String
 
+        @inlinable
         public init(cellName: String) {
             self.cellName = cellName
         }
@@ -536,6 +558,7 @@ extension Route53RecoveryReadiness {
         /// Tags on the resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
             self.cellArn = cellArn
             self.cellName = cellName
@@ -557,6 +580,7 @@ extension Route53RecoveryReadiness {
         /// Name of a readiness check.
         public let readinessCheckName: String
 
+        @inlinable
         public init(readinessCheckName: String) {
             self.readinessCheckName = readinessCheckName
         }
@@ -580,6 +604,7 @@ extension Route53RecoveryReadiness {
         /// The resource identifier, which is the Amazon Resource Name (ARN) or the identifier generated for the resource by Application Recovery Controller (for example, for a DNS target resource).
         public let resourceIdentifier: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, readinessCheckName: String, resourceIdentifier: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -612,6 +637,7 @@ extension Route53RecoveryReadiness {
         /// Details of the rule's results.
         public let rules: [RuleResult]?
 
+        @inlinable
         public init(nextToken: String? = nil, readiness: Readiness? = nil, rules: [RuleResult]? = nil) {
             self.nextToken = nextToken
             self.readiness = readiness
@@ -634,6 +660,7 @@ extension Route53RecoveryReadiness {
         public let resourceSet: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(readinessCheckArn: String? = nil, readinessCheckName: String? = nil, resourceSet: String? = nil, tags: [String: String]? = nil) {
             self.readinessCheckArn = readinessCheckArn
             self.readinessCheckName = readinessCheckName
@@ -657,6 +684,7 @@ extension Route53RecoveryReadiness {
         /// Name of a readiness check.
         public let readinessCheckName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, readinessCheckName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -689,6 +717,7 @@ extension Route53RecoveryReadiness {
         /// Summary of the readiness of resources.
         public let resources: [ResourceResult]?
 
+        @inlinable
         public init(messages: [Message]? = nil, nextToken: String? = nil, readiness: Readiness? = nil, resources: [ResourceResult]? = nil) {
             self.messages = messages
             self.nextToken = nextToken
@@ -712,6 +741,7 @@ extension Route53RecoveryReadiness {
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryGroupName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -742,6 +772,7 @@ extension Route53RecoveryReadiness {
         /// Summaries of the readiness checks for the recovery group.
         public let readinessChecks: [ReadinessCheckSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, readiness: Readiness? = nil, readinessChecks: [ReadinessCheckSummary]? = nil) {
             self.nextToken = nextToken
             self.readiness = readiness
@@ -759,6 +790,7 @@ extension Route53RecoveryReadiness {
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
+        @inlinable
         public init(recoveryGroupName: String) {
             self.recoveryGroupName = recoveryGroupName
         }
@@ -782,6 +814,7 @@ extension Route53RecoveryReadiness {
         /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
             self.cells = cells
             self.recoveryGroupArn = recoveryGroupArn
@@ -801,6 +834,7 @@ extension Route53RecoveryReadiness {
         /// Name of a resource set.
         public let resourceSetName: String
 
+        @inlinable
         public init(resourceSetName: String) {
             self.resourceSetName = resourceSetName
         }
@@ -825,6 +859,7 @@ extension Route53RecoveryReadiness {
         public let resourceSetType: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(resources: [Resource]? = nil, resourceSetArn: String? = nil, resourceSetName: String? = nil, resourceSetType: String? = nil, tags: [String: String]? = nil) {
             self.resources = resources
             self.resourceSetArn = resourceSetArn
@@ -848,6 +883,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -874,6 +910,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(cells: [CellOutput]? = nil, nextToken: String? = nil) {
             self.cells = cells
             self.nextToken = nextToken
@@ -891,6 +928,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -917,6 +955,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(crossAccountAuthorizations: [String]? = nil, nextToken: String? = nil) {
             self.crossAccountAuthorizations = crossAccountAuthorizations
             self.nextToken = nextToken
@@ -934,6 +973,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -960,6 +1000,7 @@ extension Route53RecoveryReadiness {
         /// A list of readiness checks associated with the account.
         public let readinessChecks: [ReadinessCheckOutput]?
 
+        @inlinable
         public init(nextToken: String? = nil, readinessChecks: [ReadinessCheckOutput]? = nil) {
             self.nextToken = nextToken
             self.readinessChecks = readinessChecks
@@ -977,6 +1018,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1003,6 +1045,7 @@ extension Route53RecoveryReadiness {
         /// A list of recovery groups.
         public let recoveryGroups: [RecoveryGroupOutput]?
 
+        @inlinable
         public init(nextToken: String? = nil, recoveryGroups: [RecoveryGroupOutput]? = nil) {
             self.nextToken = nextToken
             self.recoveryGroups = recoveryGroups
@@ -1020,6 +1063,7 @@ extension Route53RecoveryReadiness {
         /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1046,6 +1090,7 @@ extension Route53RecoveryReadiness {
         /// A list of resource sets associated with the account.
         public let resourceSets: [ResourceSetOutput]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceSets: [ResourceSetOutput]? = nil) {
             self.nextToken = nextToken
             self.resourceSets = resourceSets
@@ -1065,6 +1110,7 @@ extension Route53RecoveryReadiness {
         /// The ID for the readiness rule.
         public let ruleId: String?
 
+        @inlinable
         public init(resourceType: String? = nil, ruleDescription: String? = nil, ruleId: String? = nil) {
             self.resourceType = resourceType
             self.ruleDescription = ruleDescription
@@ -1086,6 +1132,7 @@ extension Route53RecoveryReadiness {
         /// The resource type that a readiness rule applies to.
         public let resourceType: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1114,6 +1161,7 @@ extension Route53RecoveryReadiness {
         /// A list of readiness rules for a specific resource type.
         public let rules: [ListRulesOutput]?
 
+        @inlinable
         public init(nextToken: String? = nil, rules: [ListRulesOutput]? = nil) {
             self.nextToken = nextToken
             self.rules = rules
@@ -1129,6 +1177,7 @@ extension Route53RecoveryReadiness {
         /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1145,6 +1194,7 @@ extension Route53RecoveryReadiness {
     public struct ListTagsForResourcesResponse: AWSDecodableShape {
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1158,6 +1208,7 @@ extension Route53RecoveryReadiness {
         /// The text of a readiness check message.
         public let messageText: String?
 
+        @inlinable
         public init(messageText: String? = nil) {
             self.messageText = messageText
         }
@@ -1171,6 +1222,7 @@ extension Route53RecoveryReadiness {
         /// The Network Load Balancer resource Amazon Resource Name (ARN).
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1186,6 +1238,7 @@ extension Route53RecoveryReadiness {
         /// The Route 53 Resource Record Set ID.
         public let recordSetId: String?
 
+        @inlinable
         public init(domainName: String? = nil, recordSetId: String? = nil) {
             self.domainName = domainName
             self.recordSetId = recordSetId
@@ -1206,6 +1259,7 @@ extension Route53RecoveryReadiness {
         public let resourceSet: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(readinessCheckArn: String? = nil, readinessCheckName: String? = nil, resourceSet: String? = nil, tags: [String: String]? = nil) {
             self.readinessCheckArn = readinessCheckArn
             self.readinessCheckName = readinessCheckName
@@ -1227,6 +1281,7 @@ extension Route53RecoveryReadiness {
         /// The name of a readiness check.
         public let readinessCheckName: String?
 
+        @inlinable
         public init(readiness: Readiness? = nil, readinessCheckName: String? = nil) {
             self.readiness = readiness
             self.readinessCheckName = readinessCheckName
@@ -1242,6 +1297,7 @@ extension Route53RecoveryReadiness {
         /// Text of the recommendations that are provided to make an application more recovery resilient.
         public let recommendationText: String?
 
+        @inlinable
         public init(recommendationText: String? = nil) {
             self.recommendationText = recommendationText
         }
@@ -1261,6 +1317,7 @@ extension Route53RecoveryReadiness {
         /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
             self.cells = cells
             self.recoveryGroupArn = recoveryGroupArn
@@ -1286,6 +1343,7 @@ extension Route53RecoveryReadiness {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(componentId: String? = nil, dnsTargetResource: DNSTargetResource? = nil, readinessScopes: [String]? = nil, resourceArn: String? = nil) {
             self.componentId = componentId
             self.dnsTargetResource = dnsTargetResource
@@ -1312,6 +1370,7 @@ extension Route53RecoveryReadiness {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(componentId: String? = nil, lastCheckedTimestamp: Date? = nil, readiness: Readiness? = nil, resourceArn: String? = nil) {
             self.componentId = componentId
             self.lastCheckedTimestamp = lastCheckedTimestamp
@@ -1338,6 +1397,7 @@ extension Route53RecoveryReadiness {
         public let resourceSetType: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(resources: [Resource]? = nil, resourceSetArn: String? = nil, resourceSetName: String? = nil, resourceSetType: String? = nil, tags: [String: String]? = nil) {
             self.resources = resources
             self.resourceSetArn = resourceSetArn
@@ -1366,6 +1426,7 @@ extension Route53RecoveryReadiness {
         /// The identifier of the rule.
         public let ruleId: String?
 
+        @inlinable
         public init(lastCheckedTimestamp: Date? = nil, messages: [Message]? = nil, readiness: Readiness? = nil, ruleId: String? = nil) {
             self.lastCheckedTimestamp = lastCheckedTimestamp
             self.messages = messages
@@ -1386,6 +1447,7 @@ extension Route53RecoveryReadiness {
         public let resourceArn: String
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1413,6 +1475,7 @@ extension Route53RecoveryReadiness {
         /// The Route 53 resource.
         public let r53Resource: R53ResourceRecord?
 
+        @inlinable
         public init(nlbResource: NLBResource? = nil, r53Resource: R53ResourceRecord? = nil) {
             self.nlbResource = nlbResource
             self.r53Resource = r53Resource
@@ -1430,6 +1493,7 @@ extension Route53RecoveryReadiness {
         /// The keys for tags you add to resources.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1451,6 +1515,7 @@ extension Route53RecoveryReadiness {
         /// A list of cell Amazon Resource Names (ARNs), which completely replaces the previous list.
         public let cells: [String]?
 
+        @inlinable
         public init(cellName: String, cells: [String]? = nil) {
             self.cellName = cellName
             self.cells = cells
@@ -1480,6 +1545,7 @@ extension Route53RecoveryReadiness {
         /// Tags on the resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
             self.cellArn = cellArn
             self.cellName = cellName
@@ -1503,6 +1569,7 @@ extension Route53RecoveryReadiness {
         /// The name of the resource set to be checked.
         public let resourceSetName: String?
 
+        @inlinable
         public init(readinessCheckName: String, resourceSetName: String? = nil) {
             self.readinessCheckName = readinessCheckName
             self.resourceSetName = resourceSetName
@@ -1529,6 +1596,7 @@ extension Route53RecoveryReadiness {
         public let resourceSet: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(readinessCheckArn: String? = nil, readinessCheckName: String? = nil, resourceSet: String? = nil, tags: [String: String]? = nil) {
             self.readinessCheckArn = readinessCheckArn
             self.readinessCheckName = readinessCheckName
@@ -1550,6 +1618,7 @@ extension Route53RecoveryReadiness {
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
+        @inlinable
         public init(cells: [String]? = nil, recoveryGroupName: String) {
             self.cells = cells
             self.recoveryGroupName = recoveryGroupName
@@ -1577,6 +1646,7 @@ extension Route53RecoveryReadiness {
         /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
             self.cells = cells
             self.recoveryGroupArn = recoveryGroupArn
@@ -1600,6 +1670,7 @@ extension Route53RecoveryReadiness {
         /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String?
 
+        @inlinable
         public init(resources: [Resource]? = nil, resourceSetName: String, resourceSetType: String? = nil) {
             self.resources = resources
             self.resourceSetName = resourceSetName
@@ -1635,6 +1706,7 @@ extension Route53RecoveryReadiness {
         public let resourceSetType: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(resources: [Resource]? = nil, resourceSetArn: String? = nil, resourceSetName: String? = nil, resourceSetType: String? = nil, tags: [String: String]? = nil) {
             self.resources = resources
             self.resourceSetArn = resourceSetArn

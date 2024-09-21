@@ -388,6 +388,7 @@ extension CodeBuild {
         /// The IDs of the builds to delete.
         public let ids: [String]
 
+        @inlinable
         public init(ids: [String]) {
             self.ids = ids
         }
@@ -411,6 +412,7 @@ extension CodeBuild {
         /// Information about any builds that could not be successfully deleted.
         public let buildsNotDeleted: [BuildNotDeleted]?
 
+        @inlinable
         public init(buildsDeleted: [String]? = nil, buildsNotDeleted: [BuildNotDeleted]? = nil) {
             self.buildsDeleted = buildsDeleted
             self.buildsNotDeleted = buildsNotDeleted
@@ -426,6 +428,7 @@ extension CodeBuild {
         /// An array that contains the batch build identifiers to retrieve.
         public let ids: [String]
 
+        @inlinable
         public init(ids: [String]) {
             self.ids = ids
         }
@@ -448,6 +451,7 @@ extension CodeBuild {
         /// An array that contains the identifiers of any batch builds that are not found.
         public let buildBatchesNotFound: [String]?
 
+        @inlinable
         public init(buildBatches: [BuildBatch]? = nil, buildBatchesNotFound: [String]? = nil) {
             self.buildBatches = buildBatches
             self.buildBatchesNotFound = buildBatchesNotFound
@@ -463,6 +467,7 @@ extension CodeBuild {
         /// The IDs of the builds.
         public let ids: [String]
 
+        @inlinable
         public init(ids: [String]) {
             self.ids = ids
         }
@@ -486,6 +491,7 @@ extension CodeBuild {
         /// The IDs of builds for which information could not be found.
         public let buildsNotFound: [String]?
 
+        @inlinable
         public init(builds: [Build]? = nil, buildsNotFound: [String]? = nil) {
             self.builds = builds
             self.buildsNotFound = buildsNotFound
@@ -501,6 +507,7 @@ extension CodeBuild {
         /// The names or ARNs of the compute fleets.
         public let names: [String]
 
+        @inlinable
         public init(names: [String]) {
             self.names = names
         }
@@ -524,6 +531,7 @@ extension CodeBuild {
         /// The names of compute fleets for which information could not be found.
         public let fleetsNotFound: [String]?
 
+        @inlinable
         public init(fleets: [Fleet]? = nil, fleetsNotFound: [String]? = nil) {
             self.fleets = fleets
             self.fleetsNotFound = fleetsNotFound
@@ -539,6 +547,7 @@ extension CodeBuild {
         /// The names or ARNs of the build projects. To get information about a project shared with your Amazon Web Services account, its ARN must be specified. You cannot specify a shared project using its name.
         public let names: [String]
 
+        @inlinable
         public init(names: [String]) {
             self.names = names
         }
@@ -562,6 +571,7 @@ extension CodeBuild {
         /// The names of build projects for which information could not be found.
         public let projectsNotFound: [String]?
 
+        @inlinable
         public init(projects: [Project]? = nil, projectsNotFound: [String]? = nil) {
             self.projects = projects
             self.projectsNotFound = projectsNotFound
@@ -577,6 +587,7 @@ extension CodeBuild {
         ///  An array of report group ARNs that identify the report groups to return.
         public let reportGroupArns: [String]
 
+        @inlinable
         public init(reportGroupArns: [String]) {
             self.reportGroupArns = reportGroupArns
         }
@@ -600,6 +611,7 @@ extension CodeBuild {
         ///  An array of ARNs passed to BatchGetReportGroups that are not associated with a ReportGroup.
         public let reportGroupsNotFound: [String]?
 
+        @inlinable
         public init(reportGroups: [ReportGroup]? = nil, reportGroupsNotFound: [String]? = nil) {
             self.reportGroups = reportGroups
             self.reportGroupsNotFound = reportGroupsNotFound
@@ -615,6 +627,7 @@ extension CodeBuild {
         ///  An array of ARNs that identify the Report objects to return.
         public let reportArns: [String]
 
+        @inlinable
         public init(reportArns: [String]) {
             self.reportArns = reportArns
         }
@@ -638,6 +651,7 @@ extension CodeBuild {
         ///  An array of ARNs passed to BatchGetReportGroups that are not associated with a Report.
         public let reportsNotFound: [String]?
 
+        @inlinable
         public init(reports: [Report]? = nil, reportsNotFound: [String]? = nil) {
             self.reports = reports
             self.reportsNotFound = reportsNotFound
@@ -655,6 +669,7 @@ extension CodeBuild {
         /// Specifies the maximum number of builds allowed.
         public let maximumBuildsAllowed: Int?
 
+        @inlinable
         public init(computeTypesAllowed: [String]? = nil, maximumBuildsAllowed: Int? = nil) {
             self.computeTypesAllowed = computeTypesAllowed
             self.maximumBuildsAllowed = maximumBuildsAllowed
@@ -738,6 +753,7 @@ extension CodeBuild {
         /// If your CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchArn: String? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, debugSession: DebugSession? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
@@ -824,6 +840,7 @@ extension CodeBuild {
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP.
         public let sha256sum: String?
 
+        @inlinable
         public init(artifactIdentifier: String? = nil, bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
             self.artifactIdentifier = artifactIdentifier
             self.bucketOwnerAccess = bucketOwnerAccess
@@ -901,6 +918,7 @@ extension CodeBuild {
         public let startTime: Date?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, buildBatchNumber: Int64? = nil, buildBatchStatus: StatusType? = nil, buildGroups: [BuildGroup]? = nil, buildTimeoutInMinutes: Int? = nil, cache: ProjectCache? = nil, complete: Bool? = nil, currentPhase: String? = nil, debugSessionEnabled: Bool? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logConfig: LogsConfig? = nil, phases: [BuildBatchPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
@@ -972,6 +990,7 @@ extension CodeBuild {
         /// The status of the batch builds to retrieve. Only batch builds that have this status will be retrieved.
         public let status: StatusType?
 
+        @inlinable
         public init(status: StatusType? = nil) {
             self.status = status
         }
@@ -995,6 +1014,7 @@ extension CodeBuild {
         /// When the batch build phase started, expressed in Unix time format.
         public let startTime: Date?
 
+        @inlinable
         public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: Date? = nil, phaseStatus: StatusType? = nil, phaseType: BuildBatchPhaseType? = nil, startTime: Date? = nil) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
@@ -1026,6 +1046,7 @@ extension CodeBuild {
         /// An array of BuildSummary objects that contain summaries of previous build groups.
         public let priorBuildSummaryList: [BuildSummary]?
 
+        @inlinable
         public init(currentBuildSummary: BuildSummary? = nil, dependsOn: [String]? = nil, identifier: String? = nil, ignoreFailure: Bool? = nil, priorBuildSummaryList: [BuildSummary]? = nil) {
             self.currentBuildSummary = currentBuildSummary
             self.dependsOn = dependsOn
@@ -1049,6 +1070,7 @@ extension CodeBuild {
         /// Additional information about the build that could not be successfully deleted.
         public let statusCode: String?
 
+        @inlinable
         public init(id: String? = nil, statusCode: String? = nil) {
             self.id = id
             self.statusCode = statusCode
@@ -1074,6 +1096,7 @@ extension CodeBuild {
         /// When the build phase started, expressed in Unix time format.
         public let startTime: Date?
 
+        @inlinable
         public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: Date? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil, startTime: Date? = nil) {
             self.contexts = contexts
             self.durationInSeconds = durationInSeconds
@@ -1099,6 +1122,7 @@ extension CodeBuild {
         /// Specifies the target url of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider.  Bitbucket  This parameter is used for the url parameter in the Bitbucket commit status. For more information, see build in the Bitbucket API documentation.  GitHub/GitHub Enterprise Server  This parameter is used for the target_url parameter in the GitHub commit status. For more information, see Create a commit status in the GitHub developer guide.
         public let targetUrl: String?
 
+        @inlinable
         public init(context: String? = nil, targetUrl: String? = nil) {
             self.context = context
             self.targetUrl = targetUrl
@@ -1122,6 +1146,7 @@ extension CodeBuild {
         /// An array of ResolvedArtifact objects that represents the secondary build artifacts for the build group.
         public let secondaryArtifacts: [ResolvedArtifact]?
 
+        @inlinable
         public init(arn: String? = nil, buildStatus: StatusType? = nil, primaryArtifact: ResolvedArtifact? = nil, requestedOn: Date? = nil, secondaryArtifacts: [ResolvedArtifact]? = nil) {
             self.arn = arn
             self.buildStatus = buildStatus
@@ -1147,6 +1172,7 @@ extension CodeBuild {
         ///  The prefix of the stream name of the CloudWatch Logs. For more information, see Working with Log Groups and Log Streams.
         public let streamName: String?
 
+        @inlinable
         public init(groupName: String? = nil, status: LogsConfigStatusType, streamName: String? = nil) {
             self.groupName = groupName
             self.status = status
@@ -1182,6 +1208,7 @@ extension CodeBuild {
         /// The ARN of the report.
         public let reportARN: String?
 
+        @inlinable
         public init(branchCoveragePercentage: Double? = nil, branchesCovered: Int? = nil, branchesMissed: Int? = nil, expired: Date? = nil, filePath: String? = nil, id: String? = nil, lineCoveragePercentage: Double? = nil, linesCovered: Int? = nil, linesMissed: Int? = nil, reportARN: String? = nil) {
             self.branchCoveragePercentage = branchCoveragePercentage
             self.branchesCovered = branchesCovered
@@ -1223,6 +1250,7 @@ extension CodeBuild {
         /// The number of lines that are not covered by your tests.
         public let linesMissed: Int?
 
+        @inlinable
         public init(branchCoveragePercentage: Double? = nil, branchesCovered: Int? = nil, branchesMissed: Int? = nil, lineCoveragePercentage: Double? = nil, linesCovered: Int? = nil, linesMissed: Int? = nil) {
             self.branchCoveragePercentage = branchCoveragePercentage
             self.branchesCovered = branchesCovered
@@ -1263,6 +1291,7 @@ extension CodeBuild {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, imageId: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseCapacity = baseCapacity
             self.computeType = computeType
@@ -1309,6 +1338,7 @@ extension CodeBuild {
         /// Information about the compute fleet
         public let fleet: Fleet?
 
+        @inlinable
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
@@ -1362,6 +1392,7 @@ extension CodeBuild {
         /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.  If you're using compute fleets during project creation, do not provide vpcConfig.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
@@ -1442,6 +1473,7 @@ extension CodeBuild {
         /// Information about the build project that was created.
         public let project: Project?
 
+        @inlinable
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -1461,6 +1493,7 @@ extension CodeBuild {
         ///  The type of report group.
         public let type: ReportType
 
+        @inlinable
         public init(exportConfig: ReportExportConfig, name: String, tags: [Tag]? = nil, type: ReportType) {
             self.exportConfig = exportConfig
             self.name = name
@@ -1490,6 +1523,7 @@ extension CodeBuild {
         ///  Information about the report group that was created.
         public let reportGroup: ReportGroup?
 
+        @inlinable
         public init(reportGroup: ReportGroup? = nil) {
             self.reportGroup = reportGroup
         }
@@ -1513,6 +1547,7 @@ extension CodeBuild {
         /// The scope configuration for global or organization webhooks.  Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
         public let scopeConfiguration: ScopeConfiguration?
 
+        @inlinable
         public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, manualCreation: Bool? = nil, projectName: String, scopeConfiguration: ScopeConfiguration? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
@@ -1542,6 +1577,7 @@ extension CodeBuild {
         /// Information about a webhook that connects repository events to a build project in CodeBuild.
         public let webhook: Webhook?
 
+        @inlinable
         public init(webhook: Webhook? = nil) {
             self.webhook = webhook
         }
@@ -1557,6 +1593,7 @@ extension CodeBuild {
         /// Contains the identifier of the Session Manager session used for the build. To work with the paused build, you open this session to examine, control, and resume the build.
         public let sessionTarget: String?
 
+        @inlinable
         public init(sessionEnabled: Bool? = nil, sessionTarget: String? = nil) {
             self.sessionEnabled = sessionEnabled
             self.sessionTarget = sessionTarget
@@ -1572,6 +1609,7 @@ extension CodeBuild {
         /// The identifier of the batch build to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1593,6 +1631,7 @@ extension CodeBuild {
         /// The status code.
         public let statusCode: String?
 
+        @inlinable
         public init(buildsDeleted: [String]? = nil, buildsNotDeleted: [BuildNotDeleted]? = nil, statusCode: String? = nil) {
             self.buildsDeleted = buildsDeleted
             self.buildsNotDeleted = buildsNotDeleted
@@ -1610,6 +1649,7 @@ extension CodeBuild {
         /// The ARN of the compute fleet.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1631,6 +1671,7 @@ extension CodeBuild {
         /// The name of the build project.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1654,6 +1695,7 @@ extension CodeBuild {
         /// If true, deletes any reports that belong to a report group before deleting the report group.  If false, you must delete any reports in the report group. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown.
         public let deleteReports: Bool?
 
+        @inlinable
         public init(arn: String, deleteReports: Bool? = nil) {
             self.arn = arn
             self.deleteReports = deleteReports
@@ -1677,6 +1719,7 @@ extension CodeBuild {
         ///  The ARN of the report to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1698,6 +1741,7 @@ extension CodeBuild {
         ///  The ARN of the resource that is associated with the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1719,6 +1763,7 @@ extension CodeBuild {
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1736,6 +1781,7 @@ extension CodeBuild {
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1749,6 +1795,7 @@ extension CodeBuild {
         /// The name of the CodeBuild project.
         public let projectName: String
 
+        @inlinable
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -1784,6 +1831,7 @@ extension CodeBuild {
         /// Specifies if the results are sorted in ascending or descending order.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(maxLineCoveragePercentage: Double? = nil, maxResults: Int? = nil, minLineCoveragePercentage: Double? = nil, nextToken: String? = nil, reportArn: String, sortBy: ReportCodeCoverageSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.maxLineCoveragePercentage = maxLineCoveragePercentage
             self.maxResults = maxResults
@@ -1821,6 +1869,7 @@ extension CodeBuild {
         /// If there are more items to return, this contains a token that is passed to a subsequent call to DescribeCodeCoverages to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(codeCoverages: [CodeCoverage]? = nil, nextToken: String? = nil) {
             self.codeCoverages = codeCoverages
             self.nextToken = nextToken
@@ -1842,6 +1891,7 @@ extension CodeBuild {
         ///  The ARN of the report for which test cases are returned.
         public let reportArn: String
 
+        @inlinable
         public init(filter: TestCaseFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, reportArn: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1868,6 +1918,7 @@ extension CodeBuild {
         ///  The returned list of test cases.
         public let testCases: [TestCase]?
 
+        @inlinable
         public init(nextToken: String? = nil, testCases: [TestCase]? = nil) {
             self.nextToken = nextToken
             self.testCases = testCases
@@ -1887,6 +1938,7 @@ extension CodeBuild {
         /// A list of environment image versions.
         public let versions: [String]?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, versions: [String]? = nil) {
             self.description = description
             self.name = name
@@ -1906,6 +1958,7 @@ extension CodeBuild {
         /// The programming language for the Docker images.
         public let language: LanguageType?
 
+        @inlinable
         public init(images: [EnvironmentImage]? = nil, language: LanguageType? = nil) {
             self.images = images
             self.language = language
@@ -1923,6 +1976,7 @@ extension CodeBuild {
         /// The platform's name.
         public let platform: PlatformType?
 
+        @inlinable
         public init(languages: [EnvironmentLanguage]? = nil, platform: PlatformType? = nil) {
             self.languages = languages
             self.platform = platform
@@ -1942,6 +1996,7 @@ extension CodeBuild {
         /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially Amazon Web Services secret key IDs. PLAINTEXT environment variables can be displayed in plain text using the CodeBuild console and the CLI. For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER.
         public let value: String
 
+        @inlinable
         public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
             self.name = name
             self.type = type
@@ -1965,6 +2020,7 @@ extension CodeBuild {
         /// The value assigned to the exported environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2007,6 +2063,7 @@ extension CodeBuild {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, imageId: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
@@ -2052,6 +2109,7 @@ extension CodeBuild {
         /// The status code of the compute fleet. Valid values include:    CREATING: The compute fleet is being created.    UPDATING: The compute fleet is being updated.    ROTATING: The compute fleet is being rotated.    PENDING_DELETION: The compute fleet is pending deletion.    DELETING: The compute fleet is being deleted.    CREATE_FAILED: The compute fleet has failed to create.    UPDATE_ROLLBACK_FAILED: The compute fleet has failed to update and could not rollback to previous state.    ACTIVE: The compute fleet has succeeded and is active.
         public let statusCode: FleetStatusCode?
 
+        @inlinable
         public init(context: FleetContextCode? = nil, message: String? = nil, statusCode: FleetStatusCode? = nil) {
             self.context = context
             self.message = message
@@ -2073,6 +2131,7 @@ extension CodeBuild {
         /// The test report value to accumulate. This must be one of the following values:  Test reports:   DURATION  Accumulate the test run times for the specified reports.  PASS_RATE  Accumulate the percentage of tests that passed for the specified test reports.  TOTAL  Accumulate the total number of tests for the specified test reports.      Code coverage reports:   BRANCH_COVERAGE  Accumulate the branch coverage percentages for the specified test reports.  BRANCHES_COVERED  Accumulate the branches covered values for the specified test reports.  BRANCHES_MISSED  Accumulate the branches missed values for the specified test reports.  LINE_COVERAGE  Accumulate the line coverage percentages for the specified test reports.  LINES_COVERED  Accumulate the lines covered values for the specified test reports.  LINES_MISSED  Accumulate the lines not covered values for the specified test reports.
         public let trendField: ReportGroupTrendFieldType
 
+        @inlinable
         public init(numOfReports: Int? = nil, reportGroupArn: String, trendField: ReportGroupTrendFieldType) {
             self.numOfReports = numOfReports
             self.reportGroupArn = reportGroupArn
@@ -2098,6 +2157,7 @@ extension CodeBuild {
         /// Contains the accumulated trend data.
         public let stats: ReportGroupTrendStats?
 
+        @inlinable
         public init(rawData: [ReportWithRawData]? = nil, stats: ReportGroupTrendStats? = nil) {
             self.rawData = rawData
             self.stats = stats
@@ -2113,6 +2173,7 @@ extension CodeBuild {
         ///  The ARN of the resource that is associated with the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2130,6 +2191,7 @@ extension CodeBuild {
         ///  The resource policy for the resource identified by the input ARN parameter.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2143,6 +2205,7 @@ extension CodeBuild {
         ///  Set to true to fetch Git submodules for your CodeBuild build project.
         public let fetchSubmodules: Bool
 
+        @inlinable
         public init(fetchSubmodules: Bool) {
             self.fetchSubmodules = fetchSubmodules
         }
@@ -2164,6 +2227,7 @@ extension CodeBuild {
         ///  The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
         public let username: String?
 
+        @inlinable
         public init(authType: AuthType, serverType: ServerType, shouldOverwrite: Bool? = nil, token: String, username: String? = nil) {
             self.authType = authType
             self.serverType = serverType
@@ -2190,6 +2254,7 @@ extension CodeBuild {
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -2203,6 +2268,7 @@ extension CodeBuild {
         /// The name of the CodeBuild build project that the cache is reset for.
         public let projectName: String
 
+        @inlinable
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -2232,6 +2298,7 @@ extension CodeBuild {
         /// Specifies the sort order of the returned items. Valid values include:    ASCENDING: List the batch build identifiers in ascending order by identifier.    DESCENDING: List the batch build identifiers in descending order by identifier.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(filter: BuildBatchFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectName: String? = nil, sortOrder: SortOrderType? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2261,6 +2328,7 @@ extension CodeBuild {
         /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatchesForProject to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -2282,6 +2350,7 @@ extension CodeBuild {
         /// Specifies the sort order of the returned items. Valid values include:    ASCENDING: List the batch build identifiers in ascending order by identifier.    DESCENDING: List the batch build identifiers in descending order by identifier.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(filter: BuildBatchFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2308,6 +2377,7 @@ extension CodeBuild {
         /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatches to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -2327,6 +2397,7 @@ extension CodeBuild {
         /// The order to sort the results in. The results are sorted by build number, not the build identifier. If this is not specified, the results are sorted in descending order. Valid values include:    ASCENDING: List the build identifiers in ascending order, by build number.    DESCENDING: List the build identifiers in descending order, by build number.   If the project has more than 100 builds, setting the sort order will result in an error.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(nextToken: String? = nil, projectName: String, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.projectName = projectName
@@ -2350,6 +2421,7 @@ extension CodeBuild {
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
+        @inlinable
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -2367,6 +2439,7 @@ extension CodeBuild {
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.sortOrder = sortOrder
@@ -2384,6 +2457,7 @@ extension CodeBuild {
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
+        @inlinable
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
             self.nextToken = nextToken
@@ -2403,6 +2477,7 @@ extension CodeBuild {
         /// Information about supported platforms for Docker images that are managed by CodeBuild.
         public let platforms: [EnvironmentPlatform]?
 
+        @inlinable
         public init(platforms: [EnvironmentPlatform]? = nil) {
             self.platforms = platforms
         }
@@ -2422,6 +2497,7 @@ extension CodeBuild {
         /// The order in which to list compute fleets. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy to specify the criterion to be used to list compute fleet names.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: FleetSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2448,6 +2524,7 @@ extension CodeBuild {
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
+        @inlinable
         public init(fleets: [String]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
@@ -2467,6 +2544,7 @@ extension CodeBuild {
         /// The order in which to list build projects. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy to specify the criterion to be used to list build project names.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(nextToken: String? = nil, sortBy: ProjectSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.sortBy = sortBy
@@ -2490,6 +2568,7 @@ extension CodeBuild {
         /// The list of build project names, with each build project name representing a single build project.
         public let projects: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [String]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -2511,6 +2590,7 @@ extension CodeBuild {
         ///  Used to specify the order to sort the list of returned report groups. Valid values are ASCENDING and DESCENDING.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: ReportGroupSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2537,6 +2617,7 @@ extension CodeBuild {
         ///  The list of ARNs for the report groups in the current Amazon Web Services account.
         public let reportGroups: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportGroups: [String]? = nil) {
             self.nextToken = nextToken
             self.reportGroups = reportGroups
@@ -2560,6 +2641,7 @@ extension CodeBuild {
         ///  Use to specify whether the results are returned in ascending or descending order.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(filter: ReportFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, reportGroupArn: String, sortOrder: SortOrderType? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2588,6 +2670,7 @@ extension CodeBuild {
         ///  The list of report ARNs.
         public let reports: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, reports: [String]? = nil) {
             self.nextToken = nextToken
             self.reports = reports
@@ -2609,6 +2692,7 @@ extension CodeBuild {
         ///  Specifies the sort order for the list of returned reports. Valid values are:     ASCENDING: return reports in chronological order based on their creation date.     DESCENDING: return reports in the reverse chronological order based on their creation date.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(filter: ReportFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2635,6 +2719,7 @@ extension CodeBuild {
         ///  The list of returned ARNs for the reports in the current Amazon Web Services account.
         public let reports: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, reports: [String]? = nil) {
             self.nextToken = nextToken
             self.reports = reports
@@ -2656,6 +2741,7 @@ extension CodeBuild {
         /// The order in which to list shared build projects. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: SharedResourceSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2683,6 +2769,7 @@ extension CodeBuild {
         ///  The list of ARNs for the build projects shared with the current Amazon Web Services account or user.
         public let projects: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [String]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -2704,6 +2791,7 @@ extension CodeBuild {
         /// The order in which to list shared report groups. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: SharedResourceSortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2730,6 +2818,7 @@ extension CodeBuild {
         ///  The list of ARNs for the report groups shared with the current Amazon Web Services account or user.
         public let reportGroups: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportGroups: [String]? = nil) {
             self.nextToken = nextToken
             self.reportGroups = reportGroups
@@ -2749,6 +2838,7 @@ extension CodeBuild {
         ///  A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials.
         public let sourceCredentialsInfos: [SourceCredentialsInfo]?
 
+        @inlinable
         public init(sourceCredentialsInfos: [SourceCredentialsInfo]? = nil) {
             self.sourceCredentialsInfos = sourceCredentialsInfos
         }
@@ -2764,6 +2854,7 @@ extension CodeBuild {
         ///  Information about logs built to an S3 bucket for a build project. S3 logs are not enabled by default.
         public let s3Logs: S3LogsConfig?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, s3Logs: S3LogsConfig? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Logs = s3Logs
@@ -2793,6 +2884,7 @@ extension CodeBuild {
         /// The name of the CloudWatch Logs stream for the build logs.
         public let streamName: String?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsConfig? = nil, cloudWatchLogsArn: String? = nil, deepLink: String? = nil, groupName: String? = nil, s3DeepLink: String? = nil, s3Logs: S3LogsConfig? = nil, s3LogsArn: String? = nil, streamName: String? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.cloudWatchLogsArn = cloudWatchLogsArn
@@ -2822,6 +2914,7 @@ extension CodeBuild {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(networkInterfaceId: String? = nil, subnetId: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
             self.subnetId = subnetId
@@ -2839,6 +2932,7 @@ extension CodeBuild {
         /// The status code for the context of the build phase.
         public let statusCode: String?
 
+        @inlinable
         public init(message: String? = nil, statusCode: String? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -2907,6 +3001,7 @@ extension CodeBuild {
         /// Information about a webhook that connects repository events to a build project in CodeBuild.
         public let webhook: Webhook?
 
+        @inlinable
         public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, created: Date? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: Date? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, projectVisibility: ProjectVisibilityType? = nil, publicProjectAlias: String? = nil, queuedTimeoutInMinutes: Int? = nil, resourceAccessRole: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
@@ -2991,6 +3086,7 @@ extension CodeBuild {
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through CodePipeline.   The CODEPIPELINE type is not supported for secondaryArtifacts.     NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon S3.
         public let type: ArtifactsType
 
+        @inlinable
         public init(artifactIdentifier: String? = nil, bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
             self.artifactIdentifier = artifactIdentifier
             self.bucketOwnerAccess = bucketOwnerAccess
@@ -3024,6 +3120,7 @@ extension CodeBuild {
         /// The publicly-accessible URL through which you can access the build badge for your project.
         public let badgeRequestUrl: String?
 
+        @inlinable
         public init(badgeEnabled: Bool? = nil, badgeRequestUrl: String? = nil) {
             self.badgeEnabled = badgeEnabled
             self.badgeRequestUrl = badgeRequestUrl
@@ -3047,6 +3144,7 @@ extension CodeBuild {
         /// Specifies the maximum amount of time, in minutes, that the batch build must be completed in.
         public let timeoutInMins: Int?
 
+        @inlinable
         public init(batchReportMode: BatchReportModeType? = nil, combineArtifacts: Bool? = nil, restrictions: BatchRestrictions? = nil, serviceRole: String? = nil, timeoutInMins: Int? = nil) {
             self.batchReportMode = batchReportMode
             self.combineArtifacts = combineArtifacts
@@ -3077,6 +3175,7 @@ extension CodeBuild {
         /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.    LOCAL: The build project stores a cache locally on a build host that is only available to that build host.
         public let type: CacheType
 
+        @inlinable
         public init(location: String? = nil, modes: [CacheMode]? = nil, type: CacheType) {
             self.location = location
             self.modes = modes
@@ -3110,6 +3209,7 @@ extension CodeBuild {
         /// The type of build environment to use for related builds.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).     The environment types ARM_LAMBDA_CONTAINER and LINUX_LAMBDA_CONTAINER are available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Singapore),  Asia Pacific (Sydney), Asia Pacific (Tokyo), EU (Frankfurt), EU (Ireland), and South America (São Paulo).     The environment types WINDOWS_CONTAINER and WINDOWS_SERVER_2019_CONTAINER are available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).    If you're using compute fleets during project creation, type will be ignored.  For more information, see Build environment compute types in the CodeBuild user guide.
         public let type: EnvironmentType
 
+        @inlinable
         public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
             self.certificate = certificate
             self.computeType = computeType
@@ -3155,6 +3255,7 @@ extension CodeBuild {
         ///  The type of the file system. The one supported type is EFS.
         public let type: FileSystemType?
 
+        @inlinable
         public init(identifier: String? = nil, location: String? = nil, mountOptions: String? = nil, mountPoint: String? = nil, type: FileSystemType? = nil) {
             self.identifier = identifier
             self.location = location
@@ -3176,6 +3277,7 @@ extension CodeBuild {
         /// Specifies the compute fleet ARN for the build project.
         public let fleetArn: String?
 
+        @inlinable
         public init(fleetArn: String? = nil) {
             self.fleetArn = fleetArn
         }
@@ -3208,6 +3310,7 @@ extension CodeBuild {
         /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in CodePipeline.    GITHUB: The source code is in a GitHub repository.    GITHUB_ENTERPRISE: The source code is in a GitHub Enterprise Server repository.    GITLAB: The source code is in a GitLab repository.    GITLAB_SELF_MANAGED: The source code is in a self-managed GitLab repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon S3 bucket.
         public let type: SourceType
 
+        @inlinable
         public init(auth: SourceAuth? = nil, buildspec: String? = nil, buildStatusConfig: BuildStatusConfig? = nil, gitCloneDepth: Int? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
             self.auth = auth
             self.buildspec = buildspec
@@ -3245,6 +3348,7 @@ extension CodeBuild {
         /// The source version for the corresponding source identifier. If specified, must be one of:   For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID, branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String
 
+        @inlinable
         public init(sourceIdentifier: String, sourceVersion: String) {
             self.sourceIdentifier = sourceIdentifier
             self.sourceVersion = sourceVersion
@@ -3262,6 +3366,7 @@ extension CodeBuild {
         ///  The ARN of the Project or ReportGroup resource you want to associate with a resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -3282,6 +3387,7 @@ extension CodeBuild {
         ///  The ARN of the Project or ReportGroup resource that is associated with a resource policy.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -3297,6 +3403,7 @@ extension CodeBuild {
         ///  The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for Secrets Manager.
         public let credentialProvider: CredentialProviderType
 
+        @inlinable
         public init(credential: String, credentialProvider: CredentialProviderType) {
             self.credential = credential
             self.credentialProvider = credentialProvider
@@ -3338,6 +3445,7 @@ extension CodeBuild {
         /// The type of the report that was run.  CODE_COVERAGE  A code coverage report.  TEST  A test report.
         public let type: ReportType?
 
+        @inlinable
         public init(arn: String? = nil, codeCoverageSummary: CodeCoverageReportSummary? = nil, created: Date? = nil, executionId: String? = nil, expired: Date? = nil, exportConfig: ReportExportConfig? = nil, name: String? = nil, reportGroupArn: String? = nil, status: ReportStatusType? = nil, testSummary: TestReportSummary? = nil, truncated: Bool? = nil, type: ReportType? = nil) {
             self.arn = arn
             self.codeCoverageSummary = codeCoverageSummary
@@ -3375,6 +3483,7 @@ extension CodeBuild {
         ///  A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported.
         public let s3Destination: S3ReportExportConfig?
 
+        @inlinable
         public init(exportConfigType: ReportExportConfigType? = nil, s3Destination: S3ReportExportConfig? = nil) {
             self.exportConfigType = exportConfigType
             self.s3Destination = s3Destination
@@ -3394,6 +3503,7 @@ extension CodeBuild {
         ///  The status used to filter reports. You can filter using one status only.
         public let status: ReportStatusType?
 
+        @inlinable
         public init(status: ReportStatusType? = nil) {
             self.status = status
         }
@@ -3421,6 +3531,7 @@ extension CodeBuild {
         /// The type of the ReportGroup. This can be one of the following values:  CODE_COVERAGE  The report group contains code coverage reports.  TEST  The report group contains test reports.
         public let type: ReportType?
 
+        @inlinable
         public init(arn: String? = nil, created: Date? = nil, exportConfig: ReportExportConfig? = nil, lastModified: Date? = nil, name: String? = nil, status: ReportGroupStatusType? = nil, tags: [Tag]? = nil, type: ReportType? = nil) {
             self.arn = arn
             self.created = created
@@ -3452,6 +3563,7 @@ extension CodeBuild {
         /// Contains the minimum value analyzed.
         public let min: String?
 
+        @inlinable
         public init(average: String? = nil, max: String? = nil, min: String? = nil) {
             self.average = average
             self.max = max
@@ -3471,6 +3583,7 @@ extension CodeBuild {
         /// The ARN of the report.
         public let reportArn: String?
 
+        @inlinable
         public init(data: String? = nil, reportArn: String? = nil) {
             self.data = data
             self.reportArn = reportArn
@@ -3490,6 +3603,7 @@ extension CodeBuild {
         /// Specifies the type of artifact.
         public let type: ArtifactsType?
 
+        @inlinable
         public init(identifier: String? = nil, location: String? = nil, type: ArtifactsType? = nil) {
             self.identifier = identifier
             self.location = location
@@ -3511,6 +3625,7 @@ extension CodeBuild {
         /// Specifies the type of retry to perform.
         public let retryType: RetryBuildBatchType?
 
+        @inlinable
         public init(id: String? = nil, idempotencyToken: String? = nil, retryType: RetryBuildBatchType? = nil) {
             self.id = id
             self.idempotencyToken = idempotencyToken
@@ -3531,6 +3646,7 @@ extension CodeBuild {
     public struct RetryBuildBatchOutput: AWSDecodableShape {
         public let buildBatch: BuildBatch?
 
+        @inlinable
         public init(buildBatch: BuildBatch? = nil) {
             self.buildBatch = buildBatch
         }
@@ -3546,6 +3662,7 @@ extension CodeBuild {
         /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
         public let idempotencyToken: String?
 
+        @inlinable
         public init(id: String? = nil, idempotencyToken: String? = nil) {
             self.id = id
             self.idempotencyToken = idempotencyToken
@@ -3564,6 +3681,7 @@ extension CodeBuild {
     public struct RetryBuildOutput: AWSDecodableShape {
         public let build: Build?
 
+        @inlinable
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -3582,6 +3700,7 @@ extension CodeBuild {
         /// The current status of the S3 build logs. Valid values are:    ENABLED: S3 build logs are enabled for this build project.    DISABLED: S3 build logs are not enabled for this build project.
         public let status: LogsConfigStatusType
 
+        @inlinable
         public init(bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, status: LogsConfigStatusType) {
             self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
@@ -3611,6 +3730,7 @@ extension CodeBuild {
         ///  The path to the exported report's raw data results.
         public let path: String?
 
+        @inlinable
         public init(bucket: String? = nil, bucketOwner: String? = nil, encryptionDisabled: Bool? = nil, encryptionKey: String? = nil, packaging: ReportPackagingType? = nil, path: String? = nil) {
             self.bucket = bucket
             self.bucketOwner = bucketOwner
@@ -3643,6 +3763,7 @@ extension CodeBuild {
         /// A list of TargetTrackingScalingConfiguration objects.
         public let targetTrackingScalingConfigs: [TargetTrackingScalingConfiguration]?
 
+        @inlinable
         public init(maxCapacity: Int? = nil, scalingType: FleetScalingType? = nil, targetTrackingScalingConfigs: [TargetTrackingScalingConfiguration]? = nil) {
             self.maxCapacity = maxCapacity
             self.scalingType = scalingType
@@ -3670,6 +3791,7 @@ extension CodeBuild {
         /// A list of TargetTrackingScalingConfiguration objects.
         public let targetTrackingScalingConfigs: [TargetTrackingScalingConfiguration]?
 
+        @inlinable
         public init(desiredCapacity: Int? = nil, maxCapacity: Int? = nil, scalingType: FleetScalingType? = nil, targetTrackingScalingConfigs: [TargetTrackingScalingConfiguration]? = nil) {
             self.desiredCapacity = desiredCapacity
             self.maxCapacity = maxCapacity
@@ -3693,6 +3815,7 @@ extension CodeBuild {
         /// The type of scope for a GitHub webhook.
         public let scope: WebhookScopeType
 
+        @inlinable
         public init(domain: String? = nil, name: String, scope: WebhookScopeType) {
             self.domain = domain
             self.name = name
@@ -3712,6 +3835,7 @@ extension CodeBuild {
         /// The authorization type to use. Valid options are OAUTH, CODECONNECTIONS, or SECRETS_MANAGER.
         public let type: SourceAuthType
 
+        @inlinable
         public init(resource: String? = nil, type: SourceAuthType) {
             self.resource = resource
             self.type = type
@@ -3733,6 +3857,7 @@ extension CodeBuild {
         ///  The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, GITLAB, GITLAB_SELF_MANAGED, or BITBUCKET.
         public let serverType: ServerType?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, resource: String? = nil, serverType: ServerType? = nil) {
             self.arn = arn
             self.authType = authType
@@ -3812,6 +3937,7 @@ extension CodeBuild {
         /// The version of the batch build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String?
 
+        @inlinable
         public init(artifactsOverride: ProjectArtifacts? = nil, buildBatchConfigOverride: ProjectBuildBatchConfig? = nil, buildspecOverride: String? = nil, buildTimeoutInMinutesOverride: Int? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildBatchStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil) {
             self.artifactsOverride = artifactsOverride
             self.buildBatchConfigOverride = buildBatchConfigOverride
@@ -3908,6 +4034,7 @@ extension CodeBuild {
         /// A BuildBatch object that contains information about the batch build.
         public let buildBatch: BuildBatch?
 
+        @inlinable
         public init(buildBatch: BuildBatch? = nil) {
             self.buildBatch = buildBatch
         }
@@ -3984,6 +4111,7 @@ extension CodeBuild {
         /// The number of build timeout minutes, from 5 to 2160 (36 hours), that overrides, for this build only, the latest setting already defined in the build project.
         public let timeoutInMinutesOverride: Int?
 
+        @inlinable
         public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, fleetOverride: ProjectFleet? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
             self.artifactsOverride = artifactsOverride
             self.buildspecOverride = buildspecOverride
@@ -4081,6 +4209,7 @@ extension CodeBuild {
         /// Information about the build to be run.
         public let build: Build?
 
+        @inlinable
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -4094,6 +4223,7 @@ extension CodeBuild {
         /// The identifier of the batch build to stop.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4110,6 +4240,7 @@ extension CodeBuild {
     public struct StopBuildBatchOutput: AWSDecodableShape {
         public let buildBatch: BuildBatch?
 
+        @inlinable
         public init(buildBatch: BuildBatch? = nil) {
             self.buildBatch = buildBatch
         }
@@ -4123,6 +4254,7 @@ extension CodeBuild {
         /// The ID of the build.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4140,6 +4272,7 @@ extension CodeBuild {
         /// Information about the build.
         public let build: Build?
 
+        @inlinable
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -4155,6 +4288,7 @@ extension CodeBuild {
         /// The tag's value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4180,6 +4314,7 @@ extension CodeBuild {
         /// The value of metricType when to start scaling.
         public let targetValue: Double?
 
+        @inlinable
         public init(metricType: FleetScalingMetricType? = nil, targetValue: Double? = nil) {
             self.metricType = metricType
             self.targetValue = targetValue
@@ -4209,6 +4344,7 @@ extension CodeBuild {
         ///  The path to the raw data file that contains the test result.
         public let testRawDataPath: String?
 
+        @inlinable
         public init(durationInNanoSeconds: Int64? = nil, expired: Date? = nil, message: String? = nil, name: String? = nil, prefix: String? = nil, reportArn: String? = nil, status: String? = nil, testRawDataPath: String? = nil) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.expired = expired
@@ -4238,6 +4374,7 @@ extension CodeBuild {
         /// The status used to filter test cases. A TestCaseFilter can have one status. Valid values are:    SUCCEEDED     FAILED     ERROR     SKIPPED     UNKNOWN
         public let status: String?
 
+        @inlinable
         public init(keyword: String? = nil, status: String? = nil) {
             self.keyword = keyword
             self.status = status
@@ -4257,6 +4394,7 @@ extension CodeBuild {
         ///  The number of test cases in this TestReportSummary. The total includes truncated test cases.
         public let total: Int
 
+        @inlinable
         public init(durationInNanoSeconds: Int64, statusCounts: [String: Int], total: Int) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.statusCounts = statusCounts
@@ -4291,6 +4429,7 @@ extension CodeBuild {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, imageId: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
@@ -4335,6 +4474,7 @@ extension CodeBuild {
         /// A Fleet object.
         public let fleet: Fleet?
 
+        @inlinable
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
@@ -4387,6 +4527,7 @@ extension CodeBuild {
         /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
             self.badgeEnabled = badgeEnabled
@@ -4465,6 +4606,7 @@ extension CodeBuild {
         /// Information about the build project that was changed.
         public let project: Project?
 
+        @inlinable
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -4481,6 +4623,7 @@ extension CodeBuild {
         /// The ARN of the IAM role that enables CodeBuild to access the CloudWatch Logs and Amazon S3 artifacts for the project's builds.
         public let resourceAccessRole: String?
 
+        @inlinable
         public init(projectArn: String, projectVisibility: ProjectVisibilityType, resourceAccessRole: String? = nil) {
             self.projectArn = projectArn
             self.projectVisibility = projectVisibility
@@ -4506,6 +4649,7 @@ extension CodeBuild {
         /// Contains the project identifier used with the public build APIs.
         public let publicProjectAlias: String?
 
+        @inlinable
         public init(projectArn: String? = nil, projectVisibility: ProjectVisibilityType? = nil, publicProjectAlias: String? = nil) {
             self.projectArn = projectArn
             self.projectVisibility = projectVisibility
@@ -4527,6 +4671,7 @@ extension CodeBuild {
         ///  An updated list of tag key and value pairs associated with this report group.  These tags are available for use by Amazon Web Services services that support CodeBuild report group tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(arn: String, exportConfig: ReportExportConfig? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.exportConfig = exportConfig
@@ -4553,6 +4698,7 @@ extension CodeBuild {
         ///  Information about the updated report group.
         public let reportGroup: ReportGroup?
 
+        @inlinable
         public init(reportGroup: ReportGroup? = nil) {
             self.reportGroup = reportGroup
         }
@@ -4574,6 +4720,7 @@ extension CodeBuild {
         ///  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
         public let rotateSecret: Bool?
 
+        @inlinable
         public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, projectName: String, rotateSecret: Bool? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
@@ -4601,6 +4748,7 @@ extension CodeBuild {
         ///  Information about a repository's webhook that is associated with a project in CodeBuild.
         public let webhook: Webhook?
 
+        @inlinable
         public init(webhook: Webhook? = nil) {
             self.webhook = webhook
         }
@@ -4618,6 +4766,7 @@ extension CodeBuild {
         /// The ID of the Amazon VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -4663,6 +4812,7 @@ extension CodeBuild {
         /// The URL to the webhook.
         public let url: String?
 
+        @inlinable
         public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, manualCreation: Bool? = nil, payloadUrl: String? = nil, scopeConfiguration: ScopeConfiguration? = nil, secret: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
@@ -4696,6 +4846,7 @@ extension CodeBuild {
         ///  The type of webhook filter. There are nine webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, RELEASE_NAME,  and WORKFLOW_NAME.     EVENT    A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED,  PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED,  PULL_REQUEST_MERGED, RELEASED, PRERELEASED,  and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.   Types PULL_REQUEST_REOPENED and WORKFLOW_JOB_QUEUED  work with GitHub and GitHub Enterprise only. Types RELEASED and  PRERELEASED work with GitHub only.      ACTOR_ACCOUNT_ID   A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.      HEAD_REF   A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.      BASE_REF   A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.   Works with pull request events only.       FILE_PATH   A webhook triggers a build when the path of a changed file matches the regular expression pattern.   Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       COMMIT_MESSAGE   A webhook triggers a build when the head commit message matches the regular expression pattern.  Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       TAG_NAME   A webhook triggers a build when the tag name of the release matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       RELEASE_NAME   A webhook triggers a build when the release name matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       REPOSITORY_NAME   A webhook triggers a build when the repository name matches the  regular expression pattern.  Works with GitHub global or organization webhooks only.       WORKFLOW_NAME   A webhook triggers a build when the workflow name matches the  regular expression pattern.  Works with WORKFLOW_JOB_QUEUED events only.
         public let type: WebhookFilterType
 
+        @inlinable
         public init(excludeMatchedPattern: Bool? = nil, pattern: String, type: WebhookFilterType) {
             self.excludeMatchedPattern = excludeMatchedPattern
             self.pattern = pattern

@@ -163,6 +163,7 @@ extension ApplicationDiscoveryService {
         /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent receives this command the next time it polls for a new command.
         public let operationSucceeded: Bool?
 
+        @inlinable
         public init(agentId: String? = nil, description: String? = nil, operationSucceeded: Bool? = nil) {
             self.agentId = agentId
             self.description = description
@@ -198,6 +199,7 @@ extension ApplicationDiscoveryService {
         /// The agent or collector version.
         public let version: String?
 
+        @inlinable
         public init(agentId: String? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, agentType: String? = nil, collectionStatus: String? = nil, connectorId: String? = nil, health: AgentStatus? = nil, hostName: String? = nil, lastHealthPingTime: String? = nil, registeredTime: String? = nil, version: String? = nil) {
             self.agentId = agentId
             self.agentNetworkInfoList = agentNetworkInfoList
@@ -231,6 +233,7 @@ extension ApplicationDiscoveryService {
         /// The MAC address for the host where the agent/collector resides.
         public let macAddress: String?
 
+        @inlinable
         public init(ipAddress: String? = nil, macAddress: String? = nil) {
             self.ipAddress = ipAddress
             self.macAddress = macAddress
@@ -248,6 +251,7 @@ extension ApplicationDiscoveryService {
         /// The ID of each configuration item to be associated with an application.
         public let configurationIds: [String]
 
+        @inlinable
         public init(applicationConfigurationId: String, configurationIds: [String]) {
             self.applicationConfigurationId = applicationConfigurationId
             self.configurationIds = configurationIds
@@ -280,6 +284,7 @@ extension ApplicationDiscoveryService {
         ///  The description of the error that occurred for the delete failed agent.
         public let errorMessage: String
 
+        @inlinable
         public init(agentId: String, errorCode: DeleteAgentErrorCode, errorMessage: String) {
             self.agentId = agentId
             self.errorCode = errorCode
@@ -297,6 +302,7 @@ extension ApplicationDiscoveryService {
         ///  The list of agents to delete.
         public let deleteAgents: [DeleteAgent]
 
+        @inlinable
         public init(deleteAgents: [DeleteAgent]) {
             self.deleteAgents = deleteAgents
         }
@@ -318,6 +324,7 @@ extension ApplicationDiscoveryService {
         ///  A list of agent IDs that failed to delete during the deletion task, each paired with an error message.
         public let errors: [BatchDeleteAgentError]?
 
+        @inlinable
         public init(errors: [BatchDeleteAgentError]? = nil) {
             self.errors = errors
         }
@@ -347,6 +354,7 @@ extension ApplicationDiscoveryService {
         ///  The deletion task's unique identifier.
         public let taskId: String?
 
+        @inlinable
         public init(configurationType: DeletionConfigurationItemType? = nil, deletedConfigurations: [String]? = nil, deletionWarnings: [DeletionWarning]? = nil, endTime: Date? = nil, failedConfigurations: [FailedConfiguration]? = nil, requestedConfigurations: [String]? = nil, startTime: Date? = nil, status: BatchDeleteConfigurationTaskStatus? = nil, taskId: String? = nil) {
             self.configurationType = configurationType
             self.deletedConfigurations = deletedConfigurations
@@ -380,6 +388,7 @@ extension ApplicationDiscoveryService {
         /// The unique import ID associated with the error that occurred.
         public let importTaskId: String?
 
+        @inlinable
         public init(errorCode: BatchDeleteImportDataErrorCode? = nil, errorDescription: String? = nil, importTaskId: String? = nil) {
             self.errorCode = errorCode
             self.errorDescription = errorDescription
@@ -399,6 +408,7 @@ extension ApplicationDiscoveryService {
         /// The IDs for the import tasks that you want to delete.
         public let importTaskIds: [String]
 
+        @inlinable
         public init(deleteHistory: Bool? = nil, importTaskIds: [String]) {
             self.deleteHistory = deleteHistory
             self.importTaskIds = importTaskIds
@@ -423,6 +433,7 @@ extension ApplicationDiscoveryService {
         /// Error messages returned for each import task that you deleted as a response for this command.
         public let errors: [BatchDeleteImportDataError]?
 
+        @inlinable
         public init(errors: [BatchDeleteImportDataError]? = nil) {
             self.errors = errors
         }
@@ -444,6 +455,7 @@ extension ApplicationDiscoveryService {
         /// A value on which to filter. For example key = serverType and value = web server.
         public let value: String?
 
+        @inlinable
         public init(configurationId: String? = nil, configurationType: ConfigurationItemType? = nil, key: String? = nil, timeOfCreation: Date? = nil, value: String? = nil) {
             self.configurationId = configurationId
             self.configurationType = configurationType
@@ -479,6 +491,7 @@ extension ApplicationDiscoveryService {
         /// The timestamp that represents when this continuous export was stopped.
         public let stopTime: Date?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: Date? = nil, status: ContinuousExportStatus? = nil, statusDetail: String? = nil, stopTime: Date? = nil) {
             self.dataSource = dataSource
             self.exportId = exportId
@@ -508,6 +521,7 @@ extension ApplicationDiscoveryService {
         /// Name of the application to be created.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
@@ -530,6 +544,7 @@ extension ApplicationDiscoveryService {
         /// Configuration ID of an application to be created.
         public let configurationId: String?
 
+        @inlinable
         public init(configurationId: String? = nil) {
             self.configurationId = configurationId
         }
@@ -545,6 +560,7 @@ extension ApplicationDiscoveryService {
         /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"}
         public let tags: [Tag]
 
+        @inlinable
         public init(configurationIds: [String], tags: [Tag]) {
             self.configurationIds = configurationIds
             self.tags = tags
@@ -583,6 +599,7 @@ extension ApplicationDiscoveryService {
         /// Number of unknown discovery agents.
         public let unknownAgents: Int
 
+        @inlinable
         public init(activeAgents: Int, blackListedAgents: Int, healthyAgents: Int, shutdownAgents: Int, totalAgents: Int, unhealthyAgents: Int, unknownAgents: Int) {
             self.activeAgents = activeAgents
             self.blackListedAgents = blackListedAgents
@@ -620,6 +637,7 @@ extension ApplicationDiscoveryService {
         ///  The number of unknown Agentless Collector collectors.
         public let unknownAgentlessCollectors: Int
 
+        @inlinable
         public init(activeAgentlessCollectors: Int, denyListedAgentlessCollectors: Int, healthyAgentlessCollectors: Int, shutdownAgentlessCollectors: Int, totalAgentlessCollectors: Int, unhealthyAgentlessCollectors: Int, unknownAgentlessCollectors: Int) {
             self.activeAgentlessCollectors = activeAgentlessCollectors
             self.denyListedAgentlessCollectors = denyListedAgentlessCollectors
@@ -657,6 +675,7 @@ extension ApplicationDiscoveryService {
         /// Number of unknown discovery connectors.
         public let unknownConnectors: Int
 
+        @inlinable
         public init(activeConnectors: Int, blackListedConnectors: Int, healthyConnectors: Int, shutdownConnectors: Int, totalConnectors: Int, unhealthyConnectors: Int, unknownConnectors: Int) {
             self.activeConnectors = activeConnectors
             self.blackListedConnectors = blackListedConnectors
@@ -694,6 +713,7 @@ extension ApplicationDiscoveryService {
         ///  The number of unknown Migration Evaluator collectors.
         public let unknownMeCollectors: Int
 
+        @inlinable
         public init(activeMeCollectors: Int, denyListedMeCollectors: Int, healthyMeCollectors: Int, shutdownMeCollectors: Int, totalMeCollectors: Int, unhealthyMeCollectors: Int, unknownMeCollectors: Int) {
             self.activeMeCollectors = activeMeCollectors
             self.denyListedMeCollectors = denyListedMeCollectors
@@ -721,6 +741,7 @@ extension ApplicationDiscoveryService {
         ///  Optional flag used to force delete an agent or data collector. It is needed to delete any agent in  HEALTHY/UNHEALTHY/RUNNING status. Note that deleting an agent that is actively reporting health causes it  to be re-registered with a different agent ID after data collector re-connects with Amazon Web Services.
         public let force: Bool?
 
+        @inlinable
         public init(agentId: String, force: Bool? = nil) {
             self.agentId = agentId
             self.force = force
@@ -742,6 +763,7 @@ extension ApplicationDiscoveryService {
         /// Configuration ID of an application to be deleted.
         public let configurationIds: [String]
 
+        @inlinable
         public init(configurationIds: [String]) {
             self.configurationIds = configurationIds
         }
@@ -768,6 +790,7 @@ extension ApplicationDiscoveryService {
         /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"}
         public let tags: [Tag]?
 
+        @inlinable
         public init(configurationIds: [String], tags: [Tag]? = nil) {
             self.configurationIds = configurationIds
             self.tags = tags
@@ -798,6 +821,7 @@ extension ApplicationDiscoveryService {
         ///  A descriptive message of the warning the associated configuration ID produced.
         public let warningText: String?
 
+        @inlinable
         public init(configurationId: String? = nil, warningCode: Int? = nil, warningText: String? = nil) {
             self.configurationId = configurationId
             self.warningCode = warningCode
@@ -821,6 +845,7 @@ extension ApplicationDiscoveryService {
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
 
+        @inlinable
         public init(agentIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentIds = agentIds
             self.filters = filters
@@ -853,6 +878,7 @@ extension ApplicationDiscoveryService {
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
         public let nextToken: String?
 
+        @inlinable
         public init(agentsInfo: [AgentInfo]? = nil, nextToken: String? = nil) {
             self.agentsInfo = agentsInfo
             self.nextToken = nextToken
@@ -868,6 +894,7 @@ extension ApplicationDiscoveryService {
         ///  The ID of the task to delete.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -885,6 +912,7 @@ extension ApplicationDiscoveryService {
         ///  The BatchDeleteConfigurationTask that represents the deletion task being executed.
         public let task: BatchDeleteConfigurationTask?
 
+        @inlinable
         public init(task: BatchDeleteConfigurationTask? = nil) {
             self.task = task
         }
@@ -898,6 +926,7 @@ extension ApplicationDiscoveryService {
         /// One or more configuration IDs.
         public let configurationIds: [String]
 
+        @inlinable
         public init(configurationIds: [String]) {
             self.configurationIds = configurationIds
         }
@@ -918,6 +947,7 @@ extension ApplicationDiscoveryService {
         /// A key in the response map. The value is an array of data.
         public let configurations: [[String: String]]?
 
+        @inlinable
         public init(configurations: [[String: String]]? = nil) {
             self.configurations = configurations
         }
@@ -935,6 +965,7 @@ extension ApplicationDiscoveryService {
         /// The token from the previous call to DescribeExportTasks.
         public let nextToken: String?
 
+        @inlinable
         public init(exportIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportIds = exportIds
             self.maxResults = maxResults
@@ -963,6 +994,7 @@ extension ApplicationDiscoveryService {
         /// The token from the previous call to DescribeExportTasks.
         public let nextToken: String?
 
+        @inlinable
         public init(descriptions: [ContinuousExportDescription]? = nil, nextToken: String? = nil) {
             self.descriptions = descriptions
             self.nextToken = nextToken
@@ -982,6 +1014,7 @@ extension ApplicationDiscoveryService {
         /// The token from the previous call to describe-export-tasks.
         public let nextToken: String?
 
+        @inlinable
         public init(exportIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportIds = exportIds
             self.maxResults = maxResults
@@ -1007,6 +1040,7 @@ extension ApplicationDiscoveryService {
         /// The token from the previous call to describe-export-tasks.
         public let nextToken: String?
 
+        @inlinable
         public init(exportsInfo: [ExportInfo]? = nil, nextToken: String? = nil) {
             self.exportsInfo = exportsInfo
             self.nextToken = nextToken
@@ -1028,6 +1062,7 @@ extension ApplicationDiscoveryService {
         /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(exportIds: [String]? = nil, filters: [ExportFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportIds = exportIds
             self.filters = filters
@@ -1059,6 +1094,7 @@ extension ApplicationDiscoveryService {
         /// The nextToken value to include in a future DescribeExportTasks request. When the results of a DescribeExportTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(exportsInfo: [ExportInfo]? = nil, nextToken: String? = nil) {
             self.exportsInfo = exportsInfo
             self.nextToken = nextToken
@@ -1078,6 +1114,7 @@ extension ApplicationDiscoveryService {
         /// The token to request a specific page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ImportTaskFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1105,6 +1142,7 @@ extension ApplicationDiscoveryService {
         /// A returned array of import tasks that match any applied filters, up to the specified number of maximum results.
         public let tasks: [ImportTask]?
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [ImportTask]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -1124,6 +1162,7 @@ extension ApplicationDiscoveryService {
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [TagFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1149,6 +1188,7 @@ extension ApplicationDiscoveryService {
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
         public let tags: [ConfigurationTag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [ConfigurationTag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1166,6 +1206,7 @@ extension ApplicationDiscoveryService {
         /// Configuration ID of each item to be disassociated from an application.
         public let configurationIds: [String]
 
+        @inlinable
         public init(applicationConfigurationId: String, configurationIds: [String]) {
             self.applicationConfigurationId = applicationConfigurationId
             self.configurationIds = configurationIds
@@ -1206,6 +1247,7 @@ extension ApplicationDiscoveryService {
         ///  The target tenancy to use for your recommended EC2 instances.
         public let tenancy: Tenancy?
 
+        @inlinable
         public init(cpuPerformanceMetricBasis: UsageMetricBasis? = nil, enabled: Bool? = nil, excludedInstanceTypes: [String]? = nil, preferredRegion: String? = nil, ramPerformanceMetricBasis: UsageMetricBasis? = nil, reservedInstanceOptions: ReservedInstanceOptions? = nil, tenancy: Tenancy? = nil) {
             self.cpuPerformanceMetricBasis = cpuPerformanceMetricBasis
             self.enabled = enabled
@@ -1244,6 +1286,7 @@ extension ApplicationDiscoveryService {
         /// A unique identifier that you can use to query the export status.
         public let exportId: String?
 
+        @inlinable
         public init(exportId: String? = nil) {
             self.exportId = exportId
         }
@@ -1261,6 +1304,7 @@ extension ApplicationDiscoveryService {
         /// A single agent ID for a Discovery Agent. An agent ID can be found using the DescribeAgents action. Typically an ADS agent ID is in the form o-0123456789abcdef0.
         public let values: [String]
 
+        @inlinable
         public init(condition: String, name: String, values: [String]) {
             self.condition = condition
             self.name = name
@@ -1303,6 +1347,7 @@ extension ApplicationDiscoveryService {
         /// A status message provided for API callers.
         public let statusMessage: String
 
+        @inlinable
         public init(configurationsDownloadUrl: String? = nil, exportId: String, exportRequestTime: Date, exportStatus: ExportStatus, isTruncated: Bool? = nil, requestedEndTime: Date? = nil, requestedStartTime: Date? = nil, statusMessage: String) {
             self.configurationsDownloadUrl = configurationsDownloadUrl
             self.exportId = exportId
@@ -1334,6 +1379,7 @@ extension ApplicationDiscoveryService {
         ///  The integer error code associated with the error message.
         public let errorStatusCode: Int?
 
+        @inlinable
         public init(configurationId: String? = nil, errorMessage: String? = nil, errorStatusCode: Int? = nil) {
             self.configurationId = configurationId
             self.errorMessage = errorMessage
@@ -1355,6 +1401,7 @@ extension ApplicationDiscoveryService {
         /// A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
         public let values: [String]
 
+        @inlinable
         public init(condition: String, name: String, values: [String]) {
             self.condition = condition
             self.name = name
@@ -1401,6 +1448,7 @@ extension ApplicationDiscoveryService {
         /// The number of servers mapped to tags.
         public let serversMappedtoTags: Int64?
 
+        @inlinable
         public init(agentlessCollectorSummary: CustomerAgentlessCollectorInfo? = nil, agentSummary: CustomerAgentInfo? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, meCollectorSummary: CustomerMeCollectorInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil, serversMappedtoTags: Int64? = nil) {
             self.agentlessCollectorSummary = agentlessCollectorSummary
             self.agentSummary = agentSummary
@@ -1452,6 +1500,7 @@ extension ApplicationDiscoveryService {
         /// The status of the import task. An import can have the status of IMPORT_COMPLETE and still have some records fail to import from the overall request. More information can be found in the downloadable archive defined in the errorsAndFailedEntriesZip field, or in the Migration Hub management console.
         public let status: ImportStatus?
 
+        @inlinable
         public init(applicationImportFailure: Int? = nil, applicationImportSuccess: Int? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: Date? = nil, importDeletedTime: Date? = nil, importRequestTime: Date? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int? = nil, serverImportSuccess: Int? = nil, status: ImportStatus? = nil) {
             self.applicationImportFailure = applicationImportFailure
             self.applicationImportSuccess = applicationImportSuccess
@@ -1491,6 +1540,7 @@ extension ApplicationDiscoveryService {
         /// An array of strings that you can provide to match against a specific name, status, or import task ID to filter the results for your import task queries.
         public let values: [String]?
 
+        @inlinable
         public init(name: ImportTaskFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1523,6 +1573,7 @@ extension ApplicationDiscoveryService {
         /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the Amazon Web Services Application Discovery Service User Guide.
         public let orderBy: [OrderByElement]?
 
+        @inlinable
         public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
             self.configurationType = configurationType
             self.filters = filters
@@ -1555,6 +1606,7 @@ extension ApplicationDiscoveryService {
         /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
         public let nextToken: String?
 
+        @inlinable
         public init(configurations: [[String: String]]? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.nextToken = nextToken
@@ -1578,6 +1630,7 @@ extension ApplicationDiscoveryService {
         /// Flag to indicate if port and protocol information is needed as part of the response.
         public let portInformationNeeded: Bool?
 
+        @inlinable
         public init(configurationId: String, maxResults: Int? = nil, neighborConfigurationIds: [String]? = nil, nextToken: String? = nil, portInformationNeeded: Bool? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
@@ -1614,6 +1667,7 @@ extension ApplicationDiscoveryService {
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
         public let nextToken: String?
 
+        @inlinable
         public init(knownDependencyCount: Int64? = nil, neighbors: [NeighborConnectionDetail], nextToken: String? = nil) {
             self.knownDependencyCount = knownDependencyCount
             self.neighbors = neighbors
@@ -1639,6 +1693,7 @@ extension ApplicationDiscoveryService {
         /// The network protocol used for the connection.
         public let transportProtocol: String?
 
+        @inlinable
         public init(connectionsCount: Int64, destinationPort: Int? = nil, destinationServerId: String, sourceServerId: String, transportProtocol: String? = nil) {
             self.connectionsCount = connectionsCount
             self.destinationPort = destinationPort
@@ -1662,6 +1717,7 @@ extension ApplicationDiscoveryService {
         /// Ordering direction.
         public let sortOrder: OrderString?
 
+        @inlinable
         public init(fieldName: String, sortOrder: OrderString? = nil) {
             self.fieldName = fieldName
             self.sortOrder = sortOrder
@@ -1686,6 +1742,7 @@ extension ApplicationDiscoveryService {
         ///  The preferred duration of the Reserved Instance term.
         public let termLength: TermLength
 
+        @inlinable
         public init(offeringClass: OfferingClass, purchasingOption: PurchasingOption, termLength: TermLength) {
             self.offeringClass = offeringClass
             self.purchasingOption = purchasingOption
@@ -1705,6 +1762,7 @@ extension ApplicationDiscoveryService {
         ///  The type of configuration item to delete. Supported types are: SERVER.
         public let configurationType: DeletionConfigurationItemType
 
+        @inlinable
         public init(configurationIds: [String], configurationType: DeletionConfigurationItemType) {
             self.configurationIds = configurationIds
             self.configurationType = configurationType
@@ -1727,6 +1785,7 @@ extension ApplicationDiscoveryService {
         ///  The unique identifier associated with the newly started deletion task.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -1752,6 +1811,7 @@ extension ApplicationDiscoveryService {
         /// The timestamp representing when the continuous export was started.
         public let startTime: Date?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, exportId: String? = nil, s3Bucket: String? = nil, schemaStorageConfig: [String: String]? = nil, startTime: Date? = nil) {
             self.dataSource = dataSource
             self.exportId = exportId
@@ -1773,6 +1833,7 @@ extension ApplicationDiscoveryService {
         /// The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public let agentIds: [String]
 
+        @inlinable
         public init(agentIds: [String]) {
             self.agentIds = agentIds
         }
@@ -1794,6 +1855,7 @@ extension ApplicationDiscoveryService {
         /// Information about agents that were instructed to start collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
+        @inlinable
         public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
             self.agentsConfigurationStatus = agentsConfigurationStatus
         }
@@ -1815,6 +1877,7 @@ extension ApplicationDiscoveryService {
         /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, preferences: ExportPreferences? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.exportDataFormat = exportDataFormat
@@ -1843,6 +1906,7 @@ extension ApplicationDiscoveryService {
         /// A unique identifier used to query the status of an export request.
         public let exportId: String?
 
+        @inlinable
         public init(exportId: String? = nil) {
             self.exportId = exportId
         }
@@ -1860,6 +1924,7 @@ extension ApplicationDiscoveryService {
         /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
         public let name: String
 
+        @inlinable
         public init(clientRequestToken: String? = StartImportTaskRequest.idempotencyToken(), importUrl: String, name: String) {
             self.clientRequestToken = clientRequestToken
             self.importUrl = importUrl
@@ -1888,6 +1953,7 @@ extension ApplicationDiscoveryService {
         /// An array of information related to the import task request including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
         public let task: ImportTask?
 
+        @inlinable
         public init(task: ImportTask? = nil) {
             self.task = task
         }
@@ -1901,6 +1967,7 @@ extension ApplicationDiscoveryService {
         /// The unique ID assigned to this export.
         public let exportId: String
 
+        @inlinable
         public init(exportId: String) {
             self.exportId = exportId
         }
@@ -1921,6 +1988,7 @@ extension ApplicationDiscoveryService {
         /// Timestamp that represents when this continuous export was stopped.
         public let stopTime: Date?
 
+        @inlinable
         public init(startTime: Date? = nil, stopTime: Date? = nil) {
             self.startTime = startTime
             self.stopTime = stopTime
@@ -1936,6 +2004,7 @@ extension ApplicationDiscoveryService {
         /// The IDs of the agents from which to stop collecting data.
         public let agentIds: [String]
 
+        @inlinable
         public init(agentIds: [String]) {
             self.agentIds = agentIds
         }
@@ -1957,6 +2026,7 @@ extension ApplicationDiscoveryService {
         /// Information about the agents that were instructed to stop collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
+        @inlinable
         public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
             self.agentsConfigurationStatus = agentsConfigurationStatus
         }
@@ -1972,6 +2042,7 @@ extension ApplicationDiscoveryService {
         /// A value for a tag key on which to filter.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1989,6 +2060,7 @@ extension ApplicationDiscoveryService {
         /// Values for the tag filter.
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -2017,6 +2089,7 @@ extension ApplicationDiscoveryService {
         /// New name of the application to be updated.
         public let name: String?
 
+        @inlinable
         public init(configurationId: String, description: String? = nil, name: String? = nil) {
             self.configurationId = configurationId
             self.description = description
@@ -2049,6 +2122,7 @@ extension ApplicationDiscoveryService {
         ///  Specifies the percentage of the specified utilization metric that is used by the recommendations.
         public let percentageAdjust: Double?
 
+        @inlinable
         public init(name: String? = nil, percentageAdjust: Double? = nil) {
             self.name = name
             self.percentageAdjust = percentageAdjust
@@ -2070,6 +2144,7 @@ extension ApplicationDiscoveryService {
         ///  If enabled, exported data includes EC2 instance type matches for on-premises servers  discovered through Amazon Web Services Application Discovery Service.
         public let ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences?
 
+        @inlinable
         public init(ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences? = nil) {
             self.ec2RecommendationsPreferences = ec2RecommendationsPreferences
         }

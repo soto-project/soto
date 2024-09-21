@@ -87,6 +87,7 @@ extension ResourceGroups {
         /// The text of any error message occurs during an attempt to turn group lifecycle events on or off.
         public let groupLifecycleEventsStatusMessage: String?
 
+        @inlinable
         public init(groupLifecycleEventsDesiredStatus: GroupLifecycleEventsDesiredStatus? = nil, groupLifecycleEventsStatus: GroupLifecycleEventsStatus? = nil, groupLifecycleEventsStatusMessage: String? = nil) {
             self.groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatus
             self.groupLifecycleEventsStatus = groupLifecycleEventsStatus
@@ -112,6 +113,7 @@ extension ResourceGroups {
         /// The tags to add to the group. A tag is key-value pair string.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configuration: [GroupConfigurationItem]? = nil, description: String? = nil, name: String, resourceQuery: ResourceQuery? = nil, tags: [String: String]? = nil) {
             self.configuration = configuration
             self.description = description
@@ -159,6 +161,7 @@ extension ResourceGroups {
         /// The tags associated with the group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(group: Group? = nil, groupConfiguration: GroupConfiguration? = nil, resourceQuery: ResourceQuery? = nil, tags: [String: String]? = nil) {
             self.group = group
             self.groupConfiguration = groupConfiguration
@@ -180,12 +183,14 @@ extension ResourceGroups {
         /// Deprecated - don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        @inlinable
         public init(group: String? = nil) {
             self.group = group
             self.groupName = nil
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
+        @inlinable
         public init(group: String? = nil, groupName: String? = nil) {
             self.group = group
             self.groupName = groupName
@@ -210,6 +215,7 @@ extension ResourceGroups {
         /// A full description of the deleted resource group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -227,6 +233,7 @@ extension ResourceGroups {
         /// The ARN of the resource that failed to be added or removed.
         public let resourceArn: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, resourceArn: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -244,6 +251,7 @@ extension ResourceGroups {
         /// The current settings for the optional features in Resource Groups.
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -257,6 +265,7 @@ extension ResourceGroups {
         /// The name or the ARN of the resource group for which you want to retrive the service configuration.
         public let group: String?
 
+        @inlinable
         public init(group: String? = nil) {
             self.group = group
         }
@@ -276,6 +285,7 @@ extension ResourceGroups {
         /// A structure that describes the service configuration attached with the specified group. For details about the service configuration syntax, see Service configurations for Resource Groups.
         public let groupConfiguration: GroupConfiguration?
 
+        @inlinable
         public init(groupConfiguration: GroupConfiguration? = nil) {
             self.groupConfiguration = groupConfiguration
         }
@@ -291,12 +301,14 @@ extension ResourceGroups {
         /// Deprecated - don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        @inlinable
         public init(group: String? = nil) {
             self.group = group
             self.groupName = nil
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
+        @inlinable
         public init(group: String? = nil, groupName: String? = nil) {
             self.group = group
             self.groupName = groupName
@@ -321,6 +333,7 @@ extension ResourceGroups {
         /// A structure that contains the metadata details for the specified resource group. Use GetGroupQuery and GetGroupConfiguration to get those additional details of the resource group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -336,12 +349,14 @@ extension ResourceGroups {
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        @inlinable
         public init(group: String? = nil) {
             self.group = group
             self.groupName = nil
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
+        @inlinable
         public init(group: String? = nil, groupName: String? = nil) {
             self.group = group
             self.groupName = groupName
@@ -366,6 +381,7 @@ extension ResourceGroups {
         /// The resource query associated with the specified group. For more information about resource queries, see Create a tag-based group in Resource Groups.
         public let groupQuery: GroupQuery?
 
+        @inlinable
         public init(groupQuery: GroupQuery? = nil) {
             self.groupQuery = groupQuery
         }
@@ -379,6 +395,7 @@ extension ResourceGroups {
         /// The ARN of the resource group whose tags you want to retrieve.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -404,6 +421,7 @@ extension ResourceGroups {
         /// The tags associated with the specified resource group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.tags = tags
@@ -423,6 +441,7 @@ extension ResourceGroups {
         /// The name of the resource group.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, groupArn: String, name: String) {
             self.description = description
             self.groupArn = groupArn
@@ -446,6 +465,7 @@ extension ResourceGroups {
         /// The current status of an attempt to update the group configuration.
         public let status: GroupConfigurationStatus?
 
+        @inlinable
         public init(configuration: [GroupConfigurationItem]? = nil, failureReason: String? = nil, proposedConfiguration: [GroupConfigurationItem]? = nil, status: GroupConfigurationStatus? = nil) {
             self.configuration = configuration
             self.failureReason = failureReason
@@ -467,6 +487,7 @@ extension ResourceGroups {
         /// Specifies the type of group configuration item. Each item must have a unique value for type. For the list of types that you can specify for a configuration item, see Supported resource types and parameters.
         public let type: String
 
+        @inlinable
         public init(parameters: [GroupConfigurationParameter]? = nil, type: String) {
             self.parameters = parameters
             self.type = type
@@ -492,6 +513,7 @@ extension ResourceGroups {
         /// The value or values to be used for the specified parameter. For the list of values you can use with each parameter, see Supported resource types and parameters.
         public let values: [String]?
 
+        @inlinable
         public init(name: String, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -520,6 +542,7 @@ extension ResourceGroups {
         /// One or more filter values. Allowed filter values vary by group filter name, and are case-sensitive.
         public let values: [String]
 
+        @inlinable
         public init(name: GroupFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -547,6 +570,7 @@ extension ResourceGroups {
         /// The name of the resource group.
         public let groupName: String?
 
+        @inlinable
         public init(groupArn: String? = nil, groupName: String? = nil) {
             self.groupArn = groupArn
             self.groupName = groupName
@@ -564,6 +588,7 @@ extension ResourceGroups {
         /// The resource query that determines which Amazon Web Services resources are members of the associated resource group.
         public let resourceQuery: ResourceQuery
 
+        @inlinable
         public init(groupName: String, resourceQuery: ResourceQuery) {
             self.groupName = groupName
             self.resourceQuery = resourceQuery
@@ -581,6 +606,7 @@ extension ResourceGroups {
         /// The list of ARNs of the resources to be added to the group.
         public let resourceArns: [String]
 
+        @inlinable
         public init(group: String, resourceArns: [String]) {
             self.group = group
             self.resourceArns = resourceArns
@@ -611,6 +637,7 @@ extension ResourceGroups {
         /// A list of ARNs of the resources that this operation successfully added to the group.
         public let succeeded: [String]?
 
+        @inlinable
         public init(failed: [FailedResource]? = nil, pending: [PendingResource]? = nil, succeeded: [String]? = nil) {
             self.failed = failed
             self.pending = pending
@@ -646,6 +673,7 @@ extension ResourceGroups {
         /// call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ResourceFilter]? = nil, group: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.group = group
@@ -655,6 +683,7 @@ extension ResourceGroups {
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
+        @inlinable
         public init(filters: [ResourceFilter]? = nil, group: String? = nil, groupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.group = group
@@ -693,6 +722,7 @@ extension ResourceGroups {
         /// A structure that contains the status of this resource's membership in the group.  This field is present in the response only if the group is of type AWS::EC2::HostManagement.
         public let status: ResourceStatus?
 
+        @inlinable
         public init(identifier: ResourceIdentifier? = nil, status: ResourceStatus? = nil) {
             self.identifier = identifier
             self.status = status
@@ -717,6 +747,7 @@ extension ResourceGroups {
         /// An array of resources from which you can determine each resource's identity, type, and group membership status.
         public let resources: [ListGroupResourcesItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resources: [ListGroupResourcesItem]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
@@ -725,6 +756,7 @@ extension ResourceGroups {
         }
 
         @available(*, deprecated, message: "Members resourceIdentifiers have been deprecated")
+        @inlinable
         public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil, resources: [ListGroupResourcesItem]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
@@ -758,6 +790,7 @@ extension ResourceGroups {
         /// call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [GroupFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -798,6 +831,7 @@ extension ResourceGroups {
         /// until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(groupIdentifiers: [GroupIdentifier]? = nil, nextToken: String? = nil) {
             self.groupIdentifiers = groupIdentifiers
             self.groups = nil
@@ -805,6 +839,7 @@ extension ResourceGroups {
         }
 
         @available(*, deprecated, message: "Members groups have been deprecated")
+        @inlinable
         public init(groupIdentifiers: [GroupIdentifier]? = nil, groups: [Group]? = nil, nextToken: String? = nil) {
             self.groupIdentifiers = groupIdentifiers
             self.groups = groups
@@ -822,6 +857,7 @@ extension ResourceGroups {
         /// The Amazon resource name (ARN) of the resource that's in a pending state.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -837,6 +873,7 @@ extension ResourceGroups {
         /// The name or ARN of the resource group with the configuration that you want to update.
         public let group: String?
 
+        @inlinable
         public init(configuration: [GroupConfigurationItem]? = nil, group: String? = nil) {
             self.configuration = configuration
             self.group = group
@@ -868,6 +905,7 @@ extension ResourceGroups {
         /// A message that explains the ErrorCode.
         public let message: String?
 
+        @inlinable
         public init(errorCode: QueryErrorCode? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -885,6 +923,7 @@ extension ResourceGroups {
         /// One or more filter values. Allowed filter values vary by resource filter name, and are case-sensitive.
         public let values: [String]
 
+        @inlinable
         public init(name: ResourceFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -912,6 +951,7 @@ extension ResourceGroups {
         /// The resource type of a resource, such as AWS::EC2::Instance.
         public let resourceType: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, resourceType: String? = nil) {
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -929,6 +969,7 @@ extension ResourceGroups {
         /// The type of the query to perform. This can have one of two values:     CLOUDFORMATION_STACK_1_0: Specifies that you want the group to contain the members of an CloudFormation stack. The Query contains a StackIdentifier element with an ARN for a CloudFormation stack.     TAG_FILTERS_1_0: Specifies that you want the group to include resource that have tags that match the query.
         public let type: QueryType
 
+        @inlinable
         public init(query: String, type: QueryType) {
             self.query = query
             self.type = type
@@ -949,6 +990,7 @@ extension ResourceGroups {
         /// The current status.
         public let name: ResourceStatusValue?
 
+        @inlinable
         public init(name: ResourceStatusValue? = nil) {
             self.name = name
         }
@@ -976,6 +1018,7 @@ extension ResourceGroups {
         /// The search query, using the same formats that are supported for resource group definition. For more information, see CreateGroup.
         public let resourceQuery: ResourceQuery
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceQuery: ResourceQuery) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1008,6 +1051,7 @@ extension ResourceGroups {
         /// The ARNs and resource types of resources that are members of the group that you specified.
         public let resourceIdentifiers: [ResourceIdentifier]?
 
+        @inlinable
         public init(nextToken: String? = nil, queryErrors: [QueryError]? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.queryErrors = queryErrors
@@ -1027,6 +1071,7 @@ extension ResourceGroups {
         /// The tags to add to the specified resource group. A tag is a string-to-string map of key-value pairs.
         public let tags: [String: String]
 
+        @inlinable
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
@@ -1063,6 +1108,7 @@ extension ResourceGroups {
         /// The tags that have been added to the specified resource group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.tags = tags
@@ -1080,6 +1126,7 @@ extension ResourceGroups {
         /// The ARNs of the resources to be removed from the group.
         public let resourceArns: [String]
 
+        @inlinable
         public init(group: String, resourceArns: [String]) {
             self.group = group
             self.resourceArns = resourceArns
@@ -1110,6 +1157,7 @@ extension ResourceGroups {
         /// A list of resources that were successfully removed from the group by this operation.
         public let succeeded: [String]?
 
+        @inlinable
         public init(failed: [FailedResource]? = nil, pending: [PendingResource]? = nil, succeeded: [String]? = nil) {
             self.failed = failed
             self.pending = pending
@@ -1129,6 +1177,7 @@ extension ResourceGroups {
         /// The keys of the tags to be removed.
         public let keys: [String]
 
+        @inlinable
         public init(arn: String, keys: [String]) {
             self.arn = arn
             self.keys = keys
@@ -1163,6 +1212,7 @@ extension ResourceGroups {
         /// The keys of the tags that were removed.
         public let keys: [String]?
 
+        @inlinable
         public init(arn: String? = nil, keys: [String]? = nil) {
             self.arn = arn
             self.keys = keys
@@ -1178,6 +1228,7 @@ extension ResourceGroups {
         /// Specifies whether you want to turn group lifecycle events on or off.
         public let groupLifecycleEventsDesiredStatus: GroupLifecycleEventsDesiredStatus?
 
+        @inlinable
         public init(groupLifecycleEventsDesiredStatus: GroupLifecycleEventsDesiredStatus? = nil) {
             self.groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatus
         }
@@ -1191,6 +1242,7 @@ extension ResourceGroups {
         /// A structure that displays the status of the optional features in the account.
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -1208,6 +1260,7 @@ extension ResourceGroups {
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
 
+        @inlinable
         public init(description: String? = nil, group: String? = nil) {
             self.description = description
             self.group = group
@@ -1215,6 +1268,7 @@ extension ResourceGroups {
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
+        @inlinable
         public init(description: String? = nil, group: String? = nil, groupName: String? = nil) {
             self.description = description
             self.group = group
@@ -1243,6 +1297,7 @@ extension ResourceGroups {
         /// The update description of the resource group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -1260,6 +1315,7 @@ extension ResourceGroups {
         /// The resource query to determine which Amazon Web Services resources are members of this resource group.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
         public let resourceQuery: ResourceQuery
 
+        @inlinable
         public init(group: String? = nil, resourceQuery: ResourceQuery) {
             self.group = group
             self.groupName = nil
@@ -1267,6 +1323,7 @@ extension ResourceGroups {
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
+        @inlinable
         public init(group: String? = nil, groupName: String? = nil, resourceQuery: ResourceQuery) {
             self.group = group
             self.groupName = groupName
@@ -1294,6 +1351,7 @@ extension ResourceGroups {
         /// The updated resource query associated with the resource group after the update.
         public let groupQuery: GroupQuery?
 
+        @inlinable
         public init(groupQuery: GroupQuery? = nil) {
             self.groupQuery = groupQuery
         }

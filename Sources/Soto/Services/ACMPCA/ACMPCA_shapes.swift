@@ -209,6 +209,7 @@ extension ACMPCA {
         /// 			certificate subject.
         public let title: String?
 
+        @inlinable
         public init(commonName: String? = nil, country: String? = nil, customAttributes: [CustomAttribute]? = nil, distinguishedNameQualifier: String? = nil, generationQualifier: String? = nil, givenName: String? = nil, initials: String? = nil, locality: String? = nil, organization: String? = nil, organizationalUnit: String? = nil, pseudonym: String? = nil, serialNumber: String? = nil, state: String? = nil, surname: String? = nil, title: String? = nil) {
             self.commonName = commonName
             self.country = country
@@ -278,6 +279,7 @@ extension ACMPCA {
         /// The type and format of AccessDescription information.
         public let accessMethod: AccessMethod
 
+        @inlinable
         public init(accessLocation: GeneralName, accessMethod: AccessMethod) {
             self.accessLocation = accessLocation
             self.accessMethod = accessMethod
@@ -303,6 +305,7 @@ extension ACMPCA {
         /// 				(OID).
         public let customObjectIdentifier: String?
 
+        @inlinable
         public init(accessMethodType: AccessMethodType? = nil, customObjectIdentifier: String? = nil) {
             self.accessMethodType = accessMethodType
             self.customObjectIdentifier = customObjectIdentifier
@@ -324,6 +327,7 @@ extension ACMPCA {
         public let extensions: Extensions?
         public let subject: ASN1Subject?
 
+        @inlinable
         public init(extensions: Extensions? = nil, subject: ASN1Subject? = nil) {
             self.extensions = extensions
             self.subject = subject
@@ -382,6 +386,7 @@ extension ACMPCA {
         /// 			days. The default value is GENERAL_PURPOSE.
         public let usageMode: CertificateAuthorityUsageMode?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil, usageMode: CertificateAuthorityUsageMode? = nil) {
             self.arn = arn
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
@@ -434,6 +439,7 @@ extension ACMPCA {
         /// 			CA.
         public let subject: ASN1Subject
 
+        @inlinable
         public init(csrExtensions: CsrExtensions? = nil, keyAlgorithm: KeyAlgorithm, signingAlgorithm: SigningAlgorithm, subject: ASN1Subject) {
             self.csrExtensions = csrExtensions
             self.keyAlgorithm = keyAlgorithm
@@ -462,6 +468,7 @@ extension ACMPCA {
         /// The name of the S3 bucket that will contain the audit report.
         public let s3BucketName: String
 
+        @inlinable
         public init(auditReportResponseFormat: AuditReportResponseFormat, certificateAuthorityArn: String, s3BucketName: String) {
             self.auditReportResponseFormat = auditReportResponseFormat
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -490,6 +497,7 @@ extension ACMPCA {
         /// 			your S3 bucket.
         public let s3Key: String?
 
+        @inlinable
         public init(auditReportId: String? = nil, s3Key: String? = nil) {
             self.auditReportId = auditReportId
             self.s3Key = s3Key
@@ -545,6 +553,7 @@ extension ACMPCA {
         /// 			days. The default value is GENERAL_PURPOSE.
         public let usageMode: CertificateAuthorityUsageMode?
 
+        @inlinable
         public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil, usageMode: CertificateAuthorityUsageMode? = nil) {
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.certificateAuthorityType = certificateAuthorityType
@@ -585,6 +594,7 @@ extension ACMPCA {
         ///
         public let certificateAuthorityArn: String?
 
+        @inlinable
         public init(certificateAuthorityArn: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -609,6 +619,7 @@ extension ACMPCA {
         /// The ID of the calling account.
         public let sourceAccount: String?
 
+        @inlinable
         public init(actions: [ActionType], certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
             self.actions = actions
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -674,6 +685,7 @@ extension ACMPCA {
         /// 				bucket.
         public let s3ObjectAcl: S3ObjectAcl?
 
+        @inlinable
         public init(crlDistributionPointExtensionConfiguration: CrlDistributionPointExtensionConfiguration? = nil, customCname: String? = nil, enabled: Bool, expirationInDays: Int? = nil, s3BucketName: String? = nil, s3ObjectAcl: S3ObjectAcl? = nil) {
             self.crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfiguration
             self.customCname = customCname
@@ -708,6 +720,7 @@ extension ACMPCA {
         /// 			not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough.  Only set this if you have another way to distribute the CRL Distribution Points ffor certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
         public let omitExtension: Bool
 
+        @inlinable
         public init(omitExtension: Bool) {
             self.omitExtension = omitExtension
         }
@@ -726,6 +739,7 @@ extension ACMPCA {
         /// 				Information Access in RFC 5280.
         public let subjectInformationAccess: [AccessDescription]?
 
+        @inlinable
         public init(keyUsage: KeyUsage? = nil, subjectInformationAccess: [AccessDescription]? = nil) {
             self.keyUsage = keyUsage
             self.subjectInformationAccess = subjectInformationAccess
@@ -750,6 +764,7 @@ extension ACMPCA {
         ///  Specifies the attribute value of relative distinguished name (RDN).
         public let value: String
 
+        @inlinable
         public init(objectIdentifier: String, value: String) {
             self.objectIdentifier = objectIdentifier
             self.value = value
@@ -777,6 +792,7 @@ extension ACMPCA {
         ///  Specifies the base64-encoded value of the X.509 extension.
         public let value: String
 
+        @inlinable
         public init(critical: Bool? = nil, objectIdentifier: String, value: String) {
             self.critical = critical
             self.objectIdentifier = objectIdentifier
@@ -806,6 +822,7 @@ extension ACMPCA {
         /// 			anywhere from 7 to 30 days, with 30 being the default.
         public let permanentDeletionTimeInDays: Int?
 
+        @inlinable
         public init(certificateAuthorityArn: String, permanentDeletionTimeInDays: Int? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.permanentDeletionTimeInDays = permanentDeletionTimeInDays
@@ -836,6 +853,7 @@ extension ACMPCA {
         /// The Amazon Web Services account that calls this action.
         public let sourceAccount: String?
 
+        @inlinable
         public init(certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.principal = principal
@@ -867,6 +885,7 @@ extension ACMPCA {
         ///
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -889,6 +908,7 @@ extension ACMPCA {
         ///
         public let certificateAuthorityArn: String
 
+        @inlinable
         public init(auditReportId: String, certificateAuthorityArn: String) {
             self.auditReportId = auditReportId
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -920,6 +940,7 @@ extension ACMPCA {
         /// 			your S3 bucket.
         public let s3Key: String?
 
+        @inlinable
         public init(auditReportStatus: AuditReportStatus? = nil, createdAt: Date? = nil, s3BucketName: String? = nil, s3Key: String? = nil) {
             self.auditReportStatus = auditReportStatus
             self.createdAt = createdAt
@@ -940,6 +961,7 @@ extension ACMPCA {
         ///
         public let certificateAuthorityArn: String
 
+        @inlinable
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -960,6 +982,7 @@ extension ACMPCA {
         /// 			CA.
         public let certificateAuthority: CertificateAuthority?
 
+        @inlinable
         public init(certificateAuthority: CertificateAuthority? = nil) {
             self.certificateAuthority = certificateAuthority
         }
@@ -975,6 +998,7 @@ extension ACMPCA {
         /// Specifies the party name.
         public let partyName: String
 
+        @inlinable
         public init(nameAssigner: String? = nil, partyName: String) {
             self.nameAssigner = nameAssigner
             self.partyName = partyName
@@ -999,6 +1023,7 @@ extension ACMPCA {
         /// 				5280.
         public let extendedKeyUsageType: ExtendedKeyUsageType?
 
+        @inlinable
         public init(extendedKeyUsageObjectIdentifier: String? = nil, extendedKeyUsageType: ExtendedKeyUsageType? = nil) {
             self.extendedKeyUsageObjectIdentifier = extendedKeyUsageObjectIdentifier
             self.extendedKeyUsageType = extendedKeyUsageType
@@ -1038,6 +1063,7 @@ extension ACMPCA {
         /// 			identity in the subject field of the certificate.
         public let subjectAlternativeNames: [GeneralName]?
 
+        @inlinable
         public init(certificatePolicies: [PolicyInformation]? = nil, customExtensions: [CustomExtension]? = nil, extendedKeyUsage: [ExtendedKeyUsage]? = nil, keyUsage: KeyUsage? = nil, subjectAlternativeNames: [GeneralName]? = nil) {
             self.certificatePolicies = certificatePolicies
             self.customExtensions = customExtensions
@@ -1096,6 +1122,7 @@ extension ACMPCA {
         /// Represents GeneralName as a URI.
         public let uniformResourceIdentifier: String?
 
+        @inlinable
         public init(directoryName: ASN1Subject? = nil, dnsName: String? = nil, ediPartyName: EdiPartyName? = nil, ipAddress: String? = nil, otherName: OtherName? = nil, registeredId: String? = nil, rfc822Name: String? = nil, uniformResourceIdentifier: String? = nil) {
             self.directoryName = directoryName
             self.dnsName = dnsName
@@ -1136,6 +1163,7 @@ extension ACMPCA {
         ///
         public let certificateAuthorityArn: String
 
+        @inlinable
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -1160,6 +1188,7 @@ extension ACMPCA {
         /// 			be null.
         public let certificateChain: String?
 
+        @inlinable
         public init(certificate: String? = nil, certificateChain: String? = nil) {
             self.certificate = certificate
             self.certificateChain = certificateChain
@@ -1175,6 +1204,7 @@ extension ACMPCA {
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
 
+        @inlinable
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -1195,6 +1225,7 @@ extension ACMPCA {
         /// 			certificate.
         public let csr: String?
 
+        @inlinable
         public init(csr: String? = nil) {
             self.csr = csr
         }
@@ -1212,6 +1243,7 @@ extension ACMPCA {
         ///
         public let certificateAuthorityArn: String
 
+        @inlinable
         public init(certificateArn: String, certificateAuthorityArn: String) {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -1240,6 +1272,7 @@ extension ACMPCA {
         /// 			that you used to sign your private CA certificate.
         public let certificateChain: String?
 
+        @inlinable
         public init(certificate: String? = nil, certificateChain: String? = nil) {
             self.certificate = certificate
             self.certificateChain = certificateChain
@@ -1258,6 +1291,7 @@ extension ACMPCA {
         ///
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1277,6 +1311,7 @@ extension ACMPCA {
         /// The policy attached to the private CA as a JSON document.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1299,6 +1334,7 @@ extension ACMPCA {
         /// 			root CA, there is no chain.
         public let certificateChain: AWSBase64Data?
 
+        @inlinable
         public init(certificate: AWSBase64Data, certificateAuthorityArn: String, certificateChain: AWSBase64Data? = nil) {
             self.certificate = certificate
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -1385,6 +1421,7 @@ extension ACMPCA {
         /// 			in RFC 5280.
         public let validityNotBefore: Validity?
 
+        @inlinable
         public init(apiPassthrough: ApiPassthrough? = nil, certificateAuthorityArn: String, csr: AWSBase64Data, idempotencyToken: String? = nil, signingAlgorithm: SigningAlgorithm, templateArn: String? = nil, validity: Validity, validityNotBefore: Validity? = nil) {
             self.apiPassthrough = apiPassthrough
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -1430,6 +1467,7 @@ extension ACMPCA {
         /// 			number. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
         public let certificateArn: String?
 
+        @inlinable
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
         }
@@ -1459,6 +1497,7 @@ extension ACMPCA {
         /// Key can be used for non-repudiation.
         public let nonRepudiation: Bool?
 
+        @inlinable
         public init(crlSign: Bool? = nil, dataEncipherment: Bool? = nil, decipherOnly: Bool? = nil, digitalSignature: Bool? = nil, encipherOnly: Bool? = nil, keyAgreement: Bool? = nil, keyCertSign: Bool? = nil, keyEncipherment: Bool? = nil, nonRepudiation: Bool? = nil) {
             self.crlSign = crlSign
             self.dataEncipherment = dataEncipherment
@@ -1499,6 +1538,7 @@ extension ACMPCA {
         /// 			their owner. The default is SELF.
         public let resourceOwner: ResourceOwner?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1526,6 +1566,7 @@ extension ACMPCA {
         /// 				NextToken parameter in a subsequent pagination request.
         public let nextToken: String?
 
+        @inlinable
         public init(certificateAuthorities: [CertificateAuthority]? = nil, nextToken: String? = nil) {
             self.certificateAuthorities = certificateAuthorities
             self.nextToken = nextToken
@@ -1553,6 +1594,7 @@ extension ACMPCA {
         /// 			a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(certificateAuthorityArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.maxResults = maxResults
@@ -1584,6 +1626,7 @@ extension ACMPCA {
         /// 			including the action enabled, the policy provided, and the time of creation.
         public let permissions: [Permission]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [Permission]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1608,6 +1651,7 @@ extension ACMPCA {
         /// 			response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(certificateAuthorityArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.maxResults = maxResults
@@ -1638,6 +1682,7 @@ extension ACMPCA {
         /// The tags associated with your private CA.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1661,6 +1706,7 @@ extension ACMPCA {
         /// 				(OCSP)  in the Amazon Web Services Private Certificate Authority User Guide.
         public let ocspCustomCname: String?
 
+        @inlinable
         public init(enabled: Bool, ocspCustomCname: String? = nil) {
             self.enabled = enabled
             self.ocspCustomCname = ocspCustomCname
@@ -1683,6 +1729,7 @@ extension ACMPCA {
         /// Specifies an OID value.
         public let value: String
 
+        @inlinable
         public init(typeId: String, value: String) {
             self.typeId = typeId
             self.value = value
@@ -1716,6 +1763,7 @@ extension ACMPCA {
         /// The ID of the account that assigned the permission.
         public let sourceAccount: String?
 
+        @inlinable
         public init(actions: [ActionType]? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, policy: String? = nil, principal: String? = nil, sourceAccount: String? = nil) {
             self.actions = actions
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -1744,6 +1792,7 @@ extension ACMPCA {
         /// 			certification practice statement (CPS) qualifier.
         public let policyQualifiers: [PolicyQualifierInfo]?
 
+        @inlinable
         public init(certPolicyId: String, policyQualifiers: [PolicyQualifierInfo]? = nil) {
             self.certPolicyId = certPolicyId
             self.policyQualifiers = policyQualifiers
@@ -1772,6 +1821,7 @@ extension ACMPCA {
         /// 			in this field.
         public let qualifier: Qualifier
 
+        @inlinable
         public init(policyQualifierId: PolicyQualifierId, qualifier: Qualifier) {
             self.policyQualifierId = policyQualifierId
             self.qualifier = qualifier
@@ -1798,6 +1848,7 @@ extension ACMPCA {
         /// 			ARN of the CA can be found by calling the ListCertificateAuthorities action.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -1823,6 +1874,7 @@ extension ACMPCA {
         /// 			CA.
         public let cpsUri: String
 
+        @inlinable
         public init(cpsUri: String) {
             self.cpsUri = cpsUri
         }
@@ -1840,6 +1892,7 @@ extension ACMPCA {
         /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
 
+        @inlinable
         public init(certificateAuthorityArn: String) {
             self.certificateAuthorityArn = certificateAuthorityArn
         }
@@ -1866,6 +1919,7 @@ extension ACMPCA {
         /// 	to reflect the new status.
         public let ocspConfiguration: OcspConfiguration?
 
+        @inlinable
         public init(crlConfiguration: CrlConfiguration? = nil, ocspConfiguration: OcspConfiguration? = nil) {
             self.crlConfiguration = crlConfiguration
             self.ocspConfiguration = ocspConfiguration
@@ -1897,6 +1951,7 @@ extension ACMPCA {
         /// Specifies why you revoked the certificate.
         public let revocationReason: RevocationReason
 
+        @inlinable
         public init(certificateAuthorityArn: String, certificateSerial: String, revocationReason: RevocationReason) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.certificateSerial = certificateSerial
@@ -1923,6 +1978,7 @@ extension ACMPCA {
         /// Value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1948,6 +2004,7 @@ extension ACMPCA {
         /// List of tags to be associated with the CA.
         public let tags: [Tag]
 
+        @inlinable
         public init(certificateAuthorityArn: String, tags: [Tag]) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.tags = tags
@@ -1976,6 +2033,7 @@ extension ACMPCA {
         /// List of tags to be removed from the CA.
         public let tags: [Tag]
 
+        @inlinable
         public init(certificateAuthorityArn: String, tags: [Tag]) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.tags = tags
@@ -2017,6 +2075,7 @@ extension ACMPCA {
         /// Status of your private CA.
         public let status: CertificateAuthorityStatus?
 
+        @inlinable
         public init(certificateAuthorityArn: String, revocationConfiguration: RevocationConfiguration? = nil, status: CertificateAuthorityStatus? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.revocationConfiguration = revocationConfiguration
@@ -2054,6 +2113,7 @@ extension ACMPCA {
         /// A long integer interpreted according to the value of Type, below.
         public let value: Int64
 
+        @inlinable
         public init(type: ValidityPeriodType, value: Int64) {
             self.type = type
             self.value = value

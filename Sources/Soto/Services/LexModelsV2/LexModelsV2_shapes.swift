@@ -754,6 +754,7 @@ extension LexModelsV2 {
         /// The name of active context.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -767,6 +768,7 @@ extension LexModelsV2 {
         /// Enables using the slot values as a custom vocabulary for recognizing user utterances.
         public let audioRecognitionStrategy: AudioRecognitionStrategy?
 
+        @inlinable
         public init(audioRecognitionStrategy: AudioRecognitionStrategy? = nil) {
             self.audioRecognitionStrategy = audioRecognitionStrategy
         }
@@ -787,6 +789,7 @@ extension LexModelsV2 {
         /// The expected agent prompt for the agent turn in a test set execution.
         public let expectedAgentPrompt: String
 
+        @inlinable
         public init(actualAgentPrompt: String? = nil, actualElicitedSlot: String? = nil, actualIntent: String? = nil, errorDetails: ExecutionErrorDetails? = nil, expectedAgentPrompt: String) {
             self.actualAgentPrompt = actualAgentPrompt
             self.actualElicitedSlot = actualElicitedSlot
@@ -808,6 +811,7 @@ extension LexModelsV2 {
         /// The agent prompt for the agent turn in a test set.
         public let agentPrompt: String
 
+        @inlinable
         public init(agentPrompt: String) {
             self.agentPrompt = agentPrompt
         }
@@ -825,6 +829,7 @@ extension LexModelsV2 {
         /// The value to use for filtering the list of bots.
         public let values: [String]
 
+        @inlinable
         public init(name: AggregatedUtterancesFilterName, operator: AggregatedUtterancesFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -854,6 +859,7 @@ extension LexModelsV2 {
         /// Specifies whether to sort the aggregated utterances in ascending or descending order.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: AggregatedUtterancesSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -879,6 +885,7 @@ extension LexModelsV2 {
         /// The last date and time that an utterance was recorded in the time window for aggregation. An utterance may be sent to Amazon Lex after that time, but only utterances within the time window are counted.
         public let utteranceLastRecordedInAggregationDuration: Date?
 
+        @inlinable
         public init(containsDataFromDeletedResources: Bool? = nil, hitCount: Int? = nil, missedCount: Int? = nil, utterance: String? = nil, utteranceFirstRecordedInAggregationDuration: Date? = nil, utteranceLastRecordedInAggregationDuration: Date? = nil) {
             self.containsDataFromDeletedResources = containsDataFromDeletedResources
             self.hitCount = hitCount
@@ -904,6 +911,7 @@ extension LexModelsV2 {
         /// Indicates whether DTMF input is allowed.
         public let allowDTMFInput: Bool
 
+        @inlinable
         public init(allowAudioInput: Bool, allowDTMFInput: Bool) {
             self.allowAudioInput = allowAudioInput
             self.allowDTMFInput = allowDTMFInput
@@ -923,6 +931,7 @@ extension LexModelsV2 {
         /// Specifies whether to bin the analytics data in ascending or descending order. If this field is left blank, the default order is by the key of the bin in descending order.
         public let order: AnalyticsSortOrder?
 
+        @inlinable
         public init(interval: AnalyticsInterval, name: AnalyticsBinByName, order: AnalyticsSortOrder? = nil) {
             self.interval = interval
             self.name = name
@@ -942,6 +951,7 @@ extension LexModelsV2 {
         /// The value of the criterion that defines the bin.
         public let value: Int64?
 
+        @inlinable
         public init(name: AnalyticsBinByName? = nil, value: Int64? = nil) {
             self.name = name
             self.value = value
@@ -961,6 +971,7 @@ extension LexModelsV2 {
         /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
         public let values: [String]
 
+        @inlinable
         public init(name: AnalyticsIntentFilterName, operator: AnalyticsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -985,6 +996,7 @@ extension LexModelsV2 {
         /// A member of the category by which the intent analytics were grouped.
         public let value: String?
 
+        @inlinable
         public init(name: AnalyticsIntentField? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1000,6 +1012,7 @@ extension LexModelsV2 {
         /// Specifies whether to group the intent stages by their name or their end state.
         public let name: AnalyticsIntentField
 
+        @inlinable
         public init(name: AnalyticsIntentField) {
             self.name = name
         }
@@ -1017,6 +1030,7 @@ extension LexModelsV2 {
         /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of intents in the category you provide in name.    Max – The highest count in the category you provide in name.
         public let statistic: AnalyticsMetricStatistic
 
+        @inlinable
         public init(name: AnalyticsIntentMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
             self.name = name
             self.order = order
@@ -1038,6 +1052,7 @@ extension LexModelsV2 {
         /// The value of the summary statistic for the metric that you requested.
         public let value: Double?
 
+        @inlinable
         public init(name: AnalyticsIntentMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -1063,6 +1078,7 @@ extension LexModelsV2 {
         /// Specifies whether the node is the end of a path (Exit) or not (Inner).
         public let nodeType: AnalyticsNodeType?
 
+        @inlinable
         public init(intentCount: Int? = nil, intentLevel: Int? = nil, intentName: String? = nil, intentPath: String? = nil, nodeType: AnalyticsNodeType? = nil) {
             self.intentCount = intentCount
             self.intentLevel = intentLevel
@@ -1088,6 +1104,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
         public let metricsResults: [AnalyticsIntentMetricResult]?
 
+        @inlinable
         public init(binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsIntentGroupByKey]? = nil, metricsResults: [AnalyticsIntentMetricResult]? = nil) {
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
@@ -1109,6 +1126,7 @@ extension LexModelsV2 {
         /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
         public let values: [String]
 
+        @inlinable
         public init(name: AnalyticsIntentStageFilterName, operator: AnalyticsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1133,6 +1151,7 @@ extension LexModelsV2 {
         /// A member of the category by which the intent stage analytics were grouped.
         public let value: String?
 
+        @inlinable
         public init(name: AnalyticsIntentStageField? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1148,6 +1167,7 @@ extension LexModelsV2 {
         /// Specifies whether to group the intent stages by their name or the intent to which the session was switched.
         public let name: AnalyticsIntentStageField
 
+        @inlinable
         public init(name: AnalyticsIntentStageField) {
             self.name = name
         }
@@ -1165,6 +1185,7 @@ extension LexModelsV2 {
         /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of intent stages in the category you provide in name.    Max – The highest count in the category you provide in name.
         public let statistic: AnalyticsMetricStatistic
 
+        @inlinable
         public init(name: AnalyticsIntentStageMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
             self.name = name
             self.order = order
@@ -1186,6 +1207,7 @@ extension LexModelsV2 {
         /// The value of the summary statistic for the metric that you requested.
         public let value: Double?
 
+        @inlinable
         public init(name: AnalyticsIntentStageMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -1207,6 +1229,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
         public let metricsResults: [AnalyticsIntentStageMetricResult]?
 
+        @inlinable
         public init(binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsIntentStageGroupByKey]? = nil, metricsResults: [AnalyticsIntentStageMetricResult]? = nil) {
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
@@ -1228,6 +1251,7 @@ extension LexModelsV2 {
         /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
         public let values: [String]
 
+        @inlinable
         public init(name: AnalyticsCommonFilterName, operator: AnalyticsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1254,6 +1278,7 @@ extension LexModelsV2 {
         /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
         public let values: [String]
 
+        @inlinable
         public init(name: AnalyticsSessionFilterName, operator: AnalyticsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1278,6 +1303,7 @@ extension LexModelsV2 {
         /// A member of the category by which the session analytics were grouped.
         public let value: String?
 
+        @inlinable
         public init(name: AnalyticsSessionField? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1293,6 +1319,7 @@ extension LexModelsV2 {
         /// Specifies whether to group the session by their end state or their locale.
         public let name: AnalyticsSessionField
 
+        @inlinable
         public init(name: AnalyticsSessionField) {
             self.name = name
         }
@@ -1310,6 +1337,7 @@ extension LexModelsV2 {
         /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of sessions in the category you provide in name.    Max – The highest count in the category you provide in name.
         public let statistic: AnalyticsMetricStatistic
 
+        @inlinable
         public init(name: AnalyticsSessionMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
             self.name = name
             self.order = order
@@ -1331,6 +1359,7 @@ extension LexModelsV2 {
         /// The value of the summary statistic for the metric that you requested.
         public let value: Double?
 
+        @inlinable
         public init(name: AnalyticsSessionMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -1352,6 +1381,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
         public let metricsResults: [AnalyticsSessionMetricResult]?
 
+        @inlinable
         public init(binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsSessionGroupByKey]? = nil, metricsResults: [AnalyticsSessionMetricResult]? = nil) {
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
@@ -1369,6 +1399,7 @@ extension LexModelsV2 {
         /// An attribute to return. The only available attribute is the intent that the bot mapped the utterance to.
         public let name: AnalyticsUtteranceAttributeName
 
+        @inlinable
         public init(name: AnalyticsUtteranceAttributeName) {
             self.name = name
         }
@@ -1382,6 +1413,7 @@ extension LexModelsV2 {
         /// The intent that the bot mapped the utterance to.
         public let lastUsedIntent: String?
 
+        @inlinable
         public init(lastUsedIntent: String? = nil) {
             self.lastUsedIntent = lastUsedIntent
         }
@@ -1399,6 +1431,7 @@ extension LexModelsV2 {
         /// An array containing the values of the category by which to apply the operator to filter the results. You can provide multiple values if the operator is EQ or CO. If you provide multiple values, you filter for results that equal/contain any of the values. For example, if the name, operator, and values fields are Modality, EQ, and [Speech, Text], the operation filters for results where the modality was either Speech or Text.
         public let values: [String]
 
+        @inlinable
         public init(name: AnalyticsUtteranceFilterName, operator: AnalyticsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1423,6 +1456,7 @@ extension LexModelsV2 {
         /// A member of the category by which the utterance analytics were grouped.
         public let value: String?
 
+        @inlinable
         public init(name: AnalyticsUtteranceField? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1438,6 +1472,7 @@ extension LexModelsV2 {
         /// Specifies whether to group the utterances by their text or their state.
         public let name: AnalyticsUtteranceField
 
+        @inlinable
         public init(name: AnalyticsUtteranceField) {
             self.name = name
         }
@@ -1455,6 +1490,7 @@ extension LexModelsV2 {
         /// The summary statistic to calculate.    Sum – The total count for the category you provide in name.    Average – The total count divided by the number of utterances in the category you provide in name.    Max – The highest count in the category you provide in name.
         public let statistic: AnalyticsMetricStatistic
 
+        @inlinable
         public init(name: AnalyticsUtteranceMetricName, order: AnalyticsSortOrder? = nil, statistic: AnalyticsMetricStatistic) {
             self.name = name
             self.order = order
@@ -1476,6 +1512,7 @@ extension LexModelsV2 {
         /// The value of the summary statistic for the metric that you requested.
         public let value: Double?
 
+        @inlinable
         public init(name: AnalyticsUtteranceMetricName? = nil, statistic: AnalyticsMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -1499,6 +1536,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
         public let metricsResults: [AnalyticsUtteranceMetricResult]?
 
+        @inlinable
         public init(attributeResults: [AnalyticsUtteranceAttributeResult]? = nil, binKeys: [AnalyticsBinKey]? = nil, groupByKeys: [AnalyticsUtteranceGroupByKey]? = nil, metricsResults: [AnalyticsUtteranceMetricResult]? = nil) {
             self.attributeResults = attributeResults
             self.binKeys = binKeys
@@ -1518,6 +1556,7 @@ extension LexModelsV2 {
         /// The content of the transcript that meets the search filter criteria. For the JSON format of the transcript, see Output transcript format.
         public let transcript: String?
 
+        @inlinable
         public init(transcript: String? = nil) {
             self.transcript = transcript
         }
@@ -1533,6 +1572,7 @@ extension LexModelsV2 {
         /// The values to use to filter the transcript.
         public let values: [String]
 
+        @inlinable
         public init(name: AssociatedTranscriptFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -1562,6 +1602,7 @@ extension LexModelsV2 {
         /// Time for which a bot waits before assuming that the customer isn't going to speak or press  a key. This timeout is shared between Audio and DTMF inputs.
         public let startTimeoutMs: Int
 
+        @inlinable
         public init(audioSpecification: AudioSpecification? = nil, dtmfSpecification: DTMFSpecification? = nil, startTimeoutMs: Int) {
             self.audioSpecification = audioSpecification
             self.dtmfSpecification = dtmfSpecification
@@ -1585,6 +1626,7 @@ extension LexModelsV2 {
         /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the CreateBot operation must have permission to write to this bucket.
         public let s3Bucket: S3BucketLogDestination
 
+        @inlinable
         public init(s3Bucket: S3BucketLogDestination) {
             self.s3Bucket = s3Bucket
         }
@@ -1605,6 +1647,7 @@ extension LexModelsV2 {
         /// The option to enable selective conversation log capture for audio.
         public let selectiveLoggingEnabled: Bool?
 
+        @inlinable
         public init(destination: AudioLogDestination, enabled: Bool, selectiveLoggingEnabled: Bool? = nil) {
             self.destination = destination
             self.enabled = enabled
@@ -1628,6 +1671,7 @@ extension LexModelsV2 {
         /// Time for how long Amazon Lex waits before speech input is truncated and the speech  is returned to application.
         public let maxLengthMs: Int
 
+        @inlinable
         public init(endTimeoutMs: Int, maxLengthMs: Int) {
             self.endTimeoutMs = endTimeoutMs
             self.maxLengthMs = maxLengthMs
@@ -1654,6 +1698,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see  Supported Languages .
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, customVocabularyItemList: [NewCustomVocabularyItem], localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -1701,6 +1746,7 @@ extension LexModelsV2 {
         /// A list of custom vocabulary items that were  successfully created during the operation.
         public let resources: [CustomVocabularyItem]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -1728,6 +1774,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale where this custom vocabulary is  used. The string must match one of the supported locales.  For more information, see  Supported Languages .
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, customVocabularyItemList: [CustomVocabularyEntryId], localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -1775,6 +1822,7 @@ extension LexModelsV2 {
         /// A list of custom vocabulary items that were  successfully deleted during the operation.
         public let resources: [CustomVocabularyItem]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -1802,6 +1850,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see  Supported Languages .
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, customVocabularyItemList: [CustomVocabularyItem], localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -1849,6 +1898,7 @@ extension LexModelsV2 {
         /// A list of custom vocabulary items that were  successfully updated during the operation.
         public let resources: [CustomVocabularyItem]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -1872,6 +1922,7 @@ extension LexModelsV2 {
         /// The guardrail version for the Bedrock guardrail configuration.
         public let version: String
 
+        @inlinable
         public init(identifier: String, version: String) {
             self.identifier = identifier
             self.version = version
@@ -1898,6 +1949,7 @@ extension LexModelsV2 {
         /// Contains the names of the fields used for an exact response to the user.
         public let exactResponseFields: BedrockKnowledgeStoreExactResponseFields?
 
+        @inlinable
         public init(bedrockKnowledgeBaseArn: String, exactResponse: Bool? = nil, exactResponseFields: BedrockKnowledgeStoreExactResponseFields? = nil) {
             self.bedrockKnowledgeBaseArn = bedrockKnowledgeBaseArn
             self.exactResponse = exactResponse
@@ -1921,6 +1973,7 @@ extension LexModelsV2 {
         /// The answer field used for an exact response from Bedrock Knowledge Store.
         public let answerField: String?
 
+        @inlinable
         public init(answerField: String? = nil) {
             self.answerField = answerField
         }
@@ -1940,6 +1993,7 @@ extension LexModelsV2 {
         /// The Bedrock trace status in the Bedrock model specification details.
         public let traceStatus: BedrockTraceStatus?
 
+        @inlinable
         public init(customPrompt: String? = nil, guardrail: BedrockGuardrailConfiguration? = nil, modelArn: String, traceStatus: BedrockTraceStatus? = nil) {
             self.customPrompt = customPrompt
             self.guardrail = guardrail
@@ -1970,6 +2024,7 @@ extension LexModelsV2 {
         /// The date and time that the event started.
         public let startDate: Date?
 
+        @inlinable
         public init(botVersion: String? = nil, endDate: Date? = nil, startDate: Date? = nil) {
             self.botVersion = botVersion
             self.endDate = endDate
@@ -1989,6 +2044,7 @@ extension LexModelsV2 {
         /// Determines whether the locale is enabled for the bot. If the value is false, the locale isn't available for use.
         public let enabled: Bool
 
+        @inlinable
         public init(codeHookSpecification: CodeHookSpecification? = nil, enabled: Bool) {
             self.codeHookSpecification = codeHookSpecification
             self.enabled = enabled
@@ -2018,6 +2074,7 @@ extension LexModelsV2 {
         /// The last time and date updated for all the alias bot replications.
         public let lastUpdatedDateTime: Date?
 
+        @inlinable
         public init(botAliasId: String? = nil, botAliasReplicationStatus: BotAliasReplicationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil) {
             self.botAliasId = botAliasId
             self.botAliasReplicationStatus = botAliasReplicationStatus
@@ -2053,6 +2110,7 @@ extension LexModelsV2 {
         /// A timestamp of the date and time that the bot alias was last updated.
         public let lastUpdatedDateTime: Date?
 
+        @inlinable
         public init(botAliasId: String? = nil, botAliasName: String? = nil, botAliasStatus: BotAliasStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil) {
             self.botAliasId = botAliasId
             self.botAliasName = botAliasName
@@ -2082,6 +2140,7 @@ extension LexModelsV2 {
         /// The locale Id of the bot alias used in the test set execution.
         public let localeId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, localeId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -2110,6 +2169,7 @@ extension LexModelsV2 {
         /// The version of the bot that was exported. This will be either DRAFT or the version number.
         public let botVersion: String
 
+        @inlinable
         public init(botId: String, botVersion: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -2138,6 +2198,7 @@ extension LexModelsV2 {
         /// The value to use for filtering the list of bots.
         public let values: [String]
 
+        @inlinable
         public init(name: BotFilterName, operator: BotFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -2174,6 +2235,7 @@ extension LexModelsV2 {
         /// A list of tags to add to the test alias for a bot. You can only add tags when you import a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagResource operation.
         public let testBotAliasTags: [String: String]?
 
+        @inlinable
         public init(botName: String, botTags: [String: String]? = nil, dataPrivacy: DataPrivacy, idleSessionTTLInSeconds: Int? = nil, roleArn: String, testBotAliasTags: [String: String]? = nil) {
             self.botName = botName
             self.botTags = botTags
@@ -2224,6 +2286,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale to export. The string must match one of the locales in the bot.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -2254,6 +2317,7 @@ extension LexModelsV2 {
         /// The value to use for filtering the list of bots.
         public let values: [String]
 
+        @inlinable
         public init(name: BotLocaleFilterName, operator: BotLocaleFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -2283,6 +2347,7 @@ extension LexModelsV2 {
         /// A timestamp of the date and time that the event occurred.
         public let eventDate: Date
 
+        @inlinable
         public init(event: String, eventDate: Date) {
             self.event = event
             self.eventDate = eventDate
@@ -2305,6 +2370,7 @@ extension LexModelsV2 {
         public let nluIntentConfidenceThreshold: Double?
         public let voiceSettings: VoiceSettings?
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -2339,6 +2405,7 @@ extension LexModelsV2 {
         /// Specifies whether to sort the bot locales in ascending or descending order.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: BotLocaleSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -2364,6 +2431,7 @@ extension LexModelsV2 {
         /// The name of the bot locale.
         public let localeName: String?
 
+        @inlinable
         public init(botLocaleStatus: BotLocaleStatus? = nil, description: String? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil) {
             self.botLocaleStatus = botLocaleStatus
             self.description = description
@@ -2395,6 +2463,7 @@ extension LexModelsV2 {
         /// The version of a bot that is a member of this network of bots.
         public let botMemberVersion: String
 
+        @inlinable
         public init(botMemberAliasId: String, botMemberAliasName: String, botMemberId: String, botMemberName: String, botMemberVersion: String) {
             self.botMemberAliasId = botMemberAliasId
             self.botMemberAliasName = botMemberAliasName
@@ -2436,6 +2505,7 @@ extension LexModelsV2 {
         /// Statistical information about the slot types associated with the bot recommendation results.
         public let slotTypes: SlotTypeStatistics?
 
+        @inlinable
         public init(intents: IntentStatistics? = nil, slotTypes: SlotTypeStatistics? = nil) {
             self.intents = intents
             self.slotTypes = slotTypes
@@ -2455,6 +2525,7 @@ extension LexModelsV2 {
         /// The statistical summary of the bot recommendation results.
         public let statistics: BotRecommendationResultStatistics?
 
+        @inlinable
         public init(associatedTranscriptsUrl: String? = nil, botLocaleExportUrl: String? = nil, statistics: BotRecommendationResultStatistics? = nil) {
             self.associatedTranscriptsUrl = associatedTranscriptsUrl
             self.botLocaleExportUrl = botLocaleExportUrl
@@ -2478,6 +2549,7 @@ extension LexModelsV2 {
         /// A timestamp of the date and time that the bot recommendation was last updated.
         public let lastUpdatedDateTime: Date?
 
+        @inlinable
         public init(botRecommendationId: String, botRecommendationStatus: BotRecommendationStatus, creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil) {
             self.botRecommendationId = botRecommendationId
             self.botRecommendationStatus = botRecommendationStatus
@@ -2503,6 +2575,7 @@ extension LexModelsV2 {
         /// The replica region used in the replication statuses summary.
         public let replicaRegion: String?
 
+        @inlinable
         public init(botReplicaStatus: BotReplicaStatus? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, replicaRegion: String? = nil) {
             self.botReplicaStatus = botReplicaStatus
             self.creationDateTime = creationDateTime
@@ -2524,6 +2597,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can choose ascending or descending.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: BotSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -2551,6 +2625,7 @@ extension LexModelsV2 {
         /// The latest numerical version in use for the bot.
         public let latestBotVersion: String?
 
+        @inlinable
         public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, latestBotVersion: String? = nil) {
             self.botId = botId
             self.botName = botName
@@ -2576,6 +2651,7 @@ extension LexModelsV2 {
         /// The version of a bot used for a bot locale.
         public let sourceBotVersion: String
 
+        @inlinable
         public init(sourceBotVersion: String) {
             self.sourceBotVersion = sourceBotVersion
         }
@@ -2597,6 +2673,7 @@ extension LexModelsV2 {
         /// The order of the sort category for the version replicated bots.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: BotVersionReplicaSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -2618,6 +2695,7 @@ extension LexModelsV2 {
         /// The reasons for replication failure for all the replicated bots.
         public let failureReasons: [String]?
 
+        @inlinable
         public init(botVersion: String? = nil, botVersionReplicationStatus: BotVersionReplicationStatus? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil) {
             self.botVersion = botVersion
             self.botVersionReplicationStatus = botVersionReplicationStatus
@@ -2639,6 +2717,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can specify ascending or descending order.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: BotVersionSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -2662,6 +2741,7 @@ extension LexModelsV2 {
         /// The description of the version.
         public let description: String?
 
+        @inlinable
         public init(botName: String? = nil, botStatus: BotStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil) {
             self.botName = botName
             self.botStatus = botStatus
@@ -2687,6 +2767,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -2725,6 +2806,7 @@ extension LexModelsV2 {
         /// The language and locale specified of where the bot can be used.
         public let localeId: String?
 
+        @inlinable
         public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, lastBuildSubmittedDateTime: Date? = nil, localeId: String? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
@@ -2748,6 +2830,7 @@ extension LexModelsV2 {
         /// Contains specifications for the sample utterance generation feature.
         public let sampleUtteranceGeneration: SampleUtteranceGenerationSpecification?
 
+        @inlinable
         public init(descriptiveBotBuilder: DescriptiveBotBuilderSpecification? = nil, sampleUtteranceGeneration: SampleUtteranceGenerationSpecification? = nil) {
             self.descriptiveBotBuilder = descriptiveBotBuilder
             self.sampleUtteranceGeneration = sampleUtteranceGeneration
@@ -2770,6 +2853,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can specify ascending or descending order.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: BuiltInIntentSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -2787,6 +2871,7 @@ extension LexModelsV2 {
         /// The signature of the built-in intent. Use this to specify the parent intent of a derived intent.
         public let intentSignature: String?
 
+        @inlinable
         public init(description: String? = nil, intentSignature: String? = nil) {
             self.description = description
             self.intentSignature = intentSignature
@@ -2804,6 +2889,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can choose ascending or descending.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: BuiltInSlotTypeSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -2821,6 +2907,7 @@ extension LexModelsV2 {
         /// The signature of the built-in slot type. Use this to specify the parent slot type of a derived slot type.
         public let slotTypeSignature: String?
 
+        @inlinable
         public init(description: String? = nil, slotTypeSignature: String? = nil) {
             self.description = description
             self.slotTypeSignature = slotTypeSignature
@@ -2838,6 +2925,7 @@ extension LexModelsV2 {
         /// The value returned to Amazon Lex when the user chooses this button. This must be one of the slot values configured for the slot.
         public let value: String
 
+        @inlinable
         public init(text: String, value: String) {
             self.text = text
             self.value = value
@@ -2862,6 +2950,7 @@ extension LexModelsV2 {
         /// The prefix of the log stream name within the log group that you specified
         public let logPrefix: String
 
+        @inlinable
         public init(cloudWatchLogGroupArn: String, logPrefix: String) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.logPrefix = logPrefix
@@ -2883,6 +2972,7 @@ extension LexModelsV2 {
     public struct CodeHookSpecification: AWSEncodableShape & AWSDecodableShape {
         public let lambdaCodeHook: LambdaCodeHook
 
+        @inlinable
         public init(lambdaCodeHook: LambdaCodeHook) {
             self.lambdaCodeHook = lambdaCodeHook
         }
@@ -2900,6 +2990,7 @@ extension LexModelsV2 {
         /// Subslots in the composite slot.
         public let subSlots: [SubSlotTypeComposition]?
 
+        @inlinable
         public init(subSlots: [SubSlotTypeComposition]? = nil) {
             self.subSlots = subSlots
         }
@@ -2920,6 +3011,7 @@ extension LexModelsV2 {
         /// The expression string that is evaluated.
         public let expressionString: String
 
+        @inlinable
         public init(expressionString: String) {
             self.expressionString = expressionString
         }
@@ -2943,6 +3035,7 @@ extension LexModelsV2 {
         public let nextStep: DialogState
         public let response: ResponseSpecification?
 
+        @inlinable
         public init(condition: Condition, name: String, nextStep: DialogState, response: ResponseSpecification? = nil) {
             self.condition = condition
             self.name = name
@@ -2975,6 +3068,7 @@ extension LexModelsV2 {
         /// The conditional branch that should be followed when the conditions for other branches are not satisfied. A conditional branch is made up of a condition, a response and a next step.
         public let defaultBranch: DefaultConditionalBranch
 
+        @inlinable
         public init(active: Bool, conditionalBranches: [ConditionalBranch], defaultBranch: DefaultConditionalBranch) {
             self.active = active
             self.conditionalBranches = conditionalBranches
@@ -3003,6 +3097,7 @@ extension LexModelsV2 {
         /// The number of times the specific intent is used in the evaluation of intent level success or failure.
         public let matchResult: TestResultMatchStatus
 
+        @inlinable
         public init(intentName: String, matchResult: TestResultMatchStatus) {
             self.intentName = intentName
             self.matchResult = matchResult
@@ -3020,6 +3115,7 @@ extension LexModelsV2 {
         /// The speech transcription success or failure details of the conversation.
         public let speechTranscriptionResult: TestResultMatchStatus?
 
+        @inlinable
         public init(endToEndResult: TestResultMatchStatus, speechTranscriptionResult: TestResultMatchStatus? = nil) {
             self.endToEndResult = endToEndResult
             self.speechTranscriptionResult = speechTranscriptionResult
@@ -3039,6 +3135,7 @@ extension LexModelsV2 {
         /// The slot name in the slots list for the slot resolution details.
         public let slotName: String
 
+        @inlinable
         public init(intentName: String, matchResult: TestResultMatchStatus, slotName: String) {
             self.intentName = intentName
             self.matchResult = matchResult
@@ -3064,6 +3161,7 @@ extension LexModelsV2 {
         /// The speech transcription success or failure of the test result evaluation item.
         public let speechTranscriptionResult: TestResultMatchStatus?
 
+        @inlinable
         public init(conversationId: String, endToEndResult: TestResultMatchStatus, intentClassificationResults: [ConversationLevelIntentClassificationResultItem], slotResolutionResults: [ConversationLevelSlotResolutionResultItem], speechTranscriptionResult: TestResultMatchStatus? = nil) {
             self.conversationId = conversationId
             self.endToEndResult = endToEndResult
@@ -3085,6 +3183,7 @@ extension LexModelsV2 {
         /// The item list in the test set results data at the conversation level.
         public let items: [ConversationLevelTestResultItem]
 
+        @inlinable
         public init(items: [ConversationLevelTestResultItem]) {
             self.items = items
         }
@@ -3098,6 +3197,7 @@ extension LexModelsV2 {
         /// The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level.
         public let endToEndResult: TestResultMatchStatus?
 
+        @inlinable
         public init(endToEndResult: TestResultMatchStatus? = nil) {
             self.endToEndResult = endToEndResult
         }
@@ -3113,6 +3213,7 @@ extension LexModelsV2 {
         /// The Amazon CloudWatch Logs settings for logging text and metadata.
         public let textLogSettings: [TextLogSetting]?
 
+        @inlinable
         public init(audioLogSettings: [AudioLogSetting]? = nil, textLogSettings: [TextLogSetting]? = nil) {
             self.audioLogSettings = audioLogSettings
             self.textLogSettings = textLogSettings
@@ -3147,6 +3248,7 @@ extension LexModelsV2 {
         /// The locale Id of the conversation log.
         public let localeId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, filter: ConversationLogsDataSourceFilterBy, localeId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -3179,6 +3281,7 @@ extension LexModelsV2 {
         /// The start time for the conversation log.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, inputMode: ConversationLogsInputModeFilter, startTime: Date) {
             self.endTime = endTime
             self.inputMode = inputMode
@@ -3209,6 +3312,7 @@ extension LexModelsV2 {
         /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the UpdateBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation.
         public let tags: [String: String]?
 
+        @inlinable
         public init(botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String, botId: String, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, description: String? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil, tags: [String: String]? = nil) {
             self.botAliasLocaleSettings = botAliasLocaleSettings
             self.botAliasName = botAliasName
@@ -3291,6 +3395,7 @@ extension LexModelsV2 {
         /// A list of tags associated with the bot alias.
         public let tags: [String: String]?
 
+        @inlinable
         public init(botAliasId: String? = nil, botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String? = nil, botAliasStatus: BotAliasStatus? = nil, botId: String? = nil, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, creationDateTime: Date? = nil, description: String? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil, tags: [String: String]? = nil) {
             self.botAliasId = botAliasId
             self.botAliasLocaleSettings = botAliasLocaleSettings
@@ -3335,6 +3440,7 @@ extension LexModelsV2 {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
+        @inlinable
         public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -3400,6 +3506,7 @@ extension LexModelsV2 {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
+        @inlinable
         public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
@@ -3433,6 +3540,7 @@ extension LexModelsV2 {
         /// The request for the secondary region that will be used in the replication of the source bot.
         public let replicaRegion: String
 
+        @inlinable
         public init(botId: String, replicaRegion: String) {
             self.botId = botId
             self.replicaRegion = replicaRegion
@@ -3470,6 +3578,7 @@ extension LexModelsV2 {
         /// The source region for the source bot used for the replicated bot generated.
         public let sourceRegion: String?
 
+        @inlinable
         public init(botId: String? = nil, botReplicaStatus: BotReplicaStatus? = nil, creationDateTime: Date? = nil, replicaRegion: String? = nil, sourceRegion: String? = nil) {
             self.botId = botId
             self.botReplicaStatus = botReplicaStatus
@@ -3507,6 +3616,7 @@ extension LexModelsV2 {
         /// A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagResource operation.
         public let testBotAliasTags: [String: String]?
 
+        @inlinable
         public init(botMembers: [BotMember]? = nil, botName: String, botTags: [String: String]? = nil, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String, testBotAliasTags: [String: String]? = nil) {
             self.botMembers = botMembers
             self.botName = botName
@@ -3586,6 +3696,7 @@ extension LexModelsV2 {
         /// A list of tags associated with the test alias for the bot.
         public let testBotAliasTags: [String: String]?
 
+        @inlinable
         public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botTags: [String: String]? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String? = nil, testBotAliasTags: [String: String]? = nil) {
             self.botId = botId
             self.botMembers = botMembers
@@ -3625,6 +3736,7 @@ extension LexModelsV2 {
         /// A description of the version. Use the description to help identify the version in lists.
         public let description: String?
 
+        @inlinable
         public init(botId: String, botVersionLocaleSpecification: [String: BotVersionLocaleDetails], description: String? = nil) {
             self.botId = botId
             self.botVersionLocaleSpecification = botVersionLocaleSpecification
@@ -3670,6 +3782,7 @@ extension LexModelsV2 {
         /// The description of the version specified in the request.
         public let description: String?
 
+        @inlinable
         public init(botId: String? = nil, botStatus: BotStatus? = nil, botVersion: String? = nil, botVersionLocaleSpecification: [String: BotVersionLocaleDetails]? = nil, creationDateTime: Date? = nil, description: String? = nil) {
             self.botId = botId
             self.botStatus = botStatus
@@ -3697,6 +3810,7 @@ extension LexModelsV2 {
         /// Specifies the type of resource to export, either a bot or a bot locale. You can only specify one type of resource to export.
         public let resourceSpecification: ExportResourceSpecification
 
+        @inlinable
         public init(fileFormat: ImportExportFileFormat, filePassword: String? = nil, resourceSpecification: ExportResourceSpecification) {
             self.fileFormat = fileFormat
             self.filePassword = filePassword
@@ -3728,6 +3842,7 @@ extension LexModelsV2 {
         /// A description of the type of resource that was exported, either a bot or a bot locale.
         public let resourceSpecification: ExportResourceSpecification?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, fileFormat: ImportExportFileFormat? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
             self.creationDateTime = creationDateTime
             self.exportId = exportId
@@ -3779,6 +3894,7 @@ extension LexModelsV2 {
         /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza".  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
         public let sampleUtterances: [SampleUtterance]?
 
+        @inlinable
         public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -3901,6 +4017,7 @@ extension LexModelsV2 {
         /// The sample utterances specified for the intent.
         public let sampleUtterances: [SampleUtterance]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -3950,6 +4067,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -3979,6 +4097,7 @@ extension LexModelsV2 {
         /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
         public let revisionId: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, revisionId: String? = nil) {
             self.resourceArn = resourceArn
             self.revisionId = revisionId
@@ -4006,6 +4125,7 @@ extension LexModelsV2 {
         /// The name of the statement. The ID is the same as the Sid IAM property. The statement name must be unique within the policy. For more information, see IAM JSON policy elements: Sid.
         public let statementId: String
 
+        @inlinable
         public init(action: [String], condition: [String: [String: String]]? = nil, effect: Effect, expectedRevisionId: String? = nil, principal: [Principal], resourceArn: String, statementId: String) {
             self.action = action
             self.condition = condition
@@ -4067,6 +4187,7 @@ extension LexModelsV2 {
         /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
         public let revisionId: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, revisionId: String? = nil) {
             self.resourceArn = resourceArn
             self.revisionId = revisionId
@@ -4102,6 +4223,7 @@ extension LexModelsV2 {
         /// Specifies prompts that Amazon Lex sends to the user to elicit a response that provides the value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting
 
+        @inlinable
         public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotName: String, slotTypeId: String? = nil, subSlotSetting: SubSlotSetting? = nil, valueElicitationSetting: SlotValueElicitationSetting) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4192,6 +4314,7 @@ extension LexModelsV2 {
         /// The value elicitation settings specified for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, localeId: String? = nil, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, subSlotSetting: SubSlotSetting? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4247,6 +4370,7 @@ extension LexModelsV2 {
         /// Determines the strategy that Amazon Lex uses to select a value from the list of possible values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.   If you don't specify the valueSelectionSetting parameter, the default is ORIGINAL_VALUE.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
+        @inlinable
         public init(botId: String, botVersion: String, compositeSlotTypeSetting: CompositeSlotTypeSetting? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4333,6 +4457,7 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex uses to select a value from the list of possible values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, compositeSlotTypeSetting: CompositeSlotTypeSetting? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4370,6 +4495,7 @@ extension LexModelsV2 {
         /// The test set Id for the test set discrepancy report.
         public let testSetId: String
 
+        @inlinable
         public init(target: TestSetDiscrepancyReportResourceTarget, testSetId: String) {
             self.target = target
             self.testSetId = testSetId
@@ -4404,6 +4530,7 @@ extension LexModelsV2 {
         /// The test set Id for the test set discrepancy report.
         public let testSetId: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, target: TestSetDiscrepancyReportResourceTarget? = nil, testSetDiscrepancyReportId: String? = nil, testSetId: String? = nil) {
             self.creationDateTime = creationDateTime
             self.target = target
@@ -4429,6 +4556,7 @@ extension LexModelsV2 {
         /// A pre-signed S3 write URL. Upload the zip archive file that contains the definition of your bot or bot locale.
         public let uploadUrl: String?
 
+        @inlinable
         public init(importId: String? = nil, uploadUrl: String? = nil) {
             self.importId = importId
             self.uploadUrl = uploadUrl
@@ -4444,6 +4572,7 @@ extension LexModelsV2 {
         /// The string that is sent to your application.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -4462,6 +4591,7 @@ extension LexModelsV2 {
         /// The unique item identifier for the custom vocabulary items.
         public let itemId: String
 
+        @inlinable
         public init(itemId: String) {
             self.itemId = itemId
         }
@@ -4484,6 +4614,7 @@ extension LexModelsV2 {
         /// The locale of the bot that contains the custom vocabulary to export.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4514,6 +4645,7 @@ extension LexModelsV2 {
         /// The identifier of the local to import the custom vocabulary to. The value must be en_GB.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4546,6 +4678,7 @@ extension LexModelsV2 {
         /// The weight assigned for the custom vocabulary item  from the custom vocabulary list.
         public let weight: Int?
 
+        @inlinable
         public init(displayAs: String? = nil, itemId: String, phrase: String, weight: Int? = nil) {
             self.displayAs = displayAs
             self.itemId = itemId
@@ -4582,6 +4715,7 @@ extension LexModelsV2 {
         /// The maximum number of DTMF digits allowed in an utterance.
         public let maxLength: Int
 
+        @inlinable
         public init(deletionCharacter: String, endCharacter: String, endTimeoutMs: Int, maxLength: Int) {
             self.deletionCharacter = deletionCharacter
             self.endCharacter = endCharacter
@@ -4609,6 +4743,7 @@ extension LexModelsV2 {
         /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ.
         public let childDirected: Bool
 
+        @inlinable
         public init(childDirected: Bool) {
             self.childDirected = childDirected
         }
@@ -4626,6 +4761,7 @@ extension LexModelsV2 {
         /// Contains details about the configuration of the Amazon OpenSearch Service database used for the AMAZON.QnAIntent. To create a domain, follow the steps at Creating and managing Amazon OpenSearch Service domains.
         public let opensearchConfiguration: OpensearchConfiguration?
 
+        @inlinable
         public init(bedrockKnowledgeStoreConfiguration: BedrockKnowledgeStoreConfiguration? = nil, kendraConfiguration: QnAKendraConfiguration? = nil, opensearchConfiguration: OpensearchConfiguration? = nil) {
             self.bedrockKnowledgeStoreConfiguration = bedrockKnowledgeStoreConfiguration
             self.kendraConfiguration = kendraConfiguration
@@ -4651,6 +4787,7 @@ extension LexModelsV2 {
         /// A timestamp indicating the start date for the date range filter.
         public let startDateTime: Date
 
+        @inlinable
         public init(endDateTime: Date, startDateTime: Date) {
             self.endDateTime = endDateTime
             self.startDateTime = startDateTime
@@ -4667,6 +4804,7 @@ extension LexModelsV2 {
         public let nextStep: DialogState?
         public let response: ResponseSpecification?
 
+        @inlinable
         public init(nextStep: DialogState? = nil, response: ResponseSpecification? = nil) {
             self.nextStep = nextStep
             self.response = response
@@ -4691,6 +4829,7 @@ extension LexModelsV2 {
         /// By default, Amazon Lex checks if any other resource, such as a bot network,  is using the bot alias before it is deleted and throws a  ResourceInUseException exception if the alias is  being used by another resource. Set this parameter to true to skip this check and remove the alias even if it is being used by  another resource.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(botAliasId: String, botId: String, skipResourceInUseCheck: Bool? = nil) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -4725,6 +4864,7 @@ extension LexModelsV2 {
         /// The unique identifier of the bot that contains the alias to delete.
         public let botId: String?
 
+        @inlinable
         public init(botAliasId: String? = nil, botAliasStatus: BotAliasStatus? = nil, botId: String? = nil) {
             self.botAliasId = botAliasId
             self.botAliasStatus = botAliasStatus
@@ -4746,6 +4886,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4782,6 +4923,7 @@ extension LexModelsV2 {
         /// The language and locale of the deleted locale.
         public let localeId: String?
 
+        @inlinable
         public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, localeId: String? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
@@ -4803,6 +4945,7 @@ extension LexModelsV2 {
         /// The secondary region of the replicated bot that will be deleted.
         public let replicaRegion: String
 
+        @inlinable
         public init(botId: String, replicaRegion: String) {
             self.botId = botId
             self.replicaRegion = replicaRegion
@@ -4834,6 +4977,7 @@ extension LexModelsV2 {
         /// The region of the replicated bot generated.
         public let replicaRegion: String?
 
+        @inlinable
         public init(botId: String? = nil, botReplicaStatus: BotReplicaStatus? = nil, replicaRegion: String? = nil) {
             self.botId = botId
             self.botReplicaStatus = botReplicaStatus
@@ -4853,6 +4997,7 @@ extension LexModelsV2 {
         /// By default, Amazon Lex checks if any other resource, such as an alias or  bot network, is using the bot version before it is deleted and throws a  ResourceInUseException exception if the bot is  being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by  another resource.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(botId: String, skipResourceInUseCheck: Bool? = nil) {
             self.botId = botId
             self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -4880,6 +5025,7 @@ extension LexModelsV2 {
         /// The current status of the bot. The status is Deleting while the bot and its associated resources are being deleted.
         public let botStatus: BotStatus?
 
+        @inlinable
         public init(botId: String? = nil, botStatus: BotStatus? = nil) {
             self.botId = botId
             self.botStatus = botStatus
@@ -4899,6 +5045,7 @@ extension LexModelsV2 {
         /// By default, Amazon Lex checks if any other resource, such as an alias or bot network,  is using the bot version before it is deleted and throws a  ResourceInUseException exception if the version is  being used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by  another resource.
         public let skipResourceInUseCheck: Bool?
 
+        @inlinable
         public init(botId: String, botVersion: String, skipResourceInUseCheck: Bool? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4933,6 +5080,7 @@ extension LexModelsV2 {
         /// The version of the bot that is being deleted.
         public let botVersion: String?
 
+        @inlinable
         public init(botId: String? = nil, botStatus: BotStatus? = nil, botVersion: String? = nil) {
             self.botId = botId
             self.botStatus = botStatus
@@ -4954,6 +5102,7 @@ extension LexModelsV2 {
         /// The locale identifier for the locale that contains the custom vocabulary to remove.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -4990,6 +5139,7 @@ extension LexModelsV2 {
         /// The locale identifier for the locale that the custom vocabulary was removed from.
         public let localeId: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, customVocabularyStatus: CustomVocabularyStatus? = nil, localeId: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5009,6 +5159,7 @@ extension LexModelsV2 {
         /// The unique identifier of the export to delete.
         public let exportId: String
 
+        @inlinable
         public init(exportId: String) {
             self.exportId = exportId
         }
@@ -5034,6 +5185,7 @@ extension LexModelsV2 {
         /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the ListExports operation and calls to the  DescribeExport operation with the export identifier will fail.
         public let exportStatus: ExportStatus?
 
+        @inlinable
         public init(exportId: String? = nil, exportStatus: ExportStatus? = nil) {
             self.exportId = exportId
             self.exportStatus = exportStatus
@@ -5049,6 +5201,7 @@ extension LexModelsV2 {
         /// The unique identifier of the import to delete.
         public let importId: String
 
+        @inlinable
         public init(importId: String) {
             self.importId = importId
         }
@@ -5074,6 +5227,7 @@ extension LexModelsV2 {
         /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the ListImports operation and calls to the DescribeImport operation with the import identifier will fail.
         public let importStatus: ImportStatus?
 
+        @inlinable
         public init(importId: String? = nil, importStatus: ImportStatus? = nil) {
             self.importId = importId
             self.importStatus = importStatus
@@ -5095,6 +5249,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale where the bot will be deleted. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, intentId: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5132,6 +5287,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the bot or bot alias that has the resource policy attached.
         public let resourceArn: String
 
+        @inlinable
         public init(expectedRevisionId: String? = nil, resourceArn: String) {
             self.expectedRevisionId = expectedRevisionId
             self.resourceArn = resourceArn
@@ -5161,6 +5317,7 @@ extension LexModelsV2 {
         /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
         public let revisionId: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, revisionId: String? = nil) {
             self.resourceArn = resourceArn
             self.revisionId = revisionId
@@ -5180,6 +5337,7 @@ extension LexModelsV2 {
         /// The name of the statement (SID) to delete from the policy.
         public let statementId: String
 
+        @inlinable
         public init(expectedRevisionId: String? = nil, resourceArn: String, statementId: String) {
             self.expectedRevisionId = expectedRevisionId
             self.resourceArn = resourceArn
@@ -5214,6 +5372,7 @@ extension LexModelsV2 {
         /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
         public let revisionId: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, revisionId: String? = nil) {
             self.resourceArn = resourceArn
             self.revisionId = revisionId
@@ -5237,6 +5396,7 @@ extension LexModelsV2 {
         /// The identifier of the slot to delete.
         public let slotId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, intentId: String, localeId: String, slotId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5285,6 +5445,7 @@ extension LexModelsV2 {
         /// The identifier of the slot type to delete.
         public let slotTypeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String, skipResourceInUseCheck: Bool? = nil, slotTypeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5322,6 +5483,7 @@ extension LexModelsV2 {
         /// The test set Id of the test set to be deleted.
         public let testSetId: String
 
+        @inlinable
         public init(testSetId: String) {
             self.testSetId = testSetId
         }
@@ -5349,6 +5511,7 @@ extension LexModelsV2 {
         /// The unique identifier of the session with the user. The ID is returned in the response from the RecognizeText and RecognizeUtterance operations.
         public let sessionId: String?
 
+        @inlinable
         public init(botId: String, localeId: String? = nil, sessionId: String? = nil) {
             self.botId = botId
             self.localeId = localeId
@@ -5385,6 +5548,7 @@ extension LexModelsV2 {
         /// The identifier of the bot associated with the bot alias to describe.
         public let botId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -5436,6 +5600,7 @@ extension LexModelsV2 {
         public let parentBotNetworks: [ParentBotNetwork]?
         public let sentimentAnalysisSettings: SentimentAnalysisSettings?
 
+        @inlinable
         public init(botAliasHistoryEvents: [BotAliasHistoryEvent]? = nil, botAliasId: String? = nil, botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String? = nil, botAliasStatus: BotAliasStatus? = nil, botId: String? = nil, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, parentBotNetworks: [ParentBotNetwork]? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil) {
             self.botAliasHistoryEvents = botAliasHistoryEvents
             self.botAliasId = botAliasId
@@ -5477,6 +5642,7 @@ extension LexModelsV2 {
         /// The unique identifier of the locale to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5539,6 +5705,7 @@ extension LexModelsV2 {
         /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
+        @inlinable
         public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
@@ -5590,6 +5757,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale of the bot recommendation to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botRecommendationId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -5645,6 +5813,7 @@ extension LexModelsV2 {
         /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
         public let transcriptSourceSetting: TranscriptSourceSetting?
 
+        @inlinable
         public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationResults: BotRecommendationResults? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, encryptionSetting: EncryptionSetting? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, transcriptSourceSetting: TranscriptSourceSetting? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -5680,6 +5849,7 @@ extension LexModelsV2 {
         /// The request for the region of the replicated bot being monitored.
         public let replicaRegion: String
 
+        @inlinable
         public init(botId: String, replicaRegion: String) {
             self.botId = botId
             self.replicaRegion = replicaRegion
@@ -5717,6 +5887,7 @@ extension LexModelsV2 {
         /// The source region of the replicated bot being monitored.
         public let sourceRegion: String?
 
+        @inlinable
         public init(botId: String? = nil, botReplicaStatus: BotReplicaStatus? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, replicaRegion: String? = nil, sourceRegion: String? = nil) {
             self.botId = botId
             self.botReplicaStatus = botReplicaStatus
@@ -5740,6 +5911,7 @@ extension LexModelsV2 {
         /// The unique identifier of the bot to describe.
         public let botId: String
 
+        @inlinable
         public init(botId: String) {
             self.botId = botId
         }
@@ -5769,6 +5941,7 @@ extension LexModelsV2 {
         /// The locale of the bot for which to return the generation details.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, generationId: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5824,6 +5997,7 @@ extension LexModelsV2 {
         /// The ARN of the model used to generate the bot resources.
         public let modelArn: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, generatedBotLocaleUrl: String? = nil, generationId: String? = nil, generationInputPrompt: String? = nil, generationStatus: GenerationStatus? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, modelArn: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5879,6 +6053,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot.
         public let roleArn: String?
 
+        @inlinable
         public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
             self.botId = botId
             self.botMembers = botMembers
@@ -5916,6 +6091,7 @@ extension LexModelsV2 {
         /// The version of the bot to return metadata for.
         public let botVersion: String
 
+        @inlinable
         public init(botId: String, botVersion: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -5968,6 +6144,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot version.
         public let roleArn: String?
 
+        @inlinable
         public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, parentBotNetworks: [ParentBotNetwork]? = nil, roleArn: String? = nil) {
             self.botId = botId
             self.botMembers = botMembers
@@ -6009,6 +6186,7 @@ extension LexModelsV2 {
         /// The locale to return the custom vocabulary information for. The locale must be en_GB.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6049,6 +6227,7 @@ extension LexModelsV2 {
         /// The locale that contains the custom vocabulary to describe.
         public let localeId: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, customVocabularyStatus: CustomVocabularyStatus? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6072,6 +6251,7 @@ extension LexModelsV2 {
         /// The unique identifier of the export to describe.
         public let exportId: String
 
+        @inlinable
         public init(exportId: String) {
             self.exportId = exportId
         }
@@ -6109,6 +6289,7 @@ extension LexModelsV2 {
         /// The bot, bot ID, and optional locale ID of the exported bot or bot locale.
         public let resourceSpecification: ExportResourceSpecification?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, downloadUrl: String? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, failureReasons: [String]? = nil, fileFormat: ImportExportFileFormat? = nil, lastUpdatedDateTime: Date? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
             self.creationDateTime = creationDateTime
             self.downloadUrl = downloadUrl
@@ -6136,6 +6317,7 @@ extension LexModelsV2 {
         /// The unique identifier of the import to describe.
         public let importId: String
 
+        @inlinable
         public init(importId: String) {
             self.importId = importId
         }
@@ -6175,6 +6357,7 @@ extension LexModelsV2 {
         /// The specifications of the imported bot, bot locale, or custom vocabulary.
         public let resourceSpecification: ImportResourceSpecification?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReasons: [String]? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil, resourceSpecification: ImportResourceSpecification? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReasons = failureReasons
@@ -6210,6 +6393,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale of the intent to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, intentId: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6283,6 +6467,7 @@ extension LexModelsV2 {
         /// The list that determines the priority that slots should be elicited from the user.
         public let slotPriorities: [SlotPriority]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6334,6 +6519,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -6360,6 +6546,7 @@ extension LexModelsV2 {
         /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -6385,6 +6572,7 @@ extension LexModelsV2 {
         /// The unique identifier for the slot.
         public let slotId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, intentId: String, localeId: String, slotId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6451,6 +6639,7 @@ extension LexModelsV2 {
         /// Prompts that Amazon Lex uses to elicit a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, subSlotSetting: SubSlotSetting? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6496,6 +6685,7 @@ extension LexModelsV2 {
         /// The identifier of the slot type.
         public let slotTypeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String, slotTypeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6554,6 +6744,7 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex uses to choose a value from a list of possible values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, compositeSlotTypeSetting: CompositeSlotTypeSetting? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -6591,6 +6782,7 @@ extension LexModelsV2 {
         /// The execution Id of the test set execution.
         public let testExecutionId: String
 
+        @inlinable
         public init(testExecutionId: String) {
             self.testExecutionId = testExecutionId
         }
@@ -6632,6 +6824,7 @@ extension LexModelsV2 {
         /// The test set name of the test set execution.
         public let testSetName: String?
 
+        @inlinable
         public init(apiMode: TestExecutionApiMode? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, target: TestExecutionTarget? = nil, testExecutionId: String? = nil, testExecutionModality: TestExecutionModality? = nil, testExecutionStatus: TestExecutionStatus? = nil, testSetId: String? = nil, testSetName: String? = nil) {
             self.apiMode = apiMode
             self.creationDateTime = creationDateTime
@@ -6663,6 +6856,7 @@ extension LexModelsV2 {
         /// The unique identifier of the test set discrepancy report.
         public let testSetDiscrepancyReportId: String
 
+        @inlinable
         public init(testSetDiscrepancyReportId: String) {
             self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
         }
@@ -6702,6 +6896,7 @@ extension LexModelsV2 {
         /// The test set Id for the test set discrepancy report.
         public let testSetId: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReasons: [String]? = nil, lastUpdatedDataTime: Date? = nil, target: TestSetDiscrepancyReportResourceTarget? = nil, testSetDiscrepancyRawOutputUrl: String? = nil, testSetDiscrepancyReportId: String? = nil, testSetDiscrepancyReportStatus: TestSetDiscrepancyReportStatus? = nil, testSetDiscrepancyTopErrors: TestSetDiscrepancyErrors? = nil, testSetId: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReasons = failureReasons
@@ -6731,6 +6926,7 @@ extension LexModelsV2 {
         /// The unique identifier of the test set generation.
         public let testSetGenerationId: String
 
+        @inlinable
         public init(testSetGenerationId: String) {
             self.testSetGenerationId = testSetGenerationId
         }
@@ -6774,6 +6970,7 @@ extension LexModelsV2 {
         /// The test set name for the generated test set.
         public let testSetName: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generationDataSource: TestSetGenerationDataSource? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, storageLocation: TestSetStorageLocation? = nil, testSetGenerationId: String? = nil, testSetGenerationStatus: TestSetGenerationStatus? = nil, testSetId: String? = nil, testSetName: String? = nil) {
             self.creationDateTime = creationDateTime
             self.description = description
@@ -6807,6 +7004,7 @@ extension LexModelsV2 {
         /// The test set Id for the test set request.
         public let testSetId: String
 
+        @inlinable
         public init(testSetId: String) {
             self.testSetId = testSetId
         }
@@ -6848,6 +7046,7 @@ extension LexModelsV2 {
         /// The test set name of the test set.
         public let testSetName: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, modality: TestSetModality? = nil, numTurns: Int? = nil, roleArn: String? = nil, status: TestSetStatus? = nil, storageLocation: TestSetStorageLocation? = nil, testSetId: String? = nil, testSetName: String? = nil) {
             self.creationDateTime = creationDateTime
             self.description = description
@@ -6881,6 +7080,7 @@ extension LexModelsV2 {
         /// Specifies whether the descriptive bot building feature is activated or not.
         public let enabled: Bool
 
+        @inlinable
         public init(bedrockModelSpecification: BedrockModelSpecification? = nil, enabled: Bool) {
             self.bedrockModelSpecification = bedrockModelSpecification
             self.enabled = enabled
@@ -6904,6 +7104,7 @@ extension LexModelsV2 {
         /// The action that the bot should execute.
         public let type: DialogActionType
 
+        @inlinable
         public init(slotToElicit: String? = nil, suppressNextMessage: Bool? = nil, type: DialogActionType) {
             self.slotToElicit = slotToElicit
             self.suppressNextMessage = suppressNextMessage
@@ -6933,6 +7134,7 @@ extension LexModelsV2 {
         /// Contains the responses and actions that Amazon Lex takes after the Lambda function is complete.
         public let postCodeHookSpecification: PostDialogCodeHookInvocationSpecification
 
+        @inlinable
         public init(active: Bool, enableCodeHookInvocation: Bool, invocationLabel: String? = nil, postCodeHookSpecification: PostDialogCodeHookInvocationSpecification) {
             self.active = active
             self.enableCodeHookInvocation = enableCodeHookInvocation
@@ -6959,6 +7161,7 @@ extension LexModelsV2 {
         /// Enables the dialog code hook so that it processes user requests.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -6974,6 +7177,7 @@ extension LexModelsV2 {
         /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex and a client application.
         public let sessionAttributes: [String: String]?
 
+        @inlinable
         public init(dialogAction: DialogAction? = nil, intent: IntentOverride? = nil, sessionAttributes: [String: String]? = nil) {
             self.dialogAction = dialogAction
             self.intent = intent
@@ -7001,6 +7205,7 @@ extension LexModelsV2 {
         /// A label that indicates the dialog step from which the dialog code hook is happening.
         public let invocationLabel: String?
 
+        @inlinable
         public init(enableCodeHookInvocation: Bool, invocationLabel: String? = nil) {
             self.enableCodeHookInvocation = enableCodeHookInvocation
             self.invocationLabel = invocationLabel
@@ -7026,6 +7231,7 @@ extension LexModelsV2 {
         /// The KMS key ARN used to encrypt the metadata associated with the bot recommendation.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(associatedTranscriptsPassword: String? = nil, botLocaleExportPassword: String? = nil, kmsKeyArn: String? = nil) {
             self.associatedTranscriptsPassword = associatedTranscriptsPassword
             self.botLocaleExportPassword = botLocaleExportPassword
@@ -7053,6 +7259,7 @@ extension LexModelsV2 {
         /// The name of the field that contains the query made to the OpenSearch Service database.
         public let questionField: String
 
+        @inlinable
         public init(answerField: String, questionField: String) {
             self.answerField = answerField
             self.questionField = questionField
@@ -7070,6 +7277,7 @@ extension LexModelsV2 {
         /// The message describing the error.
         public let errorMessage: String
 
+        @inlinable
         public init(errorCode: String, errorMessage: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -7089,6 +7297,7 @@ extension LexModelsV2 {
         /// The values to use to filter the response. The values must be Bot, BotLocale, or CustomVocabulary.
         public let values: [String]
 
+        @inlinable
         public init(name: ExportFilterName, operator: ExportFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -7122,6 +7331,7 @@ extension LexModelsV2 {
         /// Specifications for the test set that is exported as a resource.
         public let testSetExportSpecification: TestSetExportSpecification?
 
+        @inlinable
         public init(botExportSpecification: BotExportSpecification? = nil, botLocaleExportSpecification: BotLocaleExportSpecification? = nil, customVocabularyExportSpecification: CustomVocabularyExportSpecification? = nil, testSetExportSpecification: TestSetExportSpecification? = nil) {
             self.botExportSpecification = botExportSpecification
             self.botLocaleExportSpecification = botLocaleExportSpecification
@@ -7150,6 +7360,7 @@ extension LexModelsV2 {
         /// The order to sort the list.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: ExportSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -7175,6 +7386,7 @@ extension LexModelsV2 {
         /// Information about the bot or bot locale that was exported.
         public let resourceSpecification: ExportResourceSpecification?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, fileFormat: ImportExportFileFormat? = nil, lastUpdatedDateTime: Date? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
             self.creationDateTime = creationDateTime
             self.exportId = exportId
@@ -7198,6 +7410,7 @@ extension LexModelsV2 {
         /// Settings required for a slot type based on a grammar that you provide.
         public let grammarSlotTypeSetting: GrammarSlotTypeSetting?
 
+        @inlinable
         public init(grammarSlotTypeSetting: GrammarSlotTypeSetting? = nil) {
             self.grammarSlotTypeSetting = grammarSlotTypeSetting
         }
@@ -7219,6 +7432,7 @@ extension LexModelsV2 {
         /// The unique item identifer for the failed custom vocabulary item  from the custom vocabulary list.
         public let itemId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, itemId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -7242,6 +7456,7 @@ extension LexModelsV2 {
         /// Provides settings for messages sent to the user for after the Lambda fulfillment function completes. Post-fulfillment messages can be sent for both streaming and non-streaming conversations.
         public let postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification?
 
+        @inlinable
         public init(active: Bool? = nil, enabled: Bool, fulfillmentUpdatesSpecification: FulfillmentUpdatesSpecification? = nil, postFulfillmentStatusSpecification: PostFulfillmentStatusSpecification? = nil) {
             self.active = active
             self.enabled = enabled
@@ -7270,6 +7485,7 @@ extension LexModelsV2 {
         /// 1 - 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
         public let messageGroups: [MessageGroup]
 
+        @inlinable
         public init(allowInterrupt: Bool? = nil, delayInSeconds: Int, messageGroups: [MessageGroup]) {
             self.allowInterrupt = allowInterrupt
             self.delayInSeconds = delayInSeconds
@@ -7301,6 +7517,7 @@ extension LexModelsV2 {
         /// 1 - 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
         public let messageGroups: [MessageGroup]
 
+        @inlinable
         public init(allowInterrupt: Bool? = nil, frequencyInSeconds: Int, messageGroups: [MessageGroup]) {
             self.allowInterrupt = allowInterrupt
             self.frequencyInSeconds = frequencyInSeconds
@@ -7334,6 +7551,7 @@ extension LexModelsV2 {
         /// Provides configuration information for messages sent periodically to the user while the fulfillment Lambda function is running.
         public let updateResponse: FulfillmentUpdateResponseSpecification?
 
+        @inlinable
         public init(active: Bool, startResponse: FulfillmentStartResponseSpecification? = nil, timeoutInSeconds: Int? = nil, updateResponse: FulfillmentUpdateResponseSpecification? = nil) {
             self.active = active
             self.startResponse = startResponse
@@ -7366,6 +7584,7 @@ extension LexModelsV2 {
         /// The unique locale Id for the bot request to generate utterances.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, intentId: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -7411,6 +7630,7 @@ extension LexModelsV2 {
         /// The sample utterances for the bot which received the response.
         public let sampleUtterances: [SampleUtterance]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, intentId: String? = nil, localeId: String? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -7434,6 +7654,7 @@ extension LexModelsV2 {
         /// The order by which to sort the generation request information.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: GenerationSortByAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -7455,6 +7676,7 @@ extension LexModelsV2 {
         /// The date and time at which the generation request was last updated.
         public let lastUpdatedDateTime: Date?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, generationId: String? = nil, generationStatus: GenerationStatus? = nil, lastUpdatedDateTime: Date? = nil) {
             self.creationDateTime = creationDateTime
             self.generationId = generationId
@@ -7474,6 +7696,7 @@ extension LexModelsV2 {
         public let buildtimeSettings: BuildtimeSettings?
         public let runtimeSettings: RuntimeSettings?
 
+        @inlinable
         public init(buildtimeSettings: BuildtimeSettings? = nil, runtimeSettings: RuntimeSettings? = nil) {
             self.buildtimeSettings = buildtimeSettings
             self.runtimeSettings = runtimeSettings
@@ -7494,6 +7717,7 @@ extension LexModelsV2 {
         /// The unique identifier of the completed test execution.
         public let testExecutionId: String
 
+        @inlinable
         public init(testExecutionId: String) {
             self.testExecutionId = testExecutionId
         }
@@ -7519,6 +7743,7 @@ extension LexModelsV2 {
         /// The unique identifier of the completed test execution.
         public let testExecutionId: String?
 
+        @inlinable
         public init(downloadArtifactsUrl: String? = nil, testExecutionId: String? = nil) {
             self.downloadArtifactsUrl = downloadArtifactsUrl
             self.testExecutionId = testExecutionId
@@ -7534,6 +7759,7 @@ extension LexModelsV2 {
         /// The source of the grammar used to create the slot type.
         public let source: GrammarSlotTypeSource?
 
+        @inlinable
         public init(source: GrammarSlotTypeSource? = nil) {
             self.source = source
         }
@@ -7555,6 +7781,7 @@ extension LexModelsV2 {
         /// The path to the grammar in the Amazon S3 bucket.
         public let s3ObjectKey: String
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, s3BucketName: String, s3ObjectKey: String) {
             self.kmsKeyArn = kmsKeyArn
             self.s3BucketName = s3BucketName
@@ -7590,6 +7817,7 @@ extension LexModelsV2 {
         /// The title to display on the response card. The format of the title is determined by the platform displaying the response card.
         public let title: String
 
+        @inlinable
         public init(buttons: [Button]? = nil, imageUrl: String? = nil, subtitle: String? = nil, title: String) {
             self.buttons = buttons
             self.imageUrl = imageUrl
@@ -7626,6 +7854,7 @@ extension LexModelsV2 {
         /// The values to use to filter the response. The values must be Bot, BotLocale, or CustomVocabulary.
         public let values: [String]
 
+        @inlinable
         public init(name: ImportFilterName, operator: ImportFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -7658,6 +7887,7 @@ extension LexModelsV2 {
         /// Specifications for the test set that is imported.
         public let testSetImportResourceSpecification: TestSetImportResourceSpecification?
 
+        @inlinable
         public init(botImportSpecification: BotImportSpecification? = nil, botLocaleImportSpecification: BotLocaleImportSpecification? = nil, customVocabularyImportSpecification: CustomVocabularyImportSpecification? = nil, testSetImportResourceSpecification: TestSetImportResourceSpecification? = nil) {
             self.botImportSpecification = botImportSpecification
             self.botLocaleImportSpecification = botLocaleImportSpecification
@@ -7686,6 +7916,7 @@ extension LexModelsV2 {
         /// The order to sort the list.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: ImportSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -7715,6 +7946,7 @@ extension LexModelsV2 {
         /// The strategy used to merge existing bot or bot locale definitions with the imported definition.
         public let mergeStrategy: MergeStrategy?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importedResourceType: ImportResourceType? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil) {
             self.creationDateTime = creationDateTime
             self.importedResourceId = importedResourceId
@@ -7745,6 +7977,7 @@ extension LexModelsV2 {
         /// The next step in the conversation.
         public let nextStep: DialogState?
 
+        @inlinable
         public init(codeHook: DialogCodeHookInvocationSetting? = nil, conditional: ConditionalSpecification? = nil, initialResponse: ResponseSpecification? = nil, nextStep: DialogState? = nil) {
             self.codeHook = codeHook
             self.conditional = conditional
@@ -7771,6 +8004,7 @@ extension LexModelsV2 {
         /// The name of the context.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -7794,6 +8028,7 @@ extension LexModelsV2 {
         /// Session attributes for the session state.
         public let sessionAttributes: [String: String]?
 
+        @inlinable
         public init(activeContexts: [ActiveContext]? = nil, runtimeHints: RuntimeHints? = nil, sessionAttributes: [String: String]? = nil) {
             self.activeContexts = activeContexts
             self.runtimeHints = runtimeHints
@@ -7815,6 +8050,7 @@ extension LexModelsV2 {
         /// The result of the intent classification test.
         public let resultCounts: IntentClassificationTestResultItemCounts
 
+        @inlinable
         public init(intentName: String, multiTurnConversation: Bool, resultCounts: IntentClassificationTestResultItemCounts) {
             self.intentName = intentName
             self.multiTurnConversation = multiTurnConversation
@@ -7836,6 +8072,7 @@ extension LexModelsV2 {
         /// The total number of results in the intent classification test.
         public let totalResultCount: Int
 
+        @inlinable
         public init(intentMatchResultCounts: [TestResultMatchStatus: Int], speechTranscriptionResultCounts: [TestResultMatchStatus: Int]? = nil, totalResultCount: Int) {
             self.intentMatchResultCounts = intentMatchResultCounts
             self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
@@ -7853,6 +8090,7 @@ extension LexModelsV2 {
         /// A list of the results for the intent classification test.
         public let items: [IntentClassificationTestResultItem]
 
+        @inlinable
         public init(items: [IntentClassificationTestResultItem]) {
             self.items = items
         }
@@ -7872,6 +8110,7 @@ extension LexModelsV2 {
         /// Specifies the next step that the bot executes after playing the intent's closing response.
         public let nextStep: DialogState?
 
+        @inlinable
         public init(active: Bool? = nil, closingResponse: ResponseSpecification? = nil, conditional: ConditionalSpecification? = nil, nextStep: DialogState? = nil) {
             self.active = active
             self.closingResponse = closingResponse
@@ -7918,6 +8157,7 @@ extension LexModelsV2 {
         /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.
         public let promptSpecification: PromptSpecification
 
+        @inlinable
         public init(active: Bool? = nil, codeHook: DialogCodeHookInvocationSetting? = nil, confirmationConditional: ConditionalSpecification? = nil, confirmationNextStep: DialogState? = nil, confirmationResponse: ResponseSpecification? = nil, declinationConditional: ConditionalSpecification? = nil, declinationNextStep: DialogState? = nil, declinationResponse: ResponseSpecification? = nil, elicitationCodeHook: ElicitationCodeHookInvocationSetting? = nil, failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, promptSpecification: PromptSpecification) {
             self.active = active
             self.codeHook = codeHook
@@ -7974,6 +8214,7 @@ extension LexModelsV2 {
         /// The value to use for the filter.
         public let values: [String]
 
+        @inlinable
         public init(name: IntentFilterName, operator: IntentFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -8005,6 +8246,7 @@ extension LexModelsV2 {
         /// The results for the slot resolution in the test execution result.
         public let slotResolutionResults: [SlotResolutionTestResultItem]
 
+        @inlinable
         public init(intentName: String, multiTurnConversation: Bool, slotResolutionResults: [SlotResolutionTestResultItem]) {
             self.intentName = intentName
             self.multiTurnConversation = multiTurnConversation
@@ -8022,6 +8264,7 @@ extension LexModelsV2 {
         /// Indicates the items for the slot level resolution for the intents.
         public let items: [IntentLevelSlotResolutionTestResultItem]
 
+        @inlinable
         public init(items: [IntentLevelSlotResolutionTestResultItem]) {
             self.items = items
         }
@@ -8037,6 +8280,7 @@ extension LexModelsV2 {
         /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.
         public let slots: [String: SlotValueOverride]?
 
+        @inlinable
         public init(name: String? = nil, slots: [String: SlotValueOverride]? = nil) {
             self.name = name
             self.slots = slots
@@ -8066,6 +8310,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can choose ascending or descending.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: IntentSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -8081,6 +8326,7 @@ extension LexModelsV2 {
         /// The number of recommended intents associated with the bot recommendation.
         public let discoveredIntentCount: Int?
 
+        @inlinable
         public init(discoveredIntentCount: Int? = nil) {
             self.discoveredIntentCount = discoveredIntentCount
         }
@@ -8106,6 +8352,7 @@ extension LexModelsV2 {
         /// If this intent is derived from a built-in intent, the name of the parent intent.
         public let parentIntentSignature: String?
 
+        @inlinable
         public init(description: String? = nil, inputContexts: [InputContext]? = nil, intentId: String? = nil, intentName: String? = nil, lastUpdatedDateTime: Date? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil) {
             self.description = description
             self.inputContexts = inputContexts
@@ -8131,6 +8378,7 @@ extension LexModelsV2 {
         /// The name of an intent that was invoked.
         public let intentName: String?
 
+        @inlinable
         public init(intentName: String? = nil) {
             self.intentName = intentName
         }
@@ -8148,6 +8396,7 @@ extension LexModelsV2 {
         /// Determines whether the AMAZON.KendraSearchIntent intent uses a custom query string to query the Amazon Kendra index.
         public let queryFilterStringEnabled: Bool?
 
+        @inlinable
         public init(kendraIndex: String, queryFilterString: String? = nil, queryFilterStringEnabled: Bool? = nil) {
             self.kendraIndex = kendraIndex
             self.queryFilterString = queryFilterString
@@ -8175,6 +8424,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the Lambda function.
         public let lambdaARN: String
 
+        @inlinable
         public init(codeHookInterfaceVersion: String, lambdaARN: String) {
             self.codeHookInterfaceVersion = codeHookInterfaceVersion
             self.lambdaARN = lambdaARN
@@ -8198,6 +8448,7 @@ extension LexModelsV2 {
         /// The object that contains a date range filter that will be applied to the transcript. Specify this object if you want Amazon Lex to only read the files that are within the date range.
         public let dateRangeFilter: DateRangeFilter?
 
+        @inlinable
         public init(dateRangeFilter: DateRangeFilter? = nil) {
             self.dateRangeFilter = dateRangeFilter
         }
@@ -8227,6 +8478,7 @@ extension LexModelsV2 {
         /// Specifies sorting parameters for the list of utterances. You can sort by the hit count, the missed count, or the number of distinct sessions the utterance appeared in.
         public let sortBy: AggregatedUtterancesSortBy?
 
+        @inlinable
         public init(aggregationDuration: UtteranceAggregationDuration, botAliasId: String? = nil, botId: String, botVersion: String? = nil, filters: [AggregatedUtterancesFilter]? = nil, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: AggregatedUtterancesSortBy? = nil) {
             self.aggregationDuration = aggregationDuration
             self.botAliasId = botAliasId
@@ -8307,6 +8559,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListAggregatedUtterances operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListAggregatedUtterances operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregatedUtterancesSummaries: [AggregatedUtterancesSummary]? = nil, aggregationDuration: UtteranceAggregationDuration? = nil, aggregationLastRefreshedDateTime: Date? = nil, aggregationWindowEndTime: Date? = nil, aggregationWindowStartTime: Date? = nil, botAliasId: String? = nil, botId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.aggregatedUtterancesSummaries = aggregatedUtterancesSummaries
             self.aggregationDuration = aggregationDuration
@@ -8344,6 +8597,7 @@ extension LexModelsV2 {
         /// The request for the secondary region of the replicated bot created from the source bot alias.
         public let replicaRegion: String
 
+        @inlinable
         public init(botId: String, maxResults: Int? = nil, nextToken: String? = nil, replicaRegion: String) {
             self.botId = botId
             self.maxResults = maxResults
@@ -8388,6 +8642,7 @@ extension LexModelsV2 {
         /// The source region of the replicated bot created from the source bot alias.
         public let sourceRegion: String?
 
+        @inlinable
         public init(botAliasReplicaSummaries: [BotAliasReplicaSummary]? = nil, botId: String? = nil, nextToken: String? = nil, replicaRegion: String? = nil, sourceRegion: String? = nil) {
             self.botAliasReplicaSummaries = botAliasReplicaSummaries
             self.botId = botId
@@ -8413,6 +8668,7 @@ extension LexModelsV2 {
         /// If the response from the ListBotAliases operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.maxResults = maxResults
@@ -8449,6 +8705,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBotAliases operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBotAliases operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botAliasSummaries: [BotAliasSummary]? = nil, botId: String? = nil, nextToken: String? = nil) {
             self.botAliasSummaries = botAliasSummaries
             self.botId = botId
@@ -8476,6 +8733,7 @@ extension LexModelsV2 {
         /// Specifies sorting parameters for the list of locales. You can sort by locale name in ascending or descending order.
         public let sortBy: BotLocaleSortBy?
 
+        @inlinable
         public init(botId: String, botVersion: String, filters: [BotLocaleFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: BotLocaleSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -8530,6 +8788,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBotLocales operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBotLocales operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botLocaleSummaries: [BotLocaleSummary]? = nil, botVersion: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botLocaleSummaries = botLocaleSummaries
@@ -8557,6 +8816,7 @@ extension LexModelsV2 {
         /// If the response from the ListBotRecommendation operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -8604,6 +8864,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBotRecommendations operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBotRecommendations operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botRecommendationSummaries: [BotRecommendationSummary]? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botRecommendationSummaries = botRecommendationSummaries
@@ -8625,6 +8886,7 @@ extension LexModelsV2 {
         /// The request for the unique bot IDs in the list of replicated bots.
         public let botId: String
 
+        @inlinable
         public init(botId: String) {
             self.botId = botId
         }
@@ -8652,6 +8914,7 @@ extension LexModelsV2 {
         /// The source region of the source bots in the list of replicated bots.
         public let sourceRegion: String?
 
+        @inlinable
         public init(botId: String? = nil, botReplicaSummaries: [BotReplicaSummary]? = nil, sourceRegion: String? = nil) {
             self.botId = botId
             self.botReplicaSummaries = botReplicaSummaries
@@ -8679,6 +8942,7 @@ extension LexModelsV2 {
         /// An object containing information about the attribute and the  method by which to sort the results
         public let sortBy: GenerationSortBy?
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: GenerationSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -8729,6 +8993,7 @@ extension LexModelsV2 {
         /// If the total number of results is greater than the number  specified in the maxResults, the response returns a token  in the nextToken field. Use this token when making a request to  return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, generationSummaries: [GenerationSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -8758,6 +9023,7 @@ extension LexModelsV2 {
         /// The requested sort category for the list of replicated bots.
         public let sortBy: BotVersionReplicaSortBy?
 
+        @inlinable
         public init(botId: String, maxResults: Int? = nil, nextToken: String? = nil, replicaRegion: String, sortBy: BotVersionReplicaSortBy? = nil) {
             self.botId = botId
             self.maxResults = maxResults
@@ -8805,6 +9071,7 @@ extension LexModelsV2 {
         /// The source region used for the bots in the list of replicated bots.
         public let sourceRegion: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersionReplicaSummaries: [BotVersionReplicaSummary]? = nil, nextToken: String? = nil, replicaRegion: String? = nil, sourceRegion: String? = nil) {
             self.botId = botId
             self.botVersionReplicaSummaries = botVersionReplicaSummaries
@@ -8832,6 +9099,7 @@ extension LexModelsV2 {
         /// Specifies sorting parameters for the list of versions. You can specify that the list be sorted by version name in either ascending or descending order.
         public let sortBy: BotVersionSortBy?
 
+        @inlinable
         public init(botId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: BotVersionSortBy? = nil) {
             self.botId = botId
             self.maxResults = maxResults
@@ -8871,6 +9139,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBotVersions operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBotAliases operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersionSummaries: [BotVersionSummary]? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersionSummaries = botVersionSummaries
@@ -8894,6 +9163,7 @@ extension LexModelsV2 {
         /// Specifies sorting parameters for the list of bots. You can specify that the list be sorted by bot name in ascending or descending order.
         public let sortBy: BotSortBy?
 
+        @inlinable
         public init(filters: [BotFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: BotSortBy? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -8925,6 +9195,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBots operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBots operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botSummaries: [BotSummary]? = nil, nextToken: String? = nil) {
             self.botSummaries = botSummaries
             self.nextToken = nextToken
@@ -8946,6 +9217,7 @@ extension LexModelsV2 {
         /// Specifies sorting parameters for the list of built-in intents. You can specify that the list be sorted by the built-in intent signature in either ascending or descending order.
         public let sortBy: BuiltInIntentSortBy?
 
+        @inlinable
         public init(localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: BuiltInIntentSortBy? = nil) {
             self.localeId = localeId
             self.maxResults = maxResults
@@ -8982,6 +9254,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBuiltInIntents operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBotAliases operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(builtInIntentSummaries: [BuiltInIntentSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.builtInIntentSummaries = builtInIntentSummaries
             self.localeId = localeId
@@ -9005,6 +9278,7 @@ extension LexModelsV2 {
         /// Determines the sort order for the response from the ListBuiltInSlotTypes operation. You can choose to sort by the slot type signature in either ascending or descending order.
         public let sortBy: BuiltInSlotTypeSortBy?
 
+        @inlinable
         public init(localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: BuiltInSlotTypeSortBy? = nil) {
             self.localeId = localeId
             self.maxResults = maxResults
@@ -9041,6 +9315,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListBuiltInSlotTypes operation. If the nextToken field is present, you send the contents as the nextToken parameter of a LIstBuiltInSlotTypes operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(builtInSlotTypeSummaries: [BuiltInSlotTypeSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.builtInSlotTypeSummaries = builtInSlotTypeSummaries
             self.localeId = localeId
@@ -9066,6 +9341,7 @@ extension LexModelsV2 {
         /// The nextToken identifier to the list custom vocabulary  request.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9113,6 +9389,7 @@ extension LexModelsV2 {
         /// The nextToken identifier to the list custom vocabulary  response.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, customVocabularyItems: [CustomVocabularyItem]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9146,6 +9423,7 @@ extension LexModelsV2 {
         /// Determines the field that the list of exports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
         public let sortBy: ExportSortBy?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, filters: [ExportFilter]? = nil, localeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ExportSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9195,6 +9473,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListExports operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListExports operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, exportSummaries: [ExportSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9228,6 +9507,7 @@ extension LexModelsV2 {
         /// Determines the field that the list of imports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
         public let sortBy: ImportSortBy?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, filters: [ImportFilter]? = nil, localeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ImportSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9277,6 +9557,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListImports operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListImports operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, importSummaries: [ImportSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9314,6 +9595,7 @@ extension LexModelsV2 {
         /// The timestamp that marks the beginning of the range of time for which you want to see intent metrics.
         public let startDateTime: Date
 
+        @inlinable
         public init(binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsIntentFilter]? = nil, groupBy: [AnalyticsIntentGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsIntentMetric], nextToken: String? = nil, startDateTime: Date) {
             self.binBy = binBy
             self.botId = botId
@@ -9379,6 +9661,7 @@ extension LexModelsV2 {
         /// The results for the intent metrics.
         public let results: [AnalyticsIntentResult]?
 
+        @inlinable
         public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsIntentResult]? = nil) {
             self.botId = botId
             self.nextToken = nextToken
@@ -9404,6 +9687,7 @@ extension LexModelsV2 {
         /// The date and time that marks the beginning of the range of time for which you want to see intent path metrics.
         public let startDateTime: Date
 
+        @inlinable
         public init(botId: String, endDateTime: Date, filters: [AnalyticsPathFilter]? = nil, intentPath: String, startDateTime: Date) {
             self.botId = botId
             self.endDateTime = endDateTime
@@ -9447,6 +9731,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains information about a node in the intent path for which you requested metrics.
         public let nodeSummaries: [AnalyticsIntentNodeSummary]?
 
+        @inlinable
         public init(nodeSummaries: [AnalyticsIntentNodeSummary]? = nil) {
             self.nodeSummaries = nodeSummaries
         }
@@ -9476,6 +9761,7 @@ extension LexModelsV2 {
         /// The date and time that marks the beginning of the range of time for which you want to see intent stage metrics.
         public let startDateTime: Date
 
+        @inlinable
         public init(binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsIntentStageFilter]? = nil, groupBy: [AnalyticsIntentStageGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsIntentStageMetric], nextToken: String? = nil, startDateTime: Date) {
             self.binBy = binBy
             self.botId = botId
@@ -9541,6 +9827,7 @@ extension LexModelsV2 {
         /// The results for the intent stage metrics.
         public let results: [AnalyticsIntentStageResult]?
 
+        @inlinable
         public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsIntentStageResult]? = nil) {
             self.botId = botId
             self.nextToken = nextToken
@@ -9570,6 +9857,7 @@ extension LexModelsV2 {
         /// Determines the sort order for the response from the ListIntents operation. You can choose to sort by the intent name or last updated date in either ascending or descending order.
         public let sortBy: IntentSortBy?
 
+        @inlinable
         public init(botId: String, botVersion: String, filters: [IntentFilter]? = nil, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: IntentSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9628,6 +9916,7 @@ extension LexModelsV2 {
         /// A token that indicates whether there are more results to return in a response to the ListIntents operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListIntents operation request to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, intentSummaries: [IntentSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9659,6 +9948,7 @@ extension LexModelsV2 {
         /// If the response from the ListRecommendedIntents operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(botId: String, botRecommendationId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -9713,6 +10003,7 @@ extension LexModelsV2 {
         /// Summary information for the intents that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more intents available, the nextToken field contains a token to get the next page of results.
         public let summaryList: [RecommendedIntentSummary]?
 
+        @inlinable
         public init(botId: String? = nil, botRecommendationId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil, summaryList: [RecommendedIntentSummary]? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -9748,6 +10039,7 @@ extension LexModelsV2 {
         /// The date and time that marks the beginning of the range of time for which you want to see session analytics.
         public let startDateTime: Date
 
+        @inlinable
         public init(botId: String, endDateTime: Date, filters: [AnalyticsSessionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SessionDataSortBy? = nil, startDateTime: Date) {
             self.botId = botId
             self.endDateTime = endDateTime
@@ -9801,6 +10093,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains information about a session with the bot.
         public let sessions: [SessionSpecification]?
 
+        @inlinable
         public init(botId: String? = nil, nextToken: String? = nil, sessions: [SessionSpecification]? = nil) {
             self.botId = botId
             self.nextToken = nextToken
@@ -9834,6 +10127,7 @@ extension LexModelsV2 {
         /// The date and time that marks the beginning of the range of time for which you want to see session metrics.
         public let startDateTime: Date
 
+        @inlinable
         public init(binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsSessionFilter]? = nil, groupBy: [AnalyticsSessionGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsSessionMetric], nextToken: String? = nil, startDateTime: Date) {
             self.binBy = binBy
             self.botId = botId
@@ -9899,6 +10193,7 @@ extension LexModelsV2 {
         /// The results for the session metrics.
         public let results: [AnalyticsSessionResult]?
 
+        @inlinable
         public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsSessionResult]? = nil) {
             self.botId = botId
             self.nextToken = nextToken
@@ -9928,6 +10223,7 @@ extension LexModelsV2 {
         /// Determines the sort order for the response from the ListSlotTypes operation. You can choose to sort by the slot type name or last updated date in either ascending or descending order.
         public let sortBy: SlotTypeSortBy?
 
+        @inlinable
         public init(botId: String, botVersion: String, filters: [SlotTypeFilter]? = nil, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SlotTypeSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -9986,6 +10282,7 @@ extension LexModelsV2 {
         /// Summary information for the slot types that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more slot types available, the nextToken field contains a token to get the next page of results.
         public let slotTypeSummaries: [SlotTypeSummary]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil, slotTypeSummaries: [SlotTypeSummary]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -10021,6 +10318,7 @@ extension LexModelsV2 {
         /// Determines the sort order for the response from the ListSlots operation. You can choose to sort by the slot name or last updated date in either ascending or descending order.
         public let sortBy: SlotSortBy?
 
+        @inlinable
         public init(botId: String, botVersion: String, filters: [SlotFilter]? = nil, intentId: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SlotSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -10086,6 +10384,7 @@ extension LexModelsV2 {
         /// Summary information for the slots that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more slots available, the nextToken field contains a token to get the next page of results.
         public let slotSummaries: [SlotSummary]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, intentId: String? = nil, localeId: String? = nil, nextToken: String? = nil, slotSummaries: [SlotSummary]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -10109,6 +10408,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -10131,6 +10431,7 @@ extension LexModelsV2 {
         /// The tags associated with a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -10150,6 +10451,7 @@ extension LexModelsV2 {
         /// The unique identifier of the test execution to list the result items.
         public let testExecutionId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resultFilterBy: TestExecutionResultFilterBy, testExecutionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10187,6 +10489,7 @@ extension LexModelsV2 {
         /// The list of results from the test execution.
         public let testExecutionResults: TestExecutionResultItems?
 
+        @inlinable
         public init(nextToken: String? = nil, testExecutionResults: TestExecutionResultItems? = nil) {
             self.nextToken = nextToken
             self.testExecutionResults = testExecutionResults
@@ -10206,6 +10509,7 @@ extension LexModelsV2 {
         /// The sort order of the test set executions.
         public let sortBy: TestExecutionSortBy?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: TestExecutionSortBy? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10230,6 +10534,7 @@ extension LexModelsV2 {
         /// The list of test executions.
         public let testExecutions: [TestExecutionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, testExecutions: [TestExecutionSummary]? = nil) {
             self.nextToken = nextToken
             self.testExecutions = testExecutions
@@ -10249,6 +10554,7 @@ extension LexModelsV2 {
         /// The identifier of the test set to list its test set records.
         public let testSetId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testSetId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10283,6 +10589,7 @@ extension LexModelsV2 {
         /// The list of records from the test set.
         public let testSetRecords: [TestSetTurnRecord]?
 
+        @inlinable
         public init(nextToken: String? = nil, testSetRecords: [TestSetTurnRecord]? = nil) {
             self.nextToken = nextToken
             self.testSetRecords = testSetRecords
@@ -10302,6 +10609,7 @@ extension LexModelsV2 {
         /// The sort order for the list of test sets.
         public let sortBy: TestSetSortBy?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: TestSetSortBy? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10326,6 +10634,7 @@ extension LexModelsV2 {
         /// The selected test sets in a list of test sets.
         public let testSets: [TestSetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, testSets: [TestSetSummary]? = nil) {
             self.nextToken = nextToken
             self.testSets = testSets
@@ -10353,6 +10662,7 @@ extension LexModelsV2 {
         /// The date and time that marks the beginning of the range of time for which you want to see utterance analytics.
         public let startDateTime: Date
 
+        @inlinable
         public init(botId: String, endDateTime: Date, filters: [AnalyticsUtteranceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UtteranceDataSortBy? = nil, startDateTime: Date) {
             self.botId = botId
             self.endDateTime = endDateTime
@@ -10406,6 +10716,7 @@ extension LexModelsV2 {
         /// A list of objects, each of which contains information about an utterance in a user session with your bot.
         public let utterances: [UtteranceSpecification]?
 
+        @inlinable
         public init(botId: String? = nil, nextToken: String? = nil, utterances: [UtteranceSpecification]? = nil) {
             self.botId = botId
             self.nextToken = nextToken
@@ -10441,6 +10752,7 @@ extension LexModelsV2 {
         /// The date and time that marks the beginning of the range of time for which you want to see utterance metrics.
         public let startDateTime: Date
 
+        @inlinable
         public init(attributes: [AnalyticsUtteranceAttribute]? = nil, binBy: [AnalyticsBinBySpecification]? = nil, botId: String, endDateTime: Date, filters: [AnalyticsUtteranceFilter]? = nil, groupBy: [AnalyticsUtteranceGroupBySpecification]? = nil, maxResults: Int? = nil, metrics: [AnalyticsUtteranceMetric], nextToken: String? = nil, startDateTime: Date) {
             self.attributes = attributes
             self.binBy = binBy
@@ -10511,6 +10823,7 @@ extension LexModelsV2 {
         /// The results for the utterance metrics.
         public let results: [AnalyticsUtteranceResult]?
 
+        @inlinable
         public init(botId: String? = nil, nextToken: String? = nil, results: [AnalyticsUtteranceResult]? = nil) {
             self.botId = botId
             self.nextToken = nextToken
@@ -10534,6 +10847,7 @@ extension LexModelsV2 {
         /// A message in Speech Synthesis Markup Language (SSML).
         public let ssmlMessage: SSMLMessage?
 
+        @inlinable
         public init(customPayload: CustomPayload? = nil, imageResponseCard: ImageResponseCard? = nil, plainTextMessage: PlainTextMessage? = nil, ssmlMessage: SSMLMessage? = nil) {
             self.customPayload = customPayload
             self.imageResponseCard = imageResponseCard
@@ -10562,6 +10876,7 @@ extension LexModelsV2 {
         /// Message variations to send to the user. When variations are defined, Amazon Lex chooses the primary message or one of the variations to send to the user.
         public let variations: [Message]?
 
+        @inlinable
         public init(message: Message, variations: [Message]? = nil) {
             self.message = message
             self.variations = variations
@@ -10585,6 +10900,7 @@ extension LexModelsV2 {
         /// Indicates whether a slot can return multiple values. When true, the slot may return more than one value in a response. When false, the slot returns only a single value. Multi-value slots are only available in the en-US locale. If you set this value to true in any other locale, Amazon Lex throws a ValidationException. If the allowMutlipleValues is not set, the default value is false.
         public let allowMultipleValues: Bool?
 
+        @inlinable
         public init(allowMultipleValues: Bool? = nil) {
             self.allowMultipleValues = allowMultipleValues
         }
@@ -10602,6 +10918,7 @@ extension LexModelsV2 {
         /// The weight assigned to the new custom vocabulary item from the custom  vocabulary list.
         public let weight: Int?
 
+        @inlinable
         public init(displayAs: String? = nil, phrase: String, weight: Int? = nil) {
             self.displayAs = displayAs
             self.phrase = phrase
@@ -10628,6 +10945,7 @@ extension LexModelsV2 {
         /// Value that determines whether Amazon Lex obscures slot values in conversation logs. The default is to obscure the values.
         public let obfuscationSettingType: ObfuscationSettingType
 
+        @inlinable
         public init(obfuscationSettingType: ObfuscationSettingType) {
             self.obfuscationSettingType = obfuscationSettingType
         }
@@ -10649,6 +10967,7 @@ extension LexModelsV2 {
         /// The name of the Amazon OpenSearch Service index.
         public let indexName: String
 
+        @inlinable
         public init(domainEndpoint: String, exactResponse: Bool? = nil, exactResponseFields: ExactResponseFields? = nil, includeFields: [String]? = nil, indexName: String) {
             self.domainEndpoint = domainEndpoint
             self.exactResponse = exactResponse
@@ -10683,6 +11002,7 @@ extension LexModelsV2 {
         /// The number of conversation turns that the output context should remain active. The number of turns is counted from the first time that the context is sent to the user.
         public let turnsToLive: Int
 
+        @inlinable
         public init(name: String, timeToLiveInSeconds: Int, turnsToLive: Int) {
             self.name = name
             self.timeToLiveInSeconds = timeToLiveInSeconds
@@ -10716,6 +11036,7 @@ extension LexModelsV2 {
         /// The total number of overall results in the result of the test execution.
         public let totalResultCount: Int
 
+        @inlinable
         public init(endToEndResultCounts: [TestResultMatchStatus: Int], multiTurnConversation: Bool, speechTranscriptionResultCounts: [TestResultMatchStatus: Int]? = nil, totalResultCount: Int) {
             self.endToEndResultCounts = endToEndResultCounts
             self.multiTurnConversation = multiTurnConversation
@@ -10735,6 +11056,7 @@ extension LexModelsV2 {
         /// A list of the overall test results.
         public let items: [OverallTestResultItem]
 
+        @inlinable
         public init(items: [OverallTestResultItem]) {
             self.items = items
         }
@@ -10750,6 +11072,7 @@ extension LexModelsV2 {
         /// The version of the network of bots.
         public let botVersion: String
 
+        @inlinable
         public init(botId: String, botVersion: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -10765,6 +11088,7 @@ extension LexModelsV2 {
         /// A list of Amazon S3 prefixes that points to sub-folders in the Amazon S3 bucket. Specify this list if you only want Lex to read the files under this set of sub-folders.
         public let objectPrefixes: [String]?
 
+        @inlinable
         public init(objectPrefixes: [String]? = nil) {
             self.objectPrefixes = objectPrefixes
         }
@@ -10787,6 +11111,7 @@ extension LexModelsV2 {
         /// The message to send to the user.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -10818,6 +11143,7 @@ extension LexModelsV2 {
         public let timeoutNextStep: DialogState?
         public let timeoutResponse: ResponseSpecification?
 
+        @inlinable
         public init(failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, successConditional: ConditionalSpecification? = nil, successNextStep: DialogState? = nil, successResponse: ResponseSpecification? = nil, timeoutConditional: ConditionalSpecification? = nil, timeoutNextStep: DialogState? = nil, timeoutResponse: ResponseSpecification? = nil) {
             self.failureConditional = failureConditional
             self.failureNextStep = failureNextStep
@@ -10872,6 +11198,7 @@ extension LexModelsV2 {
         public let timeoutNextStep: DialogState?
         public let timeoutResponse: ResponseSpecification?
 
+        @inlinable
         public init(failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, successConditional: ConditionalSpecification? = nil, successNextStep: DialogState? = nil, successResponse: ResponseSpecification? = nil, timeoutConditional: ConditionalSpecification? = nil, timeoutNextStep: DialogState? = nil, timeoutResponse: ResponseSpecification? = nil) {
             self.failureConditional = failureConditional
             self.failureNextStep = failureNextStep
@@ -10915,6 +11242,7 @@ extension LexModelsV2 {
         /// The name of the Amazon Web Services service that should allowed or denied access to an Amazon Lex action.
         public let service: String?
 
+        @inlinable
         public init(arn: String? = nil, service: String? = nil) {
             self.arn = arn
             self.service = service
@@ -10945,6 +11273,7 @@ extension LexModelsV2 {
         /// Specifies the settings on text input.
         public let textInputSpecification: TextInputSpecification?
 
+        @inlinable
         public init(allowedInputTypes: AllowedInputTypes, allowInterrupt: Bool? = nil, audioAndDTMFInputSpecification: AudioAndDTMFInputSpecification? = nil, textInputSpecification: TextInputSpecification? = nil) {
             self.allowedInputTypes = allowedInputTypes
             self.allowInterrupt = allowInterrupt
@@ -10977,6 +11306,7 @@ extension LexModelsV2 {
         /// Specifies the advanced settings on each attempt of the prompt.
         public let promptAttemptsSpecification: [PromptAttempt: PromptAttemptSpecification]?
 
+        @inlinable
         public init(allowInterrupt: Bool? = nil, maxRetries: Int, messageGroups: [MessageGroup], messageSelectionStrategy: MessageSelectionStrategy? = nil, promptAttemptsSpecification: [PromptAttempt: PromptAttemptSpecification]? = nil) {
             self.allowInterrupt = allowInterrupt
             self.maxRetries = maxRetries
@@ -11012,6 +11342,7 @@ extension LexModelsV2 {
         /// Contains details about the configuration of the data source used for the AMAZON.QnAIntent.
         public let dataSourceConfiguration: DataSourceConfiguration?
 
+        @inlinable
         public init(bedrockModelConfiguration: BedrockModelSpecification? = nil, dataSourceConfiguration: DataSourceConfiguration? = nil) {
             self.bedrockModelConfiguration = bedrockModelConfiguration
             self.dataSourceConfiguration = dataSourceConfiguration
@@ -11038,6 +11369,7 @@ extension LexModelsV2 {
         /// Specifies whether to enable an Amazon Kendra filter string or not.
         public let queryFilterStringEnabled: Bool?
 
+        @inlinable
         public init(exactResponse: Bool? = nil, kendraIndex: String, queryFilterString: String? = nil, queryFilterStringEnabled: Bool? = nil) {
             self.exactResponse = exactResponse
             self.kendraIndex = kendraIndex
@@ -11069,6 +11401,7 @@ extension LexModelsV2 {
         /// The count of sample utterances of a recommended intent that is associated with a bot recommendation.
         public let sampleUtterancesCount: Int?
 
+        @inlinable
         public init(intentId: String? = nil, intentName: String? = nil, sampleUtterancesCount: Int? = nil) {
             self.intentId = intentId
             self.intentName = intentName
@@ -11088,6 +11421,7 @@ extension LexModelsV2 {
         /// The period of the time window to gather statistics for. The valid value depends on the setting of the timeDimension field.    Hours - 1/3/6/12/24    Days - 3    Weeks - 1/2
         public let timeValue: Int
 
+        @inlinable
         public init(timeDimension: TimeDimension, timeValue: Int) {
             self.timeDimension = timeDimension
             self.timeValue = timeValue
@@ -11110,6 +11444,7 @@ extension LexModelsV2 {
         /// A collection of responses that Amazon Lex can send to the user. Amazon Lex chooses the actual response to send at runtime.
         public let messageGroups: [MessageGroup]
 
+        @inlinable
         public init(allowInterrupt: Bool? = nil, messageGroups: [MessageGroup]) {
             self.allowInterrupt = allowInterrupt
             self.messageGroups = messageGroups
@@ -11135,6 +11470,7 @@ extension LexModelsV2 {
         /// A map of constituent sub slot names inside a composite slot in the intent and the phrases  that should be added for each sub slot. Inside each composite slot hints, this structure provides  a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots.  The intent name, composite slot name and the constituent sub slot names must exist.
         public let subSlotHints: [String: RuntimeHintDetails]?
 
+        @inlinable
         public init(runtimeHintValues: [RuntimeHintValue]? = nil, subSlotHints: [String: RuntimeHintDetails]? = nil) {
             self.runtimeHintValues = runtimeHintValues
             self.subSlotHints = subSlotHints
@@ -11150,6 +11486,7 @@ extension LexModelsV2 {
         /// The phrase that Amazon Lex should look for in the user's input to the bot.
         public let phrase: String
 
+        @inlinable
         public init(phrase: String) {
             self.phrase = phrase
         }
@@ -11163,6 +11500,7 @@ extension LexModelsV2 {
         /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see Using hints to improve accuracy. The intent name and slot name must exist.
         public let slotHints: [String: [String: RuntimeHintDetails]]?
 
+        @inlinable
         public init(slotHints: [String: [String: RuntimeHintDetails]]? = nil) {
             self.slotHints = slotHints
         }
@@ -11176,6 +11514,7 @@ extension LexModelsV2 {
         /// An object containing specifications for the assisted slot resolution feature.
         public let slotResolutionImprovement: SlotResolutionImprovementSpecification?
 
+        @inlinable
         public init(slotResolutionImprovement: SlotResolutionImprovementSpecification? = nil) {
             self.slotResolutionImprovement = slotResolutionImprovement
         }
@@ -11197,6 +11536,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of an Amazon S3 bucket where audio log files are stored.
         public let s3BucketArn: String
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, logPrefix: String, s3BucketArn: String) {
             self.kmsKeyArn = kmsKeyArn
             self.logPrefix = logPrefix
@@ -11232,6 +11572,7 @@ extension LexModelsV2 {
         /// The format of the transcript content. Currently, Genie only supports the Amazon Lex transcript format.
         public let transcriptFormat: TranscriptFormat
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, pathFormat: PathFormat? = nil, s3BucketName: String, transcriptFilter: TranscriptFilter? = nil, transcriptFormat: TranscriptFormat) {
             self.kmsKeyArn = kmsKeyArn
             self.pathFormat = pathFormat
@@ -11263,6 +11604,7 @@ extension LexModelsV2 {
         /// The SSML text that defines the prompt.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -11281,6 +11623,7 @@ extension LexModelsV2 {
         /// The sample utterance that Amazon Lex uses to build its machine-learning model to recognize intents.
         public let utterance: String
 
+        @inlinable
         public init(utterance: String) {
             self.utterance = utterance
         }
@@ -11295,6 +11638,7 @@ extension LexModelsV2 {
         /// Specifies whether to enable sample utterance generation or not.
         public let enabled: Bool
 
+        @inlinable
         public init(bedrockModelSpecification: BedrockModelSpecification? = nil, enabled: Bool) {
             self.bedrockModelSpecification = bedrockModelSpecification
             self.enabled = enabled
@@ -11314,6 +11658,7 @@ extension LexModelsV2 {
         /// The value that can be used for a slot type.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -11346,6 +11691,7 @@ extension LexModelsV2 {
         /// How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending.
         public let searchOrder: SearchOrder?
 
+        @inlinable
         public init(botId: String, botRecommendationId: String, botVersion: String, filters: [AssociatedTranscriptFilter], localeId: String, maxResults: Int? = nil, nextIndex: Int? = nil, searchOrder: SearchOrder? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -11415,6 +11761,7 @@ extension LexModelsV2 {
         /// The total number of transcripts returned by the search.
         public let totalResults: Int?
 
+        @inlinable
         public init(associatedTranscripts: [AssociatedTranscript]? = nil, botId: String? = nil, botRecommendationId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextIndex: Int? = nil, totalResults: Int? = nil) {
             self.associatedTranscripts = associatedTranscripts
             self.botId = botId
@@ -11440,6 +11787,7 @@ extension LexModelsV2 {
         /// Sets whether Amazon Lex uses Amazon Comprehend to detect the sentiment of user utterances.
         public let detectSentiment: Bool
 
+        @inlinable
         public init(detectSentiment: Bool) {
             self.detectSentiment = detectSentiment
         }
@@ -11455,6 +11803,7 @@ extension LexModelsV2 {
         /// Specifies whether to sort the results in ascending or descending order.
         public let order: AnalyticsSortOrder
 
+        @inlinable
         public init(name: AnalyticsSessionSortByName, order: AnalyticsSortOrder) {
             self.name = name
             self.order = order
@@ -11494,6 +11843,7 @@ extension LexModelsV2 {
         /// The identifier of the session.
         public let sessionId: String?
 
+        @inlinable
         public init(botAliasId: String? = nil, botVersion: String? = nil, channel: String? = nil, conversationDurationSeconds: Int64? = nil, conversationEndState: ConversationEndState? = nil, conversationEndTime: Date? = nil, conversationStartTime: Date? = nil, invokedIntentSamples: [InvokedIntentSample]? = nil, localeId: String? = nil, mode: AnalyticsModality? = nil, numberOfTurns: Int64? = nil, originatingRequestId: String? = nil, sessionId: String? = nil) {
             self.botAliasId = botAliasId
             self.botVersion = botVersion
@@ -11543,6 +11893,7 @@ extension LexModelsV2 {
         public let failureNextStep: DialogState?
         public let failureResponse: ResponseSpecification?
 
+        @inlinable
         public init(captureConditional: ConditionalSpecification? = nil, captureNextStep: DialogState? = nil, captureResponse: ResponseSpecification? = nil, codeHook: DialogCodeHookInvocationSetting? = nil, elicitationCodeHook: ElicitationCodeHookInvocationSetting? = nil, failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil) {
             self.captureConditional = captureConditional
             self.captureNextStep = captureNextStep
@@ -11581,6 +11932,7 @@ extension LexModelsV2 {
         /// The default value to use when a user doesn't provide a value for a slot.
         public let defaultValue: String
 
+        @inlinable
         public init(defaultValue: String) {
             self.defaultValue = defaultValue
         }
@@ -11599,6 +11951,7 @@ extension LexModelsV2 {
         /// A list of default values. Amazon Lex chooses the default value to use in the order that they are presented in the list.
         public let defaultValueList: [SlotDefaultValue]
 
+        @inlinable
         public init(defaultValueList: [SlotDefaultValue]) {
             self.defaultValueList = defaultValueList
         }
@@ -11623,6 +11976,7 @@ extension LexModelsV2 {
         /// The value to use to filter the response.
         public let values: [String]
 
+        @inlinable
         public init(name: SlotFilterName, operator: SlotFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -11652,6 +12006,7 @@ extension LexModelsV2 {
         /// The unique identifier of the slot.
         public let slotId: String
 
+        @inlinable
         public init(priority: Int, slotId: String) {
             self.priority = priority
             self.slotId = slotId
@@ -11677,6 +12032,7 @@ extension LexModelsV2 {
         /// Specifies whether assisted slot resolution is turned on or off.
         public let enabled: Bool
 
+        @inlinable
         public init(bedrockModelSpecification: BedrockModelSpecification? = nil, enabled: Bool) {
             self.bedrockModelSpecification = bedrockModelSpecification
             self.enabled = enabled
@@ -11696,6 +12052,7 @@ extension LexModelsV2 {
         /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
         public let slotResolutionStrategy: SlotResolutionStrategy
 
+        @inlinable
         public init(slotResolutionStrategy: SlotResolutionStrategy) {
             self.slotResolutionStrategy = slotResolutionStrategy
         }
@@ -11711,6 +12068,7 @@ extension LexModelsV2 {
         /// The name of the slot.
         public let slotName: String
 
+        @inlinable
         public init(resultCounts: SlotResolutionTestResultItemCounts, slotName: String) {
             self.resultCounts = resultCounts
             self.slotName = slotName
@@ -11730,6 +12088,7 @@ extension LexModelsV2 {
         /// The total number of results.
         public let totalResultCount: Int
 
+        @inlinable
         public init(slotMatchResultCounts: [TestResultMatchStatus: Int], speechTranscriptionResultCounts: [TestResultMatchStatus: Int]? = nil, totalResultCount: Int) {
             self.slotMatchResultCounts = slotMatchResultCounts
             self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
@@ -11749,6 +12108,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can choose ascending or descending.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: SlotSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -11776,6 +12136,7 @@ extension LexModelsV2 {
         /// Prompts that are sent to the user to elicit a value for the slot.
         public let valueElicitationPromptSpecification: PromptSpecification?
 
+        @inlinable
         public init(description: String? = nil, lastUpdatedDateTime: Date? = nil, slotConstraint: SlotConstraint? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationPromptSpecification: PromptSpecification? = nil) {
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -11805,6 +12166,7 @@ extension LexModelsV2 {
         /// The value to use to filter the response.
         public let values: [String]
 
+        @inlinable
         public init(name: SlotTypeFilterName, operator: SlotTypeFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -11834,6 +12196,7 @@ extension LexModelsV2 {
         /// The order to sort the list. You can say ascending or descending.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: SlotTypeSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -11849,6 +12212,7 @@ extension LexModelsV2 {
         /// The number of recommended slot types associated with the bot recommendation.
         public let discoveredSlotTypeCount: Int?
 
+        @inlinable
         public init(discoveredSlotTypeCount: Int? = nil) {
             self.discoveredSlotTypeCount = discoveredSlotTypeCount
         }
@@ -11872,6 +12236,7 @@ extension LexModelsV2 {
         /// The name of the slot type.
         public let slotTypeName: String?
 
+        @inlinable
         public init(description: String? = nil, lastUpdatedDateTime: Date? = nil, parentSlotTypeSignature: String? = nil, slotTypeCategory: SlotTypeCategory? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil) {
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -11897,6 +12262,7 @@ extension LexModelsV2 {
         /// Additional values related to the slot type entry.
         public let synonyms: [SampleValue]?
 
+        @inlinable
         public init(sampleValue: SampleValue? = nil, synonyms: [SampleValue]? = nil) {
             self.sampleValue = sampleValue
             self.synonyms = synonyms
@@ -11921,6 +12287,7 @@ extension LexModelsV2 {
         /// The value that Amazon Lex determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex choose the first value in the resolvedValues list.
         public let interpretedValue: String?
 
+        @inlinable
         public init(interpretedValue: String? = nil) {
             self.interpretedValue = interpretedValue
         }
@@ -11949,6 +12316,7 @@ extension LexModelsV2 {
         public let slotResolutionSetting: SlotResolutionSetting?
         public let waitAndContinueSpecification: WaitAndContinueSpecification?
 
+        @inlinable
         public init(defaultValueSpecification: SlotDefaultValueSpecification? = nil, promptSpecification: PromptSpecification? = nil, sampleUtterances: [SampleUtterance]? = nil, slotCaptureSetting: SlotCaptureSetting? = nil, slotConstraint: SlotConstraint, slotResolutionSetting: SlotResolutionSetting? = nil, waitAndContinueSpecification: WaitAndContinueSpecification? = nil) {
             self.defaultValueSpecification = defaultValueSpecification
             self.promptSpecification = promptSpecification
@@ -11985,6 +12353,7 @@ extension LexModelsV2 {
         /// A list of one or more values that the user provided for the slot. For example, for a slot that elicits pizza toppings, the values might be "pepperoni" and "pineapple."
         public let values: [SlotValueOverride]?
 
+        @inlinable
         public init(shape: SlotShape? = nil, value: SlotValue? = nil, values: [SlotValueOverride]? = nil) {
             self.shape = shape
             self.value = value
@@ -12009,6 +12378,7 @@ extension LexModelsV2 {
         /// A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:    A-Z, a-z   0-9   Unicode characters ("\⁠u")   Represent Unicode characters with four digits, for example "\⁠u0041" or "\⁠u005A".  The following regular expression operators are not supported:    Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)
         public let pattern: String
 
+        @inlinable
         public init(pattern: String) {
             self.pattern = pattern
         }
@@ -12031,6 +12401,7 @@ extension LexModelsV2 {
         /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the  default is ORIGINAL_VALUE.
         public let resolutionStrategy: SlotValueResolutionStrategy
 
+        @inlinable
         public init(advancedRecognitionSetting: AdvancedRecognitionSetting? = nil, regexFilter: SlotValueRegexFilter? = nil, resolutionStrategy: SlotValueResolutionStrategy) {
             self.advancedRecognitionSetting = advancedRecognitionSetting
             self.regexFilter = regexFilter
@@ -12054,6 +12425,7 @@ extension LexModelsV2 {
         /// Specifies the elicitation setting details for constituent sub slots of a composite slot.
         public let valueElicitationSetting: SubSlotValueElicitationSetting
 
+        @inlinable
         public init(slotTypeId: String, valueElicitationSetting: SubSlotValueElicitationSetting) {
             self.slotTypeId = slotTypeId
             self.valueElicitationSetting = valueElicitationSetting
@@ -12084,6 +12456,7 @@ extension LexModelsV2 {
         /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
         public let transcriptSourceSetting: TranscriptSourceSetting
 
+        @inlinable
         public init(botId: String, botVersion: String, encryptionSetting: EncryptionSetting? = nil, localeId: String, transcriptSourceSetting: TranscriptSourceSetting) {
             self.botId = botId
             self.botVersion = botVersion
@@ -12137,6 +12510,7 @@ extension LexModelsV2 {
         /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
         public let transcriptSourceSetting: TranscriptSourceSetting?
 
+        @inlinable
         public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, encryptionSetting: EncryptionSetting? = nil, localeId: String? = nil, transcriptSourceSetting: TranscriptSourceSetting? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -12170,6 +12544,7 @@ extension LexModelsV2 {
         /// The locale of the bot for which to generate intents and slot types.
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botVersion: String, generationInputPrompt: String, localeId: String) {
             self.botId = botId
             self.botVersion = botVersion
@@ -12218,6 +12593,7 @@ extension LexModelsV2 {
         /// The locale of the bot for which the generation request was made.
         public let localeId: String?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, generationId: String? = nil, generationInputPrompt: String? = nil, generationStatus: GenerationStatus? = nil, localeId: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -12249,6 +12625,7 @@ extension LexModelsV2 {
         /// Parameters for creating the bot, bot locale or custom vocabulary.
         public let resourceSpecification: ImportResourceSpecification
 
+        @inlinable
         public init(filePassword: String? = nil, importId: String, mergeStrategy: MergeStrategy, resourceSpecification: ImportResourceSpecification) {
             self.filePassword = filePassword
             self.importId = importId
@@ -12285,6 +12662,7 @@ extension LexModelsV2 {
         /// The parameters used when importing the resource.
         public let resourceSpecification: ImportResourceSpecification?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, resourceSpecification: ImportResourceSpecification? = nil) {
             self.creationDateTime = creationDateTime
             self.importId = importId
@@ -12312,6 +12690,7 @@ extension LexModelsV2 {
         /// The test set Id for the test set execution.
         public let testSetId: String
 
+        @inlinable
         public init(apiMode: TestExecutionApiMode, target: TestExecutionTarget, testExecutionModality: TestExecutionModality? = nil, testSetId: String) {
             self.apiMode = apiMode
             self.target = target
@@ -12356,6 +12735,7 @@ extension LexModelsV2 {
         /// The test set Id for the test set execution.
         public let testSetId: String?
 
+        @inlinable
         public init(apiMode: TestExecutionApiMode? = nil, creationDateTime: Date? = nil, target: TestExecutionTarget? = nil, testExecutionId: String? = nil, testExecutionModality: TestExecutionModality? = nil, testSetId: String? = nil) {
             self.apiMode = apiMode
             self.creationDateTime = creationDateTime
@@ -12389,6 +12769,7 @@ extension LexModelsV2 {
         /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource operation.
         public let testSetTags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, generationDataSource: TestSetGenerationDataSource, roleArn: String, storageLocation: TestSetStorageLocation, testSetName: String, testSetTags: [String: String]? = nil) {
             self.description = description
             self.generationDataSource = generationDataSource
@@ -12446,6 +12827,7 @@ extension LexModelsV2 {
         /// A list of tags that was used for the test set that is being generated.
         public let testSetTags: [String: String]?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, description: String? = nil, generationDataSource: TestSetGenerationDataSource? = nil, roleArn: String? = nil, storageLocation: TestSetStorageLocation? = nil, testSetGenerationId: String? = nil, testSetGenerationStatus: TestSetGenerationStatus? = nil, testSetName: String? = nil, testSetTags: [String: String]? = nil) {
             self.creationDateTime = creationDateTime
             self.description = description
@@ -12481,6 +12863,7 @@ extension LexModelsV2 {
         /// If Amazon Lex waits longer than this length of time for a response, it will stop sending messages.
         public let timeoutInSeconds: Int
 
+        @inlinable
         public init(allowInterrupt: Bool? = nil, frequencyInSeconds: Int, messageGroups: [MessageGroup], timeoutInSeconds: Int) {
             self.allowInterrupt = allowInterrupt
             self.frequencyInSeconds = frequencyInSeconds
@@ -12518,6 +12901,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale of the bot recommendation to stop. The string must match one of the supported locales. For more information, see Supported languages
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botRecommendationId: String, botVersion: String, localeId: String) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -12561,6 +12945,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale of the bot response to stop. The string must match one of the supported locales. For more information, see Supported languages
         public let localeId: String?
 
+        @inlinable
         public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, localeId: String? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -12584,6 +12969,7 @@ extension LexModelsV2 {
         /// Specifications for the constituent sub slots of a composite slot.
         public let slotSpecifications: [String: Specifications]?
 
+        @inlinable
         public init(expression: String? = nil, slotSpecifications: [String: Specifications]? = nil) {
             self.expression = expression
             self.slotSpecifications = slotSpecifications
@@ -12613,6 +12999,7 @@ extension LexModelsV2 {
         /// The unique identifier assigned to a slot type.  This refers to either a built-in slot type or the unique slotTypeId of a custom slot type.
         public let slotTypeId: String
 
+        @inlinable
         public init(name: String, slotTypeId: String) {
             self.name = name
             self.slotTypeId = slotTypeId
@@ -12640,6 +13027,7 @@ extension LexModelsV2 {
         public let sampleUtterances: [SampleUtterance]?
         public let waitAndContinueSpecification: WaitAndContinueSpecification?
 
+        @inlinable
         public init(defaultValueSpecification: SlotDefaultValueSpecification? = nil, promptSpecification: PromptSpecification, sampleUtterances: [SampleUtterance]? = nil, waitAndContinueSpecification: WaitAndContinueSpecification? = nil) {
             self.defaultValueSpecification = defaultValueSpecification
             self.promptSpecification = promptSpecification
@@ -12667,6 +13055,7 @@ extension LexModelsV2 {
         /// A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceARN: String, tags: [String: String]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -12705,6 +13094,7 @@ extension LexModelsV2 {
         /// Specifies which results to filter. See Test result details">Test results details  for details about different types of results.
         public let resultTypeFilter: TestResultTypeFilter
 
+        @inlinable
         public init(conversationLevelTestResultsFilterBy: ConversationLevelTestResultsFilterBy? = nil, resultTypeFilter: TestResultTypeFilter) {
             self.conversationLevelTestResultsFilterBy = conversationLevelTestResultsFilterBy
             self.resultTypeFilter = resultTypeFilter
@@ -12728,6 +13118,7 @@ extension LexModelsV2 {
         /// Results related to utterances in the test set.
         public let utteranceLevelTestResults: UtteranceLevelTestResults?
 
+        @inlinable
         public init(conversationLevelTestResults: ConversationLevelTestResults? = nil, intentClassificationTestResults: IntentClassificationTestResults? = nil, intentLevelSlotResolutionTestResults: IntentLevelSlotResolutionTestResults? = nil, overallTestResults: OverallTestResults? = nil, utteranceLevelTestResults: UtteranceLevelTestResults? = nil) {
             self.conversationLevelTestResults = conversationLevelTestResults
             self.intentClassificationTestResults = intentClassificationTestResults
@@ -12751,6 +13142,7 @@ extension LexModelsV2 {
         /// Specifies whether to sort in ascending or descending order.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: TestExecutionSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -12782,6 +13174,7 @@ extension LexModelsV2 {
         /// The name of the test set used in the test execution.
         public let testSetName: String?
 
+        @inlinable
         public init(apiMode: TestExecutionApiMode? = nil, creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, target: TestExecutionTarget? = nil, testExecutionId: String? = nil, testExecutionModality: TestExecutionModality? = nil, testExecutionStatus: TestExecutionStatus? = nil, testSetId: String? = nil, testSetName: String? = nil) {
             self.apiMode = apiMode
             self.creationDateTime = creationDateTime
@@ -12811,6 +13204,7 @@ extension LexModelsV2 {
         /// Contains information about the bot alias used for the test execution.
         public let botAliasTarget: BotAliasTestExecutionTarget?
 
+        @inlinable
         public init(botAliasTarget: BotAliasTestExecutionTarget? = nil) {
             self.botAliasTarget = botAliasTarget
         }
@@ -12830,6 +13224,7 @@ extension LexModelsV2 {
         /// Contains information about discrepancies found for slots between the test set and the bot.
         public let slotDiscrepancies: [TestSetSlotDiscrepancyItem]
 
+        @inlinable
         public init(intentDiscrepancies: [TestSetIntentDiscrepancyItem], slotDiscrepancies: [TestSetSlotDiscrepancyItem]) {
             self.intentDiscrepancies = intentDiscrepancies
             self.slotDiscrepancies = slotDiscrepancies
@@ -12849,6 +13244,7 @@ extension LexModelsV2 {
         /// The unique identifier of the locale associated with the bot alias.
         public let localeId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, localeId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -12875,6 +13271,7 @@ extension LexModelsV2 {
         /// Contains information about the bot alias used as the resource for the test set discrepancy report.
         public let botAliasTarget: TestSetDiscrepancyReportBotAliasTarget?
 
+        @inlinable
         public init(botAliasTarget: TestSetDiscrepancyReportBotAliasTarget? = nil) {
             self.botAliasTarget = botAliasTarget
         }
@@ -12892,6 +13289,7 @@ extension LexModelsV2 {
         /// The unique identifier of the test set.
         public let testSetId: String
 
+        @inlinable
         public init(testSetId: String) {
             self.testSetId = testSetId
         }
@@ -12911,6 +13309,7 @@ extension LexModelsV2 {
         /// Contains information about the bot from which the conversation logs are sourced.
         public let conversationLogsDataSource: ConversationLogsDataSource?
 
+        @inlinable
         public init(conversationLogsDataSource: ConversationLogsDataSource? = nil) {
             self.conversationLogsDataSource = conversationLogsDataSource
         }
@@ -12930,6 +13329,7 @@ extension LexModelsV2 {
         /// The path inside the Amazon S3 bucket pointing to the test-set CSV file.
         public let s3Path: String
 
+        @inlinable
         public init(s3BucketName: String, s3Path: String) {
             self.s3BucketName = s3BucketName
             self.s3Path = s3Path
@@ -12966,6 +13366,7 @@ extension LexModelsV2 {
         /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource operation.
         public let testSetTags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, importInputLocation: TestSetImportInputLocation, modality: TestSetModality, roleArn: String, storageLocation: TestSetStorageLocation, testSetName: String, testSetTags: [String: String]? = nil) {
             self.description = description
             self.importInputLocation = importInputLocation
@@ -13011,6 +13412,7 @@ extension LexModelsV2 {
         /// The name of the intent in the discrepancy report.
         public let intentName: String
 
+        @inlinable
         public init(errorMessage: String, intentName: String) {
             self.errorMessage = errorMessage
             self.intentName = intentName
@@ -13030,6 +13432,7 @@ extension LexModelsV2 {
         /// The name of the slot in the discrepancy report.
         public let slotName: String
 
+        @inlinable
         public init(errorMessage: String, intentName: String, slotName: String) {
             self.errorMessage = errorMessage
             self.intentName = intentName
@@ -13049,6 +13452,7 @@ extension LexModelsV2 {
         /// Specifies whether to sort in ascending or descending order.
         public let order: SortOrder
 
+        @inlinable
         public init(attribute: TestSetSortAttribute, order: SortOrder) {
             self.attribute = attribute
             self.order = order
@@ -13068,6 +13472,7 @@ extension LexModelsV2 {
         /// The path inside the Amazon S3 bucket where the test set is stored.
         public let s3Path: String
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, s3BucketName: String, s3Path: String) {
             self.kmsKeyArn = kmsKeyArn
             self.s3BucketName = s3BucketName
@@ -13115,6 +13520,7 @@ extension LexModelsV2 {
         /// The name of the test set.
         public let testSetName: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, modality: TestSetModality? = nil, numTurns: Int? = nil, roleArn: String? = nil, status: TestSetStatus? = nil, storageLocation: TestSetStorageLocation? = nil, testSetId: String? = nil, testSetName: String? = nil) {
             self.creationDateTime = creationDateTime
             self.description = description
@@ -13152,6 +13558,7 @@ extension LexModelsV2 {
         /// Contains information about the agent or user turn depending upon type of turn.
         public let turnSpecification: TurnSpecification
 
+        @inlinable
         public init(conversationId: String? = nil, recordNumber: Int64, turnNumber: Int? = nil, turnSpecification: TurnSpecification) {
             self.conversationId = conversationId
             self.recordNumber = recordNumber
@@ -13173,6 +13580,7 @@ extension LexModelsV2 {
         /// Contains information about the user messages in the turn.
         public let user: UserTurnResult?
 
+        @inlinable
         public init(agent: AgentTurnResult? = nil, user: UserTurnResult? = nil) {
             self.agent = agent
             self.user = user
@@ -13188,6 +13596,7 @@ extension LexModelsV2 {
         /// Time for which a bot waits before re-prompting a customer for text input.
         public let startTimeoutMs: Int
 
+        @inlinable
         public init(startTimeoutMs: Int) {
             self.startTimeoutMs = startTimeoutMs
         }
@@ -13205,6 +13614,7 @@ extension LexModelsV2 {
         /// Defines the Amazon CloudWatch Logs log group where text and metadata logs are delivered.
         public let cloudWatch: CloudWatchLogGroupLogDestination
 
+        @inlinable
         public init(cloudWatch: CloudWatchLogGroupLogDestination) {
             self.cloudWatch = cloudWatch
         }
@@ -13225,6 +13635,7 @@ extension LexModelsV2 {
         /// The option to enable selective conversation log capture for text.
         public let selectiveLoggingEnabled: Bool?
 
+        @inlinable
         public init(destination: TextLogDestination, enabled: Bool, selectiveLoggingEnabled: Bool? = nil) {
             self.destination = destination
             self.enabled = enabled
@@ -13246,6 +13657,7 @@ extension LexModelsV2 {
         /// The object representing the filter that Amazon Lex will use to select the appropriate transcript when the transcript format is the Amazon Lex format.
         public let lexTranscriptFilter: LexTranscriptFilter?
 
+        @inlinable
         public init(lexTranscriptFilter: LexTranscriptFilter? = nil) {
             self.lexTranscriptFilter = lexTranscriptFilter
         }
@@ -13259,6 +13671,7 @@ extension LexModelsV2 {
         /// Indicates the setting of the Amazon S3 bucket where the transcript is stored.
         public let s3BucketTranscriptSource: S3BucketTranscriptSource?
 
+        @inlinable
         public init(s3BucketTranscriptSource: S3BucketTranscriptSource? = nil) {
             self.s3BucketTranscriptSource = s3BucketTranscriptSource
         }
@@ -13278,6 +13691,7 @@ extension LexModelsV2 {
         /// Contains information about the user messages in the turn.
         public let userTurn: UserTurnSpecification?
 
+        @inlinable
         public init(agentTurn: AgentTurnSpecification? = nil, userTurn: UserTurnSpecification? = nil) {
             self.agentTurn = agentTurn
             self.userTurn = userTurn
@@ -13295,6 +13709,7 @@ extension LexModelsV2 {
         /// A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -13341,6 +13756,7 @@ extension LexModelsV2 {
         public let description: String?
         public let sentimentAnalysisSettings: SentimentAnalysisSettings?
 
+        @inlinable
         public init(botAliasId: String, botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String, botId: String, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, description: String? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil) {
             self.botAliasId = botAliasId
             self.botAliasLocaleSettings = botAliasLocaleSettings
@@ -13419,6 +13835,7 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         public let sentimentAnalysisSettings: SentimentAnalysisSettings?
 
+        @inlinable
         public init(botAliasId: String? = nil, botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String? = nil, botAliasStatus: BotAliasStatus? = nil, botId: String? = nil, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil) {
             self.botAliasId = botAliasId
             self.botAliasLocaleSettings = botAliasLocaleSettings
@@ -13464,6 +13881,7 @@ extension LexModelsV2 {
         /// The new Amazon Polly voice Amazon Lex should use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
+        @inlinable
         public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -13535,6 +13953,7 @@ extension LexModelsV2 {
         /// The updated Amazon Polly voice to use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
+        @inlinable
         public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
@@ -13580,6 +13999,7 @@ extension LexModelsV2 {
         /// The identifier of the language and locale of the bot recommendation to update. The string must match one of the supported locales. For more information, see Supported languages
         public let localeId: String
 
+        @inlinable
         public init(botId: String, botRecommendationId: String, botVersion: String, encryptionSetting: EncryptionSetting, localeId: String) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -13636,6 +14056,7 @@ extension LexModelsV2 {
         /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
         public let transcriptSourceSetting: TranscriptSourceSetting?
 
+        @inlinable
         public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, encryptionSetting: EncryptionSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, transcriptSourceSetting: TranscriptSourceSetting? = nil) {
             self.botId = botId
             self.botRecommendationId = botRecommendationId
@@ -13679,6 +14100,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the bot.
         public let roleArn: String
 
+        @inlinable
         public init(botId: String, botMembers: [BotMember]? = nil, botName: String, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String) {
             self.botId = botId
             self.botMembers = botMembers
@@ -13757,6 +14179,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the IAM role used by the bot after the update.
         public let roleArn: String?
 
+        @inlinable
         public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
             self.botId = botId
             self.botMembers = botMembers
@@ -13792,6 +14215,7 @@ extension LexModelsV2 {
         /// The new password to use to encrypt the export zip archive.
         public let filePassword: String?
 
+        @inlinable
         public init(exportId: String, filePassword: String? = nil) {
             self.exportId = exportId
             self.filePassword = filePassword
@@ -13831,6 +14255,7 @@ extension LexModelsV2 {
         /// A description of the type of resource that was exported, either a bot or a bot locale.
         public let resourceSpecification: ExportResourceSpecification?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, fileFormat: ImportExportFileFormat? = nil, lastUpdatedDateTime: Date? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
             self.creationDateTime = creationDateTime
             self.exportId = exportId
@@ -13888,6 +14313,7 @@ extension LexModelsV2 {
         /// A new list of slots and their priorities that are contained by the intent.
         public let slotPriorities: [SlotPriority]?
 
+        @inlinable
         public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -14025,6 +14451,7 @@ extension LexModelsV2 {
         /// The updated list of slots and their priorities that are elicited from the user for the intent.
         public let slotPriorities: [SlotPriority]?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -14080,6 +14507,7 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
         public let resourceArn: String
 
+        @inlinable
         public init(expectedRevisionId: String? = nil, policy: String, resourceArn: String) {
             self.expectedRevisionId = expectedRevisionId
             self.policy = policy
@@ -14114,6 +14542,7 @@ extension LexModelsV2 {
         /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
         public let revisionId: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, revisionId: String? = nil) {
             self.resourceArn = resourceArn
             self.revisionId = revisionId
@@ -14151,6 +14580,7 @@ extension LexModelsV2 {
         /// A new set of prompts that Amazon Lex sends to the user to elicit a response the provides a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting
 
+        @inlinable
         public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String, slotName: String, slotTypeId: String? = nil, subSlotSetting: SubSlotSetting? = nil, valueElicitationSetting: SlotValueElicitationSetting) {
             self.botId = botId
             self.botVersion = botVersion
@@ -14248,6 +14678,7 @@ extension LexModelsV2 {
         /// The updated prompts that Amazon Lex sends to the user to elicit a response that provides a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, subSlotSetting: SubSlotSetting? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -14306,6 +14737,7 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex should use when deciding on a value from the list of slot type values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
+        @inlinable
         public init(botId: String, botVersion: String, compositeSlotTypeSetting: CompositeSlotTypeSetting? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeId: String, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -14398,6 +14830,7 @@ extension LexModelsV2 {
         /// The updated strategy that Amazon Lex uses to determine which value to select from the slot type.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
+        @inlinable
         public init(botId: String? = nil, botVersion: String? = nil, compositeSlotTypeSetting: CompositeSlotTypeSetting? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
@@ -14439,6 +14872,7 @@ extension LexModelsV2 {
         /// The new test set name.
         public let testSetName: String
 
+        @inlinable
         public init(description: String? = nil, testSetId: String, testSetName: String) {
             self.description = description
             self.testSetId = testSetId
@@ -14491,6 +14925,7 @@ extension LexModelsV2 {
         /// The test set name for the updated test set.
         public let testSetName: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, modality: TestSetModality? = nil, numTurns: Int? = nil, roleArn: String? = nil, status: TestSetStatus? = nil, storageLocation: TestSetStorageLocation? = nil, testSetId: String? = nil, testSetName: String? = nil) {
             self.creationDateTime = creationDateTime
             self.description = description
@@ -14526,6 +14961,7 @@ extension LexModelsV2 {
         /// The utterance input in the user turn.
         public let utteranceInput: UtteranceInputSpecification
 
+        @inlinable
         public init(requestAttributes: [String: String]? = nil, sessionState: InputSessionStateSpecification? = nil, utteranceInput: UtteranceInputSpecification) {
             self.requestAttributes = requestAttributes
             self.sessionState = sessionState
@@ -14545,6 +14981,7 @@ extension LexModelsV2 {
         /// The slots associated with the intent.
         public let slots: [String: UserTurnSlotOutput]?
 
+        @inlinable
         public init(name: String, slots: [String: UserTurnSlotOutput]? = nil) {
             self.name = name
             self.slots = slots
@@ -14564,6 +15001,7 @@ extension LexModelsV2 {
         /// The transcript that is output for the user turn by the test execution.
         public let transcript: String?
 
+        @inlinable
         public init(activeContexts: [ActiveContext]? = nil, intent: UserTurnIntentOutput, transcript: String? = nil) {
             self.activeContexts = activeContexts
             self.intent = intent
@@ -14596,6 +15034,7 @@ extension LexModelsV2 {
         /// Specifies whether the expected and actual speech transcriptions match or not, or if there is an error in execution.
         public let speechTranscriptionResult: TestResultMatchStatus?
 
+        @inlinable
         public init(actualOutput: UserTurnOutputSpecification? = nil, conversationLevelResult: ConversationLevelResultDetail? = nil, endToEndResult: TestResultMatchStatus? = nil, errorDetails: ExecutionErrorDetails? = nil, expectedOutput: UserTurnOutputSpecification, input: UserTurnInputSpecification, intentMatchResult: TestResultMatchStatus? = nil, slotMatchResult: TestResultMatchStatus? = nil, speechTranscriptionResult: TestResultMatchStatus? = nil) {
             self.actualOutput = actualOutput
             self.conversationLevelResult = conversationLevelResult
@@ -14629,6 +15068,7 @@ extension LexModelsV2 {
         /// Values that are output by the slot recognition.
         public let values: [UserTurnSlotOutput]?
 
+        @inlinable
         public init(subSlots: [String: UserTurnSlotOutput]? = nil, value: String? = nil, values: [UserTurnSlotOutput]? = nil) {
             self.subSlots = subSlots
             self.value = value
@@ -14648,6 +15088,7 @@ extension LexModelsV2 {
         /// Contains information about the user messages in the turn in the input.
         public let input: UserTurnInputSpecification
 
+        @inlinable
         public init(expected: UserTurnOutputSpecification, input: UserTurnInputSpecification) {
             self.expected = expected
             self.input = input
@@ -14663,6 +15104,7 @@ extension LexModelsV2 {
         /// The desired time window for aggregating utterances.
         public let relativeAggregationDuration: RelativeAggregationDuration
 
+        @inlinable
         public init(relativeAggregationDuration: RelativeAggregationDuration) {
             self.relativeAggregationDuration = relativeAggregationDuration
         }
@@ -14680,6 +15122,7 @@ extension LexModelsV2 {
         /// Amazon S3 file pointing to the audio.
         public let audioFileS3Location: String
 
+        @inlinable
         public init(audioFileS3Location: String) {
             self.audioFileS3Location = audioFileS3Location
         }
@@ -14696,6 +15139,7 @@ extension LexModelsV2 {
         public let contentType: UtteranceContentType?
         public let imageResponseCard: ImageResponseCard?
 
+        @inlinable
         public init(content: String? = nil, contentType: UtteranceContentType? = nil, imageResponseCard: ImageResponseCard? = nil) {
             self.content = content
             self.contentType = contentType
@@ -14715,6 +15159,7 @@ extension LexModelsV2 {
         /// Specifies whether to sort the results in ascending or descending order.
         public let order: AnalyticsSortOrder
 
+        @inlinable
         public init(name: AnalyticsUtteranceSortByName, order: AnalyticsSortOrder) {
             self.name = name
             self.order = order
@@ -14732,6 +15177,7 @@ extension LexModelsV2 {
         /// A text input transcription of the utterance. It is only applicable for test-sets containing text data.
         public let textInput: String?
 
+        @inlinable
         public init(audioInput: UtteranceAudioInputSpecification? = nil, textInput: String? = nil) {
             self.audioInput = audioInput
             self.textInput = textInput
@@ -14751,6 +15197,7 @@ extension LexModelsV2 {
         /// Contains information about the turn associated with the result.
         public let turnResult: TestSetTurnResult
 
+        @inlinable
         public init(conversationId: String? = nil, recordNumber: Int64, turnResult: TestSetTurnResult) {
             self.conversationId = conversationId
             self.recordNumber = recordNumber
@@ -14768,6 +15215,7 @@ extension LexModelsV2 {
         /// Contains information about an utterance in the results of the test set execution.
         public let items: [UtteranceLevelTestResultItem]
 
+        @inlinable
         public init(items: [UtteranceLevelTestResultItem]) {
             self.items = items
         }
@@ -14823,6 +15271,7 @@ extension LexModelsV2 {
         /// Specifies whether the bot understood the utterance or not.
         public let utteranceUnderstood: Bool?
 
+        @inlinable
         public init(associatedIntentName: String? = nil, associatedSlotName: String? = nil, audioVoiceDurationMillis: Int64? = nil, botAliasId: String? = nil, botResponseAudioVoiceId: String? = nil, botResponses: [UtteranceBotResponse]? = nil, botVersion: String? = nil, channel: String? = nil, conversationEndTime: Date? = nil, conversationStartTime: Date? = nil, dialogActionType: String? = nil, inputType: String? = nil, intentState: IntentState? = nil, localeId: String? = nil, mode: AnalyticsModality? = nil, outputType: String? = nil, sessionId: String? = nil, slotsFilledInSession: String? = nil, utterance: String? = nil, utteranceRequestId: String? = nil, utteranceTimestamp: Date? = nil, utteranceUnderstood: Bool? = nil) {
             self.associatedIntentName = associatedIntentName
             self.associatedSlotName = associatedSlotName
@@ -14880,6 +15329,7 @@ extension LexModelsV2 {
         /// The identifier of the Amazon Polly voice to use.
         public let voiceId: String
 
+        @inlinable
         public init(engine: VoiceEngine? = nil, voiceId: String) {
             self.engine = engine
             self.voiceId = voiceId
@@ -14901,6 +15351,7 @@ extension LexModelsV2 {
         /// The response that Amazon Lex sends to indicate that the bot is waiting for the conversation to continue.
         public let waitingResponse: ResponseSpecification
 
+        @inlinable
         public init(active: Bool? = nil, continueResponse: ResponseSpecification, stillWaitingResponse: StillWaitingResponseSpecification? = nil, waitingResponse: ResponseSpecification) {
             self.active = active
             self.continueResponse = continueResponse

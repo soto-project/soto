@@ -3475,6 +3475,7 @@ extension EC2 {
         /// The minimum number of accelerators. If this parameter is not specified, there is no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -3492,6 +3493,7 @@ extension EC2 {
         /// The minimum number of accelerators. To specify no minimum limit, omit this parameter.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -3509,6 +3511,7 @@ extension EC2 {
         /// The minimum amount of accelerator memory, in MiB. If this parameter is not specified, there is no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -3526,6 +3529,7 @@ extension EC2 {
         /// The minimum amount of accelerator memory, in MiB. To specify no minimum limit, omit this parameter.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -3548,6 +3552,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(address: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.address = address
             self.dryRun = dryRun
@@ -3565,6 +3570,7 @@ extension EC2 {
         /// An Elastic IP address transfer.
         public let addressTransfer: AddressTransfer?
 
+        @inlinable
         public init(addressTransfer: AddressTransfer? = nil) {
             self.addressTransfer = addressTransfer
         }
@@ -3587,6 +3593,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TargetConfigurationsEncoding, TargetConfigurationRequest>>
         public var targetConfigurations: [TargetConfigurationRequest]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, reservedInstanceIds: [String]? = nil, targetConfigurations: [TargetConfigurationRequest]? = nil) {
             self.dryRun = dryRun
             self.reservedInstanceIds = reservedInstanceIds
@@ -3604,6 +3611,7 @@ extension EC2 {
         /// The ID of the successful exchange.
         public let exchangeId: String?
 
+        @inlinable
         public init(exchangeId: String? = nil) {
             self.exchangeId = exchangeId
         }
@@ -3626,6 +3634,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, subnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.subnetIds = subnetIds
@@ -3645,6 +3654,7 @@ extension EC2 {
         /// Information about the multicast domain associations.
         public let associations: TransitGatewayMulticastDomainAssociations?
 
+        @inlinable
         public init(associations: TransitGatewayMulticastDomainAssociations? = nil) {
             self.associations = associations
         }
@@ -3660,6 +3670,7 @@ extension EC2 {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -3675,6 +3686,7 @@ extension EC2 {
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
 
+        @inlinable
         public init(transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment? = nil) {
             self.transitGatewayPeeringAttachment = transitGatewayPeeringAttachment
         }
@@ -3690,6 +3702,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -3705,6 +3718,7 @@ extension EC2 {
         /// The VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
 
+        @inlinable
         public init(transitGatewayVpcAttachment: TransitGatewayVpcAttachment? = nil) {
             self.transitGatewayVpcAttachment = transitGatewayVpcAttachment
         }
@@ -3725,6 +3739,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcEndpointIdsEncoding, String>>
         public var vpcEndpointIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.serviceId = serviceId
@@ -3745,6 +3760,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
         }
@@ -3761,6 +3777,7 @@ extension EC2 {
         /// 			request.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -3776,6 +3793,7 @@ extension EC2 {
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
 
+        @inlinable
         public init(vpcPeeringConnection: VpcPeeringConnection? = nil) {
             self.vpcPeeringConnection = vpcPeeringConnection
         }
@@ -3798,6 +3816,7 @@ extension EC2 {
         /// The ID of the Network Access Scope.
         public let networkInsightsAccessScopeId: String?
 
+        @inlinable
         public init(findingComponents: [PathComponent]? = nil, findingId: String? = nil, networkInsightsAccessScopeAnalysisId: String? = nil, networkInsightsAccessScopeId: String? = nil) {
             self.findingComponents = findingComponents
             self.findingId = findingId
@@ -3824,6 +3843,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ThroughResourcesEncoding, ThroughResourcesStatement>>
         public var throughResources: [ThroughResourcesStatement]?
 
+        @inlinable
         public init(destination: PathStatement? = nil, source: PathStatement? = nil, throughResources: [ThroughResourcesStatement]? = nil) {
             self.destination = destination
             self.source = source
@@ -3848,6 +3868,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ThroughResourcesEncoding, ThroughResourcesStatementRequest>>
         public var throughResources: [ThroughResourcesStatementRequest]?
 
+        @inlinable
         public init(destination: PathStatementRequest? = nil, source: PathStatementRequest? = nil, throughResources: [ThroughResourcesStatementRequest]? = nil) {
             self.destination = destination
             self.source = source
@@ -3870,6 +3891,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_AttributeValuesEncoding, AccountAttributeValue>>
         public var attributeValues: [AccountAttributeValue]?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValues: [AccountAttributeValue]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -3885,6 +3907,7 @@ extension EC2 {
         /// The value of the attribute.
         public let attributeValue: String?
 
+        @inlinable
         public init(attributeValue: String? = nil) {
             self.attributeValue = attributeValue
         }
@@ -3904,6 +3927,7 @@ extension EC2 {
         /// The ID of the Spot Instance request.
         public let spotInstanceRequestId: String?
 
+        @inlinable
         public init(instanceHealth: InstanceHealthStatus? = nil, instanceId: String? = nil, instanceType: String? = nil, spotInstanceRequestId: String? = nil) {
             self.instanceHealth = instanceHealth
             self.instanceId = instanceId
@@ -3923,6 +3947,7 @@ extension EC2 {
         /// The name of the operating Region.
         public let regionName: String?
 
+        @inlinable
         public init(regionName: String? = nil) {
             self.regionName = regionName
         }
@@ -3938,6 +3963,7 @@ extension EC2 {
         /// A description for the entry. Constraints: Up to 255 characters in length.
         public let description: String?
 
+        @inlinable
         public init(cidr: String? = nil, description: String? = nil) {
             self.cidr = cidr
             self.description = description
@@ -3959,6 +3985,7 @@ extension EC2 {
         /// The ID of the service permission.
         public let servicePermissionId: String?
 
+        @inlinable
         public init(principal: String? = nil, principalType: PrincipalType? = nil, serviceId: String? = nil, servicePermissionId: String? = nil) {
             self.principal = principal
             self.principalType = principalType
@@ -4001,6 +4028,7 @@ extension EC2 {
         /// The VPC endpoint service.
         public let vpcEndpointService: AnalysisComponent?
 
+        @inlinable
         public init(additionalDetailType: String? = nil, component: AnalysisComponent? = nil, loadBalancers: [AnalysisComponent]? = nil, ruleGroupRuleOptionsPairs: [RuleGroupRuleOptionsPair]? = nil, ruleGroupTypePairs: [RuleGroupTypePair]? = nil, ruleOptions: [RuleOption]? = nil, serviceName: String? = nil, vpcEndpointService: AnalysisComponent? = nil) {
             self.additionalDetailType = additionalDetailType
             self.component = component
@@ -4057,6 +4085,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, tags: [Tag]? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
@@ -4102,6 +4131,7 @@ extension EC2 {
         /// The public IP address.
         public let publicIp: String?
 
+        @inlinable
         public init(allocationId: String? = nil, ptrRecord: String? = nil, ptrRecordUpdate: PtrUpdateStatus? = nil, publicIp: String? = nil) {
             self.allocationId = allocationId
             self.ptrRecord = ptrRecord
@@ -4131,6 +4161,7 @@ extension EC2 {
         /// The timestamp when the Elastic IP address transfer expired. When the source account starts the transfer, the transfer account has seven hours to allocate the Elastic IP address to complete the transfer, or the Elastic IP address will return to its original owner.
         public let transferOfferExpirationTimestamp: Date?
 
+        @inlinable
         public init(addressTransferStatus: AddressTransferStatus? = nil, allocationId: String? = nil, publicIp: String? = nil, transferAccountId: String? = nil, transferOfferAcceptedTimestamp: Date? = nil, transferOfferExpirationTimestamp: Date? = nil) {
             self.addressTransferStatus = addressTransferStatus
             self.allocationId = allocationId
@@ -4160,6 +4191,7 @@ extension EC2 {
         /// If you have Local Zones enabled, you can choose a network border group for Local Zones when you provision and advertise a BYOIPv4 CIDR. Choose the network border group carefully as the EIP and the Amazon Web Services resource it is associated with must reside in the same network border group. You can provision BYOIP address ranges to and advertise them in the following Local Zone network border groups:   us-east-1-dfw-2   us-west-2-lax-1   us-west-2-phx-2    You cannot provision or advertise BYOIPv6 address ranges in Local Zones at this time.
         public let networkBorderGroup: String?
 
+        @inlinable
         public init(asn: String? = nil, cidr: String? = nil, dryRun: Bool? = nil, networkBorderGroup: String? = nil) {
             self.asn = asn
             self.cidr = cidr
@@ -4179,6 +4211,7 @@ extension EC2 {
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -4209,6 +4242,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(address: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, networkBorderGroup: String? = nil, publicIpv4Pool: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.address = address
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
@@ -4250,6 +4284,7 @@ extension EC2 {
         /// The ID of an address pool.
         public let publicIpv4Pool: String?
 
+        @inlinable
         public init(allocationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, networkBorderGroup: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil) {
             self.allocationId = allocationId
             self.carrierIp = carrierIp
@@ -4301,6 +4336,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(assetIds: [String]? = nil, autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, clientToken: String? = nil, hostMaintenance: HostMaintenance? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil, outpostArn: String? = nil, quantity: Int? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.assetIds = assetIds
             self.autoPlacement = autoPlacement
@@ -4337,6 +4373,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_HostIdsEncoding, String>>
         public var hostIds: [String]?
 
+        @inlinable
         public init(hostIds: [String]? = nil) {
             self.hostIds = hostIds
         }
@@ -4371,6 +4408,7 @@ extension EC2 {
         /// A preview of the next available CIDR in a pool.
         public let previewNextCidr: Bool?
 
+        @inlinable
         public init(allowedCidrs: [String]? = nil, cidr: String? = nil, clientToken: String? = AllocateIpamPoolCidrRequest.idempotencyToken(), description: String? = nil, disallowedCidrs: [String]? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, previewNextCidr: Bool? = nil) {
             self.allowedCidrs = allowedCidrs
             self.cidr = cidr
@@ -4400,6 +4438,7 @@ extension EC2 {
         /// Information about the allocation created.
         public let ipamPoolAllocation: IpamPoolAllocation?
 
+        @inlinable
         public init(ipamPoolAllocation: IpamPoolAllocation? = nil) {
             self.ipamPoolAllocation = ipamPoolAllocation
         }
@@ -4424,6 +4463,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(principal: String? = nil, principalType: PrincipalType? = nil, serviceId: String? = nil, servicePermissionId: String? = nil, tags: [Tag]? = nil) {
             self.principal = principal
             self.principalType = principalType
@@ -4447,6 +4487,7 @@ extension EC2 {
         /// The ID of the component.
         public let componentId: String?
 
+        @inlinable
         public init(componentArn: String? = nil, componentId: String? = nil) {
             self.componentArn = componentArn
             self.componentId = componentId
@@ -4472,6 +4513,7 @@ extension EC2 {
         /// The rule number.
         public let ruleNumber: Int?
 
+        @inlinable
         public init(cidr: String? = nil, egress: Bool? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: String? = nil, ruleNumber: Int? = nil) {
             self.cidr = cidr
             self.egress = egress
@@ -4499,6 +4541,7 @@ extension EC2 {
         /// The name of the analysis component.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -4518,6 +4561,7 @@ extension EC2 {
         /// The port on which the load balancer is listening.
         public let loadBalancerPort: Int?
 
+        @inlinable
         public init(instancePort: Int? = nil, loadBalancerPort: Int? = nil) {
             self.instancePort = instancePort
             self.loadBalancerPort = loadBalancerPort
@@ -4539,6 +4583,7 @@ extension EC2 {
         /// The port on which the target is listening.
         public let port: Int?
 
+        @inlinable
         public init(address: String? = nil, availabilityZone: String? = nil, instance: AnalysisComponent? = nil, port: Int? = nil) {
             self.address = address
             self.availabilityZone = availabilityZone
@@ -4575,6 +4620,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourcePortRangesEncoding, PortRange>>
         public var sourcePortRanges: [PortRange]?
 
+        @inlinable
         public init(destinationAddresses: [String]? = nil, destinationPortRanges: [PortRange]? = nil, protocol: String? = nil, sourceAddresses: [String]? = nil, sourcePortRanges: [PortRange]? = nil) {
             self.destinationAddresses = destinationAddresses
             self.destinationPortRanges = destinationPortRanges
@@ -4622,6 +4668,7 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidr: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
@@ -4671,6 +4718,7 @@ extension EC2 {
         /// The security group ID.
         public let securityGroupId: String?
 
+        @inlinable
         public init(cidr: String? = nil, direction: String? = nil, portRange: PortRange? = nil, prefixListId: String? = nil, protocol: String? = nil, securityGroupId: String? = nil) {
             self.cidr = cidr
             self.direction = direction
@@ -4704,6 +4752,7 @@ extension EC2 {
         /// The ID of the VPC in which the associated target network is located.
         public let vpcId: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, vpcId: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -4726,6 +4775,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
         }
@@ -4745,6 +4795,7 @@ extension EC2 {
         /// The association's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(asn: String? = nil, cidr: String? = nil, state: AsnAssociationState? = nil, statusMessage: String? = nil) {
             self.asn = asn
             self.cidr = cidr
@@ -4766,6 +4817,7 @@ extension EC2 {
         /// The authorization context's signature.
         public let signature: String?
 
+        @inlinable
         public init(message: String? = nil, signature: String? = nil) {
             self.message = message
             self.signature = signature
@@ -4794,6 +4846,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(ipv6AddressCount: Int? = nil, ipv6Addresses: [String]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [String]? = nil, networkInterfaceId: String? = nil) {
             self.ipv6AddressCount = ipv6AddressCount
             self.ipv6Addresses = ipv6Addresses
@@ -4824,6 +4877,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(assignedIpv6Addresses: [String]? = nil, assignedIpv6Prefixes: [String]? = nil, networkInterfaceId: String? = nil) {
             self.assignedIpv6Addresses = assignedIpv6Addresses
             self.assignedIpv6Prefixes = assignedIpv6Prefixes
@@ -4856,6 +4910,7 @@ extension EC2 {
         /// The number of secondary IP addresses to assign to the network interface. You can't specify this parameter when also specifying private IP addresses.
         public let secondaryPrivateIpAddressCount: Int?
 
+        @inlinable
         public init(allowReassignment: Bool? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [String]? = nil, networkInterfaceId: String? = nil, privateIpAddresses: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil) {
             self.allowReassignment = allowReassignment
             self.ipv4PrefixCount = ipv4PrefixCount
@@ -4888,6 +4943,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(assignedIpv4Prefixes: [Ipv4PrefixSpecification]? = nil, assignedPrivateIpAddresses: [AssignedPrivateIpAddress]? = nil, networkInterfaceId: String? = nil) {
             self.assignedIpv4Prefixes = assignedIpv4Prefixes
             self.assignedPrivateIpAddresses = assignedPrivateIpAddresses
@@ -4914,6 +4970,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
         public var privateIpAddresses: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, natGatewayId: String? = nil, privateIpAddressCount: Int? = nil, privateIpAddresses: [String]? = nil) {
             self.dryRun = dryRun
             self.natGatewayId = natGatewayId
@@ -4943,6 +5000,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
             self.natGatewayAddresses = natGatewayAddresses
             self.natGatewayId = natGatewayId
@@ -4958,6 +5016,7 @@ extension EC2 {
         /// The private IP address assigned to the network interface.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(privateIpAddress: String? = nil) {
             self.privateIpAddress = privateIpAddress
         }
@@ -4983,6 +5042,7 @@ extension EC2 {
         /// Deprecated.
         public let publicIp: String?
 
+        @inlinable
         public init(allocationId: String? = nil, allowReassociation: Bool? = nil, dryRun: Bool? = nil, instanceId: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil) {
             self.allocationId = allocationId
             self.allowReassociation = allowReassociation
@@ -5008,6 +5068,7 @@ extension EC2 {
         /// The ID that represents the association of the Elastic IP address with an instance.
         public let associationId: String?
 
+        @inlinable
         public init(associationId: String? = nil) {
             self.associationId = associationId
         }
@@ -5028,6 +5089,7 @@ extension EC2 {
         /// The ID of the subnet to associate with the Client VPN endpoint.
         public let subnetId: String?
 
+        @inlinable
         public init(clientToken: String? = AssociateClientVpnTargetNetworkRequest.idempotencyToken(), clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, subnetId: String? = nil) {
             self.clientToken = clientToken
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -5049,6 +5111,7 @@ extension EC2 {
         /// The current state of the target network association.
         public let status: AssociationStatus?
 
+        @inlinable
         public init(associationId: String? = nil, status: AssociationStatus? = nil) {
             self.associationId = associationId
             self.status = status
@@ -5068,6 +5131,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dhcpOptionsId: String? = nil, dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dhcpOptionsId = dhcpOptionsId
             self.dryRun = dryRun
@@ -5090,6 +5154,7 @@ extension EC2 {
         /// 			certificate.
         public let roleArn: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, dryRun: Bool? = nil, roleArn: String? = nil) {
             self.certificateArn = certificateArn
             self.dryRun = dryRun
@@ -5112,6 +5177,7 @@ extension EC2 {
         /// The ID of the KMS key used to encrypt the private key of the certificate.
         public let encryptionKmsKeyId: String?
 
+        @inlinable
         public init(certificateS3BucketName: String? = nil, certificateS3ObjectKey: String? = nil, encryptionKmsKeyId: String? = nil) {
             self.certificateS3BucketName = certificateS3BucketName
             self.certificateS3ObjectKey = certificateS3ObjectKey
@@ -5131,6 +5197,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(iamInstanceProfile: IamInstanceProfileSpecification? = nil, instanceId: String? = nil) {
             self.iamInstanceProfile = iamInstanceProfile
             self.instanceId = instanceId
@@ -5146,6 +5213,7 @@ extension EC2 {
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
 
+        @inlinable
         public init(iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil) {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
@@ -5163,6 +5231,7 @@ extension EC2 {
         /// The ID of the event window.
         public let instanceEventWindowId: String?
 
+        @inlinable
         public init(associationTarget: InstanceEventWindowAssociationRequest? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil) {
             self.associationTarget = associationTarget
             self.dryRun = dryRun
@@ -5180,6 +5249,7 @@ extension EC2 {
         /// Information about the event window.
         public let instanceEventWindow: InstanceEventWindow?
 
+        @inlinable
         public init(instanceEventWindow: InstanceEventWindow? = nil) {
             self.instanceEventWindow = instanceEventWindow
         }
@@ -5197,6 +5267,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(asn: String? = nil, cidr: String? = nil, dryRun: Bool? = nil) {
             self.asn = asn
             self.cidr = cidr
@@ -5214,6 +5285,7 @@ extension EC2 {
         /// The ASN and BYOIP CIDR association.
         public let asnAssociation: AsnAssociation?
 
+        @inlinable
         public init(asnAssociation: AsnAssociation? = nil) {
             self.asnAssociation = asnAssociation
         }
@@ -5238,6 +5310,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = AssociateIpamResourceDiscoveryRequest.idempotencyToken(), dryRun: Bool? = nil, ipamId: String? = nil, ipamResourceDiscoveryId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -5259,6 +5332,7 @@ extension EC2 {
         /// A resource discovery association. An associated resource discovery is a resource discovery that has been associated with an IPAM.
         public let ipamResourceDiscoveryAssociation: IpamResourceDiscoveryAssociation?
 
+        @inlinable
         public init(ipamResourceDiscoveryAssociation: IpamResourceDiscoveryAssociation? = nil) {
             self.ipamResourceDiscoveryAssociation = ipamResourceDiscoveryAssociation
         }
@@ -5283,6 +5357,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
         public var privateIpAddresses: [String]?
 
+        @inlinable
         public init(allocationIds: [String]? = nil, dryRun: Bool? = nil, natGatewayId: String? = nil, privateIpAddresses: [String]? = nil) {
             self.allocationIds = allocationIds
             self.dryRun = dryRun
@@ -5307,6 +5382,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
             self.natGatewayAddresses = natGatewayAddresses
             self.natGatewayId = natGatewayId
@@ -5328,6 +5404,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String? = nil, subnetId: String? = nil) {
             self.dryRun = dryRun
             self.gatewayId = gatewayId
@@ -5350,6 +5427,7 @@ extension EC2 {
         /// The state of the association.
         public let associationState: RouteTableAssociationState?
 
+        @inlinable
         public init(associationId: String? = nil, associationState: RouteTableAssociationState? = nil) {
             self.associationId = associationId
             self.associationState = associationState
@@ -5371,6 +5449,7 @@ extension EC2 {
         /// The ID of your subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(ipv6CidrBlock: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, subnetId: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
             self.ipv6IpamPoolId = ipv6IpamPoolId
@@ -5392,6 +5471,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation? = nil, subnetId: String? = nil) {
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
             self.subnetId = subnetId
@@ -5416,6 +5496,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, subnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.subnetIds = subnetIds
@@ -5435,6 +5516,7 @@ extension EC2 {
         /// Information about the transit gateway multicast domain associations.
         public let associations: TransitGatewayMulticastDomainAssociations?
 
+        @inlinable
         public init(associations: TransitGatewayMulticastDomainAssociations? = nil) {
             self.associations = associations
         }
@@ -5452,6 +5534,7 @@ extension EC2 {
         /// The ID of the transit gateway policy table to associate with the transit gateway attachment.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -5469,6 +5552,7 @@ extension EC2 {
         /// Describes the association of a transit gateway and a transit gateway policy table.
         public let association: TransitGatewayPolicyTableAssociation?
 
+        @inlinable
         public init(association: TransitGatewayPolicyTableAssociation? = nil) {
             self.association = association
         }
@@ -5486,6 +5570,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -5503,6 +5588,7 @@ extension EC2 {
         /// The ID of the association.
         public let association: TransitGatewayAssociation?
 
+        @inlinable
         public init(association: TransitGatewayAssociation? = nil) {
             self.association = association
         }
@@ -5526,6 +5612,7 @@ extension EC2 {
         /// The ID of the VLAN. This applies to the VLAN protocol.
         public let vlanId: Int?
 
+        @inlinable
         public init(branchInterfaceId: String? = nil, clientToken: String? = AssociateTrunkInterfaceRequest.idempotencyToken(), dryRun: Bool? = nil, greKey: Int? = nil, trunkInterfaceId: String? = nil, vlanId: Int? = nil) {
             self.branchInterfaceId = branchInterfaceId
             self.clientToken = clientToken
@@ -5551,6 +5638,7 @@ extension EC2 {
         /// Information about the association between the trunk network interface and branch network interface.
         public let interfaceAssociation: TrunkInterfaceAssociation?
 
+        @inlinable
         public init(clientToken: String? = nil, interfaceAssociation: TrunkInterfaceAssociation? = nil) {
             self.clientToken = clientToken
             self.interfaceAssociation = interfaceAssociation
@@ -5584,6 +5672,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, ipv6Pool: String? = nil, vpcId: String? = nil) {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
             self.cidrBlock = cidrBlock
@@ -5619,6 +5708,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(cidrBlockAssociation: VpcCidrBlockAssociation? = nil, ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation? = nil, vpcId: String? = nil) {
             self.cidrBlockAssociation = cidrBlockAssociation
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
@@ -5644,6 +5734,7 @@ extension EC2 {
         /// The ID of the KMS key used to encrypt the private key.
         public let encryptionKmsKeyId: String?
 
+        @inlinable
         public init(associatedRoleArn: String? = nil, certificateS3BucketName: String? = nil, certificateS3ObjectKey: String? = nil, encryptionKmsKeyId: String? = nil) {
             self.associatedRoleArn = associatedRoleArn
             self.certificateS3BucketName = certificateS3BucketName
@@ -5665,6 +5756,7 @@ extension EC2 {
         /// The target network type.
         public let networkType: AssociatedNetworkType?
 
+        @inlinable
         public init(networkId: String? = nil, networkType: AssociatedNetworkType? = nil) {
             self.networkId = networkId
             self.networkType = networkType
@@ -5682,6 +5774,7 @@ extension EC2 {
         /// A message about the status of the target network association, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: AssociationStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -5703,6 +5796,7 @@ extension EC2 {
         /// The start date for the partition.
         public let partitionStartDate: Date?
 
+        @inlinable
         public init(integrationResultS3DestinationArn: String? = nil, partitionEndDate: Date? = nil, partitionLoadFrequency: PartitionLoadFrequency? = nil, partitionStartDate: Date? = nil) {
             self.integrationResultS3DestinationArn = integrationResultS3DestinationArn
             self.partitionEndDate = partitionEndDate
@@ -5731,6 +5825,7 @@ extension EC2 {
         /// The ID of the ClassicLink-enabled VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groups: [String]? = nil, instanceId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.groups = groups
@@ -5750,6 +5845,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -5767,6 +5863,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, internetGatewayId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.internetGatewayId = internetGatewayId
@@ -5794,6 +5891,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(deviceIndex: Int? = nil, dryRun: Bool? = nil, enaSrdSpecification: EnaSrdSpecification? = nil, instanceId: String? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil) {
             self.deviceIndex = deviceIndex
             self.dryRun = dryRun
@@ -5819,6 +5917,7 @@ extension EC2 {
         /// The index of the network card.
         public let networkCardIndex: Int?
 
+        @inlinable
         public init(attachmentId: String? = nil, networkCardIndex: Int? = nil) {
             self.attachmentId = attachmentId
             self.networkCardIndex = networkCardIndex
@@ -5840,6 +5939,7 @@ extension EC2 {
         /// The ID of the Verified Access trust provider.
         public let verifiedAccessTrustProviderId: String?
 
+        @inlinable
         public init(clientToken: String? = AttachVerifiedAccessTrustProviderRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessInstanceId: String? = nil, verifiedAccessTrustProviderId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -5861,6 +5961,7 @@ extension EC2 {
         /// Details about the Verified Access trust provider.
         public let verifiedAccessTrustProvider: VerifiedAccessTrustProvider?
 
+        @inlinable
         public init(verifiedAccessInstance: VerifiedAccessInstance? = nil, verifiedAccessTrustProvider: VerifiedAccessTrustProvider? = nil) {
             self.verifiedAccessInstance = verifiedAccessInstance
             self.verifiedAccessTrustProvider = verifiedAccessTrustProvider
@@ -5882,6 +5983,7 @@ extension EC2 {
         /// The ID of the EBS volume. The volume and instance must be within the same Availability Zone.
         public let volumeId: String?
 
+        @inlinable
         public init(device: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, volumeId: String? = nil) {
             self.device = device
             self.dryRun = dryRun
@@ -5905,6 +6007,7 @@ extension EC2 {
         /// The ID of the virtual private gateway.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcId: String? = nil, vpnGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -5922,6 +6025,7 @@ extension EC2 {
         /// Information about the attachment.
         public let vpcAttachment: VpcAttachment?
 
+        @inlinable
         public init(vpcAttachment: VpcAttachment? = nil) {
             self.vpcAttachment = vpcAttachment
         }
@@ -5937,6 +6041,7 @@ extension EC2 {
         /// Configures ENA Express for UDP network traffic.
         public let enaSrdUdpSpecification: AttachmentEnaSrdUdpSpecification?
 
+        @inlinable
         public init(enaSrdEnabled: Bool? = nil, enaSrdUdpSpecification: AttachmentEnaSrdUdpSpecification? = nil) {
             self.enaSrdEnabled = enaSrdEnabled
             self.enaSrdUdpSpecification = enaSrdUdpSpecification
@@ -5953,6 +6058,7 @@ extension EC2 {
         /// 			you must first enable ENA Express.
         public let enaSrdUdpEnabled: Bool?
 
+        @inlinable
         public init(enaSrdUdpEnabled: Bool? = nil) {
             self.enaSrdUdpEnabled = enaSrdUdpEnabled
         }
@@ -5966,6 +6072,7 @@ extension EC2 {
         /// The attribute value. The valid values are true or false.
         public let value: Bool?
 
+        @inlinable
         public init(value: Bool? = nil) {
             self.value = value
         }
@@ -5979,6 +6086,7 @@ extension EC2 {
         /// The attribute value. The value is case-sensitive.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -6002,6 +6110,7 @@ extension EC2 {
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
 
+        @inlinable
         public init(accessAll: Bool? = nil, clientVpnEndpointId: String? = nil, description: String? = nil, destinationCidr: String? = nil, groupId: String? = nil, status: ClientVpnAuthorizationRuleStatus? = nil) {
             self.accessAll = accessAll
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -6038,6 +6147,7 @@ extension EC2 {
         /// The IPv4 address range, in CIDR notation, of the network for which access is being authorized.
         public let targetNetworkCidr: String?
 
+        @inlinable
         public init(accessGroupId: String? = nil, authorizeAllGroups: Bool? = nil, clientToken: String? = AuthorizeClientVpnIngressRequest.idempotencyToken(), clientVpnEndpointId: String? = nil, description: String? = nil, dryRun: Bool? = nil, targetNetworkCidr: String? = nil) {
             self.accessGroupId = accessGroupId
             self.authorizeAllGroups = authorizeAllGroups
@@ -6063,6 +6173,7 @@ extension EC2 {
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
 
+        @inlinable
         public init(status: ClientVpnAuthorizationRuleStatus? = nil) {
             self.status = status
         }
@@ -6099,6 +6210,7 @@ extension EC2 {
         /// Not supported. Use IP permissions instead.
         public let toPort: Int?
 
+        @inlinable
         public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String? = nil, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, tagSpecifications: [TagSpecification]? = nil, toPort: Int? = nil) {
             self.cidrIp = cidrIp
             self.dryRun = dryRun
@@ -6135,6 +6247,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRule>>
         public var securityGroupRules: [SecurityGroupRule]?
 
+        @inlinable
         public init(return: Bool? = nil, securityGroupRules: [SecurityGroupRule]? = nil) {
             self.`return` = `return`
             self.securityGroupRules = securityGroupRules
@@ -6175,6 +6288,7 @@ extension EC2 {
         /// If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP, this is the ICMP code or -1 (all ICMP codes).  If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). To specify multiple rules and descriptions for the rules, use IP permissions instead.
         public let toPort: Int?
 
+        @inlinable
         public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, tagSpecifications: [TagSpecification]? = nil, toPort: Int? = nil) {
             self.cidrIp = cidrIp
             self.dryRun = dryRun
@@ -6213,6 +6327,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRule>>
         public var securityGroupRules: [SecurityGroupRule]?
 
+        @inlinable
         public init(return: Bool? = nil, securityGroupRules: [SecurityGroupRule]? = nil) {
             self.`return` = `return`
             self.securityGroupRules = securityGroupRules
@@ -6251,6 +6366,7 @@ extension EC2 {
         /// The type of zone. The valid values are availability-zone, local-zone, and wavelength-zone.
         public let zoneType: String?
 
+        @inlinable
         public init(groupName: String? = nil, messages: [AvailabilityZoneMessage]? = nil, networkBorderGroup: String? = nil, optInStatus: AvailabilityZoneOptInStatus? = nil, parentZoneId: String? = nil, parentZoneName: String? = nil, regionName: String? = nil, state: AvailabilityZoneState? = nil, zoneId: String? = nil, zoneName: String? = nil, zoneType: String? = nil) {
             self.groupName = groupName
             self.messages = messages
@@ -6284,6 +6400,7 @@ extension EC2 {
         /// The message about the Availability Zone, Local Zone, or Wavelength Zone.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -6302,6 +6419,7 @@ extension EC2 {
         /// The number of vCPUs available for launching instances onto the Dedicated Host.
         public let availableVCpus: Int?
 
+        @inlinable
         public init(availableInstanceCapacity: [InstanceCapacity]? = nil, availableVCpus: Int? = nil) {
             self.availableInstanceCapacity = availableInstanceCapacity
             self.availableVCpus = availableVCpus
@@ -6319,6 +6437,7 @@ extension EC2 {
         /// The minimum baseline bandwidth, in Mbps. If this parameter is not specified, there is no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6336,6 +6455,7 @@ extension EC2 {
         /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit this parameter.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6350,6 +6470,7 @@ extension EC2 {
     public struct BlobAttributeValue: AWSEncodableShape {
         public let value: AWSBase64Data?
 
+        @inlinable
         public init(value: AWSBase64Data? = nil) {
             self.value = value
         }
@@ -6369,6 +6490,7 @@ extension EC2 {
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with 2 available instance store volumes can specify mappings for ephemeral0 and ephemeral1. The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. NVMe instance store volumes are automatically enumerated and assigned a device name. Including them in your block device mapping has no effect. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the instance. When you launch an M3 instance, we ignore any instance store volumes specified in the block device mapping for the AMI.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: EbsBlockDevice? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -6394,6 +6516,7 @@ extension EC2 {
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public let storage: Storage?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil, storage: Storage? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -6411,6 +6534,7 @@ extension EC2 {
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
 
+        @inlinable
         public init(bundleTask: BundleTask? = nil) {
             self.bundleTask = bundleTask
         }
@@ -6438,6 +6562,7 @@ extension EC2 {
         /// The time of the most recent update for the task.
         public let updateTime: Date?
 
+        @inlinable
         public init(bundleId: String? = nil, bundleTaskError: BundleTaskError? = nil, instanceId: String? = nil, progress: String? = nil, startTime: Date? = nil, state: BundleTaskState? = nil, storage: Storage? = nil, updateTime: Date? = nil) {
             self.bundleId = bundleId
             self.bundleTaskError = bundleTaskError
@@ -6467,6 +6592,7 @@ extension EC2 {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -6488,6 +6614,7 @@ extension EC2 {
         /// The status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(asn: String? = nil, ipamId: String? = nil, state: AsnState? = nil, statusMessage: String? = nil) {
             self.asn = asn
             self.ipamId = ipamId
@@ -6520,6 +6647,7 @@ extension EC2 {
         /// Upon success, contains the ID of the address pool. Otherwise, contains an error message.
         public let statusMessage: String?
 
+        @inlinable
         public init(asnAssociations: [AsnAssociation]? = nil, cidr: String? = nil, description: String? = nil, networkBorderGroup: String? = nil, state: ByoipCidrState? = nil, statusMessage: String? = nil) {
             self.asnAssociations = asnAssociations
             self.cidr = cidr
@@ -6547,6 +6675,7 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(bundleId: String? = nil, dryRun: Bool? = nil) {
             self.bundleId = bundleId
             self.dryRun = dryRun
@@ -6562,6 +6691,7 @@ extension EC2 {
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
 
+        @inlinable
         public init(bundleTask: BundleTask? = nil) {
             self.bundleTask = bundleTask
         }
@@ -6577,6 +6707,7 @@ extension EC2 {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -6597,6 +6728,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(capacityReservationFleetIds: [String]? = nil, dryRun: Bool? = nil) {
             self.capacityReservationFleetIds = capacityReservationFleetIds
             self.dryRun = dryRun
@@ -6619,6 +6751,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SuccessfulFleetCancellationsEncoding, CapacityReservationFleetCancellationState>>
         public var successfulFleetCancellations: [CapacityReservationFleetCancellationState]?
 
+        @inlinable
         public init(failedFleetCancellations: [FailedCapacityReservationFleetCancellationResult]? = nil, successfulFleetCancellations: [CapacityReservationFleetCancellationState]? = nil) {
             self.failedFleetCancellations = failedFleetCancellations
             self.successfulFleetCancellations = successfulFleetCancellations
@@ -6636,6 +6769,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(capacityReservationId: String? = nil, dryRun: Bool? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
@@ -6651,6 +6785,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -6668,6 +6803,7 @@ extension EC2 {
         /// The reason for canceling the conversion task.
         public let reasonMessage: String?
 
+        @inlinable
         public init(conversionTaskId: String? = nil, dryRun: Bool? = nil, reasonMessage: String? = nil) {
             self.conversionTaskId = conversionTaskId
             self.dryRun = dryRun
@@ -6685,6 +6821,7 @@ extension EC2 {
         /// The ID of the export task. This is the ID returned by the CreateInstanceExportTask and ExportImage operations.
         public let exportTaskId: String?
 
+        @inlinable
         public init(exportTaskId: String? = nil) {
             self.exportTaskId = exportTaskId
         }
@@ -6702,6 +6839,7 @@ extension EC2 {
         /// The ID of the AMI that was shared with your Amazon Web Services account.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -6717,6 +6855,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -6734,6 +6873,7 @@ extension EC2 {
         /// The ID of the import image or import snapshot task to be canceled.
         public let importTaskId: String?
 
+        @inlinable
         public init(cancelReason: String? = nil, dryRun: Bool? = nil, importTaskId: String? = nil) {
             self.cancelReason = cancelReason
             self.dryRun = dryRun
@@ -6755,6 +6895,7 @@ extension EC2 {
         /// The current state of the task being canceled.
         public let state: String?
 
+        @inlinable
         public init(importTaskId: String? = nil, previousState: String? = nil, state: String? = nil) {
             self.importTaskId = importTaskId
             self.previousState = previousState
@@ -6772,6 +6913,7 @@ extension EC2 {
         /// The ID of the Reserved Instance listing.
         public let reservedInstancesListingId: String?
 
+        @inlinable
         public init(reservedInstancesListingId: String? = nil) {
             self.reservedInstancesListingId = reservedInstancesListingId
         }
@@ -6788,6 +6930,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesListingsEncoding, ReservedInstancesListing>>
         public var reservedInstancesListings: [ReservedInstancesListing]?
 
+        @inlinable
         public init(reservedInstancesListings: [ReservedInstancesListing]? = nil) {
             self.reservedInstancesListings = reservedInstancesListings
         }
@@ -6803,6 +6946,7 @@ extension EC2 {
         /// The description for the error code.
         public let message: String?
 
+        @inlinable
         public init(code: CancelBatchErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -6820,6 +6964,7 @@ extension EC2 {
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
 
+        @inlinable
         public init(error: CancelSpotFleetRequestsError? = nil, spotFleetRequestId: String? = nil) {
             self.error = error
             self.spotFleetRequestId = spotFleetRequestId
@@ -6842,6 +6987,7 @@ extension EC2 {
         /// Indicates whether to terminate the associated instances when the Spot Fleet request is canceled.  The default is to terminate the instances. To let the instances continue to run after the Spot Fleet request is canceled, specify no-terminate-instances.
         public let terminateInstances: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil, spotFleetRequestIds: [String]? = nil, terminateInstances: Bool? = nil) {
             self.dryRun = dryRun
             self.spotFleetRequestIds = spotFleetRequestIds
@@ -6866,6 +7012,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulFleetRequestsEncoding, CancelSpotFleetRequestsErrorItem>>
         public var unsuccessfulFleetRequests: [CancelSpotFleetRequestsErrorItem]?
 
+        @inlinable
         public init(successfulFleetRequests: [CancelSpotFleetRequestsSuccessItem]? = nil, unsuccessfulFleetRequests: [CancelSpotFleetRequestsErrorItem]? = nil) {
             self.successfulFleetRequests = successfulFleetRequests
             self.unsuccessfulFleetRequests = unsuccessfulFleetRequests
@@ -6885,6 +7032,7 @@ extension EC2 {
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
 
+        @inlinable
         public init(currentSpotFleetRequestState: BatchState? = nil, previousSpotFleetRequestState: BatchState? = nil, spotFleetRequestId: String? = nil) {
             self.currentSpotFleetRequestState = currentSpotFleetRequestState
             self.previousSpotFleetRequestState = previousSpotFleetRequestState
@@ -6907,6 +7055,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotInstanceRequestIdsEncoding, String>>
         public var spotInstanceRequestIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, spotInstanceRequestIds: [String]? = nil) {
             self.dryRun = dryRun
             self.spotInstanceRequestIds = spotInstanceRequestIds
@@ -6925,6 +7074,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_CancelledSpotInstanceRequestsEncoding, CancelledSpotInstanceRequest>>
         public var cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]?
 
+        @inlinable
         public init(cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]? = nil) {
             self.cancelledSpotInstanceRequests = cancelledSpotInstanceRequests
         }
@@ -6940,6 +7090,7 @@ extension EC2 {
         /// The state of the Spot Instance request.
         public let state: CancelSpotInstanceRequestState?
 
+        @inlinable
         public init(spotInstanceRequestId: String? = nil, state: CancelSpotInstanceRequestState? = nil) {
             self.spotInstanceRequestId = spotInstanceRequestId
             self.state = state
@@ -6959,6 +7110,7 @@ extension EC2 {
         /// 			4 indicates that instance capacity for 4 instances is currently in use.
         public let count: Int?
 
+        @inlinable
         public init(allocationType: AllocationType? = nil, count: Int? = nil) {
             self.allocationType = allocationType
             self.count = count
@@ -6992,6 +7144,7 @@ extension EC2 {
         /// The total price to be paid up front.
         public let upfrontFee: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, capacityBlockDurationHours: Int? = nil, capacityBlockOfferingId: String? = nil, currencyCode: String? = nil, endDate: Date? = nil, instanceCount: Int? = nil, instanceType: String? = nil, startDate: Date? = nil, tenancy: CapacityReservationTenancy? = nil, upfrontFee: String? = nil) {
             self.availabilityZone = availabilityZone
             self.capacityBlockDurationHours = capacityBlockDurationHours
@@ -7096,6 +7249,7 @@ extension EC2 {
         /// The total number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -7207,6 +7361,7 @@ extension EC2 {
         /// 				capacity in the Amazon EC2 User Guide.
         public let totalTargetCapacity: Int?
 
+        @inlinable
         public init(allocationStrategy: String? = nil, capacityReservationFleetArn: String? = nil, capacityReservationFleetId: String? = nil, createTime: Date? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [FleetCapacityReservation]? = nil, state: CapacityReservationFleetState? = nil, tags: [Tag]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalFulfilledCapacity: Double? = nil, totalTargetCapacity: Int? = nil) {
             self.allocationStrategy = allocationStrategy
             self.capacityReservationFleetArn = capacityReservationFleetArn
@@ -7246,6 +7401,7 @@ extension EC2 {
         /// The previous state of the Capacity Reservation Fleet.
         public let previousFleetState: CapacityReservationFleetState?
 
+        @inlinable
         public init(capacityReservationFleetId: String? = nil, currentFleetState: CapacityReservationFleetState? = nil, previousFleetState: CapacityReservationFleetState? = nil) {
             self.capacityReservationFleetId = capacityReservationFleetId
             self.currentFleetState = currentFleetState
@@ -7265,6 +7421,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services account that owns the resource group.
         public let ownerId: String?
 
+        @inlinable
         public init(groupArn: String? = nil, ownerId: String? = nil) {
             self.groupArn = groupArn
             self.ownerId = ownerId
@@ -7280,6 +7437,7 @@ extension EC2 {
         /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price or prioritized) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price or prioritized). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
         public let usageStrategy: FleetCapacityReservationUsageStrategy?
 
+        @inlinable
         public init(usageStrategy: FleetCapacityReservationUsageStrategy? = nil) {
             self.usageStrategy = usageStrategy
         }
@@ -7293,6 +7451,7 @@ extension EC2 {
         /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price or prioritized) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price or prioritized). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
         public let usageStrategy: FleetCapacityReservationUsageStrategy?
 
+        @inlinable
         public init(usageStrategy: FleetCapacityReservationUsageStrategy? = nil) {
             self.usageStrategy = usageStrategy
         }
@@ -7310,6 +7469,7 @@ extension EC2 {
         /// Information about the target Capacity Reservation or Capacity Reservation group.
         public let capacityReservationTarget: CapacityReservationTarget?
 
+        @inlinable
         public init(capacityReservationPreference: CapacityReservationPreference? = nil, capacityReservationTarget: CapacityReservationTarget? = nil) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
@@ -7327,6 +7487,7 @@ extension EC2 {
         /// Information about the targeted Capacity Reservation or Capacity Reservation group.
         public let capacityReservationTarget: CapacityReservationTargetResponse?
 
+        @inlinable
         public init(capacityReservationPreference: CapacityReservationPreference? = nil, capacityReservationTarget: CapacityReservationTargetResponse? = nil) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
@@ -7344,6 +7505,7 @@ extension EC2 {
         /// The ARN of the Capacity Reservation resource group in which to run the instance.
         public let capacityReservationResourceGroupArn: String?
 
+        @inlinable
         public init(capacityReservationId: String? = nil, capacityReservationResourceGroupArn: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
@@ -7361,6 +7523,7 @@ extension EC2 {
         /// The ARN of the targeted Capacity Reservation group.
         public let capacityReservationResourceGroupArn: String?
 
+        @inlinable
         public init(capacityReservationId: String? = nil, capacityReservationResourceGroupArn: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
@@ -7387,6 +7550,7 @@ extension EC2 {
         /// The ID of the VPC associated with the carrier gateway.
         public let vpcId: String?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, ownerId: String? = nil, state: CarrierGatewayState? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.ownerId = ownerId
@@ -7408,6 +7572,7 @@ extension EC2 {
         /// The ARN of the client certificate.
         public let clientRootCertificateChain: String?
 
+        @inlinable
         public init(clientRootCertificateChain: String? = nil) {
             self.clientRootCertificateChain = clientRootCertificateChain
         }
@@ -7422,6 +7587,7 @@ extension EC2 {
         /// 			authority (CA) and it must be provisioned in Certificate Manager (ACM).
         public let clientRootCertificateChainArn: String?
 
+        @inlinable
         public init(clientRootCertificateChainArn: String? = nil) {
             self.clientRootCertificateChainArn = clientRootCertificateChainArn
         }
@@ -7437,6 +7603,7 @@ extension EC2 {
         /// The signed authorization message for the prefix and account.
         public let signature: String?
 
+        @inlinable
         public init(message: String? = nil, signature: String? = nil) {
             self.message = message
             self.signature = signature
@@ -7452,6 +7619,7 @@ extension EC2 {
         /// The IPv4 CIDR block.
         public let cidrBlock: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil) {
             self.cidrBlock = cidrBlock
         }
@@ -7467,6 +7635,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(classicLinkDnsSupported: Bool? = nil, vpcId: String? = nil) {
             self.classicLinkDnsSupported = classicLinkDnsSupported
             self.vpcId = vpcId
@@ -7493,6 +7662,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(groups: [GroupIdentifier]? = nil, instanceId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.groups = groups
             self.instanceId = instanceId
@@ -7512,6 +7682,7 @@ extension EC2 {
         /// The name of the load balancer.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -7528,6 +7699,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ClassicLoadBalancersEncoding, ClassicLoadBalancer>>
         public var classicLoadBalancers: [ClassicLoadBalancer]?
 
+        @inlinable
         public init(classicLoadBalancers: [ClassicLoadBalancer]? = nil) {
             self.classicLoadBalancers = classicLoadBalancers
         }
@@ -7548,6 +7720,7 @@ extension EC2 {
         /// A message about the status of the client certificate revocation list, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: ClientCertificateRevocationListStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -7565,6 +7738,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the Lambda function used for connection authorization.
         public let lambdaFunctionArn: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, lambdaFunctionArn: String? = nil) {
             self.enabled = enabled
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -7584,6 +7758,7 @@ extension EC2 {
         /// The status of any updates to the client connect options.
         public let status: ClientVpnEndpointAttributeStatus?
 
+        @inlinable
         public init(enabled: Bool? = nil, lambdaFunctionArn: String? = nil, status: ClientVpnEndpointAttributeStatus? = nil) {
             self.enabled = enabled
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -7607,6 +7782,7 @@ extension EC2 {
         /// The time that the disk upload starts.
         public let uploadStart: Date?
 
+        @inlinable
         public init(comment: String? = nil, uploadEnd: Date? = nil, uploadSize: Double? = nil, uploadStart: Date? = nil) {
             self.comment = comment
             self.uploadEnd = uploadEnd
@@ -7631,6 +7807,7 @@ extension EC2 {
         /// 			Amazon Web Services provided clients when a VPN session is established. Valid values: true | false  Default value: false
         public let enabled: Bool?
 
+        @inlinable
         public init(bannerText: String? = nil, enabled: Bool? = nil) {
             self.bannerText = bannerText
             self.enabled = enabled
@@ -7650,6 +7827,7 @@ extension EC2 {
         /// Current state of text banner feature. Valid values: true | false
         public let enabled: Bool?
 
+        @inlinable
         public init(bannerText: String? = nil, enabled: Bool? = nil) {
             self.bannerText = bannerText
             self.enabled = enabled
@@ -7671,6 +7849,7 @@ extension EC2 {
         /// The authentication type used.
         public let type: ClientVpnAuthenticationType?
 
+        @inlinable
         public init(activeDirectory: DirectoryServiceAuthentication? = nil, federatedAuthentication: FederatedAuthentication? = nil, mutualAuthentication: CertificateAuthentication? = nil, type: ClientVpnAuthenticationType? = nil) {
             self.activeDirectory = activeDirectory
             self.federatedAuthentication = federatedAuthentication
@@ -7696,6 +7875,7 @@ extension EC2 {
         /// The type of client authentication to be used.
         public let type: ClientVpnAuthenticationType?
 
+        @inlinable
         public init(activeDirectory: DirectoryServiceAuthenticationRequest? = nil, federatedAuthentication: FederatedAuthenticationRequest? = nil, mutualAuthentication: CertificateAuthenticationRequest? = nil, type: ClientVpnAuthenticationType? = nil) {
             self.activeDirectory = activeDirectory
             self.federatedAuthentication = federatedAuthentication
@@ -7717,6 +7897,7 @@ extension EC2 {
         /// A message about the status of the authorization rule, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: ClientVpnAuthorizationRuleStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -7763,6 +7944,7 @@ extension EC2 {
         /// 			if Active Directory client authentication is used.
         public let username: String?
 
+        @inlinable
         public init(clientIp: String? = nil, clientVpnEndpointId: String? = nil, commonName: String? = nil, connectionEndTime: String? = nil, connectionEstablishedTime: String? = nil, connectionId: String? = nil, egressBytes: String? = nil, egressPackets: String? = nil, ingressBytes: String? = nil, ingressPackets: String? = nil, postureComplianceStatuses: [String]? = nil, status: ClientVpnConnectionStatus? = nil, timestamp: String? = nil, username: String? = nil) {
             self.clientIp = clientIp
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -7804,6 +7986,7 @@ extension EC2 {
         /// A message about the status of the client connection, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: ClientVpnConnectionStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -7876,6 +8059,7 @@ extension EC2 {
         /// The protocol used by the VPN session.
         public let vpnProtocol: VpnProtocol?
 
+        @inlinable
         public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = nil
             self.authenticationOptions = authenticationOptions
@@ -7903,6 +8087,7 @@ extension EC2 {
         }
 
         @available(*, deprecated, message: "Members associatedTargetNetworks have been deprecated")
+        @inlinable
         public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = associatedTargetNetworks
             self.authenticationOptions = authenticationOptions
@@ -7962,6 +8147,7 @@ extension EC2 {
         /// The status message.
         public let message: String?
 
+        @inlinable
         public init(code: ClientVpnEndpointAttributeStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -7983,6 +8169,7 @@ extension EC2 {
         /// A message about the status of the Client VPN endpoint.
         public let message: String?
 
+        @inlinable
         public init(code: ClientVpnEndpointStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -8013,6 +8200,7 @@ extension EC2 {
         /// The route type.
         public let type: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, description: String? = nil, destinationCidr: String? = nil, origin: String? = nil, status: ClientVpnRouteStatus? = nil, targetSubnet: String? = nil, type: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.description = description
@@ -8040,6 +8228,7 @@ extension EC2 {
         /// A message about the status of the Client VPN endpoint route, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: ClientVpnRouteStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -8059,6 +8248,7 @@ extension EC2 {
         /// Configured log format. Default format is json. Valid values: json | text
         public let logOutputFormat: String?
 
+        @inlinable
         public init(logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
             self.logEnabled = logEnabled
             self.logGroupArn = logGroupArn
@@ -8080,6 +8270,7 @@ extension EC2 {
         /// Set log format. Default format is json. Valid values: json | text
         public let logOutputFormat: String?
 
+        @inlinable
         public init(logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
             self.logEnabled = logEnabled
             self.logGroupArn = logGroupArn
@@ -8103,6 +8294,7 @@ extension EC2 {
         /// The customer-owned IP address.
         public let coIp: String?
 
+        @inlinable
         public init(allocationId: String? = nil, awsAccountId: String? = nil, awsService: String? = nil, coIp: String? = nil) {
             self.allocationId = allocationId
             self.awsAccountId = awsAccountId
@@ -8126,6 +8318,7 @@ extension EC2 {
         ///  The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
 
+        @inlinable
         public init(cidr: String? = nil, coipPoolId: String? = nil, localGatewayRouteTableId: String? = nil) {
             self.cidr = cidr
             self.coipPoolId = coipPoolId
@@ -8156,6 +8349,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(localGatewayRouteTableId: String? = nil, poolArn: String? = nil, poolCidrs: [String]? = nil, poolId: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.poolArn = poolArn
@@ -8181,6 +8375,7 @@ extension EC2 {
         /// The product code. This must be a product code that you own.
         public let productCode: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil, productCode: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -8200,6 +8395,7 @@ extension EC2 {
         /// The return value of the request. Returns true if the specified product code is owned by the requester and associated with the specified instance.
         public let `return`: Bool?
 
+        @inlinable
         public init(ownerId: String? = nil, return: Bool? = nil) {
             self.ownerId = ownerId
             self.`return` = `return`
@@ -8219,6 +8415,7 @@ extension EC2 {
         /// Indicates whether connection logging is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudwatchLogGroup: String? = nil, cloudwatchLogStream: String? = nil, enabled: Bool? = nil) {
             self.cloudwatchLogGroup = cloudwatchLogGroup
             self.cloudwatchLogStream = cloudwatchLogStream
@@ -8240,6 +8437,7 @@ extension EC2 {
         /// Indicates whether client connection logging is enabled for the Client VPN endpoint.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudwatchLogGroup: String? = nil, cloudwatchLogStream: String? = nil, enabled: Bool? = nil) {
             self.cloudwatchLogGroup = cloudwatchLogGroup
             self.cloudwatchLogStream = cloudwatchLogStream
@@ -8272,6 +8470,7 @@ extension EC2 {
         /// The ID of the VPC endpoint.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(connectionEvents: [String]? = nil, connectionNotificationArn: String? = nil, connectionNotificationId: String? = nil, connectionNotificationState: ConnectionNotificationState? = nil, connectionNotificationType: ConnectionNotificationType? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil) {
             self.connectionEvents = connectionEvents
             self.connectionNotificationArn = connectionNotificationArn
@@ -8308,6 +8507,7 @@ extension EC2 {
         /// 						transaction. Min: 30 seconds. Max: 60 seconds. Default: 30 seconds.
         public let udpTimeout: Int?
 
+        @inlinable
         public init(tcpEstablishedTimeout: Int? = nil, udpStreamTimeout: Int? = nil, udpTimeout: Int? = nil) {
             self.tcpEstablishedTimeout = tcpEstablishedTimeout
             self.udpStreamTimeout = udpStreamTimeout
@@ -8336,6 +8536,7 @@ extension EC2 {
         /// 						transaction. Min: 30 seconds. Max: 60 seconds. Default: 30 seconds.
         public let udpTimeout: Int?
 
+        @inlinable
         public init(tcpEstablishedTimeout: Int? = nil, udpStreamTimeout: Int? = nil, udpTimeout: Int? = nil) {
             self.tcpEstablishedTimeout = tcpEstablishedTimeout
             self.udpStreamTimeout = udpStreamTimeout
@@ -8364,6 +8565,7 @@ extension EC2 {
         /// 						transaction. Min: 30 seconds. Max: 60 seconds. Default: 30 seconds.
         public let udpTimeout: Int?
 
+        @inlinable
         public init(tcpEstablishedTimeout: Int? = nil, udpStreamTimeout: Int? = nil, udpTimeout: Int? = nil) {
             self.tcpEstablishedTimeout = tcpEstablishedTimeout
             self.udpStreamTimeout = udpStreamTimeout
@@ -8392,6 +8594,7 @@ extension EC2 {
         /// 						transaction. Min: 30 seconds. Max: 60 seconds. Default: 30 seconds.
         public let udpTimeout: Int?
 
+        @inlinable
         public init(tcpEstablishedTimeout: Int? = nil, udpStreamTimeout: Int? = nil, udpTimeout: Int? = nil) {
             self.tcpEstablishedTimeout = tcpEstablishedTimeout
             self.udpStreamTimeout = udpStreamTimeout
@@ -8424,6 +8627,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(conversionTaskId: String? = nil, expirationTime: String? = nil, importInstance: ImportInstanceTaskDetails? = nil, importVolume: ImportVolumeTaskDetails? = nil, state: ConversionTaskState? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.conversionTaskId = conversionTaskId
             self.expirationTime = expirationTime
@@ -8459,6 +8663,7 @@ extension EC2 {
         /// The Region that contains the source AFI.
         public let sourceRegion: String?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, name: String? = nil, sourceFpgaImageId: String? = nil, sourceRegion: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -8482,6 +8687,7 @@ extension EC2 {
         /// The ID of the new AFI.
         public let fpgaImageId: String?
 
+        @inlinable
         public init(fpgaImageId: String? = nil) {
             self.fpgaImageId = fpgaImageId
         }
@@ -8520,6 +8726,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = nil, copyImageTags: Bool? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, sourceImageId: String? = nil, sourceRegion: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.copyImageTags = copyImageTags
@@ -8553,6 +8760,7 @@ extension EC2 {
         /// The ID of the new AMI.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -8591,6 +8799,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(description: String? = nil, destinationOutpostArn: String? = nil, destinationRegion: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, presignedUrl: String? = nil, sourceRegion: String? = nil, sourceSnapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.description = description
             self.destinationOutpostArn = destinationOutpostArn
@@ -8627,6 +8836,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(snapshotId: String? = nil, tags: [Tag]? = nil) {
             self.snapshotId = snapshotId
             self.tags = tags
@@ -8646,6 +8856,7 @@ extension EC2 {
         /// The number of threads per CPU core.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(amdSevSnp: AmdSevSnpSpecification? = nil, coreCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.amdSevSnp = amdSevSnp
             self.coreCount = coreCount
@@ -8667,6 +8878,7 @@ extension EC2 {
         /// The number of threads per CPU core. To disable multithreading for the instance, specify a value of 1. Otherwise, specify the default value of 2.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(amdSevSnp: AmdSevSnpSpecification? = nil, coreCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.amdSevSnp = amdSevSnp
             self.coreCount = coreCount
@@ -8698,6 +8910,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateCapacityReservationBySplittingRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, sourceCapacityReservationId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -8726,6 +8939,7 @@ extension EC2 {
         ///
         public let sourceCapacityReservation: CapacityReservation?
 
+        @inlinable
         public init(destinationCapacityReservation: CapacityReservation? = nil, instanceCount: Int? = nil, sourceCapacityReservation: CapacityReservation? = nil) {
             self.destinationCapacityReservation = destinationCapacityReservation
             self.instanceCount = instanceCount
@@ -8786,6 +9000,7 @@ extension EC2 {
         /// 				capacity in the Amazon EC2 User Guide.
         public let totalTargetCapacity: Int?
 
+        @inlinable
         public init(allocationStrategy: String? = nil, clientToken: String? = CreateCapacityReservationFleetRequest.idempotencyToken(), dryRun: Bool? = nil, endDate: Date? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, instanceTypeSpecifications: [ReservationFleetInstanceSpecification]? = nil, tagSpecifications: [TagSpecification]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalTargetCapacity: Int? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
@@ -8846,6 +9061,7 @@ extension EC2 {
         /// The total number of capacity units for which the Capacity Reservation Fleet reserves capacity.
         public let totalTargetCapacity: Int?
 
+        @inlinable
         public init(allocationStrategy: String? = nil, capacityReservationFleetId: String? = nil, createTime: Date? = nil, endDate: Date? = nil, fleetCapacityReservations: [FleetCapacityReservation]? = nil, instanceMatchCriteria: FleetInstanceMatchCriteria? = nil, state: CapacityReservationFleetState? = nil, tags: [Tag]? = nil, tenancy: FleetCapacityReservationTenancy? = nil, totalFulfilledCapacity: Double? = nil, totalTargetCapacity: Int? = nil) {
             self.allocationStrategy = allocationStrategy
             self.capacityReservationFleetId = capacityReservationFleetId
@@ -8934,6 +9150,7 @@ extension EC2 {
         /// Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one of the following tenancy settings:    default - The Capacity Reservation is created on hardware that is shared with other Amazon Web Services accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single Amazon Web Services account.
         public let tenancy: CapacityReservationTenancy?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, placementGroupArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -8982,6 +9199,7 @@ extension EC2 {
         /// Information about the Capacity Reservation.
         public let capacityReservation: CapacityReservation?
 
+        @inlinable
         public init(capacityReservation: CapacityReservation? = nil) {
             self.capacityReservation = capacityReservation
         }
@@ -9004,6 +9222,7 @@ extension EC2 {
         /// The ID of the VPC to associate with the carrier gateway.
         public let vpcId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateCarrierGatewayRequest.idempotencyToken(), dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -9023,6 +9242,7 @@ extension EC2 {
         /// Information about the carrier gateway.
         public let carrierGateway: CarrierGateway?
 
+        @inlinable
         public init(carrierGateway: CarrierGateway? = nil) {
             self.carrierGateway = carrierGateway
         }
@@ -9084,6 +9304,7 @@ extension EC2 {
         /// The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443
         public let vpnPort: Int?
 
+        @inlinable
         public init(authenticationOptions: [ClientVpnAuthenticationRequest]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
@@ -9135,6 +9356,7 @@ extension EC2 {
         /// The current state of the Client VPN endpoint.
         public let status: ClientVpnEndpointStatus?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dnsName: String? = nil, status: ClientVpnEndpointStatus? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dnsName = dnsName
@@ -9164,6 +9386,7 @@ extension EC2 {
         /// 			an existing target network of the Client VPN endpoint. Alternatively, if you're adding a route for the local network, specify local.
         public let targetVpcSubnetId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateClientVpnRouteRequest.idempotencyToken(), clientVpnEndpointId: String? = nil, description: String? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, targetVpcSubnetId: String? = nil) {
             self.clientToken = clientToken
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -9187,6 +9410,7 @@ extension EC2 {
         /// The current state of the route.
         public let status: ClientVpnRouteStatus?
 
+        @inlinable
         public init(status: ClientVpnRouteStatus? = nil) {
             self.status = status
         }
@@ -9204,6 +9428,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(cidr: String? = nil, coipPoolId: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.coipPoolId = coipPoolId
@@ -9221,6 +9446,7 @@ extension EC2 {
         ///  Information about a range of customer-owned IP addresses.
         public let coipCidr: CoipCidr?
 
+        @inlinable
         public init(coipCidr: CoipCidr? = nil) {
             self.coipCidr = coipCidr
         }
@@ -9241,6 +9467,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -9258,6 +9485,7 @@ extension EC2 {
         /// Information about the CoIP address pool.
         public let coipPool: CoipPool?
 
+        @inlinable
         public init(coipPool: CoipPool? = nil) {
             self.coipPool = coipPool
         }
@@ -9290,6 +9518,7 @@ extension EC2 {
         /// The type of VPN connection that this customer gateway supports (ipsec.1).
         public let type: GatewayType?
 
+        @inlinable
         public init(bgpAsn: Int? = nil, bgpAsnExtended: Int64? = nil, certificateArn: String? = nil, deviceName: String? = nil, dryRun: Bool? = nil, ipAddress: String? = nil, publicIp: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType? = nil) {
             self.bgpAsn = bgpAsn
             self.bgpAsnExtended = bgpAsnExtended
@@ -9319,6 +9548,7 @@ extension EC2 {
         /// Information about the customer gateway.
         public let customerGateway: CustomerGateway?
 
+        @inlinable
         public init(customerGateway: CustomerGateway? = nil) {
             self.customerGateway = customerGateway
         }
@@ -9336,6 +9566,7 @@ extension EC2 {
         /// Indicates whether to create an IPv6 only subnet. If you already have a default subnet for this Availability Zone, you must delete it before you can create an IPv6 only subnet.
         public let ipv6Native: Bool?
 
+        @inlinable
         public init(availabilityZone: String? = nil, dryRun: Bool? = nil, ipv6Native: Bool? = nil) {
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
@@ -9353,6 +9584,7 @@ extension EC2 {
         /// Information about the subnet.
         public let subnet: Subnet?
 
+        @inlinable
         public init(subnet: Subnet? = nil) {
             self.subnet = subnet
         }
@@ -9366,6 +9598,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -9379,6 +9612,7 @@ extension EC2 {
         /// Information about the VPC.
         public let vpc: Vpc?
 
+        @inlinable
         public init(vpc: Vpc? = nil) {
             self.vpc = vpc
         }
@@ -9401,6 +9635,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dhcpConfigurations: [NewDhcpConfiguration]? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dhcpConfigurations = dhcpConfigurations
             self.dryRun = dryRun
@@ -9418,6 +9653,7 @@ extension EC2 {
         /// A set of DHCP options.
         public let dhcpOptions: DhcpOptions?
 
+        @inlinable
         public init(dhcpOptions: DhcpOptions? = nil) {
             self.dhcpOptions = dhcpOptions
         }
@@ -9441,6 +9677,7 @@ extension EC2 {
         /// The ID of the VPC for which to create the egress-only internet gateway.
         public let vpcId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -9463,6 +9700,7 @@ extension EC2 {
         /// Information about the egress-only internet gateway.
         public let egressOnlyInternetGateway: EgressOnlyInternetGateway?
 
+        @inlinable
         public init(clientToken: String? = nil, egressOnlyInternetGateway: EgressOnlyInternetGateway? = nil) {
             self.clientToken = clientToken
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
@@ -9484,6 +9722,7 @@ extension EC2 {
         /// Indicates if the instance that could not be launched was a Spot Instance or On-Demand Instance.
         public let lifecycle: InstanceLifecycle?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse? = nil, lifecycle: InstanceLifecycle? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -9514,6 +9753,7 @@ extension EC2 {
         /// The value is Windows for Windows instances. Otherwise, the value is blank.
         public let platform: PlatformValues?
 
+        @inlinable
         public init(instanceIds: [String]? = nil, instanceType: InstanceType? = nil, launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse? = nil, lifecycle: InstanceLifecycle? = nil, platform: PlatformValues? = nil) {
             self.instanceIds = instanceIds
             self.instanceType = instanceType
@@ -9566,6 +9806,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new EC2 Fleet requests are placed or able to fulfill the request. If no value is specified, the request remains until you cancel it.
         public let validUntil: Date?
 
+        @inlinable
         public init(clientToken: String? = nil, context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.clientToken = clientToken
             self.context = context
@@ -9621,6 +9862,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, CreateFleetInstance>>
         public var instances: [CreateFleetInstance]?
 
+        @inlinable
         public init(errors: [CreateFleetError]? = nil, fleetId: String? = nil, instances: [CreateFleetInstance]? = nil) {
             self.errors = errors
             self.fleetId = fleetId
@@ -9669,6 +9911,7 @@ extension EC2 {
         /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
         public let trafficType: TrafficType?
 
+        @inlinable
         public init(clientToken: String? = nil, deliverCrossAccountRole: String? = nil, deliverLogsPermissionArn: String? = nil, destinationOptions: DestinationOptionsRequest? = nil, dryRun: Bool? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceIds: [String]? = nil, resourceType: FlowLogsResourceType? = nil, tagSpecifications: [TagSpecification]? = nil, trafficType: TrafficType? = nil) {
             self.clientToken = clientToken
             self.deliverCrossAccountRole = deliverCrossAccountRole
@@ -9717,6 +9960,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(clientToken: String? = nil, flowLogIds: [String]? = nil, unsuccessful: [UnsuccessfulItem]? = nil) {
             self.clientToken = clientToken
             self.flowLogIds = flowLogIds
@@ -9749,6 +9993,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, inputStorageLocation: StorageLocation? = nil, logsStorageLocation: StorageLocation? = nil, name: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -9776,6 +10021,7 @@ extension EC2 {
         /// The FPGA image identifier (AFI ID).
         public let fpgaImageId: String?
 
+        @inlinable
         public init(fpgaImageGlobalId: String? = nil, fpgaImageId: String? = nil) {
             self.fpgaImageGlobalId = fpgaImageGlobalId
             self.fpgaImageId = fpgaImageId
@@ -9810,6 +10056,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, name: String? = nil, noReboot: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.description = description
@@ -9835,6 +10082,7 @@ extension EC2 {
         /// The ID of the new AMI.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -9863,6 +10111,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateInstanceConnectEndpointRequest.idempotencyToken(), dryRun: Bool? = nil, preserveClientIp: Bool? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -9892,6 +10141,7 @@ extension EC2 {
         /// Information about the EC2 Instance Connect Endpoint.
         public let instanceConnectEndpoint: Ec2InstanceConnectEndpoint?
 
+        @inlinable
         public init(clientToken: String? = nil, instanceConnectEndpoint: Ec2InstanceConnectEndpoint? = nil) {
             self.clientToken = clientToken
             self.instanceConnectEndpoint = instanceConnectEndpoint
@@ -9919,6 +10169,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<InstanceEventWindowTimeRangeRequest>>
         public var timeRanges: [InstanceEventWindowTimeRangeRequest]?
 
+        @inlinable
         public init(cronExpression: String? = nil, dryRun: Bool? = nil, name: String? = nil, tagSpecifications: [TagSpecification]? = nil, timeRanges: [InstanceEventWindowTimeRangeRequest]? = nil) {
             self.cronExpression = cronExpression
             self.dryRun = dryRun
@@ -9946,6 +10197,7 @@ extension EC2 {
         /// Information about the event window.
         public let instanceEventWindow: InstanceEventWindow?
 
+        @inlinable
         public init(instanceEventWindow: InstanceEventWindow? = nil) {
             self.instanceEventWindow = instanceEventWindow
         }
@@ -9970,6 +10222,7 @@ extension EC2 {
         /// The target virtualization environment.
         public let targetEnvironment: ExportEnvironment?
 
+        @inlinable
         public init(description: String? = nil, exportToS3Task: ExportToS3TaskSpecification? = nil, instanceId: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetEnvironment: ExportEnvironment? = nil) {
             self.description = description
             self.exportToS3Task = exportToS3Task
@@ -9991,6 +10244,7 @@ extension EC2 {
         /// Information about the export instance task.
         public let exportTask: ExportTask?
 
+        @inlinable
         public init(exportTask: ExportTask? = nil) {
             self.exportTask = exportTask
         }
@@ -10009,6 +10263,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
@@ -10024,6 +10279,7 @@ extension EC2 {
         /// Information about the internet gateway.
         public let internetGateway: InternetGateway?
 
+        @inlinable
         public init(internetGateway: InternetGateway? = nil) {
             self.internetGateway = internetGateway
         }
@@ -10046,6 +10302,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateIpamExternalResourceVerificationTokenRequest.idempotencyToken(), dryRun: Bool? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -10065,6 +10322,7 @@ extension EC2 {
         /// The verification token.
         public let ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken?
 
+        @inlinable
         public init(ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken? = nil) {
             self.ipamExternalResourceVerificationToken = ipamExternalResourceVerificationToken
         }
@@ -10115,6 +10373,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(addressFamily: AddressFamily? = nil, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, allocationResourceTags: [RequestIpamResourceTag]? = nil, autoImport: Bool? = nil, awsService: IpamPoolAwsService? = nil, clientToken: String? = CreateIpamPoolRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String? = nil, locale: String? = nil, publicIpSource: IpamPoolPublicIpSource? = nil, publiclyAdvertisable: Bool? = nil, sourceIpamPoolId: String? = nil, sourceResource: IpamPoolSourceResourceRequest? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.addressFamily = addressFamily
             self.allocationDefaultNetmaskLength = allocationDefaultNetmaskLength
@@ -10169,6 +10428,7 @@ extension EC2 {
         /// Information about the IPAM pool created.
         public let ipamPool: IpamPool?
 
+        @inlinable
         public init(ipamPool: IpamPool? = nil) {
             self.ipamPool = ipamPool
         }
@@ -10198,6 +10458,7 @@ extension EC2 {
         /// IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
         public let tier: IpamTier?
 
+        @inlinable
         public init(clientToken: String? = CreateIpamRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, enablePrivateGua: Bool? = nil, operatingRegions: [AddIpamOperatingRegion]? = nil, tagSpecifications: [TagSpecification]? = nil, tier: IpamTier? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -10239,6 +10500,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateIpamResourceDiscoveryRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, operatingRegions: [AddIpamOperatingRegion]? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -10264,6 +10526,7 @@ extension EC2 {
         /// An IPAM resource discovery.
         public let ipamResourceDiscovery: IpamResourceDiscovery?
 
+        @inlinable
         public init(ipamResourceDiscovery: IpamResourceDiscovery? = nil) {
             self.ipamResourceDiscovery = ipamResourceDiscovery
         }
@@ -10277,6 +10540,7 @@ extension EC2 {
         /// Information about the IPAM created.
         public let ipam: Ipam?
 
+        @inlinable
         public init(ipam: Ipam? = nil) {
             self.ipam = ipam
         }
@@ -10301,6 +10565,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateIpamScopeRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -10322,6 +10587,7 @@ extension EC2 {
         /// Information about the created scope.
         public let ipamScope: IpamScope?
 
+        @inlinable
         public init(ipamScope: IpamScope? = nil) {
             self.ipamScope = ipamScope
         }
@@ -10346,6 +10612,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, keyFormat: KeyFormat? = nil, keyName: String? = nil, keyType: KeyType? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyFormat = keyFormat
@@ -10380,6 +10647,7 @@ extension EC2 {
         /// A description for the first version of the launch template.
         public let versionDescription: String?
 
+        @inlinable
         public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateName: String? = nil, tagSpecifications: [TagSpecification]? = nil, versionDescription: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -10413,6 +10681,7 @@ extension EC2 {
         /// If the launch template contains parameters or parameter combinations that are not valid, an error code and an error message are returned for each issue that's found.
         public let warning: ValidationWarning?
 
+        @inlinable
         public init(launchTemplate: LaunchTemplate? = nil, warning: ValidationWarning? = nil) {
             self.launchTemplate = launchTemplate
             self.warning = warning
@@ -10442,6 +10711,7 @@ extension EC2 {
         /// A description for the version of the launch template.
         public let versionDescription: String?
 
+        @inlinable
         public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, resolveAlias: Bool? = nil, sourceVersion: String? = nil, versionDescription: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -10479,6 +10749,7 @@ extension EC2 {
         /// If the new version of the launch template contains parameters or parameter combinations that are not valid, an error code and an error message are returned for each issue that's found.
         public let warning: ValidationWarning?
 
+        @inlinable
         public init(launchTemplateVersion: LaunchTemplateVersion? = nil, warning: ValidationWarning? = nil) {
             self.launchTemplateVersion = launchTemplateVersion
             self.warning = warning
@@ -10504,6 +10775,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -10527,6 +10799,7 @@ extension EC2 {
         /// Information about the route.
         public let route: LocalGatewayRoute?
 
+        @inlinable
         public init(route: LocalGatewayRoute? = nil) {
             self.route = route
         }
@@ -10549,6 +10822,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayId: String? = nil, mode: LocalGatewayRouteTableMode? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.localGatewayId = localGatewayId
@@ -10568,6 +10842,7 @@ extension EC2 {
         /// Information about the local gateway route table.
         public let localGatewayRouteTable: LocalGatewayRouteTable?
 
+        @inlinable
         public init(localGatewayRouteTable: LocalGatewayRouteTable? = nil) {
             self.localGatewayRouteTable = localGatewayRouteTable
         }
@@ -10590,6 +10865,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -10609,6 +10885,7 @@ extension EC2 {
         /// Information about the local gateway route table virtual interface group association.
         public let localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation?
 
+        @inlinable
         public init(localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation? = nil) {
             self.localGatewayRouteTableVirtualInterfaceGroupAssociation = localGatewayRouteTableVirtualInterfaceGroupAssociation
         }
@@ -10631,6 +10908,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -10650,6 +10928,7 @@ extension EC2 {
         /// Information about the association.
         public let localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation?
 
+        @inlinable
         public init(localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation? = nil) {
             self.localGatewayRouteTableVpcAssociation = localGatewayRouteTableVpcAssociation
         }
@@ -10679,6 +10958,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(addressFamily: String? = nil, clientToken: String? = CreateManagedPrefixListRequest.idempotencyToken(), dryRun: Bool? = nil, entries: [AddPrefixListEntry]? = nil, maxEntries: Int? = nil, prefixListName: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.addressFamily = addressFamily
             self.clientToken = clientToken
@@ -10708,6 +10988,7 @@ extension EC2 {
         /// Information about the prefix list.
         public let prefixList: ManagedPrefixList?
 
+        @inlinable
         public init(prefixList: ManagedPrefixList? = nil) {
             self.prefixList = prefixList
         }
@@ -10747,6 +11028,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, privateIpAddress: String? = nil, secondaryAllocationIds: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil, secondaryPrivateIpAddresses: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.allocationId = allocationId
             self.clientToken = clientToken
@@ -10785,6 +11067,7 @@ extension EC2 {
         /// Information about the NAT gateway.
         public let natGateway: NatGateway?
 
+        @inlinable
         public init(clientToken: String? = nil, natGateway: NatGateway? = nil) {
             self.clientToken = clientToken
             self.natGateway = natGateway
@@ -10825,6 +11108,7 @@ extension EC2 {
         /// The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number. Constraints: Positive integer from 1 to 32766. The range 32767 to 65535 is reserved for internal use.
         public let ruleNumber: Int?
 
+        @inlinable
         public init(cidrBlock: String? = nil, dryRun: Bool? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, networkAclId: String? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: RuleAction? = nil, ruleNumber: Int? = nil) {
             self.cidrBlock = cidrBlock
             self.dryRun = dryRun
@@ -10865,6 +11149,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateNetworkAclRequest.idempotencyToken(), dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -10886,6 +11171,7 @@ extension EC2 {
         /// Information about the network ACL.
         public let networkAcl: NetworkAcl?
 
+        @inlinable
         public init(clientToken: String? = nil, networkAcl: NetworkAcl? = nil) {
             self.clientToken = clientToken
             self.networkAcl = networkAcl
@@ -10916,6 +11202,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = nil, dryRun: Bool? = nil, excludePaths: [AccessScopePathRequest]? = nil, matchPaths: [AccessScopePathRequest]? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -10939,6 +11226,7 @@ extension EC2 {
         /// The Network Access Scope content.
         public let networkInsightsAccessScopeContent: NetworkInsightsAccessScopeContent?
 
+        @inlinable
         public init(networkInsightsAccessScope: NetworkInsightsAccessScope? = nil, networkInsightsAccessScopeContent: NetworkInsightsAccessScopeContent? = nil) {
             self.networkInsightsAccessScope = networkInsightsAccessScope
             self.networkInsightsAccessScopeContent = networkInsightsAccessScopeContent
@@ -10977,6 +11265,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, filterAtDestination: PathRequestFilter? = nil, filterAtSource: PathRequestFilter? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.destination = destination
@@ -11021,6 +11310,7 @@ extension EC2 {
         /// Information about the path.
         public let networkInsightsPath: NetworkInsightsPath?
 
+        @inlinable
         public init(networkInsightsPath: NetworkInsightsPath? = nil) {
             self.networkInsightsPath = networkInsightsPath
         }
@@ -11044,6 +11334,7 @@ extension EC2 {
         /// The type of permission to grant.
         public let permission: InterfacePermissionType?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsService: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, permission: InterfacePermissionType? = nil) {
             self.awsAccountId = awsAccountId
             self.awsService = awsService
@@ -11065,6 +11356,7 @@ extension EC2 {
         /// Information about the permission for the network interface.
         public let interfacePermission: NetworkInterfacePermission?
 
+        @inlinable
         public init(interfacePermission: NetworkInterfacePermission? = nil) {
             self.interfacePermission = interfacePermission
         }
@@ -11125,6 +11417,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateNetworkInterfaceRequest.idempotencyToken(), connectionTrackingSpecification: ConnectionTrackingSpecificationRequest? = nil, description: String? = nil, dryRun: Bool? = nil, enablePrimaryIpv6: Bool? = nil, groups: [String]? = nil, interfaceType: NetworkInterfaceCreationType? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [Ipv4PrefixSpecificationRequest]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [Ipv6PrefixSpecificationRequest]? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.connectionTrackingSpecification = connectionTrackingSpecification
@@ -11174,6 +11467,7 @@ extension EC2 {
         /// Information about the network interface.
         public let networkInterface: NetworkInterface?
 
+        @inlinable
         public init(clientToken: String? = nil, networkInterface: NetworkInterface? = nil) {
             self.clientToken = clientToken
             self.networkInterface = networkInterface
@@ -11202,6 +11496,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupName: String? = nil, partitionCount: Int? = nil, spreadLevel: SpreadLevel? = nil, strategy: PlacementStrategy? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
@@ -11225,6 +11520,7 @@ extension EC2 {
         /// Information about the placement group.
         public let placementGroup: PlacementGroup?
 
+        @inlinable
         public init(placementGroup: PlacementGroup? = nil) {
             self.placementGroup = placementGroup
         }
@@ -11245,6 +11541,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkBorderGroup: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.networkBorderGroup = networkBorderGroup
@@ -11262,6 +11559,7 @@ extension EC2 {
         /// The ID of the public IPv4 pool.
         public let poolId: String?
 
+        @inlinable
         public init(poolId: String? = nil) {
             self.poolId = poolId
         }
@@ -11290,6 +11588,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateReplaceRootVolumeTaskRequest.idempotencyToken(), deleteReplacedRootVolume: Bool? = nil, dryRun: Bool? = nil, imageId: String? = nil, instanceId: String? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.deleteReplacedRootVolume = deleteReplacedRootVolume
@@ -11315,6 +11614,7 @@ extension EC2 {
         /// Information about the root volume replacement task.
         public let replaceRootVolumeTask: ReplaceRootVolumeTask?
 
+        @inlinable
         public init(replaceRootVolumeTask: ReplaceRootVolumeTask? = nil) {
             self.replaceRootVolumeTask = replaceRootVolumeTask
         }
@@ -11339,6 +11639,7 @@ extension EC2 {
         /// The ID of the active Standard Reserved Instance.
         public let reservedInstancesId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, instanceCount: Int? = nil, priceSchedules: [PriceScheduleSpecification]? = nil, reservedInstancesId: String? = nil) {
             self.clientToken = clientToken
             self.instanceCount = instanceCount
@@ -11361,6 +11662,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesListingsEncoding, ReservedInstancesListing>>
         public var reservedInstancesListings: [ReservedInstancesListing]?
 
+        @inlinable
         public init(reservedInstancesListings: [ReservedInstancesListing]? = nil) {
             self.reservedInstancesListings = reservedInstancesListings
         }
@@ -11387,6 +11689,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(bucket: String? = nil, dryRun: Bool? = nil, name: String? = nil, objectKey: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.bucket = bucket
             self.dryRun = dryRun
@@ -11408,6 +11711,7 @@ extension EC2 {
         /// The AMI ID.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -11452,6 +11756,7 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
@@ -11495,6 +11800,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -11517,6 +11823,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateRouteTableRequest.idempotencyToken(), dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -11538,6 +11845,7 @@ extension EC2 {
         /// Information about the route table.
         public let routeTable: RouteTable?
 
+        @inlinable
         public init(clientToken: String? = nil, routeTable: RouteTable? = nil) {
             self.clientToken = clientToken
             self.routeTable = routeTable
@@ -11564,6 +11872,7 @@ extension EC2 {
         /// The ID of the VPC. Required for a nondefault VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, groupName: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -11590,6 +11899,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(groupId: String? = nil, tags: [Tag]? = nil) {
             self.groupId = groupId
             self.tags = tags
@@ -11616,6 +11926,7 @@ extension EC2 {
         /// The ID of the Amazon EBS volume.
         public let volumeId: String?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -11650,6 +11961,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(copyTagsFromSource: CopyTagsFromSource? = nil, description: String? = nil, dryRun: Bool? = nil, instanceSpecification: InstanceSpecification? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.copyTagsFromSource = copyTagsFromSource
             self.description = description
@@ -11676,6 +11988,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotsEncoding, SnapshotInfo>>
         public var snapshots: [SnapshotInfo]?
 
+        @inlinable
         public init(snapshots: [SnapshotInfo]? = nil) {
             self.snapshots = snapshots
         }
@@ -11693,6 +12006,7 @@ extension EC2 {
         /// The prefix for the data feed file names.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, dryRun: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.dryRun = dryRun
@@ -11710,6 +12024,7 @@ extension EC2 {
         /// The Spot Instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
 
+        @inlinable
         public init(spotDatafeedSubscription: SpotDatafeedSubscription? = nil) {
             self.spotDatafeedSubscription = spotDatafeedSubscription
         }
@@ -11734,6 +12049,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_S3ObjectTagsEncoding, S3ObjectTag>>
         public var s3ObjectTags: [S3ObjectTag]?
 
+        @inlinable
         public init(bucket: String? = nil, dryRun: Bool? = nil, imageId: String? = nil, s3ObjectTags: [S3ObjectTag]? = nil) {
             self.bucket = bucket
             self.dryRun = dryRun
@@ -11753,6 +12069,7 @@ extension EC2 {
         /// The name of the stored AMI object in the S3 bucket.
         public let objectKey: String?
 
+        @inlinable
         public init(objectKey: String? = nil) {
             self.objectKey = objectKey
         }
@@ -11779,6 +12096,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(cidr: String? = nil, description: String? = nil, dryRun: Bool? = nil, reservationType: SubnetCidrReservationType? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.cidr = cidr
             self.description = description
@@ -11802,6 +12120,7 @@ extension EC2 {
         /// Information about the created subnet CIDR reservation.
         public let subnetCidrReservation: SubnetCidrReservation?
 
+        @inlinable
         public init(subnetCidrReservation: SubnetCidrReservation? = nil) {
             self.subnetCidrReservation = subnetCidrReservation
         }
@@ -11842,6 +12161,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, cidrBlock: String? = nil, dryRun: Bool? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6IpamPoolId: String? = nil, ipv6Native: Bool? = nil, ipv6NetmaskLength: Int? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -11879,6 +12199,7 @@ extension EC2 {
         /// Information about the subnet.
         public let subnet: Subnet?
 
+        @inlinable
         public init(subnet: Subnet? = nil) {
             self.subnet = subnet
         }
@@ -11900,6 +12221,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, resources: [String]? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.resources = resources
@@ -11926,6 +12248,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateTrafficMirrorFilterRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -11947,6 +12270,7 @@ extension EC2 {
         /// Information about the Traffic Mirror filter.
         public let trafficMirrorFilter: TrafficMirrorFilter?
 
+        @inlinable
         public init(clientToken: String? = nil, trafficMirrorFilter: TrafficMirrorFilter? = nil) {
             self.clientToken = clientToken
             self.trafficMirrorFilter = trafficMirrorFilter
@@ -11989,6 +12313,7 @@ extension EC2 {
         /// The ID of the filter that this rule is associated with.
         public let trafficMirrorFilterId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateTrafficMirrorFilterRuleRequest.idempotencyToken(), description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, tagSpecifications: [TagSpecification]? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -12028,6 +12353,7 @@ extension EC2 {
         /// The Traffic Mirror rule.
         public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
 
+        @inlinable
         public init(clientToken: String? = nil, trafficMirrorFilterRule: TrafficMirrorFilterRule? = nil) {
             self.clientToken = clientToken
             self.trafficMirrorFilterRule = trafficMirrorFilterRule
@@ -12064,6 +12390,7 @@ extension EC2 {
         /// The VXLAN ID for the Traffic Mirror session. For more information about the VXLAN protocol, see RFC 7348. If you do not specify a VirtualNetworkId, an account-wide unique ID is chosen at random.
         public let virtualNetworkId: Int?
 
+        @inlinable
         public init(clientToken: String? = CreateTrafficMirrorSessionRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, packetLength: Int? = nil, sessionNumber: Int? = nil, tagSpecifications: [TagSpecification]? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -12097,6 +12424,7 @@ extension EC2 {
         /// Information about the Traffic Mirror session.
         public let trafficMirrorSession: TrafficMirrorSession?
 
+        @inlinable
         public init(clientToken: String? = nil, trafficMirrorSession: TrafficMirrorSession? = nil) {
             self.clientToken = clientToken
             self.trafficMirrorSession = trafficMirrorSession
@@ -12127,6 +12455,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateTrafficMirrorTargetRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, gatewayLoadBalancerEndpointId: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -12154,6 +12483,7 @@ extension EC2 {
         /// Information about the Traffic Mirror target.
         public let trafficMirrorTarget: TrafficMirrorTarget?
 
+        @inlinable
         public init(clientToken: String? = nil, trafficMirrorTarget: TrafficMirrorTarget? = nil) {
             self.clientToken = clientToken
             self.trafficMirrorTarget = trafficMirrorTarget
@@ -12186,6 +12516,7 @@ extension EC2 {
         /// The ID of the Connect attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(bgpOptions: TransitGatewayConnectRequestBgpOptions? = nil, dryRun: Bool? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayAddress: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.bgpOptions = bgpOptions
             self.dryRun = dryRun
@@ -12211,6 +12542,7 @@ extension EC2 {
         /// Information about the Connect peer.
         public let transitGatewayConnectPeer: TransitGatewayConnectPeer?
 
+        @inlinable
         public init(transitGatewayConnectPeer: TransitGatewayConnectPeer? = nil) {
             self.transitGatewayConnectPeer = transitGatewayConnectPeer
         }
@@ -12233,6 +12565,7 @@ extension EC2 {
         /// The ID of the transit gateway attachment. You can specify a VPC attachment or Amazon Web Services Direct Connect attachment.
         public let transportTransitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, options: CreateTransitGatewayConnectRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil, transportTransitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
@@ -12252,6 +12585,7 @@ extension EC2 {
         /// The tunnel protocol.
         public let `protocol`: ProtocolValue?
 
+        @inlinable
         public init(protocol: ProtocolValue? = nil) {
             self.`protocol` = `protocol`
         }
@@ -12265,6 +12599,7 @@ extension EC2 {
         /// Information about the Connect attachment.
         public let transitGatewayConnect: TransitGatewayConnect?
 
+        @inlinable
         public init(transitGatewayConnect: TransitGatewayConnect? = nil) {
             self.transitGatewayConnect = transitGatewayConnect
         }
@@ -12287,6 +12622,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, options: CreateTransitGatewayMulticastDomainRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
@@ -12310,6 +12646,7 @@ extension EC2 {
         /// Specify whether to enable support for statically configuring multicast group sources for a domain.
         public let staticSourcesSupport: StaticSourcesSupportValue?
 
+        @inlinable
         public init(autoAcceptSharedAssociations: AutoAcceptSharedAssociationsValue? = nil, igmpv2Support: Igmpv2SupportValue? = nil, staticSourcesSupport: StaticSourcesSupportValue? = nil) {
             self.autoAcceptSharedAssociations = autoAcceptSharedAssociations
             self.igmpv2Support = igmpv2Support
@@ -12327,6 +12664,7 @@ extension EC2 {
         /// Information about the transit gateway multicast domain.
         public let transitGatewayMulticastDomain: TransitGatewayMulticastDomain?
 
+        @inlinable
         public init(transitGatewayMulticastDomain: TransitGatewayMulticastDomain? = nil) {
             self.transitGatewayMulticastDomain = transitGatewayMulticastDomain
         }
@@ -12355,6 +12693,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, options: CreateTransitGatewayPeeringAttachmentRequestOptions? = nil, peerAccountId: String? = nil, peerRegion: String? = nil, peerTransitGatewayId: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
@@ -12380,6 +12719,7 @@ extension EC2 {
         /// Indicates whether dynamic routing is enabled or disabled.
         public let dynamicRouting: DynamicRoutingValue?
 
+        @inlinable
         public init(dynamicRouting: DynamicRoutingValue? = nil) {
             self.dynamicRouting = dynamicRouting
         }
@@ -12393,6 +12733,7 @@ extension EC2 {
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
 
+        @inlinable
         public init(transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment? = nil) {
             self.transitGatewayPeeringAttachment = transitGatewayPeeringAttachment
         }
@@ -12413,6 +12754,7 @@ extension EC2 {
         /// The ID of the transit gateway used for the policy table.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
@@ -12430,6 +12772,7 @@ extension EC2 {
         /// Describes the created transit gateway policy table.
         public let transitGatewayPolicyTable: TransitGatewayPolicyTable?
 
+        @inlinable
         public init(transitGatewayPolicyTable: TransitGatewayPolicyTable? = nil) {
             self.transitGatewayPolicyTable = transitGatewayPolicyTable
         }
@@ -12451,6 +12794,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.dryRun = dryRun
@@ -12472,6 +12816,7 @@ extension EC2 {
         /// Information about the prefix list reference.
         public let transitGatewayPrefixListReference: TransitGatewayPrefixListReference?
 
+        @inlinable
         public init(transitGatewayPrefixListReference: TransitGatewayPrefixListReference? = nil) {
             self.transitGatewayPrefixListReference = transitGatewayPrefixListReference
         }
@@ -12494,6 +12839,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, options: TransitGatewayRequestOptions? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -12513,6 +12859,7 @@ extension EC2 {
         /// Information about the transit gateway.
         public let transitGateway: TransitGateway?
 
+        @inlinable
         public init(transitGateway: TransitGateway? = nil) {
             self.transitGateway = transitGateway
         }
@@ -12534,6 +12881,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(blackhole: Bool? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.destinationCidrBlock = destinationCidrBlock
@@ -12555,6 +12903,7 @@ extension EC2 {
         /// Information about the route.
         public let route: TransitGatewayRoute?
 
+        @inlinable
         public init(route: TransitGatewayRoute? = nil) {
             self.route = route
         }
@@ -12577,6 +12926,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, peeringAttachmentId: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.peeringAttachmentId = peeringAttachmentId
@@ -12596,6 +12946,7 @@ extension EC2 {
         /// Provides details about the transit gateway route table announcement.
         public let transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement?
 
+        @inlinable
         public init(transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement? = nil) {
             self.transitGatewayRouteTableAnnouncement = transitGatewayRouteTableAnnouncement
         }
@@ -12616,6 +12967,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
@@ -12633,6 +12985,7 @@ extension EC2 {
         /// Information about the transit gateway route table.
         public let transitGatewayRouteTable: TransitGatewayRouteTable?
 
+        @inlinable
         public init(transitGatewayRouteTable: TransitGatewayRouteTable? = nil) {
             self.transitGatewayRouteTable = transitGatewayRouteTable
         }
@@ -12661,6 +13014,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, options: CreateTransitGatewayVpcAttachmentRequestOptions? = nil, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.options = options
@@ -12690,6 +13044,7 @@ extension EC2 {
         ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature. If you don't enable or disable SecurityGroupReferencingSupport in the request, the attachment will inherit the security group referencing support setting on the transit gateway.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
 
+        @inlinable
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil) {
             self.applianceModeSupport = applianceModeSupport
             self.dnsSupport = dnsSupport
@@ -12709,6 +13064,7 @@ extension EC2 {
         /// Information about the VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
 
+        @inlinable
         public init(transitGatewayVpcAttachment: TransitGatewayVpcAttachment? = nil) {
             self.transitGatewayVpcAttachment = transitGatewayVpcAttachment
         }
@@ -12726,6 +13082,7 @@ extension EC2 {
         /// The IP protocol.
         public let `protocol`: VerifiedAccessEndpointProtocol?
 
+        @inlinable
         public init(networkInterfaceId: String? = nil, port: Int? = nil, protocol: VerifiedAccessEndpointProtocol? = nil) {
             self.networkInterfaceId = networkInterfaceId
             self.port = port
@@ -12757,6 +13114,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
+        @inlinable
         public init(loadBalancerArn: String? = nil, port: Int? = nil, protocol: VerifiedAccessEndpointProtocol? = nil, subnetIds: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
             self.port = port
@@ -12814,6 +13172,7 @@ extension EC2 {
         /// The ID of the Verified Access group to associate the endpoint with.
         public let verifiedAccessGroupId: String?
 
+        @inlinable
         public init(applicationDomain: String? = nil, attachmentType: VerifiedAccessEndpointAttachmentType? = nil, clientToken: String? = CreateVerifiedAccessEndpointRequest.idempotencyToken(), description: String? = nil, domainCertificateArn: String? = nil, dryRun: Bool? = nil, endpointDomainPrefix: String? = nil, endpointType: VerifiedAccessEndpointType? = nil, loadBalancerOptions: CreateVerifiedAccessEndpointLoadBalancerOptions? = nil, networkInterfaceOptions: CreateVerifiedAccessEndpointEniOptions? = nil, policyDocument: String? = nil, securityGroupIds: [String]? = nil, sseSpecification: VerifiedAccessSseSpecificationRequest? = nil, tagSpecifications: [TagSpecification]? = nil, verifiedAccessGroupId: String? = nil) {
             self.applicationDomain = applicationDomain
             self.attachmentType = attachmentType
@@ -12860,6 +13219,7 @@ extension EC2 {
         /// Details about the Verified Access endpoint.
         public let verifiedAccessEndpoint: VerifiedAccessEndpoint?
 
+        @inlinable
         public init(verifiedAccessEndpoint: VerifiedAccessEndpoint? = nil) {
             self.verifiedAccessEndpoint = verifiedAccessEndpoint
         }
@@ -12888,6 +13248,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateVerifiedAccessGroupRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, policyDocument: String? = nil, sseSpecification: VerifiedAccessSseSpecificationRequest? = nil, tagSpecifications: [TagSpecification]? = nil, verifiedAccessInstanceId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -12913,6 +13274,7 @@ extension EC2 {
         /// Details about the Verified Access group.
         public let verifiedAccessGroup: VerifiedAccessGroup?
 
+        @inlinable
         public init(verifiedAccessGroup: VerifiedAccessGroup? = nil) {
             self.verifiedAccessGroup = verifiedAccessGroup
         }
@@ -12937,6 +13299,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = CreateVerifiedAccessInstanceRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, fipsEnabled: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -12958,6 +13321,7 @@ extension EC2 {
         /// Details about the Verified Access instance.
         public let verifiedAccessInstance: VerifiedAccessInstance?
 
+        @inlinable
         public init(verifiedAccessInstance: VerifiedAccessInstance? = nil) {
             self.verifiedAccessInstance = verifiedAccessInstance
         }
@@ -12973,6 +13337,7 @@ extension EC2 {
         /// The ID of the tenant application with the device-identity provider.
         public let tenantId: String?
 
+        @inlinable
         public init(publicSigningKeyUrl: String? = nil, tenantId: String? = nil) {
             self.publicSigningKeyUrl = publicSigningKeyUrl
             self.tenantId = tenantId
@@ -13000,6 +13365,7 @@ extension EC2 {
         /// The OIDC user info endpoint.
         public let userInfoEndpoint: String?
 
+        @inlinable
         public init(authorizationEndpoint: String? = nil, clientId: String? = nil, clientSecret: String? = nil, issuer: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, userInfoEndpoint: String? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -13048,6 +13414,7 @@ extension EC2 {
         /// The type of user-based trust provider. This parameter is required when the provider type is user.
         public let userTrustProviderType: UserTrustProviderType?
 
+        @inlinable
         public init(clientToken: String? = CreateVerifiedAccessTrustProviderRequest.idempotencyToken(), description: String? = nil, deviceOptions: CreateVerifiedAccessTrustProviderDeviceOptions? = nil, deviceTrustProviderType: DeviceTrustProviderType? = nil, dryRun: Bool? = nil, oidcOptions: CreateVerifiedAccessTrustProviderOidcOptions? = nil, policyReferenceName: String? = nil, sseSpecification: VerifiedAccessSseSpecificationRequest? = nil, tagSpecifications: [TagSpecification]? = nil, trustProviderType: TrustProviderType? = nil, userTrustProviderType: UserTrustProviderType? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -13081,6 +13448,7 @@ extension EC2 {
         /// Details about the Verified Access trust provider.
         public let verifiedAccessTrustProvider: VerifiedAccessTrustProvider?
 
+        @inlinable
         public init(verifiedAccessTrustProvider: VerifiedAccessTrustProvider? = nil) {
             self.verifiedAccessTrustProvider = verifiedAccessTrustProvider
         }
@@ -13096,6 +13464,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services account to be added or removed.
         public let userId: String?
 
+        @inlinable
         public init(group: PermissionGroup? = nil, userId: String? = nil) {
             self.group = group
             self.userId = userId
@@ -13118,6 +13487,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RemoveEncoding, CreateVolumePermission>>
         public var remove: [CreateVolumePermission]?
 
+        @inlinable
         public init(add: [CreateVolumePermission]? = nil, remove: [CreateVolumePermission]? = nil) {
             self.add = add
             self.remove = remove
@@ -13163,6 +13533,7 @@ extension EC2 {
         /// The volume type. This parameter can be one of the following values:   General Purpose SSD: gp2 | gp3    Provisioned IOPS SSD: io1 | io2    Throughput Optimized HDD: st1    Cold HDD: sc1    Magnetic: standard     Throughput Optimized HDD (st1) and Cold HDD (sc1) volumes can't be used as boot volumes.  For more information, see Amazon EBS volume types in the Amazon EBS User Guide. Default: gp2
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(availabilityZone: String? = nil, clientToken: String? = CreateVolumeRequest.idempotencyToken(), dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, throughput: Int? = nil, volumeType: VolumeType? = nil) {
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
@@ -13213,6 +13584,7 @@ extension EC2 {
         /// The ID of the endpoint.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, connectionEvents: [String]? = nil, connectionNotificationArn: String? = nil, dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil) {
             self.clientToken = clientToken
             self.connectionEvents = connectionEvents
@@ -13238,6 +13610,7 @@ extension EC2 {
         /// Information about the notification.
         public let connectionNotification: ConnectionNotification?
 
+        @inlinable
         public init(clientToken: String? = nil, connectionNotification: ConnectionNotification? = nil) {
             self.clientToken = clientToken
             self.connectionNotification = connectionNotification
@@ -13290,6 +13663,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, routeTableIds: [String]? = nil, securityGroupIds: [String]? = nil, serviceName: String? = nil, subnetConfigurations: [SubnetConfiguration]? = nil, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.dnsOptions = dnsOptions
@@ -13331,6 +13705,7 @@ extension EC2 {
         /// Information about the endpoint.
         public let vpcEndpoint: VpcEndpoint?
 
+        @inlinable
         public init(clientToken: String? = nil, vpcEndpoint: VpcEndpoint? = nil) {
             self.clientToken = clientToken
             self.vpcEndpoint = vpcEndpoint
@@ -13369,6 +13744,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, clientToken: String? = nil, dryRun: Bool? = nil, gatewayLoadBalancerArns: [String]? = nil, networkLoadBalancerArns: [String]? = nil, privateDnsName: String? = nil, supportedIpAddressTypes: [String]? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.clientToken = clientToken
@@ -13398,6 +13774,7 @@ extension EC2 {
         /// Information about the service configuration.
         public let serviceConfiguration: ServiceConfiguration?
 
+        @inlinable
         public init(clientToken: String? = nil, serviceConfiguration: ServiceConfiguration? = nil) {
             self.clientToken = clientToken
             self.serviceConfiguration = serviceConfiguration
@@ -13428,6 +13805,7 @@ extension EC2 {
         /// 			request.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, peerOwnerId: String? = nil, peerRegion: String? = nil, peerVpcId: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.peerOwnerId = peerOwnerId
@@ -13451,6 +13829,7 @@ extension EC2 {
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
 
+        @inlinable
         public init(vpcPeeringConnection: VpcPeeringConnection? = nil) {
             self.vpcPeeringConnection = vpcPeeringConnection
         }
@@ -13490,6 +13869,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, dryRun: Bool? = nil, instanceTenancy: Tenancy? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, ipv6Pool: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
             self.cidrBlock = cidrBlock
@@ -13525,6 +13905,7 @@ extension EC2 {
         /// Information about the VPC.
         public let vpc: Vpc?
 
+        @inlinable
         public init(vpc: Vpc? = nil) {
             self.vpc = vpc
         }
@@ -13553,6 +13934,7 @@ extension EC2 {
         /// The ID of the virtual private gateway. If you specify a virtual private gateway, you cannot specify a transit gateway.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnGatewayId: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
@@ -13578,6 +13960,7 @@ extension EC2 {
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
 
+        @inlinable
         public init(vpnConnection: VpnConnection? = nil) {
             self.vpnConnection = vpnConnection
         }
@@ -13593,6 +13976,7 @@ extension EC2 {
         /// The ID of the VPN connection.
         public let vpnConnectionId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, vpnConnectionId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.vpnConnectionId = vpnConnectionId
@@ -13619,6 +14003,7 @@ extension EC2 {
         /// The type of VPN connection this virtual private gateway supports.
         public let type: GatewayType?
 
+        @inlinable
         public init(amazonSideAsn: Int64? = nil, availabilityZone: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.availabilityZone = availabilityZone
@@ -13640,6 +14025,7 @@ extension EC2 {
         /// Information about the virtual private gateway.
         public let vpnGateway: VpnGateway?
 
+        @inlinable
         public init(vpnGateway: VpnGateway? = nil) {
             self.vpnGateway = vpnGateway
         }
@@ -13653,6 +14039,7 @@ extension EC2 {
         /// The credit option for CPU usage of a T instance. Valid values: standard | unlimited
         public let cpuCredits: String?
 
+        @inlinable
         public init(cpuCredits: String? = nil) {
             self.cpuCredits = cpuCredits
         }
@@ -13666,6 +14053,7 @@ extension EC2 {
         /// The credit option for CPU usage of a T instance. Valid values: standard | unlimited
         public let cpuCredits: String?
 
+        @inlinable
         public init(cpuCredits: String? = nil) {
             self.cpuCredits = cpuCredits
         }
@@ -13698,6 +14086,7 @@ extension EC2 {
         /// The type of VPN connection the customer gateway supports (ipsec.1).
         public let type: String?
 
+        @inlinable
         public init(bgpAsn: String? = nil, bgpAsnExtended: String? = nil, certificateArn: String? = nil, customerGatewayId: String? = nil, deviceName: String? = nil, ipAddress: String? = nil, state: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.bgpAsn = bgpAsn
             self.bgpAsnExtended = bgpAsnExtended
@@ -13737,6 +14126,7 @@ extension EC2 {
         /// The metric data aggregation period, p50, between the specified startDate  and endDate. For example, a metric of five_minutes is the median of all  the data points gathered within those five minutes. p50 is the only supported metric.
         public let statistic: StatisticType?
 
+        @inlinable
         public init(destination: String? = nil, id: String? = nil, metric: MetricType? = nil, period: PeriodType? = nil, source: String? = nil, statistic: StatisticType? = nil) {
             self.destination = destination
             self.id = id
@@ -13775,6 +14165,7 @@ extension EC2 {
         /// The statistic used for the network performance request.
         public let statistic: StatisticType?
 
+        @inlinable
         public init(destination: String? = nil, id: String? = nil, metric: MetricType? = nil, metricPoints: [MetricPoint]? = nil, period: PeriodType? = nil, source: String? = nil, statistic: StatisticType? = nil) {
             self.destination = destination
             self.id = id
@@ -13802,6 +14193,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, dryRun: Bool? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.dryRun = dryRun
@@ -13817,6 +14209,7 @@ extension EC2 {
         /// Information about the carrier gateway.
         public let carrierGateway: CarrierGateway?
 
+        @inlinable
         public init(carrierGateway: CarrierGateway? = nil) {
             self.carrierGateway = carrierGateway
         }
@@ -13832,6 +14225,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -13847,6 +14241,7 @@ extension EC2 {
         /// The current state of the Client VPN endpoint.
         public let status: ClientVpnEndpointStatus?
 
+        @inlinable
         public init(status: ClientVpnEndpointStatus? = nil) {
             self.status = status
         }
@@ -13866,6 +14261,7 @@ extension EC2 {
         /// The ID of the target subnet used by the route.
         public let targetVpcSubnetId: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, targetVpcSubnetId: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.destinationCidrBlock = destinationCidrBlock
@@ -13885,6 +14281,7 @@ extension EC2 {
         /// The current state of the route.
         public let status: ClientVpnRouteStatus?
 
+        @inlinable
         public init(status: ClientVpnRouteStatus? = nil) {
             self.status = status
         }
@@ -13902,6 +14299,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(cidr: String? = nil, coipPoolId: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.coipPoolId = coipPoolId
@@ -13919,6 +14317,7 @@ extension EC2 {
         ///  Information about a range of customer-owned IP addresses.
         public let coipCidr: CoipCidr?
 
+        @inlinable
         public init(coipCidr: CoipCidr? = nil) {
             self.coipCidr = coipCidr
         }
@@ -13934,6 +14333,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(coipPoolId: String? = nil, dryRun: Bool? = nil) {
             self.coipPoolId = coipPoolId
             self.dryRun = dryRun
@@ -13949,6 +14349,7 @@ extension EC2 {
         /// Information about the CoIP address pool.
         public let coipPool: CoipPool?
 
+        @inlinable
         public init(coipPool: CoipPool? = nil) {
             self.coipPool = coipPool
         }
@@ -13964,6 +14365,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(customerGatewayId: String? = nil, dryRun: Bool? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
@@ -13981,6 +14383,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dhcpOptionsId: String? = nil, dryRun: Bool? = nil) {
             self.dhcpOptionsId = dhcpOptionsId
             self.dryRun = dryRun
@@ -13998,6 +14401,7 @@ extension EC2 {
         /// The ID of the egress-only internet gateway.
         public let egressOnlyInternetGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
@@ -14013,6 +14417,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnCode: Bool?
 
+        @inlinable
         public init(returnCode: Bool? = nil) {
             self.returnCode = returnCode
         }
@@ -14028,6 +14433,7 @@ extension EC2 {
         /// The description for the error code.
         public let message: String?
 
+        @inlinable
         public init(code: DeleteFleetErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -14045,6 +14451,7 @@ extension EC2 {
         /// The ID of the EC2 Fleet.
         public let fleetId: String?
 
+        @inlinable
         public init(error: DeleteFleetError? = nil, fleetId: String? = nil) {
             self.error = error
             self.fleetId = fleetId
@@ -14064,6 +14471,7 @@ extension EC2 {
         /// The previous state of the EC2 Fleet.
         public let previousFleetState: FleetStateCode?
 
+        @inlinable
         public init(currentFleetState: FleetStateCode? = nil, fleetId: String? = nil, previousFleetState: FleetStateCode? = nil) {
             self.currentFleetState = currentFleetState
             self.fleetId = fleetId
@@ -14086,6 +14494,7 @@ extension EC2 {
         /// Indicates whether to terminate the associated instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify no-terminate-instances. Supported only for fleets of type maintain and request. For instant fleets, you cannot specify NoTerminateInstances. A deleted instant fleet with running instances is not supported.
         public let terminateInstances: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil, fleetIds: [String]? = nil, terminateInstances: Bool? = nil) {
             self.dryRun = dryRun
             self.fleetIds = fleetIds
@@ -14110,6 +14519,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulFleetDeletionsEncoding, DeleteFleetErrorItem>>
         public var unsuccessfulFleetDeletions: [DeleteFleetErrorItem]?
 
+        @inlinable
         public init(successfulFleetDeletions: [DeleteFleetSuccessItem]? = nil, unsuccessfulFleetDeletions: [DeleteFleetErrorItem]? = nil) {
             self.successfulFleetDeletions = successfulFleetDeletions
             self.unsuccessfulFleetDeletions = unsuccessfulFleetDeletions
@@ -14130,6 +14540,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FlowLogIdsEncoding, String>>
         public var flowLogIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, flowLogIds: [String]? = nil) {
             self.dryRun = dryRun
             self.flowLogIds = flowLogIds
@@ -14148,6 +14559,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
         }
@@ -14163,6 +14575,7 @@ extension EC2 {
         /// The ID of the AFI.
         public let fpgaImageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, fpgaImageId: String? = nil) {
             self.dryRun = dryRun
             self.fpgaImageId = fpgaImageId
@@ -14178,6 +14591,7 @@ extension EC2 {
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -14193,6 +14607,7 @@ extension EC2 {
         /// The ID of the EC2 Instance Connect Endpoint to delete.
         public let instanceConnectEndpointId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceConnectEndpointId: String? = nil) {
             self.dryRun = dryRun
             self.instanceConnectEndpointId = instanceConnectEndpointId
@@ -14208,6 +14623,7 @@ extension EC2 {
         /// Information about the EC2 Instance Connect Endpoint.
         public let instanceConnectEndpoint: Ec2InstanceConnectEndpoint?
 
+        @inlinable
         public init(instanceConnectEndpoint: Ec2InstanceConnectEndpoint? = nil) {
             self.instanceConnectEndpoint = instanceConnectEndpoint
         }
@@ -14225,6 +14641,7 @@ extension EC2 {
         /// The ID of the event window.
         public let instanceEventWindowId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, forceDelete: Bool? = nil, instanceEventWindowId: String? = nil) {
             self.dryRun = dryRun
             self.forceDelete = forceDelete
@@ -14242,6 +14659,7 @@ extension EC2 {
         /// The state of the event window.
         public let instanceEventWindowState: InstanceEventWindowStateChange?
 
+        @inlinable
         public init(instanceEventWindowState: InstanceEventWindowStateChange? = nil) {
             self.instanceEventWindowState = instanceEventWindowState
         }
@@ -14257,6 +14675,7 @@ extension EC2 {
         /// The ID of the internet gateway.
         public let internetGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, internetGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.internetGatewayId = internetGatewayId
@@ -14274,6 +14693,7 @@ extension EC2 {
         /// The token ID.
         public let ipamExternalResourceVerificationTokenId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, ipamExternalResourceVerificationTokenId: String? = nil) {
             self.dryRun = dryRun
             self.ipamExternalResourceVerificationTokenId = ipamExternalResourceVerificationTokenId
@@ -14289,6 +14709,7 @@ extension EC2 {
         /// The verification token.
         public let ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken?
 
+        @inlinable
         public init(ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken? = nil) {
             self.ipamExternalResourceVerificationToken = ipamExternalResourceVerificationToken
         }
@@ -14306,6 +14727,7 @@ extension EC2 {
         /// The ID of the pool to delete.
         public let ipamPoolId: String?
 
+        @inlinable
         public init(cascade: Bool? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil) {
             self.cascade = cascade
             self.dryRun = dryRun
@@ -14323,6 +14745,7 @@ extension EC2 {
         /// Information about the results of the deletion.
         public let ipamPool: IpamPool?
 
+        @inlinable
         public init(ipamPool: IpamPool? = nil) {
             self.ipamPool = ipamPool
         }
@@ -14340,6 +14763,7 @@ extension EC2 {
         /// The ID of the IPAM to delete.
         public let ipamId: String?
 
+        @inlinable
         public init(cascade: Bool? = nil, dryRun: Bool? = nil, ipamId: String? = nil) {
             self.cascade = cascade
             self.dryRun = dryRun
@@ -14359,6 +14783,7 @@ extension EC2 {
         /// The IPAM resource discovery ID.
         public let ipamResourceDiscoveryId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, ipamResourceDiscoveryId: String? = nil) {
             self.dryRun = dryRun
             self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
@@ -14374,6 +14799,7 @@ extension EC2 {
         /// The IPAM resource discovery.
         public let ipamResourceDiscovery: IpamResourceDiscovery?
 
+        @inlinable
         public init(ipamResourceDiscovery: IpamResourceDiscovery? = nil) {
             self.ipamResourceDiscovery = ipamResourceDiscovery
         }
@@ -14387,6 +14813,7 @@ extension EC2 {
         /// Information about the results of the deletion.
         public let ipam: Ipam?
 
+        @inlinable
         public init(ipam: Ipam? = nil) {
             self.ipam = ipam
         }
@@ -14402,6 +14829,7 @@ extension EC2 {
         /// The ID of the scope to delete.
         public let ipamScopeId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, ipamScopeId: String? = nil) {
             self.dryRun = dryRun
             self.ipamScopeId = ipamScopeId
@@ -14417,6 +14845,7 @@ extension EC2 {
         /// Information about the results of the deletion.
         public let ipamScope: IpamScope?
 
+        @inlinable
         public init(ipamScope: IpamScope? = nil) {
             self.ipamScope = ipamScope
         }
@@ -14434,6 +14863,7 @@ extension EC2 {
         /// The ID of the key pair.
         public let keyPairId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, keyName: String? = nil, keyPairId: String? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
@@ -14453,6 +14883,7 @@ extension EC2 {
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
 
+        @inlinable
         public init(keyPairId: String? = nil, return: Bool? = nil) {
             self.keyPairId = keyPairId
             self.`return` = `return`
@@ -14472,6 +14903,7 @@ extension EC2 {
         /// The name of the launch template. You must specify either the launch template ID or the launch template name, but not both.
         public let launchTemplateName: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil) {
             self.dryRun = dryRun
             self.launchTemplateId = launchTemplateId
@@ -14495,6 +14927,7 @@ extension EC2 {
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
 
+        @inlinable
         public init(launchTemplate: LaunchTemplate? = nil) {
             self.launchTemplate = launchTemplate
         }
@@ -14517,6 +14950,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VersionsEncoding, String>>
         public var versions: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, versions: [String]? = nil) {
             self.dryRun = dryRun
             self.launchTemplateId = launchTemplateId
@@ -14548,6 +14982,7 @@ extension EC2 {
         /// The version number of the launch template.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, responseError: ResponseError? = nil, versionNumber: Int64? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -14571,6 +15006,7 @@ extension EC2 {
         /// The version number of the launch template.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, versionNumber: Int64? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -14595,6 +15031,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfullyDeletedLaunchTemplateVersionsEncoding, DeleteLaunchTemplateVersionsResponseErrorItem>>
         public var unsuccessfullyDeletedLaunchTemplateVersions: [DeleteLaunchTemplateVersionsResponseErrorItem]?
 
+        @inlinable
         public init(successfullyDeletedLaunchTemplateVersions: [DeleteLaunchTemplateVersionsResponseSuccessItem]? = nil, unsuccessfullyDeletedLaunchTemplateVersions: [DeleteLaunchTemplateVersionsResponseErrorItem]? = nil) {
             self.successfullyDeletedLaunchTemplateVersions = successfullyDeletedLaunchTemplateVersions
             self.unsuccessfullyDeletedLaunchTemplateVersions = unsuccessfullyDeletedLaunchTemplateVersions
@@ -14616,6 +15053,7 @@ extension EC2 {
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -14635,6 +15073,7 @@ extension EC2 {
         /// Information about the route.
         public let route: LocalGatewayRoute?
 
+        @inlinable
         public init(route: LocalGatewayRoute? = nil) {
             self.route = route
         }
@@ -14650,6 +15089,7 @@ extension EC2 {
         ///  The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
@@ -14665,6 +15105,7 @@ extension EC2 {
         /// Information about the local gateway route table.
         public let localGatewayRouteTable: LocalGatewayRouteTable?
 
+        @inlinable
         public init(localGatewayRouteTable: LocalGatewayRouteTable? = nil) {
             self.localGatewayRouteTable = localGatewayRouteTable
         }
@@ -14680,6 +15121,7 @@ extension EC2 {
         ///  The ID of the local gateway route table virtual interface group association.
         public let localGatewayRouteTableVirtualInterfaceGroupAssociationId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableVirtualInterfaceGroupAssociationId = localGatewayRouteTableVirtualInterfaceGroupAssociationId
@@ -14695,6 +15137,7 @@ extension EC2 {
         /// Information about the association.
         public let localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation?
 
+        @inlinable
         public init(localGatewayRouteTableVirtualInterfaceGroupAssociation: LocalGatewayRouteTableVirtualInterfaceGroupAssociation? = nil) {
             self.localGatewayRouteTableVirtualInterfaceGroupAssociation = localGatewayRouteTableVirtualInterfaceGroupAssociation
         }
@@ -14710,6 +15153,7 @@ extension EC2 {
         /// The ID of the association.
         public let localGatewayRouteTableVpcAssociationId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localGatewayRouteTableVpcAssociationId: String? = nil) {
             self.dryRun = dryRun
             self.localGatewayRouteTableVpcAssociationId = localGatewayRouteTableVpcAssociationId
@@ -14725,6 +15169,7 @@ extension EC2 {
         /// Information about the association.
         public let localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation?
 
+        @inlinable
         public init(localGatewayRouteTableVpcAssociation: LocalGatewayRouteTableVpcAssociation? = nil) {
             self.localGatewayRouteTableVpcAssociation = localGatewayRouteTableVpcAssociation
         }
@@ -14740,6 +15185,7 @@ extension EC2 {
         /// The ID of the prefix list.
         public let prefixListId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, prefixListId: String? = nil) {
             self.dryRun = dryRun
             self.prefixListId = prefixListId
@@ -14755,6 +15201,7 @@ extension EC2 {
         /// Information about the prefix list.
         public let prefixList: ManagedPrefixList?
 
+        @inlinable
         public init(prefixList: ManagedPrefixList? = nil) {
             self.prefixList = prefixList
         }
@@ -14770,6 +15217,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, natGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.natGatewayId = natGatewayId
@@ -14785,6 +15233,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(natGatewayId: String? = nil) {
             self.natGatewayId = natGatewayId
         }
@@ -14804,6 +15253,7 @@ extension EC2 {
         /// The rule number of the entry to delete.
         public let ruleNumber: Int?
 
+        @inlinable
         public init(dryRun: Bool? = nil, egress: Bool? = nil, networkAclId: String? = nil, ruleNumber: Int? = nil) {
             self.dryRun = dryRun
             self.egress = egress
@@ -14825,6 +15275,7 @@ extension EC2 {
         /// The ID of the network ACL.
         public let networkAclId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkAclId: String? = nil) {
             self.dryRun = dryRun
             self.networkAclId = networkAclId
@@ -14842,6 +15293,7 @@ extension EC2 {
         /// The ID of the Network Access Scope analysis.
         public let networkInsightsAccessScopeAnalysisId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInsightsAccessScopeAnalysisId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAccessScopeAnalysisId = networkInsightsAccessScopeAnalysisId
@@ -14857,6 +15309,7 @@ extension EC2 {
         /// The ID of the Network Access Scope analysis.
         public let networkInsightsAccessScopeAnalysisId: String?
 
+        @inlinable
         public init(networkInsightsAccessScopeAnalysisId: String? = nil) {
             self.networkInsightsAccessScopeAnalysisId = networkInsightsAccessScopeAnalysisId
         }
@@ -14872,6 +15325,7 @@ extension EC2 {
         /// The ID of the Network Access Scope.
         public let networkInsightsAccessScopeId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInsightsAccessScopeId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAccessScopeId = networkInsightsAccessScopeId
@@ -14887,6 +15341,7 @@ extension EC2 {
         /// The ID of the Network Access Scope.
         public let networkInsightsAccessScopeId: String?
 
+        @inlinable
         public init(networkInsightsAccessScopeId: String? = nil) {
             self.networkInsightsAccessScopeId = networkInsightsAccessScopeId
         }
@@ -14902,6 +15357,7 @@ extension EC2 {
         /// The ID of the network insights analysis.
         public let networkInsightsAnalysisId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInsightsAnalysisId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAnalysisId = networkInsightsAnalysisId
@@ -14917,6 +15373,7 @@ extension EC2 {
         /// The ID of the network insights analysis.
         public let networkInsightsAnalysisId: String?
 
+        @inlinable
         public init(networkInsightsAnalysisId: String? = nil) {
             self.networkInsightsAnalysisId = networkInsightsAnalysisId
         }
@@ -14932,6 +15389,7 @@ extension EC2 {
         /// The ID of the path.
         public let networkInsightsPathId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInsightsPathId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsPathId = networkInsightsPathId
@@ -14947,6 +15405,7 @@ extension EC2 {
         /// The ID of the path.
         public let networkInsightsPathId: String?
 
+        @inlinable
         public init(networkInsightsPathId: String? = nil) {
             self.networkInsightsPathId = networkInsightsPathId
         }
@@ -14967,6 +15426,7 @@ extension EC2 {
         /// The ID of the network interface permission.
         public let networkInterfacePermissionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, force: Bool? = nil, networkInterfacePermissionId: String? = nil) {
             self.dryRun = dryRun
             self.force = force
@@ -14984,6 +15444,7 @@ extension EC2 {
         /// Returns true if the request succeeds, otherwise returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -14999,6 +15460,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInterfaceId: String? = nil) {
             self.dryRun = dryRun
             self.networkInterfaceId = networkInterfaceId
@@ -15016,6 +15478,7 @@ extension EC2 {
         /// The name of the placement group.
         public let groupName: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupName: String? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
@@ -15035,6 +15498,7 @@ extension EC2 {
         /// The ID of the public IPv4 pool you want to delete.
         public let poolId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkBorderGroup: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.networkBorderGroup = networkBorderGroup
@@ -15052,6 +15516,7 @@ extension EC2 {
         /// Information about the result of deleting the public IPv4 pool.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -15067,6 +15532,7 @@ extension EC2 {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: DeleteQueuedReservedInstancesErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -15087,6 +15553,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesIdsEncoding, String>>
         public var reservedInstancesIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, reservedInstancesIds: [String]? = nil) {
             self.dryRun = dryRun
             self.reservedInstancesIds = reservedInstancesIds
@@ -15114,6 +15581,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SuccessfulQueuedPurchaseDeletionsEncoding, SuccessfulQueuedPurchaseDeletion>>
         public var successfulQueuedPurchaseDeletions: [SuccessfulQueuedPurchaseDeletion]?
 
+        @inlinable
         public init(failedQueuedPurchaseDeletions: [FailedQueuedPurchaseDeletion]? = nil, successfulQueuedPurchaseDeletions: [SuccessfulQueuedPurchaseDeletion]? = nil) {
             self.failedQueuedPurchaseDeletions = failedQueuedPurchaseDeletions
             self.successfulQueuedPurchaseDeletions = successfulQueuedPurchaseDeletions
@@ -15137,6 +15605,7 @@ extension EC2 {
         /// The ID of the route table.
         public let routeTableId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, routeTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
@@ -15160,6 +15629,7 @@ extension EC2 {
         /// The ID of the route table.
         public let routeTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, routeTableId: String? = nil) {
             self.dryRun = dryRun
             self.routeTableId = routeTableId
@@ -15179,6 +15649,7 @@ extension EC2 {
         /// [Default VPC] The name of the security group. You can specify either the security group name or the security group ID. For security groups in a nondefault VPC, you must specify the security group ID.
         public let groupName: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupId: String? = nil, groupName: String? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
@@ -15198,6 +15669,7 @@ extension EC2 {
         /// The ID of the EBS snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
@@ -15213,6 +15685,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -15228,6 +15701,7 @@ extension EC2 {
         /// The ID of the subnet CIDR reservation.
         public let subnetCidrReservationId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, subnetCidrReservationId: String? = nil) {
             self.dryRun = dryRun
             self.subnetCidrReservationId = subnetCidrReservationId
@@ -15243,6 +15717,7 @@ extension EC2 {
         /// Information about the deleted subnet CIDR reservation.
         public let deletedSubnetCidrReservation: SubnetCidrReservation?
 
+        @inlinable
         public init(deletedSubnetCidrReservation: SubnetCidrReservation? = nil) {
             self.deletedSubnetCidrReservation = deletedSubnetCidrReservation
         }
@@ -15258,6 +15733,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, subnetId: String? = nil) {
             self.dryRun = dryRun
             self.subnetId = subnetId
@@ -15281,6 +15757,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, resources: [String]? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.resources = resources
@@ -15300,6 +15777,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, trafficMirrorFilterId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorFilterId = trafficMirrorFilterId
@@ -15315,6 +15793,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
 
+        @inlinable
         public init(trafficMirrorFilterId: String? = nil) {
             self.trafficMirrorFilterId = trafficMirrorFilterId
         }
@@ -15330,6 +15809,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, trafficMirrorFilterRuleId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
@@ -15345,6 +15825,7 @@ extension EC2 {
         /// The ID of the deleted Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String?
 
+        @inlinable
         public init(trafficMirrorFilterRuleId: String? = nil) {
             self.trafficMirrorFilterRuleId = trafficMirrorFilterRuleId
         }
@@ -15360,6 +15841,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror session.
         public let trafficMirrorSessionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, trafficMirrorSessionId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorSessionId = trafficMirrorSessionId
@@ -15375,6 +15857,7 @@ extension EC2 {
         /// The ID of the deleted Traffic Mirror session.
         public let trafficMirrorSessionId: String?
 
+        @inlinable
         public init(trafficMirrorSessionId: String? = nil) {
             self.trafficMirrorSessionId = trafficMirrorSessionId
         }
@@ -15390,6 +15873,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror target.
         public let trafficMirrorTargetId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, trafficMirrorTargetId: String? = nil) {
             self.dryRun = dryRun
             self.trafficMirrorTargetId = trafficMirrorTargetId
@@ -15405,6 +15889,7 @@ extension EC2 {
         /// The ID of the deleted Traffic Mirror target.
         public let trafficMirrorTargetId: String?
 
+        @inlinable
         public init(trafficMirrorTargetId: String? = nil) {
             self.trafficMirrorTargetId = trafficMirrorTargetId
         }
@@ -15420,6 +15905,7 @@ extension EC2 {
         /// The ID of the Connect peer.
         public let transitGatewayConnectPeerId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayConnectPeerId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayConnectPeerId = transitGatewayConnectPeerId
@@ -15435,6 +15921,7 @@ extension EC2 {
         /// Information about the deleted Connect peer.
         public let transitGatewayConnectPeer: TransitGatewayConnectPeer?
 
+        @inlinable
         public init(transitGatewayConnectPeer: TransitGatewayConnectPeer? = nil) {
             self.transitGatewayConnectPeer = transitGatewayConnectPeer
         }
@@ -15450,6 +15937,7 @@ extension EC2 {
         /// The ID of the Connect attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -15465,6 +15953,7 @@ extension EC2 {
         /// Information about the deleted Connect attachment.
         public let transitGatewayConnect: TransitGatewayConnect?
 
+        @inlinable
         public init(transitGatewayConnect: TransitGatewayConnect? = nil) {
             self.transitGatewayConnect = transitGatewayConnect
         }
@@ -15480,6 +15969,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
@@ -15495,6 +15985,7 @@ extension EC2 {
         /// Information about the deleted transit gateway multicast domain.
         public let transitGatewayMulticastDomain: TransitGatewayMulticastDomain?
 
+        @inlinable
         public init(transitGatewayMulticastDomain: TransitGatewayMulticastDomain? = nil) {
             self.transitGatewayMulticastDomain = transitGatewayMulticastDomain
         }
@@ -15510,6 +16001,7 @@ extension EC2 {
         /// The ID of the transit gateway peering attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -15525,6 +16017,7 @@ extension EC2 {
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
 
+        @inlinable
         public init(transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment? = nil) {
             self.transitGatewayPeeringAttachment = transitGatewayPeeringAttachment
         }
@@ -15540,6 +16033,7 @@ extension EC2 {
         /// The transit gateway policy table to delete.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
@@ -15555,6 +16049,7 @@ extension EC2 {
         /// Provides details about the deleted transit gateway policy table.
         public let transitGatewayPolicyTable: TransitGatewayPolicyTable?
 
+        @inlinable
         public init(transitGatewayPolicyTable: TransitGatewayPolicyTable? = nil) {
             self.transitGatewayPolicyTable = transitGatewayPolicyTable
         }
@@ -15572,6 +16067,7 @@ extension EC2 {
         /// The ID of the route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, prefixListId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.prefixListId = prefixListId
@@ -15589,6 +16085,7 @@ extension EC2 {
         /// Information about the deleted prefix list reference.
         public let transitGatewayPrefixListReference: TransitGatewayPrefixListReference?
 
+        @inlinable
         public init(transitGatewayPrefixListReference: TransitGatewayPrefixListReference? = nil) {
             self.transitGatewayPrefixListReference = transitGatewayPrefixListReference
         }
@@ -15604,6 +16101,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayId = transitGatewayId
@@ -15619,6 +16117,7 @@ extension EC2 {
         /// Information about the deleted transit gateway.
         public let transitGateway: TransitGateway?
 
+        @inlinable
         public init(transitGateway: TransitGateway? = nil) {
             self.transitGateway = transitGateway
         }
@@ -15636,6 +16135,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, transitGatewayRouteTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.dryRun = dryRun
@@ -15653,6 +16153,7 @@ extension EC2 {
         /// Information about the route.
         public let route: TransitGatewayRoute?
 
+        @inlinable
         public init(route: TransitGatewayRoute? = nil) {
             self.route = route
         }
@@ -15668,6 +16169,7 @@ extension EC2 {
         /// The transit gateway route table ID that's being deleted.
         public let transitGatewayRouteTableAnnouncementId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayRouteTableAnnouncementId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayRouteTableAnnouncementId = transitGatewayRouteTableAnnouncementId
@@ -15683,6 +16185,7 @@ extension EC2 {
         /// Provides details about a deleted transit gateway route table.
         public let transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement?
 
+        @inlinable
         public init(transitGatewayRouteTableAnnouncement: TransitGatewayRouteTableAnnouncement? = nil) {
             self.transitGatewayRouteTableAnnouncement = transitGatewayRouteTableAnnouncement
         }
@@ -15698,6 +16201,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -15713,6 +16217,7 @@ extension EC2 {
         /// Information about the deleted transit gateway route table.
         public let transitGatewayRouteTable: TransitGatewayRouteTable?
 
+        @inlinable
         public init(transitGatewayRouteTable: TransitGatewayRouteTable? = nil) {
             self.transitGatewayRouteTable = transitGatewayRouteTable
         }
@@ -15728,6 +16233,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -15743,6 +16249,7 @@ extension EC2 {
         /// Information about the deleted VPC attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
 
+        @inlinable
         public init(transitGatewayVpcAttachment: TransitGatewayVpcAttachment? = nil) {
             self.transitGatewayVpcAttachment = transitGatewayVpcAttachment
         }
@@ -15760,6 +16267,7 @@ extension EC2 {
         /// The ID of the Verified Access endpoint.
         public let verifiedAccessEndpointId: String?
 
+        @inlinable
         public init(clientToken: String? = DeleteVerifiedAccessEndpointRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessEndpointId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -15777,6 +16285,7 @@ extension EC2 {
         /// Details about the Verified Access endpoint.
         public let verifiedAccessEndpoint: VerifiedAccessEndpoint?
 
+        @inlinable
         public init(verifiedAccessEndpoint: VerifiedAccessEndpoint? = nil) {
             self.verifiedAccessEndpoint = verifiedAccessEndpoint
         }
@@ -15794,6 +16303,7 @@ extension EC2 {
         /// The ID of the Verified Access group.
         public let verifiedAccessGroupId: String?
 
+        @inlinable
         public init(clientToken: String? = DeleteVerifiedAccessGroupRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessGroupId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -15811,6 +16321,7 @@ extension EC2 {
         /// Details about the Verified Access group.
         public let verifiedAccessGroup: VerifiedAccessGroup?
 
+        @inlinable
         public init(verifiedAccessGroup: VerifiedAccessGroup? = nil) {
             self.verifiedAccessGroup = verifiedAccessGroup
         }
@@ -15828,6 +16339,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(clientToken: String? = DeleteVerifiedAccessInstanceRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessInstanceId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -15845,6 +16357,7 @@ extension EC2 {
         /// Details about the Verified Access instance.
         public let verifiedAccessInstance: VerifiedAccessInstance?
 
+        @inlinable
         public init(verifiedAccessInstance: VerifiedAccessInstance? = nil) {
             self.verifiedAccessInstance = verifiedAccessInstance
         }
@@ -15862,6 +16375,7 @@ extension EC2 {
         /// The ID of the Verified Access trust provider.
         public let verifiedAccessTrustProviderId: String?
 
+        @inlinable
         public init(clientToken: String? = DeleteVerifiedAccessTrustProviderRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessTrustProviderId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -15879,6 +16393,7 @@ extension EC2 {
         /// Details about the Verified Access trust provider.
         public let verifiedAccessTrustProvider: VerifiedAccessTrustProvider?
 
+        @inlinable
         public init(verifiedAccessTrustProvider: VerifiedAccessTrustProvider? = nil) {
             self.verifiedAccessTrustProvider = verifiedAccessTrustProvider
         }
@@ -15894,6 +16409,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, volumeId: String? = nil) {
             self.dryRun = dryRun
             self.volumeId = volumeId
@@ -15914,6 +16430,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(connectionNotificationIds: [String]? = nil, dryRun: Bool? = nil) {
             self.connectionNotificationIds = connectionNotificationIds
             self.dryRun = dryRun
@@ -15932,6 +16449,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
         }
@@ -15950,6 +16468,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ServiceIdsEncoding, String>>
         public var serviceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, serviceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.serviceIds = serviceIds
@@ -15968,6 +16487,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
         }
@@ -15986,6 +16506,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcEndpointIdsEncoding, String>>
         public var vpcEndpointIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.vpcEndpointIds = vpcEndpointIds
@@ -16004,6 +16525,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
         }
@@ -16019,6 +16541,7 @@ extension EC2 {
         /// The ID of the VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -16034,6 +16557,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -16049,6 +16573,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -16066,6 +16591,7 @@ extension EC2 {
         /// The ID of the VPN connection.
         public let vpnConnectionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpnConnectionId = vpnConnectionId
@@ -16083,6 +16609,7 @@ extension EC2 {
         /// The ID of the VPN connection.
         public let vpnConnectionId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, vpnConnectionId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.vpnConnectionId = vpnConnectionId
@@ -16100,6 +16627,7 @@ extension EC2 {
         /// The ID of the virtual private gateway.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpnGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.vpnGatewayId = vpnGatewayId
@@ -16117,6 +16645,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -16132,6 +16661,7 @@ extension EC2 {
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -16149,6 +16679,7 @@ extension EC2 {
         /// The IPAM ID.
         public let ipamId: String?
 
+        @inlinable
         public init(asn: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil) {
             self.asn = asn
             self.dryRun = dryRun
@@ -16166,6 +16697,7 @@ extension EC2 {
         /// An ASN and BYOIP CIDR association.
         public let byoasn: Byoasn?
 
+        @inlinable
         public init(byoasn: Byoasn? = nil) {
             self.byoasn = byoasn
         }
@@ -16183,6 +16715,7 @@ extension EC2 {
         /// The ID of the pool that has the CIDR you want to deprovision.
         public let ipamPoolId: String?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -16200,6 +16733,7 @@ extension EC2 {
         /// The deprovisioned pool CIDR.
         public let ipamPoolCidr: IpamPoolCidr?
 
+        @inlinable
         public init(ipamPoolCidr: IpamPoolCidr? = nil) {
             self.ipamPoolCidr = ipamPoolCidr
         }
@@ -16217,6 +16751,7 @@ extension EC2 {
         /// The ID of the pool that you want to deprovision the CIDR from.
         public let poolId: String?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil, poolId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -16239,6 +16774,7 @@ extension EC2 {
         /// The ID of the pool that you deprovisioned the CIDR from.
         public let poolId: String?
 
+        @inlinable
         public init(deprovisionedAddresses: [String]? = nil, poolId: String? = nil) {
             self.deprovisionedAddresses = deprovisionedAddresses
             self.poolId = poolId
@@ -16258,6 +16794,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -16275,6 +16812,7 @@ extension EC2 {
         /// Information about the tag keys to deregister.
         public let instanceTagAttribute: DeregisterInstanceTagAttributeRequest?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceTagAttribute: DeregisterInstanceTagAttributeRequest? = nil) {
             self.dryRun = dryRun
             self.instanceTagAttribute = instanceTagAttribute
@@ -16290,6 +16828,7 @@ extension EC2 {
         /// The resulting set of tag keys.
         public let instanceTagAttribute: InstanceTagNotificationAttribute?
 
+        @inlinable
         public init(instanceTagAttribute: InstanceTagNotificationAttribute? = nil) {
             self.instanceTagAttribute = instanceTagAttribute
         }
@@ -16308,6 +16847,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagKeysEncoding, String>>
         public var instanceTagKeys: [String]?
 
+        @inlinable
         public init(includeAllTagsOfInstance: Bool? = nil, instanceTagKeys: [String]? = nil) {
             self.includeAllTagsOfInstance = includeAllTagsOfInstance
             self.instanceTagKeys = instanceTagKeys
@@ -16332,6 +16872,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupIpAddress: String? = nil, networkInterfaceIds: [String]? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.groupIpAddress = groupIpAddress
@@ -16351,6 +16892,7 @@ extension EC2 {
         /// Information about the deregistered members.
         public let deregisteredMulticastGroupMembers: TransitGatewayMulticastDeregisteredGroupMembers?
 
+        @inlinable
         public init(deregisteredMulticastGroupMembers: TransitGatewayMulticastDeregisteredGroupMembers? = nil) {
             self.deregisteredMulticastGroupMembers = deregisteredMulticastGroupMembers
         }
@@ -16373,6 +16915,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupIpAddress: String? = nil, networkInterfaceIds: [String]? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.groupIpAddress = groupIpAddress
@@ -16392,6 +16935,7 @@ extension EC2 {
         /// Information about the deregistered group sources.
         public let deregisteredMulticastGroupSources: TransitGatewayMulticastDeregisteredGroupSources?
 
+        @inlinable
         public init(deregisteredMulticastGroupSources: TransitGatewayMulticastDeregisteredGroupSources? = nil) {
             self.deregisteredMulticastGroupSources = deregisteredMulticastGroupSources
         }
@@ -16410,6 +16954,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(attributeNames: [AccountAttributeName]? = nil, dryRun: Bool? = nil) {
             self.attributeNames = attributeNames
             self.dryRun = dryRun
@@ -16428,6 +16973,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_AccountAttributesEncoding, AccountAttribute>>
         public var accountAttributes: [AccountAttribute]?
 
+        @inlinable
         public init(accountAttributes: [AccountAttribute]? = nil) {
             self.accountAttributes = accountAttributes
         }
@@ -16450,6 +16996,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(allocationIds: [String]? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.allocationIds = allocationIds
             self.dryRun = dryRun
@@ -16479,6 +17026,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(addressTransfers: [AddressTransfer]? = nil, nextToken: String? = nil) {
             self.addressTransfers = addressTransfers
             self.nextToken = nextToken
@@ -16505,6 +17053,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(allocationIds: [String]? = nil, attribute: AddressAttributeName? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.allocationIds = allocationIds
             self.attribute = attribute
@@ -16536,6 +17085,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(addresses: [AddressAttribute]? = nil, nextToken: String? = nil) {
             self.addresses = addresses
             self.nextToken = nextToken
@@ -16564,6 +17114,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PublicIpsEncoding, String>>
         public var publicIps: [String]?
 
+        @inlinable
         public init(allocationIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, publicIps: [String]? = nil) {
             self.allocationIds = allocationIds
             self.dryRun = dryRun
@@ -16586,6 +17137,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_AddressesEncoding, Address>>
         public var addresses: [Address]?
 
+        @inlinable
         public init(addresses: [Address]? = nil) {
             self.addresses = addresses
         }
@@ -16599,6 +17151,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -16617,6 +17170,7 @@ extension EC2 {
         /// Indicates whether all resource types in the Region are configured to use longer IDs. This value is only true if all users are configured to use longer IDs for all resources types in the Region.
         public let useLongIdsAggregated: Bool?
 
+        @inlinable
         public init(statuses: [IdFormat]? = nil, useLongIdsAggregated: Bool? = nil) {
             self.statuses = statuses
             self.useLongIdsAggregated = useLongIdsAggregated
@@ -16647,6 +17201,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ZoneNamesEncoding, String>>
         public var zoneNames: [String]?
 
+        @inlinable
         public init(allAvailabilityZones: Bool? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, zoneIds: [String]? = nil, zoneNames: [String]? = nil) {
             self.allAvailabilityZones = allAvailabilityZones
             self.dryRun = dryRun
@@ -16671,6 +17226,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>>
         public var availabilityZones: [AvailabilityZone]?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil) {
             self.availabilityZones = availabilityZones
         }
@@ -16693,6 +17249,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -16722,6 +17279,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubscriptionsEncoding, Subscription>>
         public var subscriptions: [Subscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -16748,6 +17306,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
 
+        @inlinable
         public init(bundleIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil) {
             self.bundleIds = bundleIds
             self.dryRun = dryRun
@@ -16768,6 +17327,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_BundleTasksEncoding, BundleTask>>
         public var bundleTasks: [BundleTask]?
 
+        @inlinable
         public init(bundleTasks: [BundleTask]? = nil) {
             self.bundleTasks = bundleTasks
         }
@@ -16786,6 +17346,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -16813,6 +17374,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(byoipCidrs: [ByoipCidr]? = nil, nextToken: String? = nil) {
             self.byoipCidrs = byoipCidrs
             self.nextToken = nextToken
@@ -16842,6 +17404,7 @@ extension EC2 {
         /// The earliest start date for the Capacity Block offering.
         public let startDateRange: Date?
 
+        @inlinable
         public init(capacityDurationHours: Int? = nil, dryRun: Bool? = nil, endDateRange: Date? = nil, instanceCount: Int? = nil, instanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startDateRange: Date? = nil) {
             self.capacityDurationHours = capacityDurationHours
             self.dryRun = dryRun
@@ -16879,6 +17442,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityBlockOfferings: [CapacityBlockOffering]? = nil, nextToken: String? = nil) {
             self.capacityBlockOfferings = capacityBlockOfferings
             self.nextToken = nextToken
@@ -16909,6 +17473,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservationFleetIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityReservationFleetIds = capacityReservationFleetIds
             self.dryRun = dryRun
@@ -16940,6 +17505,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservationFleets: [CapacityReservationFleet]? = nil, nextToken: String? = nil) {
             self.capacityReservationFleets = capacityReservationFleets
             self.nextToken = nextToken
@@ -16978,6 +17544,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservationIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityReservationIds = capacityReservationIds
             self.dryRun = dryRun
@@ -17009,6 +17576,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservations: [CapacityReservation]? = nil, nextToken: String? = nil) {
             self.capacityReservations = capacityReservations
             self.nextToken = nextToken
@@ -17037,6 +17605,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(carrierGatewayIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.carrierGatewayIds = carrierGatewayIds
             self.dryRun = dryRun
@@ -17068,6 +17637,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(carrierGateways: [CarrierGateway]? = nil, nextToken: String? = nil) {
             self.carrierGateways = carrierGateways
             self.nextToken = nextToken
@@ -17098,6 +17668,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -17129,6 +17700,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [ClassicLinkInstance]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -17155,6 +17727,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -17186,6 +17759,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(authorizationRules: [AuthorizationRule]? = nil, nextToken: String? = nil) {
             self.authorizationRules = authorizationRules
             self.nextToken = nextToken
@@ -17212,6 +17786,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -17243,6 +17818,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(connections: [ClientVpnConnection]? = nil, nextToken: String? = nil) {
             self.connections = connections
             self.nextToken = nextToken
@@ -17271,6 +17847,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpnEndpointIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointIds = clientVpnEndpointIds
             self.dryRun = dryRun
@@ -17302,6 +17879,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpnEndpoints: [ClientVpnEndpoint]? = nil, nextToken: String? = nil) {
             self.clientVpnEndpoints = clientVpnEndpoints
             self.nextToken = nextToken
@@ -17328,6 +17906,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -17359,6 +17938,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RoutesEncoding, ClientVpnRoute>>
         public var routes: [ClientVpnRoute]?
 
+        @inlinable
         public init(nextToken: String? = nil, routes: [ClientVpnRoute]? = nil) {
             self.nextToken = nextToken
             self.routes = routes
@@ -17389,6 +17969,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(associationIds: [String]? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationIds = associationIds
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -17422,6 +18003,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpnTargetNetworks: [TargetNetwork]? = nil, nextToken: String? = nil) {
             self.clientVpnTargetNetworks = clientVpnTargetNetworks
             self.nextToken = nextToken
@@ -17451,6 +18033,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PoolIdsEncoding, String>>
         public var poolIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -17482,6 +18065,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(coipPools: [CoipPool]? = nil, nextToken: String? = nil) {
             self.coipPools = coipPools
             self.nextToken = nextToken
@@ -17502,6 +18086,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(conversionTaskIds: [String]? = nil, dryRun: Bool? = nil) {
             self.conversionTaskIds = conversionTaskIds
             self.dryRun = dryRun
@@ -17520,6 +18105,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ConversionTasksEncoding, ConversionTask>>
         public var conversionTasks: [ConversionTask]?
 
+        @inlinable
         public init(conversionTasks: [ConversionTask]? = nil) {
             self.conversionTasks = conversionTasks
         }
@@ -17542,6 +18128,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
 
+        @inlinable
         public init(customerGatewayIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil) {
             self.customerGatewayIds = customerGatewayIds
             self.dryRun = dryRun
@@ -17562,6 +18149,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_CustomerGatewaysEncoding, CustomerGateway>>
         public var customerGateways: [CustomerGateway]?
 
+        @inlinable
         public init(customerGateways: [CustomerGateway]? = nil) {
             self.customerGateways = customerGateways
         }
@@ -17590,6 +18178,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dhcpOptionsIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dhcpOptionsIds = dhcpOptionsIds
             self.dryRun = dryRun
@@ -17621,6 +18210,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(dhcpOptions: [DhcpOptions]? = nil, nextToken: String? = nil) {
             self.dhcpOptions = dhcpOptions
             self.nextToken = nextToken
@@ -17651,6 +18241,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, egressOnlyInternetGatewayIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.egressOnlyInternetGatewayIds = egressOnlyInternetGatewayIds
@@ -17682,6 +18273,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(egressOnlyInternetGateways: [EgressOnlyInternetGateway]? = nil, nextToken: String? = nil) {
             self.egressOnlyInternetGateways = egressOnlyInternetGateways
             self.nextToken = nextToken
@@ -17710,6 +18302,7 @@ extension EC2 {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, elasticGpuIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.elasticGpuIds = elasticGpuIds
@@ -17743,6 +18336,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(elasticGpuSet: [ElasticGpus]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.elasticGpuSet = elasticGpuSet
             self.maxResults = maxResults
@@ -17773,6 +18367,7 @@ extension EC2 {
         /// A token that indicates the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, exportImageTaskIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.exportImageTaskIds = exportImageTaskIds
@@ -17804,6 +18399,7 @@ extension EC2 {
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(exportImageTasks: [ExportImageTask]? = nil, nextToken: String? = nil) {
             self.exportImageTasks = exportImageTasks
             self.nextToken = nextToken
@@ -17826,6 +18422,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
 
+        @inlinable
         public init(exportTaskIds: [String]? = nil, filters: [Filter]? = nil) {
             self.exportTaskIds = exportTaskIds
             self.filters = filters
@@ -17844,6 +18441,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ExportTasksEncoding, ExportTask>>
         public var exportTasks: [ExportTask]?
 
+        @inlinable
         public init(exportTasks: [ExportTask]? = nil) {
             self.exportTasks = exportTasks
         }
@@ -17873,6 +18471,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -17905,6 +18504,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(fastLaunchImages: [DescribeFastLaunchImagesSuccessItem]? = nil, nextToken: String? = nil) {
             self.fastLaunchImages = fastLaunchImages
             self.nextToken = nextToken
@@ -17940,6 +18540,7 @@ extension EC2 {
         /// The time that Windows fast launch for the AMI changed to the current state.
         public let stateTransitionTime: Date?
 
+        @inlinable
         public init(imageId: String? = nil, launchTemplate: FastLaunchLaunchTemplateSpecificationResponse? = nil, maxParallelLaunches: Int? = nil, ownerId: String? = nil, resourceType: FastLaunchResourceType? = nil, snapshotConfiguration: FastLaunchSnapshotConfigurationResponse? = nil, state: FastLaunchStateCode? = nil, stateTransitionReason: String? = nil, stateTransitionTime: Date? = nil) {
             self.imageId = imageId
             self.launchTemplate = launchTemplate
@@ -17989,6 +18590,7 @@ extension EC2 {
         /// The reason for the state transition. The possible values are as follows:    Client.UserInitiated - The state successfully transitioned to enabling or disabling.    Client.UserInitiated - Lifecycle state transition - The state successfully transitioned  to optimizing, enabled, or disabled.
         public let stateTransitionReason: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.disabledTime = disabledTime
@@ -18033,6 +18635,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -18062,6 +18665,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(fastSnapshotRestores: [DescribeFastSnapshotRestoreSuccessItem]? = nil, nextToken: String? = nil) {
             self.fastSnapshotRestores = fastSnapshotRestores
             self.nextToken = nextToken
@@ -18083,6 +18687,7 @@ extension EC2 {
         /// Indicates if the instance that could not be launched was a Spot Instance or On-Demand Instance.
         public let lifecycle: InstanceLifecycle?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse? = nil, lifecycle: InstanceLifecycle? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -18113,6 +18718,7 @@ extension EC2 {
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
 
+        @inlinable
         public init(dryRun: Bool? = nil, eventType: FleetEventType? = nil, fleetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.dryRun = dryRun
             self.eventType = eventType
@@ -18147,6 +18753,7 @@ extension EC2 {
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
 
+        @inlinable
         public init(fleetId: String? = nil, historyRecords: [HistoryRecordEntry]? = nil, lastEvaluatedTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.fleetId = fleetId
             self.historyRecords = historyRecords
@@ -18180,6 +18787,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fleetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -18208,6 +18816,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(activeInstances: [ActiveInstance]? = nil, fleetId: String? = nil, nextToken: String? = nil) {
             self.activeInstances = activeInstances
             self.fleetId = fleetId
@@ -18236,6 +18845,7 @@ extension EC2 {
         /// The value is Windows for Windows instances. Otherwise, the value is blank.
         public let platform: PlatformValues?
 
+        @inlinable
         public init(instanceIds: [String]? = nil, instanceType: InstanceType? = nil, launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse? = nil, lifecycle: InstanceLifecycle? = nil, platform: PlatformValues? = nil) {
             self.instanceIds = instanceIds
             self.instanceType = instanceType
@@ -18270,6 +18880,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fleetIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -18296,6 +18907,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(fleets: [FleetData]? = nil, nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
@@ -18326,6 +18938,7 @@ extension EC2 {
         /// The token to request the next page of items. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filter: [Filter]? = nil, flowLogIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filter = filter
@@ -18352,6 +18965,7 @@ extension EC2 {
         /// The token to request the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(flowLogs: [FlowLog]? = nil, nextToken: String? = nil) {
             self.flowLogs = flowLogs
             self.nextToken = nextToken
@@ -18371,6 +18985,7 @@ extension EC2 {
         /// The ID of the AFI.
         public let fpgaImageId: String?
 
+        @inlinable
         public init(attribute: FpgaImageAttributeName? = nil, dryRun: Bool? = nil, fpgaImageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -18388,6 +19003,7 @@ extension EC2 {
         /// Information about the attribute.
         public let fpgaImageAttribute: FpgaImageAttribute?
 
+        @inlinable
         public init(fpgaImageAttribute: FpgaImageAttribute? = nil) {
             self.fpgaImageAttribute = fpgaImageAttribute
         }
@@ -18420,6 +19036,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OwnersEncoding, String>>
         public var owners: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fpgaImageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owners: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -18453,6 +19070,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(fpgaImages: [FpgaImage]? = nil, nextToken: String? = nil) {
             self.fpgaImages = fpgaImages
             self.nextToken = nextToken
@@ -18481,6 +19099,7 @@ extension EC2 {
         /// The ID of the reservation offering.
         public let offeringId: String?
 
+        @inlinable
         public init(filter: [Filter]? = nil, maxDuration: Int? = nil, maxResults: Int? = nil, minDuration: Int? = nil, nextToken: String? = nil, offeringId: String? = nil) {
             self.filter = filter
             self.maxDuration = maxDuration
@@ -18514,6 +19133,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OfferingSetEncoding, HostOffering>>
         public var offeringSet: [HostOffering]?
 
+        @inlinable
         public init(nextToken: String? = nil, offeringSet: [HostOffering]? = nil) {
             self.nextToken = nextToken
             self.offeringSet = offeringSet
@@ -18540,6 +19160,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: [Filter]? = nil, hostReservationIdSet: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.hostReservationIdSet = hostReservationIdSet
@@ -18564,6 +19185,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(hostReservationSet: [HostReservation]? = nil, nextToken: String? = nil) {
             self.hostReservationSet = hostReservationSet
             self.nextToken = nextToken
@@ -18590,6 +19212,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: [Filter]? = nil, hostIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.hostIds = hostIds
@@ -18614,6 +19237,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(hosts: [Host]? = nil, nextToken: String? = nil) {
             self.hosts = hosts
             self.nextToken = nextToken
@@ -18640,6 +19264,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(associationIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationIds = associationIds
             self.filters = filters
@@ -18669,6 +19294,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(iamInstanceProfileAssociations: [IamInstanceProfileAssociation]? = nil, nextToken: String? = nil) {
             self.iamInstanceProfileAssociations = iamInstanceProfileAssociations
             self.nextToken = nextToken
@@ -18684,6 +19310,7 @@ extension EC2 {
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway
         public let resource: String?
 
+        @inlinable
         public init(resource: String? = nil) {
             self.resource = resource
         }
@@ -18700,6 +19327,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StatusesEncoding, IdFormat>>
         public var statuses: [IdFormat]?
 
+        @inlinable
         public init(statuses: [IdFormat]? = nil) {
             self.statuses = statuses
         }
@@ -18715,6 +19343,7 @@ extension EC2 {
         /// The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway
         public let resource: String?
 
+        @inlinable
         public init(principalArn: String? = nil, resource: String? = nil) {
             self.principalArn = principalArn
             self.resource = resource
@@ -18733,6 +19362,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StatusesEncoding, IdFormat>>
         public var statuses: [IdFormat]?
 
+        @inlinable
         public init(statuses: [IdFormat]? = nil) {
             self.statuses = statuses
         }
@@ -18752,6 +19382,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(attribute: ImageAttributeName? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -18798,6 +19429,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OwnersEncoding, String>>
         public var owners: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, executableUsers: [String]? = nil, filters: [Filter]? = nil, imageIds: [String]? = nil, includeDeprecated: Bool? = nil, includeDisabled: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, owners: [String]? = nil) {
             self.dryRun = dryRun
             self.executableUsers = executableUsers
@@ -18832,6 +19464,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(images: [Image]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -18860,6 +19493,7 @@ extension EC2 {
         /// A token that indicates the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, importTaskIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -18886,6 +19520,7 @@ extension EC2 {
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(importImageTasks: [ImportImageTask]? = nil, nextToken: String? = nil) {
             self.importImageTasks = importImageTasks
             self.nextToken = nextToken
@@ -18914,6 +19549,7 @@ extension EC2 {
         /// A token that indicates the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, importTaskIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -18940,6 +19576,7 @@ extension EC2 {
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(importSnapshotTasks: [ImportSnapshotTask]? = nil, nextToken: String? = nil) {
             self.importSnapshotTasks = importSnapshotTasks
             self.nextToken = nextToken
@@ -18959,6 +19596,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(attribute: InstanceAttributeName? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -18990,6 +19628,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceConnectEndpointIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19021,6 +19660,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceConnectEndpoints: [Ec2InstanceConnectEndpoint]? = nil, nextToken: String? = nil) {
             self.instanceConnectEndpoints = instanceConnectEndpoints
             self.nextToken = nextToken
@@ -19050,6 +19690,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19081,6 +19722,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceCreditSpecifications: [InstanceCreditSpecification]? = nil, nextToken: String? = nil) {
             self.instanceCreditSpecifications = instanceCreditSpecifications
             self.nextToken = nextToken
@@ -19096,6 +19738,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -19109,6 +19752,7 @@ extension EC2 {
         /// Information about the registered tag keys.
         public let instanceTagAttribute: InstanceTagNotificationAttribute?
 
+        @inlinable
         public init(instanceTagAttribute: InstanceTagNotificationAttribute? = nil) {
             self.instanceTagAttribute = instanceTagAttribute
         }
@@ -19135,6 +19779,7 @@ extension EC2 {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceEventWindowIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19166,6 +19811,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceEventWindows: [InstanceEventWindow]? = nil, nextToken: String? = nil) {
             self.instanceEventWindows = instanceEventWindows
             self.nextToken = nextToken
@@ -19197,6 +19843,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, includeAllInstances: Bool? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19225,6 +19872,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceStatuses: [InstanceStatus]? = nil, nextToken: String? = nil) {
             self.instanceStatuses = instanceStatuses
             self.nextToken = nextToken
@@ -19256,6 +19904,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupNames: [String]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19289,6 +19938,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [InstanceTopology]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -19316,6 +19966,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, locationType: LocationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19347,6 +19998,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceTypeOfferings: [InstanceTypeOffering]? = nil, nextToken: String? = nil) {
             self.instanceTypeOfferings = instanceTypeOfferings
             self.nextToken = nextToken
@@ -19375,6 +20027,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceTypes: [InstanceType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19407,6 +20060,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceTypes: [InstanceTypeInfo]? = nil, nextToken: String? = nil) {
             self.instanceTypes = instanceTypes
             self.nextToken = nextToken
@@ -19436,6 +20090,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19462,6 +20117,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservationsEncoding, Reservation>>
         public var reservations: [Reservation]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
             self.nextToken = nextToken
             self.reservations = reservations
@@ -19492,6 +20148,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, internetGatewayIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19523,6 +20180,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(internetGateways: [InternetGateway]? = nil, nextToken: String? = nil) {
             self.internetGateways = internetGateways
             self.nextToken = nextToken
@@ -19543,6 +20201,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -19570,6 +20229,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(byoasns: [Byoasn]? = nil, nextToken: String? = nil) {
             self.byoasns = byoasns
             self.nextToken = nextToken
@@ -19598,6 +20258,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamExternalResourceVerificationTokenIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19629,6 +20290,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamExternalResourceVerificationTokens: [IpamExternalResourceVerificationToken]? = nil, nextToken: String? = nil) {
             self.ipamExternalResourceVerificationTokens = ipamExternalResourceVerificationTokens
             self.nextToken = nextToken
@@ -19657,6 +20319,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19688,6 +20351,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamPools: [IpamPool]? = nil, nextToken: String? = nil) {
             self.ipamPools = ipamPools
             self.nextToken = nextToken
@@ -19716,6 +20380,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamResourceDiscoveryIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19747,6 +20412,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamResourceDiscoveries: [IpamResourceDiscovery]? = nil, nextToken: String? = nil) {
             self.ipamResourceDiscoveries = ipamResourceDiscoveries
             self.nextToken = nextToken
@@ -19775,6 +20441,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamResourceDiscoveryAssociationIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19806,6 +20473,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamResourceDiscoveryAssociations: [IpamResourceDiscoveryAssociation]? = nil, nextToken: String? = nil) {
             self.ipamResourceDiscoveryAssociations = ipamResourceDiscoveryAssociations
             self.nextToken = nextToken
@@ -19834,6 +20502,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamScopeIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19865,6 +20534,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamScopes: [IpamScope]? = nil, nextToken: String? = nil) {
             self.ipamScopes = ipamScopes
             self.nextToken = nextToken
@@ -19893,6 +20563,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19924,6 +20595,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipams: [Ipam]? = nil, nextToken: String? = nil) {
             self.ipams = ipams
             self.nextToken = nextToken
@@ -19953,6 +20625,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PoolIdsEncoding, String>>
         public var poolIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -19984,6 +20657,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipv6Pools: [Ipv6Pool]? = nil, nextToken: String? = nil) {
             self.ipv6Pools = ipv6Pools
             self.nextToken = nextToken
@@ -20014,6 +20688,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_KeyPairIdsEncoding, String>>
         public var keyPairIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, includePublicKey: Bool? = nil, keyNames: [String]? = nil, keyPairIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20038,6 +20713,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_KeyPairsEncoding, KeyPairInfo>>
         public var keyPairs: [KeyPairInfo]?
 
+        @inlinable
         public init(keyPairs: [KeyPairInfo]? = nil) {
             self.keyPairs = keyPairs
         }
@@ -20074,6 +20750,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VersionsEncoding, String>>
         public var versions: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, maxResults: Int? = nil, maxVersion: String? = nil, minVersion: String? = nil, nextToken: String? = nil, resolveAlias: Bool? = nil, versions: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20116,6 +20793,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(launchTemplateVersions: [LaunchTemplateVersion]? = nil, nextToken: String? = nil) {
             self.launchTemplateVersions = launchTemplateVersions
             self.nextToken = nextToken
@@ -20148,6 +20826,7 @@ extension EC2 {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, launchTemplateIds: [String]? = nil, launchTemplateNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20186,6 +20865,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(launchTemplates: [LaunchTemplate]? = nil, nextToken: String? = nil) {
             self.launchTemplates = launchTemplates
             self.nextToken = nextToken
@@ -20215,6 +20895,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20246,6 +20927,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(localGatewayRouteTableVirtualInterfaceGroupAssociations: [LocalGatewayRouteTableVirtualInterfaceGroupAssociation]? = nil, nextToken: String? = nil) {
             self.localGatewayRouteTableVirtualInterfaceGroupAssociations = localGatewayRouteTableVirtualInterfaceGroupAssociations
             self.nextToken = nextToken
@@ -20275,6 +20957,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableVpcAssociationIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20306,6 +20989,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(localGatewayRouteTableVpcAssociations: [LocalGatewayRouteTableVpcAssociation]? = nil, nextToken: String? = nil) {
             self.localGatewayRouteTableVpcAssociations = localGatewayRouteTableVpcAssociations
             self.nextToken = nextToken
@@ -20335,6 +21019,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20366,6 +21051,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(localGatewayRouteTables: [LocalGatewayRouteTable]? = nil, nextToken: String? = nil) {
             self.localGatewayRouteTables = localGatewayRouteTables
             self.nextToken = nextToken
@@ -20395,6 +21081,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayVirtualInterfaceGroupIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20426,6 +21113,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(localGatewayVirtualInterfaceGroups: [LocalGatewayVirtualInterfaceGroup]? = nil, nextToken: String? = nil) {
             self.localGatewayVirtualInterfaceGroups = localGatewayVirtualInterfaceGroups
             self.nextToken = nextToken
@@ -20455,6 +21143,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayVirtualInterfaceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20486,6 +21175,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(localGatewayVirtualInterfaces: [LocalGatewayVirtualInterface]? = nil, nextToken: String? = nil) {
             self.localGatewayVirtualInterfaces = localGatewayVirtualInterfaces
             self.nextToken = nextToken
@@ -20515,6 +21205,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20546,6 +21237,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(localGateways: [LocalGateway]? = nil, nextToken: String? = nil) {
             self.localGateways = localGateways
             self.nextToken = nextToken
@@ -20576,6 +21268,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotIdsEncoding, String>>
         public var snapshotIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20607,6 +21300,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotsEncoding, LockedSnapshotsInfo>>
         public var snapshots: [LockedSnapshotsInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [LockedSnapshotsInfo]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -20633,6 +21327,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, hostIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.hostIds = hostIds
@@ -20662,6 +21357,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(macHosts: [MacHost]? = nil, nextToken: String? = nil) {
             self.macHosts = macHosts
             self.nextToken = nextToken
@@ -20691,6 +21387,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrefixListIdsEncoding, String>>
         public var prefixListIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20722,6 +21419,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrefixListsEncoding, ManagedPrefixList>>
         public var prefixLists: [ManagedPrefixList]?
 
+        @inlinable
         public init(nextToken: String? = nil, prefixLists: [ManagedPrefixList]? = nil) {
             self.nextToken = nextToken
             self.prefixLists = prefixLists
@@ -20750,6 +21448,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PublicIpsEncoding, String>>
         public var publicIps: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, publicIps: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20781,6 +21480,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(movingAddressStatuses: [MovingAddressStatus]? = nil, nextToken: String? = nil) {
             self.movingAddressStatuses = movingAddressStatuses
             self.nextToken = nextToken
@@ -20811,6 +21511,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filter: [Filter]? = nil, maxResults: Int? = nil, natGatewayIds: [String]? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filter = filter
@@ -20842,6 +21543,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(natGateways: [NatGateway]? = nil, nextToken: String? = nil) {
             self.natGateways = natGateways
             self.nextToken = nextToken
@@ -20873,6 +21575,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkAclIds: [String]? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -20904,6 +21607,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkAcls: [NetworkAcl]? = nil, nextToken: String? = nil) {
             self.networkAcls = networkAcls
             self.nextToken = nextToken
@@ -20938,6 +21642,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisStartTimeBegin: Date? = nil, analysisStartTimeEnd: Date? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInsightsAccessScopeAnalysisIds: [String]? = nil, networkInsightsAccessScopeId: String? = nil, nextToken: String? = nil) {
             self.analysisStartTimeBegin = analysisStartTimeBegin
             self.analysisStartTimeEnd = analysisStartTimeEnd
@@ -20975,6 +21680,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInsightsAccessScopeAnalyses: [NetworkInsightsAccessScopeAnalysis]? = nil, nextToken: String? = nil) {
             self.networkInsightsAccessScopeAnalyses = networkInsightsAccessScopeAnalyses
             self.nextToken = nextToken
@@ -21003,6 +21709,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInsightsAccessScopeIds: [String]? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21034,6 +21741,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInsightsAccessScopes: [NetworkInsightsAccessScope]? = nil, nextToken: String? = nil) {
             self.networkInsightsAccessScopes = networkInsightsAccessScopes
             self.nextToken = nextToken
@@ -21068,6 +21776,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisEndTime: Date? = nil, analysisStartTime: Date? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInsightsAnalysisIds: [String]? = nil, networkInsightsPathId: String? = nil, nextToken: String? = nil) {
             self.analysisEndTime = analysisEndTime
             self.analysisStartTime = analysisStartTime
@@ -21105,6 +21814,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInsightsAnalyses: [NetworkInsightsAnalysis]? = nil, nextToken: String? = nil) {
             self.networkInsightsAnalyses = networkInsightsAnalyses
             self.nextToken = nextToken
@@ -21133,6 +21843,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInsightsPathIds: [String]? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21164,6 +21875,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInsightsPaths: [NetworkInsightsPath]? = nil, nextToken: String? = nil) {
             self.networkInsightsPaths = networkInsightsPaths
             self.nextToken = nextToken
@@ -21183,6 +21895,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(attribute: NetworkInterfaceAttribute? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -21213,6 +21926,7 @@ extension EC2 {
         /// Indicates whether source/destination checking is enabled.
         public let sourceDestCheck: AttributeBooleanValue?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, attachment: NetworkInterfaceAttachment? = nil, description: AttributeValue? = nil, groups: [GroupIdentifier]? = nil, networkInterfaceId: String? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.attachment = attachment
@@ -21254,6 +21968,7 @@ extension EC2 {
         /// 		    Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, networkInterfacePermissionIds: [String]? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -21284,6 +21999,7 @@ extension EC2 {
         /// 		  This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInterfacePermissions: [NetworkInterfacePermission]? = nil, nextToken: String? = nil) {
             self.networkInterfacePermissions = networkInterfacePermissions
             self.nextToken = nextToken
@@ -21335,6 +22051,7 @@ extension EC2 {
         /// 		    Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInterfaceIds: [String]? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21367,6 +22084,7 @@ extension EC2 {
         /// 		    This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInterfaces: [NetworkInterface]? = nil, nextToken: String? = nil) {
             self.networkInterfaces = networkInterfaces
             self.nextToken = nextToken
@@ -21394,6 +22112,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var groupNames: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21416,6 +22135,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PlacementGroupsEncoding, PlacementGroup>>
         public var placementGroups: [PlacementGroup]?
 
+        @inlinable
         public init(placementGroups: [PlacementGroup]? = nil) {
             self.placementGroups = placementGroups
         }
@@ -21443,6 +22163,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrefixListIdsEncoding, String>>
         public var prefixListIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21469,6 +22190,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrefixListsEncoding, PrefixList>>
         public var prefixLists: [PrefixList]?
 
+        @inlinable
         public init(nextToken: String? = nil, prefixLists: [PrefixList]? = nil) {
             self.nextToken = nextToken
             self.prefixLists = prefixLists
@@ -21493,6 +22215,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ResourcesEncoding, String>>
         public var resources: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resources: [String]? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -21522,6 +22245,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrincipalsEncoding, PrincipalIdFormat>>
         public var principals: [PrincipalIdFormat]?
 
+        @inlinable
         public init(nextToken: String? = nil, principals: [PrincipalIdFormat]? = nil) {
             self.nextToken = nextToken
             self.principals = principals
@@ -21549,6 +22273,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PoolIdsEncoding, String>>
         public var poolIds: [String]?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -21578,6 +22303,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PublicIpv4PoolsEncoding, PublicIpv4Pool>>
         public var publicIpv4Pools: [PublicIpv4Pool]?
 
+        @inlinable
         public init(nextToken: String? = nil, publicIpv4Pools: [PublicIpv4Pool]? = nil) {
             self.nextToken = nextToken
             self.publicIpv4Pools = publicIpv4Pools
@@ -21604,6 +22330,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RegionNamesEncoding, String>>
         public var regionNames: [String]?
 
+        @inlinable
         public init(allRegions: Bool? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, regionNames: [String]? = nil) {
             self.allRegions = allRegions
             self.dryRun = dryRun
@@ -21626,6 +22353,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RegionsEncoding, Region>>
         public var regions: [Region]?
 
+        @inlinable
         public init(regions: [Region]? = nil) {
             self.regions = regions
         }
@@ -21654,6 +22382,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReplaceRootVolumeTaskIdsEncoding, String>>
         public var replaceRootVolumeTaskIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, replaceRootVolumeTaskIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21685,6 +22414,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReplaceRootVolumeTasksEncoding, ReplaceRootVolumeTask>>
         public var replaceRootVolumeTasks: [ReplaceRootVolumeTask]?
 
+        @inlinable
         public init(nextToken: String? = nil, replaceRootVolumeTasks: [ReplaceRootVolumeTask]? = nil) {
             self.nextToken = nextToken
             self.replaceRootVolumeTasks = replaceRootVolumeTasks
@@ -21707,6 +22437,7 @@ extension EC2 {
         /// One or more Reserved Instance listing IDs.
         public let reservedInstancesListingId: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, reservedInstancesId: String? = nil, reservedInstancesListingId: String? = nil) {
             self.filters = filters
             self.reservedInstancesId = reservedInstancesId
@@ -21727,6 +22458,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesListingsEncoding, ReservedInstancesListing>>
         public var reservedInstancesListings: [ReservedInstancesListing]?
 
+        @inlinable
         public init(reservedInstancesListings: [ReservedInstancesListing]? = nil) {
             self.reservedInstancesListings = reservedInstancesListings
         }
@@ -21749,6 +22481,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesModificationIdsEncoding, String>>
         public var reservedInstancesModificationIds: [String]?
 
+        @inlinable
         public init(filters: [Filter]? = nil, nextToken: String? = nil, reservedInstancesModificationIds: [String]? = nil) {
             self.filters = filters
             self.nextToken = nextToken
@@ -21772,6 +22505,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesModificationsEncoding, ReservedInstancesModification>>
         public var reservedInstancesModifications: [ReservedInstancesModification]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedInstancesModifications: [ReservedInstancesModification]? = nil) {
             self.nextToken = nextToken
             self.reservedInstancesModifications = reservedInstancesModifications
@@ -21823,6 +22557,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var reservedInstancesOfferingIds: [String]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, includeMarketplace: Bool? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, maxDuration: Int64? = nil, maxInstanceCount: Int? = nil, maxResults: Int? = nil, minDuration: Int64? = nil, nextToken: String? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, reservedInstancesOfferingIds: [String]? = nil) {
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
@@ -21870,6 +22605,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesOfferingsEncoding, ReservedInstancesOffering>>
         public var reservedInstancesOfferings: [ReservedInstancesOffering]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedInstancesOfferings: [ReservedInstancesOffering]? = nil) {
             self.nextToken = nextToken
             self.reservedInstancesOfferings = reservedInstancesOfferings
@@ -21900,6 +22636,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesIdsEncoding, String>>
         public var reservedInstancesIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, reservedInstancesIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21924,6 +22661,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ReservedInstancesEncoding, ReservedInstances>>
         public var reservedInstances: [ReservedInstances]?
 
+        @inlinable
         public init(reservedInstances: [ReservedInstances]? = nil) {
             self.reservedInstances = reservedInstances
         }
@@ -21955,6 +22693,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RouteTableIdsEncoding, String>>
         public var routeTableIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, routeTableIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -21986,6 +22725,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RouteTablesEncoding, RouteTable>>
         public var routeTables: [RouteTable]?
 
+        @inlinable
         public init(nextToken: String? = nil, routeTables: [RouteTable]? = nil) {
             self.nextToken = nextToken
             self.routeTables = routeTables
@@ -22018,6 +22758,7 @@ extension EC2 {
         /// The schedule recurrence.
         public let recurrence: ScheduledInstanceRecurrenceRequest?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, firstSlotStartTimeRange: SlotDateTimeRangeRequest? = nil, maxResults: Int? = nil, maxSlotDurationInHours: Int? = nil, minSlotDurationInHours: Int? = nil, nextToken: String? = nil, recurrence: ScheduledInstanceRecurrenceRequest? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22055,6 +22796,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ScheduledInstanceAvailabilitySetEncoding, ScheduledInstanceAvailability>>
         public var scheduledInstanceAvailabilitySet: [ScheduledInstanceAvailability]?
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledInstanceAvailabilitySet: [ScheduledInstanceAvailability]? = nil) {
             self.nextToken = nextToken
             self.scheduledInstanceAvailabilitySet = scheduledInstanceAvailabilitySet
@@ -22085,6 +22827,7 @@ extension EC2 {
         /// The time period for the first schedule to start.
         public let slotStartTimeRange: SlotStartTimeRangeRequest?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, scheduledInstanceIds: [String]? = nil, slotStartTimeRange: SlotStartTimeRangeRequest? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22113,6 +22856,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ScheduledInstanceSetEncoding, ScheduledInstance>>
         public var scheduledInstanceSet: [ScheduledInstance]?
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledInstanceSet: [ScheduledInstance]? = nil) {
             self.nextToken = nextToken
             self.scheduledInstanceSet = scheduledInstanceSet
@@ -22133,6 +22877,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_GroupIdEncoding, String>>
         public var groupId: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupId: [String]? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
@@ -22151,6 +22896,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupReferenceSetEncoding, SecurityGroupReference>>
         public var securityGroupReferenceSet: [SecurityGroupReference]?
 
+        @inlinable
         public init(securityGroupReferenceSet: [SecurityGroupReference]? = nil) {
             self.securityGroupReferenceSet = securityGroupReferenceSet
         }
@@ -22177,6 +22923,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRuleIdsEncoding, String>>
         public var securityGroupRuleIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityGroupRuleIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22208,6 +22955,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRule>>
         public var securityGroupRules: [SecurityGroupRule]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityGroupRules: [SecurityGroupRule]? = nil) {
             self.nextToken = nextToken
             self.securityGroupRules = securityGroupRules
@@ -22241,6 +22989,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22274,6 +23023,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupsEncoding, SecurityGroup>>
         public var securityGroups: [SecurityGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityGroups: [SecurityGroup]? = nil) {
             self.nextToken = nextToken
             self.securityGroups = securityGroups
@@ -22293,6 +23043,7 @@ extension EC2 {
         /// The ID of the EBS snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(attribute: SnapshotAttributeName? = nil, dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -22319,6 +23070,7 @@ extension EC2 {
         /// The ID of the EBS snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(createVolumePermissions: [CreateVolumePermission]? = nil, productCodes: [ProductCode]? = nil, snapshotId: String? = nil) {
             self.createVolumePermissions = createVolumePermissions
             self.productCodes = productCodes
@@ -22348,6 +23100,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22372,6 +23125,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotTierStatusesEncoding, SnapshotTierStatus>>
         public var snapshotTierStatuses: [SnapshotTierStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshotTierStatuses: [SnapshotTierStatus]? = nil) {
             self.nextToken = nextToken
             self.snapshotTierStatuses = snapshotTierStatuses
@@ -22409,6 +23163,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotIdsEncoding, String>>
         public var snapshotIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerIds: [String]? = nil, restorableByUserIds: [String]? = nil, snapshotIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22439,6 +23194,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotsEncoding, Snapshot>>
         public var snapshots: [Snapshot]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -22454,6 +23210,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -22467,6 +23224,7 @@ extension EC2 {
         /// The Spot Instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
 
+        @inlinable
         public init(spotDatafeedSubscription: SpotDatafeedSubscription? = nil) {
             self.spotDatafeedSubscription = spotDatafeedSubscription
         }
@@ -22487,6 +23245,7 @@ extension EC2 {
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -22518,6 +23277,7 @@ extension EC2 {
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
 
+        @inlinable
         public init(activeInstances: [ActiveInstance]? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil) {
             self.activeInstances = activeInstances
             self.nextToken = nextToken
@@ -22546,6 +23306,7 @@ extension EC2 {
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
 
+        @inlinable
         public init(dryRun: Bool? = nil, eventType: EventType? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil, startTime: Date? = nil) {
             self.dryRun = dryRun
             self.eventType = eventType
@@ -22585,6 +23346,7 @@ extension EC2 {
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
 
+        @inlinable
         public init(historyRecords: [HistoryRecord]? = nil, lastEvaluatedTime: Date? = nil, nextToken: String? = nil, spotFleetRequestId: String? = nil, startTime: Date? = nil) {
             self.historyRecords = historyRecords
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -22616,6 +23378,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotFleetRequestIdsEncoding, String>>
         public var spotFleetRequestIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotFleetRequestIds: [String]? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -22640,6 +23403,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotFleetRequestConfigsEncoding, SpotFleetRequestConfig>>
         public var spotFleetRequestConfigs: [SpotFleetRequestConfig]?
 
+        @inlinable
         public init(nextToken: String? = nil, spotFleetRequestConfigs: [SpotFleetRequestConfig]? = nil) {
             self.nextToken = nextToken
             self.spotFleetRequestConfigs = spotFleetRequestConfigs
@@ -22669,6 +23433,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotInstanceRequestIdsEncoding, String>>
         public var spotInstanceRequestIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, spotInstanceRequestIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22695,6 +23460,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotInstanceRequestsEncoding, SpotInstanceRequest>>
         public var spotInstanceRequests: [SpotInstanceRequest]?
 
+        @inlinable
         public init(nextToken: String? = nil, spotInstanceRequests: [SpotInstanceRequest]? = nil) {
             self.nextToken = nextToken
             self.spotInstanceRequests = spotInstanceRequests
@@ -22732,6 +23498,7 @@ extension EC2 {
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
 
+        @inlinable
         public init(availabilityZone: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, filters: [Filter]? = nil, instanceTypes: [InstanceType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, productDescriptions: [String]? = nil, startTime: Date? = nil) {
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
@@ -22766,6 +23533,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotPriceHistoryEncoding, SpotPrice>>
         public var spotPriceHistory: [SpotPrice]?
 
+        @inlinable
         public init(nextToken: String? = nil, spotPriceHistory: [SpotPrice]? = nil) {
             self.nextToken = nextToken
             self.spotPriceHistory = spotPriceHistory
@@ -22787,6 +23555,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -22818,6 +23587,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StaleSecurityGroupSetEncoding, StaleSecurityGroup>>
         public var staleSecurityGroupSet: [StaleSecurityGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, staleSecurityGroupSet: [StaleSecurityGroup]? = nil) {
             self.nextToken = nextToken
             self.staleSecurityGroupSet = staleSecurityGroupSet
@@ -22849,6 +23619,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22880,6 +23651,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StoreImageTaskResultsEncoding, StoreImageTaskResult>>
         public var storeImageTaskResults: [StoreImageTaskResult]?
 
+        @inlinable
         public init(nextToken: String? = nil, storeImageTaskResults: [StoreImageTaskResult]? = nil) {
             self.nextToken = nextToken
             self.storeImageTaskResults = storeImageTaskResults
@@ -22910,6 +23682,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, subnetIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22941,6 +23714,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
 
+        @inlinable
         public init(nextToken: String? = nil, subnets: [Subnet]? = nil) {
             self.nextToken = nextToken
             self.subnets = subnets
@@ -22965,6 +23739,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -22989,6 +23764,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, TagDescription>>
         public var tags: [TagDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -23020,6 +23796,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorFilterRuleIdsEncoding, String>>
         public var trafficMirrorFilterRuleIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorFilterRuleIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23053,6 +23830,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorFilterRulesEncoding, TrafficMirrorFilterRule>>
         public var trafficMirrorFilterRules: [TrafficMirrorFilterRule]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficMirrorFilterRules: [TrafficMirrorFilterRule]? = nil) {
             self.nextToken = nextToken
             self.trafficMirrorFilterRules = trafficMirrorFilterRules
@@ -23082,6 +23860,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorFilterIdsEncoding, String>>
         public var trafficMirrorFilterIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, trafficMirrorFilterIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23113,6 +23892,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorFiltersEncoding, TrafficMirrorFilter>>
         public var trafficMirrorFilters: [TrafficMirrorFilter]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficMirrorFilters: [TrafficMirrorFilter]? = nil) {
             self.nextToken = nextToken
             self.trafficMirrorFilters = trafficMirrorFilters
@@ -23142,6 +23922,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorSessionIdsEncoding, String>>
         public var trafficMirrorSessionIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, trafficMirrorSessionIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23173,6 +23954,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorSessionsEncoding, TrafficMirrorSession>>
         public var trafficMirrorSessions: [TrafficMirrorSession]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficMirrorSessions: [TrafficMirrorSession]? = nil) {
             self.nextToken = nextToken
             self.trafficMirrorSessions = trafficMirrorSessions
@@ -23202,6 +23984,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorTargetIdsEncoding, String>>
         public var trafficMirrorTargetIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, trafficMirrorTargetIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23233,6 +24016,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TrafficMirrorTargetsEncoding, TrafficMirrorTarget>>
         public var trafficMirrorTargets: [TrafficMirrorTarget]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficMirrorTargets: [TrafficMirrorTarget]? = nil) {
             self.nextToken = nextToken
             self.trafficMirrorTargets = trafficMirrorTargets
@@ -23261,6 +24045,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23292,6 +24077,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayAttachmentsEncoding, TransitGatewayAttachment>>
         public var transitGatewayAttachments: [TransitGatewayAttachment]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayAttachments: [TransitGatewayAttachment]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayAttachments = transitGatewayAttachments
@@ -23321,6 +24107,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayConnectPeerIdsEncoding, String>>
         public var transitGatewayConnectPeerIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayConnectPeerIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23352,6 +24139,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayConnectPeersEncoding, TransitGatewayConnectPeer>>
         public var transitGatewayConnectPeers: [TransitGatewayConnectPeer]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayConnectPeers: [TransitGatewayConnectPeer]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayConnectPeers = transitGatewayConnectPeers
@@ -23380,6 +24168,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23411,6 +24200,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayConnectsEncoding, TransitGatewayConnect>>
         public var transitGatewayConnects: [TransitGatewayConnect]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayConnects: [TransitGatewayConnect]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayConnects = transitGatewayConnects
@@ -23440,6 +24230,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayMulticastDomainIdsEncoding, String>>
         public var transitGatewayMulticastDomainIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayMulticastDomainIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23471,6 +24262,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayMulticastDomainsEncoding, TransitGatewayMulticastDomain>>
         public var transitGatewayMulticastDomains: [TransitGatewayMulticastDomain]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayMulticastDomains: [TransitGatewayMulticastDomain]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayMulticastDomains = transitGatewayMulticastDomains
@@ -23499,6 +24291,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23530,6 +24323,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayPeeringAttachmentsEncoding, TransitGatewayPeeringAttachment>>
         public var transitGatewayPeeringAttachments: [TransitGatewayPeeringAttachment]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayPeeringAttachments: [TransitGatewayPeeringAttachment]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayPeeringAttachments = transitGatewayPeeringAttachments
@@ -23559,6 +24353,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayPolicyTableIdsEncoding, String>>
         public var transitGatewayPolicyTableIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23590,6 +24385,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayPolicyTablesEncoding, TransitGatewayPolicyTable>>
         public var transitGatewayPolicyTables: [TransitGatewayPolicyTable]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayPolicyTables: [TransitGatewayPolicyTable]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayPolicyTables = transitGatewayPolicyTables
@@ -23619,6 +24415,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayRouteTableAnnouncementIdsEncoding, String>>
         public var transitGatewayRouteTableAnnouncementIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableAnnouncementIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23650,6 +24447,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayRouteTableAnnouncementsEncoding, TransitGatewayRouteTableAnnouncement>>
         public var transitGatewayRouteTableAnnouncements: [TransitGatewayRouteTableAnnouncement]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayRouteTableAnnouncements: [TransitGatewayRouteTableAnnouncement]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayRouteTableAnnouncements = transitGatewayRouteTableAnnouncements
@@ -23679,6 +24477,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayRouteTableIdsEncoding, String>>
         public var transitGatewayRouteTableIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23710,6 +24509,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayRouteTablesEncoding, TransitGatewayRouteTable>>
         public var transitGatewayRouteTables: [TransitGatewayRouteTable]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayRouteTables: [TransitGatewayRouteTable]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayRouteTables = transitGatewayRouteTables
@@ -23738,6 +24538,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23769,6 +24570,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayVpcAttachmentsEncoding, TransitGatewayVpcAttachment>>
         public var transitGatewayVpcAttachments: [TransitGatewayVpcAttachment]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayVpcAttachments: [TransitGatewayVpcAttachment]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayVpcAttachments = transitGatewayVpcAttachments
@@ -23798,6 +24600,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayIdsEncoding, String>>
         public var transitGatewayIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23829,6 +24632,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewaysEncoding, TransitGateway>>
         public var transitGateways: [TransitGateway]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGateways: [TransitGateway]? = nil) {
             self.nextToken = nextToken
             self.transitGateways = transitGateways
@@ -23857,6 +24661,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(associationIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationIds = associationIds
             self.dryRun = dryRun
@@ -23888,6 +24693,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(interfaceAssociations: [TrunkInterfaceAssociation]? = nil, nextToken: String? = nil) {
             self.interfaceAssociations = interfaceAssociations
             self.nextToken = nextToken
@@ -23921,6 +24727,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedAccessEndpointIds: [String]? = nil, verifiedAccessGroupId: String? = nil, verifiedAccessInstanceId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -23956,6 +24763,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessEndpointsEncoding, VerifiedAccessEndpoint>>
         public var verifiedAccessEndpoints: [VerifiedAccessEndpoint]?
 
+        @inlinable
         public init(nextToken: String? = nil, verifiedAccessEndpoints: [VerifiedAccessEndpoint]? = nil) {
             self.nextToken = nextToken
             self.verifiedAccessEndpoints = verifiedAccessEndpoints
@@ -23987,6 +24795,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedAccessGroupIds: [String]? = nil, verifiedAccessInstanceId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24020,6 +24829,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessGroupsEncoding, VerifiedAccessGroup>>
         public var verifiedAccessGroups: [VerifiedAccessGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, verifiedAccessGroups: [VerifiedAccessGroup]? = nil) {
             self.nextToken = nextToken
             self.verifiedAccessGroups = verifiedAccessGroups
@@ -24049,6 +24859,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessInstanceIdsEncoding, String>>
         public var verifiedAccessInstanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedAccessInstanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24080,6 +24891,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(loggingConfigurations: [VerifiedAccessInstanceLoggingConfiguration]? = nil, nextToken: String? = nil) {
             self.loggingConfigurations = loggingConfigurations
             self.nextToken = nextToken
@@ -24109,6 +24921,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessInstanceIdsEncoding, String>>
         public var verifiedAccessInstanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedAccessInstanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24140,6 +24953,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessInstancesEncoding, VerifiedAccessInstance>>
         public var verifiedAccessInstances: [VerifiedAccessInstance]?
 
+        @inlinable
         public init(nextToken: String? = nil, verifiedAccessInstances: [VerifiedAccessInstance]? = nil) {
             self.nextToken = nextToken
             self.verifiedAccessInstances = verifiedAccessInstances
@@ -24169,6 +24983,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessTrustProviderIdsEncoding, String>>
         public var verifiedAccessTrustProviderIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, verifiedAccessTrustProviderIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24200,6 +25015,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessTrustProvidersEncoding, VerifiedAccessTrustProvider>>
         public var verifiedAccessTrustProviders: [VerifiedAccessTrustProvider]?
 
+        @inlinable
         public init(nextToken: String? = nil, verifiedAccessTrustProviders: [VerifiedAccessTrustProvider]? = nil) {
             self.nextToken = nextToken
             self.verifiedAccessTrustProviders = verifiedAccessTrustProviders
@@ -24219,6 +25035,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(attribute: VolumeAttributeName? = nil, dryRun: Bool? = nil, volumeId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -24243,6 +25060,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(autoEnableIO: AttributeBooleanValue? = nil, productCodes: [ProductCode]? = nil, volumeId: String? = nil) {
             self.autoEnableIO = autoEnableIO
             self.productCodes = productCodes
@@ -24275,6 +25093,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
         public var volumeIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, volumeIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24301,6 +25120,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeStatusesEncoding, VolumeStatusItem>>
         public var volumeStatuses: [VolumeStatusItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, volumeStatuses: [VolumeStatusItem]? = nil) {
             self.nextToken = nextToken
             self.volumeStatuses = volumeStatuses
@@ -24329,6 +25149,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
         public var volumeIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, volumeIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24355,6 +25176,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumesModificationsEncoding, VolumeModification>>
         public var volumesModifications: [VolumeModification]?
 
+        @inlinable
         public init(nextToken: String? = nil, volumesModifications: [VolumeModification]? = nil) {
             self.nextToken = nextToken
             self.volumesModifications = volumesModifications
@@ -24385,6 +25207,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
         public var volumeIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, volumeIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24411,6 +25234,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumesEncoding, Volume>>
         public var volumes: [Volume]?
 
+        @inlinable
         public init(nextToken: String? = nil, volumes: [Volume]? = nil) {
             self.nextToken = nextToken
             self.volumes = volumes
@@ -24430,6 +25254,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(attribute: VpcAttributeName? = nil, dryRun: Bool? = nil, vpcId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -24458,6 +25283,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(enableDnsHostnames: AttributeBooleanValue? = nil, enableDnsSupport: AttributeBooleanValue? = nil, enableNetworkAddressUsageMetrics: AttributeBooleanValue? = nil, vpcId: String? = nil) {
             self.enableDnsHostnames = enableDnsHostnames
             self.enableDnsSupport = enableDnsSupport
@@ -24486,6 +25312,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcIdsEncoding, String>>
         public var vpcIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, vpcIds: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -24515,6 +25342,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcsEncoding, ClassicLinkDnsSupport>>
         public var vpcs: [ClassicLinkDnsSupport]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcs: [ClassicLinkDnsSupport]? = nil) {
             self.nextToken = nextToken
             self.vpcs = vpcs
@@ -24540,6 +25368,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcIdsEncoding, String>>
         public var vpcIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, vpcIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24560,6 +25389,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcsEncoding, VpcClassicLink>>
         public var vpcs: [VpcClassicLink]?
 
+        @inlinable
         public init(vpcs: [VpcClassicLink]? = nil) {
             self.vpcs = vpcs
         }
@@ -24584,6 +25414,7 @@ extension EC2 {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionNotificationId: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectionNotificationId = connectionNotificationId
             self.dryRun = dryRun
@@ -24610,6 +25441,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionNotificationSet: [ConnectionNotification]? = nil, nextToken: String? = nil) {
             self.connectionNotificationSet = connectionNotificationSet
             self.nextToken = nextToken
@@ -24638,6 +25470,7 @@ extension EC2 {
         /// The token to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24662,6 +25495,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcEndpointConnectionsEncoding, VpcEndpointConnection>>
         public var vpcEndpointConnections: [VpcEndpointConnection]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcEndpointConnections: [VpcEndpointConnection]? = nil) {
             self.nextToken = nextToken
             self.vpcEndpointConnections = vpcEndpointConnections
@@ -24690,6 +25524,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ServiceIdsEncoding, String>>
         public var serviceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24716,6 +25551,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ServiceConfigurationsEncoding, ServiceConfiguration>>
         public var serviceConfigurations: [ServiceConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, serviceConfigurations: [ServiceConfiguration]? = nil) {
             self.nextToken = nextToken
             self.serviceConfigurations = serviceConfigurations
@@ -24744,6 +25580,7 @@ extension EC2 {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24770,6 +25607,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(allowedPrincipals: [AllowedPrincipal]? = nil, nextToken: String? = nil) {
             self.allowedPrincipals = allowedPrincipals
             self.nextToken = nextToken
@@ -24798,6 +25636,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ServiceNamesEncoding, String>>
         public var serviceNames: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceNames: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24828,6 +25667,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ServiceNamesEncoding, String>>
         public var serviceNames: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, serviceDetails: [ServiceDetail]? = nil, serviceNames: [String]? = nil) {
             self.nextToken = nextToken
             self.serviceDetails = serviceDetails
@@ -24858,6 +25698,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcEndpointIdsEncoding, String>>
         public var vpcEndpointIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24884,6 +25725,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcEndpointsEncoding, VpcEndpoint>>
         public var vpcEndpoints: [VpcEndpoint]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
             self.nextToken = nextToken
             self.vpcEndpoints = vpcEndpoints
@@ -24914,6 +25756,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcPeeringConnectionIdsEncoding, String>>
         public var vpcPeeringConnectionIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcPeeringConnectionIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -24945,6 +25788,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcPeeringConnectionsEncoding, VpcPeeringConnection>>
         public var vpcPeeringConnections: [VpcPeeringConnection]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcPeeringConnections: [VpcPeeringConnection]? = nil) {
             self.nextToken = nextToken
             self.vpcPeeringConnections = vpcPeeringConnections
@@ -24975,6 +25819,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcIdsEncoding, String>>
         public var vpcIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -25006,6 +25851,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcsEncoding, Vpc>>
         public var vpcs: [Vpc]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcs: [Vpc]? = nil) {
             self.nextToken = nextToken
             self.vpcs = vpcs
@@ -25030,6 +25876,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpnConnectionIdsEncoding, String>>
         public var vpnConnectionIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, vpnConnectionIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -25050,6 +25897,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpnConnectionsEncoding, VpnConnection>>
         public var vpnConnections: [VpnConnection]?
 
+        @inlinable
         public init(vpnConnections: [VpnConnection]? = nil) {
             self.vpnConnections = vpnConnections
         }
@@ -25072,6 +25920,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpnGatewayIdsEncoding, String>>
         public var vpnGatewayIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, vpnGatewayIds: [String]? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -25092,6 +25941,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpnGatewaysEncoding, VpnGateway>>
         public var vpnGateways: [VpnGateway]?
 
+        @inlinable
         public init(vpnGateways: [VpnGateway]? = nil) {
             self.vpnGateways = vpnGateways
         }
@@ -25109,6 +25959,7 @@ extension EC2 {
         /// Indicates whether to partition the flow log per hour. This reduces the cost and response  time for queries. The default is false.
         public let perHourPartition: Bool?
 
+        @inlinable
         public init(fileFormat: DestinationFileFormat? = nil, hiveCompatiblePartitions: Bool? = nil, perHourPartition: Bool? = nil) {
             self.fileFormat = fileFormat
             self.hiveCompatiblePartitions = hiveCompatiblePartitions
@@ -25130,6 +25981,7 @@ extension EC2 {
         /// Indicates whether to partition the flow log per hour.
         public let perHourPartition: Bool?
 
+        @inlinable
         public init(fileFormat: DestinationFileFormat? = nil, hiveCompatiblePartitions: Bool? = nil, perHourPartition: Bool? = nil) {
             self.fileFormat = fileFormat
             self.hiveCompatiblePartitions = hiveCompatiblePartitions
@@ -25151,6 +26003,7 @@ extension EC2 {
         /// The ID of the VPC to which the instance is linked.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -25168,6 +26021,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -25185,6 +26039,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, internetGatewayId: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.internetGatewayId = internetGatewayId
@@ -25206,6 +26061,7 @@ extension EC2 {
         /// Specifies whether to force a detachment.    Use the Force parameter only as a last resort to detach a network interface from a failed instance.    If you use the Force parameter to detach a network interface, you might not be able to attach a different network interface to the same index on the instance without first stopping and starting the instance.   If you force the detachment of a network interface, the instance metadata might not get updated. This means that the attributes associated with the detached network interface might still be visible. The instance metadata will get updated when you stop and start the instance.
         public let force: Bool?
 
+        @inlinable
         public init(attachmentId: String? = nil, dryRun: Bool? = nil, force: Bool? = nil) {
             self.attachmentId = attachmentId
             self.dryRun = dryRun
@@ -25229,6 +26085,7 @@ extension EC2 {
         /// The ID of the Verified Access trust provider.
         public let verifiedAccessTrustProviderId: String?
 
+        @inlinable
         public init(clientToken: String? = DetachVerifiedAccessTrustProviderRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessInstanceId: String? = nil, verifiedAccessTrustProviderId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -25250,6 +26107,7 @@ extension EC2 {
         /// Details about the Verified Access trust provider.
         public let verifiedAccessTrustProvider: VerifiedAccessTrustProvider?
 
+        @inlinable
         public init(verifiedAccessInstance: VerifiedAccessInstance? = nil, verifiedAccessTrustProvider: VerifiedAccessTrustProvider? = nil) {
             self.verifiedAccessInstance = verifiedAccessInstance
             self.verifiedAccessTrustProvider = verifiedAccessTrustProvider
@@ -25273,6 +26131,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(device: String? = nil, dryRun: Bool? = nil, force: Bool? = nil, instanceId: String? = nil, volumeId: String? = nil) {
             self.device = device
             self.dryRun = dryRun
@@ -25298,6 +26157,7 @@ extension EC2 {
         /// The ID of the virtual private gateway.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcId: String? = nil, vpnGatewayId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -25317,6 +26177,7 @@ extension EC2 {
         /// The ID of the tenant application with the device-identity provider.
         public let tenantId: String?
 
+        @inlinable
         public init(publicSigningKeyUrl: String? = nil, tenantId: String? = nil) {
             self.publicSigningKeyUrl = publicSigningKeyUrl
             self.tenantId = tenantId
@@ -25337,6 +26198,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ValuesEncoding, AttributeValue>>
         public var values: [AttributeValue]?
 
+        @inlinable
         public init(key: String? = nil, values: [AttributeValue]? = nil) {
             self.key = key
             self.values = values
@@ -25363,6 +26225,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dhcpConfigurations: [DhcpConfiguration]? = nil, dhcpOptionsId: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil) {
             self.dhcpConfigurations = dhcpConfigurations
             self.dhcpOptionsId = dhcpOptionsId
@@ -25382,6 +26245,7 @@ extension EC2 {
         /// The ID of the Active Directory used for authentication.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -25395,6 +26259,7 @@ extension EC2 {
         /// The ID of the Active Directory to be used for authentication.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -25410,6 +26275,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(allocationId: String? = nil, dryRun: Bool? = nil) {
             self.allocationId = allocationId
             self.dryRun = dryRun
@@ -25425,6 +26291,7 @@ extension EC2 {
         /// An Elastic IP address transfer.
         public let addressTransfer: AddressTransfer?
 
+        @inlinable
         public init(addressTransfer: AddressTransfer? = nil) {
             self.addressTransfer = addressTransfer
         }
@@ -25446,6 +26313,7 @@ extension EC2 {
         /// The statistic used for the disabled subscription.
         public let statistic: StatisticType?
 
+        @inlinable
         public init(destination: String? = nil, dryRun: Bool? = nil, metric: MetricType? = nil, source: String? = nil, statistic: StatisticType? = nil) {
             self.destination = destination
             self.dryRun = dryRun
@@ -25467,6 +26335,7 @@ extension EC2 {
         /// Indicates whether the unsubscribe action was successful.
         public let output: Bool?
 
+        @inlinable
         public init(output: Bool? = nil) {
             self.output = output
         }
@@ -25480,6 +26349,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -25493,6 +26363,7 @@ extension EC2 {
         /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
 
+        @inlinable
         public init(ebsEncryptionByDefault: Bool? = nil) {
             self.ebsEncryptionByDefault = ebsEncryptionByDefault
         }
@@ -25513,6 +26384,7 @@ extension EC2 {
         /// Specify the ID of the image for which to disable Windows fast launch.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, force: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.force = force
@@ -25549,6 +26421,7 @@ extension EC2 {
         /// The time that the state changed for Windows fast launch for the Windows AMI.
         public let stateTransitionTime: Date?
 
+        @inlinable
         public init(imageId: String? = nil, launchTemplate: FastLaunchLaunchTemplateSpecificationResponse? = nil, maxParallelLaunches: Int? = nil, ownerId: String? = nil, resourceType: FastLaunchResourceType? = nil, snapshotConfiguration: FastLaunchSnapshotConfigurationResponse? = nil, state: FastLaunchStateCode? = nil, stateTransitionReason: String? = nil, stateTransitionTime: Date? = nil) {
             self.imageId = imageId
             self.launchTemplate = launchTemplate
@@ -25583,6 +26456,7 @@ extension EC2 {
         /// The ID of the snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(fastSnapshotRestoreStateErrors: [DisableFastSnapshotRestoreStateErrorItem]? = nil, snapshotId: String? = nil) {
             self.fastSnapshotRestoreStateErrors = fastSnapshotRestoreStateErrors
             self.snapshotId = snapshotId
@@ -25600,6 +26474,7 @@ extension EC2 {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -25617,6 +26492,7 @@ extension EC2 {
         /// The error.
         public let error: DisableFastSnapshotRestoreStateError?
 
+        @inlinable
         public init(availabilityZone: String? = nil, error: DisableFastSnapshotRestoreStateError? = nil) {
             self.availabilityZone = availabilityZone
             self.error = error
@@ -25652,6 +26528,7 @@ extension EC2 {
         /// The reason for the state transition. The possible values are as follows:    Client.UserInitiated - The state successfully transitioned to enabling or disabling.    Client.UserInitiated - Lifecycle state transition - The state successfully transitioned  to optimizing, enabled, or disabled.
         public let stateTransitionReason: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.disabledTime = disabledTime
@@ -25694,6 +26571,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourceSnapshotIdsEncoding, String>>
         public var sourceSnapshotIds: [String]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dryRun = dryRun
@@ -25718,6 +26596,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, DisableFastSnapshotRestoreErrorItem>>
         public var unsuccessful: [DisableFastSnapshotRestoreErrorItem]?
 
+        @inlinable
         public init(successful: [DisableFastSnapshotRestoreSuccessItem]? = nil, unsuccessful: [DisableFastSnapshotRestoreErrorItem]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -25735,6 +26614,7 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -25748,6 +26628,7 @@ extension EC2 {
         /// Returns unblocked if the request succeeds; otherwise, it returns an error.
         public let imageBlockPublicAccessState: ImageBlockPublicAccessDisabledState?
 
+        @inlinable
         public init(imageBlockPublicAccessState: ImageBlockPublicAccessDisabledState? = nil) {
             self.imageBlockPublicAccessState = imageBlockPublicAccessState
         }
@@ -25765,6 +26646,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -25780,6 +26662,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -25797,6 +26680,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -25812,6 +26696,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: String?
 
+        @inlinable
         public init(return: String? = nil) {
             self.`return` = `return`
         }
@@ -25829,6 +26714,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -25844,6 +26730,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -25859,6 +26746,7 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(delegatedAdminAccountId: String? = nil, dryRun: Bool? = nil) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
             self.dryRun = dryRun
@@ -25874,6 +26762,7 @@ extension EC2 {
         /// The result of disabling the IPAM account.
         public let success: Bool?
 
+        @inlinable
         public init(success: Bool? = nil) {
             self.success = success
         }
@@ -25887,6 +26776,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -25902,6 +26792,7 @@ extension EC2 {
         /// 			is disabled for your account.
         public let serialConsoleAccessEnabled: Bool?
 
+        @inlinable
         public init(serialConsoleAccessEnabled: Bool? = nil) {
             self.serialConsoleAccessEnabled = serialConsoleAccessEnabled
         }
@@ -25915,6 +26806,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -25928,6 +26820,7 @@ extension EC2 {
         /// Returns unblocked if the request succeeds.
         public let state: SnapshotBlockPublicAccessState?
 
+        @inlinable
         public init(state: SnapshotBlockPublicAccessState? = nil) {
             self.state = state
         }
@@ -25947,6 +26840,7 @@ extension EC2 {
         /// The ID of the propagation route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -25966,6 +26860,7 @@ extension EC2 {
         /// Information about route propagation.
         public let propagation: TransitGatewayPropagation?
 
+        @inlinable
         public init(propagation: TransitGatewayPropagation? = nil) {
             self.propagation = propagation
         }
@@ -25983,6 +26878,7 @@ extension EC2 {
         /// The ID of the route table.
         public let routeTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String? = nil) {
             self.dryRun = dryRun
             self.gatewayId = gatewayId
@@ -26000,6 +26896,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(vpcId: String? = nil) {
             self.vpcId = vpcId
         }
@@ -26013,6 +26910,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -26028,6 +26926,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -26043,6 +26942,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -26060,6 +26960,7 @@ extension EC2 {
         /// Deprecated.
         public let publicIp: String?
 
+        @inlinable
         public init(associationId: String? = nil, dryRun: Bool? = nil, publicIp: String? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
@@ -26081,6 +26982,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(associationId: String? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.associationId = associationId
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -26100,6 +27002,7 @@ extension EC2 {
         /// The current state of the target network association.
         public let status: AssociationStatus?
 
+        @inlinable
         public init(associationId: String? = nil, status: AssociationStatus? = nil) {
             self.associationId = associationId
             self.status = status
@@ -26119,6 +27022,7 @@ extension EC2 {
         /// The ARN of the IAM role to disassociate.
         public let roleArn: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, dryRun: Bool? = nil, roleArn: String? = nil) {
             self.certificateArn = certificateArn
             self.dryRun = dryRun
@@ -26136,6 +27040,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -26149,6 +27054,7 @@ extension EC2 {
         /// The ID of the IAM instance profile association.
         public let associationId: String?
 
+        @inlinable
         public init(associationId: String? = nil) {
             self.associationId = associationId
         }
@@ -26162,6 +27068,7 @@ extension EC2 {
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
 
+        @inlinable
         public init(iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil) {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
@@ -26179,6 +27086,7 @@ extension EC2 {
         /// The ID of the event window.
         public let instanceEventWindowId: String?
 
+        @inlinable
         public init(associationTarget: InstanceEventWindowDisassociationRequest? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil) {
             self.associationTarget = associationTarget
             self.dryRun = dryRun
@@ -26196,6 +27104,7 @@ extension EC2 {
         /// Information about the event window.
         public let instanceEventWindow: InstanceEventWindow?
 
+        @inlinable
         public init(instanceEventWindow: InstanceEventWindow? = nil) {
             self.instanceEventWindow = instanceEventWindow
         }
@@ -26213,6 +27122,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(asn: String? = nil, cidr: String? = nil, dryRun: Bool? = nil) {
             self.asn = asn
             self.cidr = cidr
@@ -26230,6 +27140,7 @@ extension EC2 {
         /// An ASN and BYOIP CIDR association.
         public let asnAssociation: AsnAssociation?
 
+        @inlinable
         public init(asnAssociation: AsnAssociation? = nil) {
             self.asnAssociation = asnAssociation
         }
@@ -26245,6 +27156,7 @@ extension EC2 {
         /// A resource discovery association ID.
         public let ipamResourceDiscoveryAssociationId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, ipamResourceDiscoveryAssociationId: String? = nil) {
             self.dryRun = dryRun
             self.ipamResourceDiscoveryAssociationId = ipamResourceDiscoveryAssociationId
@@ -26260,6 +27172,7 @@ extension EC2 {
         /// A resource discovery association.
         public let ipamResourceDiscoveryAssociation: IpamResourceDiscoveryAssociation?
 
+        @inlinable
         public init(ipamResourceDiscoveryAssociation: IpamResourceDiscoveryAssociation? = nil) {
             self.ipamResourceDiscoveryAssociation = ipamResourceDiscoveryAssociation
         }
@@ -26282,6 +27195,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(associationIds: [String]? = nil, dryRun: Bool? = nil, maxDrainDurationSeconds: Int? = nil, natGatewayId: String? = nil) {
             self.associationIds = associationIds
             self.dryRun = dryRun
@@ -26311,6 +27225,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
             self.natGatewayAddresses = natGatewayAddresses
             self.natGatewayId = natGatewayId
@@ -26328,6 +27243,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(associationId: String? = nil, dryRun: Bool? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
@@ -26343,6 +27259,7 @@ extension EC2 {
         /// The association ID for the CIDR block.
         public let associationId: String?
 
+        @inlinable
         public init(associationId: String? = nil) {
             self.associationId = associationId
         }
@@ -26358,6 +27275,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation? = nil, subnetId: String? = nil) {
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
             self.subnetId = subnetId
@@ -26382,6 +27300,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, subnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.subnetIds = subnetIds
@@ -26401,6 +27320,7 @@ extension EC2 {
         /// Information about the association.
         public let associations: TransitGatewayMulticastDomainAssociations?
 
+        @inlinable
         public init(associations: TransitGatewayMulticastDomainAssociations? = nil) {
             self.associations = associations
         }
@@ -26418,6 +27338,7 @@ extension EC2 {
         /// The ID of the disassociated policy table.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -26435,6 +27356,7 @@ extension EC2 {
         /// Returns details about the transit gateway policy table disassociation.
         public let association: TransitGatewayPolicyTableAssociation?
 
+        @inlinable
         public init(association: TransitGatewayPolicyTableAssociation? = nil) {
             self.association = association
         }
@@ -26452,6 +27374,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -26469,6 +27392,7 @@ extension EC2 {
         /// Information about the association.
         public let association: TransitGatewayAssociation?
 
+        @inlinable
         public init(association: TransitGatewayAssociation? = nil) {
             self.association = association
         }
@@ -26486,6 +27410,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(associationId: String? = nil, clientToken: String? = DisassociateTrunkInterfaceRequest.idempotencyToken(), dryRun: Bool? = nil) {
             self.associationId = associationId
             self.clientToken = clientToken
@@ -26505,6 +27430,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, return: Bool? = nil) {
             self.clientToken = clientToken
             self.`return` = `return`
@@ -26520,6 +27446,7 @@ extension EC2 {
         /// The association ID for the CIDR block.
         public let associationId: String?
 
+        @inlinable
         public init(associationId: String? = nil) {
             self.associationId = associationId
         }
@@ -26537,6 +27464,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(cidrBlockAssociation: VpcCidrBlockAssociation? = nil, ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation? = nil, vpcId: String? = nil) {
             self.cidrBlockAssociation = cidrBlockAssociation
             self.ipv6CidrBlockAssociation = ipv6CidrBlockAssociation
@@ -26558,6 +27486,7 @@ extension EC2 {
         /// Information about the volume.
         public let volume: VolumeDetail?
 
+        @inlinable
         public init(description: String? = nil, image: DiskImageDetail? = nil, volume: VolumeDetail? = nil) {
             self.description = description
             self.image = image
@@ -26581,6 +27510,7 @@ extension EC2 {
         /// The size of the disk image, in GiB.
         public let size: Int64?
 
+        @inlinable
         public init(checksum: String? = nil, format: DiskImageFormat? = nil, importManifestUrl: String? = nil, size: Int64? = nil) {
             self.checksum = checksum
             self.format = format
@@ -26604,6 +27534,7 @@ extension EC2 {
         /// A presigned URL for the import manifest stored in Amazon S3 and presented here as an Amazon S3 presigned URL. For information about creating a presigned URL for an Amazon S3 object, read the "Query String Request Authentication Alternative" section of the Authenticating REST Requests topic in the Amazon Simple Storage Service Developer Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
         public let importManifestUrl: String?
 
+        @inlinable
         public init(bytes: Int64? = nil, format: DiskImageFormat? = nil, importManifestUrl: String? = nil) {
             self.bytes = bytes
             self.format = format
@@ -26623,6 +27554,7 @@ extension EC2 {
         /// The size of the volume, in GiB.
         public let size: Int64?
 
+        @inlinable
         public init(id: String? = nil, size: Int64? = nil) {
             self.id = id
             self.size = size
@@ -26642,6 +27574,7 @@ extension EC2 {
         /// The type of disk.
         public let type: DiskType?
 
+        @inlinable
         public init(count: Int? = nil, sizeInGB: Int64? = nil, type: DiskType? = nil) {
             self.count = count
             self.sizeInGB = sizeInGB
@@ -26661,6 +27594,7 @@ extension EC2 {
         /// The ID of the private hosted zone.
         public let hostedZoneId: String?
 
+        @inlinable
         public init(dnsName: String? = nil, hostedZoneId: String? = nil) {
             self.dnsName = dnsName
             self.hostedZoneId = hostedZoneId
@@ -26678,6 +27612,7 @@ extension EC2 {
         /// Indicates whether to enable private DNS only for inbound endpoints.
         public let privateDnsOnlyForInboundResolverEndpoint: Bool?
 
+        @inlinable
         public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil) {
             self.dnsRecordIpType = dnsRecordIpType
             self.privateDnsOnlyForInboundResolverEndpoint = privateDnsOnlyForInboundResolverEndpoint
@@ -26695,6 +27630,7 @@ extension EC2 {
         /// Indicates whether to enable private DNS only for inbound endpoints. This option is available only for services that support both gateway and interface endpoints. It routes traffic that originates from the VPC to the gateway endpoint and traffic that originates from on-premises to the interface endpoint.
         public let privateDnsOnlyForInboundResolverEndpoint: Bool?
 
+        @inlinable
         public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil) {
             self.dnsRecordIpType = dnsRecordIpType
             self.privateDnsOnlyForInboundResolverEndpoint = privateDnsOnlyForInboundResolverEndpoint
@@ -26718,6 +27654,7 @@ extension EC2 {
         /// 			servers.
         public let enabled: Bool?
 
+        @inlinable
         public init(customDnsServers: [String]? = nil, enabled: Bool? = nil) {
             self.customDnsServers = customDnsServers
             self.enabled = enabled
@@ -26752,6 +27689,7 @@ extension EC2 {
         /// The volume type. For more information, see Amazon EBS volume types in the Amazon EBS User Guide.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -26787,6 +27725,7 @@ extension EC2 {
         /// Indicates whether non-volatile memory express (NVMe) is supported.
         public let nvmeSupport: EbsNvmeSupport?
 
+        @inlinable
         public init(ebsOptimizedInfo: EbsOptimizedInfo? = nil, ebsOptimizedSupport: EbsOptimizedSupport? = nil, encryptionSupport: EbsEncryptionSupport? = nil, nvmeSupport: EbsNvmeSupport? = nil) {
             self.ebsOptimizedInfo = ebsOptimizedInfo
             self.ebsOptimizedSupport = ebsOptimizedSupport
@@ -26816,6 +27755,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services account that owns the volume. This parameter is returned only for volumes that are attached to  Fargate tasks.
         public let volumeOwnerId: String?
 
+        @inlinable
         public init(associatedResource: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, status: AttachmentStatus? = nil, volumeId: String? = nil, volumeOwnerId: String? = nil) {
             self.associatedResource = associatedResource
             self.attachTime = attachTime
@@ -26841,6 +27781,7 @@ extension EC2 {
         /// The ID of the EBS volume.
         public let volumeId: String?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, volumeId: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.volumeId = volumeId
@@ -26866,6 +27807,7 @@ extension EC2 {
         /// The maximum throughput performance for an EBS-optimized instance type, in MB/s.
         public let maximumThroughputInMBps: Double?
 
+        @inlinable
         public init(baselineBandwidthInMbps: Int? = nil, baselineIops: Int? = nil, baselineThroughputInMBps: Double? = nil, maximumBandwidthInMbps: Int? = nil, maximumIops: Int? = nil, maximumThroughputInMBps: Double? = nil) {
             self.baselineBandwidthInMbps = baselineBandwidthInMbps
             self.baselineIops = baselineIops
@@ -26893,6 +27835,7 @@ extension EC2 {
         /// The result of the attached EBS status check.
         public let status: StatusType?
 
+        @inlinable
         public init(impairedSince: Date? = nil, name: StatusName? = nil, status: StatusType? = nil) {
             self.impairedSince = impairedSince
             self.name = name
@@ -26915,6 +27858,7 @@ extension EC2 {
         /// The current status.
         public let status: SummaryStatus?
 
+        @inlinable
         public init(details: [EbsStatusDetails]? = nil, status: SummaryStatus? = nil) {
             self.details = details
             self.status = status
@@ -26964,6 +27908,7 @@ extension EC2 {
         /// The ID of the VPC in which the EC2 Instance Connect Endpoint was created.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, createdAt: Date? = nil, dnsName: String? = nil, fipsDnsName: String? = nil, instanceConnectEndpointArn: String? = nil, instanceConnectEndpointId: String? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, preserveClientIp: Bool? = nil, securityGroupIds: [String]? = nil, state: Ec2InstanceConnectEndpointState? = nil, stateMessage: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.createdAt = createdAt
@@ -27005,6 +27950,7 @@ extension EC2 {
         /// The maximum number of Elastic Fabric Adapters for the instance type.
         public let maximumEfaInterfaces: Int?
 
+        @inlinable
         public init(maximumEfaInterfaces: Int? = nil) {
             self.maximumEfaInterfaces = maximumEfaInterfaces
         }
@@ -27027,6 +27973,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(attachments: [InternetGatewayAttachment]? = nil, egressOnlyInternetGatewayId: String? = nil, tags: [Tag]? = nil) {
             self.attachments = attachments
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
@@ -27050,6 +27997,7 @@ extension EC2 {
         /// The ID of the Elastic Graphics accelerator.
         public let elasticGpuId: String?
 
+        @inlinable
         public init(elasticGpuAssociationId: String? = nil, elasticGpuAssociationState: String? = nil, elasticGpuAssociationTime: String? = nil, elasticGpuId: String? = nil) {
             self.elasticGpuAssociationId = elasticGpuAssociationId
             self.elasticGpuAssociationState = elasticGpuAssociationState
@@ -27069,6 +28017,7 @@ extension EC2 {
         /// The health status.
         public let status: ElasticGpuStatus?
 
+        @inlinable
         public init(status: ElasticGpuStatus? = nil) {
             self.status = status
         }
@@ -27082,6 +28031,7 @@ extension EC2 {
         /// The type of Elastic Graphics accelerator.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -27095,6 +28045,7 @@ extension EC2 {
         /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024. For  workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4ad,  G4dn, or G5 instances.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -27123,6 +28074,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, elasticGpuHealth: ElasticGpuHealth? = nil, elasticGpuId: String? = nil, elasticGpuState: ElasticGpuState? = nil, elasticGpuType: String? = nil, instanceId: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.elasticGpuHealth = elasticGpuHealth
@@ -27150,6 +28102,7 @@ extension EC2 {
         ///  	The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, eia1.xlarge, eia2.medium, eia2.large, and eia2.xlarge.
         public let type: String?
 
+        @inlinable
         public init(count: Int? = nil, type: String? = nil) {
             self.count = count
             self.type = type
@@ -27175,6 +28128,7 @@ extension EC2 {
         ///  The time at which the elastic inference accelerator is associated with an instance.
         public let elasticInferenceAcceleratorAssociationTime: Date?
 
+        @inlinable
         public init(elasticInferenceAcceleratorArn: String? = nil, elasticInferenceAcceleratorAssociationId: String? = nil, elasticInferenceAcceleratorAssociationState: String? = nil, elasticInferenceAcceleratorAssociationTime: Date? = nil) {
             self.elasticInferenceAcceleratorArn = elasticInferenceAcceleratorArn
             self.elasticInferenceAcceleratorAssociationId = elasticInferenceAcceleratorAssociationId
@@ -27196,6 +28150,7 @@ extension EC2 {
         /// Configures ENA Express for UDP network traffic.
         public let enaSrdUdpSpecification: EnaSrdUdpSpecification?
 
+        @inlinable
         public init(enaSrdEnabled: Bool? = nil, enaSrdUdpSpecification: EnaSrdUdpSpecification? = nil) {
             self.enaSrdEnabled = enaSrdEnabled
             self.enaSrdUdpSpecification = enaSrdUdpSpecification
@@ -27214,6 +28169,7 @@ extension EC2 {
         /// Contains ENA Express settings for UDP network traffic in your launch template.
         public let enaSrdUdpSpecification: EnaSrdUdpSpecificationRequest?
 
+        @inlinable
         public init(enaSrdEnabled: Bool? = nil, enaSrdUdpSpecification: EnaSrdUdpSpecificationRequest? = nil) {
             self.enaSrdEnabled = enaSrdEnabled
             self.enaSrdUdpSpecification = enaSrdUdpSpecification
@@ -27230,6 +28186,7 @@ extension EC2 {
         /// 			you must first enable ENA Express.
         public let enaSrdUdpEnabled: Bool?
 
+        @inlinable
         public init(enaSrdUdpEnabled: Bool? = nil) {
             self.enaSrdUdpEnabled = enaSrdUdpEnabled
         }
@@ -27246,6 +28203,7 @@ extension EC2 {
         /// 			launch template.
         public let enaSrdUdpEnabled: Bool?
 
+        @inlinable
         public init(enaSrdUdpEnabled: Bool? = nil) {
             self.enaSrdUdpEnabled = enaSrdUdpEnabled
         }
@@ -27263,6 +28221,7 @@ extension EC2 {
         /// The ID of the account that you want to transfer the Elastic IP address to.
         public let transferAccountId: String?
 
+        @inlinable
         public init(allocationId: String? = nil, dryRun: Bool? = nil, transferAccountId: String? = nil) {
             self.allocationId = allocationId
             self.dryRun = dryRun
@@ -27280,6 +28239,7 @@ extension EC2 {
         /// An Elastic IP address transfer.
         public let addressTransfer: AddressTransfer?
 
+        @inlinable
         public init(addressTransfer: AddressTransfer? = nil) {
             self.addressTransfer = addressTransfer
         }
@@ -27301,6 +28261,7 @@ extension EC2 {
         /// The statistic used for the enabled subscription.
         public let statistic: StatisticType?
 
+        @inlinable
         public init(destination: String? = nil, dryRun: Bool? = nil, metric: MetricType? = nil, source: String? = nil, statistic: StatisticType? = nil) {
             self.destination = destination
             self.dryRun = dryRun
@@ -27322,6 +28283,7 @@ extension EC2 {
         /// Indicates whether the subscribe action was successful.
         public let output: Bool?
 
+        @inlinable
         public init(output: Bool? = nil) {
             self.output = output
         }
@@ -27335,6 +28297,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -27348,6 +28311,7 @@ extension EC2 {
         /// The updated status of encryption by default.
         public let ebsEncryptionByDefault: Bool?
 
+        @inlinable
         public init(ebsEncryptionByDefault: Bool? = nil) {
             self.ebsEncryptionByDefault = ebsEncryptionByDefault
         }
@@ -27380,6 +28344,7 @@ extension EC2 {
         /// 			must be snapshot.
         public let snapshotConfiguration: FastLaunchSnapshotConfigurationRequest?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil, launchTemplate: FastLaunchLaunchTemplateSpecificationRequest? = nil, maxParallelLaunches: Int? = nil, resourceType: String? = nil, snapshotConfiguration: FastLaunchSnapshotConfigurationRequest? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -27422,6 +28387,7 @@ extension EC2 {
         /// The time that the state changed for Windows fast launch for the AMI.
         public let stateTransitionTime: Date?
 
+        @inlinable
         public init(imageId: String? = nil, launchTemplate: FastLaunchLaunchTemplateSpecificationResponse? = nil, maxParallelLaunches: Int? = nil, ownerId: String? = nil, resourceType: FastLaunchResourceType? = nil, snapshotConfiguration: FastLaunchSnapshotConfigurationResponse? = nil, state: FastLaunchStateCode? = nil, stateTransitionReason: String? = nil, stateTransitionTime: Date? = nil) {
             self.imageId = imageId
             self.launchTemplate = launchTemplate
@@ -27456,6 +28422,7 @@ extension EC2 {
         /// The ID of the snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(fastSnapshotRestoreStateErrors: [EnableFastSnapshotRestoreStateErrorItem]? = nil, snapshotId: String? = nil) {
             self.fastSnapshotRestoreStateErrors = fastSnapshotRestoreStateErrors
             self.snapshotId = snapshotId
@@ -27473,6 +28440,7 @@ extension EC2 {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -27490,6 +28458,7 @@ extension EC2 {
         /// The error.
         public let error: EnableFastSnapshotRestoreStateError?
 
+        @inlinable
         public init(availabilityZone: String? = nil, error: EnableFastSnapshotRestoreStateError? = nil) {
             self.availabilityZone = availabilityZone
             self.error = error
@@ -27525,6 +28494,7 @@ extension EC2 {
         /// The reason for the state transition. The possible values are as follows:    Client.UserInitiated - The state successfully transitioned to enabling or disabling.    Client.UserInitiated - Lifecycle state transition - The state successfully transitioned  to optimizing, enabled, or disabled.
         public let stateTransitionReason: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.disabledTime = disabledTime
@@ -27567,6 +28537,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourceSnapshotIdsEncoding, String>>
         public var sourceSnapshotIds: [String]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dryRun = dryRun
@@ -27591,6 +28562,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, EnableFastSnapshotRestoreErrorItem>>
         public var unsuccessful: [EnableFastSnapshotRestoreErrorItem]?
 
+        @inlinable
         public init(successful: [EnableFastSnapshotRestoreSuccessItem]? = nil, unsuccessful: [EnableFastSnapshotRestoreErrorItem]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -27610,6 +28582,7 @@ extension EC2 {
         /// Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any attempt to publicly share your AMIs in the specified Region.
         public let imageBlockPublicAccessState: ImageBlockPublicAccessEnabledState?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageBlockPublicAccessState: ImageBlockPublicAccessEnabledState? = nil) {
             self.dryRun = dryRun
             self.imageBlockPublicAccessState = imageBlockPublicAccessState
@@ -27625,6 +28598,7 @@ extension EC2 {
         /// Returns block-new-sharing if the request succeeds; otherwise, it returns an error.
         public let imageBlockPublicAccessState: ImageBlockPublicAccessEnabledState?
 
+        @inlinable
         public init(imageBlockPublicAccessState: ImageBlockPublicAccessEnabledState? = nil) {
             self.imageBlockPublicAccessState = imageBlockPublicAccessState
         }
@@ -27644,6 +28618,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(deprecateAt: Date? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
             self.deprecateAt = deprecateAt
             self.dryRun = dryRun
@@ -27661,6 +28636,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -27680,6 +28656,7 @@ extension EC2 {
         /// If true, enforces deregistration protection for 24 hours after deregistration protection is disabled.
         public let withCooldown: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil, withCooldown: Bool? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -27697,6 +28674,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: String?
 
+        @inlinable
         public init(return: String? = nil) {
             self.`return` = `return`
         }
@@ -27714,6 +28692,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -27729,6 +28708,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -27744,6 +28724,7 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(delegatedAdminAccountId: String? = nil, dryRun: Bool? = nil) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
             self.dryRun = dryRun
@@ -27759,6 +28740,7 @@ extension EC2 {
         /// The result of enabling the IPAM account.
         public let success: Bool?
 
+        @inlinable
         public init(success: Bool? = nil) {
             self.success = success
         }
@@ -27772,6 +28754,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -27785,6 +28768,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -27798,6 +28782,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -27813,6 +28798,7 @@ extension EC2 {
         /// 			is disabled for your account.
         public let serialConsoleAccessEnabled: Bool?
 
+        @inlinable
         public init(serialConsoleAccessEnabled: Bool? = nil) {
             self.serialConsoleAccessEnabled = serialConsoleAccessEnabled
         }
@@ -27828,6 +28814,7 @@ extension EC2 {
         /// The mode in which to enable block public access for snapshots for the Region.  Specify one of the following values:    block-all-sharing - Prevents all public sharing of snapshots in  the Region. Users in the account will no longer be able to request new public  sharing. Additionally, snapshots that are already publicly shared are treated as  private and they are no longer publicly available.    block-new-sharing  - Prevents only new public sharing of snapshots  in the Region. Users in the account will no longer be able to request new public  sharing. However, snapshots that are already publicly shared, remain publicly  available.    unblocked is not a valid value for EnableSnapshotBlockPublicAccess.
         public let state: SnapshotBlockPublicAccessState?
 
+        @inlinable
         public init(dryRun: Bool? = nil, state: SnapshotBlockPublicAccessState? = nil) {
             self.dryRun = dryRun
             self.state = state
@@ -27843,6 +28830,7 @@ extension EC2 {
         /// The state of block public access for snapshots for the account and Region. Returns  either block-all-sharing or block-new-sharing if the request  succeeds.
         public let state: SnapshotBlockPublicAccessState?
 
+        @inlinable
         public init(state: SnapshotBlockPublicAccessState? = nil) {
             self.state = state
         }
@@ -27862,6 +28850,7 @@ extension EC2 {
         /// The ID of the propagation route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -27881,6 +28870,7 @@ extension EC2 {
         /// Information about route propagation.
         public let propagation: TransitGatewayPropagation?
 
+        @inlinable
         public init(propagation: TransitGatewayPropagation? = nil) {
             self.propagation = propagation
         }
@@ -27898,6 +28888,7 @@ extension EC2 {
         /// The ID of the route table. The routing table must be associated with the same VPC that the virtual private gateway is attached to.
         public let routeTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, gatewayId: String? = nil, routeTableId: String? = nil) {
             self.dryRun = dryRun
             self.gatewayId = gatewayId
@@ -27917,6 +28908,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, volumeId: String? = nil) {
             self.dryRun = dryRun
             self.volumeId = volumeId
@@ -27932,6 +28924,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(vpcId: String? = nil) {
             self.vpcId = vpcId
         }
@@ -27945,6 +28938,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -27960,6 +28954,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.vpcId = vpcId
@@ -27975,6 +28970,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -27988,6 +28984,7 @@ extension EC2 {
         /// If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves; otherwise, it is not enabled for Amazon Web Services Nitro Enclaves.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -28001,6 +28998,7 @@ extension EC2 {
         /// To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter to true.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -28018,6 +29016,7 @@ extension EC2 {
         /// The ID of the instance. This information is available only for instanceChange events.
         public let instanceId: String?
 
+        @inlinable
         public init(eventDescription: String? = nil, eventSubType: String? = nil, instanceId: String? = nil) {
             self.eventDescription = eventDescription
             self.eventSubType = eventSubType
@@ -28154,6 +29153,7 @@ extension EC2 {
         /// The VPN gateway.
         public let vpnGateway: AnalysisComponent?
 
+        @inlinable
         public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, componentAccount: String? = nil, componentRegion: String? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
             self.acl = acl
             self.aclRule = aclRule
@@ -28273,6 +29273,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -28290,6 +29291,7 @@ extension EC2 {
         /// The current state of the client certificate revocation list.
         public let status: ClientCertificateRevocationListStatus?
 
+        @inlinable
         public init(certificateRevocationList: String? = nil, status: ClientCertificateRevocationListStatus? = nil) {
             self.certificateRevocationList = certificateRevocationList
             self.status = status
@@ -28307,6 +29309,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.dryRun = dryRun
@@ -28322,6 +29325,7 @@ extension EC2 {
         /// The contents of the Client VPN endpoint configuration file.
         public let clientConfiguration: String?
 
+        @inlinable
         public init(clientConfiguration: String? = nil) {
             self.clientConfiguration = clientConfiguration
         }
@@ -28352,6 +29356,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = ExportImageRequest.idempotencyToken(), description: String? = nil, diskImageFormat: DiskImageFormat? = nil, dryRun: Bool? = nil, imageId: String? = nil, roleName: String? = nil, s3ExportLocation: ExportTaskS3LocationRequest? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -28400,6 +29405,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, diskImageFormat: DiskImageFormat? = nil, exportImageTaskId: String? = nil, imageId: String? = nil, progress: String? = nil, roleName: String? = nil, s3ExportLocation: ExportTaskS3Location? = nil, status: String? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.diskImageFormat = diskImageFormat
@@ -28448,6 +29454,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, exportImageTaskId: String? = nil, imageId: String? = nil, progress: String? = nil, s3ExportLocation: ExportTaskS3Location? = nil, status: String? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.exportImageTaskId = exportImageTaskId
@@ -28490,6 +29497,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, exportTaskId: String? = nil, exportToS3Task: ExportToS3Task? = nil, instanceExportDetails: InstanceExportDetails? = nil, state: ExportTaskState? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.exportTaskId = exportTaskId
@@ -28517,6 +29525,7 @@ extension EC2 {
         /// The prefix (logical hierarchy) in the bucket.
         public let s3Prefix: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
@@ -28534,6 +29543,7 @@ extension EC2 {
         /// The prefix (logical hierarchy) in the bucket.
         public let s3Prefix: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Prefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
@@ -28555,6 +29565,7 @@ extension EC2 {
         /// The encryption key for your S3 bucket.
         public let s3Key: String?
 
+        @inlinable
         public init(containerFormat: ContainerFormat? = nil, diskImageFormat: DiskImageFormat? = nil, s3Bucket: String? = nil, s3Key: String? = nil) {
             self.containerFormat = containerFormat
             self.diskImageFormat = diskImageFormat
@@ -28580,6 +29591,7 @@ extension EC2 {
         /// The image is written to a single object in the Amazon S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat.
         public let s3Prefix: String?
 
+        @inlinable
         public init(containerFormat: ContainerFormat? = nil, diskImageFormat: DiskImageFormat? = nil, s3Bucket: String? = nil, s3Prefix: String? = nil) {
             self.containerFormat = containerFormat
             self.diskImageFormat = diskImageFormat
@@ -28608,6 +29620,7 @@ extension EC2 {
         /// The ID of the route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, s3Bucket: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -28627,6 +29640,7 @@ extension EC2 {
         /// The URL of the exported file in Amazon S3. For example,  s3://bucket_name/VPCTransitGateway/TransitGatewayRouteTables/file_name.
         public let s3Location: String?
 
+        @inlinable
         public init(s3Location: String? = nil) {
             self.s3Location = s3Location
         }
@@ -28642,6 +29656,7 @@ extension EC2 {
         /// The ID of the Capacity Reservation Fleet that could not be cancelled.
         public let capacityReservationFleetId: String?
 
+        @inlinable
         public init(cancelCapacityReservationFleetError: CancelCapacityReservationFleetError? = nil, capacityReservationFleetId: String? = nil) {
             self.cancelCapacityReservationFleetError = cancelCapacityReservationFleetError
             self.capacityReservationFleetId = capacityReservationFleetId
@@ -28659,6 +29674,7 @@ extension EC2 {
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
 
+        @inlinable
         public init(error: DeleteQueuedReservedInstancesError? = nil, reservedInstancesId: String? = nil) {
             self.error = error
             self.reservedInstancesId = reservedInstancesId
@@ -28678,6 +29694,7 @@ extension EC2 {
         /// Specify the version of the launch template that the AMI should use for Windows fast launch.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -28699,6 +29716,7 @@ extension EC2 {
         /// The version of the launch template that the AMI uses for Windows fast launch.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -28717,6 +29735,7 @@ extension EC2 {
         /// 			enabled AMI.
         public let targetResourceCount: Int?
 
+        @inlinable
         public init(targetResourceCount: Int? = nil) {
             self.targetResourceCount = targetResourceCount
         }
@@ -28731,6 +29750,7 @@ extension EC2 {
         /// 			enabled AMI.
         public let targetResourceCount: Int?
 
+        @inlinable
         public init(targetResourceCount: Int? = nil) {
             self.targetResourceCount = targetResourceCount
         }
@@ -28746,6 +29766,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
         public let selfServiceSamlProviderArn: String?
 
+        @inlinable
         public init(samlProviderArn: String? = nil, selfServiceSamlProviderArn: String? = nil) {
             self.samlProviderArn = samlProviderArn
             self.selfServiceSamlProviderArn = selfServiceSamlProviderArn
@@ -28763,6 +29784,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
         public let selfServiceSAMLProviderArn: String?
 
+        @inlinable
         public init(samlProviderArn: String? = nil, selfServiceSAMLProviderArn: String? = nil) {
             self.samlProviderArn = samlProviderArn
             self.selfServiceSAMLProviderArn = selfServiceSAMLProviderArn
@@ -28783,6 +29805,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ValuesEncoding, String>>
         public var values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -28800,6 +29823,7 @@ extension EC2 {
         /// The last port in the range.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -28838,6 +29862,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourcesEncoding, String>>
         public var sources: [String]?
 
+        @inlinable
         public init(destinationPorts: [PortRange]? = nil, destinations: [String]? = nil, direction: String? = nil, protocol: String? = nil, ruleAction: String? = nil, ruleGroupArn: String? = nil, sourcePorts: [PortRange]? = nil, sources: [String]? = nil) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
@@ -28890,6 +29915,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourcesEncoding, String>>
         public var sources: [String]?
 
+        @inlinable
         public init(destinationPorts: [PortRange]? = nil, destinations: [String]? = nil, priority: Int? = nil, protocols: [Int]? = nil, ruleAction: String? = nil, ruleGroupArn: String? = nil, sourcePorts: [PortRange]? = nil, sources: [String]? = nil) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
@@ -28943,6 +29969,7 @@ extension EC2 {
         /// 				weight in the Amazon EC2 User Guide.
         public let weight: Double?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, fulfilledCapacity: Double? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: InstanceType? = nil, priority: Int? = nil, totalInstanceCount: Int? = nil, weight: Double? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -29025,6 +30052,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new instance requests are placed or able to fulfill the request. The default end date is 7 days from the current date.
         public let validUntil: Date?
 
+        @inlinable
         public init(activityStatus: FleetActivityStatus? = nil, clientToken: String? = nil, context: String? = nil, createTime: Date? = nil, errors: [DescribeFleetError]? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String? = nil, fleetState: FleetStateCode? = nil, fulfilledCapacity: Double? = nil, fulfilledOnDemandCapacity: Double? = nil, instances: [DescribeFleetsInstances]? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfig]? = nil, onDemandOptions: OnDemandOptions? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptions? = nil, tags: [Tag]? = nil, targetCapacitySpecification: TargetCapacitySpecification? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.activityStatus = activityStatus
             self.clientToken = clientToken
@@ -29083,6 +30111,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OverridesEncoding, FleetLaunchTemplateOverrides>>
         public var overrides: [FleetLaunchTemplateOverrides]?
 
+        @inlinable
         public init(launchTemplateSpecification: FleetLaunchTemplateSpecification? = nil, overrides: [FleetLaunchTemplateOverrides]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
@@ -29103,6 +30132,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OverridesEncoding, FleetLaunchTemplateOverridesRequest>>
         public var overrides: [FleetLaunchTemplateOverridesRequest]?
 
+        @inlinable
         public init(launchTemplateSpecification: FleetLaunchTemplateSpecificationRequest? = nil, overrides: [FleetLaunchTemplateOverridesRequest]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
@@ -29141,6 +30171,7 @@ extension EC2 {
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
+        @inlinable
         public init(availabilityZone: String? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: PlacementResponse? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
             self.imageId = imageId
@@ -29186,6 +30217,7 @@ extension EC2 {
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
+        @inlinable
         public init(availabilityZone: String? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: Placement? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
             self.imageId = imageId
@@ -29223,6 +30255,7 @@ extension EC2 {
         /// The launch template version number, $Latest, or $Default. You must specify a value, otherwise the request fails. If the value is $Latest, Amazon EC2 uses the latest version of the launch template. If the value is $Default, Amazon EC2 uses the default version of the launch template.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -29250,6 +30283,7 @@ extension EC2 {
         /// The launch template version number, $Latest, or $Default. You must specify a value, otherwise the request fails. If the value is $Latest, Amazon EC2 uses the latest version of the launch template. If the value is $Default, Amazon EC2 uses the default version of the launch template.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -29275,6 +30309,7 @@ extension EC2 {
         /// The amount of time (in seconds) that Amazon EC2 waits before terminating the old Spot Instance after launching a new replacement Spot Instance. Required when ReplacementStrategy is set to launch-before-terminate. Not valid when ReplacementStrategy is set to launch. Valid values: Minimum value of 120 seconds. Maximum value of 7200 seconds.
         public let terminationDelay: Int?
 
+        @inlinable
         public init(replacementStrategy: FleetReplacementStrategy? = nil, terminationDelay: Int? = nil) {
             self.replacementStrategy = replacementStrategy
             self.terminationDelay = terminationDelay
@@ -29292,6 +30327,7 @@ extension EC2 {
         /// The amount of time (in seconds) that Amazon EC2 waits before terminating the old Spot Instance after launching a new replacement Spot Instance. Required when ReplacementStrategy is set to launch-before-terminate. Not valid when ReplacementStrategy is set to launch. Valid values: Minimum value of 120 seconds. Maximum value of 7200 seconds.
         public let terminationDelay: Int?
 
+        @inlinable
         public init(replacementStrategy: FleetReplacementStrategy? = nil, terminationDelay: Int? = nil) {
             self.replacementStrategy = replacementStrategy
             self.terminationDelay = terminationDelay
@@ -29307,6 +30343,7 @@ extension EC2 {
         /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance is at an elevated risk of being interrupted.
         public let capacityRebalance: FleetSpotCapacityRebalance?
 
+        @inlinable
         public init(capacityRebalance: FleetSpotCapacityRebalance? = nil) {
             self.capacityRebalance = capacityRebalance
         }
@@ -29320,6 +30357,7 @@ extension EC2 {
         /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance is at an elevated risk of being interrupted.
         public let capacityRebalance: FleetSpotCapacityRebalanceRequest?
 
+        @inlinable
         public init(capacityRebalance: FleetSpotCapacityRebalanceRequest? = nil) {
             self.capacityRebalance = capacityRebalance
         }
@@ -29366,6 +30404,7 @@ extension EC2 {
         /// The type of traffic captured for the flow log.
         public let trafficType: TrafficType?
 
+        @inlinable
         public init(creationTime: Date? = nil, deliverCrossAccountRole: String? = nil, deliverLogsErrorMessage: String? = nil, deliverLogsPermissionArn: String? = nil, deliverLogsStatus: String? = nil, destinationOptions: DestinationOptionsResponse? = nil, flowLogId: String? = nil, flowLogStatus: String? = nil, logDestination: String? = nil, logDestinationType: LogDestinationType? = nil, logFormat: String? = nil, logGroupName: String? = nil, maxAggregationInterval: Int? = nil, resourceId: String? = nil, tags: [Tag]? = nil, trafficType: TrafficType? = nil) {
             self.creationTime = creationTime
             self.deliverCrossAccountRole = deliverCrossAccountRole
@@ -29415,6 +30454,7 @@ extension EC2 {
         /// The name of the FPGA accelerator.
         public let name: String?
 
+        @inlinable
         public init(count: Int? = nil, manufacturer: String? = nil, memoryInfo: FpgaDeviceMemoryInfo? = nil, name: String? = nil) {
             self.count = count
             self.manufacturer = manufacturer
@@ -29434,6 +30474,7 @@ extension EC2 {
         /// The size of the memory available to the FPGA accelerator, in MiB.
         public let sizeInMiB: Int?
 
+        @inlinable
         public init(sizeInMiB: Int? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -29484,6 +30525,7 @@ extension EC2 {
         /// The time of the most recent update to the AFI.
         public let updateTime: Date?
 
+        @inlinable
         public init(createTime: Date? = nil, dataRetentionSupport: Bool? = nil, description: String? = nil, fpgaImageGlobalId: String? = nil, fpgaImageId: String? = nil, instanceTypes: [String]? = nil, name: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, pciId: PciId? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, shellVersion: String? = nil, state: FpgaImageState? = nil, tags: [Tag]? = nil, updateTime: Date? = nil) {
             self.createTime = createTime
             self.dataRetentionSupport = dataRetentionSupport
@@ -29540,6 +30582,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ProductCodesEncoding, ProductCode>>
         public var productCodes: [ProductCode]?
 
+        @inlinable
         public init(description: String? = nil, fpgaImageId: String? = nil, loadPermissions: [LoadPermission]? = nil, name: String? = nil, productCodes: [ProductCode]? = nil) {
             self.description = description
             self.fpgaImageId = fpgaImageId
@@ -29563,6 +30606,7 @@ extension EC2 {
         /// If the state is failed, this is the error message.
         public let message: String?
 
+        @inlinable
         public init(code: FpgaImageStateCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -29583,6 +30627,7 @@ extension EC2 {
         /// The total memory of all FPGA accelerators for the instance type.
         public let totalFpgaMemoryInMiB: Int?
 
+        @inlinable
         public init(fpgas: [FpgaDeviceInfo]? = nil, totalFpgaMemoryInMiB: Int? = nil) {
             self.fpgas = fpgas
             self.totalFpgaMemoryInMiB = totalFpgaMemoryInMiB
@@ -29601,6 +30646,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(certificateArn: String? = nil, dryRun: Bool? = nil) {
             self.certificateArn = certificateArn
             self.dryRun = dryRun
@@ -29619,6 +30665,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_AssociatedRolesEncoding, AssociatedRole>>
         public var associatedRoles: [AssociatedRole]?
 
+        @inlinable
         public init(associatedRoles: [AssociatedRole]? = nil) {
             self.associatedRoles = associatedRoles
         }
@@ -29639,6 +30686,7 @@ extension EC2 {
         /// The ID of the IPv6 address pool.
         public let poolId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -29668,6 +30716,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipv6CidrAssociations: [Ipv6CidrAssociation]? = nil, nextToken: String? = nil) {
             self.ipv6CidrAssociations = ipv6CidrAssociations
             self.nextToken = nextToken
@@ -29694,6 +30743,7 @@ extension EC2 {
         /// The starting time for the performance data request. The starting time must be formatted as yyyy-mm-ddThh:mm:ss.  For example, 2022-06-10T12:00:00.000Z.
         public let startTime: Date?
 
+        @inlinable
         public init(dataQueries: [DataQuery]? = nil, dryRun: Bool? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.dataQueries = dataQueries
             self.dryRun = dryRun
@@ -29722,6 +30772,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(dataResponses: [DataResponse]? = nil, nextToken: String? = nil) {
             self.dataResponses = dataResponses
             self.nextToken = nextToken
@@ -29743,6 +30794,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
@@ -29787,6 +30839,7 @@ extension EC2 {
         /// The number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
+        @inlinable
         public init(availableInstanceCount: Int? = nil, capacityReservationId: String? = nil, instanceType: String? = nil, instanceUsages: [InstanceUsage]? = nil, nextToken: String? = nil, state: CapacityReservationState? = nil, totalInstanceCount: Int? = nil) {
             self.availableInstanceCount = availableInstanceCount
             self.capacityReservationId = capacityReservationId
@@ -29824,6 +30877,7 @@ extension EC2 {
         /// The ID of the address pool.
         public let poolId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -29859,6 +30913,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(coipAddressUsages: [CoipAddressUsage]? = nil, coipPoolId: String? = nil, localGatewayRouteTableId: String? = nil, nextToken: String? = nil) {
             self.coipAddressUsages = coipAddressUsages
             self.coipPoolId = coipPoolId
@@ -29882,6 +30937,7 @@ extension EC2 {
         /// When enabled, retrieves the latest console output for the instance. Default: disabled (false)
         public let latest: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil, latest: Bool? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -29903,6 +30959,7 @@ extension EC2 {
         /// The time at which the output was last updated.
         public let timestamp: Date?
 
+        @inlinable
         public init(instanceId: String? = nil, output: String? = nil, timestamp: Date? = nil) {
             self.instanceId = instanceId
             self.output = output
@@ -29924,6 +30981,7 @@ extension EC2 {
         /// When set to true, acts as keystroke input and wakes up an instance that's in standby or "sleep" mode.
         public let wakeUp: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil, wakeUp: Bool? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -29943,6 +31001,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(imageData: String? = nil, instanceId: String? = nil) {
             self.imageData = imageData
             self.instanceId = instanceId
@@ -29960,6 +31019,7 @@ extension EC2 {
         /// The instance family.
         public let instanceFamily: UnlimitedSupportedInstanceFamily?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceFamily: UnlimitedSupportedInstanceFamily? = nil) {
             self.dryRun = dryRun
             self.instanceFamily = instanceFamily
@@ -29975,6 +31035,7 @@ extension EC2 {
         /// The default credit option for CPU usage of the instance family.
         public let instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification?
 
+        @inlinable
         public init(instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification? = nil) {
             self.instanceFamilyCreditSpecification = instanceFamilyCreditSpecification
         }
@@ -29988,6 +31049,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -30001,6 +31063,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the default KMS key for encryption by default.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -30014,6 +31077,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -30029,6 +31093,7 @@ extension EC2 {
         /// Reserved for future use.
         public let sseType: SSEType?
 
+        @inlinable
         public init(ebsEncryptionByDefault: Bool? = nil, sseType: SSEType? = nil) {
             self.ebsEncryptionByDefault = ebsEncryptionByDefault
             self.sseType = sseType
@@ -30050,6 +31115,7 @@ extension EC2 {
         /// Information about the service integration.
         public let integrateServices: IntegrateServices?
 
+        @inlinable
         public init(configDeliveryS3DestinationArn: String? = nil, dryRun: Bool? = nil, flowLogId: String? = nil, integrateServices: IntegrateServices? = nil) {
             self.configDeliveryS3DestinationArn = configDeliveryS3DestinationArn
             self.dryRun = dryRun
@@ -30073,6 +31139,7 @@ extension EC2 {
         /// The generated CloudFormation template.
         public let result: String?
 
+        @inlinable
         public init(result: String? = nil) {
             self.result = result
         }
@@ -30093,6 +31160,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
@@ -30122,6 +31190,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservationGroups: [CapacityReservationGroup]? = nil, nextToken: String? = nil) {
             self.capacityReservationGroups = capacityReservationGroups
             self.nextToken = nextToken
@@ -30142,6 +31211,7 @@ extension EC2 {
         /// The offering ID of the reservation.
         public let offeringId: String?
 
+        @inlinable
         public init(hostIdSet: [String]? = nil, offeringId: String? = nil) {
             self.hostIdSet = hostIdSet
             self.offeringId = offeringId
@@ -30166,6 +31236,7 @@ extension EC2 {
         /// The potential total upfront price. This is billed immediately.
         public let totalUpfrontPrice: String?
 
+        @inlinable
         public init(currencyCode: CurrencyCodeValues? = nil, purchase: [Purchase]? = nil, totalHourlyPrice: String? = nil, totalUpfrontPrice: String? = nil) {
             self.currencyCode = currencyCode
             self.purchase = purchase
@@ -30187,6 +31258,7 @@ extension EC2 {
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -30200,6 +31272,7 @@ extension EC2 {
         /// The current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. Possible values:    block-new-sharing - Any attempt to publicly share your AMIs in the specified Region is blocked.    unblocked - Your AMIs in the specified Region can be publicly shared.
         public let imageBlockPublicAccessState: String?
 
+        @inlinable
         public init(imageBlockPublicAccessState: String? = nil) {
             self.imageBlockPublicAccessState = imageBlockPublicAccessState
         }
@@ -30213,6 +31286,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -30226,6 +31300,7 @@ extension EC2 {
         /// The account-level default IMDS settings.
         public let accountLevel: InstanceMetadataDefaultsResponse?
 
+        @inlinable
         public init(accountLevel: InstanceMetadataDefaultsResponse? = nil) {
             self.accountLevel = accountLevel
         }
@@ -30245,6 +31320,7 @@ extension EC2 {
         /// The required public endorsement key type.
         public let keyType: EkPubKeyType?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil, keyFormat: EkPubKeyFormat? = nil, keyType: EkPubKeyType? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -30270,6 +31346,7 @@ extension EC2 {
         /// The public endorsement key material.
         public let keyValue: String?
 
+        @inlinable
         public init(instanceId: String? = nil, keyFormat: EkPubKeyFormat? = nil, keyType: EkPubKeyType? = nil, keyValue: String? = nil) {
             self.instanceId = instanceId
             self.keyFormat = keyFormat
@@ -30305,6 +31382,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
         public var virtualizationTypes: [VirtualizationType]?
 
+        @inlinable
         public init(architectureTypes: [ArchitectureType]? = nil, dryRun: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualizationTypes: [VirtualizationType]? = nil) {
             self.architectureTypes = architectureTypes
             self.dryRun = dryRun
@@ -30339,6 +31417,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceTypes: [InstanceTypeInfoFromInstanceRequirements]? = nil, nextToken: String? = nil) {
             self.instanceTypes = instanceTypes
             self.nextToken = nextToken
@@ -30356,6 +31435,7 @@ extension EC2 {
         /// The ID of the instance from which to retrieve the UEFI data.
         public let instanceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -30373,6 +31453,7 @@ extension EC2 {
         /// Base64 representation of the non-volatile UEFI variable store.
         public let uefiData: String?
 
+        @inlinable
         public init(instanceId: String? = nil, uefiData: String? = nil) {
             self.instanceId = instanceId
             self.uefiData = uefiData
@@ -30402,6 +31483,7 @@ extension EC2 {
         /// The ID of the VPC you want your history records filtered by.
         public let vpcId: String?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, ipamScopeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, vpcId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -30439,6 +31521,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(historyRecords: [IpamAddressHistoryRecord]? = nil, nextToken: String? = nil) {
             self.historyRecords = historyRecords
             self.nextToken = nextToken
@@ -30467,6 +31550,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(discoveryRegion: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, ipamResourceDiscoveryId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.discoveryRegion = discoveryRegion
             self.dryRun = dryRun
@@ -30500,6 +31584,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamDiscoveredAccounts: [IpamDiscoveredAccount]? = nil, nextToken: String? = nil) {
             self.ipamDiscoveredAccounts = ipamDiscoveredAccounts
             self.nextToken = nextToken
@@ -30528,6 +31613,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(addressRegion: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, ipamResourceDiscoveryId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.addressRegion = addressRegion
             self.dryRun = dryRun
@@ -30563,6 +31649,7 @@ extension EC2 {
         /// The oldest successful resource discovery time.
         public let oldestSampleTime: Date?
 
+        @inlinable
         public init(ipamDiscoveredPublicAddresses: [IpamDiscoveredPublicAddress]? = nil, nextToken: String? = nil, oldestSampleTime: Date? = nil) {
             self.ipamDiscoveredPublicAddresses = ipamDiscoveredPublicAddresses
             self.nextToken = nextToken
@@ -30593,6 +31680,7 @@ extension EC2 {
         /// A resource Region.
         public let resourceRegion: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamResourceDiscoveryId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceRegion: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -30626,6 +31714,7 @@ extension EC2 {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamDiscoveredResourceCidrs: [IpamDiscoveredResourceCidr]? = nil, nextToken: String? = nil) {
             self.ipamDiscoveredResourceCidrs = ipamDiscoveredResourceCidrs
             self.nextToken = nextToken
@@ -30654,6 +31743,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolAllocationId: String? = nil, ipamPoolId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -30687,6 +31777,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamPoolAllocations: [IpamPoolAllocation]? = nil, nextToken: String? = nil) {
             self.ipamPoolAllocations = ipamPoolAllocations
             self.nextToken = nextToken
@@ -30713,6 +31804,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -30744,6 +31836,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamPoolCidrs: [IpamPoolCidr]? = nil, nextToken: String? = nil) {
             self.ipamPoolCidrs = ipamPoolCidrs
             self.nextToken = nextToken
@@ -30780,6 +31873,7 @@ extension EC2 {
         /// The resource type.
         public let resourceType: IpamResourceType?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPoolId: String? = nil, ipamScopeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceOwner: String? = nil, resourceTag: RequestIpamResourceTag? = nil, resourceType: IpamResourceType? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -30821,6 +31915,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(ipamResourceCidrs: [IpamResourceCidr]? = nil, nextToken: String? = nil) {
             self.ipamResourceCidrs = ipamResourceCidrs
             self.nextToken = nextToken
@@ -30838,6 +31933,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -30853,6 +31949,7 @@ extension EC2 {
         /// The instance data.
         public let launchTemplateData: ResponseLaunchTemplateData?
 
+        @inlinable
         public init(launchTemplateData: ResponseLaunchTemplateData? = nil) {
             self.launchTemplateData = launchTemplateData
         }
@@ -30873,6 +31970,7 @@ extension EC2 {
         /// The ID of the prefix list.
         public let prefixListId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListId: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -30902,6 +32000,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrefixListAssociationsEncoding, PrefixListAssociation>>
         public var prefixListAssociations: [PrefixListAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, prefixListAssociations: [PrefixListAssociation]? = nil) {
             self.nextToken = nextToken
             self.prefixListAssociations = prefixListAssociations
@@ -30926,6 +32025,7 @@ extension EC2 {
         /// The version of the prefix list for which to return the entries. The default is the current version.
         public let targetVersion: Int64?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListId: String? = nil, targetVersion: Int64? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -30957,6 +32057,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [PrefixListEntry]? = nil, nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -30978,6 +32079,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, networkInsightsAccessScopeAnalysisId: String? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -31011,6 +32113,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisFindings: [AccessScopeAnalysisFinding]? = nil, analysisStatus: AnalysisStatus? = nil, networkInsightsAccessScopeAnalysisId: String? = nil, nextToken: String? = nil) {
             self.analysisFindings = analysisFindings
             self.analysisStatus = analysisStatus
@@ -31032,6 +32135,7 @@ extension EC2 {
         /// The ID of the Network Access Scope.
         public let networkInsightsAccessScopeId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInsightsAccessScopeId: String? = nil) {
             self.dryRun = dryRun
             self.networkInsightsAccessScopeId = networkInsightsAccessScopeId
@@ -31047,6 +32151,7 @@ extension EC2 {
         /// The Network Access Scope content.
         public let networkInsightsAccessScopeContent: NetworkInsightsAccessScopeContent?
 
+        @inlinable
         public init(networkInsightsAccessScopeContent: NetworkInsightsAccessScopeContent? = nil) {
             self.networkInsightsAccessScopeContent = networkInsightsAccessScopeContent
         }
@@ -31062,6 +32167,7 @@ extension EC2 {
         /// The ID of the Windows instance.
         public let instanceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -31081,6 +32187,7 @@ extension EC2 {
         /// The time the data was last updated.
         public let timestamp: Date?
 
+        @inlinable
         public init(instanceId: String? = nil, passwordData: String? = nil, timestamp: Date? = nil) {
             self.instanceId = instanceId
             self.passwordData = passwordData
@@ -31107,6 +32214,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TargetConfigurationsEncoding, TargetConfigurationRequest>>
         public var targetConfigurations: [TargetConfigurationRequest]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, reservedInstanceIds: [String]? = nil, targetConfigurations: [TargetConfigurationRequest]? = nil) {
             self.dryRun = dryRun
             self.reservedInstanceIds = reservedInstanceIds
@@ -31145,6 +32253,7 @@ extension EC2 {
         /// Describes the reason why the exchange cannot be completed.
         public let validationFailureReason: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, isValidExchange: Bool? = nil, outputReservedInstancesWillExpireAt: Date? = nil, paymentDue: String? = nil, reservedInstanceValueRollup: ReservationValue? = nil, reservedInstanceValueSet: [ReservedInstanceReservationValue]? = nil, targetConfigurationValueRollup: ReservationValue? = nil, targetConfigurationValueSet: [TargetReservationValue]? = nil, validationFailureReason: String? = nil) {
             self.currencyCode = currencyCode
             self.isValidExchange = isValidExchange
@@ -31187,6 +32296,7 @@ extension EC2 {
         /// The VPC ID where the security group can be used.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31218,6 +32328,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupForVpcsEncoding, SecurityGroupForVpc>>
         public var securityGroupForVpcs: [SecurityGroupForVpc]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityGroupForVpcs: [SecurityGroupForVpc]? = nil) {
             self.nextToken = nextToken
             self.securityGroupForVpcs = securityGroupForVpcs
@@ -31233,6 +32344,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -31248,6 +32360,7 @@ extension EC2 {
         /// 			is disabled for your account.
         public let serialConsoleAccessEnabled: Bool?
 
+        @inlinable
         public init(serialConsoleAccessEnabled: Bool? = nil) {
             self.serialConsoleAccessEnabled = serialConsoleAccessEnabled
         }
@@ -31261,6 +32374,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -31274,6 +32388,7 @@ extension EC2 {
         /// The current state of block public access for snapshots. Possible values include:    block-all-sharing - All public sharing of snapshots is blocked. Users in  the account can't request new public sharing. Additionally, snapshots that were already  publicly shared are treated as private and are not publicly available.    block-new-sharing  - Only new public sharing of snapshots is blocked.  Users in the account can't request new public sharing. However, snapshots that were  already publicly shared, remain publicly available.    unblocked  - Public sharing is not blocked. Users can publicly share  snapshots.
         public let state: SnapshotBlockPublicAccessState?
 
+        @inlinable
         public init(state: SnapshotBlockPublicAccessState? = nil) {
             self.state = state
         }
@@ -31306,6 +32421,7 @@ extension EC2 {
         /// The unit for the target capacity.
         public let targetCapacityUnitType: TargetCapacityUnitType?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil, instanceTypes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionNames: [String]? = nil, singleAvailabilityZone: Bool? = nil, targetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil) {
             self.dryRun = dryRun
             self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
@@ -31350,6 +32466,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotPlacementScoresEncoding, SpotPlacementScore>>
         public var spotPlacementScores: [SpotPlacementScore]?
 
+        @inlinable
         public init(nextToken: String? = nil, spotPlacementScores: [SpotPlacementScore]? = nil) {
             self.nextToken = nextToken
             self.spotPlacementScores = spotPlacementScores
@@ -31377,6 +32494,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, subnetId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31412,6 +32530,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetIpv6CidrReservationsEncoding, SubnetCidrReservation>>
         public var subnetIpv6CidrReservations: [SubnetCidrReservation]?
 
+        @inlinable
         public init(nextToken: String? = nil, subnetIpv4CidrReservations: [SubnetCidrReservation]? = nil, subnetIpv6CidrReservations: [SubnetCidrReservation]? = nil) {
             self.nextToken = nextToken
             self.subnetIpv4CidrReservations = subnetIpv4CidrReservations
@@ -31441,6 +32560,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31472,6 +32592,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayAttachmentPropagationsEncoding, TransitGatewayAttachmentPropagation>>
         public var transitGatewayAttachmentPropagations: [TransitGatewayAttachmentPropagation]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayAttachmentPropagations: [TransitGatewayAttachmentPropagation]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayAttachmentPropagations = transitGatewayAttachmentPropagations
@@ -31499,6 +32620,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31530,6 +32652,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(multicastDomainAssociations: [TransitGatewayMulticastDomainAssociation]? = nil, nextToken: String? = nil) {
             self.multicastDomainAssociations = multicastDomainAssociations
             self.nextToken = nextToken
@@ -31557,6 +32680,7 @@ extension EC2 {
         /// The ID of the transit gateway policy table.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31588,6 +32712,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(associations: [TransitGatewayPolicyTableAssociation]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -31615,6 +32740,7 @@ extension EC2 {
         /// The ID of the transit gateway policy table.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31644,6 +32770,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayPolicyTableEntriesEncoding, TransitGatewayPolicyTableEntry>>
         public var transitGatewayPolicyTableEntries: [TransitGatewayPolicyTableEntry]?
 
+        @inlinable
         public init(transitGatewayPolicyTableEntries: [TransitGatewayPolicyTableEntry]? = nil) {
             self.transitGatewayPolicyTableEntries = transitGatewayPolicyTableEntries
         }
@@ -31669,6 +32796,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31700,6 +32828,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayPrefixListReferencesEncoding, TransitGatewayPrefixListReference>>
         public var transitGatewayPrefixListReferences: [TransitGatewayPrefixListReference]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayPrefixListReferences: [TransitGatewayPrefixListReference]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayPrefixListReferences = transitGatewayPrefixListReferences
@@ -31727,6 +32856,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31758,6 +32888,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(associations: [TransitGatewayRouteTableAssociation]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -31785,6 +32916,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -31816,6 +32948,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayRouteTablePropagationsEncoding, TransitGatewayRouteTablePropagation>>
         public var transitGatewayRouteTablePropagations: [TransitGatewayRouteTablePropagation]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayRouteTablePropagations: [TransitGatewayRouteTablePropagation]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayRouteTablePropagations = transitGatewayRouteTablePropagations
@@ -31833,6 +32966,7 @@ extension EC2 {
         /// The ID of the Verified Access endpoint.
         public let verifiedAccessEndpointId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, verifiedAccessEndpointId: String? = nil) {
             self.dryRun = dryRun
             self.verifiedAccessEndpointId = verifiedAccessEndpointId
@@ -31850,6 +32984,7 @@ extension EC2 {
         /// The status of the Verified Access policy.
         public let policyEnabled: Bool?
 
+        @inlinable
         public init(policyDocument: String? = nil, policyEnabled: Bool? = nil) {
             self.policyDocument = policyDocument
             self.policyEnabled = policyEnabled
@@ -31867,6 +33002,7 @@ extension EC2 {
         /// The ID of the Verified Access group.
         public let verifiedAccessGroupId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, verifiedAccessGroupId: String? = nil) {
             self.dryRun = dryRun
             self.verifiedAccessGroupId = verifiedAccessGroupId
@@ -31884,6 +33020,7 @@ extension EC2 {
         /// The status of the Verified Access policy.
         public let policyEnabled: Bool?
 
+        @inlinable
         public init(policyDocument: String? = nil, policyEnabled: Bool? = nil) {
             self.policyDocument = policyDocument
             self.policyEnabled = policyEnabled
@@ -31905,6 +33042,7 @@ extension EC2 {
         /// The VpnConnectionId specifies the Site-to-Site VPN connection used for the sample configuration.
         public let vpnConnectionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, internetKeyExchangeVersion: String? = nil, vpnConnectionDeviceTypeId: String? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.internetKeyExchangeVersion = internetKeyExchangeVersion
@@ -31924,6 +33062,7 @@ extension EC2 {
         /// Sample configuration file for the specified customer gateway device.
         public let vpnConnectionDeviceSampleConfiguration: String?
 
+        @inlinable
         public init(vpnConnectionDeviceSampleConfiguration: String? = nil) {
             self.vpnConnectionDeviceSampleConfiguration = vpnConnectionDeviceSampleConfiguration
         }
@@ -31941,6 +33080,7 @@ extension EC2 {
         /// The NextToken value returned from a previous paginated GetVpnConnectionDeviceTypes request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -31968,6 +33108,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpnConnectionDeviceTypesEncoding, VpnConnectionDeviceType>>
         public var vpnConnectionDeviceTypes: [VpnConnectionDeviceType]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpnConnectionDeviceTypes: [VpnConnectionDeviceType]? = nil) {
             self.nextToken = nextToken
             self.vpnConnectionDeviceTypes = vpnConnectionDeviceTypes
@@ -31987,6 +33128,7 @@ extension EC2 {
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
             self.vpnConnectionId = vpnConnectionId
@@ -32014,6 +33156,7 @@ extension EC2 {
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String?
 
+        @inlinable
         public init(customerGatewayId: String? = nil, maintenanceDetails: MaintenanceDetails? = nil, transitGatewayId: String? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.maintenanceDetails = maintenanceDetails
@@ -32043,6 +33186,7 @@ extension EC2 {
         /// The name of the GPU accelerator.
         public let name: String?
 
+        @inlinable
         public init(count: Int? = nil, manufacturer: String? = nil, memoryInfo: GpuDeviceMemoryInfo? = nil, name: String? = nil) {
             self.count = count
             self.manufacturer = manufacturer
@@ -32062,6 +33206,7 @@ extension EC2 {
         /// The size of the memory available to the GPU accelerator, in MiB.
         public let sizeInMiB: Int?
 
+        @inlinable
         public init(sizeInMiB: Int? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -32080,6 +33225,7 @@ extension EC2 {
         /// The total size of the memory for the GPU accelerators for the instance type, in MiB.
         public let totalGpuMemoryInMiB: Int?
 
+        @inlinable
         public init(gpus: [GpuDeviceInfo]? = nil, totalGpuMemoryInMiB: Int? = nil) {
             self.gpus = gpus
             self.totalGpuMemoryInMiB = totalGpuMemoryInMiB
@@ -32097,6 +33243,7 @@ extension EC2 {
         /// The name of the security group.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -32112,6 +33259,7 @@ extension EC2 {
         /// If true, your instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
 
+        @inlinable
         public init(configured: Bool? = nil) {
             self.configured = configured
         }
@@ -32125,6 +33273,7 @@ extension EC2 {
         /// Set to true to enable your instance for hibernation. For Spot Instances, if you set Configured to true, either omit the InstanceInterruptionBehavior parameter (for  SpotMarketOptions ), or set it to hibernate. When Configured is true:   If you omit InstanceInterruptionBehavior, it defaults to hibernate.   If you set InstanceInterruptionBehavior to a value other than hibernate, you'll get an error.   Default: false
         public let configured: Bool?
 
+        @inlinable
         public init(configured: Bool? = nil) {
             self.configured = configured
         }
@@ -32142,6 +33291,7 @@ extension EC2 {
         /// The date and time of the event, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let timestamp: Date?
 
+        @inlinable
         public init(eventInformation: EventInformation? = nil, eventType: EventType? = nil, timestamp: Date? = nil) {
             self.eventInformation = eventInformation
             self.eventType = eventType
@@ -32163,6 +33313,7 @@ extension EC2 {
         /// The date and time of the event, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let timestamp: Date?
 
+        @inlinable
         public init(eventInformation: EventInformation? = nil, eventType: FleetEventType? = nil, timestamp: Date? = nil) {
             self.eventInformation = eventInformation
             self.eventType = eventType
@@ -32223,6 +33374,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(allocationTime: Date? = nil, allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes? = nil, assetId: String? = nil, autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableCapacity: AvailableCapacity? = nil, clientToken: String? = nil, hostId: String? = nil, hostMaintenance: HostMaintenance? = nil, hostProperties: HostProperties? = nil, hostRecovery: HostRecovery? = nil, hostReservationId: String? = nil, instances: [HostInstance]? = nil, memberOfServiceLinkedResourceGroup: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, releaseTime: Date? = nil, state: AllocationState? = nil, tags: [Tag]? = nil) {
             self.allocationTime = allocationTime
             self.allowsMultipleInstanceTypes = allowsMultipleInstanceTypes
@@ -32278,6 +33430,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services account that owns the instance.
         public let ownerId: String?
 
+        @inlinable
         public init(instanceId: String? = nil, instanceType: String? = nil, ownerId: String? = nil) {
             self.instanceId = instanceId
             self.instanceType = instanceType
@@ -32307,6 +33460,7 @@ extension EC2 {
         /// The upfront price of the offering. Does not apply to No Upfront offerings.
         public let upfrontPrice: String?
 
+        @inlinable
         public init(currencyCode: CurrencyCodeValues? = nil, duration: Int? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, upfrontPrice: String? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -32340,6 +33494,7 @@ extension EC2 {
         /// The total number of vCPUs on the Dedicated Host.
         public let totalVCpus: Int?
 
+        @inlinable
         public init(cores: Int? = nil, instanceFamily: String? = nil, instanceType: String? = nil, sockets: Int? = nil, totalVCpus: Int? = nil) {
             self.cores = cores
             self.instanceFamily = instanceFamily
@@ -32392,6 +33547,7 @@ extension EC2 {
         /// The upfront price of the reservation.
         public let upfrontPrice: String?
 
+        @inlinable
         public init(count: Int? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int? = nil, end: Date? = nil, hostIdSet: [String]? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, start: Date? = nil, state: ReservationState? = nil, tags: [Tag]? = nil, upfrontPrice: String? = nil) {
             self.count = count
             self.currencyCode = currencyCode
@@ -32431,6 +33587,7 @@ extension EC2 {
         /// The IKE version.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -32444,6 +33601,7 @@ extension EC2 {
         /// The IKE version.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -32459,6 +33617,7 @@ extension EC2 {
         /// The ID of the instance profile.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -32482,6 +33641,7 @@ extension EC2 {
         /// The time the IAM instance profile was associated with the instance.
         public let timestamp: Date?
 
+        @inlinable
         public init(associationId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, instanceId: String? = nil, state: IamInstanceProfileAssociationState? = nil, timestamp: Date? = nil) {
             self.associationId = associationId
             self.iamInstanceProfile = iamInstanceProfile
@@ -32505,6 +33665,7 @@ extension EC2 {
         /// The name of the instance profile.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -32522,6 +33683,7 @@ extension EC2 {
         /// The ICMP type. A value of -1 means all types.
         public let type: Int?
 
+        @inlinable
         public init(code: Int? = nil, type: Int? = nil) {
             self.code = code
             self.type = type
@@ -32541,6 +33703,7 @@ extension EC2 {
         /// Indicates whether longer IDs (17-character IDs) are enabled for the resource.
         public let useLongIds: Bool?
 
+        @inlinable
         public init(deadline: Date? = nil, resource: String? = nil, useLongIds: Bool? = nil) {
             self.deadline = deadline
             self.resource = resource
@@ -32631,6 +33794,7 @@ extension EC2 {
         /// The type of virtualization of the AMI.
         public let virtualizationType: VirtualizationType?
 
+        @inlinable
         public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, deregistrationProtection: String? = nil, description: String? = nil, enaSupport: Bool? = nil, hypervisor: HypervisorType? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, lastLaunchedTime: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sourceInstanceId: String? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
@@ -32741,6 +33905,7 @@ extension EC2 {
         /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot in the Amazon EC2 User Guide.
         public let uefiData: AttributeValue?
 
+        @inlinable
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: AttributeValue? = nil, deregistrationProtection: AttributeValue? = nil, description: AttributeValue? = nil, imageId: String? = nil, imdsSupport: AttributeValue? = nil, kernelId: AttributeValue? = nil, lastLaunchedTime: AttributeValue? = nil, launchPermissions: [LaunchPermission]? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, tpmSupport: AttributeValue? = nil, uefiData: AttributeValue? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
@@ -32790,6 +33955,7 @@ extension EC2 {
         /// The S3 bucket for the disk image.
         public let userBucket: UserBucket?
 
+        @inlinable
         public init(description: String? = nil, deviceName: String? = nil, format: String? = nil, snapshotId: String? = nil, url: String? = nil, userBucket: UserBucket? = nil) {
             self.description = description
             self.deviceName = deviceName
@@ -32821,6 +33987,7 @@ extension EC2 {
         /// The date and time when the AMI is to be permanently deleted from the Recycle Bin.
         public let recycleBinExitTime: Date?
 
+        @inlinable
         public init(description: String? = nil, imageId: String? = nil, name: String? = nil, recycleBinEnterTime: Date? = nil, recycleBinExitTime: Date? = nil) {
             self.description = description
             self.imageId = imageId
@@ -32847,6 +34014,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(certificateRevocationList: String? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil) {
             self.certificateRevocationList = certificateRevocationList
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -32864,6 +34032,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -32877,6 +34046,7 @@ extension EC2 {
         /// The ARN of a license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -32890,6 +34060,7 @@ extension EC2 {
         /// The ARN of a license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -32940,6 +34111,7 @@ extension EC2 {
         /// The usage operation value. For more information, see Licensing options in the VM Import/Export User Guide.
         public let usageOperation: String?
 
+        @inlinable
         public init(architecture: String? = nil, bootMode: BootModeValues? = nil, clientData: ClientData? = nil, clientToken: String? = nil, description: String? = nil, diskContainers: [ImageDiskContainer]? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, hypervisor: String? = nil, kmsKeyId: String? = nil, licenseSpecifications: [ImportImageLicenseConfigurationRequest]? = nil, licenseType: String? = nil, platform: String? = nil, roleName: String? = nil, tagSpecifications: [TagSpecification]? = nil, usageOperation: String? = nil) {
             self.architecture = architecture
             self.bootMode = bootMode
@@ -33020,6 +34192,7 @@ extension EC2 {
         /// The usage operation value.
         public let usageOperation: String?
 
+        @inlinable
         public init(architecture: String? = nil, description: String? = nil, encrypted: Bool? = nil, hypervisor: String? = nil, imageId: String? = nil, importTaskId: String? = nil, kmsKeyId: String? = nil, licenseSpecifications: [ImportImageLicenseConfigurationResponse]? = nil, licenseType: String? = nil, platform: String? = nil, progress: String? = nil, snapshotDetails: [SnapshotDetail]? = nil, status: String? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, usageOperation: String? = nil) {
             self.architecture = architecture
             self.description = description
@@ -33102,6 +34275,7 @@ extension EC2 {
         /// The usage operation value.
         public let usageOperation: String?
 
+        @inlinable
         public init(architecture: String? = nil, bootMode: BootModeValues? = nil, description: String? = nil, encrypted: Bool? = nil, hypervisor: String? = nil, imageId: String? = nil, importTaskId: String? = nil, kmsKeyId: String? = nil, licenseSpecifications: [ImportImageLicenseConfigurationResponse]? = nil, licenseType: String? = nil, platform: String? = nil, progress: String? = nil, snapshotDetails: [SnapshotDetail]? = nil, status: String? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, usageOperation: String? = nil) {
             self.architecture = architecture
             self.bootMode = bootMode
@@ -33172,6 +34346,7 @@ extension EC2 {
         /// The Base64-encoded user data to make available to the instance.
         public let userData: UserData?
 
+        @inlinable
         public init(additionalInfo: String? = nil, architecture: ArchitectureValues? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceType: InstanceType? = nil, monitoring: Bool? = nil, placement: Placement? = nil, privateIpAddress: String? = nil, subnetId: String? = nil, userData: UserData? = nil) {
             self.additionalInfo = additionalInfo
             self.architecture = architecture
@@ -33214,6 +34389,7 @@ extension EC2 {
         /// The instance operating system.
         public let platform: PlatformValues?
 
+        @inlinable
         public init(description: String? = nil, diskImages: [DiskImage]? = nil, dryRun: Bool? = nil, launchSpecification: ImportInstanceLaunchSpecification? = nil, platform: PlatformValues? = nil) {
             self.description = description
             self.diskImages = diskImages
@@ -33235,6 +34411,7 @@ extension EC2 {
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
 
+        @inlinable
         public init(conversionTask: ConversionTask? = nil) {
             self.conversionTask = conversionTask
         }
@@ -33257,6 +34434,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VolumesEncoding, ImportInstanceVolumeDetailItem>>
         public var volumes: [ImportInstanceVolumeDetailItem]?
 
+        @inlinable
         public init(description: String? = nil, instanceId: String? = nil, platform: PlatformValues? = nil, volumes: [ImportInstanceVolumeDetailItem]? = nil) {
             self.description = description
             self.instanceId = instanceId
@@ -33288,6 +34466,7 @@ extension EC2 {
         /// The volume.
         public let volume: DiskImageVolumeDescription?
 
+        @inlinable
         public init(availabilityZone: String? = nil, bytesConverted: Int64? = nil, description: String? = nil, image: DiskImageDescription? = nil, status: String? = nil, statusMessage: String? = nil, volume: DiskImageVolumeDescription? = nil) {
             self.availabilityZone = availabilityZone
             self.bytesConverted = bytesConverted
@@ -33322,6 +34501,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, keyName: String? = nil, publicKeyMaterial: AWSBase64Data? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
@@ -33350,6 +34530,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(keyFingerprint: String? = nil, keyName: String? = nil, keyPairId: String? = nil, tags: [Tag]? = nil) {
             self.keyFingerprint = keyFingerprint
             self.keyName = keyName
@@ -33388,6 +34569,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientData: ClientData? = nil, clientToken: String? = nil, description: String? = nil, diskContainer: SnapshotDiskContainer? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, roleName: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientData = clientData
             self.clientToken = clientToken
@@ -33426,6 +34608,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, importTaskId: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.importTaskId = importTaskId
@@ -33454,6 +34637,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, importTaskId: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.importTaskId = importTaskId
@@ -33481,6 +34665,7 @@ extension EC2 {
         /// The volume size.
         public let volume: VolumeDetail?
 
+        @inlinable
         public init(availabilityZone: String? = nil, description: String? = nil, dryRun: Bool? = nil, image: DiskImageDetail? = nil, volume: VolumeDetail? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
@@ -33502,6 +34687,7 @@ extension EC2 {
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
 
+        @inlinable
         public init(conversionTask: ConversionTask? = nil) {
             self.conversionTask = conversionTask
         }
@@ -33523,6 +34709,7 @@ extension EC2 {
         /// The volume.
         public let volume: DiskImageVolumeDescription?
 
+        @inlinable
         public init(availabilityZone: String? = nil, bytesConverted: Int64? = nil, description: String? = nil, image: DiskImageDescription? = nil, volume: DiskImageVolumeDescription? = nil) {
             self.availabilityZone = availabilityZone
             self.bytesConverted = bytesConverted
@@ -33547,6 +34734,7 @@ extension EC2 {
         /// The total size of the memory for the inference accelerators for the instance type, in MiB.
         public let totalInferenceMemoryInMiB: Int?
 
+        @inlinable
         public init(accelerators: [InferenceDeviceInfo]? = nil, totalInferenceMemoryInMiB: Int? = nil) {
             self.accelerators = accelerators
             self.totalInferenceMemoryInMiB = totalInferenceMemoryInMiB
@@ -33568,6 +34756,7 @@ extension EC2 {
         /// The name of the Inference accelerator.
         public let name: String?
 
+        @inlinable
         public init(count: Int? = nil, manufacturer: String? = nil, memoryInfo: InferenceDeviceMemoryInfo? = nil, name: String? = nil) {
             self.count = count
             self.manufacturer = manufacturer
@@ -33587,6 +34776,7 @@ extension EC2 {
         /// The size of the memory available to the inference accelerator, in MiB.
         public let sizeInMiB: Int?
 
+        @inlinable
         public init(sizeInMiB: Int? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -33729,6 +34919,7 @@ extension EC2 {
         /// The ID of the VPC in which the instance is running.
         public let vpcId: String?
 
+        @inlinable
         public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, currentInstanceBootMode: InstanceBootModeValues? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
@@ -33856,6 +35047,7 @@ extension EC2 {
         /// Configures ENA Express for UDP network traffic.
         public let enaSrdUdpSpecification: InstanceAttachmentEnaSrdUdpSpecification?
 
+        @inlinable
         public init(enaSrdEnabled: Bool? = nil, enaSrdUdpSpecification: InstanceAttachmentEnaSrdUdpSpecification? = nil) {
             self.enaSrdEnabled = enaSrdEnabled
             self.enaSrdUdpSpecification = enaSrdUdpSpecification
@@ -33872,6 +35064,7 @@ extension EC2 {
         /// 			you must first enable ENA Express.
         public let enaSrdUdpEnabled: Bool?
 
+        @inlinable
         public init(enaSrdUdpEnabled: Bool? = nil) {
             self.enaSrdUdpEnabled = enaSrdUdpEnabled
         }
@@ -33924,6 +35117,7 @@ extension EC2 {
         /// The user data.
         public let userData: AttributeValue?
 
+        @inlinable
         public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, enclaveOptions: EnclaveOptions? = nil, groups: [GroupIdentifier]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernelId: AttributeValue? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, rootDeviceName: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: AttributeValue? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.disableApiStop = disableApiStop
@@ -33971,6 +35165,7 @@ extension EC2 {
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
         public let ebs: EbsInstanceBlockDevice?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: EbsInstanceBlockDevice? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -33992,6 +35187,7 @@ extension EC2 {
         /// The virtual device name.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: EbsInstanceBlockDeviceSpecification? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -34015,6 +35211,7 @@ extension EC2 {
         /// The total number of instances that can be launched onto the Dedicated Host if there are no instances running on it.
         public let totalCapacity: Int?
 
+        @inlinable
         public init(availableCapacity: Int? = nil, instanceType: String? = nil, totalCapacity: Int? = nil) {
             self.availableCapacity = availableCapacity
             self.instanceType = instanceType
@@ -34034,6 +35231,7 @@ extension EC2 {
         /// The states of the listed Reserved Instances.
         public let state: ListingState?
 
+        @inlinable
         public init(instanceCount: Int? = nil, state: ListingState? = nil) {
             self.instanceCount = instanceCount
             self.state = state
@@ -34051,6 +35249,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(cpuCredits: String? = nil, instanceId: String? = nil) {
             self.cpuCredits = cpuCredits
             self.instanceId = instanceId
@@ -34068,6 +35267,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(cpuCredits: String? = nil, instanceId: String? = nil) {
             self.cpuCredits = cpuCredits
             self.instanceId = instanceId
@@ -34100,6 +35300,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TimeRangesEncoding, InstanceEventWindowTimeRange>>
         public var timeRanges: [InstanceEventWindowTimeRange]?
 
+        @inlinable
         public init(associationTarget: InstanceEventWindowAssociationTarget? = nil, cronExpression: String? = nil, instanceEventWindowId: String? = nil, name: String? = nil, state: InstanceEventWindowState? = nil, tags: [Tag]? = nil, timeRanges: [InstanceEventWindowTimeRange]? = nil) {
             self.associationTarget = associationTarget
             self.cronExpression = cronExpression
@@ -34136,6 +35337,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagsEncoding, Tag>>
         public var instanceTags: [Tag]?
 
+        @inlinable
         public init(dedicatedHostIds: [String]? = nil, instanceIds: [String]? = nil, instanceTags: [Tag]? = nil) {
             self.dedicatedHostIds = dedicatedHostIds
             self.instanceIds = instanceIds
@@ -34164,6 +35366,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dedicatedHostIds: [String]? = nil, instanceIds: [String]? = nil, tags: [Tag]? = nil) {
             self.dedicatedHostIds = dedicatedHostIds
             self.instanceIds = instanceIds
@@ -34192,6 +35395,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagsEncoding, Tag>>
         public var instanceTags: [Tag]?
 
+        @inlinable
         public init(dedicatedHostIds: [String]? = nil, instanceIds: [String]? = nil, instanceTags: [Tag]? = nil) {
             self.dedicatedHostIds = dedicatedHostIds
             self.instanceIds = instanceIds
@@ -34211,6 +35415,7 @@ extension EC2 {
         /// The current state of the event window.
         public let state: InstanceEventWindowState?
 
+        @inlinable
         public init(instanceEventWindowId: String? = nil, state: InstanceEventWindowState? = nil) {
             self.instanceEventWindowId = instanceEventWindowId
             self.state = state
@@ -34232,6 +35437,7 @@ extension EC2 {
         /// The day on which the time range begins.
         public let startWeekDay: WeekDay?
 
+        @inlinable
         public init(endHour: Int? = nil, endWeekDay: WeekDay? = nil, startHour: Int? = nil, startWeekDay: WeekDay? = nil) {
             self.endHour = endHour
             self.endWeekDay = endWeekDay
@@ -34257,6 +35463,7 @@ extension EC2 {
         /// The day on which the time range begins.
         public let startWeekDay: WeekDay?
 
+        @inlinable
         public init(endHour: Int? = nil, endWeekDay: WeekDay? = nil, startHour: Int? = nil, startWeekDay: WeekDay? = nil) {
             self.endHour = endHour
             self.endWeekDay = endWeekDay
@@ -34285,6 +35492,7 @@ extension EC2 {
         /// The target virtualization environment.
         public let targetEnvironment: ExportEnvironment?
 
+        @inlinable
         public init(instanceId: String? = nil, targetEnvironment: ExportEnvironment? = nil) {
             self.instanceId = instanceId
             self.targetEnvironment = targetEnvironment
@@ -34302,6 +35510,7 @@ extension EC2 {
         /// The instance family.
         public let instanceFamily: UnlimitedSupportedInstanceFamily?
 
+        @inlinable
         public init(cpuCredits: String? = nil, instanceFamily: UnlimitedSupportedInstanceFamily? = nil) {
             self.cpuCredits = cpuCredits
             self.instanceFamily = instanceFamily
@@ -34317,6 +35526,7 @@ extension EC2 {
         /// One or more IPv4 prefixes assigned to the network interface.
         public let ipv4Prefix: String?
 
+        @inlinable
         public init(ipv4Prefix: String? = nil) {
             self.ipv4Prefix = ipv4Prefix
         }
@@ -34332,6 +35542,7 @@ extension EC2 {
         /// Determines if an IPv6 address associated with a network interface is the primary IPv6 address. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached.   For more information, see RunInstances.
         public let isPrimaryIpv6: Bool?
 
+        @inlinable
         public init(ipv6Address: String? = nil, isPrimaryIpv6: Bool? = nil) {
             self.ipv6Address = ipv6Address
             self.isPrimaryIpv6 = isPrimaryIpv6
@@ -34347,6 +35558,7 @@ extension EC2 {
         /// The IPv6 address.
         public let ipv6Address: String?
 
+        @inlinable
         public init(ipv6Address: String? = nil) {
             self.ipv6Address = ipv6Address
         }
@@ -34360,6 +35572,7 @@ extension EC2 {
         /// One or more IPv6 prefixes assigned to the network interface.
         public let ipv6Prefix: String?
 
+        @inlinable
         public init(ipv6Prefix: String? = nil) {
             self.ipv6Prefix = ipv6Prefix
         }
@@ -34373,6 +35586,7 @@ extension EC2 {
         /// Provides information on the current automatic recovery behavior of your instance.
         public let autoRecovery: InstanceAutoRecoveryState?
 
+        @inlinable
         public init(autoRecovery: InstanceAutoRecoveryState? = nil) {
             self.autoRecovery = autoRecovery
         }
@@ -34386,6 +35600,7 @@ extension EC2 {
         /// Disables the automatic recovery behavior of your instance or sets it to default. For more information, see Simplified automatic recovery.
         public let autoRecovery: InstanceAutoRecoveryState?
 
+        @inlinable
         public init(autoRecovery: InstanceAutoRecoveryState? = nil) {
             self.autoRecovery = autoRecovery
         }
@@ -34401,6 +35616,7 @@ extension EC2 {
         /// The options for Spot Instances.
         public let spotOptions: SpotMarketOptions?
 
+        @inlinable
         public init(marketType: MarketType? = nil, spotOptions: SpotMarketOptions? = nil) {
             self.marketType = marketType
             self.spotOptions = spotOptions
@@ -34422,6 +35638,7 @@ extension EC2 {
         /// Indicates whether access to instance tags from the instance metadata is enabled or disabled. For more information, see Work with instance tags using the instance metadata in the Amazon EC2 User Guide.
         public let instanceMetadataTags: InstanceMetadataTagsState?
 
+        @inlinable
         public init(httpEndpoint: InstanceMetadataEndpointState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokensState? = nil, instanceMetadataTags: InstanceMetadataTagsState? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
@@ -34449,6 +35666,7 @@ extension EC2 {
         /// Set to enabled to allow access to instance tags from the instance metadata. Set to disabled to turn off access to instance tags from the instance metadata. For more information, see Work with instance tags using the instance metadata. Default: disabled
         public let instanceMetadataTags: InstanceMetadataTagsState?
 
+        @inlinable
         public init(httpEndpoint: InstanceMetadataEndpointState? = nil, httpProtocolIpv6: InstanceMetadataProtocolState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokensState? = nil, instanceMetadataTags: InstanceMetadataTagsState? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -34480,6 +35698,7 @@ extension EC2 {
         /// The state of the metadata option changes.  pending - The metadata options are being updated and the instance is not ready to process metadata traffic with the new selection.  applied - The metadata options have been successfully applied on the instance.
         public let state: InstanceMetadataOptionsState?
 
+        @inlinable
         public init(httpEndpoint: InstanceMetadataEndpointState? = nil, httpProtocolIpv6: InstanceMetadataProtocolState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokensState? = nil, instanceMetadataTags: InstanceMetadataTagsState? = nil, state: InstanceMetadataOptionsState? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -34505,6 +35724,7 @@ extension EC2 {
         /// The monitoring for the instance.
         public let monitoring: Monitoring?
 
+        @inlinable
         public init(instanceId: String? = nil, monitoring: Monitoring? = nil) {
             self.instanceId = instanceId
             self.monitoring = monitoring
@@ -34567,6 +35787,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(association: InstanceNetworkInterfaceAssociation? = nil, attachment: InstanceNetworkInterfaceAttachment? = nil, connectionTrackingConfiguration: ConnectionTrackingSpecificationResponse? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: String? = nil, ipv4Prefixes: [InstanceIpv4Prefix]? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, ipv6Prefixes: [InstanceIpv6Prefix]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [InstancePrivateIpAddress]? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.association = association
             self.attachment = attachment
@@ -34624,6 +35845,7 @@ extension EC2 {
         /// The public IP address or Elastic IP address bound to the network interface.
         public let publicIp: String?
 
+        @inlinable
         public init(carrierIp: String? = nil, customerOwnedIp: String? = nil, ipOwnerId: String? = nil, publicDnsName: String? = nil, publicIp: String? = nil) {
             self.carrierIp = carrierIp
             self.customerOwnedIp = customerOwnedIp
@@ -34658,6 +35880,7 @@ extension EC2 {
         /// The attachment state.
         public let status: AttachmentStatus?
 
+        @inlinable
         public init(attachmentId: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, enaSrdSpecification: InstanceAttachmentEnaSrdSpecification? = nil, networkCardIndex: Int? = nil, status: AttachmentStatus? = nil) {
             self.attachmentId = attachmentId
             self.attachTime = attachTime
@@ -34738,6 +35961,7 @@ extension EC2 {
         /// The ID of the subnet associated with the network interface. Applies only if creating a network interface when launching an instance.
         public let subnetId: String?
 
+        @inlinable
         public init(associateCarrierIpAddress: Bool? = nil, associatePublicIpAddress: Bool? = nil, connectionTrackingSpecification: ConnectionTrackingSpecificationRequest? = nil, deleteOnTermination: Bool? = nil, description: String? = nil, deviceIndex: Int? = nil, enaSrdSpecification: EnaSrdSpecificationRequest? = nil, groups: [String]? = nil, interfaceType: String? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [Ipv4PrefixSpecificationRequest]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [Ipv6PrefixSpecificationRequest]? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil, primaryIpv6: Bool? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil) {
             self.associateCarrierIpAddress = associateCarrierIpAddress
             self.associatePublicIpAddress = associatePublicIpAddress
@@ -34799,6 +36023,7 @@ extension EC2 {
         /// The private IPv4 address of the network interface.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(association: InstanceNetworkInterfaceAssociation? = nil, primary: Bool? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil) {
             self.association = association
             self.primary = primary
@@ -34881,6 +36106,7 @@ extension EC2 {
         /// The minimum and maximum number of vCPUs.
         public let vCpuCount: VCpuCountRange?
 
+        @inlinable
         public init(acceleratorCount: AcceleratorCount? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpu? = nil, memoryMiB: MemoryMiB? = nil, networkBandwidthGbps: NetworkBandwidthGbps? = nil, networkInterfaceCount: NetworkInterfaceCount? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGB? = nil, vCpuCount: VCpuCountRange? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
@@ -35018,6 +36244,7 @@ extension EC2 {
         /// The minimum and maximum number of vCPUs.
         public let vCpuCount: VCpuCountRangeRequest?
 
+        @inlinable
         public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
@@ -35101,6 +36328,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
         public var virtualizationTypes: [VirtualizationType]?
 
+        @inlinable
         public init(architectureTypes: [ArchitectureType]? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, virtualizationTypes: [VirtualizationType]? = nil) {
             self.architectureTypes = architectureTypes
             self.instanceRequirements = instanceRequirements
@@ -35131,6 +36359,7 @@ extension EC2 {
         /// The instance to specify which volumes should be snapshotted.
         public let instanceId: String?
 
+        @inlinable
         public init(excludeBootVolume: Bool? = nil, excludeDataVolumeIds: [String]? = nil, instanceId: String? = nil) {
             self.excludeBootVolume = excludeBootVolume
             self.excludeDataVolumeIds = excludeDataVolumeIds
@@ -35150,6 +36379,7 @@ extension EC2 {
         /// The current state of the instance.
         public let name: InstanceStateName?
 
+        @inlinable
         public init(code: Int? = nil, name: InstanceStateName? = nil) {
             self.code = code
             self.name = name
@@ -35169,6 +36399,7 @@ extension EC2 {
         /// The previous state of the instance.
         public let previousState: InstanceState?
 
+        @inlinable
         public init(currentState: InstanceState? = nil, instanceId: String? = nil, previousState: InstanceState? = nil) {
             self.currentState = currentState
             self.instanceId = instanceId
@@ -35203,6 +36434,7 @@ extension EC2 {
         /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems.
         public let systemStatus: InstanceStatusSummary?
 
+        @inlinable
         public init(attachedEbsStatus: EbsStatusSummary? = nil, availabilityZone: String? = nil, events: [InstanceStatusEvent]? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil, instanceStatus: InstanceStatusSummary? = nil, outpostArn: String? = nil, systemStatus: InstanceStatusSummary? = nil) {
             self.attachedEbsStatus = attachedEbsStatus
             self.availabilityZone = availabilityZone
@@ -35234,6 +36466,7 @@ extension EC2 {
         /// The status.
         public let status: StatusType?
 
+        @inlinable
         public init(impairedSince: Date? = nil, name: StatusName? = nil, status: StatusType? = nil) {
             self.impairedSince = impairedSince
             self.name = name
@@ -35261,6 +36494,7 @@ extension EC2 {
         /// The deadline for starting the event.
         public let notBeforeDeadline: Date?
 
+        @inlinable
         public init(code: EventCode? = nil, description: String? = nil, instanceEventId: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, notBeforeDeadline: Date? = nil) {
             self.code = code
             self.description = description
@@ -35289,6 +36523,7 @@ extension EC2 {
         /// The status.
         public let status: SummaryStatus?
 
+        @inlinable
         public init(details: [InstanceStatusDetails]? = nil, status: SummaryStatus? = nil) {
             self.details = details
             self.status = status
@@ -35313,6 +36548,7 @@ extension EC2 {
         /// The total size of the disks, in GB.
         public let totalSizeInGB: Int64?
 
+        @inlinable
         public init(disks: [DiskInfo]? = nil, encryptionSupport: InstanceStorageEncryptionSupport? = nil, nvmeSupport: EphemeralNvmeSupport? = nil, totalSizeInGB: Int64? = nil) {
             self.disks = disks
             self.encryptionSupport = encryptionSupport
@@ -35337,6 +36573,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagKeysEncoding, String>>
         public var instanceTagKeys: [String]?
 
+        @inlinable
         public init(includeAllTagsOfInstance: Bool? = nil, instanceTagKeys: [String]? = nil) {
             self.includeAllTagsOfInstance = includeAllTagsOfInstance
             self.instanceTagKeys = instanceTagKeys
@@ -35365,6 +36602,7 @@ extension EC2 {
         /// The ID of the Availability Zone or Local Zone that the instance is in.
         public let zoneId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, groupName: String? = nil, instanceId: String? = nil, instanceType: String? = nil, networkNodes: [String]? = nil, zoneId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.groupName = groupName
@@ -35455,6 +36693,7 @@ extension EC2 {
         /// Describes the vCPU configurations for the instance type.
         public let vCpuInfo: VCpuInfo?
 
+        @inlinable
         public init(autoRecoverySupported: Bool? = nil, bareMetal: Bool? = nil, burstablePerformanceSupported: Bool? = nil, currentGeneration: Bool? = nil, dedicatedHostsSupported: Bool? = nil, ebsInfo: EbsInfo? = nil, fpgaInfo: FpgaInfo? = nil, freeTierEligible: Bool? = nil, gpuInfo: GpuInfo? = nil, hibernationSupported: Bool? = nil, hypervisor: InstanceTypeHypervisor? = nil, inferenceAcceleratorInfo: InferenceAcceleratorInfo? = nil, instanceStorageInfo: InstanceStorageInfo? = nil, instanceStorageSupported: Bool? = nil, instanceType: InstanceType? = nil, mediaAcceleratorInfo: MediaAcceleratorInfo? = nil, memoryInfo: MemoryInfo? = nil, networkInfo: NetworkInfo? = nil, neuronInfo: NeuronInfo? = nil, nitroEnclavesSupport: NitroEnclavesSupport? = nil, nitroTpmInfo: NitroTpmInfo? = nil, nitroTpmSupport: NitroTpmSupport? = nil, phcSupport: PhcSupport? = nil, placementGroupInfo: PlacementGroupInfo? = nil, processorInfo: ProcessorInfo? = nil, supportedBootModes: [BootModeType]? = nil, supportedRootDeviceTypes: [RootDeviceType]? = nil, supportedUsageClasses: [UsageClassType]? = nil, supportedVirtualizationTypes: [VirtualizationType]? = nil, vCpuInfo: VCpuInfo? = nil) {
             self.autoRecoverySupported = autoRecoverySupported
             self.bareMetal = bareMetal
@@ -35526,6 +36765,7 @@ extension EC2 {
         /// The matching instance type.
         public let instanceType: String?
 
+        @inlinable
         public init(instanceType: String? = nil) {
             self.instanceType = instanceType
         }
@@ -35543,6 +36783,7 @@ extension EC2 {
         /// The location type.
         public let locationType: LocationType?
 
+        @inlinable
         public init(instanceType: InstanceType? = nil, location: String? = nil, locationType: LocationType? = nil) {
             self.instanceType = instanceType
             self.location = location
@@ -35562,6 +36803,7 @@ extension EC2 {
         /// The number of instances the Amazon Web Services account currently has in the Capacity Reservation.
         public let usedInstanceCount: Int?
 
+        @inlinable
         public init(accountId: String? = nil, usedInstanceCount: Int? = nil) {
             self.accountId = accountId
             self.usedInstanceCount = usedInstanceCount
@@ -35580,6 +36822,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_AthenaIntegrationsEncoding, AthenaIntegration>>
         public var athenaIntegrations: [AthenaIntegration]?
 
+        @inlinable
         public init(athenaIntegrations: [AthenaIntegration]? = nil) {
             self.athenaIntegrations = athenaIntegrations
         }
@@ -35609,6 +36852,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(attachments: [InternetGatewayAttachment]? = nil, internetGatewayId: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil) {
             self.attachments = attachments
             self.internetGatewayId = internetGatewayId
@@ -35632,6 +36876,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(state: AttachmentStatus? = nil, vpcId: String? = nil) {
             self.state = state
             self.vpcId = vpcId
@@ -35668,6 +36913,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UserIdGroupPairsEncoding, UserIdGroupPair>>
         public var userIdGroupPairs: [UserIdGroupPair]?
 
+        @inlinable
         public init(fromPort: Int? = nil, ipProtocol: String? = nil, ipRanges: [IpRange]? = nil, ipv6Ranges: [Ipv6Range]? = nil, prefixListIds: [PrefixListId]? = nil, toPort: Int? = nil, userIdGroupPairs: [UserIdGroupPair]? = nil) {
             self.fromPort = fromPort
             self.ipProtocol = ipProtocol
@@ -35695,6 +36941,7 @@ extension EC2 {
         /// A description for the security group rule that references this IPv4 address range. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let description: String?
 
+        @inlinable
         public init(cidrIp: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
             self.description = description
@@ -35747,6 +36994,7 @@ extension EC2 {
         /// IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
         public let tier: IpamTier?
 
+        @inlinable
         public init(defaultResourceDiscoveryAssociationId: String? = nil, defaultResourceDiscoveryId: String? = nil, description: String? = nil, enablePrivateGua: Bool? = nil, ipamArn: String? = nil, ipamId: String? = nil, ipamRegion: String? = nil, operatingRegions: [IpamOperatingRegion]? = nil, ownerId: String? = nil, privateDefaultScopeId: String? = nil, publicDefaultScopeId: String? = nil, resourceDiscoveryAssociationCount: Int? = nil, scopeCount: Int? = nil, state: IpamState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, tier: IpamTier? = nil) {
             self.defaultResourceDiscoveryAssociationId = defaultResourceDiscoveryAssociationId
             self.defaultResourceDiscoveryId = defaultResourceDiscoveryId
@@ -35812,6 +37060,7 @@ extension EC2 {
         /// The VPC ID of the resource.
         public let vpcId: String?
 
+        @inlinable
         public init(resourceCidr: String? = nil, resourceComplianceStatus: IpamComplianceStatus? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceOverlapStatus: IpamOverlapStatus? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceType: IpamAddressHistoryResourceType? = nil, sampledEndTime: Date? = nil, sampledStartTime: Date? = nil, vpcId: String? = nil) {
             self.resourceCidr = resourceCidr
             self.resourceComplianceStatus = resourceComplianceStatus
@@ -35847,6 +37096,7 @@ extension EC2 {
         /// The signed authorization message for the prefix and account.
         public let signature: String?
 
+        @inlinable
         public init(message: String? = nil, signature: String? = nil) {
             self.message = message
             self.signature = signature
@@ -35870,6 +37120,7 @@ extension EC2 {
         /// The last successful resource discovery time.
         public let lastSuccessfulDiscoveryTime: Date?
 
+        @inlinable
         public init(accountId: String? = nil, discoveryRegion: String? = nil, failureReason: IpamDiscoveryFailureReason? = nil, lastAttemptedDiscoveryTime: Date? = nil, lastSuccessfulDiscoveryTime: Date? = nil) {
             self.accountId = accountId
             self.discoveryRegion = discoveryRegion
@@ -35930,6 +37181,7 @@ extension EC2 {
         /// The ID of the VPC that the resource with the assigned IP address is in.
         public let vpcId: String?
 
+        @inlinable
         public init(address: String? = nil, addressAllocationId: String? = nil, addressOwnerId: String? = nil, addressRegion: String? = nil, addressType: IpamPublicAddressType? = nil, associationStatus: IpamPublicAddressAssociationStatus? = nil, instanceId: String? = nil, ipamResourceDiscoveryId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceDescription: String? = nil, networkInterfaceId: String? = nil, publicIpv4PoolId: String? = nil, sampleTime: Date? = nil, securityGroups: [IpamPublicAddressSecurityGroup]? = nil, service: IpamPublicAddressAwsService? = nil, serviceResource: String? = nil, subnetId: String? = nil, tags: IpamPublicAddressTags? = nil, vpcId: String? = nil) {
             self.address = address
             self.addressAllocationId = addressAllocationId
@@ -36006,6 +37258,7 @@ extension EC2 {
         /// The VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, ipamResourceDiscoveryId: String? = nil, ipSource: IpamResourceCidrIpSource? = nil, ipUsage: Double? = nil, networkInterfaceAttachmentStatus: IpamNetworkInterfaceAttachmentStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, sampleTime: Date? = nil, vpcId: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
@@ -36045,6 +37298,7 @@ extension EC2 {
         /// The discovery failure message.
         public let message: String?
 
+        @inlinable
         public init(code: IpamDiscoveryFailureCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -36083,6 +37337,7 @@ extension EC2 {
         /// Token value.
         public let tokenValue: String?
 
+        @inlinable
         public init(ipamArn: String? = nil, ipamExternalResourceVerificationTokenArn: String? = nil, ipamExternalResourceVerificationTokenId: String? = nil, ipamId: String? = nil, ipamRegion: String? = nil, notAfter: Date? = nil, state: IpamExternalResourceVerificationTokenState? = nil, status: TokenState? = nil, tags: [Tag]? = nil, tokenName: String? = nil, tokenValue: String? = nil) {
             self.ipamArn = ipamArn
             self.ipamExternalResourceVerificationTokenArn = ipamExternalResourceVerificationTokenArn
@@ -36116,6 +37371,7 @@ extension EC2 {
         /// The name of the operating Region.
         public let regionName: String?
 
+        @inlinable
         public init(regionName: String? = nil) {
             self.regionName = regionName
         }
@@ -36180,6 +37436,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(addressFamily: AddressFamily? = nil, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, allocationResourceTags: [IpamResourceTag]? = nil, autoImport: Bool? = nil, awsService: IpamPoolAwsService? = nil, description: String? = nil, ipamArn: String? = nil, ipamPoolArn: String? = nil, ipamPoolId: String? = nil, ipamRegion: String? = nil, ipamScopeArn: String? = nil, ipamScopeType: IpamScopeType? = nil, locale: String? = nil, ownerId: String? = nil, poolDepth: Int? = nil, publicIpSource: IpamPoolPublicIpSource? = nil, publiclyAdvertisable: Bool? = nil, sourceIpamPoolId: String? = nil, sourceResource: IpamPoolSourceResource? = nil, state: IpamPoolState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil) {
             self.addressFamily = addressFamily
             self.allocationDefaultNetmaskLength = allocationDefaultNetmaskLength
@@ -36251,6 +37508,7 @@ extension EC2 {
         /// The type of the resource.
         public let resourceType: IpamPoolAllocationResourceType?
 
+        @inlinable
         public init(cidr: String? = nil, description: String? = nil, ipamPoolAllocationId: String? = nil, resourceId: String? = nil, resourceOwner: String? = nil, resourceRegion: String? = nil, resourceType: IpamPoolAllocationResourceType? = nil) {
             self.cidr = cidr
             self.description = description
@@ -36284,6 +37542,7 @@ extension EC2 {
         /// The state of the CIDR.
         public let state: IpamPoolCidrState?
 
+        @inlinable
         public init(cidr: String? = nil, failureReason: IpamPoolCidrFailureReason? = nil, ipamPoolCidrId: String? = nil, netmaskLength: Int? = nil, state: IpamPoolCidrState? = nil) {
             self.cidr = cidr
             self.failureReason = failureReason
@@ -36307,6 +37566,7 @@ extension EC2 {
         /// A message related to why an IPAM pool CIDR failed to be provisioned.
         public let message: String?
 
+        @inlinable
         public init(code: IpamPoolCidrFailureCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -36328,6 +37588,7 @@ extension EC2 {
         /// The source resource type.
         public let resourceType: IpamPoolSourceResourceType?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceOwner: String? = nil, resourceRegion: String? = nil, resourceType: IpamPoolSourceResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceOwner = resourceOwner
@@ -36353,6 +37614,7 @@ extension EC2 {
         /// The source resource type.
         public let resourceType: IpamPoolSourceResourceType?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceOwner: String? = nil, resourceRegion: String? = nil, resourceType: IpamPoolSourceResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceOwner = resourceOwner
@@ -36374,6 +37636,7 @@ extension EC2 {
         /// The security group's name.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -36391,6 +37654,7 @@ extension EC2 {
         /// The tag's value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -36409,6 +37673,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_EipTagsEncoding, IpamPublicAddressTag>>
         public var eipTags: [IpamPublicAddressTag]?
 
+        @inlinable
         public init(eipTags: [IpamPublicAddressTag]? = nil) {
             self.eipTags = eipTags
         }
@@ -36455,6 +37720,7 @@ extension EC2 {
         /// The ID of a VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, complianceStatus: IpamComplianceStatus? = nil, ipamId: String? = nil, ipamPoolId: String? = nil, ipamScopeId: String? = nil, ipUsage: Double? = nil, managementState: IpamManagementState? = nil, overlapStatus: IpamOverlapStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, vpcId: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.complianceStatus = complianceStatus
@@ -36519,6 +37785,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, ipamResourceDiscoveryArn: String? = nil, ipamResourceDiscoveryId: String? = nil, ipamResourceDiscoveryRegion: String? = nil, isDefault: Bool? = nil, operatingRegions: [IpamOperatingRegion]? = nil, ownerId: String? = nil, state: IpamResourceDiscoveryState? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.ipamResourceDiscoveryArn = ipamResourceDiscoveryArn
@@ -36571,6 +37838,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(ipamArn: String? = nil, ipamId: String? = nil, ipamRegion: String? = nil, ipamResourceDiscoveryAssociationArn: String? = nil, ipamResourceDiscoveryAssociationId: String? = nil, ipamResourceDiscoveryId: String? = nil, isDefault: Bool? = nil, ownerId: String? = nil, resourceDiscoveryStatus: IpamAssociatedResourceDiscoveryStatus? = nil, state: IpamResourceDiscoveryAssociationState? = nil, tags: [Tag]? = nil) {
             self.ipamArn = ipamArn
             self.ipamId = ipamId
@@ -36606,6 +37874,7 @@ extension EC2 {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -36644,6 +37913,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, ipamArn: String? = nil, ipamRegion: String? = nil, ipamScopeArn: String? = nil, ipamScopeId: String? = nil, ipamScopeType: IpamScopeType? = nil, isDefault: Bool? = nil, ownerId: String? = nil, poolCount: Int? = nil, state: IpamScopeState? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.ipamArn = ipamArn
@@ -36677,6 +37947,7 @@ extension EC2 {
         /// The IPv4 prefix. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
         public let ipv4Prefix: String?
 
+        @inlinable
         public init(ipv4Prefix: String? = nil) {
             self.ipv4Prefix = ipv4Prefix
         }
@@ -36690,6 +37961,7 @@ extension EC2 {
         /// The IPv4 prefix. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
         public let ipv4Prefix: String?
 
+        @inlinable
         public init(ipv4Prefix: String? = nil) {
             self.ipv4Prefix = ipv4Prefix
         }
@@ -36703,6 +37975,7 @@ extension EC2 {
         /// The IPv4 delegated prefixes assigned to the network interface.
         public let ipv4Prefix: String?
 
+        @inlinable
         public init(ipv4Prefix: String? = nil) {
             self.ipv4Prefix = ipv4Prefix
         }
@@ -36718,6 +37991,7 @@ extension EC2 {
         /// The IPv6 CIDR block.
         public let ipv6Cidr: String?
 
+        @inlinable
         public init(associatedResource: String? = nil, ipv6Cidr: String? = nil) {
             self.associatedResource = associatedResource
             self.ipv6Cidr = ipv6Cidr
@@ -36733,6 +38007,7 @@ extension EC2 {
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
 
+        @inlinable
         public init(ipv6CidrBlock: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
         }
@@ -36757,6 +38032,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, poolCidrBlocks: [PoolCidrBlock]? = nil, poolId: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.poolCidrBlocks = poolCidrBlocks
@@ -36776,6 +38052,7 @@ extension EC2 {
         /// The IPv6 prefix.
         public let ipv6Prefix: String?
 
+        @inlinable
         public init(ipv6Prefix: String? = nil) {
             self.ipv6Prefix = ipv6Prefix
         }
@@ -36789,6 +38066,7 @@ extension EC2 {
         /// The IPv6 prefix.
         public let ipv6Prefix: String?
 
+        @inlinable
         public init(ipv6Prefix: String? = nil) {
             self.ipv6Prefix = ipv6Prefix
         }
@@ -36802,6 +38080,7 @@ extension EC2 {
         /// The IPv6 delegated prefixes assigned to the network interface.
         public let ipv6Prefix: String?
 
+        @inlinable
         public init(ipv6Prefix: String? = nil) {
             self.ipv6Prefix = ipv6Prefix
         }
@@ -36817,6 +38096,7 @@ extension EC2 {
         /// A description for the security group rule that references this IPv6 address range. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let description: String?
 
+        @inlinable
         public init(cidrIpv6: String? = nil, description: String? = nil) {
             self.cidrIpv6 = cidrIpv6
             self.description = description
@@ -36843,6 +38123,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(keyFingerprint: String? = nil, keyMaterial: String? = nil, keyName: String? = nil, keyPairId: String? = nil, tags: [Tag]? = nil) {
             self.keyFingerprint = keyFingerprint
             self.keyMaterial = keyMaterial
@@ -36879,6 +38160,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(createTime: Date? = nil, keyFingerprint: String? = nil, keyName: String? = nil, keyPairId: String? = nil, keyType: KeyType? = nil, publicKey: String? = nil, tags: [Tag]? = nil) {
             self.createTime = createTime
             self.keyFingerprint = keyFingerprint
@@ -36906,6 +38188,7 @@ extension EC2 {
         /// The error message for the VPC endpoint error.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -36927,6 +38210,7 @@ extension EC2 {
         /// The Amazon Web Services account ID. Constraints: Up to 10 000 account IDs can be specified in a single request.
         public let userId: String?
 
+        @inlinable
         public init(group: PermissionGroup? = nil, organizationalUnitArn: String? = nil, organizationArn: String? = nil, userId: String? = nil) {
             self.group = group
             self.organizationalUnitArn = organizationalUnitArn
@@ -36953,6 +38237,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RemoveEncoding, LaunchPermission>>
         public var remove: [LaunchPermission]?
 
+        @inlinable
         public init(add: [LaunchPermission]? = nil, remove: [LaunchPermission]? = nil) {
             self.add = add
             self.remove = remove
@@ -37002,6 +38287,7 @@ extension EC2 {
         /// The base64-encoded user data that instances use when starting up. User data is limited to 16 KB.
         public let userData: String?
 
+        @inlinable
         public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroups: [GroupIdentifier]? = nil, subnetId: String? = nil, userData: String? = nil) {
             self.addressingType = addressingType
             self.blockDeviceMappings = blockDeviceMappings
@@ -37058,6 +38344,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(createdBy: String? = nil, createTime: Date? = nil, defaultVersionNumber: Int64? = nil, latestVersionNumber: Int64? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
@@ -37085,6 +38372,7 @@ extension EC2 {
         /// Any parameters that you specify override the same parameters in the launch template.
         public let overrides: FleetLaunchTemplateOverrides?
 
+        @inlinable
         public init(launchTemplateSpecification: FleetLaunchTemplateSpecification? = nil, overrides: FleetLaunchTemplateOverrides? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
@@ -37106,6 +38394,7 @@ extension EC2 {
         /// The virtual device name (ephemeralN).
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: LaunchTemplateEbsBlockDevice? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -37131,6 +38420,7 @@ extension EC2 {
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with 2 available instance store volumes can specify mappings for ephemeral0 and ephemeral1. The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: LaunchTemplateEbsBlockDeviceRequest? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -37152,6 +38442,7 @@ extension EC2 {
         /// Information about the target Capacity Reservation or Capacity Reservation group.
         public let capacityReservationTarget: CapacityReservationTarget?
 
+        @inlinable
         public init(capacityReservationPreference: CapacityReservationPreference? = nil, capacityReservationTarget: CapacityReservationTarget? = nil) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
@@ -37169,6 +38460,7 @@ extension EC2 {
         /// Information about the target Capacity Reservation or Capacity Reservation group.
         public let capacityReservationTarget: CapacityReservationTargetResponse?
 
+        @inlinable
         public init(capacityReservationPreference: CapacityReservationPreference? = nil, capacityReservationTarget: CapacityReservationTargetResponse? = nil) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
@@ -37189,6 +38481,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OverridesEncoding, LaunchTemplateOverrides>>
         public var overrides: [LaunchTemplateOverrides]?
 
+        @inlinable
         public init(launchTemplateSpecification: FleetLaunchTemplateSpecification? = nil, overrides: [LaunchTemplateOverrides]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
@@ -37215,6 +38508,7 @@ extension EC2 {
         /// The number of threads per CPU core.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(amdSevSnp: AmdSevSnpSpecification? = nil, coreCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.amdSevSnp = amdSevSnp
             self.coreCount = coreCount
@@ -37236,6 +38530,7 @@ extension EC2 {
         /// The number of threads per CPU core. To disable multithreading for the instance, specify a value of 1. Otherwise, specify the default value of 2.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(amdSevSnp: AmdSevSnpSpecification? = nil, coreCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.amdSevSnp = amdSevSnp
             self.coreCount = coreCount
@@ -37267,6 +38562,7 @@ extension EC2 {
         /// The volume type.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -37310,6 +38606,7 @@ extension EC2 {
         /// The volume type. For more information, see Amazon EBS volume types in the Amazon EBS User Guide.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -37339,6 +38636,7 @@ extension EC2 {
         ///  The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, and eia1.xlarge.
         public let type: String?
 
+        @inlinable
         public init(count: Int? = nil, type: String? = nil) {
             self.count = count
             self.type = type
@@ -37360,6 +38658,7 @@ extension EC2 {
         ///  The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, and eia1.xlarge.
         public let type: String?
 
+        @inlinable
         public init(count: Int? = nil, type: String? = nil) {
             self.count = count
             self.type = type
@@ -37377,6 +38676,7 @@ extension EC2 {
         /// Configures ENA Express for UDP network traffic.
         public let enaSrdUdpSpecification: LaunchTemplateEnaSrdUdpSpecification?
 
+        @inlinable
         public init(enaSrdEnabled: Bool? = nil, enaSrdUdpSpecification: LaunchTemplateEnaSrdUdpSpecification? = nil) {
             self.enaSrdEnabled = enaSrdEnabled
             self.enaSrdUdpSpecification = enaSrdUdpSpecification
@@ -37393,6 +38693,7 @@ extension EC2 {
         /// 			you must first enable ENA Express.
         public let enaSrdUdpEnabled: Bool?
 
+        @inlinable
         public init(enaSrdUdpEnabled: Bool? = nil) {
             self.enaSrdUdpEnabled = enaSrdUdpEnabled
         }
@@ -37406,6 +38707,7 @@ extension EC2 {
         /// If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves; otherwise, it is not enabled for Amazon Web Services Nitro Enclaves.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -37419,6 +38721,7 @@ extension EC2 {
         /// To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter to true.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -37432,6 +38735,7 @@ extension EC2 {
         /// If this parameter is set to true, the instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
 
+        @inlinable
         public init(configured: Bool? = nil) {
             self.configured = configured
         }
@@ -37445,6 +38749,7 @@ extension EC2 {
         /// If you set this parameter to true, the instance is enabled for hibernation. Default: false
         public let configured: Bool?
 
+        @inlinable
         public init(configured: Bool? = nil) {
             self.configured = configured
         }
@@ -37460,6 +38765,7 @@ extension EC2 {
         /// The name of the instance profile.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -37477,6 +38783,7 @@ extension EC2 {
         /// The name of the instance profile.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -37492,6 +38799,7 @@ extension EC2 {
         /// Disables the automatic recovery behavior of your instance or sets it to default.
         public let autoRecovery: LaunchTemplateAutoRecoveryState?
 
+        @inlinable
         public init(autoRecovery: LaunchTemplateAutoRecoveryState? = nil) {
             self.autoRecovery = autoRecovery
         }
@@ -37505,6 +38813,7 @@ extension EC2 {
         /// Disables the automatic recovery behavior of your instance or sets it to default. For more information, see Simplified automatic recovery.
         public let autoRecovery: LaunchTemplateAutoRecoveryState?
 
+        @inlinable
         public init(autoRecovery: LaunchTemplateAutoRecoveryState? = nil) {
             self.autoRecovery = autoRecovery
         }
@@ -37520,6 +38829,7 @@ extension EC2 {
         /// The options for Spot Instances.
         public let spotOptions: LaunchTemplateSpotMarketOptions?
 
+        @inlinable
         public init(marketType: MarketType? = nil, spotOptions: LaunchTemplateSpotMarketOptions? = nil) {
             self.marketType = marketType
             self.spotOptions = spotOptions
@@ -37537,6 +38847,7 @@ extension EC2 {
         /// The options for Spot Instances.
         public let spotOptions: LaunchTemplateSpotMarketOptionsRequest?
 
+        @inlinable
         public init(marketType: MarketType? = nil, spotOptions: LaunchTemplateSpotMarketOptionsRequest? = nil) {
             self.marketType = marketType
             self.spotOptions = spotOptions
@@ -37562,6 +38873,7 @@ extension EC2 {
         /// The state of the metadata option changes.  pending - The metadata options are being updated and the instance is not ready to process metadata traffic with the new selection.  applied - The metadata options have been successfully applied on the instance.
         public let state: LaunchTemplateInstanceMetadataOptionsState?
 
+        @inlinable
         public init(httpEndpoint: LaunchTemplateInstanceMetadataEndpointState? = nil, httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: LaunchTemplateHttpTokensState? = nil, instanceMetadataTags: LaunchTemplateInstanceMetadataTagsState? = nil, state: LaunchTemplateInstanceMetadataOptionsState? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -37593,6 +38905,7 @@ extension EC2 {
         /// Set to enabled to allow access to instance tags from the instance metadata. Set to disabled to turn off access to instance tags from the instance metadata. For more information, see Work with instance tags using the instance metadata. Default: disabled
         public let instanceMetadataTags: LaunchTemplateInstanceMetadataTagsState?
 
+        @inlinable
         public init(httpEndpoint: LaunchTemplateInstanceMetadataEndpointState? = nil, httpProtocolIpv6: LaunchTemplateInstanceMetadataProtocolIpv6? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: LaunchTemplateHttpTokensState? = nil, instanceMetadataTags: LaunchTemplateInstanceMetadataTagsState? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -37668,6 +38981,7 @@ extension EC2 {
         /// The ID of the subnet for the network interface.
         public let subnetId: String?
 
+        @inlinable
         public init(associateCarrierIpAddress: Bool? = nil, associatePublicIpAddress: Bool? = nil, connectionTrackingSpecification: ConnectionTrackingSpecification? = nil, deleteOnTermination: Bool? = nil, description: String? = nil, deviceIndex: Int? = nil, enaSrdSpecification: LaunchTemplateEnaSrdSpecification? = nil, groups: [String]? = nil, interfaceType: String? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [Ipv4PrefixSpecificationResponse]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [Ipv6PrefixSpecificationResponse]? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil, primaryIpv6: Bool? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil) {
             self.associateCarrierIpAddress = associateCarrierIpAddress
             self.associatePublicIpAddress = associatePublicIpAddress
@@ -37777,6 +39091,7 @@ extension EC2 {
         /// The ID of the subnet for the network interface.
         public let subnetId: String?
 
+        @inlinable
         public init(associateCarrierIpAddress: Bool? = nil, associatePublicIpAddress: Bool? = nil, connectionTrackingSpecification: ConnectionTrackingSpecificationRequest? = nil, deleteOnTermination: Bool? = nil, description: String? = nil, deviceIndex: Int? = nil, enaSrdSpecification: EnaSrdSpecificationRequest? = nil, groups: [String]? = nil, interfaceType: String? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [Ipv4PrefixSpecificationRequest]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6AddressRequest]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [Ipv6PrefixSpecificationRequest]? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil, primaryIpv6: Bool? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil) {
             self.associateCarrierIpAddress = associateCarrierIpAddress
             self.associatePublicIpAddress = associatePublicIpAddress
@@ -37832,6 +39147,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -37845,6 +39161,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -37870,6 +39187,7 @@ extension EC2 {
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowestPrice and priceCapacityOptimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
+        @inlinable
         public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, priority: Double? = nil, spotPrice: String? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceRequirements = instanceRequirements
@@ -37915,6 +39233,7 @@ extension EC2 {
         /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware.
         public let tenancy: Tenancy?
 
+        @inlinable
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
@@ -37960,6 +39279,7 @@ extension EC2 {
         /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware.
         public let tenancy: Tenancy?
 
+        @inlinable
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
@@ -37993,6 +39313,7 @@ extension EC2 {
         /// The type of hostname to assign to an instance.
         public let hostnameType: HostnameType?
 
+        @inlinable
         public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: HostnameType? = nil) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
@@ -38014,6 +39335,7 @@ extension EC2 {
         /// The type of hostname for Amazon EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 native subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID.
         public let hostnameType: HostnameType?
 
+        @inlinable
         public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: HostnameType? = nil) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
@@ -38035,6 +39357,7 @@ extension EC2 {
         /// The launch template version number, $Latest, or $Default. A value of $Latest uses the latest version of the launch template. A value of $Default uses the default version of the launch template. Default: The default version of the launch template.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -38060,6 +39383,7 @@ extension EC2 {
         /// The end date of the request. For a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached.
         public let validUntil: Date?
 
+        @inlinable
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
@@ -38089,6 +39413,7 @@ extension EC2 {
         /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.   For a persistent request, the request remains active until the ValidUntil date and time is reached. Otherwise, the request remains active until you cancel it.   For a one-time request, ValidUntil is not supported. The request remains active until all instances launch or you cancel the request.   Default: 7 days from the current date
         public let validUntil: Date?
 
+        @inlinable
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
@@ -38115,6 +39440,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.resourceType = resourceType
             self.tags = tags
@@ -38135,6 +39461,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.resourceType = resourceType
             self.tags = tags
@@ -38164,6 +39491,7 @@ extension EC2 {
         /// The version number.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(createdBy: String? = nil, createTime: Date? = nil, defaultVersion: Bool? = nil, launchTemplateData: ResponseLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, versionDescription: String? = nil, versionNumber: Int64? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
@@ -38191,6 +39519,7 @@ extension EC2 {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -38204,6 +39533,7 @@ extension EC2 {
         /// Specify true to enable detailed monitoring. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -38217,6 +39547,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -38230,6 +39561,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -38255,6 +39587,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.imageIds = imageIds
@@ -38284,6 +39617,7 @@ extension EC2 {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(images: [ImageRecycleBinInfo]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -38310,6 +39644,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotIdsEncoding, String>>
         public var snapshotIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
             self.dryRun = dryRun
             self.maxResults = maxResults
@@ -38339,6 +39674,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotsEncoding, SnapshotRecycleBinInfo>>
         public var snapshots: [SnapshotRecycleBinInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [SnapshotRecycleBinInfo]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -38356,6 +39692,7 @@ extension EC2 {
         /// The target groups.
         public let targetGroupsConfig: TargetGroupsConfig?
 
+        @inlinable
         public init(classicLoadBalancersConfig: ClassicLoadBalancersConfig? = nil, targetGroupsConfig: TargetGroupsConfig? = nil) {
             self.classicLoadBalancersConfig = classicLoadBalancersConfig
             self.targetGroupsConfig = targetGroupsConfig
@@ -38378,6 +39715,7 @@ extension EC2 {
         /// The Amazon Web Services account ID.
         public let userId: String?
 
+        @inlinable
         public init(group: PermissionGroup? = nil, userId: String? = nil) {
             self.group = group
             self.userId = userId
@@ -38400,6 +39738,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RemoveEncoding, LoadPermissionRequest>>
         public var remove: [LoadPermissionRequest]?
 
+        @inlinable
         public init(add: [LoadPermissionRequest]? = nil, remove: [LoadPermissionRequest]? = nil) {
             self.add = add
             self.remove = remove
@@ -38417,6 +39756,7 @@ extension EC2 {
         /// The Amazon Web Services account ID.
         public let userId: String?
 
+        @inlinable
         public init(group: PermissionGroup? = nil, userId: String? = nil) {
             self.group = group
             self.userId = userId
@@ -38443,6 +39783,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(localGatewayId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.outpostArn = outpostArn
@@ -38484,6 +39825,7 @@ extension EC2 {
         /// The route type.
         public let type: LocalGatewayRouteType?
 
+        @inlinable
         public init(coipPoolId: String? = nil, destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, subnetId: String? = nil, type: LocalGatewayRouteType? = nil) {
             self.coipPoolId = coipPoolId
             self.destinationCidrBlock = destinationCidrBlock
@@ -38536,6 +39878,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, mode: LocalGatewayRouteTableMode? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: String? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayRouteTableArn = localGatewayRouteTableArn
@@ -38582,6 +39925,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayRouteTableArn = localGatewayRouteTableArn
@@ -38626,6 +39970,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVpcAssociationId: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayRouteTableArn = localGatewayRouteTableArn
@@ -38672,6 +40017,7 @@ extension EC2 {
         /// The ID of the VLAN.
         public let vlan: Int?
 
+        @inlinable
         public init(localAddress: String? = nil, localBgpAsn: Int? = nil, localGatewayId: String? = nil, localGatewayVirtualInterfaceId: String? = nil, ownerId: String? = nil, peerAddress: String? = nil, peerBgpAsn: Int? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.localAddress = localAddress
             self.localBgpAsn = localBgpAsn
@@ -38714,6 +40060,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(localGatewayId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, localGatewayVirtualInterfaceIds: [String]? = nil, ownerId: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
@@ -38745,6 +40092,7 @@ extension EC2 {
         /// The ID of the snapshot to lock.
         public let snapshotId: String?
 
+        @inlinable
         public init(coolOffPeriod: Int? = nil, dryRun: Bool? = nil, expirationDate: Date? = nil, lockDuration: Int? = nil, lockMode: LockMode? = nil, snapshotId: String? = nil) {
             self.coolOffPeriod = coolOffPeriod
             self.dryRun = dryRun
@@ -38789,6 +40137,7 @@ extension EC2 {
         /// The ID of the snapshot
         public let snapshotId: String?
 
+        @inlinable
         public init(coolOffPeriod: Int? = nil, coolOffPeriodExpiresOn: Date? = nil, lockCreatedOn: Date? = nil, lockDuration: Int? = nil, lockDurationStartTime: Date? = nil, lockExpiresOn: Date? = nil, lockState: LockState? = nil, snapshotId: String? = nil) {
             self.coolOffPeriod = coolOffPeriod
             self.coolOffPeriodExpiresOn = coolOffPeriodExpiresOn
@@ -38832,6 +40181,7 @@ extension EC2 {
         /// The ID of the snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(coolOffPeriod: Int? = nil, coolOffPeriodExpiresOn: Date? = nil, lockCreatedOn: Date? = nil, lockDuration: Int? = nil, lockDurationStartTime: Date? = nil, lockExpiresOn: Date? = nil, lockState: LockState? = nil, ownerId: String? = nil, snapshotId: String? = nil) {
             self.coolOffPeriod = coolOffPeriod
             self.coolOffPeriodExpiresOn = coolOffPeriodExpiresOn
@@ -38866,6 +40216,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_MacOSLatestSupportedVersionsEncoding, String>>
         public var macOSLatestSupportedVersions: [String]?
 
+        @inlinable
         public init(hostId: String? = nil, macOSLatestSupportedVersions: [String]? = nil) {
             self.hostId = hostId
             self.macOSLatestSupportedVersions = macOSLatestSupportedVersions
@@ -38885,6 +40236,7 @@ extension EC2 {
         /// Verify existence of a pending maintenance.
         public let pendingMaintenance: String?
 
+        @inlinable
         public init(lastMaintenanceApplied: Date? = nil, maintenanceAutoAppliedAfter: Date? = nil, pendingMaintenance: String? = nil) {
             self.lastMaintenanceApplied = lastMaintenanceApplied
             self.maintenanceAutoAppliedAfter = maintenanceAutoAppliedAfter
@@ -38923,6 +40275,7 @@ extension EC2 {
         /// The version of the prefix list.
         public let version: Int64?
 
+        @inlinable
         public init(addressFamily: String? = nil, maxEntries: Int? = nil, ownerId: String? = nil, prefixListArn: String? = nil, prefixListId: String? = nil, prefixListName: String? = nil, state: PrefixListState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, version: Int64? = nil) {
             self.addressFamily = addressFamily
             self.maxEntries = maxEntries
@@ -38959,6 +40312,7 @@ extension EC2 {
         /// The total size of the memory for the media accelerators for the instance type, in MiB.
         public let totalMediaMemoryInMiB: Int?
 
+        @inlinable
         public init(accelerators: [MediaDeviceInfo]? = nil, totalMediaMemoryInMiB: Int? = nil) {
             self.accelerators = accelerators
             self.totalMediaMemoryInMiB = totalMediaMemoryInMiB
@@ -38980,6 +40334,7 @@ extension EC2 {
         /// The name of the media accelerator.
         public let name: String?
 
+        @inlinable
         public init(count: Int? = nil, manufacturer: String? = nil, memoryInfo: MediaDeviceMemoryInfo? = nil, name: String? = nil) {
             self.count = count
             self.manufacturer = manufacturer
@@ -38999,6 +40354,7 @@ extension EC2 {
         /// The size of the memory available to each media accelerator, in MiB.
         public let sizeInMiB: Int?
 
+        @inlinable
         public init(sizeInMiB: Int? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -39014,6 +40370,7 @@ extension EC2 {
         /// The minimum amount of memory per vCPU, in GiB. If this parameter is not specified, there is no minimum limit.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -39031,6 +40388,7 @@ extension EC2 {
         /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit, omit this parameter.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -39046,6 +40404,7 @@ extension EC2 {
         /// The size of the memory, in MiB.
         public let sizeInMiB: Int64?
 
+        @inlinable
         public init(sizeInMiB: Int64? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -39061,6 +40420,7 @@ extension EC2 {
         /// The minimum amount of memory, in MiB. If this parameter is not specified, there is no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -39078,6 +40438,7 @@ extension EC2 {
         /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -39098,6 +40459,7 @@ extension EC2 {
         public let status: String?
         public let value: Float?
 
+        @inlinable
         public init(endDate: Date? = nil, startDate: Date? = nil, status: String? = nil, value: Float? = nil) {
             self.endDate = endDate
             self.startDate = startDate
@@ -39121,6 +40483,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(allocationId: String? = nil, domainName: String? = nil, dryRun: Bool? = nil) {
             self.allocationId = allocationId
             self.domainName = domainName
@@ -39138,6 +40501,7 @@ extension EC2 {
         /// Information about the Elastic IP address.
         public let address: AddressAttribute?
 
+        @inlinable
         public init(address: AddressAttribute? = nil) {
             self.address = address
         }
@@ -39155,6 +40519,7 @@ extension EC2 {
         /// Indicates whether to opt in to the zone group. The only valid value is opted-in.  You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group.
         public let optInStatus: ModifyAvailabilityZoneOptInStatus?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupName: String? = nil, optInStatus: ModifyAvailabilityZoneOptInStatus? = nil) {
             self.dryRun = dryRun
             self.groupName = groupName
@@ -39172,6 +40537,7 @@ extension EC2 {
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -39206,6 +40572,7 @@ extension EC2 {
         /// 				capacity in the Amazon EC2 User Guide.
         public let totalTargetCapacity: Int?
 
+        @inlinable
         public init(capacityReservationFleetId: String? = nil, dryRun: Bool? = nil, endDate: Date? = nil, removeEndDate: Bool? = nil, totalTargetCapacity: Int? = nil) {
             self.capacityReservationFleetId = capacityReservationFleetId
             self.dryRun = dryRun
@@ -39227,6 +40594,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -39268,6 +40636,7 @@ extension EC2 {
         /// 		 To modify the instance eligibility, the Capacity Reservation must be completely idle (zero usage).
         public let instanceMatchCriteria: InstanceMatchCriteria?
 
+        @inlinable
         public init(accept: Bool? = nil, additionalInfo: String? = nil, capacityReservationId: String? = nil, dryRun: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, instanceCount: Int? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil) {
             self.accept = accept
             self.additionalInfo = additionalInfo
@@ -39295,6 +40664,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -39341,6 +40711,7 @@ extension EC2 {
         /// The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443
         public let vpnPort: Int?
 
+        @inlinable
         public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
@@ -39380,6 +40751,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -39397,6 +40769,7 @@ extension EC2 {
         /// The instance family.
         public let instanceFamily: UnlimitedSupportedInstanceFamily?
 
+        @inlinable
         public init(cpuCredits: String? = nil, dryRun: Bool? = nil, instanceFamily: UnlimitedSupportedInstanceFamily? = nil) {
             self.cpuCredits = cpuCredits
             self.dryRun = dryRun
@@ -39414,6 +40787,7 @@ extension EC2 {
         /// The default credit option for CPU usage of the instance family.
         public let instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification?
 
+        @inlinable
         public init(instanceFamilyCreditSpecification: InstanceFamilyCreditSpecification? = nil) {
             self.instanceFamilyCreditSpecification = instanceFamilyCreditSpecification
         }
@@ -39429,6 +40803,7 @@ extension EC2 {
         /// The identifier of the KMS key to use for Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the KMS key using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid,  the action can appear to complete, but eventually fails. Amazon EBS does not support asymmetric KMS keys.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, kmsKeyId: String? = nil) {
             self.dryRun = dryRun
             self.kmsKeyId = kmsKeyId
@@ -39444,6 +40819,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the default KMS key for encryption by default.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -39470,6 +40846,7 @@ extension EC2 {
         /// The size of the EC2 Fleet.
         public let targetCapacitySpecification: TargetCapacitySpecificationRequest?
 
+        @inlinable
         public init(context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, fleetId: String? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil) {
             self.context = context
             self.dryRun = dryRun
@@ -39500,6 +40877,7 @@ extension EC2 {
         /// If the request succeeds, the response returns true. If the request fails, no response is returned, and instead an error message is returned.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -39539,6 +40917,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
 
+        @inlinable
         public init(attribute: FpgaImageAttributeName? = nil, description: String? = nil, dryRun: Bool? = nil, fpgaImageId: String? = nil, loadPermission: LoadPermissionModifications? = nil, name: String? = nil, operationType: OperationType? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil) {
             self.attribute = attribute
             self.description = description
@@ -39570,6 +40949,7 @@ extension EC2 {
         /// Information about the attribute.
         public let fpgaImageAttribute: FpgaImageAttribute?
 
+        @inlinable
         public init(fpgaImageAttribute: FpgaImageAttribute? = nil) {
             self.fpgaImageAttribute = fpgaImageAttribute
         }
@@ -39596,6 +40976,7 @@ extension EC2 {
         /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support only a specific instance type. If you want to modify a Dedicated Host to support multiple instance types in its current instance family, omit this parameter and specify InstanceFamily instead. You cannot specify InstanceType and InstanceFamily in the same request.
         public let instanceType: String?
 
+        @inlinable
         public init(autoPlacement: AutoPlacement? = nil, hostIds: [String]? = nil, hostMaintenance: HostMaintenance? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil) {
             self.autoPlacement = autoPlacement
             self.hostIds = hostIds
@@ -39626,6 +41007,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(successful: [String]? = nil, unsuccessful: [UnsuccessfulItem]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -39643,6 +41025,7 @@ extension EC2 {
         /// Indicate whether the resource should use longer IDs (17-character IDs).
         public let useLongIds: Bool?
 
+        @inlinable
         public init(resource: String? = nil, useLongIds: Bool? = nil) {
             self.resource = resource
             self.useLongIds = useLongIds
@@ -39662,6 +41045,7 @@ extension EC2 {
         /// Indicates whether the resource should use longer IDs (17-character IDs)
         public let useLongIds: Bool?
 
+        @inlinable
         public init(principalArn: String? = nil, resource: String? = nil, useLongIds: Bool? = nil) {
             self.principalArn = principalArn
             self.resource = resource
@@ -39716,6 +41100,7 @@ extension EC2 {
         /// The value of the attribute being modified.  This parameter can be used only when the Attribute parameter is description or imdsSupport.
         public let value: String?
 
+        @inlinable
         public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String? = nil, imdsSupport: AttributeValue? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
             self.attribute = attribute
             self.description = description
@@ -39790,6 +41175,7 @@ extension EC2 {
         /// A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
         public let value: String?
 
+        @inlinable
         public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, groups: [String]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: BlobAttributeValue? = nil, value: String? = nil) {
             self.attribute = attribute
             self.blockDeviceMappings = blockDeviceMappings
@@ -39839,6 +41225,7 @@ extension EC2 {
         /// The ID of the instance to be modified.
         public let instanceId: String?
 
+        @inlinable
         public init(capacityReservationSpecification: CapacityReservationSpecification? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.capacityReservationSpecification = capacityReservationSpecification
             self.dryRun = dryRun
@@ -39856,6 +41243,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -39876,6 +41264,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceCreditSpecificationsEncoding, InstanceCreditSpecificationRequest>>
         public var instanceCreditSpecifications: [InstanceCreditSpecificationRequest]?
 
+        @inlinable
         public init(clientToken: String? = nil, dryRun: Bool? = nil, instanceCreditSpecifications: [InstanceCreditSpecificationRequest]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -39900,6 +41289,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulInstanceCreditSpecificationsEncoding, UnsuccessfulInstanceCreditSpecificationItem>>
         public var unsuccessfulInstanceCreditSpecifications: [UnsuccessfulInstanceCreditSpecificationItem]?
 
+        @inlinable
         public init(successfulInstanceCreditSpecifications: [SuccessfulInstanceCreditSpecificationItem]? = nil, unsuccessfulInstanceCreditSpecifications: [UnsuccessfulInstanceCreditSpecificationItem]? = nil) {
             self.successfulInstanceCreditSpecifications = successfulInstanceCreditSpecifications
             self.unsuccessfulInstanceCreditSpecifications = unsuccessfulInstanceCreditSpecifications
@@ -39921,6 +41311,7 @@ extension EC2 {
         /// The new date and time when the event will take place.
         public let notBefore: Date?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceEventId: String? = nil, instanceId: String? = nil, notBefore: Date? = nil) {
             self.dryRun = dryRun
             self.instanceEventId = instanceEventId
@@ -39940,6 +41331,7 @@ extension EC2 {
         /// Information about the event.
         public let event: InstanceStatusEvent?
 
+        @inlinable
         public init(event: InstanceStatusEvent? = nil) {
             self.event = event
         }
@@ -39962,6 +41354,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<InstanceEventWindowTimeRangeRequest>>
         public var timeRanges: [InstanceEventWindowTimeRangeRequest]?
 
+        @inlinable
         public init(cronExpression: String? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil, name: String? = nil, timeRanges: [InstanceEventWindowTimeRangeRequest]? = nil) {
             self.cronExpression = cronExpression
             self.dryRun = dryRun
@@ -39989,6 +41382,7 @@ extension EC2 {
         /// Information about the event window.
         public let instanceEventWindow: InstanceEventWindow?
 
+        @inlinable
         public init(instanceEventWindow: InstanceEventWindow? = nil) {
             self.instanceEventWindow = instanceEventWindow
         }
@@ -40006,6 +41400,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(autoRecovery: InstanceAutoRecoveryState? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.autoRecovery = autoRecovery
             self.dryRun = dryRun
@@ -40025,6 +41420,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(autoRecovery: InstanceAutoRecoveryState? = nil, instanceId: String? = nil) {
             self.autoRecovery = autoRecovery
             self.instanceId = instanceId
@@ -40048,6 +41444,7 @@ extension EC2 {
         /// Enables or disables access to an instance's tags from the instance metadata. For more information, see Work with instance tags using the instance metadata in the Amazon EC2 User Guide.
         public let instanceMetadataTags: DefaultInstanceMetadataTagsState?
 
+        @inlinable
         public init(dryRun: Bool? = nil, httpEndpoint: DefaultInstanceMetadataEndpointState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: MetadataDefaultHttpTokensState? = nil, instanceMetadataTags: DefaultInstanceMetadataTagsState? = nil) {
             self.dryRun = dryRun
             self.httpEndpoint = httpEndpoint
@@ -40069,6 +41466,7 @@ extension EC2 {
         /// If the request succeeds, the response returns true. If the request fails, no response is returned, and instead an error message is returned.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -40094,6 +41492,7 @@ extension EC2 {
         /// Set to enabled to allow access to instance tags from the instance metadata. Set to disabled to turn off access to instance tags from the instance metadata. For more information, see Work with instance tags using the instance metadata.
         public let instanceMetadataTags: InstanceMetadataTagsState?
 
+        @inlinable
         public init(dryRun: Bool? = nil, httpEndpoint: InstanceMetadataEndpointState? = nil, httpProtocolIpv6: InstanceMetadataProtocolState? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: HttpTokensState? = nil, instanceId: String? = nil, instanceMetadataTags: InstanceMetadataTagsState? = nil) {
             self.dryRun = dryRun
             self.httpEndpoint = httpEndpoint
@@ -40121,6 +41520,7 @@ extension EC2 {
         /// The metadata options for the instance.
         public let instanceMetadataOptions: InstanceMetadataOptionsResponse?
 
+        @inlinable
         public init(instanceId: String? = nil, instanceMetadataOptions: InstanceMetadataOptionsResponse? = nil) {
             self.instanceId = instanceId
             self.instanceMetadataOptions = instanceMetadataOptions
@@ -40150,6 +41550,7 @@ extension EC2 {
         /// The tenancy for the instance.  For T3 instances, you must launch the instance on a Dedicated Host to use a tenancy of host. You can't change the tenancy from host to dedicated or default. Attempting to make one of these unsupported tenancy changes results in an InvalidRequest error code.
         public let tenancy: HostTenancy?
 
+        @inlinable
         public init(affinity: Affinity? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, instanceId: String? = nil, partitionNumber: Int? = nil, tenancy: HostTenancy? = nil) {
             self.affinity = affinity
             self.groupId = groupId
@@ -40177,6 +41578,7 @@ extension EC2 {
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -40213,6 +41615,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RemoveAllocationResourceTagsEncoding, RequestIpamResourceTag>>
         public var removeAllocationResourceTags: [RequestIpamResourceTag]?
 
+        @inlinable
         public init(addAllocationResourceTags: [RequestIpamResourceTag]? = nil, allocationDefaultNetmaskLength: Int? = nil, allocationMaxNetmaskLength: Int? = nil, allocationMinNetmaskLength: Int? = nil, autoImport: Bool? = nil, clearAllocationDefaultNetmaskLength: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, removeAllocationResourceTags: [RequestIpamResourceTag]? = nil) {
             self.addAllocationResourceTags = addAllocationResourceTags
             self.allocationDefaultNetmaskLength = allocationDefaultNetmaskLength
@@ -40253,6 +41656,7 @@ extension EC2 {
         /// The results of the modification.
         public let ipamPool: IpamPool?
 
+        @inlinable
         public init(ipamPool: IpamPool? = nil) {
             self.ipamPool = ipamPool
         }
@@ -40280,6 +41684,7 @@ extension EC2 {
         /// IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
         public let tier: IpamTier?
 
+        @inlinable
         public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, enablePrivateGua: Bool? = nil, ipamId: String? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil, tier: IpamTier? = nil) {
             self.addOperatingRegions = addOperatingRegions
             self.description = description
@@ -40322,6 +41727,7 @@ extension EC2 {
         /// The Amazon Web Services Region of the resource you want to modify.
         public let resourceRegion: String?
 
+        @inlinable
         public init(currentIpamScopeId: String? = nil, destinationIpamScopeId: String? = nil, dryRun: Bool? = nil, monitored: Bool? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceRegion: String? = nil) {
             self.currentIpamScopeId = currentIpamScopeId
             self.destinationIpamScopeId = destinationIpamScopeId
@@ -40347,6 +41753,7 @@ extension EC2 {
         /// The CIDR of the resource.
         public let ipamResourceCidr: IpamResourceCidr?
 
+        @inlinable
         public init(ipamResourceCidr: IpamResourceCidr? = nil) {
             self.ipamResourceCidr = ipamResourceCidr
         }
@@ -40370,6 +41777,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<RemoveIpamOperatingRegion>>
         public var removeOperatingRegions: [RemoveIpamOperatingRegion]?
 
+        @inlinable
         public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, ipamResourceDiscoveryId: String? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil) {
             self.addOperatingRegions = addOperatingRegions
             self.description = description
@@ -40396,6 +41804,7 @@ extension EC2 {
         /// A resource discovery.
         public let ipamResourceDiscovery: IpamResourceDiscovery?
 
+        @inlinable
         public init(ipamResourceDiscovery: IpamResourceDiscovery? = nil) {
             self.ipamResourceDiscovery = ipamResourceDiscovery
         }
@@ -40409,6 +41818,7 @@ extension EC2 {
         /// The results of the modification.
         public let ipam: Ipam?
 
+        @inlinable
         public init(ipam: Ipam? = nil) {
             self.ipam = ipam
         }
@@ -40426,6 +41836,7 @@ extension EC2 {
         /// The ID of the scope you want to modify.
         public let ipamScopeId: String?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -40443,6 +41854,7 @@ extension EC2 {
         /// The results of the modification.
         public let ipamScope: IpamScope?
 
+        @inlinable
         public init(ipamScope: IpamScope? = nil) {
             self.ipamScope = ipamScope
         }
@@ -40464,6 +41876,7 @@ extension EC2 {
         /// The name of the launch template. You must specify either the launch template ID or the launch template name, but not both.
         public let launchTemplateName: String?
 
+        @inlinable
         public init(clientToken: String? = nil, defaultVersion: String? = nil, dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil) {
             self.clientToken = clientToken
             self.defaultVersion = defaultVersion
@@ -40491,6 +41904,7 @@ extension EC2 {
         /// Information about the launch template.
         public let launchTemplate: LaunchTemplate?
 
+        @inlinable
         public init(launchTemplate: LaunchTemplate? = nil) {
             self.launchTemplate = launchTemplate
         }
@@ -40514,6 +41928,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationPrefixListId = destinationPrefixListId
@@ -40537,6 +41952,7 @@ extension EC2 {
         /// Information about the local gateway route table.
         public let route: LocalGatewayRoute?
 
+        @inlinable
         public init(route: LocalGatewayRoute? = nil) {
             self.route = route
         }
@@ -40564,6 +41980,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<RemovePrefixListEntry>>
         public var removeEntries: [RemovePrefixListEntry]?
 
+        @inlinable
         public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, maxEntries: Int? = nil, prefixListId: String? = nil, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
             self.addEntries = addEntries
             self.currentVersion = currentVersion
@@ -40594,6 +42011,7 @@ extension EC2 {
         /// Information about the prefix list.
         public let prefixList: ManagedPrefixList?
 
+        @inlinable
         public init(prefixList: ManagedPrefixList? = nil) {
             self.prefixList = prefixList
         }
@@ -40631,6 +42049,7 @@ extension EC2 {
         /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true, source/destination checks are enabled; otherwise, they are disabled. The default value is true.  You must disable source/destination checks if the instance runs services  such as network address translation, routing, or firewalls.
         public let sourceDestCheck: AttributeBooleanValue?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, attachment: NetworkInterfaceAttachmentChanges? = nil, connectionTrackingSpecification: ConnectionTrackingSpecificationRequest? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, enablePrimaryIpv6: Bool? = nil, enaSrdSpecification: EnaSrdSpecification? = nil, groups: [String]? = nil, networkInterfaceId: String? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.attachment = attachment
@@ -40670,6 +42089,7 @@ extension EC2 {
         /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID.
         public let privateDnsHostnameType: HostnameType?
 
+        @inlinable
         public init(dryRun: Bool? = nil, enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, instanceId: String? = nil, privateDnsHostnameType: HostnameType? = nil) {
             self.dryRun = dryRun
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
@@ -40691,6 +42111,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -40713,6 +42134,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TargetConfigurationsEncoding, ReservedInstancesConfiguration>>
         public var targetConfigurations: [ReservedInstancesConfiguration]?
 
+        @inlinable
         public init(clientToken: String? = nil, reservedInstancesIds: [String]? = nil, targetConfigurations: [ReservedInstancesConfiguration]? = nil) {
             self.clientToken = clientToken
             self.reservedInstancesIds = reservedInstancesIds
@@ -40730,6 +42152,7 @@ extension EC2 {
         /// The ID for the modification.
         public let reservedInstancesModificationId: String?
 
+        @inlinable
         public init(reservedInstancesModificationId: String? = nil) {
             self.reservedInstancesModificationId = reservedInstancesModificationId
         }
@@ -40750,6 +42173,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRuleUpdate>>
         public var securityGroupRules: [SecurityGroupRuleUpdate]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupId: String? = nil, securityGroupRules: [SecurityGroupRuleUpdate]? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
@@ -40767,6 +42191,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -40797,6 +42222,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
 
+        @inlinable
         public init(attribute: SnapshotAttributeName? = nil, createVolumePermission: CreateVolumePermissionModifications? = nil, dryRun: Bool? = nil, groupNames: [String]? = nil, operationType: OperationType? = nil, snapshotId: String? = nil, userIds: [String]? = nil) {
             self.attribute = attribute
             self.createVolumePermission = createVolumePermission
@@ -40826,6 +42252,7 @@ extension EC2 {
         /// The name of the storage tier. You must specify archive.
         public let storageTier: TargetStorageTier?
 
+        @inlinable
         public init(dryRun: Bool? = nil, snapshotId: String? = nil, storageTier: TargetStorageTier? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
@@ -40845,6 +42272,7 @@ extension EC2 {
         /// The date and time when the archive process was started.
         public let tieringStartTime: Date?
 
+        @inlinable
         public init(snapshotId: String? = nil, tieringStartTime: Date? = nil) {
             self.snapshotId = snapshotId
             self.tieringStartTime = tieringStartTime
@@ -40873,6 +42301,7 @@ extension EC2 {
         /// The size of the fleet.
         public let targetCapacity: Int?
 
+        @inlinable
         public init(context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, onDemandTargetCapacity: Int? = nil, spotFleetRequestId: String? = nil, targetCapacity: Int? = nil) {
             self.context = context
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
@@ -40902,6 +42331,7 @@ extension EC2 {
         /// If the request succeeds, the response returns true. If the request fails, no response is returned, and instead an error message is returned.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -40936,6 +42366,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(assignIpv6AddressOnCreation: AttributeBooleanValue? = nil, customerOwnedIpv4Pool: String? = nil, disableLniAtDeviceIndex: AttributeBooleanValue? = nil, enableDns64: AttributeBooleanValue? = nil, enableLniAtDeviceIndex: Int? = nil, enableResourceNameDnsAAAARecordOnLaunch: AttributeBooleanValue? = nil, enableResourceNameDnsARecordOnLaunch: AttributeBooleanValue? = nil, mapCustomerOwnedIpOnLaunch: AttributeBooleanValue? = nil, mapPublicIpOnLaunch: AttributeBooleanValue? = nil, privateDnsHostnameTypeOnLaunch: HostnameType? = nil, subnetId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
@@ -40980,6 +42411,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
 
+        @inlinable
         public init(addNetworkServices: [TrafficMirrorNetworkService]? = nil, dryRun: Bool? = nil, removeNetworkServices: [TrafficMirrorNetworkService]? = nil, trafficMirrorFilterId: String? = nil) {
             self.addNetworkServices = addNetworkServices
             self.dryRun = dryRun
@@ -40999,6 +42431,7 @@ extension EC2 {
         /// The Traffic Mirror filter that the network service is associated with.
         public let trafficMirrorFilter: TrafficMirrorFilter?
 
+        @inlinable
         public init(trafficMirrorFilter: TrafficMirrorFilter? = nil) {
             self.trafficMirrorFilter = trafficMirrorFilter
         }
@@ -41035,6 +42468,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String?
 
+        @inlinable
         public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRangeRequest? = nil, dryRun: Bool? = nil, protocol: Int? = nil, removeFields: [TrafficMirrorFilterRuleField]? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRangeRequest? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterRuleId: String? = nil) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -41070,6 +42504,7 @@ extension EC2 {
         ///  Tags are not returned for ModifyTrafficMirrorFilterRule.  A Traffic Mirror rule.
         public let trafficMirrorFilterRule: TrafficMirrorFilterRule?
 
+        @inlinable
         public init(trafficMirrorFilterRule: TrafficMirrorFilterRule? = nil) {
             self.trafficMirrorFilterRule = trafficMirrorFilterRule
         }
@@ -41100,6 +42535,7 @@ extension EC2 {
         /// The virtual network ID of the Traffic Mirror session.
         public let virtualNetworkId: Int?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, packetLength: Int? = nil, removeFields: [TrafficMirrorSessionField]? = nil, sessionNumber: Int? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorSessionId: String? = nil, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -41129,6 +42565,7 @@ extension EC2 {
         /// Information about the Traffic Mirror session.
         public let trafficMirrorSession: TrafficMirrorSession?
 
+        @inlinable
         public init(trafficMirrorSession: TrafficMirrorSession? = nil) {
             self.trafficMirrorSession = trafficMirrorSession
         }
@@ -41167,6 +42604,7 @@ extension EC2 {
         /// Enable or disable Equal Cost Multipath Protocol support.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
+        @inlinable
         public init(addTransitGatewayCidrBlocks: [String]? = nil, amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, removeTransitGatewayCidrBlocks: [String]? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.addTransitGatewayCidrBlocks = addTransitGatewayCidrBlocks
             self.amazonSideAsn = amazonSideAsn
@@ -41208,6 +42646,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(blackhole: Bool? = nil, dryRun: Bool? = nil, prefixListId: String? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.dryRun = dryRun
@@ -41229,6 +42668,7 @@ extension EC2 {
         /// Information about the prefix list reference.
         public let transitGatewayPrefixListReference: TransitGatewayPrefixListReference?
 
+        @inlinable
         public init(transitGatewayPrefixListReference: TransitGatewayPrefixListReference? = nil) {
             self.transitGatewayPrefixListReference = transitGatewayPrefixListReference
         }
@@ -41248,6 +42688,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayOptions? = nil, transitGatewayId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -41267,6 +42708,7 @@ extension EC2 {
         /// Information about the transit gateway.
         public let transitGateway: TransitGateway?
 
+        @inlinable
         public init(transitGateway: TransitGateway? = nil) {
             self.transitGateway = transitGateway
         }
@@ -41293,6 +42735,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(addSubnetIds: [String]? = nil, dryRun: Bool? = nil, options: ModifyTransitGatewayVpcAttachmentRequestOptions? = nil, removeSubnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil) {
             self.addSubnetIds = addSubnetIds
             self.dryRun = dryRun
@@ -41320,6 +42763,7 @@ extension EC2 {
         ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
 
+        @inlinable
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil) {
             self.applianceModeSupport = applianceModeSupport
             self.dnsSupport = dnsSupport
@@ -41339,6 +42783,7 @@ extension EC2 {
         /// Information about the modified attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
 
+        @inlinable
         public init(transitGatewayVpcAttachment: TransitGatewayVpcAttachment? = nil) {
             self.transitGatewayVpcAttachment = transitGatewayVpcAttachment
         }
@@ -41354,6 +42799,7 @@ extension EC2 {
         /// The IP protocol.
         public let `protocol`: VerifiedAccessEndpointProtocol?
 
+        @inlinable
         public init(port: Int? = nil, protocol: VerifiedAccessEndpointProtocol? = nil) {
             self.port = port
             self.`protocol` = `protocol`
@@ -41381,6 +42827,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
+        @inlinable
         public init(port: Int? = nil, protocol: VerifiedAccessEndpointProtocol? = nil, subnetIds: [String]? = nil) {
             self.port = port
             self.`protocol` = `protocol`
@@ -41413,6 +42860,7 @@ extension EC2 {
         /// The ID of the Verified Access endpoint.
         public let verifiedAccessEndpointId: String?
 
+        @inlinable
         public init(clientToken: String? = ModifyVerifiedAccessEndpointPolicyRequest.idempotencyToken(), dryRun: Bool? = nil, policyDocument: String? = nil, policyEnabled: Bool? = nil, sseSpecification: VerifiedAccessSseSpecificationRequest? = nil, verifiedAccessEndpointId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -41440,6 +42888,7 @@ extension EC2 {
         /// The options in use for server side encryption.
         public let sseSpecification: VerifiedAccessSseSpecificationResponse?
 
+        @inlinable
         public init(policyDocument: String? = nil, policyEnabled: Bool? = nil, sseSpecification: VerifiedAccessSseSpecificationResponse? = nil) {
             self.policyDocument = policyDocument
             self.policyEnabled = policyEnabled
@@ -41469,6 +42918,7 @@ extension EC2 {
         /// The ID of the Verified Access group.
         public let verifiedAccessGroupId: String?
 
+        @inlinable
         public init(clientToken: String? = ModifyVerifiedAccessEndpointRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, loadBalancerOptions: ModifyVerifiedAccessEndpointLoadBalancerOptions? = nil, networkInterfaceOptions: ModifyVerifiedAccessEndpointEniOptions? = nil, verifiedAccessEndpointId: String? = nil, verifiedAccessGroupId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -41499,6 +42949,7 @@ extension EC2 {
         /// Details about the Verified Access endpoint.
         public let verifiedAccessEndpoint: VerifiedAccessEndpoint?
 
+        @inlinable
         public init(verifiedAccessEndpoint: VerifiedAccessEndpoint? = nil) {
             self.verifiedAccessEndpoint = verifiedAccessEndpoint
         }
@@ -41522,6 +42973,7 @@ extension EC2 {
         /// The ID of the Verified Access group.
         public let verifiedAccessGroupId: String?
 
+        @inlinable
         public init(clientToken: String? = ModifyVerifiedAccessGroupPolicyRequest.idempotencyToken(), dryRun: Bool? = nil, policyDocument: String? = nil, policyEnabled: Bool? = nil, sseSpecification: VerifiedAccessSseSpecificationRequest? = nil, verifiedAccessGroupId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -41549,6 +43001,7 @@ extension EC2 {
         /// The options in use for server side encryption.
         public let sseSpecification: VerifiedAccessSseSpecificationResponse?
 
+        @inlinable
         public init(policyDocument: String? = nil, policyEnabled: Bool? = nil, sseSpecification: VerifiedAccessSseSpecificationResponse? = nil) {
             self.policyDocument = policyDocument
             self.policyEnabled = policyEnabled
@@ -41574,6 +43027,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(clientToken: String? = ModifyVerifiedAccessGroupRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, verifiedAccessGroupId: String? = nil, verifiedAccessInstanceId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -41595,6 +43049,7 @@ extension EC2 {
         /// Details about the Verified Access group.
         public let verifiedAccessGroup: VerifiedAccessGroup?
 
+        @inlinable
         public init(verifiedAccessGroup: VerifiedAccessGroup? = nil) {
             self.verifiedAccessGroup = verifiedAccessGroup
         }
@@ -41614,6 +43069,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(accessLogs: VerifiedAccessLogOptions? = nil, clientToken: String? = ModifyVerifiedAccessInstanceLoggingConfigurationRequest.idempotencyToken(), dryRun: Bool? = nil, verifiedAccessInstanceId: String? = nil) {
             self.accessLogs = accessLogs
             self.clientToken = clientToken
@@ -41633,6 +43089,7 @@ extension EC2 {
         /// The logging configuration for the Verified Access instance.
         public let loggingConfiguration: VerifiedAccessInstanceLoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: VerifiedAccessInstanceLoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -41652,6 +43109,7 @@ extension EC2 {
         /// The ID of the Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(clientToken: String? = ModifyVerifiedAccessInstanceRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, verifiedAccessInstanceId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -41671,6 +43129,7 @@ extension EC2 {
         /// Details about the Verified Access instance.
         public let verifiedAccessInstance: VerifiedAccessInstance?
 
+        @inlinable
         public init(verifiedAccessInstance: VerifiedAccessInstance? = nil) {
             self.verifiedAccessInstance = verifiedAccessInstance
         }
@@ -41684,6 +43143,7 @@ extension EC2 {
         ///  The URL Amazon Web Services Verified Access will use to verify the authenticity of the device tokens.
         public let publicSigningKeyUrl: String?
 
+        @inlinable
         public init(publicSigningKeyUrl: String? = nil) {
             self.publicSigningKeyUrl = publicSigningKeyUrl
         }
@@ -41709,6 +43169,7 @@ extension EC2 {
         /// The OIDC user info endpoint.
         public let userInfoEndpoint: String?
 
+        @inlinable
         public init(authorizationEndpoint: String? = nil, clientId: String? = nil, clientSecret: String? = nil, issuer: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, userInfoEndpoint: String? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -41746,6 +43207,7 @@ extension EC2 {
         /// The ID of the Verified Access trust provider.
         public let verifiedAccessTrustProviderId: String?
 
+        @inlinable
         public init(clientToken: String? = ModifyVerifiedAccessTrustProviderRequest.idempotencyToken(), description: String? = nil, deviceOptions: ModifyVerifiedAccessTrustProviderDeviceOptions? = nil, dryRun: Bool? = nil, oidcOptions: ModifyVerifiedAccessTrustProviderOidcOptions? = nil, sseSpecification: VerifiedAccessSseSpecificationRequest? = nil, verifiedAccessTrustProviderId: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -41771,6 +43233,7 @@ extension EC2 {
         /// Details about the Verified Access trust provider.
         public let verifiedAccessTrustProvider: VerifiedAccessTrustProvider?
 
+        @inlinable
         public init(verifiedAccessTrustProvider: VerifiedAccessTrustProvider? = nil) {
             self.verifiedAccessTrustProvider = verifiedAccessTrustProvider
         }
@@ -41788,6 +43251,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(autoEnableIO: AttributeBooleanValue? = nil, dryRun: Bool? = nil, volumeId: String? = nil) {
             self.autoEnableIO = autoEnableIO
             self.dryRun = dryRun
@@ -41824,6 +43288,7 @@ extension EC2 {
         /// The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon EBS User Guide. Default: The existing type is retained.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(dryRun: Bool? = nil, iops: Int? = nil, multiAttachEnabled: Bool? = nil, size: Int? = nil, throughput: Int? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
             self.dryRun = dryRun
             self.iops = iops
@@ -41849,6 +43314,7 @@ extension EC2 {
         /// Information about the volume modification.
         public let volumeModification: VolumeModification?
 
+        @inlinable
         public init(volumeModification: VolumeModification? = nil) {
             self.volumeModification = volumeModification
         }
@@ -41872,6 +43338,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(enableDnsHostnames: AttributeBooleanValue? = nil, enableDnsSupport: AttributeBooleanValue? = nil, enableNetworkAddressUsageMetrics: AttributeBooleanValue? = nil, vpcId: String? = nil) {
             self.enableDnsHostnames = enableDnsHostnames
             self.enableDnsSupport = enableDnsSupport
@@ -41900,6 +43367,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(connectionEvents: [String]? = nil, connectionNotificationArn: String? = nil, connectionNotificationId: String? = nil, dryRun: Bool? = nil) {
             self.connectionEvents = connectionEvents
             self.connectionNotificationArn = connectionNotificationArn
@@ -41919,6 +43387,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -41973,6 +43442,7 @@ extension EC2 {
         /// The ID of the endpoint.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(addRouteTableIds: [String]? = nil, addSecurityGroupIds: [String]? = nil, addSubnetIds: [String]? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, removeRouteTableIds: [String]? = nil, removeSecurityGroupIds: [String]? = nil, removeSubnetIds: [String]? = nil, resetPolicy: Bool? = nil, subnetConfigurations: [SubnetConfiguration]? = nil, vpcEndpointId: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.addSecurityGroupIds = addSecurityGroupIds
@@ -42012,6 +43482,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -42058,6 +43529,7 @@ extension EC2 {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, addGatewayLoadBalancerArns: [String]? = nil, addNetworkLoadBalancerArns: [String]? = nil, addSupportedIpAddressTypes: [String]? = nil, dryRun: Bool? = nil, privateDnsName: String? = nil, removeGatewayLoadBalancerArns: [String]? = nil, removeNetworkLoadBalancerArns: [String]? = nil, removePrivateDnsName: Bool? = nil, removeSupportedIpAddressTypes: [String]? = nil, serviceId: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.addGatewayLoadBalancerArns = addGatewayLoadBalancerArns
@@ -42091,6 +43563,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -42108,6 +43581,7 @@ extension EC2 {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, payerResponsibility: PayerResponsibility? = nil, serviceId: String? = nil) {
             self.dryRun = dryRun
             self.payerResponsibility = payerResponsibility
@@ -42125,6 +43599,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -42152,6 +43627,7 @@ extension EC2 {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(addAllowedPrincipals: [String]? = nil, dryRun: Bool? = nil, removeAllowedPrincipals: [String]? = nil, serviceId: String? = nil) {
             self.addAllowedPrincipals = addAllowedPrincipals
             self.dryRun = dryRun
@@ -42176,6 +43652,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
 
+        @inlinable
         public init(addedPrincipals: [AddedPrincipal]? = nil, returnValue: Bool? = nil) {
             self.addedPrincipals = addedPrincipals
             self.returnValue = returnValue
@@ -42197,6 +43674,7 @@ extension EC2 {
         /// The ID of the VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, dryRun: Bool? = nil, requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, vpcPeeringConnectionId: String? = nil) {
             self.accepterPeeringConnectionOptions = accepterPeeringConnectionOptions
             self.dryRun = dryRun
@@ -42218,6 +43696,7 @@ extension EC2 {
         /// Information about the VPC peering connection options for the requester VPC.
         public let requesterPeeringConnectionOptions: PeeringConnectionOptions?
 
+        @inlinable
         public init(accepterPeeringConnectionOptions: PeeringConnectionOptions? = nil, requesterPeeringConnectionOptions: PeeringConnectionOptions? = nil) {
             self.accepterPeeringConnectionOptions = accepterPeeringConnectionOptions
             self.requesterPeeringConnectionOptions = requesterPeeringConnectionOptions
@@ -42237,6 +43716,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceTenancy: VpcTenancy? = nil, vpcId: String? = nil) {
             self.dryRun = dryRun
             self.instanceTenancy = instanceTenancy
@@ -42254,6 +43734,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -42277,6 +43758,7 @@ extension EC2 {
         /// The ID of the Site-to-Site VPN connection.
         public let vpnConnectionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, vpnConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
@@ -42300,6 +43782,7 @@ extension EC2 {
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
 
+        @inlinable
         public init(vpnConnection: VpnConnection? = nil) {
             self.vpnConnection = vpnConnection
         }
@@ -42321,6 +43804,7 @@ extension EC2 {
         /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, transitGatewayId: String? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
@@ -42342,6 +43826,7 @@ extension EC2 {
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
 
+        @inlinable
         public init(vpnConnection: VpnConnection? = nil) {
             self.vpnConnection = vpnConnection
         }
@@ -42359,6 +43844,7 @@ extension EC2 {
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
             self.vpnConnectionId = vpnConnectionId
@@ -42376,6 +43862,7 @@ extension EC2 {
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
 
+        @inlinable
         public init(vpnConnection: VpnConnection? = nil) {
             self.vpnConnection = vpnConnection
         }
@@ -42397,6 +43884,7 @@ extension EC2 {
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, skipTunnelReplacement: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
             self.skipTunnelReplacement = skipTunnelReplacement
@@ -42418,6 +43906,7 @@ extension EC2 {
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
 
+        @inlinable
         public init(vpnConnection: VpnConnection? = nil) {
             self.vpnConnection = vpnConnection
         }
@@ -42484,6 +43973,7 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
+        @inlinable
         public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, enableTunnelLifecycleControl: Bool? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
@@ -42540,6 +44030,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
@@ -42558,6 +44049,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceMonitoringsEncoding, InstanceMonitoring>>
         public var instanceMonitorings: [InstanceMonitoring]?
 
+        @inlinable
         public init(instanceMonitorings: [InstanceMonitoring]? = nil) {
             self.instanceMonitorings = instanceMonitorings
         }
@@ -42571,6 +44063,7 @@ extension EC2 {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let state: MonitoringState?
 
+        @inlinable
         public init(state: MonitoringState? = nil) {
             self.state = state
         }
@@ -42586,6 +44079,7 @@ extension EC2 {
         /// The Elastic IP address.
         public let publicIp: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, publicIp: String? = nil) {
             self.dryRun = dryRun
             self.publicIp = publicIp
@@ -42603,6 +44097,7 @@ extension EC2 {
         /// The status of the move of the IP address.
         public let status: Status?
 
+        @inlinable
         public init(allocationId: String? = nil, status: Status? = nil) {
             self.allocationId = allocationId
             self.status = status
@@ -42624,6 +44119,7 @@ extension EC2 {
         /// The Amazon Web Services account ID of the owner of the IPAM pool.
         public let ipamPoolOwner: String?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolId: String? = nil, ipamPoolOwner: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -42643,6 +44139,7 @@ extension EC2 {
         /// The BYOIP CIDR.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -42667,6 +44164,7 @@ extension EC2 {
         ///
         public let sourceCapacityReservationId: String?
 
+        @inlinable
         public init(clientToken: String? = MoveCapacityReservationInstancesRequest.idempotencyToken(), destinationCapacityReservationId: String? = nil, dryRun: Bool? = nil, instanceCount: Int? = nil, sourceCapacityReservationId: String? = nil) {
             self.clientToken = clientToken
             self.destinationCapacityReservationId = destinationCapacityReservationId
@@ -42695,6 +44193,7 @@ extension EC2 {
         ///
         public let sourceCapacityReservation: CapacityReservation?
 
+        @inlinable
         public init(destinationCapacityReservation: CapacityReservation? = nil, instanceCount: Int? = nil, sourceCapacityReservation: CapacityReservation? = nil) {
             self.destinationCapacityReservation = destinationCapacityReservation
             self.instanceCount = instanceCount
@@ -42714,6 +44213,7 @@ extension EC2 {
         /// The Elastic IP address.
         public let publicIp: String?
 
+        @inlinable
         public init(moveStatus: MoveStatus? = nil, publicIp: String? = nil) {
             self.moveStatus = moveStatus
             self.publicIp = publicIp
@@ -42756,6 +44256,7 @@ extension EC2 {
         /// The ID of the VPC in which the NAT gateway is located.
         public let vpcId: String?
 
+        @inlinable
         public init(connectivityType: ConnectivityType? = nil, createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil, provisionedBandwidth: ProvisionedBandwidth? = nil, state: NatGatewayState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.connectivityType = connectivityType
             self.createTime = createTime
@@ -42805,6 +44306,7 @@ extension EC2 {
         /// The address status.
         public let status: NatGatewayAddressStatus?
 
+        @inlinable
         public init(allocationId: String? = nil, associationId: String? = nil, failureMessage: String? = nil, isPrimary: Bool? = nil, networkInterfaceId: String? = nil, privateIp: String? = nil, publicIp: String? = nil, status: NatGatewayAddressStatus? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
@@ -42851,6 +44353,7 @@ extension EC2 {
         /// The ID of the VPC for the network ACL.
         public let vpcId: String?
 
+        @inlinable
         public init(associations: [NetworkAclAssociation]? = nil, entries: [NetworkAclEntry]? = nil, isDefault: Bool? = nil, networkAclId: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.associations = associations
             self.entries = entries
@@ -42880,6 +44383,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(networkAclAssociationId: String? = nil, networkAclId: String? = nil, subnetId: String? = nil) {
             self.networkAclAssociationId = networkAclAssociationId
             self.networkAclId = networkAclId
@@ -42911,6 +44415,7 @@ extension EC2 {
         /// The rule number for the entry. ACL entries are processed in ascending order by rule number.
         public let ruleNumber: Int?
 
+        @inlinable
         public init(cidrBlock: String? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: RuleAction? = nil, ruleNumber: Int? = nil) {
             self.cidrBlock = cidrBlock
             self.egress = egress
@@ -42940,6 +44445,7 @@ extension EC2 {
         /// The minimum amount of network bandwidth, in Gbps. If this parameter is not specified, there is no minimum limit.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -42957,6 +44463,7 @@ extension EC2 {
         /// The minimum amount of network bandwidth, in Gbps. To specify no minimum limit, omit this parameter.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -42980,6 +44487,7 @@ extension EC2 {
         /// The peak (burst) network performance of the network card, in Gbps.
         public let peakBandwidthInGbps: Double?
 
+        @inlinable
         public init(baselineBandwidthInGbps: Double? = nil, maximumNetworkInterfaces: Int? = nil, networkCardIndex: Int? = nil, networkPerformance: String? = nil, peakBandwidthInGbps: Double? = nil) {
             self.baselineBandwidthInGbps = baselineBandwidthInGbps
             self.maximumNetworkInterfaces = maximumNetworkInterfaces
@@ -43028,6 +44536,7 @@ extension EC2 {
         /// The network performance.
         public let networkPerformance: String?
 
+        @inlinable
         public init(defaultNetworkCardIndex: Int? = nil, efaInfo: EfaInfo? = nil, efaSupported: Bool? = nil, enaSrdSupported: Bool? = nil, enaSupport: EnaSupport? = nil, encryptionInTransitSupported: Bool? = nil, ipv4AddressesPerInterface: Int? = nil, ipv6AddressesPerInterface: Int? = nil, ipv6Supported: Bool? = nil, maximumNetworkCards: Int? = nil, maximumNetworkInterfaces: Int? = nil, networkCards: [NetworkCardInfo]? = nil, networkPerformance: String? = nil) {
             self.defaultNetworkCardIndex = defaultNetworkCardIndex
             self.efaInfo = efaInfo
@@ -43076,6 +44585,7 @@ extension EC2 {
         /// The last updated date.
         public let updatedDate: Date?
 
+        @inlinable
         public init(createdDate: Date? = nil, networkInsightsAccessScopeArn: String? = nil, networkInsightsAccessScopeId: String? = nil, tags: [Tag]? = nil, updatedDate: Date? = nil) {
             self.createdDate = createdDate
             self.networkInsightsAccessScopeArn = networkInsightsAccessScopeArn
@@ -43120,6 +44630,7 @@ extension EC2 {
         /// The warning message.
         public let warningMessage: String?
 
+        @inlinable
         public init(analyzedEniCount: Int? = nil, endDate: Date? = nil, findingsFound: FindingsFound? = nil, networkInsightsAccessScopeAnalysisArn: String? = nil, networkInsightsAccessScopeAnalysisId: String? = nil, networkInsightsAccessScopeId: String? = nil, startDate: Date? = nil, status: AnalysisStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, warningMessage: String? = nil) {
             self.analyzedEniCount = analyzedEniCount
             self.endDate = endDate
@@ -43162,6 +44673,7 @@ extension EC2 {
         /// The ID of the Network Access Scope.
         public let networkInsightsAccessScopeId: String?
 
+        @inlinable
         public init(excludePaths: [AccessScopePath]? = nil, matchPaths: [AccessScopePath]? = nil, networkInsightsAccessScopeId: String? = nil) {
             self.excludePaths = excludePaths
             self.matchPaths = matchPaths
@@ -43226,6 +44738,7 @@ extension EC2 {
         /// The warning message.
         public let warningMessage: String?
 
+        @inlinable
         public init(additionalAccounts: [String]? = nil, alternatePathHints: [AlternatePathHint]? = nil, explanations: [Explanation]? = nil, filterInArns: [String]? = nil, forwardPathComponents: [PathComponent]? = nil, networkInsightsAnalysisArn: String? = nil, networkInsightsAnalysisId: String? = nil, networkInsightsPathId: String? = nil, networkPathFound: Bool? = nil, returnPathComponents: [PathComponent]? = nil, startDate: Date? = nil, status: AnalysisStatus? = nil, statusMessage: String? = nil, suggestedAccounts: [String]? = nil, tags: [Tag]? = nil, warningMessage: String? = nil) {
             self.additionalAccounts = additionalAccounts
             self.alternatePathHints = alternatePathHints
@@ -43298,6 +44811,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(createdDate: Date? = nil, destination: String? = nil, destinationArn: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, filterAtDestination: PathFilter? = nil, filterAtSource: PathFilter? = nil, networkInsightsPathArn: String? = nil, networkInsightsPathId: String? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceArn: String? = nil, sourceIp: String? = nil, tags: [Tag]? = nil) {
             self.createdDate = createdDate
             self.destination = destination
@@ -43402,6 +44916,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, connectionTrackingConfiguration: ConnectionTrackingConfiguration? = nil, denyAllIgwTraffic: Bool? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Address: String? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Native: Bool? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
             self.association = association
             self.attachment = attachment
@@ -43479,6 +44994,7 @@ extension EC2 {
         /// The address of the Elastic IP address bound to the network interface.
         public let publicIp: String?
 
+        @inlinable
         public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, ipOwnerId: String? = nil, publicDnsName: String? = nil, publicIp: String? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
@@ -43520,6 +45036,7 @@ extension EC2 {
         /// The attachment state.
         public let status: AttachmentStatus?
 
+        @inlinable
         public init(attachmentId: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, enaSrdSpecification: AttachmentEnaSrdSpecification? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, networkCardIndex: Int? = nil, status: AttachmentStatus? = nil) {
             self.attachmentId = attachmentId
             self.attachTime = attachTime
@@ -43551,6 +45068,7 @@ extension EC2 {
         /// Indicates whether the network interface is deleted when the instance is terminated.
         public let deleteOnTermination: Bool?
 
+        @inlinable
         public init(attachmentId: String? = nil, deleteOnTermination: Bool? = nil) {
             self.attachmentId = attachmentId
             self.deleteOnTermination = deleteOnTermination
@@ -43568,6 +45086,7 @@ extension EC2 {
         /// The minimum number of network interfaces. If this parameter is not specified, there is no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -43585,6 +45104,7 @@ extension EC2 {
         /// The minimum number of network interfaces. To specify no minimum limit, omit this parameter.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -43602,6 +45122,7 @@ extension EC2 {
         /// Determines if an IPv6 address associated with a network interface is the primary IPv6 address. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached.  For more information, see ModifyNetworkInterfaceAttribute.
         public let isPrimaryIpv6: Bool?
 
+        @inlinable
         public init(ipv6Address: String? = nil, isPrimaryIpv6: Bool? = nil) {
             self.ipv6Address = ipv6Address
             self.isPrimaryIpv6 = isPrimaryIpv6
@@ -43627,6 +45148,7 @@ extension EC2 {
         /// Information about the state of the permission.
         public let permissionState: NetworkInterfacePermissionState?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsService: String? = nil, networkInterfaceId: String? = nil, networkInterfacePermissionId: String? = nil, permission: InterfacePermissionType? = nil, permissionState: NetworkInterfacePermissionState? = nil) {
             self.awsAccountId = awsAccountId
             self.awsService = awsService
@@ -43652,6 +45174,7 @@ extension EC2 {
         /// A status message, if applicable.
         public let statusMessage: String?
 
+        @inlinable
         public init(state: NetworkInterfacePermissionStateCode? = nil, statusMessage: String? = nil) {
             self.state = state
             self.statusMessage = statusMessage
@@ -43673,6 +45196,7 @@ extension EC2 {
         /// The private IPv4 address.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(association: NetworkInterfaceAssociation? = nil, primary: Bool? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil) {
             self.association = association
             self.primary = primary
@@ -43694,6 +45218,7 @@ extension EC2 {
         /// The version of the neuron accelerator.
         public let version: Int?
 
+        @inlinable
         public init(count: Int? = nil, version: Int? = nil) {
             self.count = count
             self.version = version
@@ -43715,6 +45240,7 @@ extension EC2 {
         /// The name of the neuron accelerator.
         public let name: String?
 
+        @inlinable
         public init(coreInfo: NeuronDeviceCoreInfo? = nil, count: Int? = nil, memoryInfo: NeuronDeviceMemoryInfo? = nil, name: String? = nil) {
             self.coreInfo = coreInfo
             self.count = count
@@ -43734,6 +45260,7 @@ extension EC2 {
         /// The size of the memory available to the neuron accelerator, in MiB.
         public let sizeInMiB: Int?
 
+        @inlinable
         public init(sizeInMiB: Int? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -43752,6 +45279,7 @@ extension EC2 {
         /// The total size of the memory for the neuron accelerators for the instance type, in MiB.
         public let totalNeuronDeviceMemoryInMiB: Int?
 
+        @inlinable
         public init(neuronDevices: [NeuronDeviceInfo]? = nil, totalNeuronDeviceMemoryInMiB: Int? = nil) {
             self.neuronDevices = neuronDevices
             self.totalNeuronDeviceMemoryInMiB = totalNeuronDeviceMemoryInMiB
@@ -43772,6 +45300,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ValuesEncoding, String>>
         public var values: [String]?
 
+        @inlinable
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -43790,6 +45319,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SupportedVersionsEncoding, String>>
         public var supportedVersions: [String]?
 
+        @inlinable
         public init(supportedVersions: [String]? = nil) {
             self.supportedVersions = supportedVersions
         }
@@ -43815,6 +45345,7 @@ extension EC2 {
         /// The OIDC user info endpoint.
         public let userInfoEndpoint: String?
 
+        @inlinable
         public init(authorizationEndpoint: String? = nil, clientId: String? = nil, clientSecret: String? = nil, issuer: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, userInfoEndpoint: String? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -43850,6 +45381,7 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all On-Demand Instances in the fleet. Supported only for fleets of type instant.
         public let singleInstanceType: Bool?
 
+        @inlinable
         public init(allocationStrategy: FleetOnDemandAllocationStrategy? = nil, capacityReservationOptions: CapacityReservationOptions? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.capacityReservationOptions = capacityReservationOptions
@@ -43883,6 +45415,7 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all On-Demand Instances in the fleet. Supported only for fleets of type instant.
         public let singleInstanceType: Bool?
 
+        @inlinable
         public init(allocationStrategy: FleetOnDemandAllocationStrategy? = nil, capacityReservationOptions: CapacityReservationOptionsRequest? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.capacityReservationOptions = capacityReservationOptions
@@ -43933,6 +45466,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourcePrefixListsEncoding, String>>
         public var sourcePrefixLists: [String]?
 
+        @inlinable
         public init(destinationAddresses: [String]? = nil, destinationPorts: [String]? = nil, destinationPrefixLists: [String]? = nil, protocols: [`Protocol`]? = nil, sourceAddresses: [String]? = nil, sourcePorts: [String]? = nil, sourcePrefixLists: [String]? = nil) {
             self.destinationAddresses = destinationAddresses
             self.destinationPorts = destinationPorts
@@ -43985,6 +45519,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SourcePrefixListsEncoding, String>>
         public var sourcePrefixLists: [String]?
 
+        @inlinable
         public init(destinationAddresses: [String]? = nil, destinationPorts: [String]? = nil, destinationPrefixLists: [String]? = nil, protocols: [`Protocol`]? = nil, sourceAddresses: [String]? = nil, sourcePorts: [String]? = nil, sourcePrefixLists: [String]? = nil) {
             self.destinationAddresses = destinationAddresses
             self.destinationPorts = destinationPorts
@@ -44053,6 +45588,7 @@ extension EC2 {
         /// The component VPC.
         public let vpc: AnalysisComponent?
 
+        @inlinable
         public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanations: [Explanation]? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, serviceName: String? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
             self.aclRule = aclRule
             self.additionalDetails = additionalDetails
@@ -44110,6 +45646,7 @@ extension EC2 {
         /// The source port range.
         public let sourcePortRange: FilterPortRange?
 
+        @inlinable
         public init(destinationAddress: String? = nil, destinationPortRange: FilterPortRange? = nil, sourceAddress: String? = nil, sourcePortRange: FilterPortRange? = nil) {
             self.destinationAddress = destinationAddress
             self.destinationPortRange = destinationPortRange
@@ -44135,6 +45672,7 @@ extension EC2 {
         /// The source port range.
         public let sourcePortRange: RequestFilterPortRange?
 
+        @inlinable
         public init(destinationAddress: String? = nil, destinationPortRange: RequestFilterPortRange? = nil, sourceAddress: String? = nil, sourcePortRange: RequestFilterPortRange? = nil) {
             self.destinationAddress = destinationAddress
             self.destinationPortRange = destinationPortRange
@@ -44165,6 +45703,7 @@ extension EC2 {
         /// The resource statement.
         public let resourceStatement: ResourceStatement?
 
+        @inlinable
         public init(packetHeaderStatement: PacketHeaderStatement? = nil, resourceStatement: ResourceStatement? = nil) {
             self.packetHeaderStatement = packetHeaderStatement
             self.resourceStatement = resourceStatement
@@ -44182,6 +45721,7 @@ extension EC2 {
         /// The resource statement.
         public let resourceStatement: ResourceStatementRequest?
 
+        @inlinable
         public init(packetHeaderStatement: PacketHeaderStatementRequest? = nil, resourceStatement: ResourceStatementRequest? = nil) {
             self.packetHeaderStatement = packetHeaderStatement
             self.resourceStatement = resourceStatement
@@ -44203,6 +45743,7 @@ extension EC2 {
         /// The ID of the vendor.
         public let vendorId: String?
 
+        @inlinable
         public init(deviceId: String? = nil, subsystemId: String? = nil, subsystemVendorId: String? = nil, vendorId: String? = nil) {
             self.deviceId = deviceId
             self.subsystemId = subsystemId
@@ -44224,6 +45765,7 @@ extension EC2 {
         /// The status message, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -44243,6 +45785,7 @@ extension EC2 {
         /// Deprecated.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
 
+        @inlinable
         public init(allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
@@ -44264,6 +45807,7 @@ extension EC2 {
         /// Deprecated.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
 
+        @inlinable
         public init(allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
@@ -44287,6 +45831,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(coreNetworkId: String? = nil, ownerId: String? = nil, region: String? = nil, transitGatewayId: String? = nil) {
             self.coreNetworkId = coreNetworkId
             self.ownerId = ownerId
@@ -44306,6 +45851,7 @@ extension EC2 {
         /// The Diffie-Hellmann group number.
         public let value: Int?
 
+        @inlinable
         public init(value: Int? = nil) {
             self.value = value
         }
@@ -44319,6 +45865,7 @@ extension EC2 {
         /// The Diffie-Hellmann group number.
         public let value: Int?
 
+        @inlinable
         public init(value: Int? = nil) {
             self.value = value
         }
@@ -44332,6 +45879,7 @@ extension EC2 {
         /// The value for the encryption algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44345,6 +45893,7 @@ extension EC2 {
         /// The value for the encryption algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44358,6 +45907,7 @@ extension EC2 {
         /// The value for the integrity algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44371,6 +45921,7 @@ extension EC2 {
         /// The value for the integrity algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44384,6 +45935,7 @@ extension EC2 {
         /// The Diffie-Hellmann group number.
         public let value: Int?
 
+        @inlinable
         public init(value: Int? = nil) {
             self.value = value
         }
@@ -44397,6 +45949,7 @@ extension EC2 {
         /// The Diffie-Hellmann group number.
         public let value: Int?
 
+        @inlinable
         public init(value: Int? = nil) {
             self.value = value
         }
@@ -44410,6 +45963,7 @@ extension EC2 {
         /// The encryption algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44423,6 +45977,7 @@ extension EC2 {
         /// The encryption algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44436,6 +45991,7 @@ extension EC2 {
         /// The integrity algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44449,6 +46005,7 @@ extension EC2 {
         /// The integrity algorithm.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -44478,6 +46035,7 @@ extension EC2 {
         /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware. This parameter is not supported for CreateFleet. The host tenancy is not supported for ImportInstance or for T3 instances that are configured for the unlimited CPU credit option.
         public let tenancy: Tenancy?
 
+        @inlinable
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupId: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: Tenancy? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
@@ -44524,6 +46082,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(groupArn: String? = nil, groupId: String? = nil, groupName: String? = nil, partitionCount: Int? = nil, spreadLevel: SpreadLevel? = nil, state: PlacementGroupState? = nil, strategy: PlacementStrategy? = nil, tags: [Tag]? = nil) {
             self.groupArn = groupArn
             self.groupId = groupId
@@ -44554,6 +46113,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SupportedStrategiesEncoding, PlacementGroupStrategy>>
         public var supportedStrategies: [PlacementGroupStrategy]?
 
+        @inlinable
         public init(supportedStrategies: [PlacementGroupStrategy]? = nil) {
             self.supportedStrategies = supportedStrategies
         }
@@ -44567,6 +46127,7 @@ extension EC2 {
         /// The name of the placement group that the instance is in.
         public let groupName: String?
 
+        @inlinable
         public init(groupName: String? = nil) {
             self.groupName = groupName
         }
@@ -44580,6 +46141,7 @@ extension EC2 {
         /// The CIDR block.
         public let cidr: String?
 
+        @inlinable
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -44595,6 +46157,7 @@ extension EC2 {
         /// The last port in the range.
         public let to: Int?
 
+        @inlinable
         public init(from: Int? = nil, to: Int? = nil) {
             self.from = from
             self.to = to
@@ -44617,6 +46180,7 @@ extension EC2 {
         /// The name of the prefix.
         public let prefixListName: String?
 
+        @inlinable
         public init(cidrs: [String]? = nil, prefixListId: String? = nil, prefixListName: String? = nil) {
             self.cidrs = cidrs
             self.prefixListId = prefixListId
@@ -44636,6 +46200,7 @@ extension EC2 {
         /// The owner of the resource.
         public let resourceOwner: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceOwner: String? = nil) {
             self.resourceId = resourceId
             self.resourceOwner = resourceOwner
@@ -44653,6 +46218,7 @@ extension EC2 {
         /// The description.
         public let description: String?
 
+        @inlinable
         public init(cidr: String? = nil, description: String? = nil) {
             self.cidr = cidr
             self.description = description
@@ -44670,6 +46236,7 @@ extension EC2 {
         /// The ID of the prefix.
         public let prefixListId: String?
 
+        @inlinable
         public init(description: String? = nil, prefixListId: String? = nil) {
             self.description = description
             self.prefixListId = prefixListId
@@ -44692,6 +46259,7 @@ extension EC2 {
         /// The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires.
         public let term: Int64?
 
+        @inlinable
         public init(active: Bool? = nil, currencyCode: CurrencyCodeValues? = nil, price: Double? = nil, term: Int64? = nil) {
             self.active = active
             self.currencyCode = currencyCode
@@ -44716,6 +46284,7 @@ extension EC2 {
         /// The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires.
         public let term: Int64?
 
+        @inlinable
         public init(currencyCode: CurrencyCodeValues? = nil, price: Double? = nil, term: Int64? = nil) {
             self.currencyCode = currencyCode
             self.price = price
@@ -44735,6 +46304,7 @@ extension EC2 {
         /// The price per instance.
         public let price: Double?
 
+        @inlinable
         public init(count: Int? = nil, price: Double? = nil) {
             self.count = count
             self.price = price
@@ -44755,6 +46325,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StatusesEncoding, IdFormat>>
         public var statuses: [IdFormat]?
 
+        @inlinable
         public init(arn: String? = nil, statuses: [IdFormat]? = nil) {
             self.arn = arn
             self.statuses = statuses
@@ -44770,6 +46341,7 @@ extension EC2 {
         /// The private DNS name assigned to the VPC endpoint service.
         public let privateDnsName: String?
 
+        @inlinable
         public init(privateDnsName: String? = nil) {
             self.privateDnsName = privateDnsName
         }
@@ -44789,6 +46361,7 @@ extension EC2 {
         /// The value the service provider adds to the private DNS name domain record before verification.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, state: DnsNameState? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.state = state
@@ -44812,6 +46385,7 @@ extension EC2 {
         /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID.
         public let hostnameType: HostnameType?
 
+        @inlinable
         public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: HostnameType? = nil) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
@@ -44833,6 +46407,7 @@ extension EC2 {
         /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID.
         public let hostnameType: HostnameType?
 
+        @inlinable
         public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: HostnameType? = nil) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
@@ -44854,6 +46429,7 @@ extension EC2 {
         /// The type of hostname to assign to an instance.
         public let hostnameType: HostnameType?
 
+        @inlinable
         public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: HostnameType? = nil) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
@@ -44873,6 +46449,7 @@ extension EC2 {
         /// The private IPv4 address.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(primary: Bool? = nil, privateIpAddress: String? = nil) {
             self.primary = primary
             self.privateIpAddress = privateIpAddress
@@ -44899,6 +46476,7 @@ extension EC2 {
         /// The speed of the processor, in GHz.
         public let sustainedClockSpeedInGhz: Double?
 
+        @inlinable
         public init(manufacturer: String? = nil, supportedArchitectures: [ArchitectureType]? = nil, supportedFeatures: [SupportedAdditionalProcessorFeature]? = nil, sustainedClockSpeedInGhz: Double? = nil) {
             self.manufacturer = manufacturer
             self.supportedArchitectures = supportedArchitectures
@@ -44920,6 +46498,7 @@ extension EC2 {
         /// The type of product code.
         public let productCodeType: ProductCodeValues?
 
+        @inlinable
         public init(productCodeId: String? = nil, productCodeType: ProductCodeValues? = nil) {
             self.productCodeId = productCodeId
             self.productCodeType = productCodeType
@@ -44935,6 +46514,7 @@ extension EC2 {
         /// The ID of the virtual private gateway.
         public let gatewayId: String?
 
+        @inlinable
         public init(gatewayId: String? = nil) {
             self.gatewayId = gatewayId
         }
@@ -44965,6 +46545,7 @@ extension EC2 {
         /// (IPv6 only) Indicate whether the address range will be publicly advertised to the internet. Default: true
         public let publiclyAdvertisable: Bool?
 
+        @inlinable
         public init(cidr: String? = nil, cidrAuthorizationContext: CidrAuthorizationContext? = nil, description: String? = nil, dryRun: Bool? = nil, multiRegion: Bool? = nil, networkBorderGroup: String? = nil, poolTagSpecifications: [TagSpecification]? = nil, publiclyAdvertisable: Bool? = nil) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
@@ -44992,6 +46573,7 @@ extension EC2 {
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -45011,6 +46593,7 @@ extension EC2 {
         /// An IPAM ID.
         public let ipamId: String?
 
+        @inlinable
         public init(asn: String? = nil, asnAuthorizationContext: AsnAuthorizationContext? = nil, dryRun: Bool? = nil, ipamId: String? = nil) {
             self.asn = asn
             self.asnAuthorizationContext = asnAuthorizationContext
@@ -45030,6 +46613,7 @@ extension EC2 {
         /// An ASN and BYOIP CIDR association.
         public let byoasn: Byoasn?
 
+        @inlinable
         public init(byoasn: Byoasn? = nil) {
             self.byoasn = byoasn
         }
@@ -45057,6 +46641,7 @@ extension EC2 {
         /// The method for verifying control of a public IP address range. Defaults to remarks-x509 if not specified. This option only applies to IPv4 and IPv6 pools in the public scope.
         public let verificationMethod: VerificationMethod?
 
+        @inlinable
         public init(cidr: String? = nil, cidrAuthorizationContext: IpamCidrAuthorizationContext? = nil, clientToken: String? = ProvisionIpamPoolCidrRequest.idempotencyToken(), dryRun: Bool? = nil, ipamExternalResourceVerificationTokenId: String? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, verificationMethod: VerificationMethod? = nil) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
@@ -45084,6 +46669,7 @@ extension EC2 {
         /// Information about the provisioned CIDR.
         public let ipamPoolCidr: IpamPoolCidr?
 
+        @inlinable
         public init(ipamPoolCidr: IpamPoolCidr? = nil) {
             self.ipamPoolCidr = ipamPoolCidr
         }
@@ -45105,6 +46691,7 @@ extension EC2 {
         /// The ID of the public IPv4 pool you would like to use for this CIDR.
         public let poolId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, networkBorderGroup: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.ipamPoolId = ipamPoolId
@@ -45128,6 +46715,7 @@ extension EC2 {
         /// The ID of the pool that you want to provision the CIDR to.
         public let poolId: String?
 
+        @inlinable
         public init(poolAddressRange: PublicIpv4PoolRange? = nil, poolId: String? = nil) {
             self.poolAddressRange = poolAddressRange
             self.poolId = poolId
@@ -45151,6 +46739,7 @@ extension EC2 {
         /// Reserved.
         public let status: String?
 
+        @inlinable
         public init(provisioned: String? = nil, provisionTime: Date? = nil, requested: String? = nil, requestTime: Date? = nil, status: String? = nil) {
             self.provisioned = provisioned
             self.provisionTime = provisionTime
@@ -45176,6 +46765,7 @@ extension EC2 {
         /// The value for the PTR record update.
         public let value: String?
 
+        @inlinable
         public init(reason: String? = nil, status: String? = nil, value: String? = nil) {
             self.reason = reason
             self.status = status
@@ -45210,6 +46800,7 @@ extension EC2 {
         /// The total number of available addresses.
         public let totalAvailableAddressCount: Int?
 
+        @inlinable
         public init(description: String? = nil, networkBorderGroup: String? = nil, poolAddressRanges: [PublicIpv4PoolRange]? = nil, poolId: String? = nil, tags: [Tag]? = nil, totalAddressCount: Int? = nil, totalAvailableAddressCount: Int? = nil) {
             self.description = description
             self.networkBorderGroup = networkBorderGroup
@@ -45241,6 +46832,7 @@ extension EC2 {
         /// The last IP address in the range.
         public let lastAddress: String?
 
+        @inlinable
         public init(addressCount: Int? = nil, availableAddressCount: Int? = nil, firstAddress: String? = nil, lastAddress: String? = nil) {
             self.addressCount = addressCount
             self.availableAddressCount = availableAddressCount
@@ -45277,6 +46869,7 @@ extension EC2 {
         /// The upfront price of the reservation.
         public let upfrontPrice: String?
 
+        @inlinable
         public init(currencyCode: CurrencyCodeValues? = nil, duration: Int? = nil, hostIdSet: [String]? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, paymentOption: PaymentOption? = nil, upfrontPrice: String? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -45313,6 +46906,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(capacityBlockOfferingId: String? = nil, dryRun: Bool? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.capacityBlockOfferingId = capacityBlockOfferingId
             self.dryRun = dryRun
@@ -45332,6 +46926,7 @@ extension EC2 {
         /// The Capacity Reservation.
         public let capacityReservation: CapacityReservation?
 
+        @inlinable
         public init(capacityReservation: CapacityReservation? = nil) {
             self.capacityReservation = capacityReservation
         }
@@ -45360,6 +46955,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = nil, currencyCode: CurrencyCodeValues? = nil, hostIdSet: [String]? = nil, limitPrice: String? = nil, offeringId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.currencyCode = currencyCode
@@ -45394,6 +46990,7 @@ extension EC2 {
         /// The total amount charged to your account when you purchase the reservation.
         public let totalUpfrontPrice: String?
 
+        @inlinable
         public init(clientToken: String? = nil, currencyCode: CurrencyCodeValues? = nil, purchase: [Purchase]? = nil, totalHourlyPrice: String? = nil, totalUpfrontPrice: String? = nil) {
             self.clientToken = clientToken
             self.currencyCode = currencyCode
@@ -45417,6 +47014,7 @@ extension EC2 {
         /// The purchase token.
         public let purchaseToken: String?
 
+        @inlinable
         public init(instanceCount: Int? = nil, purchaseToken: String? = nil) {
             self.instanceCount = instanceCount
             self.purchaseToken = purchaseToken
@@ -45440,6 +47038,7 @@ extension EC2 {
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstancesOfferingId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceCount: Int? = nil, limitPrice: ReservedInstanceLimitPrice? = nil, purchaseTime: Date? = nil, reservedInstancesOfferingId: String? = nil) {
             self.dryRun = dryRun
             self.instanceCount = instanceCount
@@ -45461,6 +47060,7 @@ extension EC2 {
         /// The IDs of the purchased Reserved Instances. If your purchase crosses into a discounted pricing tier, the final Reserved Instances IDs might change. For more information, see Crossing pricing tiers in the Amazon EC2 User Guide.
         public let reservedInstancesId: String?
 
+        @inlinable
         public init(reservedInstancesId: String? = nil) {
             self.reservedInstancesId = reservedInstancesId
         }
@@ -45481,6 +47081,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PurchaseRequestsEncoding, PurchaseRequest>>
         public var purchaseRequests: [PurchaseRequest]?
 
+        @inlinable
         public init(clientToken: String? = PurchaseScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, purchaseRequests: [PurchaseRequest]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -45505,6 +47106,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ScheduledInstanceSetEncoding, ScheduledInstance>>
         public var scheduledInstanceSet: [ScheduledInstance]?
 
+        @inlinable
         public init(scheduledInstanceSet: [ScheduledInstance]? = nil) {
             self.scheduledInstanceSet = scheduledInstanceSet
         }
@@ -45523,6 +47125,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
@@ -45540,6 +47143,7 @@ extension EC2 {
         /// The frequency of the recurring charge.
         public let frequency: RecurringChargeFrequency?
 
+        @inlinable
         public init(amount: Double? = nil, frequency: RecurringChargeFrequency? = nil) {
             self.amount = amount
             self.frequency = frequency
@@ -45563,6 +47167,7 @@ extension EC2 {
         /// The ID of the VPC peering connection (if applicable).
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(groupId: String? = nil, peeringStatus: String? = nil, userId: String? = nil, vpcId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.groupId = groupId
             self.peeringStatus = peeringStatus
@@ -45588,6 +47193,7 @@ extension EC2 {
         /// The name of the Region.
         public let regionName: String?
 
+        @inlinable
         public init(endpoint: String? = nil, optInStatus: String? = nil, regionName: String? = nil) {
             self.endpoint = endpoint
             self.optInStatus = optInStatus
@@ -45648,6 +47254,7 @@ extension EC2 {
         /// The type of virtualization (hvm | paravirtual). Default: paravirtual
         public let virtualizationType: String?
 
+        @inlinable
         public init(architecture: ArchitectureValues? = nil, billingProducts: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, description: String? = nil, dryRun: Bool? = nil, enaSupport: Bool? = nil, imageLocation: String? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, name: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, sriovNetSupport: String? = nil, tagSpecifications: [TagSpecification]? = nil, tpmSupport: TpmSupportValues? = nil, uefiData: String? = nil, virtualizationType: String? = nil) {
             self.architecture = architecture
             self.billingProducts = billingProducts
@@ -45699,6 +47306,7 @@ extension EC2 {
         /// The ID of the newly registered AMI.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -45714,6 +47322,7 @@ extension EC2 {
         /// Information about the tag keys to register.
         public let instanceTagAttribute: RegisterInstanceTagAttributeRequest?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceTagAttribute: RegisterInstanceTagAttributeRequest? = nil) {
             self.dryRun = dryRun
             self.instanceTagAttribute = instanceTagAttribute
@@ -45729,6 +47338,7 @@ extension EC2 {
         /// The resulting set of tag keys.
         public let instanceTagAttribute: InstanceTagNotificationAttribute?
 
+        @inlinable
         public init(instanceTagAttribute: InstanceTagNotificationAttribute? = nil) {
             self.instanceTagAttribute = instanceTagAttribute
         }
@@ -45747,6 +47357,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagKeysEncoding, String>>
         public var instanceTagKeys: [String]?
 
+        @inlinable
         public init(includeAllTagsOfInstance: Bool? = nil, instanceTagKeys: [String]? = nil) {
             self.includeAllTagsOfInstance = includeAllTagsOfInstance
             self.instanceTagKeys = instanceTagKeys
@@ -45771,6 +47382,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupIpAddress: String? = nil, networkInterfaceIds: [String]? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.groupIpAddress = groupIpAddress
@@ -45790,6 +47402,7 @@ extension EC2 {
         /// Information about the registered  transit gateway multicast group members.
         public let registeredMulticastGroupMembers: TransitGatewayMulticastRegisteredGroupMembers?
 
+        @inlinable
         public init(registeredMulticastGroupMembers: TransitGatewayMulticastRegisteredGroupMembers? = nil) {
             self.registeredMulticastGroupMembers = registeredMulticastGroupMembers
         }
@@ -45812,6 +47425,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupIpAddress: String? = nil, networkInterfaceIds: [String]? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.groupIpAddress = groupIpAddress
@@ -45831,6 +47445,7 @@ extension EC2 {
         /// Information about the  transit gateway multicast group sources.
         public let registeredMulticastGroupSources: TransitGatewayMulticastRegisteredGroupSources?
 
+        @inlinable
         public init(registeredMulticastGroupSources: TransitGatewayMulticastRegisteredGroupSources? = nil) {
             self.registeredMulticastGroupSources = registeredMulticastGroupSources
         }
@@ -45853,6 +47468,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, subnetIds: [String]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.subnetIds = subnetIds
@@ -45872,6 +47488,7 @@ extension EC2 {
         /// Information about the multicast domain associations.
         public let associations: TransitGatewayMulticastDomainAssociations?
 
+        @inlinable
         public init(associations: TransitGatewayMulticastDomainAssociations? = nil) {
             self.associations = associations
         }
@@ -45887,6 +47504,7 @@ extension EC2 {
         /// The ID of the transit gateway peering attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -45902,6 +47520,7 @@ extension EC2 {
         /// The transit gateway peering attachment.
         public let transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment?
 
+        @inlinable
         public init(transitGatewayPeeringAttachment: TransitGatewayPeeringAttachment? = nil) {
             self.transitGatewayPeeringAttachment = transitGatewayPeeringAttachment
         }
@@ -45917,6 +47536,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
             self.dryRun = dryRun
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
@@ -45932,6 +47552,7 @@ extension EC2 {
         /// Information about the attachment.
         public let transitGatewayVpcAttachment: TransitGatewayVpcAttachment?
 
+        @inlinable
         public init(transitGatewayVpcAttachment: TransitGatewayVpcAttachment? = nil) {
             self.transitGatewayVpcAttachment = transitGatewayVpcAttachment
         }
@@ -45952,6 +47573,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VpcEndpointIdsEncoding, String>>
         public var vpcEndpointIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, serviceId: String? = nil, vpcEndpointIds: [String]? = nil) {
             self.dryRun = dryRun
             self.serviceId = serviceId
@@ -45972,6 +47594,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
         }
@@ -45987,6 +47610,7 @@ extension EC2 {
         /// The ID of the VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String? = nil) {
             self.dryRun = dryRun
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -46002,6 +47626,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -46021,6 +47646,7 @@ extension EC2 {
         /// Deprecated.
         public let publicIp: String?
 
+        @inlinable
         public init(allocationId: String? = nil, dryRun: Bool? = nil, networkBorderGroup: String? = nil, publicIp: String? = nil) {
             self.allocationId = allocationId
             self.dryRun = dryRun
@@ -46043,6 +47669,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_HostIdsEncoding, String>>
         public var hostIds: [String]?
 
+        @inlinable
         public init(hostIds: [String]? = nil) {
             self.hostIds = hostIds
         }
@@ -46063,6 +47690,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulEncoding, UnsuccessfulItem>>
         public var unsuccessful: [UnsuccessfulItem]?
 
+        @inlinable
         public init(successful: [String]? = nil, unsuccessful: [UnsuccessfulItem]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -46084,6 +47712,7 @@ extension EC2 {
         /// The ID of the IPAM pool which contains the allocation you want to release.
         public let ipamPoolId: String?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil, ipamPoolAllocationId: String? = nil, ipamPoolId: String? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -46103,6 +47732,7 @@ extension EC2 {
         /// Indicates if the release was successful.
         public let success: Bool?
 
+        @inlinable
         public init(success: Bool? = nil) {
             self.success = success
         }
@@ -46116,6 +47746,7 @@ extension EC2 {
         /// The name of the operating Region you want to remove.
         public let regionName: String?
 
+        @inlinable
         public init(regionName: String? = nil) {
             self.regionName = regionName
         }
@@ -46129,6 +47760,7 @@ extension EC2 {
         /// The CIDR block.
         public let cidr: String?
 
+        @inlinable
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -46144,6 +47776,7 @@ extension EC2 {
         /// The IAM instance profile.
         public let iamInstanceProfile: IamInstanceProfileSpecification?
 
+        @inlinable
         public init(associationId: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil) {
             self.associationId = associationId
             self.iamInstanceProfile = iamInstanceProfile
@@ -46159,6 +47792,7 @@ extension EC2 {
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
 
+        @inlinable
         public init(iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil) {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
@@ -46176,6 +47810,7 @@ extension EC2 {
         /// The ID of the new network ACL to associate with the subnet.
         public let networkAclId: String?
 
+        @inlinable
         public init(associationId: String? = nil, dryRun: Bool? = nil, networkAclId: String? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
@@ -46193,6 +47828,7 @@ extension EC2 {
         /// The ID of the new association.
         public let newAssociationId: String?
 
+        @inlinable
         public init(newAssociationId: String? = nil) {
             self.newAssociationId = newAssociationId
         }
@@ -46226,6 +47862,7 @@ extension EC2 {
         /// The rule number of the entry to replace.
         public let ruleNumber: Int?
 
+        @inlinable
         public init(cidrBlock: String? = nil, dryRun: Bool? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, networkAclId: String? = nil, portRange: PortRange? = nil, protocol: String? = nil, ruleAction: RuleAction? = nil, ruleNumber: Int? = nil) {
             self.cidrBlock = cidrBlock
             self.dryRun = dryRun
@@ -46276,6 +47913,7 @@ extension EC2 {
         /// The state of the task. The task can be in one of the following states:    pending - the replacement volume is being created.    in-progress - the original volume is being detached and the  replacement volume is being attached.    succeeded - the replacement volume has been successfully attached  to the instance and the instance is available.    failing - the replacement task is in the process of failing.    failed - the replacement task has failed but the original root  volume is still attached.    failing-detached - the replacement task is in the process of failing.  The instance might have no root volume attached.    failed-detached - the replacement task has failed and the instance  has no root volume attached.
         public let taskState: ReplaceRootVolumeTaskState?
 
+        @inlinable
         public init(completeTime: String? = nil, deleteReplacedRootVolume: Bool? = nil, imageId: String? = nil, instanceId: String? = nil, replaceRootVolumeTaskId: String? = nil, snapshotId: String? = nil, startTime: String? = nil, tags: [Tag]? = nil, taskState: ReplaceRootVolumeTaskState? = nil) {
             self.completeTime = completeTime
             self.deleteReplacedRootVolume = deleteReplacedRootVolume
@@ -46339,6 +47977,7 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, localTarget: Bool? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, routeTableId: String? = nil, transitGatewayId: String? = nil, vpcEndpointId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
@@ -46388,6 +48027,7 @@ extension EC2 {
         /// The ID of the new route table to associate with the subnet.
         public let routeTableId: String?
 
+        @inlinable
         public init(associationId: String? = nil, dryRun: Bool? = nil, routeTableId: String? = nil) {
             self.associationId = associationId
             self.dryRun = dryRun
@@ -46407,6 +48047,7 @@ extension EC2 {
         /// The ID of the new association.
         public let newAssociationId: String?
 
+        @inlinable
         public init(associationState: RouteTableAssociationState? = nil, newAssociationId: String? = nil) {
             self.associationState = associationState
             self.newAssociationId = newAssociationId
@@ -46430,6 +48071,7 @@ extension EC2 {
         /// The ID of the route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(blackhole: Bool? = nil, destinationCidrBlock: String? = nil, dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.destinationCidrBlock = destinationCidrBlock
@@ -46451,6 +48093,7 @@ extension EC2 {
         /// Information about the modified route.
         public let route: TransitGatewayRoute?
 
+        @inlinable
         public init(route: TransitGatewayRoute? = nil) {
             self.route = route
         }
@@ -46470,6 +48113,7 @@ extension EC2 {
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String?
 
+        @inlinable
         public init(applyPendingMaintenance: Bool? = nil, dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.applyPendingMaintenance = applyPendingMaintenance
             self.dryRun = dryRun
@@ -46489,6 +48133,7 @@ extension EC2 {
         /// Confirmation of replace tunnel operation.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -46519,6 +48164,7 @@ extension EC2 {
         /// The status of all instances listed.
         public let status: ReportStatusType?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, instances: [String]? = nil, reasonCodes: [ReportInstanceReasonCodes]? = nil, startTime: Date? = nil, status: ReportStatusType? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -46546,6 +48192,7 @@ extension EC2 {
         /// The last port in the range.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -46570,6 +48217,7 @@ extension EC2 {
         /// The value for the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -46662,6 +48310,7 @@ extension EC2 {
         /// The user data to make available to the instance. You must provide base64-encoded text. User data is limited to 16 KB. For more information, see Run commands on your Amazon EC2 instance at launch in the Amazon EC2 User Guide. If you are creating the launch template for use with Batch, the user data must be provided in the MIME multi-part archive format. For more information, see Amazon EC2 user data in launch templates in the Batch User Guide.
         public let userData: String?
 
+        @inlinable
         public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptionsRequest? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, placement: LaunchTemplatePlacementRequest? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptionsRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
@@ -46744,6 +48393,7 @@ extension EC2 {
         /// The configuration for the Spot Fleet request.
         public let spotFleetRequestConfig: SpotFleetRequestConfigData?
 
+        @inlinable
         public init(dryRun: Bool? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData? = nil) {
             self.dryRun = dryRun
             self.spotFleetRequestConfig = spotFleetRequestConfig
@@ -46763,6 +48413,7 @@ extension EC2 {
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
 
+        @inlinable
         public init(spotFleetRequestId: String? = nil) {
             self.spotFleetRequestId = spotFleetRequestId
         }
@@ -46803,6 +48454,7 @@ extension EC2 {
         /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ).   For a persistent request, the request remains active until the ValidUntil date and time is reached. Otherwise, the request remains active until you cancel it.    For a one-time request, the request remains active until all instances launch, the request is canceled, or the ValidUntil date and time is reached. By default, the request is valid for 7 days from the date the request was created.
         public let validUntil: Date?
 
+        @inlinable
         public init(availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, clientToken: String? = nil, dryRun: Bool? = nil, instanceCount: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchGroup: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: SpotInstanceType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.availabilityZoneGroup = availabilityZoneGroup
             self.blockDurationMinutes = blockDurationMinutes
@@ -46843,6 +48495,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SpotInstanceRequestsEncoding, SpotInstanceRequest>>
         public var spotInstanceRequests: [SpotInstanceRequest]?
 
+        @inlinable
         public init(spotInstanceRequests: [SpotInstanceRequest]? = nil) {
             self.spotInstanceRequests = spotInstanceRequests
         }
@@ -46895,6 +48548,7 @@ extension EC2 {
         /// The base64-encoded user data that instances use when starting up. User data is limited to 16 KB.
         public let userData: String?
 
+        @inlinable
         public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, userData: String? = nil) {
             self.addressingType = addressingType
             self.blockDeviceMappings = blockDeviceMappings
@@ -46951,6 +48605,7 @@ extension EC2 {
         /// The ID of the reservation.
         public let reservationId: String?
 
+        @inlinable
         public init(groups: [GroupIdentifier]? = nil, instances: [Instance]? = nil, ownerId: String? = nil, requesterId: String? = nil, reservationId: String? = nil) {
             self.groups = groups
             self.instances = instances
@@ -46998,6 +48653,7 @@ extension EC2 {
         /// 				capacity in the Amazon EC2 User Guide.
         public let weight: Double?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, ebsOptimized: Bool? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: InstanceType? = nil, priority: Int? = nil, weight: Double? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -47033,6 +48689,7 @@ extension EC2 {
         /// The remaining upfront cost of the reservation.
         public let remainingUpfrontValue: String?
 
+        @inlinable
         public init(hourlyPrice: String? = nil, remainingTotalValue: String? = nil, remainingUpfrontValue: String? = nil) {
             self.hourlyPrice = hourlyPrice
             self.remainingTotalValue = remainingTotalValue
@@ -47053,6 +48710,7 @@ extension EC2 {
         /// 				At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
 
+        @inlinable
         public init(amount: Double? = nil, currencyCode: CurrencyCodeValues? = nil) {
             self.amount = amount
             self.currencyCode = currencyCode
@@ -47070,6 +48728,7 @@ extension EC2 {
         /// The ID of the Convertible Reserved Instance that you are exchanging.
         public let reservedInstanceId: String?
 
+        @inlinable
         public init(reservationValue: ReservationValue? = nil, reservedInstanceId: String? = nil) {
             self.reservationValue = reservationValue
             self.reservedInstanceId = reservedInstanceId
@@ -47125,6 +48784,7 @@ extension EC2 {
         /// The usage price of the Reserved Instance, per hour.
         public let usagePrice: Float?
 
+        @inlinable
         public init(availabilityZone: String? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int64? = nil, end: Date? = nil, fixedPrice: Float? = nil, instanceCount: Int? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, recurringCharges: [RecurringCharge]? = nil, reservedInstancesId: String? = nil, scope: Scope? = nil, start: Date? = nil, state: ReservedInstanceState? = nil, tags: [Tag]? = nil, usagePrice: Float? = nil) {
             self.availabilityZone = availabilityZone
             self.currencyCode = currencyCode
@@ -47180,6 +48840,7 @@ extension EC2 {
         /// Whether the Reserved Instance is applied to instances in a Region or instances in a specific Availability Zone.
         public let scope: Scope?
 
+        @inlinable
         public init(availabilityZone: String? = nil, instanceCount: Int? = nil, instanceType: InstanceType? = nil, platform: String? = nil, scope: Scope? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceCount = instanceCount
@@ -47201,6 +48862,7 @@ extension EC2 {
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
 
+        @inlinable
         public init(reservedInstancesId: String? = nil) {
             self.reservedInstancesId = reservedInstancesId
         }
@@ -47240,6 +48902,7 @@ extension EC2 {
         /// The last modified timestamp of the listing.
         public let updateDate: Date?
 
+        @inlinable
         public init(clientToken: String? = nil, createDate: Date? = nil, instanceCounts: [InstanceCount]? = nil, priceSchedules: [PriceSchedule]? = nil, reservedInstancesId: String? = nil, reservedInstancesListingId: String? = nil, status: ListingStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updateDate: Date? = nil) {
             self.clientToken = clientToken
             self.createDate = createDate
@@ -47294,6 +48957,7 @@ extension EC2 {
         /// The time when the modification request was last updated.
         public let updateDate: Date?
 
+        @inlinable
         public init(clientToken: String? = nil, createDate: Date? = nil, effectiveDate: Date? = nil, modificationResults: [ReservedInstancesModificationResult]? = nil, reservedInstancesIds: [ReservedInstancesId]? = nil, reservedInstancesModificationId: String? = nil, status: String? = nil, statusMessage: String? = nil, updateDate: Date? = nil) {
             self.clientToken = clientToken
             self.createDate = createDate
@@ -47325,6 +48989,7 @@ extension EC2 {
         /// The target Reserved Instances configurations supplied as part of the modification request.
         public let targetConfiguration: ReservedInstancesConfiguration?
 
+        @inlinable
         public init(reservedInstancesId: String? = nil, targetConfiguration: ReservedInstancesConfiguration? = nil) {
             self.reservedInstancesId = reservedInstancesId
             self.targetConfiguration = targetConfiguration
@@ -47375,6 +49040,7 @@ extension EC2 {
         /// The usage price of the Reserved Instance, per hour.
         public let usagePrice: Float?
 
+        @inlinable
         public init(availabilityZone: String? = nil, currencyCode: CurrencyCodeValues? = nil, duration: Int64? = nil, fixedPrice: Float? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, marketplace: Bool? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, pricingDetails: [PricingDetail]? = nil, productDescription: RIProductDescription? = nil, recurringCharges: [RecurringCharge]? = nil, reservedInstancesOfferingId: String? = nil, scope: Scope? = nil, usagePrice: Float? = nil) {
             self.availabilityZone = availabilityZone
             self.currencyCode = currencyCode
@@ -47420,6 +49086,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(allocationId: String? = nil, attribute: AddressAttributeName? = nil, dryRun: Bool? = nil) {
             self.allocationId = allocationId
             self.attribute = attribute
@@ -47437,6 +49104,7 @@ extension EC2 {
         /// Information about the IP address.
         public let address: AddressAttribute?
 
+        @inlinable
         public init(address: AddressAttribute? = nil) {
             self.address = address
         }
@@ -47450,6 +49118,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
         }
@@ -47463,6 +49132,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the default KMS key for EBS encryption by default.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -47480,6 +49150,7 @@ extension EC2 {
         /// The ID of the AFI.
         public let fpgaImageId: String?
 
+        @inlinable
         public init(attribute: ResetFpgaImageAttributeName? = nil, dryRun: Bool? = nil, fpgaImageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -47497,6 +49168,7 @@ extension EC2 {
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -47516,6 +49188,7 @@ extension EC2 {
         /// The ID of the AMI.
         public let imageId: String?
 
+        @inlinable
         public init(attribute: ResetImageAttributeName? = nil, dryRun: Bool? = nil, imageId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -47537,6 +49210,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(attribute: InstanceAttributeName? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -47558,6 +49232,7 @@ extension EC2 {
         /// The source/destination checking attribute. Resets the value to true.
         public let sourceDestCheck: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, networkInterfaceId: String? = nil, sourceDestCheck: String? = nil) {
             self.dryRun = dryRun
             self.networkInterfaceId = networkInterfaceId
@@ -47579,6 +49254,7 @@ extension EC2 {
         /// The ID of the snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(attribute: SnapshotAttributeName? = nil, dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.attribute = attribute
             self.dryRun = dryRun
@@ -47603,6 +49279,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ResourceTypesEncoding, String>>
         public var resourceTypes: [String]?
 
+        @inlinable
         public init(resources: [String]? = nil, resourceTypes: [String]? = nil) {
             self.resources = resources
             self.resourceTypes = resourceTypes
@@ -47625,6 +49302,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ResourceTypesEncoding, String>>
         public var resourceTypes: [String]?
 
+        @inlinable
         public init(resources: [String]? = nil, resourceTypes: [String]? = nil) {
             self.resources = resources
             self.resourceTypes = resourceTypes
@@ -47642,6 +49320,7 @@ extension EC2 {
         /// The error message, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: LaunchTemplateErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -47734,6 +49413,7 @@ extension EC2 {
         /// The user data for the instance.
         public let userData: String?
 
+        @inlinable
         public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptions? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, placement: LaunchTemplatePlacement? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptions? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
@@ -47809,6 +49489,7 @@ extension EC2 {
         /// The Elastic IP address.
         public let publicIp: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, publicIp: String? = nil) {
             self.dryRun = dryRun
             self.publicIp = publicIp
@@ -47826,6 +49507,7 @@ extension EC2 {
         /// The move status for the IP address.
         public let status: Status?
 
+        @inlinable
         public init(publicIp: String? = nil, status: Status? = nil) {
             self.publicIp = publicIp
             self.status = status
@@ -47845,6 +49527,7 @@ extension EC2 {
         /// The ID of the AMI to restore.
         public let imageId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, imageId: String? = nil) {
             self.dryRun = dryRun
             self.imageId = imageId
@@ -47860,6 +49543,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -47879,6 +49563,7 @@ extension EC2 {
         /// The version to restore.
         public let previousVersion: Int64?
 
+        @inlinable
         public init(currentVersion: Int64? = nil, dryRun: Bool? = nil, prefixListId: String? = nil, previousVersion: Int64? = nil) {
             self.currentVersion = currentVersion
             self.dryRun = dryRun
@@ -47898,6 +49583,7 @@ extension EC2 {
         /// Information about the prefix list.
         public let prefixList: ManagedPrefixList?
 
+        @inlinable
         public init(prefixList: ManagedPrefixList? = nil) {
             self.prefixList = prefixList
         }
@@ -47913,6 +49599,7 @@ extension EC2 {
         /// The ID of the snapshot to restore.
         public let snapshotId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
@@ -47948,6 +49635,7 @@ extension EC2 {
         /// The size of the volume, in GiB.
         public let volumeSize: Int?
 
+        @inlinable
         public init(description: String? = nil, encrypted: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
             self.description = description
             self.encrypted = encrypted
@@ -47987,6 +49675,7 @@ extension EC2 {
         /// Specifies the number of days for which to temporarily restore an archived snapshot.  Required for temporary restores only. The snapshot will be automatically re-archived  after this period. To temporarily restore an archived snapshot, specify the number of days and omit  the PermanentRestore parameter or set it to  false.
         public let temporaryRestoreDays: Int?
 
+        @inlinable
         public init(dryRun: Bool? = nil, permanentRestore: Bool? = nil, snapshotId: String? = nil, temporaryRestoreDays: Int? = nil) {
             self.dryRun = dryRun
             self.permanentRestore = permanentRestore
@@ -48012,6 +49701,7 @@ extension EC2 {
         /// The ID of the snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(isPermanentRestore: Bool? = nil, restoreDuration: Int? = nil, restoreStartTime: Date? = nil, snapshotId: String? = nil) {
             self.isPermanentRestore = isPermanentRestore
             self.restoreDuration = restoreDuration
@@ -48039,6 +49729,7 @@ extension EC2 {
         /// The IPv4 address range, in CIDR notation, of the network for which access is being removed.
         public let targetNetworkCidr: String?
 
+        @inlinable
         public init(accessGroupId: String? = nil, clientVpnEndpointId: String? = nil, dryRun: Bool? = nil, revokeAllGroups: Bool? = nil, targetNetworkCidr: String? = nil) {
             self.accessGroupId = accessGroupId
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -48060,6 +49751,7 @@ extension EC2 {
         /// The current state of the authorization rule.
         public let status: ClientVpnAuthorizationRuleStatus?
 
+        @inlinable
         public init(status: ClientVpnAuthorizationRuleStatus? = nil) {
             self.status = status
         }
@@ -48096,6 +49788,7 @@ extension EC2 {
         /// Not supported. Use a set of IP permissions to specify the port.
         public let toPort: Int?
 
+        @inlinable
         public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String? = nil, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, securityGroupRuleIds: [String]? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, toPort: Int? = nil) {
             self.cidrIp = cidrIp
             self.dryRun = dryRun
@@ -48132,6 +49825,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnknownIpPermissionsEncoding, IpPermission>>
         public var unknownIpPermissions: [IpPermission]?
 
+        @inlinable
         public init(return: Bool? = nil, unknownIpPermissions: [IpPermission]? = nil) {
             self.`return` = `return`
             self.unknownIpPermissions = unknownIpPermissions
@@ -48172,6 +49866,7 @@ extension EC2 {
         /// If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP, this is the ICMP code or -1 (all ICMP codes).
         public let toPort: Int?
 
+        @inlinable
         public init(cidrIp: String? = nil, dryRun: Bool? = nil, fromPort: Int? = nil, groupId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, ipProtocol: String? = nil, securityGroupRuleIds: [String]? = nil, sourceSecurityGroupName: String? = nil, sourceSecurityGroupOwnerId: String? = nil, toPort: Int? = nil) {
             self.cidrIp = cidrIp
             self.dryRun = dryRun
@@ -48210,6 +49905,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnknownIpPermissionsEncoding, IpPermission>>
         public var unknownIpPermissions: [IpPermission]?
 
+        @inlinable
         public init(return: Bool? = nil, unknownIpPermissions: [IpPermission]? = nil) {
             self.`return` = `return`
             self.unknownIpPermissions = unknownIpPermissions
@@ -48257,6 +49953,7 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: RouteOrigin? = nil, state: RouteState? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
@@ -48321,6 +50018,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(associations: [RouteTableAssociation]? = nil, ownerId: String? = nil, propagatingVgws: [PropagatingVgw]? = nil, routes: [Route]? = nil, routeTableId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.associations = associations
             self.ownerId = ownerId
@@ -48356,6 +50054,7 @@ extension EC2 {
         /// The ID of the subnet. A subnet ID is not returned for an implicit association.
         public let subnetId: String?
 
+        @inlinable
         public init(associationState: RouteTableAssociationState? = nil, gatewayId: String? = nil, main: Bool? = nil, routeTableAssociationId: String? = nil, routeTableId: String? = nil, subnetId: String? = nil) {
             self.associationState = associationState
             self.gatewayId = gatewayId
@@ -48381,6 +50080,7 @@ extension EC2 {
         /// The status message, if applicable.
         public let statusMessage: String?
 
+        @inlinable
         public init(state: RouteTableAssociationStateCode? = nil, statusMessage: String? = nil) {
             self.state = state
             self.statusMessage = statusMessage
@@ -48401,6 +50101,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RuleOptionsEncoding, RuleOption>>
         public var ruleOptions: [RuleOption]?
 
+        @inlinable
         public init(ruleGroupArn: String? = nil, ruleOptions: [RuleOption]? = nil) {
             self.ruleGroupArn = ruleGroupArn
             self.ruleOptions = ruleOptions
@@ -48418,6 +50119,7 @@ extension EC2 {
         /// The rule group type. The possible values are Domain List and Suricata.
         public let ruleGroupType: String?
 
+        @inlinable
         public init(ruleGroupArn: String? = nil, ruleGroupType: String? = nil) {
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupType = ruleGroupType
@@ -48438,6 +50140,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SettingsEncoding, String>>
         public var settings: [String]?
 
+        @inlinable
         public init(keyword: String? = nil, settings: [String]? = nil) {
             self.keyword = keyword
             self.settings = settings
@@ -48453,6 +50156,7 @@ extension EC2 {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -48565,6 +50269,7 @@ extension EC2 {
         /// The user data to make available to the instance. User data must be base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might be performed for you. For more information, see Work with instance user data.
         public let userData: String?
 
+        @inlinable
         public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enablePrimaryIpv6: Bool? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int? = nil, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
             self.additionalInfo = additionalInfo
             self.blockDeviceMappings = blockDeviceMappings
@@ -48672,6 +50377,7 @@ extension EC2 {
         /// The Scheduled Instance ID.
         public let scheduledInstanceId: String?
 
+        @inlinable
         public init(clientToken: String? = RunScheduledInstancesRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, launchSpecification: ScheduledInstancesLaunchSpecification? = nil, scheduledInstanceId: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -48696,6 +50402,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdSetEncoding, String>>
         public var instanceIdSet: [String]?
 
+        @inlinable
         public init(instanceIdSet: [String]? = nil) {
             self.instanceIdSet = instanceIdSet
         }
@@ -48711,6 +50418,7 @@ extension EC2 {
         /// The value of the tag. Constraints: Tag values are case-sensitive and can be up to 256 Unicode characters in length.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -48734,6 +50442,7 @@ extension EC2 {
         /// The signature of the JSON document.
         public let uploadPolicySignature: String?
 
+        @inlinable
         public init(awsAccessKeyId: String? = nil, bucket: String? = nil, prefix: String? = nil, uploadPolicy: AWSBase64Data? = nil, uploadPolicySignature: String? = nil) {
             self.awsAccessKeyId = awsAccessKeyId
             self.bucket = bucket
@@ -48783,6 +50492,7 @@ extension EC2 {
         /// The total number of hours for a single instance for the entire term.
         public let totalScheduledInstanceHours: Int?
 
+        @inlinable
         public init(availabilityZone: String? = nil, createDate: Date? = nil, hourlyPrice: String? = nil, instanceCount: Int? = nil, instanceType: String? = nil, networkPlatform: String? = nil, nextSlotStartTime: Date? = nil, platform: String? = nil, previousSlotEndTime: Date? = nil, recurrence: ScheduledInstanceRecurrence? = nil, scheduledInstanceId: String? = nil, slotDurationInHours: Int? = nil, termEndDate: Date? = nil, termStartDate: Date? = nil, totalScheduledInstanceHours: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.createDate = createDate
@@ -48848,6 +50558,7 @@ extension EC2 {
         /// The total number of hours for a single instance for the entire term.
         public let totalScheduledInstanceHours: Int?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availableInstanceCount: Int? = nil, firstSlotStartTime: Date? = nil, hourlyPrice: String? = nil, instanceType: String? = nil, maxTermDurationInDays: Int? = nil, minTermDurationInDays: Int? = nil, networkPlatform: String? = nil, platform: String? = nil, purchaseToken: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil, slotDurationInHours: Int? = nil, totalScheduledInstanceHours: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availableInstanceCount = availableInstanceCount
@@ -48896,6 +50607,7 @@ extension EC2 {
         /// The unit for occurrenceDaySet (DayOfWeek or DayOfMonth).
         public let occurrenceUnit: String?
 
+        @inlinable
         public init(frequency: String? = nil, interval: Int? = nil, occurrenceDaySet: [Int]? = nil, occurrenceRelativeToEnd: Bool? = nil, occurrenceUnit: String? = nil) {
             self.frequency = frequency
             self.interval = interval
@@ -48928,6 +50640,7 @@ extension EC2 {
         /// The unit for OccurrenceDays (DayOfWeek or DayOfMonth). This value is required for a monthly schedule. You can't specify DayOfWeek with a weekly schedule. You can't specify this value with a daily schedule.
         public let occurrenceUnit: String?
 
+        @inlinable
         public init(frequency: String? = nil, interval: Int? = nil, occurrenceDays: [Int]? = nil, occurrenceRelativeToEnd: Bool? = nil, occurrenceUnit: String? = nil) {
             self.frequency = frequency
             self.interval = interval
@@ -48955,6 +50668,7 @@ extension EC2 {
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with two available instance store volumes can specify mappings for ephemeral0 and ephemeral1. The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device  mapping for the instance. When you launch an M3 instance, we ignore any instance store volumes  specified in the block device mapping for the AMI.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: ScheduledInstancesEbs? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -48984,6 +50698,7 @@ extension EC2 {
         /// The volume type. Default: gp2
         public let volumeType: String?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -49009,6 +50724,7 @@ extension EC2 {
         /// The name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -49024,6 +50740,7 @@ extension EC2 {
         /// The IPv6 address.
         public let ipv6Address: String?
 
+        @inlinable
         public init(ipv6Address: String? = nil) {
             self.ipv6Address = ipv6Address
         }
@@ -49070,6 +50787,7 @@ extension EC2 {
         /// The base64-encoded MIME user data.
         public let userData: String?
 
+        @inlinable
         public init(blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil, imageId: String? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: ScheduledInstancesMonitoring? = nil, networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil, placement: ScheduledInstancesPlacement? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.ebsOptimized = ebsOptimized
@@ -49109,6 +50827,7 @@ extension EC2 {
         /// Indicates whether monitoring is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -49152,6 +50871,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, deleteOnTermination: Bool? = nil, description: String? = nil, deviceIndex: Int? = nil, groups: [String]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [ScheduledInstancesIpv6Address]? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, privateIpAddressConfigs: [ScheduledInstancesPrivateIpAddressConfig]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.deleteOnTermination = deleteOnTermination
@@ -49189,6 +50909,7 @@ extension EC2 {
         /// The name of the placement group.
         public let groupName: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, groupName: String? = nil) {
             self.availabilityZone = availabilityZone
             self.groupName = groupName
@@ -49206,6 +50927,7 @@ extension EC2 {
         /// The IPv4 address.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(primary: Bool? = nil, privateIpAddress: String? = nil) {
             self.primary = primary
             self.privateIpAddress = privateIpAddress
@@ -49233,6 +50955,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, localGatewayRouteTableId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -49259,6 +50982,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RoutesEncoding, LocalGatewayRoute>>
         public var routes: [LocalGatewayRoute]?
 
+        @inlinable
         public init(nextToken: String? = nil, routes: [LocalGatewayRoute]? = nil) {
             self.nextToken = nextToken
             self.routes = routes
@@ -49286,6 +51010,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -49317,6 +51042,7 @@ extension EC2 {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(multicastGroups: [TransitGatewayMulticastGroup]? = nil, nextToken: String? = nil) {
             self.multicastGroups = multicastGroups
             self.nextToken = nextToken
@@ -49341,6 +51067,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, transitGatewayRouteTableId: String? = nil) {
             self.dryRun = dryRun
             self.filters = filters
@@ -49370,6 +51097,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_RoutesEncoding, TransitGatewayRoute>>
         public var routes: [TransitGatewayRoute]?
 
+        @inlinable
         public init(additionalRoutesAvailable: Bool? = nil, routes: [TransitGatewayRoute]? = nil) {
             self.additionalRoutesAvailable = additionalRoutesAvailable
             self.routes = routes
@@ -49406,6 +51134,7 @@ extension EC2 {
         /// The ID of the VPC for the security group.
         public let vpcId: String?
 
+        @inlinable
         public init(description: String? = nil, groupId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, ipPermissionsEgress: [IpPermission]? = nil, ownerId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.description = description
             self.groupId = groupId
@@ -49446,6 +51175,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, groupId: String? = nil, groupName: String? = nil, ownerId: String? = nil, primaryVpcId: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.groupId = groupId
@@ -49471,6 +51201,7 @@ extension EC2 {
         /// The name of the security group.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -49492,6 +51223,7 @@ extension EC2 {
         /// The ID of the VPC peering connection (if applicable). For more information about security group referencing for peering connections, see Update your security groups to reference peer security groups in the VPC Peering Guide.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(groupId: String? = nil, referencingVpcId: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.groupId = groupId
             self.referencingVpcId = referencingVpcId
@@ -49538,6 +51270,7 @@ extension EC2 {
         /// If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes).  If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes).
         public let toPort: Int?
 
+        @inlinable
         public init(cidrIpv4: String? = nil, cidrIpv6: String? = nil, description: String? = nil, fromPort: Int? = nil, groupId: String? = nil, groupOwnerId: String? = nil, ipProtocol: String? = nil, isEgress: Bool? = nil, prefixListId: String? = nil, referencedGroupInfo: ReferencedSecurityGroup? = nil, securityGroupRuleId: String? = nil, tags: [Tag]? = nil, toPort: Int? = nil) {
             self.cidrIpv4 = cidrIpv4
             self.cidrIpv6 = cidrIpv6
@@ -49577,6 +51310,7 @@ extension EC2 {
         /// The ID of the security group rule.
         public let securityGroupRuleId: String?
 
+        @inlinable
         public init(description: String? = nil, securityGroupRuleId: String? = nil) {
             self.description = description
             self.securityGroupRuleId = securityGroupRuleId
@@ -49606,6 +51340,7 @@ extension EC2 {
         /// If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes).  If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes).
         public let toPort: Int?
 
+        @inlinable
         public init(cidrIpv4: String? = nil, cidrIpv6: String? = nil, description: String? = nil, fromPort: Int? = nil, ipProtocol: String? = nil, prefixListId: String? = nil, referencedGroupId: String? = nil, toPort: Int? = nil) {
             self.cidrIpv4 = cidrIpv4
             self.cidrIpv6 = cidrIpv6
@@ -49635,6 +51370,7 @@ extension EC2 {
         /// The ID of the security group rule.
         public let securityGroupRuleId: String?
 
+        @inlinable
         public init(securityGroupRule: SecurityGroupRuleRequest? = nil, securityGroupRuleId: String? = nil) {
             self.securityGroupRule = securityGroupRule
             self.securityGroupRuleId = securityGroupRuleId
@@ -49652,6 +51388,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceId: String? = nil) {
             self.dryRun = dryRun
             self.instanceId = instanceId
@@ -49710,6 +51447,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, gatewayLoadBalancerArns: [String]? = nil, managesVpcEndpoints: Bool? = nil, networkLoadBalancerArns: [String]? = nil, payerResponsibility: PayerResponsibility? = nil, privateDnsName: String? = nil, privateDnsNameConfiguration: PrivateDnsNameConfiguration? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceState: ServiceState? = nil, serviceType: [ServiceTypeDetail]? = nil, supportedIpAddressTypes: [ServiceConnectivityType]? = nil, tags: [Tag]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
@@ -49792,6 +51530,7 @@ extension EC2 {
         /// Indicates whether the service supports endpoint policies.
         public let vpcEndpointPolicySupported: Bool?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, managesVpcEndpoints: Bool? = nil, owner: String? = nil, payerResponsibility: PayerResponsibility? = nil, privateDnsName: String? = nil, privateDnsNames: [PrivateDnsDetails]? = nil, privateDnsNameVerificationState: DnsNameState? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceType: [ServiceTypeDetail]? = nil, supportedIpAddressTypes: [ServiceConnectivityType]? = nil, tags: [Tag]? = nil, vpcEndpointPolicySupported: Bool? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
@@ -49833,6 +51572,7 @@ extension EC2 {
         /// The type of service.
         public let serviceType: ServiceType?
 
+        @inlinable
         public init(serviceType: ServiceType? = nil) {
             self.serviceType = serviceType
         }
@@ -49848,6 +51588,7 @@ extension EC2 {
         /// The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future.
         public let latestTime: Date?
 
+        @inlinable
         public init(earliestTime: Date? = nil, latestTime: Date? = nil) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
@@ -49865,6 +51606,7 @@ extension EC2 {
         /// The latest date and time, in UTC, for the Scheduled Instance to start.
         public let latestTime: Date?
 
+        @inlinable
         public init(earliestTime: Date? = nil, latestTime: Date? = nil) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
@@ -49917,6 +51659,7 @@ extension EC2 {
         /// The size of the volume, in GiB.
         public let volumeSize: Int?
 
+        @inlinable
         public init(dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, restoreExpiryTime: Date? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, storageTier: StorageTier? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
             self.dataEncryptionKeyId = dataEncryptionKeyId
             self.description = description
@@ -49982,6 +51725,7 @@ extension EC2 {
         /// The Amazon S3 bucket for the disk image.
         public let userBucket: UserBucketDetails?
 
+        @inlinable
         public init(description: String? = nil, deviceName: String? = nil, diskImageSize: Double? = nil, format: String? = nil, progress: String? = nil, snapshotId: String? = nil, status: String? = nil, statusMessage: String? = nil, url: String? = nil, userBucket: UserBucketDetails? = nil) {
             self.description = description
             self.deviceName = deviceName
@@ -50019,6 +51763,7 @@ extension EC2 {
         /// The Amazon S3 bucket for the disk image.
         public let userBucket: UserBucket?
 
+        @inlinable
         public init(description: String? = nil, format: String? = nil, url: String? = nil, userBucket: UserBucket? = nil) {
             self.description = description
             self.format = format
@@ -50063,6 +51808,7 @@ extension EC2 {
         /// Size of the volume from which this snapshot was created.
         public let volumeSize: Int?
 
+        @inlinable
         public init(description: String? = nil, encrypted: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
             self.description = description
             self.encrypted = encrypted
@@ -50106,6 +51852,7 @@ extension EC2 {
         /// The ID of the volume from which the snapshot was created.
         public let volumeId: String?
 
+        @inlinable
         public init(description: String? = nil, recycleBinEnterTime: Date? = nil, recycleBinExitTime: Date? = nil, snapshotId: String? = nil, volumeId: String? = nil) {
             self.description = description
             self.recycleBinEnterTime = recycleBinEnterTime
@@ -50147,6 +51894,7 @@ extension EC2 {
         /// The Amazon S3 bucket for the disk image.
         public let userBucket: UserBucketDetails?
 
+        @inlinable
         public init(description: String? = nil, diskImageSize: Double? = nil, encrypted: Bool? = nil, format: String? = nil, kmsKeyId: String? = nil, progress: String? = nil, snapshotId: String? = nil, status: String? = nil, statusMessage: String? = nil, url: String? = nil, userBucket: UserBucketDetails? = nil) {
             self.description = description
             self.diskImageSize = diskImageSize
@@ -50205,6 +51953,7 @@ extension EC2 {
         /// The ID of the volume from which the snapshot was created.
         public let volumeId: String?
 
+        @inlinable
         public init(archivalCompleteTime: Date? = nil, lastTieringOperationStatus: TieringOperationStatus? = nil, lastTieringOperationStatusDetail: String? = nil, lastTieringProgress: Int? = nil, lastTieringStartTime: Date? = nil, ownerId: String? = nil, restoreExpiryTime: Date? = nil, snapshotId: String? = nil, status: SnapshotState? = nil, storageTier: StorageTier? = nil, tags: [Tag]? = nil, volumeId: String? = nil) {
             self.archivalCompleteTime = archivalCompleteTime
             self.lastTieringOperationStatus = lastTieringOperationStatus
@@ -50242,6 +51991,7 @@ extension EC2 {
         /// The amount of time (in seconds) that Amazon EC2 waits before terminating the old Spot Instance after launching a new replacement Spot Instance. Required when ReplacementStrategy is set to launch-before-terminate. Not valid when ReplacementStrategy is set to launch. Valid values: Minimum value of 120 seconds. Maximum value of 7200 seconds.
         public let terminationDelay: Int?
 
+        @inlinable
         public init(replacementStrategy: ReplacementStrategy? = nil, terminationDelay: Int? = nil) {
             self.replacementStrategy = replacementStrategy
             self.terminationDelay = terminationDelay
@@ -50265,6 +52015,7 @@ extension EC2 {
         /// The state of the Spot Instance data feed subscription.
         public let state: DatafeedSubscriptionState?
 
+        @inlinable
         public init(bucket: String? = nil, fault: SpotInstanceStateFault? = nil, ownerId: String? = nil, prefix: String? = nil, state: DatafeedSubscriptionState? = nil) {
             self.bucket = bucket
             self.fault = fault
@@ -50331,6 +52082,7 @@ extension EC2 {
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowestPrice and priceCapacityOptimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
+        @inlinable
         public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: SpotFleetMonitoring? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroups: [GroupIdentifier]? = nil, spotPrice: String? = nil, subnetId: String? = nil, tagSpecifications: [SpotFleetTagSpecification]? = nil, userData: String? = nil, weightedCapacity: Double? = nil) {
             self.addressingType = addressingType
             self.blockDeviceMappings = blockDeviceMappings
@@ -50384,6 +52136,7 @@ extension EC2 {
         /// Enables monitoring for the instance. Default: false
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -50410,6 +52163,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(activityStatus: ActivityStatus? = nil, createTime: Date? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData? = nil, spotFleetRequestId: String? = nil, spotFleetRequestState: BatchState? = nil, tags: [Tag]? = nil) {
             self.activityStatus = activityStatus
             self.createTime = createTime
@@ -50490,6 +52244,7 @@ extension EC2 {
         /// The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). After the end date and time, no new Spot Instance requests are placed or able to fulfill the request. If no value is specified, the Spot Fleet request remains until you cancel it.
         public let validUntil: Date?
 
+        @inlinable
         public init(allocationStrategy: AllocationStrategy? = nil, clientToken: String? = nil, context: String? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, fulfilledCapacity: Double? = nil, iamFleetRole: String? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, launchSpecifications: [SpotFleetLaunchSpecification]? = nil, launchTemplateConfigs: [LaunchTemplateConfig]? = nil, loadBalancersConfig: LoadBalancersConfig? = nil, onDemandAllocationStrategy: OnDemandAllocationStrategy? = nil, onDemandFulfilledCapacity: Double? = nil, onDemandMaxTotalPrice: String? = nil, onDemandTargetCapacity: Int? = nil, replaceUnhealthyInstances: Bool? = nil, spotMaintenanceStrategies: SpotMaintenanceStrategies? = nil, spotMaxTotalPrice: String? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.allocationStrategy = allocationStrategy
             self.clientToken = clientToken
@@ -50568,6 +52323,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.resourceType = resourceType
             self.tags = tags
@@ -50622,6 +52378,7 @@ extension EC2 {
         /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ).   For a persistent request, the request remains active until the validUntil date and time is reached. Otherwise, the request remains active until you cancel it.    For a one-time request, the request remains active until all instances launch, the request is canceled, or the validUntil date and time is reached. By default, the request is valid for 7 days from the date the request was created.
         public let validUntil: Date?
 
+        @inlinable
         public init(actualBlockHourlyPrice: String? = nil, availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, createTime: Date? = nil, fault: SpotInstanceStateFault? = nil, instanceId: String? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchedAvailabilityZone: String? = nil, launchGroup: String? = nil, launchSpecification: LaunchSpecification? = nil, productDescription: RIProductDescription? = nil, spotInstanceRequestId: String? = nil, spotPrice: String? = nil, state: SpotInstanceState? = nil, status: SpotInstanceStatus? = nil, tags: [Tag]? = nil, type: SpotInstanceType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.actualBlockHourlyPrice = actualBlockHourlyPrice
             self.availabilityZoneGroup = availabilityZoneGroup
@@ -50673,6 +52430,7 @@ extension EC2 {
         /// The message for the Spot Instance state change.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -50692,6 +52450,7 @@ extension EC2 {
         /// The date and time of the most recent status update, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let updateTime: Date?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, updateTime: Date? = nil) {
             self.code = code
             self.message = message
@@ -50709,6 +52468,7 @@ extension EC2 {
         /// The Spot Instance replacement strategy to use when Amazon EC2 emits a signal that your Spot Instance is at an elevated risk of being interrupted. For more information, see Capacity rebalancing in the Amazon EC2 User Guide.
         public let capacityRebalance: SpotCapacityRebalance?
 
+        @inlinable
         public init(capacityRebalance: SpotCapacityRebalance? = nil) {
             self.capacityRebalance = capacityRebalance
         }
@@ -50730,6 +52490,7 @@ extension EC2 {
         /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.   For a persistent request, the request remains active until the ValidUntil date and time is reached. Otherwise, the request remains active until you cancel it.   For a one-time request, ValidUntil is not supported. The request remains active until all instances launch or you cancel the request.
         public let validUntil: Date?
 
+        @inlinable
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: Date? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
@@ -50765,6 +52526,7 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all Spot Instances in the fleet. Supported only for fleets of type instant.
         public let singleInstanceType: Bool?
 
+        @inlinable
         public init(allocationStrategy: SpotAllocationStrategy? = nil, instanceInterruptionBehavior: SpotInstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, maintenanceStrategies: FleetSpotMaintenanceStrategies? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
@@ -50806,6 +52568,7 @@ extension EC2 {
         /// Indicates that the fleet uses a single instance type to launch all Spot Instances in the fleet. Supported only for fleets of type instant.
         public let singleInstanceType: Bool?
 
+        @inlinable
         public init(allocationStrategy: SpotAllocationStrategy? = nil, instanceInterruptionBehavior: SpotInstanceInterruptionBehavior? = nil, instancePoolsToUseCount: Int? = nil, maintenanceStrategies: FleetSpotMaintenanceStrategiesRequest? = nil, maxTotalPrice: String? = nil, minTargetCapacity: Int? = nil, singleAvailabilityZone: Bool? = nil, singleInstanceType: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
@@ -50837,6 +52600,7 @@ extension EC2 {
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for Spot Instances.
         public let tenancy: Tenancy?
 
+        @inlinable
         public init(availabilityZone: String? = nil, groupName: String? = nil, tenancy: Tenancy? = nil) {
             self.availabilityZone = availabilityZone
             self.groupName = groupName
@@ -50858,6 +52622,7 @@ extension EC2 {
         /// The placement score, on a scale from 1 to 10. A score of 10 indicates that your Spot request is highly likely to succeed in this Region or Availability Zone. A score of 1 indicates that your Spot request is not likely to succeed.
         public let score: Int?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, region: String? = nil, score: Int? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.region = region
@@ -50883,6 +52648,7 @@ extension EC2 {
         /// The date and time the request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let timestamp: Date?
 
+        @inlinable
         public init(availabilityZone: String? = nil, instanceType: InstanceType? = nil, productDescription: RIProductDescription? = nil, spotPrice: String? = nil, timestamp: Date? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
@@ -50921,6 +52687,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UserIdGroupPairsEncoding, UserIdGroupPair>>
         public var userIdGroupPairs: [UserIdGroupPair]?
 
+        @inlinable
         public init(fromPort: Int? = nil, ipProtocol: String? = nil, ipRanges: [String]? = nil, prefixListIds: [String]? = nil, toPort: Int? = nil, userIdGroupPairs: [UserIdGroupPair]? = nil) {
             self.fromPort = fromPort
             self.ipProtocol = ipProtocol
@@ -50959,6 +52726,7 @@ extension EC2 {
         /// The ID of the VPC for the security group.
         public let vpcId: String?
 
+        @inlinable
         public init(description: String? = nil, groupId: String? = nil, groupName: String? = nil, staleIpPermissions: [StaleIpPermission]? = nil, staleIpPermissionsEgress: [StaleIpPermission]? = nil, vpcId: String? = nil) {
             self.description = description
             self.groupId = groupId
@@ -50989,6 +52757,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
 
+        @inlinable
         public init(additionalInfo: String? = nil, dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.dryRun = dryRun
@@ -51009,6 +52778,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StartingInstancesEncoding, InstanceStateChange>>
         public var startingInstances: [InstanceStateChange]?
 
+        @inlinable
         public init(startingInstances: [InstanceStateChange]? = nil) {
             self.startingInstances = startingInstances
         }
@@ -51031,6 +52801,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(clientToken: String? = nil, dryRun: Bool? = nil, networkInsightsAccessScopeId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
@@ -51050,6 +52821,7 @@ extension EC2 {
         /// The Network Access Scope analysis.
         public let networkInsightsAccessScopeAnalysis: NetworkInsightsAccessScopeAnalysis?
 
+        @inlinable
         public init(networkInsightsAccessScopeAnalysis: NetworkInsightsAccessScopeAnalysis? = nil) {
             self.networkInsightsAccessScopeAnalysis = networkInsightsAccessScopeAnalysis
         }
@@ -51080,6 +52852,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
+        @inlinable
         public init(additionalAccounts: [String]? = nil, clientToken: String? = nil, dryRun: Bool? = nil, filterInArns: [String]? = nil, networkInsightsPathId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.additionalAccounts = additionalAccounts
             self.clientToken = clientToken
@@ -51110,6 +52883,7 @@ extension EC2 {
         /// Information about the network insights analysis.
         public let networkInsightsAnalysis: NetworkInsightsAnalysis?
 
+        @inlinable
         public init(networkInsightsAnalysis: NetworkInsightsAnalysis? = nil) {
             self.networkInsightsAnalysis = networkInsightsAnalysis
         }
@@ -51125,6 +52899,7 @@ extension EC2 {
         /// The ID of the endpoint service.
         public let serviceId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, serviceId: String? = nil) {
             self.dryRun = dryRun
             self.serviceId = serviceId
@@ -51140,6 +52915,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -51155,6 +52931,7 @@ extension EC2 {
         /// The message for the state change.    Server.InsufficientInstanceCapacity: There was insufficient capacity available to satisfy the launch request.    Server.InternalError: An internal error caused the instance to terminate during launch.    Server.ScheduledStop: The instance was stopped due to a scheduled retirement.    Server.SpotInstanceShutdown: The instance was stopped because the number of Spot requests with a maximum price equal to or higher than the Spot price exceeded available capacity or because of an increase in the Spot price.    Server.SpotInstanceTermination: The instance was terminated because the number of Spot requests with a maximum price equal to or higher than the Spot price exceeded available capacity or because of an increase in the Spot price.    Client.InstanceInitiatedShutdown: The instance was shut down from the operating system of the instance.    Client.InstanceTerminated: The instance was terminated or rebooted during AMI creation.    Client.InternalError: A client error caused the instance to terminate during launch.    Client.InvalidSnapshot.NotFound: The specified snapshot was not found.    Client.UserInitiatedHibernate: Hibernation was initiated on the instance.    Client.UserInitiatedShutdown: The instance was shut down using the Amazon EC2 API.    Client.VolumeLimitExceeded: The limit on the number of EBS volumes or total storage was exceeded. Decrease usage or request an increase in your account limits.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -51179,6 +52956,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, force: Bool? = nil, hibernate: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.force = force
@@ -51201,6 +52979,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_StoppingInstancesEncoding, InstanceStateChange>>
         public var stoppingInstances: [InstanceStateChange]?
 
+        @inlinable
         public init(stoppingInstances: [InstanceStateChange]? = nil) {
             self.stoppingInstances = stoppingInstances
         }
@@ -51214,6 +52993,7 @@ extension EC2 {
         /// An Amazon S3 storage location.
         public let s3: S3Storage?
 
+        @inlinable
         public init(s3: S3Storage? = nil) {
             self.s3 = s3
         }
@@ -51229,6 +53009,7 @@ extension EC2 {
         /// The key.
         public let key: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -51256,6 +53037,7 @@ extension EC2 {
         /// The time the task started.
         public let taskStartTime: Date?
 
+        @inlinable
         public init(amiId: String? = nil, bucket: String? = nil, progressPercentage: Int? = nil, s3objectKey: String? = nil, storeTaskFailureReason: String? = nil, storeTaskState: String? = nil, taskStartTime: Date? = nil) {
             self.amiId = amiId
             self.bucket = bucket
@@ -51328,6 +53110,7 @@ extension EC2 {
         /// The ID of the VPC the subnet is in.
         public let vpcId: String?
 
+        @inlinable
         public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, customerOwnedIpv4Pool: String? = nil, defaultForAz: Bool? = nil, enableDns64: Bool? = nil, enableLniAtDeviceIndex: Int? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, ipv6Native: Bool? = nil, mapCustomerOwnedIpOnLaunch: Bool? = nil, mapPublicIpOnLaunch: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsNameOptionsOnLaunch: PrivateDnsNameOptionsOnLaunch? = nil, state: SubnetState? = nil, subnetArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.availabilityZone = availabilityZone
@@ -51383,6 +53166,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(state: TransitGatewayMulitcastDomainAssociationState? = nil, subnetId: String? = nil) {
             self.state = state
             self.subnetId = subnetId
@@ -51400,6 +53184,7 @@ extension EC2 {
         /// A message about the status of the CIDR block, if applicable.
         public let statusMessage: String?
 
+        @inlinable
         public init(state: SubnetCidrBlockStateCode? = nil, statusMessage: String? = nil) {
             self.state = state
             self.statusMessage = statusMessage
@@ -51430,6 +53215,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(cidr: String? = nil, description: String? = nil, ownerId: String? = nil, reservationType: SubnetCidrReservationType? = nil, subnetCidrReservationId: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.cidr = cidr
             self.description = description
@@ -51459,6 +53245,7 @@ extension EC2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(ipv4: String? = nil, ipv6: String? = nil, subnetId: String? = nil) {
             self.ipv4 = ipv4
             self.ipv6 = ipv6
@@ -51484,6 +53271,7 @@ extension EC2 {
         /// The state of the CIDR block.
         public let ipv6CidrBlockState: SubnetCidrBlockState?
 
+        @inlinable
         public init(associationId: String? = nil, ipSource: IpSource? = nil, ipv6AddressAttribute: Ipv6AddressAttribute? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockState: SubnetCidrBlockState? = nil) {
             self.associationId = associationId
             self.ipSource = ipSource
@@ -51513,6 +53301,7 @@ extension EC2 {
         /// The statistic used for the subscription.
         public let statistic: StatisticType?
 
+        @inlinable
         public init(destination: String? = nil, metric: MetricType? = nil, period: PeriodType? = nil, source: String? = nil, statistic: StatisticType? = nil) {
             self.destination = destination
             self.metric = metric
@@ -51534,6 +53323,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -51547,6 +53337,7 @@ extension EC2 {
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
 
+        @inlinable
         public init(reservedInstancesId: String? = nil) {
             self.reservedInstancesId = reservedInstancesId
         }
@@ -51562,6 +53353,7 @@ extension EC2 {
         /// The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -51583,6 +53375,7 @@ extension EC2 {
         /// The tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil, value: String? = nil) {
             self.key = key
             self.resourceId = resourceId
@@ -51607,6 +53400,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.resourceType = resourceType
             self.tags = tags
@@ -51630,6 +53424,7 @@ extension EC2 {
         /// The number of units to request, filled the default target capacity type.
         public let totalTargetCapacity: Int?
 
+        @inlinable
         public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, totalTargetCapacity: Int? = nil) {
             self.defaultTargetCapacityType = defaultTargetCapacityType
             self.onDemandTargetCapacity = onDemandTargetCapacity
@@ -51659,6 +53454,7 @@ extension EC2 {
         /// The number of units to request, filled using the default target capacity type.
         public let totalTargetCapacity: Int?
 
+        @inlinable
         public init(defaultTargetCapacityType: DefaultTargetCapacityType? = nil, onDemandTargetCapacity: Int? = nil, spotTargetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil, totalTargetCapacity: Int? = nil) {
             self.defaultTargetCapacityType = defaultTargetCapacityType
             self.onDemandTargetCapacity = onDemandTargetCapacity
@@ -51682,6 +53478,7 @@ extension EC2 {
         /// The ID of the Convertible Reserved Instance offering.
         public let offeringId: String?
 
+        @inlinable
         public init(instanceCount: Int? = nil, offeringId: String? = nil) {
             self.instanceCount = instanceCount
             self.offeringId = offeringId
@@ -51699,6 +53496,7 @@ extension EC2 {
         /// The Convertible Reserved Instance offering ID.
         public let offeringId: String?
 
+        @inlinable
         public init(instanceCount: Int? = nil, offeringId: String? = nil) {
             self.instanceCount = instanceCount
             self.offeringId = offeringId
@@ -51714,6 +53512,7 @@ extension EC2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -51730,6 +53529,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TargetGroupsEncoding, TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
+        @inlinable
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
         }
@@ -51761,6 +53561,7 @@ extension EC2 {
         /// The ID of the VPC in which the target network (subnet) is located.
         public let vpcId: String?
 
+        @inlinable
         public init(associationId: String? = nil, clientVpnEndpointId: String? = nil, securityGroups: [String]? = nil, status: AssociationStatus? = nil, targetNetworkId: String? = nil, vpcId: String? = nil) {
             self.associationId = associationId
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -51786,6 +53587,7 @@ extension EC2 {
         /// The configuration of the Convertible Reserved Instances that make up the exchange.
         public let targetConfiguration: TargetConfiguration?
 
+        @inlinable
         public init(reservationValue: ReservationValue? = nil, targetConfiguration: TargetConfiguration? = nil) {
             self.reservationValue = reservationValue
             self.targetConfiguration = targetConfiguration
@@ -51808,6 +53610,7 @@ extension EC2 {
         /// 			the specified user. This option can only be used if the user has established up to five connections.
         public let username: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, connectionId: String? = nil, dryRun: Bool? = nil, username: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionId = connectionId
@@ -51834,6 +53637,7 @@ extension EC2 {
         /// The user who established the terminated client connections.
         public let username: String?
 
+        @inlinable
         public init(clientVpnEndpointId: String? = nil, connectionStatuses: [TerminateConnectionStatus]? = nil, username: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionStatuses = connectionStatuses
@@ -51855,6 +53659,7 @@ extension EC2 {
         /// The state of the client connection.
         public let previousStatus: ClientVpnConnectionStatus?
 
+        @inlinable
         public init(connectionId: String? = nil, currentStatus: ClientVpnConnectionStatus? = nil, previousStatus: ClientVpnConnectionStatus? = nil) {
             self.connectionId = connectionId
             self.currentStatus = currentStatus
@@ -51877,6 +53682,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
@@ -51895,6 +53701,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TerminatingInstancesEncoding, InstanceStateChange>>
         public var terminatingInstances: [InstanceStateChange]?
 
+        @inlinable
         public init(terminatingInstances: [InstanceStateChange]? = nil) {
             self.terminatingInstances = terminatingInstances
         }
@@ -51908,6 +53715,7 @@ extension EC2 {
         /// The resource statement.
         public let resourceStatement: ResourceStatement?
 
+        @inlinable
         public init(resourceStatement: ResourceStatement? = nil) {
             self.resourceStatement = resourceStatement
         }
@@ -51921,6 +53729,7 @@ extension EC2 {
         /// The resource statement.
         public let resourceStatement: ResourceStatementRequest?
 
+        @inlinable
         public init(resourceStatement: ResourceStatementRequest? = nil) {
             self.resourceStatement = resourceStatement
         }
@@ -51936,6 +53745,7 @@ extension EC2 {
         /// The minimum amount of total local storage, in GB. If this parameter is not specified, there is no minimum limit.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -51953,6 +53763,7 @@ extension EC2 {
         /// The minimum amount of total local storage, in GB. To specify no minimum limit, omit this parameter.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -51987,6 +53798,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror filter.
         public let trafficMirrorFilterId: String?
 
+        @inlinable
         public init(description: String? = nil, egressFilterRules: [TrafficMirrorFilterRule]? = nil, ingressFilterRules: [TrafficMirrorFilterRule]? = nil, networkServices: [TrafficMirrorNetworkService]? = nil, tags: [Tag]? = nil, trafficMirrorFilterId: String? = nil) {
             self.description = description
             self.egressFilterRules = egressFilterRules
@@ -52035,6 +53847,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror rule.
         public let trafficMirrorFilterRuleId: String?
 
+        @inlinable
         public init(description: String? = nil, destinationCidrBlock: String? = nil, destinationPortRange: TrafficMirrorPortRange? = nil, protocol: Int? = nil, ruleAction: TrafficMirrorRuleAction? = nil, ruleNumber: Int? = nil, sourceCidrBlock: String? = nil, sourcePortRange: TrafficMirrorPortRange? = nil, tags: [Tag]? = nil, trafficDirection: TrafficDirection? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorFilterRuleId: String? = nil) {
             self.description = description
             self.destinationCidrBlock = destinationCidrBlock
@@ -52072,6 +53885,7 @@ extension EC2 {
         /// The end of the Traffic Mirror port range. This applies to the TCP and UDP protocols.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -52089,6 +53903,7 @@ extension EC2 {
         /// The last port in the Traffic Mirror port range. This applies to the TCP and UDP protocols.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -52125,6 +53940,7 @@ extension EC2 {
         /// The virtual network ID associated with the Traffic Mirror session.
         public let virtualNetworkId: Int?
 
+        @inlinable
         public init(description: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, packetLength: Int? = nil, sessionNumber: Int? = nil, tags: [Tag]? = nil, trafficMirrorFilterId: String? = nil, trafficMirrorSessionId: String? = nil, trafficMirrorTargetId: String? = nil, virtualNetworkId: Int? = nil) {
             self.description = description
             self.networkInterfaceId = networkInterfaceId
@@ -52173,6 +53989,7 @@ extension EC2 {
         /// The type of Traffic Mirror target.
         public let type: TrafficMirrorTargetType?
 
+        @inlinable
         public init(description: String? = nil, gatewayLoadBalancerEndpointId: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil, trafficMirrorTargetId: String? = nil, type: TrafficMirrorTargetType? = nil) {
             self.description = description
             self.gatewayLoadBalancerEndpointId = gatewayLoadBalancerEndpointId
@@ -52217,6 +54034,7 @@ extension EC2 {
         /// The ID of the transit gateway.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, options: TransitGatewayOptions? = nil, ownerId: String? = nil, state: TransitGatewayState? = nil, tags: [Tag]? = nil, transitGatewayArn: String? = nil, transitGatewayId: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -52252,6 +54070,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAssociationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -52294,6 +54113,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services account that owns the transit gateway.
         public let transitGatewayOwnerId: String?
 
+        @inlinable
         public init(association: TransitGatewayAttachmentAssociation? = nil, creationTime: Date? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transitGatewayOwnerId: String? = nil) {
             self.association = association
             self.creationTime = creationTime
@@ -52327,6 +54147,7 @@ extension EC2 {
         /// The ID of the route table for the transit gateway.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(state: TransitGatewayAssociationState? = nil, transitGatewayRouteTableId: String? = nil) {
             self.state = state
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -52350,6 +54171,7 @@ extension EC2 {
         /// The transit gateway Autonomous System Number (ASN).
         public let transitGatewayAsn: Int64?
 
+        @inlinable
         public init(bgpStatus: BgpStatus? = nil, peerAddress: String? = nil, peerAsn: Int64? = nil, transitGatewayAddress: String? = nil, transitGatewayAsn: Int64? = nil) {
             self.bgpStatus = bgpStatus
             self.peerAddress = peerAddress
@@ -52373,6 +54195,7 @@ extension EC2 {
         /// The ID of the propagation route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(state: TransitGatewayPropagationState? = nil, transitGatewayRouteTableId: String? = nil) {
             self.state = state
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
@@ -52403,6 +54226,7 @@ extension EC2 {
         /// The ID of the attachment from which the Connect attachment was created.
         public let transportTransitGatewayAttachmentId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, options: TransitGatewayConnectOptions? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transportTransitGatewayAttachmentId: String? = nil) {
             self.creationTime = creationTime
             self.options = options
@@ -52428,6 +54252,7 @@ extension EC2 {
         /// The tunnel protocol.
         public let `protocol`: ProtocolValue?
 
+        @inlinable
         public init(protocol: ProtocolValue? = nil) {
             self.`protocol` = `protocol`
         }
@@ -52454,6 +54279,7 @@ extension EC2 {
         /// The ID of the Connect peer.
         public let transitGatewayConnectPeerId: String?
 
+        @inlinable
         public init(connectPeerConfiguration: TransitGatewayConnectPeerConfiguration? = nil, creationTime: Date? = nil, state: TransitGatewayConnectPeerState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayConnectPeerId: String? = nil) {
             self.connectPeerConfiguration = connectPeerConfiguration
             self.creationTime = creationTime
@@ -52490,6 +54316,7 @@ extension EC2 {
         /// The Connect peer IP address on the transit gateway side of the tunnel.
         public let transitGatewayAddress: String?
 
+        @inlinable
         public init(bgpConfigurations: [TransitGatewayAttachmentBgpConfiguration]? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String? = nil, protocol: ProtocolValue? = nil, transitGatewayAddress: String? = nil) {
             self.bgpConfigurations = bgpConfigurations
             self.insideCidrBlocks = insideCidrBlocks
@@ -52511,6 +54338,7 @@ extension EC2 {
         /// The peer Autonomous System Number (ASN).
         public let peerAsn: Int64?
 
+        @inlinable
         public init(peerAsn: Int64? = nil) {
             self.peerAsn = peerAsn
         }
@@ -52531,6 +54359,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(deregisteredNetworkInterfaceIds: [String]? = nil, groupIpAddress: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.deregisteredNetworkInterfaceIds = deregisteredNetworkInterfaceIds
             self.groupIpAddress = groupIpAddress
@@ -52555,6 +54384,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(deregisteredNetworkInterfaceIds: [String]? = nil, groupIpAddress: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.deregisteredNetworkInterfaceIds = deregisteredNetworkInterfaceIds
             self.groupIpAddress = groupIpAddress
@@ -52589,6 +54419,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, options: TransitGatewayMulticastDomainOptions? = nil, ownerId: String? = nil, state: TransitGatewayMulticastDomainState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayMulticastDomainArn: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.creationTime = creationTime
             self.options = options
@@ -52624,6 +54455,7 @@ extension EC2 {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, subnet: SubnetAssociation? = nil, transitGatewayAttachmentId: String? = nil) {
             self.resourceId = resourceId
             self.resourceOwnerId = resourceOwnerId
@@ -52658,6 +54490,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, subnets: [SubnetAssociation]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.resourceId = resourceId
             self.resourceOwnerId = resourceOwnerId
@@ -52685,6 +54518,7 @@ extension EC2 {
         /// Indicates whether support for statically configuring transit gateway multicast group sources is turned on.
         public let staticSourcesSupport: StaticSourcesSupportValue?
 
+        @inlinable
         public init(autoAcceptSharedAssociations: AutoAcceptSharedAssociationsValue? = nil, igmpv2Support: Igmpv2SupportValue? = nil, staticSourcesSupport: StaticSourcesSupportValue? = nil) {
             self.autoAcceptSharedAssociations = autoAcceptSharedAssociations
             self.igmpv2Support = igmpv2Support
@@ -52722,6 +54556,7 @@ extension EC2 {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(groupIpAddress: String? = nil, groupMember: Bool? = nil, groupSource: Bool? = nil, memberType: MembershipType? = nil, networkInterfaceId: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, sourceType: MembershipType? = nil, subnetId: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.groupIpAddress = groupIpAddress
             self.groupMember = groupMember
@@ -52762,6 +54597,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(groupIpAddress: String? = nil, registeredNetworkInterfaceIds: [String]? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.groupIpAddress = groupIpAddress
             self.registeredNetworkInterfaceIds = registeredNetworkInterfaceIds
@@ -52786,6 +54622,7 @@ extension EC2 {
         /// The ID of the transit gateway multicast domain.
         public let transitGatewayMulticastDomainId: String?
 
+        @inlinable
         public init(groupIpAddress: String? = nil, registeredNetworkInterfaceIds: [String]? = nil, transitGatewayMulticastDomainId: String? = nil) {
             self.groupIpAddress = groupIpAddress
             self.registeredNetworkInterfaceIds = registeredNetworkInterfaceIds
@@ -52826,6 +54663,7 @@ extension EC2 {
         /// Indicates whether Equal Cost Multipath Protocol support is enabled.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
+        @inlinable
         public init(amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
@@ -52878,6 +54716,7 @@ extension EC2 {
         /// The ID of the transit gateway peering attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(accepterTgwInfo: PeeringTgwInfo? = nil, accepterTransitGatewayAttachmentId: String? = nil, creationTime: Date? = nil, options: TransitGatewayPeeringAttachmentOptions? = nil, requesterTgwInfo: PeeringTgwInfo? = nil, state: TransitGatewayAttachmentState? = nil, status: PeeringAttachmentStatus? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil) {
             self.accepterTgwInfo = accepterTgwInfo
             self.accepterTransitGatewayAttachmentId = accepterTransitGatewayAttachmentId
@@ -52907,6 +54746,7 @@ extension EC2 {
         /// Describes whether dynamic routing is enabled or disabled for the transit gateway peering attachment.
         public let dynamicRouting: DynamicRoutingValue?
 
+        @inlinable
         public init(dynamicRouting: DynamicRoutingValue? = nil) {
             self.dynamicRouting = dynamicRouting
         }
@@ -52930,6 +54770,7 @@ extension EC2 {
         /// The port range for the transit gateway policy rule. Currently this is set to * (all).
         public let sourcePortRange: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, destinationPortRange: String? = nil, metaData: TransitGatewayPolicyRuleMetaData? = nil, protocol: String? = nil, sourceCidrBlock: String? = nil, sourcePortRange: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinationPortRange = destinationPortRange
@@ -52955,6 +54796,7 @@ extension EC2 {
         /// The value of the key for the transit gateway policy rule meta data tag.
         public let metaDataValue: String?
 
+        @inlinable
         public init(metaDataKey: String? = nil, metaDataValue: String? = nil) {
             self.metaDataKey = metaDataKey
             self.metaDataValue = metaDataValue
@@ -52981,6 +54823,7 @@ extension EC2 {
         /// The ID of the transit gateway policy table.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, state: TransitGatewayPolicyTableState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.creationTime = creationTime
             self.state = state
@@ -53010,6 +54853,7 @@ extension EC2 {
         /// The ID of the transit gateway policy table.
         public let transitGatewayPolicyTableId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAssociationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayPolicyTableId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -53035,6 +54879,7 @@ extension EC2 {
         /// The ID of the target route table.
         public let targetRouteTableId: String?
 
+        @inlinable
         public init(policyRule: TransitGatewayPolicyRule? = nil, policyRuleNumber: String? = nil, targetRouteTableId: String? = nil) {
             self.policyRule = policyRule
             self.policyRuleNumber = policyRuleNumber
@@ -53056,6 +54901,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, transitGatewayAttachmentId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -53083,6 +54929,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(blackhole: Bool? = nil, prefixListId: String? = nil, prefixListOwnerId: String? = nil, state: TransitGatewayPrefixListReferenceState? = nil, transitGatewayAttachment: TransitGatewayPrefixListAttachment? = nil, transitGatewayRouteTableId: String? = nil) {
             self.blackhole = blackhole
             self.prefixListId = prefixListId
@@ -53116,6 +54963,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayPropagationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -53158,6 +55006,7 @@ extension EC2 {
         /// Enable or disable Equal Cost Multipath Protocol support. Enabled by default.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
+        @inlinable
         public init(amazonSideAsn: Int64? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
@@ -53200,6 +55049,7 @@ extension EC2 {
         /// The route type.
         public let type: TransitGatewayRouteType?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, prefixListId: String? = nil, state: TransitGatewayRouteState? = nil, transitGatewayAttachments: [TransitGatewayRouteAttachment]? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, type: TransitGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.prefixListId = prefixListId
@@ -53227,6 +55077,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, transitGatewayAttachmentId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -53259,6 +55110,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, defaultAssociationRouteTable: Bool? = nil, defaultPropagationRouteTable: Bool? = nil, state: TransitGatewayRouteTableState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.creationTime = creationTime
             self.defaultAssociationRouteTable = defaultAssociationRouteTable
@@ -53307,6 +55159,7 @@ extension EC2 {
         /// The ID of the transit gateway route table.
         public let transitGatewayRouteTableId: String?
 
+        @inlinable
         public init(announcementDirection: TransitGatewayRouteTableAnnouncementDirection? = nil, coreNetworkId: String? = nil, creationTime: Date? = nil, peerCoreNetworkId: String? = nil, peeringAttachmentId: String? = nil, peerTransitGatewayId: String? = nil, state: TransitGatewayRouteTableAnnouncementState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil, transitGatewayRouteTableId: String? = nil) {
             self.announcementDirection = announcementDirection
             self.coreNetworkId = coreNetworkId
@@ -53346,6 +55199,7 @@ extension EC2 {
         /// The ID of the attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAssociationState? = nil, transitGatewayAttachmentId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -53373,6 +55227,7 @@ extension EC2 {
         /// The ID of the transit gateway route table announcement.
         public let transitGatewayRouteTableAnnouncementId: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayPropagationState? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayRouteTableAnnouncementId: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -53406,6 +55261,7 @@ extension EC2 {
         /// The state of the route.
         public let state: String?
 
+        @inlinable
         public init(attachmentId: String? = nil, destinationCidr: String? = nil, prefixListId: String? = nil, resourceId: String? = nil, resourceType: String? = nil, routeOrigin: String? = nil, state: String? = nil) {
             self.attachmentId = attachmentId
             self.destinationCidr = destinationCidr
@@ -53452,6 +55308,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services account that owns the VPC.
         public let vpcOwnerId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, options: TransitGatewayVpcAttachmentOptions? = nil, state: TransitGatewayAttachmentState? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, vpcId: String? = nil, vpcOwnerId: String? = nil) {
             self.creationTime = creationTime
             self.options = options
@@ -53487,6 +55344,7 @@ extension EC2 {
         ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
 
+        @inlinable
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil) {
             self.applianceModeSupport = applianceModeSupport
             self.dnsSupport = dnsSupport
@@ -53521,6 +55379,7 @@ extension EC2 {
         /// The ID of the VLAN when you use the VLAN protocol.
         public let vlanId: Int?
 
+        @inlinable
         public init(associationId: String? = nil, branchInterfaceId: String? = nil, greKey: Int? = nil, interfaceProtocol: InterfaceProtocolType? = nil, tags: [Tag]? = nil, trunkInterfaceId: String? = nil, vlanId: Int? = nil) {
             self.associationId = associationId
             self.branchInterfaceId = branchInterfaceId
@@ -53601,6 +55460,7 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel.
         public let tunnelInsideIpv6Cidr: String?
 
+        @inlinable
         public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, enableTunnelLifecycleControl: Bool? = nil, ikeVersions: [IKEVersionsListValue]? = nil, logOptions: VpnTunnelLogOptions? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
@@ -53663,6 +55523,7 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(ipv6Addresses: [String]? = nil, ipv6Prefixes: [String]? = nil, networkInterfaceId: String? = nil) {
             self.ipv6Addresses = ipv6Addresses
             self.ipv6Prefixes = ipv6Prefixes
@@ -53689,6 +55550,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_UnassignedIpv6PrefixesEncoding, String>>
         public var unassignedIpv6Prefixes: [String]?
 
+        @inlinable
         public init(networkInterfaceId: String? = nil, unassignedIpv6Addresses: [String]? = nil, unassignedIpv6Prefixes: [String]? = nil) {
             self.networkInterfaceId = networkInterfaceId
             self.unassignedIpv6Addresses = unassignedIpv6Addresses
@@ -53715,6 +55577,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
         public var privateIpAddresses: [String]?
 
+        @inlinable
         public init(ipv4Prefixes: [String]? = nil, networkInterfaceId: String? = nil, privateIpAddresses: [String]? = nil) {
             self.ipv4Prefixes = ipv4Prefixes
             self.networkInterfaceId = networkInterfaceId
@@ -53741,6 +55604,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
         public var privateIpAddresses: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, maxDrainDurationSeconds: Int? = nil, natGatewayId: String? = nil, privateIpAddresses: [String]? = nil) {
             self.dryRun = dryRun
             self.maxDrainDurationSeconds = maxDrainDurationSeconds
@@ -53770,6 +55634,7 @@ extension EC2 {
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
 
+        @inlinable
         public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
             self.natGatewayAddresses = natGatewayAddresses
             self.natGatewayId = natGatewayId
@@ -53787,6 +55652,7 @@ extension EC2 {
         /// The ID of the snapshot to unlock.
         public let snapshotId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, snapshotId: String? = nil) {
             self.dryRun = dryRun
             self.snapshotId = snapshotId
@@ -53802,6 +55668,7 @@ extension EC2 {
         /// The ID of the snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
         }
@@ -53820,6 +55687,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
             self.dryRun = dryRun
             self.instanceIds = instanceIds
@@ -53838,6 +55706,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceMonitoringsEncoding, InstanceMonitoring>>
         public var instanceMonitorings: [InstanceMonitoring]?
 
+        @inlinable
         public init(instanceMonitorings: [InstanceMonitoring]? = nil) {
             self.instanceMonitorings = instanceMonitorings
         }
@@ -53853,6 +55722,7 @@ extension EC2 {
         /// The ID of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(error: UnsuccessfulInstanceCreditSpecificationItemError? = nil, instanceId: String? = nil) {
             self.error = error
             self.instanceId = instanceId
@@ -53870,6 +55740,7 @@ extension EC2 {
         /// The applicable error message.
         public let message: String?
 
+        @inlinable
         public init(code: UnsuccessfulInstanceCreditSpecificationErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -53887,6 +55758,7 @@ extension EC2 {
         /// The ID of the resource.
         public let resourceId: String?
 
+        @inlinable
         public init(error: UnsuccessfulItemError? = nil, resourceId: String? = nil) {
             self.error = error
             self.resourceId = resourceId
@@ -53904,6 +55776,7 @@ extension EC2 {
         /// The error message accompanying the error code.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -53936,6 +55809,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRuleDescriptionsEncoding, SecurityGroupRuleDescription>>
         public var securityGroupRuleDescriptions: [SecurityGroupRuleDescription]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, securityGroupRuleDescriptions: [SecurityGroupRuleDescription]? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
@@ -53957,6 +55831,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -53986,6 +55861,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRuleDescriptionsEncoding, SecurityGroupRuleDescription>>
         public var securityGroupRuleDescriptions: [SecurityGroupRuleDescription]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, groupId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, securityGroupRuleDescriptions: [SecurityGroupRuleDescription]? = nil) {
             self.dryRun = dryRun
             self.groupId = groupId
@@ -54007,6 +55883,7 @@ extension EC2 {
         /// Returns true if the request succeeds; otherwise, returns an error.
         public let `return`: Bool?
 
+        @inlinable
         public init(return: Bool? = nil) {
             self.`return` = `return`
         }
@@ -54022,6 +55899,7 @@ extension EC2 {
         /// The file name of the disk image.
         public let s3Key: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -54039,6 +55917,7 @@ extension EC2 {
         /// The file name of the disk image.
         public let s3Key: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -54054,6 +55933,7 @@ extension EC2 {
         /// The user data. If you are using an Amazon Web Services SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
         public let data: String?
 
+        @inlinable
         public init(data: String? = nil) {
             self.data = data
         }
@@ -54080,6 +55960,7 @@ extension EC2 {
         /// The ID of the VPC peering connection, if applicable.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(description: String? = nil, groupId: String? = nil, groupName: String? = nil, peeringStatus: String? = nil, userId: String? = nil, vpcId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.description = description
             self.groupId = groupId
@@ -54107,6 +55988,7 @@ extension EC2 {
         /// The minimum number of vCPUs. If the value is 0, there is no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -54124,6 +56006,7 @@ extension EC2 {
         /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -54152,6 +56035,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ValidThreadsPerCoreEncoding, Int>>
         public var validThreadsPerCore: [Int]?
 
+        @inlinable
         public init(defaultCores: Int? = nil, defaultThreadsPerCore: Int? = nil, defaultVCpus: Int? = nil, validCores: [Int]? = nil, validThreadsPerCore: [Int]? = nil) {
             self.defaultCores = defaultCores
             self.defaultThreadsPerCore = defaultThreadsPerCore
@@ -54175,6 +56059,7 @@ extension EC2 {
         /// The error message that describes why the parameter or parameter combination is not valid. For more information about error messages, see Error codes.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -54193,6 +56078,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_ErrorsEncoding, ValidationError>>
         public var errors: [ValidationError]?
 
+        @inlinable
         public init(errors: [ValidationError]? = nil) {
             self.errors = errors
         }
@@ -54247,6 +56133,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(applicationDomain: String? = nil, attachmentType: VerifiedAccessEndpointAttachmentType? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, deviceValidationDomain: String? = nil, domainCertificateArn: String? = nil, endpointDomain: String? = nil, endpointType: VerifiedAccessEndpointType? = nil, lastUpdatedTime: String? = nil, loadBalancerOptions: VerifiedAccessEndpointLoadBalancerOptions? = nil, networkInterfaceOptions: VerifiedAccessEndpointEniOptions? = nil, securityGroupIds: [String]? = nil, sseSpecification: VerifiedAccessSseSpecificationResponse? = nil, status: VerifiedAccessEndpointStatus? = nil, tags: [Tag]? = nil, verifiedAccessEndpointId: String? = nil, verifiedAccessGroupId: String? = nil, verifiedAccessInstanceId: String? = nil) {
             self.applicationDomain = applicationDomain
             self.attachmentType = attachmentType
@@ -54300,6 +56187,7 @@ extension EC2 {
         /// The IP protocol.
         public let `protocol`: VerifiedAccessEndpointProtocol?
 
+        @inlinable
         public init(networkInterfaceId: String? = nil, port: Int? = nil, protocol: VerifiedAccessEndpointProtocol? = nil) {
             self.networkInterfaceId = networkInterfaceId
             self.port = port
@@ -54326,6 +56214,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
+        @inlinable
         public init(loadBalancerArn: String? = nil, port: Int? = nil, protocol: VerifiedAccessEndpointProtocol? = nil, subnetIds: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
             self.port = port
@@ -54347,6 +56236,7 @@ extension EC2 {
         /// The status message of the Verified Access endpoint.
         public let message: String?
 
+        @inlinable
         public init(code: VerifiedAccessEndpointStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -54383,6 +56273,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, owner: String? = nil, sseSpecification: VerifiedAccessSseSpecificationResponse? = nil, tags: [Tag]? = nil, verifiedAccessGroupArn: String? = nil, verifiedAccessGroupId: String? = nil, verifiedAccessInstanceId: String? = nil) {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
@@ -54431,6 +56322,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_VerifiedAccessTrustProvidersEncoding, VerifiedAccessTrustProviderCondensed>>
         public var verifiedAccessTrustProviders: [VerifiedAccessTrustProviderCondensed]?
 
+        @inlinable
         public init(creationTime: String? = nil, description: String? = nil, fipsEnabled: Bool? = nil, lastUpdatedTime: String? = nil, tags: [Tag]? = nil, verifiedAccessInstanceId: String? = nil, verifiedAccessTrustProviders: [VerifiedAccessTrustProviderCondensed]? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -54458,6 +56350,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services Verified Access instance.
         public let verifiedAccessInstanceId: String?
 
+        @inlinable
         public init(accessLogs: VerifiedAccessLogs? = nil, verifiedAccessInstanceId: String? = nil) {
             self.accessLogs = accessLogs
             self.verifiedAccessInstanceId = verifiedAccessInstanceId
@@ -54477,6 +56370,7 @@ extension EC2 {
         /// The ID of the CloudWatch Logs log group.
         public let logGroup: String?
 
+        @inlinable
         public init(deliveryStatus: VerifiedAccessLogDeliveryStatus? = nil, enabled: Bool? = nil, logGroup: String? = nil) {
             self.deliveryStatus = deliveryStatus
             self.enabled = enabled
@@ -54496,6 +56390,7 @@ extension EC2 {
         /// The ID of the CloudWatch Logs log group.
         public let logGroup: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, logGroup: String? = nil) {
             self.enabled = enabled
             self.logGroup = logGroup
@@ -54513,6 +56408,7 @@ extension EC2 {
         /// The status message.
         public let message: String?
 
+        @inlinable
         public init(code: VerifiedAccessLogDeliveryStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -54532,6 +56428,7 @@ extension EC2 {
         /// Indicates whether logging is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(deliveryStatus: VerifiedAccessLogDeliveryStatus? = nil, deliveryStream: String? = nil, enabled: Bool? = nil) {
             self.deliveryStatus = deliveryStatus
             self.deliveryStream = deliveryStream
@@ -54551,6 +56448,7 @@ extension EC2 {
         /// Indicates whether logging is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(deliveryStream: String? = nil, enabled: Bool? = nil) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
@@ -54574,6 +56472,7 @@ extension EC2 {
         /// Sends Verified Access logs to Amazon S3.
         public let s3: VerifiedAccessLogS3DestinationOptions?
 
+        @inlinable
         public init(cloudWatchLogs: VerifiedAccessLogCloudWatchLogsDestinationOptions? = nil, includeTrustContext: Bool? = nil, kinesisDataFirehose: VerifiedAccessLogKinesisDataFirehoseDestinationOptions? = nil, logVersion: String? = nil, s3: VerifiedAccessLogS3DestinationOptions? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.includeTrustContext = includeTrustContext
@@ -54603,6 +56502,7 @@ extension EC2 {
         /// The bucket prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, bucketOwner: String? = nil, deliveryStatus: VerifiedAccessLogDeliveryStatus? = nil, enabled: Bool? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.bucketOwner = bucketOwner
@@ -54630,6 +56530,7 @@ extension EC2 {
         /// The bucket prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, bucketOwner: String? = nil, enabled: Bool? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.bucketOwner = bucketOwner
@@ -54657,6 +56558,7 @@ extension EC2 {
         /// Amazon S3 logging options.
         public let s3: VerifiedAccessLogS3Destination?
 
+        @inlinable
         public init(cloudWatchLogs: VerifiedAccessLogCloudWatchLogsDestination? = nil, includeTrustContext: Bool? = nil, kinesisDataFirehose: VerifiedAccessLogKinesisDataFirehoseDestination? = nil, logVersion: String? = nil, s3: VerifiedAccessLogS3Destination? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.includeTrustContext = includeTrustContext
@@ -54680,6 +56582,7 @@ extension EC2 {
         ///  The ARN of the KMS key.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(customerManagedKeyEnabled: Bool? = nil, kmsKeyArn: String? = nil) {
             self.customerManagedKeyEnabled = customerManagedKeyEnabled
             self.kmsKeyArn = kmsKeyArn
@@ -54697,6 +56600,7 @@ extension EC2 {
         /// The ARN of the KMS key.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(customerManagedKeyEnabled: Bool? = nil, kmsKeyArn: String? = nil) {
             self.customerManagedKeyEnabled = customerManagedKeyEnabled
             self.kmsKeyArn = kmsKeyArn
@@ -54737,6 +56641,7 @@ extension EC2 {
         /// The ID of the Amazon Web Services Verified Access trust provider.
         public let verifiedAccessTrustProviderId: String?
 
+        @inlinable
         public init(creationTime: String? = nil, description: String? = nil, deviceOptions: DeviceOptions? = nil, deviceTrustProviderType: DeviceTrustProviderType? = nil, lastUpdatedTime: String? = nil, oidcOptions: OidcOptions? = nil, policyReferenceName: String? = nil, sseSpecification: VerifiedAccessSseSpecificationResponse? = nil, tags: [Tag]? = nil, trustProviderType: TrustProviderType? = nil, userTrustProviderType: UserTrustProviderType? = nil, verifiedAccessTrustProviderId: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -54780,6 +56685,7 @@ extension EC2 {
         /// The ID of the trust provider.
         public let verifiedAccessTrustProviderId: String?
 
+        @inlinable
         public init(description: String? = nil, deviceTrustProviderType: DeviceTrustProviderType? = nil, trustProviderType: TrustProviderType? = nil, userTrustProviderType: UserTrustProviderType? = nil, verifiedAccessTrustProviderId: String? = nil) {
             self.description = description
             self.deviceTrustProviderType = deviceTrustProviderType
@@ -54811,6 +56717,7 @@ extension EC2 {
         /// If an error occurs, a description of the error.
         public let statusMessage: String?
 
+        @inlinable
         public init(acceptedRouteCount: Int? = nil, certificateArn: String? = nil, lastStatusChange: Date? = nil, outsideIpAddress: String? = nil, status: TelemetryStatus? = nil, statusMessage: String? = nil) {
             self.acceptedRouteCount = acceptedRouteCount
             self.certificateArn = certificateArn
@@ -54871,6 +56778,7 @@ extension EC2 {
         /// The volume type.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(attachments: [VolumeAttachment]? = nil, availabilityZone: String? = nil, createTime: Date? = nil, encrypted: Bool? = nil, fastRestored: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, state: VolumeState? = nil, tags: [Tag]? = nil, throughput: Int? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
             self.attachments = attachments
             self.availabilityZone = availabilityZone
@@ -54930,6 +56838,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(associatedResource: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, device: String? = nil, instanceId: String? = nil, instanceOwningService: String? = nil, state: VolumeAttachmentState? = nil, volumeId: String? = nil) {
             self.associatedResource = associatedResource
             self.attachTime = attachTime
@@ -54957,6 +56866,7 @@ extension EC2 {
         /// The size of the volume, in GiB.
         public let size: Int64?
 
+        @inlinable
         public init(size: Int64? = nil) {
             self.size = size
         }
@@ -55000,6 +56910,7 @@ extension EC2 {
         /// The ID of the volume.
         public let volumeId: String?
 
+        @inlinable
         public init(endTime: Date? = nil, modificationState: VolumeModificationState? = nil, originalIops: Int? = nil, originalMultiAttachEnabled: Bool? = nil, originalSize: Int? = nil, originalThroughput: Int? = nil, originalVolumeType: VolumeType? = nil, progress: Int64? = nil, startTime: Date? = nil, statusMessage: String? = nil, targetIops: Int? = nil, targetMultiAttachEnabled: Bool? = nil, targetSize: Int? = nil, targetThroughput: Int? = nil, targetVolumeType: VolumeType? = nil, volumeId: String? = nil) {
             self.endTime = endTime
             self.modificationState = modificationState
@@ -55049,6 +56960,7 @@ extension EC2 {
         /// The event type associated with this operation.
         public let eventType: String?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil, eventId: String? = nil, eventType: String? = nil) {
             self.code = code
             self.description = description
@@ -55070,6 +56982,7 @@ extension EC2 {
         /// The maximum IOPS supported by the attached instance.
         public let ioPerformance: String?
 
+        @inlinable
         public init(instanceId: String? = nil, ioPerformance: String? = nil) {
             self.instanceId = instanceId
             self.ioPerformance = ioPerformance
@@ -55087,6 +57000,7 @@ extension EC2 {
         /// The intended status of the volume status.
         public let status: String?
 
+        @inlinable
         public init(name: VolumeStatusName? = nil, status: String? = nil) {
             self.name = name
             self.status = status
@@ -55112,6 +57026,7 @@ extension EC2 {
         /// The earliest start time of the event.
         public let notBefore: Date?
 
+        @inlinable
         public init(description: String? = nil, eventId: String? = nil, eventType: String? = nil, instanceId: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil) {
             self.description = description
             self.eventId = eventId
@@ -55140,6 +57055,7 @@ extension EC2 {
         /// The status of the volume.
         public let status: VolumeStatusInfoStatus?
 
+        @inlinable
         public init(details: [VolumeStatusDetails]? = nil, status: VolumeStatusInfoStatus? = nil) {
             self.details = details
             self.status = status
@@ -55174,6 +57090,7 @@ extension EC2 {
         /// The volume status.
         public let volumeStatus: VolumeStatusInfo?
 
+        @inlinable
         public init(actions: [VolumeStatusAction]? = nil, attachmentStatuses: [VolumeStatusAttachmentStatus]? = nil, availabilityZone: String? = nil, events: [VolumeStatusEvent]? = nil, outpostArn: String? = nil, volumeId: String? = nil, volumeStatus: VolumeStatusInfo? = nil) {
             self.actions = actions
             self.attachmentStatuses = attachmentStatuses
@@ -55224,6 +57141,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil, cidrBlockAssociationSet: [VpcCidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil, isDefault: Bool? = nil, ownerId: String? = nil, state: VpcState? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.cidrBlock = cidrBlock
             self.cidrBlockAssociationSet = cidrBlockAssociationSet
@@ -55257,6 +57175,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(state: AttachmentStatus? = nil, vpcId: String? = nil) {
             self.state = state
             self.vpcId = vpcId
@@ -55276,6 +57195,7 @@ extension EC2 {
         /// Information about the state of the CIDR block.
         public let cidrBlockState: VpcCidrBlockState?
 
+        @inlinable
         public init(associationId: String? = nil, cidrBlock: String? = nil, cidrBlockState: VpcCidrBlockState? = nil) {
             self.associationId = associationId
             self.cidrBlock = cidrBlock
@@ -55295,6 +57215,7 @@ extension EC2 {
         /// A message about the status of the CIDR block, if applicable.
         public let statusMessage: String?
 
+        @inlinable
         public init(state: VpcCidrBlockStateCode? = nil, statusMessage: String? = nil) {
             self.state = state
             self.statusMessage = statusMessage
@@ -55317,6 +57238,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(classicLinkEnabled: Bool? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.classicLinkEnabled = classicLinkEnabled
             self.tags = tags
@@ -55383,6 +57305,7 @@ extension EC2 {
         /// The ID of the VPC to which the endpoint is associated.
         public let vpcId: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, dnsOptions: DnsOptions? = nil, groups: [SecurityGroupIdentifier]? = nil, ipAddressType: IpAddressType? = nil, lastError: LastError? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
@@ -55461,6 +57384,7 @@ extension EC2 {
         /// The state of the VPC endpoint.
         public let vpcEndpointState: State?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, gatewayLoadBalancerArns: [String]? = nil, ipAddressType: IpAddressType? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, tags: [Tag]? = nil, vpcEndpointConnectionId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
@@ -55506,6 +57430,7 @@ extension EC2 {
         /// The name of the unique set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses, for example, us-east-1-wl1-bos-wlz-1.
         public let networkBorderGroup: String?
 
+        @inlinable
         public init(associationId: String? = nil, ipSource: IpSource? = nil, ipv6AddressAttribute: Ipv6AddressAttribute? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockState: VpcCidrBlockState? = nil, ipv6Pool: String? = nil, networkBorderGroup: String? = nil) {
             self.associationId = associationId
             self.ipSource = ipSource
@@ -55544,6 +57469,7 @@ extension EC2 {
         /// The ID of the VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(accepterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, expirationTime: Date? = nil, requesterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, status: VpcPeeringConnectionStateReason? = nil, tags: [Tag]? = nil, vpcPeeringConnectionId: String? = nil) {
             self.accepterVpcInfo = accepterVpcInfo
             self.expirationTime = expirationTime
@@ -55571,6 +57497,7 @@ extension EC2 {
         /// Deprecated.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
 
+        @inlinable
         public init(allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
@@ -55590,6 +57517,7 @@ extension EC2 {
         /// A message that provides more information about the status, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: VpcPeeringConnectionStateReasonCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -55622,6 +57550,7 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil, cidrBlockSet: [CidrBlock]? = nil, ipv6CidrBlockSet: [Ipv6CidrBlock]? = nil, ownerId: String? = nil, peeringOptions: VpcPeeringConnectionOptionsDescription? = nil, region: String? = nil, vpcId: String? = nil) {
             self.cidrBlock = cidrBlock
             self.cidrBlockSet = cidrBlockSet
@@ -55682,6 +57611,7 @@ extension EC2 {
         /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(category: String? = nil, coreNetworkArn: String? = nil, coreNetworkAttachmentArn: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, gatewayAssociationState: GatewayAssociationState? = nil, options: VpnConnectionOptions? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.category = category
             self.coreNetworkArn = coreNetworkArn
@@ -55729,6 +57659,7 @@ extension EC2 {
         /// Customer gateway device identifier.
         public let vpnConnectionDeviceTypeId: String?
 
+        @inlinable
         public init(platform: String? = nil, software: String? = nil, vendor: String? = nil, vpnConnectionDeviceTypeId: String? = nil) {
             self.platform = platform
             self.software = software
@@ -55769,6 +57700,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TunnelOptionsEncoding, TunnelOption>>
         public var tunnelOptions: [TunnelOption]?
 
+        @inlinable
         public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
             self.enableAcceleration = enableAcceleration
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
@@ -55819,6 +57751,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2StandardArrayCoder<VpnTunnelOptionsSpecification>>
         public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
+        @inlinable
         public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
             self.enableAcceleration = enableAcceleration
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
@@ -55867,6 +57800,7 @@ extension EC2 {
         /// The ID of the virtual private gateway.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(amazonSideAsn: Int64? = nil, availabilityZone: String? = nil, state: VpnState? = nil, tags: [Tag]? = nil, type: GatewayType? = nil, vpcAttachments: [VpcAttachment]? = nil, vpnGatewayId: String? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.availabilityZone = availabilityZone
@@ -55896,6 +57830,7 @@ extension EC2 {
         /// The current state of the static route.
         public let state: VpnState?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, source: VpnStaticRouteSource? = nil, state: VpnState? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.source = source
@@ -55913,6 +57848,7 @@ extension EC2 {
         /// Options for sending VPN tunnel logs to CloudWatch.
         public let cloudWatchLogOptions: CloudWatchLogOptions?
 
+        @inlinable
         public init(cloudWatchLogOptions: CloudWatchLogOptions? = nil) {
             self.cloudWatchLogOptions = cloudWatchLogOptions
         }
@@ -55926,6 +57862,7 @@ extension EC2 {
         /// Options for sending VPN tunnel logs to CloudWatch.
         public let cloudWatchLogOptions: CloudWatchLogOptionsSpecification?
 
+        @inlinable
         public init(cloudWatchLogOptions: CloudWatchLogOptionsSpecification? = nil) {
             self.cloudWatchLogOptions = cloudWatchLogOptions
         }
@@ -55992,6 +57929,7 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
+        @inlinable
         public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, enableTunnelLifecycleControl: Bool? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
@@ -56045,6 +57983,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
+        @inlinable
         public init(cidr: String? = nil, dryRun: Bool? = nil) {
             self.cidr = cidr
             self.dryRun = dryRun
@@ -56060,6 +57999,7 @@ extension EC2 {
         /// Information about the address pool.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }

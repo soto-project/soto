@@ -503,6 +503,7 @@ extension DynamoDB {
         /// The reason DynamoDB archived the table. Currently, the only possible value is:    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The table was archived due to the table's KMS key being inaccessible for more than seven days. An On-Demand backup was created at the archival time.
         public let archivalReason: String?
 
+        @inlinable
         public init(archivalBackupArn: String? = nil, archivalDateTime: Date? = nil, archivalReason: String? = nil) {
             self.archivalBackupArn = archivalBackupArn
             self.archivalDateTime = archivalDateTime
@@ -522,6 +523,7 @@ extension DynamoDB {
         /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary
         public let attributeType: ScalarAttributeType
 
+        @inlinable
         public init(attributeName: String, attributeType: ScalarAttributeType) {
             self.attributeName = attributeName
             self.attributeType = attributeType
@@ -544,6 +546,7 @@ extension DynamoDB {
         /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide.
         public let value: AttributeValue?
 
+        @inlinable
         public init(action: AttributeAction? = nil, value: AttributeValue? = nil) {
             self.action = action
             self.value = value
@@ -565,6 +568,7 @@ extension DynamoDB {
         /// Represents a target tracking scaling policy configuration.
         public let targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationDescription?
 
+        @inlinable
         public init(policyName: String? = nil, targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationDescription? = nil) {
             self.policyName = policyName
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
@@ -582,6 +586,7 @@ extension DynamoDB {
         /// Represents a target tracking scaling policy configuration.
         public let targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
 
+        @inlinable
         public init(policyName: String? = nil, targetTrackingScalingPolicyConfiguration: AutoScalingTargetTrackingScalingPolicyConfigurationUpdate) {
             self.policyName = policyName
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
@@ -611,6 +616,7 @@ extension DynamoDB {
         /// Information about the scaling policies.
         public let scalingPolicies: [AutoScalingPolicyDescription]?
 
+        @inlinable
         public init(autoScalingDisabled: Bool? = nil, autoScalingRoleArn: String? = nil, maximumUnits: Int64? = nil, minimumUnits: Int64? = nil, scalingPolicies: [AutoScalingPolicyDescription]? = nil) {
             self.autoScalingDisabled = autoScalingDisabled
             self.autoScalingRoleArn = autoScalingRoleArn
@@ -640,6 +646,7 @@ extension DynamoDB {
         /// The scaling policy to apply for scaling target global table or global secondary index capacity units.
         public let scalingPolicyUpdate: AutoScalingPolicyUpdate?
 
+        @inlinable
         public init(autoScalingDisabled: Bool? = nil, autoScalingRoleArn: String? = nil, maximumUnits: Int64? = nil, minimumUnits: Int64? = nil, scalingPolicyUpdate: AutoScalingPolicyUpdate? = nil) {
             self.autoScalingDisabled = autoScalingDisabled
             self.autoScalingRoleArn = autoScalingRoleArn
@@ -676,6 +683,7 @@ extension DynamoDB {
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
 
+        @inlinable
         public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
@@ -701,6 +709,7 @@ extension DynamoDB {
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
 
+        @inlinable
         public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
@@ -724,6 +733,7 @@ extension DynamoDB {
         /// Contains the details of the features enabled on the table when the backup was created. For example, LSIs, GSIs, streams, TTL.
         public let sourceTableFeatureDetails: SourceTableFeatureDetails?
 
+        @inlinable
         public init(backupDetails: BackupDetails? = nil, sourceTableDetails: SourceTableDetails? = nil, sourceTableFeatureDetails: SourceTableFeatureDetails? = nil) {
             self.backupDetails = backupDetails
             self.sourceTableDetails = sourceTableDetails
@@ -753,6 +763,7 @@ extension DynamoDB {
         /// BackupType:    USER - You create and manage these using the on-demand backup feature.    SYSTEM - If you delete a table with point-in-time recovery enabled, a SYSTEM backup is automatically created and is retained for 35 days (at no additional cost). System backups allow you to restore the deleted table to the state it was in just before the point of deletion.     AWS_BACKUP - On-demand backup created by you from Backup service.
         public let backupType: BackupType
 
+        @inlinable
         public init(backupArn: String, backupCreationDateTime: Date, backupExpiryDateTime: Date? = nil, backupName: String, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus, backupType: BackupType) {
             self.backupArn = backupArn
             self.backupCreationDateTime = backupCreationDateTime
@@ -796,6 +807,7 @@ extension DynamoDB {
         /// Name of the table.
         public let tableName: String?
 
+        @inlinable
         public init(backupArn: String? = nil, backupCreationDateTime: Date? = nil, backupExpiryDateTime: Date? = nil, backupName: String? = nil, backupSizeBytes: Int64? = nil, backupStatus: BackupStatus? = nil, backupType: BackupType? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil) {
             self.backupArn = backupArn
             self.backupCreationDateTime = backupCreationDateTime
@@ -828,6 +840,7 @@ extension DynamoDB {
         /// The list of PartiQL statements representing the batch to run.
         public let statements: [BatchStatementRequest]
 
+        @inlinable
         public init(returnConsumedCapacity: ReturnConsumedCapacity? = nil, statements: [BatchStatementRequest]) {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.statements = statements
@@ -853,6 +866,7 @@ extension DynamoDB {
         /// The response to each PartiQL statement in the batch. The values of the list are ordered according to the ordering of the request statements.
         public let responses: [BatchStatementResponse]?
 
+        @inlinable
         public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [BatchStatementResponse]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.responses = responses
@@ -869,6 +883,7 @@ extension DynamoDB {
         public let requestItems: [String: KeysAndAttributes]
         public let returnConsumedCapacity: ReturnConsumedCapacity?
 
+        @inlinable
         public init(requestItems: [String: KeysAndAttributes], returnConsumedCapacity: ReturnConsumedCapacity? = nil) {
             self.requestItems = requestItems
             self.returnConsumedCapacity = returnConsumedCapacity
@@ -898,6 +913,7 @@ extension DynamoDB {
         /// A map of tables and their respective keys that were not processed with the current response. The UnprocessedKeys value is in the same form as RequestItems, so the value can be provided directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each element consists of:    Keys - An array of primary key attribute values that define specific items in the table.    ProjectionExpression - One or more attributes to be retrieved from the table or index. By default, all attributes are returned. If a requested attribute is not found, it does not appear in the result.    ConsistentRead - The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.   If there are no unprocessed keys remaining, the response contains an empty UnprocessedKeys map.
         public let unprocessedKeys: [String: KeysAndAttributes]?
 
+        @inlinable
         public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [String: [[String: AttributeValue]]]? = nil, unprocessedKeys: [String: KeysAndAttributes]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.responses = responses
@@ -919,6 +935,7 @@ extension DynamoDB {
         ///  The error message associated with the PartiQL batch response.
         public let message: String?
 
+        @inlinable
         public init(code: BatchStatementErrorCodeEnum? = nil, item: [String: AttributeValue]? = nil, message: String? = nil) {
             self.code = code
             self.item = item
@@ -942,6 +959,7 @@ extension DynamoDB {
         ///  A valid PartiQL statement.
         public let statement: String
 
+        @inlinable
         public init(consistentRead: Bool? = nil, parameters: [AttributeValue]? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, statement: String) {
             self.consistentRead = consistentRead
             self.parameters = parameters
@@ -974,6 +992,7 @@ extension DynamoDB {
         ///  The table name associated with a failed PartiQL batch statement.
         public let tableName: String?
 
+        @inlinable
         public init(error: BatchStatementError? = nil, item: [String: AttributeValue]? = nil, tableName: String? = nil) {
             self.error = error
             self.item = item
@@ -994,6 +1013,7 @@ extension DynamoDB {
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
 
+        @inlinable
         public init(requestItems: [String: [WriteRequest]], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil) {
             self.requestItems = requestItems
             self.returnConsumedCapacity = returnConsumedCapacity
@@ -1026,6 +1046,7 @@ extension DynamoDB {
         /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name or table ARN and, for that table, a list of operations to perform (DeleteRequest or PutRequest).    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.     If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
         public let unprocessedItems: [String: [WriteRequest]]?
 
+        @inlinable
         public init(consumedCapacity: [ConsumedCapacity]? = nil, itemCollectionMetrics: [String: [ItemCollectionMetrics]]? = nil, unprocessedItems: [String: [WriteRequest]]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.itemCollectionMetrics = itemCollectionMetrics
@@ -1045,6 +1066,7 @@ extension DynamoDB {
         /// Represents the time when PAY_PER_REQUEST was last set as the read/write capacity mode.
         public let lastUpdateToPayPerRequestDateTime: Date?
 
+        @inlinable
         public init(billingMode: BillingMode? = nil, lastUpdateToPayPerRequestDateTime: Date? = nil) {
             self.billingMode = billingMode
             self.lastUpdateToPayPerRequestDateTime = lastUpdateToPayPerRequestDateTime
@@ -1064,6 +1086,7 @@ extension DynamoDB {
         /// The total number of write capacity units consumed on a table or an index.
         public let writeCapacityUnits: Double?
 
+        @inlinable
         public init(capacityUnits: Double? = nil, readCapacityUnits: Double? = nil, writeCapacityUnits: Double? = nil) {
             self.capacityUnits = capacityUnits
             self.readCapacityUnits = readCapacityUnits
@@ -1083,6 +1106,7 @@ extension DynamoDB {
         /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
         public let comparisonOperator: ComparisonOperator
 
+        @inlinable
         public init(attributeValueList: [AttributeValue]? = nil, comparisonOperator: ComparisonOperator) {
             self.attributeValueList = attributeValueList
             self.comparisonOperator = comparisonOperator
@@ -1114,6 +1138,7 @@ extension DynamoDB {
         /// Name of the table for the check item request. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(conditionExpression: String, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
@@ -1164,6 +1189,7 @@ extension DynamoDB {
         /// The total number of write capacity units consumed by the operation.
         public let writeCapacityUnits: Double?
 
+        @inlinable
         public init(capacityUnits: Double? = nil, globalSecondaryIndexes: [String: Capacity]? = nil, localSecondaryIndexes: [String: Capacity]? = nil, readCapacityUnits: Double? = nil, table: Capacity? = nil, tableName: String? = nil, writeCapacityUnits: Double? = nil) {
             self.capacityUnits = capacityUnits
             self.globalSecondaryIndexes = globalSecondaryIndexes
@@ -1191,6 +1217,7 @@ extension DynamoDB {
         /// The description of the point in time recovery settings applied to the table.
         public let pointInTimeRecoveryDescription: PointInTimeRecoveryDescription?
 
+        @inlinable
         public init(continuousBackupsStatus: ContinuousBackupsStatus, pointInTimeRecoveryDescription: PointInTimeRecoveryDescription? = nil) {
             self.continuousBackupsStatus = continuousBackupsStatus
             self.pointInTimeRecoveryDescription = pointInTimeRecoveryDescription
@@ -1210,6 +1237,7 @@ extension DynamoDB {
         /// Name of the table associated with the summary.
         public let tableName: String?
 
+        @inlinable
         public init(contributorInsightsStatus: ContributorInsightsStatus? = nil, indexName: String? = nil, tableName: String? = nil) {
             self.contributorInsightsStatus = contributorInsightsStatus
             self.indexName = indexName
@@ -1229,6 +1257,7 @@ extension DynamoDB {
         /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(backupName: String, tableName: String) {
             self.backupName = backupName
             self.tableName = tableName
@@ -1252,6 +1281,7 @@ extension DynamoDB {
         /// Contains the details of the backup created for the table.
         public let backupDetails: BackupDetails?
 
+        @inlinable
         public init(backupDetails: BackupDetails? = nil) {
             self.backupDetails = backupDetails
         }
@@ -1273,6 +1303,7 @@ extension DynamoDB {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
+        @inlinable
         public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
@@ -1309,6 +1340,7 @@ extension DynamoDB {
         /// The Regions where the global table needs to be created.
         public let replicationGroup: [Replica]
 
+        @inlinable
         public init(globalTableName: String, replicationGroup: [Replica]) {
             self.globalTableName = globalTableName
             self.replicationGroup = replicationGroup
@@ -1330,6 +1362,7 @@ extension DynamoDB {
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
 
+        @inlinable
         public init(globalTableDescription: GlobalTableDescription? = nil) {
             self.globalTableDescription = globalTableDescription
         }
@@ -1343,6 +1376,7 @@ extension DynamoDB {
         /// The Region of the replica to be added.
         public let regionName: String
 
+        @inlinable
         public init(regionName: String) {
             self.regionName = regionName
         }
@@ -1366,6 +1400,7 @@ extension DynamoDB {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public let tableClassOverride: TableClass?
 
+        @inlinable
         public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -1423,6 +1458,7 @@ extension DynamoDB {
         /// A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
@@ -1485,6 +1521,7 @@ extension DynamoDB {
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
 
+        @inlinable
         public init(tableDescription: TableDescription? = nil) {
             self.tableDescription = tableDescription
         }
@@ -1500,6 +1537,7 @@ extension DynamoDB {
         ///  List of the headers used to specify a common header for all source CSV files being imported. If this field is specified then the first line of each CSV file is treated as data instead of the header. If this field is not specified the the first line of each CSV file is treated as the header.
         public let headerList: [String]?
 
+        @inlinable
         public init(delimiter: String? = nil, headerList: [String]? = nil) {
             self.delimiter = delimiter
             self.headerList = headerList
@@ -1538,6 +1576,7 @@ extension DynamoDB {
         /// Name of the table in which the item to be deleted resides. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
@@ -1576,6 +1615,7 @@ extension DynamoDB {
         /// The ARN associated with the backup.
         public let backupArn: String
 
+        @inlinable
         public init(backupArn: String) {
             self.backupArn = backupArn
         }
@@ -1594,6 +1634,7 @@ extension DynamoDB {
         /// Contains the description of the backup created for the table.
         public let backupDescription: BackupDescription?
 
+        @inlinable
         public init(backupDescription: BackupDescription? = nil) {
             self.backupDescription = backupDescription
         }
@@ -1607,6 +1648,7 @@ extension DynamoDB {
         /// The name of the global secondary index to be deleted.
         public let indexName: String
 
+        @inlinable
         public init(indexName: String) {
             self.indexName = indexName
         }
@@ -1645,6 +1687,7 @@ extension DynamoDB {
         /// The name of the table from which to delete the item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionalOperator = conditionalOperator
             self.conditionExpression = conditionExpression
@@ -1701,6 +1744,7 @@ extension DynamoDB {
         /// Information about item collections, if any, that were affected by the DeleteItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.    SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: ItemCollectionMetrics?
 
+        @inlinable
         public init(attributes: [String: AttributeValue]? = nil, consumedCapacity: ConsumedCapacity? = nil, itemCollectionMetrics: ItemCollectionMetrics? = nil) {
             self.attributes = attributes
             self.consumedCapacity = consumedCapacity
@@ -1718,6 +1762,7 @@ extension DynamoDB {
         /// The Region of the replica to be removed.
         public let regionName: String
 
+        @inlinable
         public init(regionName: String) {
             self.regionName = regionName
         }
@@ -1731,6 +1776,7 @@ extension DynamoDB {
         /// The Region where the replica exists.
         public let regionName: String
 
+        @inlinable
         public init(regionName: String) {
             self.regionName = regionName
         }
@@ -1744,6 +1790,7 @@ extension DynamoDB {
         /// A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
         public let key: [String: AttributeValue]
 
+        @inlinable
         public init(key: [String: AttributeValue]) {
             self.key = key
         }
@@ -1766,6 +1813,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) of the DynamoDB resource from which the policy will be removed. The resources you can specify include tables and streams. If you remove the policy of a table, it will also remove the permissions for the table's indexes defined in that policy document. This is because index permissions are defined in the table's policy.
         public let resourceArn: String
 
+        @inlinable
         public init(expectedRevisionId: String? = nil, resourceArn: String) {
             self.expectedRevisionId = expectedRevisionId
             self.resourceArn = resourceArn
@@ -1788,6 +1836,7 @@ extension DynamoDB {
         /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic. This value will be empty if you make a request against a resource without a policy.
         public let revisionId: String?
 
+        @inlinable
         public init(revisionId: String? = nil) {
             self.revisionId = revisionId
         }
@@ -1801,6 +1850,7 @@ extension DynamoDB {
         /// The name of the table to delete. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -1819,6 +1869,7 @@ extension DynamoDB {
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
 
+        @inlinable
         public init(tableDescription: TableDescription? = nil) {
             self.tableDescription = tableDescription
         }
@@ -1832,6 +1883,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) associated with the backup.
         public let backupArn: String
 
+        @inlinable
         public init(backupArn: String) {
             self.backupArn = backupArn
         }
@@ -1850,6 +1902,7 @@ extension DynamoDB {
         /// Contains the description of the backup created for the table.
         public let backupDescription: BackupDescription?
 
+        @inlinable
         public init(backupDescription: BackupDescription? = nil) {
             self.backupDescription = backupDescription
         }
@@ -1863,6 +1916,7 @@ extension DynamoDB {
         /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -1881,6 +1935,7 @@ extension DynamoDB {
         /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
 
+        @inlinable
         public init(continuousBackupsDescription: ContinuousBackupsDescription? = nil) {
             self.continuousBackupsDescription = continuousBackupsDescription
         }
@@ -1896,6 +1951,7 @@ extension DynamoDB {
         /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(indexName: String? = nil, tableName: String) {
             self.indexName = indexName
             self.tableName = tableName
@@ -1929,6 +1985,7 @@ extension DynamoDB {
         /// The name of the table being described.
         public let tableName: String?
 
+        @inlinable
         public init(contributorInsightsRuleList: [String]? = nil, contributorInsightsStatus: ContributorInsightsStatus? = nil, failureException: FailureException? = nil, indexName: String? = nil, lastUpdateDateTime: Date? = nil, tableName: String? = nil) {
             self.contributorInsightsRuleList = contributorInsightsRuleList
             self.contributorInsightsStatus = contributorInsightsStatus
@@ -1956,6 +2013,7 @@ extension DynamoDB {
         /// List of endpoints.
         public let endpoints: [Endpoint]
 
+        @inlinable
         public init(endpoints: [Endpoint]) {
             self.endpoints = endpoints
         }
@@ -1969,6 +2027,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) associated with the export.
         public let exportArn: String
 
+        @inlinable
         public init(exportArn: String) {
             self.exportArn = exportArn
         }
@@ -1987,6 +2046,7 @@ extension DynamoDB {
         /// Represents the properties of the export.
         public let exportDescription: ExportDescription?
 
+        @inlinable
         public init(exportDescription: ExportDescription? = nil) {
             self.exportDescription = exportDescription
         }
@@ -2000,6 +2060,7 @@ extension DynamoDB {
         /// The name of the global table.
         public let globalTableName: String
 
+        @inlinable
         public init(globalTableName: String) {
             self.globalTableName = globalTableName
         }
@@ -2019,6 +2080,7 @@ extension DynamoDB {
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
 
+        @inlinable
         public init(globalTableDescription: GlobalTableDescription? = nil) {
             self.globalTableDescription = globalTableDescription
         }
@@ -2032,6 +2094,7 @@ extension DynamoDB {
         /// The name of the global table to describe.
         public let globalTableName: String
 
+        @inlinable
         public init(globalTableName: String) {
             self.globalTableName = globalTableName
         }
@@ -2053,6 +2116,7 @@ extension DynamoDB {
         /// The Region-specific settings for the global table.
         public let replicaSettings: [ReplicaSettingsDescription]?
 
+        @inlinable
         public init(globalTableName: String? = nil, replicaSettings: [ReplicaSettingsDescription]? = nil) {
             self.globalTableName = globalTableName
             self.replicaSettings = replicaSettings
@@ -2068,6 +2132,7 @@ extension DynamoDB {
         ///  The Amazon Resource Name (ARN) associated with the table you're importing to.
         public let importArn: String
 
+        @inlinable
         public init(importArn: String) {
             self.importArn = importArn
         }
@@ -2086,6 +2151,7 @@ extension DynamoDB {
         ///  Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
         public let importTableDescription: ImportTableDescription
 
+        @inlinable
         public init(importTableDescription: ImportTableDescription) {
             self.importTableDescription = importTableDescription
         }
@@ -2099,6 +2165,7 @@ extension DynamoDB {
         /// The name of the table being described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -2119,6 +2186,7 @@ extension DynamoDB {
         /// The name of the table being described.
         public let tableName: String?
 
+        @inlinable
         public init(kinesisDataStreamDestinations: [KinesisDataStreamDestination]? = nil, tableName: String? = nil) {
             self.kinesisDataStreamDestinations = kinesisDataStreamDestinations
             self.tableName = tableName
@@ -2144,6 +2212,7 @@ extension DynamoDB {
         /// The maximum write capacity units that your account allows you to provision for a new table that you are creating in this Region, including the write capacity units provisioned for its global secondary indexes (GSIs).
         public let tableMaxWriteCapacityUnits: Int64?
 
+        @inlinable
         public init(accountMaxReadCapacityUnits: Int64? = nil, accountMaxWriteCapacityUnits: Int64? = nil, tableMaxReadCapacityUnits: Int64? = nil, tableMaxWriteCapacityUnits: Int64? = nil) {
             self.accountMaxReadCapacityUnits = accountMaxReadCapacityUnits
             self.accountMaxWriteCapacityUnits = accountMaxWriteCapacityUnits
@@ -2163,6 +2232,7 @@ extension DynamoDB {
         /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -2181,6 +2251,7 @@ extension DynamoDB {
         /// The properties of the table.
         public let table: TableDescription?
 
+        @inlinable
         public init(table: TableDescription? = nil) {
             self.table = table
         }
@@ -2194,6 +2265,7 @@ extension DynamoDB {
         /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -2212,6 +2284,7 @@ extension DynamoDB {
         /// Represents the auto scaling properties of the table.
         public let tableAutoScalingDescription: TableAutoScalingDescription?
 
+        @inlinable
         public init(tableAutoScalingDescription: TableAutoScalingDescription? = nil) {
             self.tableAutoScalingDescription = tableAutoScalingDescription
         }
@@ -2225,6 +2298,7 @@ extension DynamoDB {
         /// The name of the table to be described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -2242,6 +2316,7 @@ extension DynamoDB {
     public struct DescribeTimeToLiveOutput: AWSDecodableShape {
         public let timeToLiveDescription: TimeToLiveDescription?
 
+        @inlinable
         public init(timeToLiveDescription: TimeToLiveDescription? = nil) {
             self.timeToLiveDescription = timeToLiveDescription
         }
@@ -2255,6 +2330,7 @@ extension DynamoDB {
         /// Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND.
         public let approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision?
 
+        @inlinable
         public init(approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision? = nil) {
             self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
         }
@@ -2270,6 +2346,7 @@ extension DynamoDB {
         /// Endpoint cache time to live (TTL) value.
         public let cachePeriodInMinutes: Int64
 
+        @inlinable
         public init(address: String, cachePeriodInMinutes: Int64) {
             self.address = address
             self.cachePeriodInMinutes = cachePeriodInMinutes
@@ -2296,6 +2373,7 @@ extension DynamoDB {
         /// The PartiQL statement representing the operation to run.
         public let statement: String
 
+        @inlinable
         public init(consistentRead: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, statement: String) {
             self.consistentRead = consistentRead
             self.limit = limit
@@ -2338,6 +2416,7 @@ extension DynamoDB {
         /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
         public let nextToken: String?
 
+        @inlinable
         public init(consumedCapacity: ConsumedCapacity? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, nextToken: String? = nil) {
             self.consumedCapacity = consumedCapacity
             self.items = items
@@ -2361,6 +2440,7 @@ extension DynamoDB {
         /// The list of PartiQL statements representing the transaction to run.
         public let transactStatements: [ParameterizedStatement]
 
+        @inlinable
         public init(clientRequestToken: String? = ExecuteTransactionInput.idempotencyToken(), returnConsumedCapacity: ReturnConsumedCapacity? = nil, transactStatements: [ParameterizedStatement]) {
             self.clientRequestToken = clientRequestToken
             self.returnConsumedCapacity = returnConsumedCapacity
@@ -2390,6 +2470,7 @@ extension DynamoDB {
         /// The response to a PartiQL transaction.
         public let responses: [ItemResponse]?
 
+        @inlinable
         public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [ItemResponse]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.responses = responses
@@ -2411,6 +2492,7 @@ extension DynamoDB {
         /// Represents the data for the expected attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide.
         public let value: AttributeValue?
 
+        @inlinable
         public init(attributeValueList: [AttributeValue]? = nil, comparisonOperator: ComparisonOperator? = nil, exists: Bool? = nil, value: AttributeValue? = nil) {
             self.attributeValueList = attributeValueList
             self.comparisonOperator = comparisonOperator
@@ -2477,6 +2559,7 @@ extension DynamoDB {
         /// Unique ID of the table that was exported.
         public let tableId: String?
 
+        @inlinable
         public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
             self.billedSizeBytes = billedSizeBytes
             self.clientToken = clientToken
@@ -2534,6 +2617,7 @@ extension DynamoDB {
         /// The type of export that was performed. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT.
         public let exportType: ExportType?
 
+        @inlinable
         public init(exportArn: String? = nil, exportStatus: ExportStatus? = nil, exportType: ExportType? = nil) {
             self.exportArn = exportArn
             self.exportStatus = exportStatus
@@ -2571,6 +2655,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) associated with the table to export.
         public let tableArn: String
 
+        @inlinable
         public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
             self.clientToken = clientToken
             self.exportFormat = exportFormat
@@ -2616,6 +2701,7 @@ extension DynamoDB {
         /// Contains a description of the table export.
         public let exportDescription: ExportDescription?
 
+        @inlinable
         public init(exportDescription: ExportDescription? = nil) {
             self.exportDescription = exportDescription
         }
@@ -2631,6 +2717,7 @@ extension DynamoDB {
         /// Exception name.
         public let exceptionName: String?
 
+        @inlinable
         public init(exceptionDescription: String? = nil, exceptionName: String? = nil) {
             self.exceptionDescription = exceptionDescription
             self.exceptionName = exceptionName
@@ -2652,6 +2739,7 @@ extension DynamoDB {
         /// The name of the table from which to retrieve the specified item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(expressionAttributeNames: [String: String]? = nil, key: [String: AttributeValue], projectionExpression: String? = nil, tableName: String) {
             self.expressionAttributeNames = expressionAttributeNames
             self.key = key
@@ -2694,6 +2782,7 @@ extension DynamoDB {
         /// The name of the table containing the requested item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(attributesToGet: [String]? = nil, consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, key: [String: AttributeValue], projectionExpression: String? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, tableName: String) {
             self.attributesToGet = attributesToGet
             self.consistentRead = consistentRead
@@ -2737,6 +2826,7 @@ extension DynamoDB {
         /// A map of attribute names to AttributeValue objects, as specified by ProjectionExpression.
         public let item: [String: AttributeValue]?
 
+        @inlinable
         public init(consumedCapacity: ConsumedCapacity? = nil, item: [String: AttributeValue]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.item = item
@@ -2752,6 +2842,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy is attached. The resources you can specify include tables and streams.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2772,6 +2863,7 @@ extension DynamoDB {
         /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -2795,6 +2887,7 @@ extension DynamoDB {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
+        @inlinable
         public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
@@ -2830,6 +2923,7 @@ extension DynamoDB {
         public let indexName: String?
         public let provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
 
+        @inlinable
         public init(indexName: String? = nil, provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil) {
             self.indexName = indexName
             self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
@@ -2870,6 +2964,7 @@ extension DynamoDB {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughputDescription?
 
+        @inlinable
         public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, onDemandThroughput: OnDemandThroughput? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil) {
             self.backfilling = backfilling
             self.indexArn = indexArn
@@ -2908,6 +3003,7 @@ extension DynamoDB {
         /// Represents the provisioned throughput settings for the specified global secondary index.
         public let provisionedThroughput: ProvisionedThroughput?
 
+        @inlinable
         public init(indexName: String? = nil, keySchema: [KeySchemaElement]? = nil, onDemandThroughput: OnDemandThroughput? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
@@ -2933,6 +3029,7 @@ extension DynamoDB {
         /// The name of an existing global secondary index, along with new provisioned throughput settings to be applied to that index.
         public let update: UpdateGlobalSecondaryIndexAction?
 
+        @inlinable
         public init(create: CreateGlobalSecondaryIndexAction? = nil, delete: DeleteGlobalSecondaryIndexAction? = nil, update: UpdateGlobalSecondaryIndexAction? = nil) {
             self.create = create
             self.delete = delete
@@ -2958,6 +3055,7 @@ extension DynamoDB {
         /// The Regions where the global table has replicas.
         public let replicationGroup: [Replica]?
 
+        @inlinable
         public init(globalTableName: String? = nil, replicationGroup: [Replica]? = nil) {
             self.globalTableName = globalTableName
             self.replicationGroup = replicationGroup
@@ -2981,6 +3079,7 @@ extension DynamoDB {
         /// The Regions where the global table has replicas.
         public let replicationGroup: [ReplicaDescription]?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, globalTableArn: String? = nil, globalTableName: String? = nil, globalTableStatus: GlobalTableStatus? = nil, replicationGroup: [ReplicaDescription]? = nil) {
             self.creationDateTime = creationDateTime
             self.globalTableArn = globalTableArn
@@ -3006,6 +3105,7 @@ extension DynamoDB {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let provisionedWriteCapacityUnits: Int64?
 
+        @inlinable
         public init(indexName: String, provisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, provisionedWriteCapacityUnits: Int64? = nil) {
             self.indexName = indexName
             self.provisionedWriteCapacityAutoScalingSettingsUpdate = provisionedWriteCapacityAutoScalingSettingsUpdate
@@ -3045,6 +3145,7 @@ extension DynamoDB {
         ///  The Amazon Resource Number (ARN) of the table being imported into.
         public let tableArn: String?
 
+        @inlinable
         public init(cloudWatchLogGroupArn: String? = nil, endTime: Date? = nil, importArn: String? = nil, importStatus: ImportStatus? = nil, inputFormat: InputFormat? = nil, s3BucketSource: S3BucketSource? = nil, startTime: Date? = nil, tableArn: String? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.endTime = endTime
@@ -3108,6 +3209,7 @@ extension DynamoDB {
         ///  The table id corresponding to the table created by import table process.
         public let tableId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, cloudWatchLogGroupArn: String? = nil, endTime: Date? = nil, errorCount: Int64? = nil, failureCode: String? = nil, failureMessage: String? = nil, importArn: String? = nil, importedItemCount: Int64? = nil, importStatus: ImportStatus? = nil, inputCompressionType: InputCompressionType? = nil, inputFormat: InputFormat? = nil, inputFormatOptions: InputFormatOptions? = nil, processedItemCount: Int64? = nil, processedSizeBytes: Int64? = nil, s3BucketSource: S3BucketSource? = nil, startTime: Date? = nil, tableArn: String? = nil, tableCreationParameters: TableCreationParameters? = nil, tableId: String? = nil) {
             self.clientToken = clientToken
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -3167,6 +3269,7 @@ extension DynamoDB {
         /// Parameters for the table to import the data into.
         public let tableCreationParameters: TableCreationParameters
 
+        @inlinable
         public init(clientToken: String? = ImportTableInput.idempotencyToken(), inputCompressionType: InputCompressionType? = nil, inputFormat: InputFormat, inputFormatOptions: InputFormatOptions? = nil, s3BucketSource: S3BucketSource, tableCreationParameters: TableCreationParameters) {
             self.clientToken = clientToken
             self.inputCompressionType = inputCompressionType
@@ -3197,6 +3300,7 @@ extension DynamoDB {
         ///  Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
         public let importTableDescription: ImportTableDescription
 
+        @inlinable
         public init(importTableDescription: ImportTableDescription) {
             self.importTableDescription = importTableDescription
         }
@@ -3214,6 +3318,7 @@ extension DynamoDB {
         /// The view type that was chosen for the export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES. The default value is NEW_AND_OLD_IMAGES.
         public let exportViewType: ExportViewType?
 
+        @inlinable
         public init(exportFromTime: Date? = nil, exportToTime: Date? = nil, exportViewType: ExportViewType? = nil) {
             self.exportFromTime = exportFromTime
             self.exportToTime = exportToTime
@@ -3231,6 +3336,7 @@ extension DynamoDB {
         ///  The options for imported source files in CSV format. The values are Delimiter and HeaderList.
         public let csv: CsvOptions?
 
+        @inlinable
         public init(csv: CsvOptions? = nil) {
             self.csv = csv
         }
@@ -3250,6 +3356,7 @@ extension DynamoDB {
         /// An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let sizeEstimateRangeGB: [Double]?
 
+        @inlinable
         public init(itemCollectionKey: [String: AttributeValue]? = nil, sizeEstimateRangeGB: [Double]? = nil) {
             self.itemCollectionKey = itemCollectionKey
             self.sizeEstimateRangeGB = sizeEstimateRangeGB
@@ -3265,6 +3372,7 @@ extension DynamoDB {
         /// Map of attribute data consisting of the data type and attribute value.
         public let item: [String: AttributeValue]?
 
+        @inlinable
         public init(item: [String: AttributeValue]? = nil) {
             self.item = item
         }
@@ -3280,6 +3388,7 @@ extension DynamoDB {
         /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public let keyType: KeyType
 
+        @inlinable
         public init(attributeName: String, keyType: KeyType) {
             self.attributeName = attributeName
             self.keyType = keyType
@@ -3308,6 +3417,7 @@ extension DynamoDB {
         /// A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the ProjectionExpression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
         public let projectionExpression: String?
 
+        @inlinable
         public init(attributesToGet: [String]? = nil, consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, keys: [[String: AttributeValue]], projectionExpression: String? = nil) {
             self.attributesToGet = attributesToGet
             self.consistentRead = consistentRead
@@ -3347,6 +3457,7 @@ extension DynamoDB {
         /// The ARN for a specific Kinesis data stream.
         public let streamArn: String?
 
+        @inlinable
         public init(approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision? = nil, destinationStatus: DestinationStatus? = nil, destinationStatusDescription: String? = nil, streamArn: String? = nil) {
             self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
             self.destinationStatus = destinationStatus
@@ -3370,6 +3481,7 @@ extension DynamoDB {
         /// The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(enableKinesisStreamingConfiguration: EnableKinesisStreamingConfiguration? = nil, streamArn: String, tableName: String) {
             self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
             self.streamArn = streamArn
@@ -3400,6 +3512,7 @@ extension DynamoDB {
         /// The name of the table being modified.
         public let tableName: String?
 
+        @inlinable
         public init(destinationStatus: DestinationStatus? = nil, enableKinesisStreamingConfiguration: EnableKinesisStreamingConfiguration? = nil, streamArn: String? = nil, tableName: String? = nil) {
             self.destinationStatus = destinationStatus
             self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
@@ -3429,6 +3542,7 @@ extension DynamoDB {
         /// Only backups created before this time are listed. TimeRangeUpperBound is exclusive.
         public let timeRangeUpperBound: Date?
 
+        @inlinable
         public init(backupType: BackupTypeFilter? = nil, exclusiveStartBackupArn: String? = nil, limit: Int? = nil, tableName: String? = nil, timeRangeLowerBound: Date? = nil, timeRangeUpperBound: Date? = nil) {
             self.backupType = backupType
             self.exclusiveStartBackupArn = exclusiveStartBackupArn
@@ -3463,6 +3577,7 @@ extension DynamoDB {
         ///  The ARN of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results.  If LastEvaluatedBackupArn is empty, then the last page of results has been processed and there are no more results to be retrieved.  If LastEvaluatedBackupArn is not empty, this may or may not indicate that there is more data to be returned. All results are guaranteed to have been returned if and only if no value for LastEvaluatedBackupArn is returned.
         public let lastEvaluatedBackupArn: String?
 
+        @inlinable
         public init(backupSummaries: [BackupSummary]? = nil, lastEvaluatedBackupArn: String? = nil) {
             self.backupSummaries = backupSummaries
             self.lastEvaluatedBackupArn = lastEvaluatedBackupArn
@@ -3482,6 +3597,7 @@ extension DynamoDB {
         /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tableName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3507,6 +3623,7 @@ extension DynamoDB {
         /// A token to go to the next page if there is one.
         public let nextToken: String?
 
+        @inlinable
         public init(contributorInsightsSummaries: [ContributorInsightsSummary]? = nil, nextToken: String? = nil) {
             self.contributorInsightsSummaries = contributorInsightsSummaries
             self.nextToken = nextToken
@@ -3526,6 +3643,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) associated with the exported table.
         public let tableArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, tableArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3552,6 +3670,7 @@ extension DynamoDB {
         /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListExports again, with NextToken set to this value.
         public let nextToken: String?
 
+        @inlinable
         public init(exportSummaries: [ExportSummary]? = nil, nextToken: String? = nil) {
             self.exportSummaries = exportSummaries
             self.nextToken = nextToken
@@ -3571,6 +3690,7 @@ extension DynamoDB {
         /// Lists the global tables in a specific Region.
         public let regionName: String?
 
+        @inlinable
         public init(exclusiveStartGlobalTableName: String? = nil, limit: Int? = nil, regionName: String? = nil) {
             self.exclusiveStartGlobalTableName = exclusiveStartGlobalTableName
             self.limit = limit
@@ -3597,6 +3717,7 @@ extension DynamoDB {
         /// Last evaluated global table name.
         public let lastEvaluatedGlobalTableName: String?
 
+        @inlinable
         public init(globalTables: [GlobalTable]? = nil, lastEvaluatedGlobalTableName: String? = nil) {
             self.globalTables = globalTables
             self.lastEvaluatedGlobalTableName = lastEvaluatedGlobalTableName
@@ -3616,6 +3737,7 @@ extension DynamoDB {
         ///  The Amazon Resource Name (ARN) associated with the table that was imported to.
         public let tableArn: String?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil, tableArn: String? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3645,6 +3767,7 @@ extension DynamoDB {
         ///  If this value is returned, there are additional results to be displayed. To retrieve them, call ListImports again, with NextToken set to this value.
         public let nextToken: String?
 
+        @inlinable
         public init(importSummaryList: [ImportSummary]? = nil, nextToken: String? = nil) {
             self.importSummaryList = importSummaryList
             self.nextToken = nextToken
@@ -3662,6 +3785,7 @@ extension DynamoDB {
         /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
         public let limit: Int?
 
+        @inlinable
         public init(exclusiveStartTableName: String? = nil, limit: Int? = nil) {
             self.exclusiveStartTableName = exclusiveStartTableName
             self.limit = limit
@@ -3687,6 +3811,7 @@ extension DynamoDB {
         /// The names of the tables associated with the current account at the current endpoint. The maximum size of this array is 100. If LastEvaluatedTableName also appears in the output, you can use this value as the ExclusiveStartTableName parameter in a subsequent ListTables request and obtain the next page of results.
         public let tableNames: [String]?
 
+        @inlinable
         public init(lastEvaluatedTableName: String? = nil, tableNames: [String]? = nil) {
             self.lastEvaluatedTableName = lastEvaluatedTableName
             self.tableNames = tableNames
@@ -3704,6 +3829,7 @@ extension DynamoDB {
         /// The Amazon DynamoDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(nextToken: String? = nil, resourceArn: String) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -3726,6 +3852,7 @@ extension DynamoDB {
         /// The tags currently associated with the Amazon DynamoDB resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3745,6 +3872,7 @@ extension DynamoDB {
         /// Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection
 
+        @inlinable
         public init(indexName: String, keySchema: [KeySchemaElement], projection: Projection) {
             self.indexName = indexName
             self.keySchema = keySchema
@@ -3784,6 +3912,7 @@ extension DynamoDB {
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection?
 
+        @inlinable
         public init(indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, projection: Projection? = nil) {
             self.indexArn = indexArn
             self.indexName = indexName
@@ -3811,6 +3940,7 @@ extension DynamoDB {
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection?
 
+        @inlinable
         public init(indexName: String? = nil, keySchema: [KeySchemaElement]? = nil, projection: Projection? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
@@ -3830,6 +3960,7 @@ extension DynamoDB {
         /// Maximum number of write request units for the specified table. To specify a maximum OnDemandThroughput on your table, set the value of MaxWriteRequestUnits as greater than or equal to 1. To remove the maximum OnDemandThroughput that is currently set on your table, set the value of MaxWriteRequestUnits to -1.
         public let maxWriteRequestUnits: Int64?
 
+        @inlinable
         public init(maxReadRequestUnits: Int64? = nil, maxWriteRequestUnits: Int64? = nil) {
             self.maxReadRequestUnits = maxReadRequestUnits
             self.maxWriteRequestUnits = maxWriteRequestUnits
@@ -3845,6 +3976,7 @@ extension DynamoDB {
         /// Maximum number of read request units for the specified replica table.
         public let maxReadRequestUnits: Int64?
 
+        @inlinable
         public init(maxReadRequestUnits: Int64? = nil) {
             self.maxReadRequestUnits = maxReadRequestUnits
         }
@@ -3862,6 +3994,7 @@ extension DynamoDB {
         ///  A PartiQL statement that uses parameters.
         public let statement: String
 
+        @inlinable
         public init(parameters: [AttributeValue]? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, statement: String) {
             self.parameters = parameters
             self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
@@ -3892,6 +4025,7 @@ extension DynamoDB {
         /// The current state of point in time recovery:    ENABLED - Point in time recovery is enabled.    DISABLED - Point in time recovery is disabled.
         public let pointInTimeRecoveryStatus: PointInTimeRecoveryStatus?
 
+        @inlinable
         public init(earliestRestorableDateTime: Date? = nil, latestRestorableDateTime: Date? = nil, pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil) {
             self.earliestRestorableDateTime = earliestRestorableDateTime
             self.latestRestorableDateTime = latestRestorableDateTime
@@ -3909,6 +4043,7 @@ extension DynamoDB {
         /// Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
         public let pointInTimeRecoveryEnabled: Bool
 
+        @inlinable
         public init(pointInTimeRecoveryEnabled: Bool) {
             self.pointInTimeRecoveryEnabled = pointInTimeRecoveryEnabled
         }
@@ -3924,6 +4059,7 @@ extension DynamoDB {
         /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.    ALL - All of the table attributes are projected into the index.   When using the DynamoDB console, ALL is selected by default.
         public let projectionType: ProjectionType?
 
+        @inlinable
         public init(nonKeyAttributes: [String]? = nil, projectionType: ProjectionType? = nil) {
             self.nonKeyAttributes = nonKeyAttributes
             self.projectionType = projectionType
@@ -3950,6 +4086,7 @@ extension DynamoDB {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         public let writeCapacityUnits: Int64
 
+        @inlinable
         public init(readCapacityUnits: Int64, writeCapacityUnits: Int64) {
             self.readCapacityUnits = readCapacityUnits
             self.writeCapacityUnits = writeCapacityUnits
@@ -3978,6 +4115,7 @@ extension DynamoDB {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let writeCapacityUnits: Int64?
 
+        @inlinable
         public init(lastDecreaseDateTime: Date? = nil, lastIncreaseDateTime: Date? = nil, numberOfDecreasesToday: Int64? = nil, readCapacityUnits: Int64? = nil, writeCapacityUnits: Int64? = nil) {
             self.lastDecreaseDateTime = lastDecreaseDateTime
             self.lastIncreaseDateTime = lastIncreaseDateTime
@@ -3999,6 +4137,7 @@ extension DynamoDB {
         /// Replica-specific read capacity units. If not specified, uses the source table's read capacity settings.
         public let readCapacityUnits: Int64?
 
+        @inlinable
         public init(readCapacityUnits: Int64? = nil) {
             self.readCapacityUnits = readCapacityUnits
         }
@@ -4026,6 +4165,7 @@ extension DynamoDB {
         /// Name of the table in which to write the item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, item: [String: AttributeValue], returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
@@ -4083,6 +4223,7 @@ extension DynamoDB {
         /// The name of the table to contain the item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, item: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String) {
             self.conditionalOperator = conditionalOperator
             self.conditionExpression = conditionExpression
@@ -4139,6 +4280,7 @@ extension DynamoDB {
         /// Information about item collections, if any, that were affected by the PutItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.    SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: ItemCollectionMetrics?
 
+        @inlinable
         public init(attributes: [String: AttributeValue]? = nil, consumedCapacity: ConsumedCapacity? = nil, itemCollectionMetrics: ItemCollectionMetrics? = nil) {
             self.attributes = attributes
             self.consumedCapacity = consumedCapacity
@@ -4156,6 +4298,7 @@ extension DynamoDB {
         /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item that are part of an index key schema for the table, their types must match the index key schema.
         public let item: [String: AttributeValue]
 
+        @inlinable
         public init(item: [String: AttributeValue]) {
             self.item = item
         }
@@ -4182,6 +4325,7 @@ extension DynamoDB {
         /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include tables and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, indexes, or both, you can define multiple Statement fields in your policy document.
         public let resourceArn: String
 
+        @inlinable
         public init(confirmRemoveSelfResourceAccess: Bool? = nil, expectedRevisionId: String? = nil, policy: String, resourceArn: String) {
             self.confirmRemoveSelfResourceAccess = confirmRemoveSelfResourceAccess
             self.expectedRevisionId = expectedRevisionId
@@ -4216,6 +4360,7 @@ extension DynamoDB {
         /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic.
         public let revisionId: String?
 
+        @inlinable
         public init(revisionId: String? = nil) {
             self.revisionId = revisionId
         }
@@ -4260,6 +4405,7 @@ extension DynamoDB {
         /// The name of the table containing the requested items. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, consistentRead: Bool? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, indexName: String? = nil, keyConditionExpression: String? = nil, keyConditions: [String: Condition]? = nil, limit: Int? = nil, projectionExpression: String? = nil, queryFilter: [String: Condition]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanIndexForward: Bool? = nil, select: Select? = nil, tableName: String) {
             self.attributesToGet = attributesToGet
             self.conditionalOperator = conditionalOperator
@@ -4344,6 +4490,7 @@ extension DynamoDB {
         /// The number of items evaluated, before any QueryFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Query operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
         public let scannedCount: Int?
 
+        @inlinable
         public init(consumedCapacity: ConsumedCapacity? = nil, count: Int? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int? = nil) {
             self.consumedCapacity = consumedCapacity
             self.count = count
@@ -4365,6 +4512,7 @@ extension DynamoDB {
         /// The Region where the replica needs to be created.
         public let regionName: String?
 
+        @inlinable
         public init(regionName: String? = nil) {
             self.regionName = regionName
         }
@@ -4384,6 +4532,7 @@ extension DynamoDB {
         /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.
         public let replicaStatus: ReplicaStatus?
 
+        @inlinable
         public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexAutoScalingDescription]? = nil, regionName: String? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaStatus: ReplicaStatus? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.regionName = regionName
@@ -4408,6 +4557,7 @@ extension DynamoDB {
         public let replicaGlobalSecondaryIndexUpdates: [ReplicaGlobalSecondaryIndexAutoScalingUpdate]?
         public let replicaProvisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
 
+        @inlinable
         public init(regionName: String, replicaGlobalSecondaryIndexUpdates: [ReplicaGlobalSecondaryIndexAutoScalingUpdate]? = nil, replicaProvisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil) {
             self.regionName = regionName
             self.replicaGlobalSecondaryIndexUpdates = replicaGlobalSecondaryIndexUpdates
@@ -4449,6 +4599,7 @@ extension DynamoDB {
         public let replicaStatusPercentProgress: String?
         public let replicaTableClassSummary: TableClassSummary?
 
+        @inlinable
         public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -4484,6 +4635,7 @@ extension DynamoDB {
         /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
 
+        @inlinable
         public init(indexName: String, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
             self.indexName = indexName
             self.onDemandThroughputOverride = onDemandThroughputOverride
@@ -4512,6 +4664,7 @@ extension DynamoDB {
         public let provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
         public let provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
 
+        @inlinable
         public init(indexName: String? = nil, indexStatus: IndexStatus? = nil, provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil) {
             self.indexName = indexName
             self.indexStatus = indexStatus
@@ -4532,6 +4685,7 @@ extension DynamoDB {
         public let indexName: String?
         public let provisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
 
+        @inlinable
         public init(indexName: String? = nil, provisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil) {
             self.indexName = indexName
             self.provisionedReadCapacityAutoScalingUpdate = provisionedReadCapacityAutoScalingUpdate
@@ -4558,6 +4712,7 @@ extension DynamoDB {
         /// If not described, uses the source table GSI's read capacity settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
 
+        @inlinable
         public init(indexName: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
             self.indexName = indexName
             self.onDemandThroughputOverride = onDemandThroughputOverride
@@ -4585,6 +4740,7 @@ extension DynamoDB {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let provisionedWriteCapacityUnits: Int64?
 
+        @inlinable
         public init(indexName: String, indexStatus: IndexStatus? = nil, provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, provisionedReadCapacityUnits: Int64? = nil, provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, provisionedWriteCapacityUnits: Int64? = nil) {
             self.indexName = indexName
             self.indexStatus = indexStatus
@@ -4612,6 +4768,7 @@ extension DynamoDB {
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
         public let provisionedReadCapacityUnits: Int64?
 
+        @inlinable
         public init(indexName: String, provisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, provisionedReadCapacityUnits: Int64? = nil) {
             self.indexName = indexName
             self.provisionedReadCapacityAutoScalingSettingsUpdate = provisionedReadCapacityAutoScalingSettingsUpdate
@@ -4652,6 +4809,7 @@ extension DynamoDB {
         public let replicaStatus: ReplicaStatus?
         public let replicaTableClassSummary: TableClassSummary?
 
+        @inlinable
         public init(regionName: String, replicaBillingModeSummary: BillingModeSummary? = nil, replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedWriteCapacityUnits: Int64? = nil, replicaStatus: ReplicaStatus? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
             self.regionName = regionName
             self.replicaBillingModeSummary = replicaBillingModeSummary
@@ -4689,6 +4847,7 @@ extension DynamoDB {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public let replicaTableClass: TableClass?
 
+        @inlinable
         public init(regionName: String, replicaGlobalSecondaryIndexSettingsUpdate: [ReplicaGlobalSecondaryIndexSettingsUpdate]? = nil, replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaTableClass: TableClass? = nil) {
             self.regionName = regionName
             self.replicaGlobalSecondaryIndexSettingsUpdate = replicaGlobalSecondaryIndexSettingsUpdate
@@ -4722,6 +4881,7 @@ extension DynamoDB {
         /// The name of the existing replica to be removed.
         public let delete: DeleteReplicaAction?
 
+        @inlinable
         public init(create: CreateReplicaAction? = nil, delete: DeleteReplicaAction? = nil) {
             self.create = create
             self.delete = delete
@@ -4741,6 +4901,7 @@ extension DynamoDB {
         /// The parameters required for updating a replica for the table.
         public let update: UpdateReplicationGroupMemberAction?
 
+        @inlinable
         public init(create: CreateReplicationGroupMemberAction? = nil, delete: DeleteReplicationGroupMemberAction? = nil, update: UpdateReplicationGroupMemberAction? = nil) {
             self.create = create
             self.delete = delete
@@ -4769,6 +4930,7 @@ extension DynamoDB {
         /// The ARN of the source table of the backup that is being restored.
         public let sourceTableArn: String?
 
+        @inlinable
         public init(restoreDateTime: Date, restoreInProgress: Bool, sourceBackupArn: String? = nil, sourceTableArn: String? = nil) {
             self.restoreDateTime = restoreDateTime
             self.restoreInProgress = restoreInProgress
@@ -4801,6 +4963,7 @@ extension DynamoDB {
         /// The name of the new table to which the backup must be restored.
         public let targetTableName: String
 
+        @inlinable
         public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String) {
             self.backupArn = backupArn
             self.billingModeOverride = billingModeOverride
@@ -4843,6 +5006,7 @@ extension DynamoDB {
         /// The description of the table created from an existing backup.
         public let tableDescription: TableDescription?
 
+        @inlinable
         public init(tableDescription: TableDescription? = nil) {
             self.tableDescription = tableDescription
         }
@@ -4875,6 +5039,7 @@ extension DynamoDB {
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
         public let useLatestRestorableTime: Bool?
 
+        @inlinable
         public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
@@ -4926,6 +5091,7 @@ extension DynamoDB {
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
 
+        @inlinable
         public init(tableDescription: TableDescription? = nil) {
             self.tableDescription = tableDescription
         }
@@ -4943,6 +5109,7 @@ extension DynamoDB {
         ///  The key prefix shared by all S3 Objects that are being imported.
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(s3Bucket: String, s3BucketOwner: String? = nil, s3KeyPrefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -4973,6 +5140,7 @@ extension DynamoDB {
         /// Represents the current state of server-side encryption. The only supported values are:    ENABLED - Server-side encryption is enabled.    UPDATING - Server-side encryption is being updated.
         public let status: SSEStatus?
 
+        @inlinable
         public init(inaccessibleEncryptionDateTime: Date? = nil, kmsMasterKeyArn: String? = nil, sseType: SSEType? = nil, status: SSEStatus? = nil) {
             self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
             self.kmsMasterKeyArn = kmsMasterKeyArn
@@ -4996,6 +5164,7 @@ extension DynamoDB {
         /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
         public let sseType: SSEType?
 
+        @inlinable
         public init(enabled: Bool? = nil, kmsMasterKeyId: String? = nil, sseType: SSEType? = nil) {
             self.enabled = enabled
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -5042,6 +5211,7 @@ extension DynamoDB {
         /// For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4. The value for TotalSegments must be greater than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan operation will be sequential rather than parallel. If you specify TotalSegments, you must also specify Segment.
         public let totalSegments: Int?
 
+        @inlinable
         public init(attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, consistentRead: Bool? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, indexName: String? = nil, limit: Int? = nil, projectionExpression: String? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanFilter: [String: Condition]? = nil, segment: Int? = nil, select: Select? = nil, tableName: String, totalSegments: Int? = nil) {
             self.attributesToGet = attributesToGet
             self.conditionalOperator = conditionalOperator
@@ -5124,6 +5294,7 @@ extension DynamoDB {
         /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
         public let scannedCount: Int?
 
+        @inlinable
         public init(consumedCapacity: ConsumedCapacity? = nil, count: Int? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int? = nil) {
             self.consumedCapacity = consumedCapacity
             self.count = count
@@ -5162,6 +5333,7 @@ extension DynamoDB {
         /// Size of the table in bytes. Note that this is an approximate value.
         public let tableSizeBytes: Int64?
 
+        @inlinable
         public init(billingMode: BillingMode? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput, tableArn: String? = nil, tableCreationDateTime: Date, tableId: String, tableName: String, tableSizeBytes: Int64? = nil) {
             self.billingMode = billingMode
             self.itemCount = itemCount
@@ -5201,6 +5373,7 @@ extension DynamoDB {
         /// Time to Live settings on the table when the backup was created.
         public let timeToLiveDescription: TimeToLiveDescription?
 
+        @inlinable
         public init(globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, sseDescription: SSEDescription? = nil, streamDescription: StreamSpecification? = nil, timeToLiveDescription: TimeToLiveDescription? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
@@ -5224,6 +5397,7 @@ extension DynamoDB {
         ///  When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
         public let streamViewType: StreamViewType?
 
+        @inlinable
         public init(streamEnabled: Bool, streamViewType: StreamViewType? = nil) {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
@@ -5243,6 +5417,7 @@ extension DynamoDB {
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.
         public let tableStatus: TableStatus?
 
+        @inlinable
         public init(replicas: [ReplicaAutoScalingDescription]? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
             self.replicas = replicas
             self.tableName = tableName
@@ -5262,6 +5437,7 @@ extension DynamoDB {
         /// The table class of the specified table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
         public let tableClass: TableClass?
 
+        @inlinable
         public init(lastUpdateDateTime: Date? = nil, tableClass: TableClass? = nil) {
             self.lastUpdateDateTime = lastUpdateDateTime
             self.tableClass = tableClass
@@ -5288,6 +5464,7 @@ extension DynamoDB {
         ///  The name of the table created as part of the import operation.
         public let tableName: String
 
+        @inlinable
         public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
@@ -5379,6 +5556,7 @@ extension DynamoDB {
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
+        @inlinable
         public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
@@ -5440,6 +5618,7 @@ extension DynamoDB {
         /// The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5463,6 +5642,7 @@ extension DynamoDB {
         /// The tags to be assigned to the Amazon DynamoDB resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5488,6 +5668,7 @@ extension DynamoDB {
         ///  The TTL status for the table.
         public let timeToLiveStatus: TimeToLiveStatus?
 
+        @inlinable
         public init(attributeName: String? = nil, timeToLiveStatus: TimeToLiveStatus? = nil) {
             self.attributeName = attributeName
             self.timeToLiveStatus = timeToLiveStatus
@@ -5505,6 +5686,7 @@ extension DynamoDB {
         /// Indicates whether TTL is to be enabled (true) or disabled (false) on the table.
         public let enabled: Bool
 
+        @inlinable
         public init(attributeName: String, enabled: Bool) {
             self.attributeName = attributeName
             self.enabled = enabled
@@ -5525,6 +5707,7 @@ extension DynamoDB {
         /// Contains the primary key that identifies the item to get, together with the name of the table that contains the item, and optionally the specific attributes of the item to retrieve.
         public let get: Get
 
+        @inlinable
         public init(get: Get) {
             self.get = get
         }
@@ -5544,6 +5727,7 @@ extension DynamoDB {
         /// An ordered array of up to 100 TransactGetItem objects, each of which contains a Get structure.
         public let transactItems: [TransactGetItem]
 
+        @inlinable
         public init(returnConsumedCapacity: ReturnConsumedCapacity? = nil, transactItems: [TransactGetItem]) {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.transactItems = transactItems
@@ -5569,6 +5753,7 @@ extension DynamoDB {
         /// An ordered array of up to 100 ItemResponse objects, each of which corresponds to the TransactGetItem object in the same position in the TransactItems array. Each ItemResponse object contains a Map of the name-value pairs that are the projected attributes of the requested item. If a requested item could not be retrieved, the corresponding ItemResponse object is Null, or if the requested item has no projected attributes, the corresponding ItemResponse object is an empty Map.
         public let responses: [ItemResponse]?
 
+        @inlinable
         public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [ItemResponse]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.responses = responses
@@ -5589,6 +5774,7 @@ extension DynamoDB {
         /// An ordered array of up to 100 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same Amazon Web Services account and Region, and no two of them can operate on the same item.
         public let transactItems: [TransactWriteItem]
 
+        @inlinable
         public init(clientRequestToken: String? = TransactWriteItemsInput.idempotencyToken(), returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, transactItems: [TransactWriteItem]) {
             self.clientRequestToken = clientRequestToken
             self.returnConsumedCapacity = returnConsumedCapacity
@@ -5620,6 +5806,7 @@ extension DynamoDB {
         /// A list of tables that were processed by TransactWriteItems and, for each table, information about any item collections that were affected by individual UpdateItem, PutItem, or DeleteItem operations.
         public let itemCollectionMetrics: [String: [ItemCollectionMetrics]]?
 
+        @inlinable
         public init(consumedCapacity: [ConsumedCapacity]? = nil, itemCollectionMetrics: [String: [ItemCollectionMetrics]]? = nil) {
             self.consumedCapacity = consumedCapacity
             self.itemCollectionMetrics = itemCollectionMetrics
@@ -5637,6 +5824,7 @@ extension DynamoDB {
         /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5673,6 +5861,7 @@ extension DynamoDB {
         /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
         public let updateExpression: String
 
+        @inlinable
         public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String, updateExpression: String) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
@@ -5715,6 +5904,7 @@ extension DynamoDB {
         /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(pointInTimeRecoverySpecification: PointInTimeRecoverySpecification, tableName: String) {
             self.pointInTimeRecoverySpecification = pointInTimeRecoverySpecification
             self.tableName = tableName
@@ -5735,6 +5925,7 @@ extension DynamoDB {
         /// Represents the continuous backups and point in time recovery settings on the table.
         public let continuousBackupsDescription: ContinuousBackupsDescription?
 
+        @inlinable
         public init(continuousBackupsDescription: ContinuousBackupsDescription? = nil) {
             self.continuousBackupsDescription = continuousBackupsDescription
         }
@@ -5752,6 +5943,7 @@ extension DynamoDB {
         /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(contributorInsightsAction: ContributorInsightsAction, indexName: String? = nil, tableName: String) {
             self.contributorInsightsAction = contributorInsightsAction
             self.indexName = indexName
@@ -5781,6 +5973,7 @@ extension DynamoDB {
         /// The name of the table.
         public let tableName: String?
 
+        @inlinable
         public init(contributorInsightsStatus: ContributorInsightsStatus? = nil, indexName: String? = nil, tableName: String? = nil) {
             self.contributorInsightsStatus = contributorInsightsStatus
             self.indexName = indexName
@@ -5802,6 +5995,7 @@ extension DynamoDB {
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
+        @inlinable
         public init(indexName: String, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.onDemandThroughput = onDemandThroughput
@@ -5828,6 +6022,7 @@ extension DynamoDB {
         /// A list of Regions that should be added or removed from the global table.
         public let replicaUpdates: [ReplicaUpdate]
 
+        @inlinable
         public init(globalTableName: String, replicaUpdates: [ReplicaUpdate]) {
             self.globalTableName = globalTableName
             self.replicaUpdates = replicaUpdates
@@ -5849,6 +6044,7 @@ extension DynamoDB {
         /// Contains the details of the global table.
         public let globalTableDescription: GlobalTableDescription?
 
+        @inlinable
         public init(globalTableDescription: GlobalTableDescription? = nil) {
             self.globalTableDescription = globalTableDescription
         }
@@ -5872,6 +6068,7 @@ extension DynamoDB {
         /// Represents the settings for a global table in a Region that will be modified.
         public let replicaSettingsUpdate: [ReplicaSettingsUpdate]?
 
+        @inlinable
         public init(globalTableBillingMode: BillingMode? = nil, globalTableGlobalSecondaryIndexSettingsUpdate: [GlobalTableGlobalSecondaryIndexSettingsUpdate]? = nil, globalTableName: String, globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, globalTableProvisionedWriteCapacityUnits: Int64? = nil, replicaSettingsUpdate: [ReplicaSettingsUpdate]? = nil) {
             self.globalTableBillingMode = globalTableBillingMode
             self.globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate
@@ -5915,6 +6112,7 @@ extension DynamoDB {
         /// The Region-specific settings for the global table.
         public let replicaSettings: [ReplicaSettingsDescription]?
 
+        @inlinable
         public init(globalTableName: String? = nil, replicaSettings: [ReplicaSettingsDescription]? = nil) {
             self.globalTableName = globalTableName
             self.replicaSettings = replicaSettings
@@ -5953,6 +6151,7 @@ extension DynamoDB {
         /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them. The following action values are available for UpdateExpression.    SET - Adds one or more attributes and values to an item. If any of these attributes already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val   SET supports the following functions:    if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.    list_append (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.   These function names are case-sensitive.    REMOVE - Removes one or more attributes from an item.    ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.  If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.    The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.     DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error.  The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.    You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5  For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide.
         public let updateExpression: String?
 
+        @inlinable
         public init(attributeUpdates: [String: AttributeValueUpdate]? = nil, conditionalOperator: ConditionalOperator? = nil, conditionExpression: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, key: [String: AttributeValue], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil, tableName: String, updateExpression: String? = nil) {
             self.attributeUpdates = attributeUpdates
             self.conditionalOperator = conditionalOperator
@@ -6017,6 +6216,7 @@ extension DynamoDB {
         /// Information about item collections, if any, that were affected by the UpdateItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.    SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: ItemCollectionMetrics?
 
+        @inlinable
         public init(attributes: [String: AttributeValue]? = nil, consumedCapacity: ConsumedCapacity? = nil, itemCollectionMetrics: ItemCollectionMetrics? = nil) {
             self.attributes = attributes
             self.consumedCapacity = consumedCapacity
@@ -6034,6 +6234,7 @@ extension DynamoDB {
         /// Enables updating the precision of Kinesis data stream timestamp.
         public let approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision?
 
+        @inlinable
         public init(approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision? = nil) {
             self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
         }
@@ -6051,6 +6252,7 @@ extension DynamoDB {
         /// The command to update the Kinesis stream configuration.
         public let updateKinesisStreamingConfiguration: UpdateKinesisStreamingConfiguration?
 
+        @inlinable
         public init(streamArn: String, tableName: String, updateKinesisStreamingConfiguration: UpdateKinesisStreamingConfiguration? = nil) {
             self.streamArn = streamArn
             self.tableName = tableName
@@ -6081,6 +6283,7 @@ extension DynamoDB {
         /// The command to update the Kinesis streaming destination configuration.
         public let updateKinesisStreamingConfiguration: UpdateKinesisStreamingConfiguration?
 
+        @inlinable
         public init(destinationStatus: DestinationStatus? = nil, streamArn: String? = nil, tableName: String? = nil, updateKinesisStreamingConfiguration: UpdateKinesisStreamingConfiguration? = nil) {
             self.destinationStatus = destinationStatus
             self.streamArn = streamArn
@@ -6110,6 +6313,7 @@ extension DynamoDB {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public let tableClassOverride: TableClass?
 
+        @inlinable
         public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -6161,6 +6365,7 @@ extension DynamoDB {
         /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
@@ -6210,6 +6415,7 @@ extension DynamoDB {
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
 
+        @inlinable
         public init(tableDescription: TableDescription? = nil) {
             self.tableDescription = tableDescription
         }
@@ -6228,6 +6434,7 @@ extension DynamoDB {
         /// The name of the global table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
+        @inlinable
         public init(globalSecondaryIndexUpdates: [GlobalSecondaryIndexAutoScalingUpdate]? = nil, provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil, replicaUpdates: [ReplicaAutoScalingUpdate]? = nil, tableName: String) {
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
             self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
@@ -6261,6 +6468,7 @@ extension DynamoDB {
         /// Returns information about the auto scaling settings of a table with replicas.
         public let tableAutoScalingDescription: TableAutoScalingDescription?
 
+        @inlinable
         public init(tableAutoScalingDescription: TableAutoScalingDescription? = nil) {
             self.tableAutoScalingDescription = tableAutoScalingDescription
         }
@@ -6276,6 +6484,7 @@ extension DynamoDB {
         /// Represents the settings used to enable or disable Time to Live for the specified table.
         public let timeToLiveSpecification: TimeToLiveSpecification
 
+        @inlinable
         public init(tableName: String, timeToLiveSpecification: TimeToLiveSpecification) {
             self.tableName = tableName
             self.timeToLiveSpecification = timeToLiveSpecification
@@ -6297,6 +6506,7 @@ extension DynamoDB {
         /// Represents the output of an UpdateTimeToLive operation.
         public let timeToLiveSpecification: TimeToLiveSpecification?
 
+        @inlinable
         public init(timeToLiveSpecification: TimeToLiveSpecification? = nil) {
             self.timeToLiveSpecification = timeToLiveSpecification
         }
@@ -6312,6 +6522,7 @@ extension DynamoDB {
         /// A request to perform a PutItem operation.
         public let putRequest: PutRequest?
 
+        @inlinable
         public init(deleteRequest: DeleteRequest? = nil, putRequest: PutRequest? = nil) {
             self.deleteRequest = deleteRequest
             self.putRequest = putRequest

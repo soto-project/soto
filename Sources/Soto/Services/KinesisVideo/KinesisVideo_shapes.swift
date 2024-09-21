@@ -160,6 +160,7 @@ extension KinesisVideo {
         /// The current version of the signaling channel.
         public let version: String?
 
+        @inlinable
         public init(channelARN: String? = nil, channelName: String? = nil, channelStatus: Status? = nil, channelType: ChannelType? = nil, creationTime: Date? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, version: String? = nil) {
             self.channelARN = channelARN
             self.channelName = channelName
@@ -187,6 +188,7 @@ extension KinesisVideo {
         /// A value to compare.
         public let comparisonValue: String?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator? = nil, comparisonValue: String? = nil) {
             self.comparisonOperator = comparisonOperator
             self.comparisonValue = comparisonValue
@@ -214,6 +216,7 @@ extension KinesisVideo {
         /// A set of tags (key-value pairs) that you want to associate with this channel.
         public let tags: [Tag]?
 
+        @inlinable
         public init(channelName: String, channelType: ChannelType? = nil, singleMasterConfiguration: SingleMasterConfiguration? = nil, tags: [Tag]? = nil) {
             self.channelName = channelName
             self.channelType = channelType
@@ -244,6 +247,7 @@ extension KinesisVideo {
         /// The Amazon Resource Name (ARN) of the created channel.
         public let channelARN: String?
 
+        @inlinable
         public init(channelARN: String? = nil) {
             self.channelARN = channelARN
         }
@@ -267,6 +271,7 @@ extension KinesisVideo {
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]?
 
+        @inlinable
         public init(dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, tags: [String: String]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
@@ -315,6 +320,7 @@ extension KinesisVideo {
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
 
+        @inlinable
         public init(streamARN: String? = nil) {
             self.streamARN = streamARN
         }
@@ -330,6 +336,7 @@ extension KinesisVideo {
         /// The name of the stream from which to delete the edge configuration. Specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -360,6 +367,7 @@ extension KinesisVideo {
         /// The current version of the signaling channel that you want to delete. You can obtain the current version by invoking the DescribeSignalingChannel or ListSignalingChannels API operations.
         public let currentVersion: String?
 
+        @inlinable
         public init(channelARN: String, currentVersion: String? = nil) {
             self.channelARN = channelARN
             self.currentVersion = currentVersion
@@ -390,6 +398,7 @@ extension KinesisVideo {
         /// The Amazon Resource Name (ARN) of the stream that you want to delete.
         public let streamARN: String
 
+        @inlinable
         public init(currentVersion: String? = nil, streamARN: String) {
             self.currentVersion = currentVersion
             self.streamARN = streamARN
@@ -422,6 +431,7 @@ extension KinesisVideo {
         /// The value of the local size required in order to delete the edge configuration.
         public let localSizeConfig: LocalSizeConfig?
 
+        @inlinable
         public init(deleteAfterUpload: Bool? = nil, edgeRetentionInHours: Int? = nil, localSizeConfig: LocalSizeConfig? = nil) {
             self.deleteAfterUpload = deleteAfterUpload
             self.edgeRetentionInHours = edgeRetentionInHours
@@ -447,6 +457,7 @@ extension KinesisVideo {
         /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or  the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -485,6 +496,7 @@ extension KinesisVideo {
         /// The latest status of the edge configuration update.
         public let syncStatus: SyncStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, edgeAgentStatus: EdgeAgentStatus? = nil, edgeConfig: EdgeConfig? = nil, failedStatusDetails: String? = nil, lastUpdatedTime: Date? = nil, streamARN: String? = nil, streamName: String? = nil, syncStatus: SyncStatus? = nil) {
             self.creationTime = creationTime
             self.edgeAgentStatus = edgeAgentStatus
@@ -514,6 +526,7 @@ extension KinesisVideo {
         /// The name of the stream from which to retrieve the image generation configuration. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -538,6 +551,7 @@ extension KinesisVideo {
         /// The structure that contains the information required for the Kinesis video stream (KVS) images delivery. If this structure is null, the configuration will be deleted from the stream.
         public let imageGenerationConfiguration: ImageGenerationConfiguration?
 
+        @inlinable
         public init(imageGenerationConfiguration: ImageGenerationConfiguration? = nil) {
             self.imageGenerationConfiguration = imageGenerationConfiguration
         }
@@ -557,6 +571,7 @@ extension KinesisVideo {
         /// The name of the stream.
         public let streamName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -591,6 +606,7 @@ extension KinesisVideo {
         /// The token that was used in the NextTokenrequest to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(mappedResourceConfigurationList: [MappedResourceConfigurationListItem]? = nil, nextToken: String? = nil) {
             self.mappedResourceConfigurationList = mappedResourceConfigurationList
             self.nextToken = nextToken
@@ -608,6 +624,7 @@ extension KinesisVideo {
         /// The name of the channel.
         public let channelName: String?
 
+        @inlinable
         public init(channelARN: String? = nil, channelName: String? = nil) {
             self.channelARN = channelARN
             self.channelName = channelName
@@ -632,6 +649,7 @@ extension KinesisVideo {
         /// A structure that encapsulates, or contains, the media storage configuration properties.
         public let mediaStorageConfiguration: MediaStorageConfiguration?
 
+        @inlinable
         public init(mediaStorageConfiguration: MediaStorageConfiguration? = nil) {
             self.mediaStorageConfiguration = mediaStorageConfiguration
         }
@@ -647,6 +665,7 @@ extension KinesisVideo {
         /// The name of the stream from which to retrieve the notification configuration. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -671,6 +690,7 @@ extension KinesisVideo {
         /// The structure that contains the information required for notifications. If the structure is null, the configuration will be deleted from the stream.
         public let notificationConfiguration: NotificationConfiguration?
 
+        @inlinable
         public init(notificationConfiguration: NotificationConfiguration? = nil) {
             self.notificationConfiguration = notificationConfiguration
         }
@@ -686,6 +706,7 @@ extension KinesisVideo {
         /// The name of the signaling channel that you want to describe.
         public let channelName: String?
 
+        @inlinable
         public init(channelARN: String? = nil, channelName: String? = nil) {
             self.channelARN = channelARN
             self.channelName = channelName
@@ -710,6 +731,7 @@ extension KinesisVideo {
         /// A structure that encapsulates the specified signaling channel's metadata and properties.
         public let channelInfo: ChannelInfo?
 
+        @inlinable
         public init(channelInfo: ChannelInfo? = nil) {
             self.channelInfo = channelInfo
         }
@@ -725,6 +747,7 @@ extension KinesisVideo {
         /// The name of the stream.
         public let streamName: String?
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -749,6 +772,7 @@ extension KinesisVideo {
         /// An object that describes the stream.
         public let streamInfo: StreamInfo?
 
+        @inlinable
         public init(streamInfo: StreamInfo? = nil) {
             self.streamInfo = streamInfo
         }
@@ -764,6 +788,7 @@ extension KinesisVideo {
         /// The latest status of a stream’s edge to cloud uploader job.
         public let lastUploaderStatus: LastUploaderStatus?
 
+        @inlinable
         public init(lastRecorderStatus: LastRecorderStatus? = nil, lastUploaderStatus: LastUploaderStatus? = nil) {
             self.lastRecorderStatus = lastRecorderStatus
             self.lastUploaderStatus = lastUploaderStatus
@@ -785,6 +810,7 @@ extension KinesisVideo {
         /// The uploader configuration contains the ScheduleExpression details that are used to schedule upload jobs for the recorded media files from the Edge Agent to a Kinesis Video Stream.
         public let uploaderConfig: UploaderConfig?
 
+        @inlinable
         public init(deletionConfig: DeletionConfig? = nil, hubDeviceArn: String, recorderConfig: RecorderConfig, uploaderConfig: UploaderConfig? = nil) {
             self.deletionConfig = deletionConfig
             self.hubDeviceArn = hubDeviceArn
@@ -817,6 +843,7 @@ extension KinesisVideo {
         /// The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request.
         public let streamName: String?
 
+        @inlinable
         public init(apiName: APIName, streamARN: String? = nil, streamName: String? = nil) {
             self.apiName = apiName
             self.streamARN = streamARN
@@ -843,6 +870,7 @@ extension KinesisVideo {
         /// The endpoint value. To read data from the stream or to write data to it, specify this endpoint in your application.
         public let dataEndpoint: String?
 
+        @inlinable
         public init(dataEndpoint: String? = nil) {
             self.dataEndpoint = dataEndpoint
         }
@@ -858,6 +886,7 @@ extension KinesisVideo {
         /// A structure containing the endpoint configuration for the SINGLE_MASTER channel type.
         public let singleMasterChannelEndpointConfiguration: SingleMasterChannelEndpointConfiguration?
 
+        @inlinable
         public init(channelARN: String, singleMasterChannelEndpointConfiguration: SingleMasterChannelEndpointConfiguration? = nil) {
             self.channelARN = channelARN
             self.singleMasterChannelEndpointConfiguration = singleMasterChannelEndpointConfiguration
@@ -880,6 +909,7 @@ extension KinesisVideo {
         /// A list of endpoints for the specified signaling channel.
         public let resourceEndpointList: [ResourceEndpointListItem]?
 
+        @inlinable
         public init(resourceEndpointList: [ResourceEndpointListItem]? = nil) {
             self.resourceEndpointList = resourceEndpointList
         }
@@ -907,6 +937,7 @@ extension KinesisVideo {
         /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and  HeightPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the WidthPixels parameter is  provided, its original aspect ratio will be used to calculate the HeightPixels ratio. If neither parameter is provided, the original image size will be returned.
         public let widthPixels: Int?
 
+        @inlinable
         public init(destinationConfig: ImageGenerationDestinationConfig, format: Format, formatConfig: [FormatConfigKey: String]? = nil, heightPixels: Int? = nil, imageSelectorType: ImageSelectorType, samplingInterval: Int, status: ConfigurationStatus, widthPixels: Int? = nil) {
             self.destinationConfig = destinationConfig
             self.format = format
@@ -950,6 +981,7 @@ extension KinesisVideo {
         /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
         public let uri: String
 
+        @inlinable
         public init(destinationRegion: String, uri: String) {
             self.destinationRegion = destinationRegion
             self.uri = uri
@@ -980,6 +1012,7 @@ extension KinesisVideo {
         /// The status of the latest recorder job.
         public let recorderStatus: RecorderStatus?
 
+        @inlinable
         public init(jobStatusDetails: String? = nil, lastCollectedTime: Date? = nil, lastUpdatedTime: Date? = nil, recorderStatus: RecorderStatus? = nil) {
             self.jobStatusDetails = jobStatusDetails
             self.lastCollectedTime = lastCollectedTime
@@ -1005,6 +1038,7 @@ extension KinesisVideo {
         /// The status of the latest uploader job.
         public let uploaderStatus: UploaderStatus?
 
+        @inlinable
         public init(jobStatusDetails: String? = nil, lastCollectedTime: Date? = nil, lastUpdatedTime: Date? = nil, uploaderStatus: UploaderStatus? = nil) {
             self.jobStatusDetails = jobStatusDetails
             self.lastCollectedTime = lastCollectedTime
@@ -1035,6 +1069,7 @@ extension KinesisVideo {
         /// The current sync status of the stream's edge configuration.
         public let syncStatus: SyncStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, edgeConfig: EdgeConfig? = nil, failedStatusDetails: String? = nil, lastUpdatedTime: Date? = nil, streamARN: String? = nil, streamName: String? = nil, syncStatus: SyncStatus? = nil) {
             self.creationTime = creationTime
             self.edgeConfig = edgeConfig
@@ -1064,6 +1099,7 @@ extension KinesisVideo {
         /// If you specify this parameter, when the result of a ListEdgeAgentConfigurations operation is truncated, the call returns the NextToken in the response. To get another batch of edge configurations, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(hubDeviceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.hubDeviceArn = hubDeviceArn
             self.maxResults = maxResults
@@ -1093,6 +1129,7 @@ extension KinesisVideo {
         /// If the response is truncated, the call returns this element with a given token. To get the next batch of edge configurations, use this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(edgeConfigs: [ListEdgeAgentConfigurationsEdgeConfig]? = nil, nextToken: String? = nil) {
             self.edgeConfigs = edgeConfigs
             self.nextToken = nextToken
@@ -1112,6 +1149,7 @@ extension KinesisVideo {
         /// If you specify this parameter, when the result of a ListSignalingChannels operation is truncated, the call returns the NextToken in the response. To get another batch of channels, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(channelNameCondition: ChannelNameCondition? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelNameCondition = channelNameCondition
             self.maxResults = maxResults
@@ -1139,6 +1177,7 @@ extension KinesisVideo {
         /// If the response is truncated, the call returns this element with a token. To get the next batch of streams, use this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(channelInfoList: [ChannelInfo]? = nil, nextToken: String? = nil) {
             self.channelInfoList = channelInfoList
             self.nextToken = nextToken
@@ -1158,6 +1197,7 @@ extension KinesisVideo {
         /// Optional: Returns only streams that satisfy a specific condition. Currently, you can specify only the prefix of a stream name as a condition.
         public let streamNameCondition: StreamNameCondition?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, streamNameCondition: StreamNameCondition? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1185,6 +1225,7 @@ extension KinesisVideo {
         /// An array of StreamInfo objects.
         public let streamInfoList: [StreamInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, streamInfoList: [StreamInfo]? = nil) {
             self.nextToken = nextToken
             self.streamInfoList = streamInfoList
@@ -1202,6 +1243,7 @@ extension KinesisVideo {
         /// The Amazon Resource Name (ARN) of the signaling channel for which you want to list tags.
         public let resourceARN: String
 
+        @inlinable
         public init(nextToken: String? = nil, resourceARN: String) {
             self.nextToken = nextToken
             self.resourceARN = resourceARN
@@ -1227,6 +1269,7 @@ extension KinesisVideo {
         /// A map of tag keys and values associated with the specified signaling channel.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1246,6 +1289,7 @@ extension KinesisVideo {
         /// The name of the stream that you want to list tags for.
         public let streamName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.nextToken = nextToken
             self.streamARN = streamARN
@@ -1276,6 +1320,7 @@ extension KinesisVideo {
         /// A map of tag keys and values associated with the specified stream.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1293,6 +1338,7 @@ extension KinesisVideo {
         /// The strategy to perform when a stream’s MaxLocalMediaSizeInMB limit is reached.
         public let strategyOnFullSize: StrategyOnFullSize?
 
+        @inlinable
         public init(maxLocalMediaSizeInMB: Int? = nil, strategyOnFullSize: StrategyOnFullSize? = nil) {
             self.maxLocalMediaSizeInMB = maxLocalMediaSizeInMB
             self.strategyOnFullSize = strategyOnFullSize
@@ -1315,6 +1361,7 @@ extension KinesisVideo {
         /// The type of the associated resource for the kinesis video stream.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, type: String? = nil) {
             self.arn = arn
             self.type = type
@@ -1332,6 +1379,7 @@ extension KinesisVideo {
         /// The Uniform Resource Identifier (URI) type. The FILE_URI value can be used to stream  local media files.  Preview only supports the RTSP_URI media source URI format .
         public let mediaUriType: MediaUriType
 
+        @inlinable
         public init(mediaUriSecretArn: String, mediaUriType: MediaUriType) {
             self.mediaUriSecretArn = mediaUriSecretArn
             self.mediaUriType = mediaUriType
@@ -1355,6 +1403,7 @@ extension KinesisVideo {
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
 
+        @inlinable
         public init(status: MediaStorageConfigurationStatus, streamARN: String? = nil) {
             self.status = status
             self.streamARN = streamARN
@@ -1378,6 +1427,7 @@ extension KinesisVideo {
         /// Indicates if a notification configuration is enabled or disabled.
         public let status: ConfigurationStatus
 
+        @inlinable
         public init(destinationConfig: NotificationDestinationConfig, status: ConfigurationStatus) {
             self.destinationConfig = destinationConfig
             self.status = status
@@ -1397,6 +1447,7 @@ extension KinesisVideo {
         /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
         public let uri: String
 
+        @inlinable
         public init(uri: String) {
             self.uri = uri
         }
@@ -1418,6 +1469,7 @@ extension KinesisVideo {
         /// The configuration that consists of the ScheduleExpression and the  DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression attribute is not provided, then the Edge Agent will always be set to recording mode.
         public let scheduleConfig: ScheduleConfig?
 
+        @inlinable
         public init(mediaSourceConfig: MediaSourceConfig, scheduleConfig: ScheduleConfig? = nil) {
             self.mediaSourceConfig = mediaSourceConfig
             self.scheduleConfig = scheduleConfig
@@ -1440,6 +1492,7 @@ extension KinesisVideo {
         /// The endpoint of the signaling channel returned by the GetSignalingChannelEndpoint API.
         public let resourceEndpoint: String?
 
+        @inlinable
         public init(protocol: ChannelProtocol? = nil, resourceEndpoint: String? = nil) {
             self.`protocol` = `protocol`
             self.resourceEndpoint = resourceEndpoint
@@ -1457,6 +1510,7 @@ extension KinesisVideo {
         /// The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig, then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the   Cron Trigger Tutorial page to understand the valid expressions and its use.
         public let scheduleExpression: String
 
+        @inlinable
         public init(durationInSeconds: Int, scheduleExpression: String) {
             self.durationInSeconds = durationInSeconds
             self.scheduleExpression = scheduleExpression
@@ -1482,6 +1536,7 @@ extension KinesisVideo {
         /// This property is used to determine messaging permissions in this SINGLE_MASTER signaling channel. If MASTER is specified, this API returns an endpoint that a client can use to receive offers from and send answers to any of the viewers on this signaling channel. If VIEWER is specified, this API returns an endpoint that a client can use only to send offers to another MASTER client on this signaling channel.
         public let role: ChannelRole?
 
+        @inlinable
         public init(protocols: [ChannelProtocol]? = nil, role: ChannelRole? = nil) {
             self.protocols = protocols
             self.role = role
@@ -1502,6 +1557,7 @@ extension KinesisVideo {
         /// The period of time a signaling channel retains undelivered messages before they are discarded.
         public let messageTtlSeconds: Int?
 
+        @inlinable
         public init(messageTtlSeconds: Int? = nil) {
             self.messageTtlSeconds = messageTtlSeconds
         }
@@ -1524,6 +1580,7 @@ extension KinesisVideo {
         /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(edgeConfig: EdgeConfig, streamARN: String? = nil, streamName: String? = nil) {
             self.edgeConfig = edgeConfig
             self.streamARN = streamARN
@@ -1563,6 +1620,7 @@ extension KinesisVideo {
         ///  The current sync status of the stream's edge configuration. When you invoke this API, the sync status will be set to the SYNCING state. Use the DescribeEdgeConfiguration API to get the latest status of the edge configuration.
         public let syncStatus: SyncStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, edgeConfig: EdgeConfig? = nil, failedStatusDetails: String? = nil, lastUpdatedTime: Date? = nil, streamARN: String? = nil, streamName: String? = nil, syncStatus: SyncStatus? = nil) {
             self.creationTime = creationTime
             self.edgeConfig = edgeConfig
@@ -1604,6 +1662,7 @@ extension KinesisVideo {
         /// The version of the stream.
         public let version: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, status: Status? = nil, streamARN: String? = nil, streamName: String? = nil, version: String? = nil) {
             self.creationTime = creationTime
             self.dataRetentionInHours = dataRetentionInHours
@@ -1635,6 +1694,7 @@ extension KinesisVideo {
         /// A value to compare.
         public let comparisonValue: String?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator? = nil, comparisonValue: String? = nil) {
             self.comparisonOperator = comparisonOperator
             self.comparisonValue = comparisonValue
@@ -1658,6 +1718,7 @@ extension KinesisVideo {
         /// The value of the tag that is associated with the specified signaling channel.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1683,6 +1744,7 @@ extension KinesisVideo {
         /// A list of tags to associate with the specified signaling channel. Each tag is a key-value pair.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1717,6 +1779,7 @@ extension KinesisVideo {
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil, tags: [String: String]) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -1758,6 +1821,7 @@ extension KinesisVideo {
         /// A list of the keys of the tags that you want to remove.
         public let tagKeyList: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeyList: [String]) {
             self.resourceARN = resourceARN
             self.tagKeyList = tagKeyList
@@ -1794,6 +1858,7 @@ extension KinesisVideo {
         /// A list of the keys of the tags that you want to remove.
         public let tagKeyList: [String]
 
+        @inlinable
         public init(streamARN: String? = nil, streamName: String? = nil, tagKeyList: [String]) {
             self.streamARN = streamARN
             self.streamName = streamName
@@ -1839,6 +1904,7 @@ extension KinesisVideo {
         /// The name of the stream whose retention period you want to change.
         public let streamName: String?
 
+        @inlinable
         public init(currentVersion: String, dataRetentionChangeInHours: Int, operation: UpdateDataRetentionOperation, streamARN: String? = nil, streamName: String? = nil) {
             self.currentVersion = currentVersion
             self.dataRetentionChangeInHours = dataRetentionChangeInHours
@@ -1881,6 +1947,7 @@ extension KinesisVideo {
         /// The name of the stream from which to update the image generation configuration. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(imageGenerationConfiguration: ImageGenerationConfiguration? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.imageGenerationConfiguration = imageGenerationConfiguration
             self.streamARN = streamARN
@@ -1914,6 +1981,7 @@ extension KinesisVideo {
         /// A structure that encapsulates, or contains, the media storage configuration properties.
         public let mediaStorageConfiguration: MediaStorageConfiguration
 
+        @inlinable
         public init(channelARN: String, mediaStorageConfiguration: MediaStorageConfiguration) {
             self.channelARN = channelARN
             self.mediaStorageConfiguration = mediaStorageConfiguration
@@ -1944,6 +2012,7 @@ extension KinesisVideo {
         /// The name of the stream from which to update the notification configuration. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(notificationConfiguration: NotificationConfiguration? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.notificationConfiguration = notificationConfiguration
             self.streamARN = streamARN
@@ -1979,6 +2048,7 @@ extension KinesisVideo {
         /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update.
         public let singleMasterConfiguration: SingleMasterConfiguration?
 
+        @inlinable
         public init(channelARN: String, currentVersion: String, singleMasterConfiguration: SingleMasterConfiguration? = nil) {
             self.channelARN = channelARN
             self.currentVersion = currentVersion
@@ -2018,6 +2088,7 @@ extension KinesisVideo {
         /// The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region.
         public let streamName: String?
 
+        @inlinable
         public init(currentVersion: String, deviceName: String? = nil, mediaType: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.currentVersion = currentVersion
             self.deviceName = deviceName
@@ -2061,6 +2132,7 @@ extension KinesisVideo {
         /// The configuration that consists of the ScheduleExpression and the  DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleConfig is not provided in this UploaderConfig, then the Edge Agent will upload at regular intervals (every 1 hour).
         public let scheduleConfig: ScheduleConfig
 
+        @inlinable
         public init(scheduleConfig: ScheduleConfig) {
             self.scheduleConfig = scheduleConfig
         }

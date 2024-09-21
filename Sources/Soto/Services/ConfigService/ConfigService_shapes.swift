@@ -703,6 +703,7 @@ extension ConfigService {
         /// The source regions being aggregated.
         public let awsRegions: [String]?
 
+        @inlinable
         public init(accountIds: [String], allAwsRegions: Bool? = nil, awsRegions: [String]? = nil) {
             self.accountIds = accountIds
             self.allAwsRegions = allAwsRegions
@@ -736,6 +737,7 @@ extension ConfigService {
         /// The name of the Config rule.
         public let configRuleName: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, compliance: Compliance? = nil, configRuleName: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -761,6 +763,7 @@ extension ConfigService {
         /// The name of the conformance pack.
         public let conformancePackName: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, compliance: AggregateConformancePackCompliance? = nil, conformancePackName: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -784,6 +787,7 @@ extension ConfigService {
         /// 			value.
         public let groupName: String?
 
+        @inlinable
         public init(complianceSummary: ComplianceSummary? = nil, groupName: String? = nil) {
             self.complianceSummary = complianceSummary
             self.groupName = groupName
@@ -805,6 +809,7 @@ extension ConfigService {
         /// Total number of compliant rules, noncompliant rules, and the rules that do not have any applicable resources to evaluate upon resulting in insufficient data.
         public let totalRuleCount: Int?
 
+        @inlinable
         public init(complianceType: ConformancePackComplianceType? = nil, compliantRuleCount: Int? = nil, nonCompliantRuleCount: Int? = nil, totalRuleCount: Int? = nil) {
             self.complianceType = complianceType
             self.compliantRuleCount = compliantRuleCount
@@ -826,6 +831,7 @@ extension ConfigService {
         /// Number of noncompliant conformance packs.
         public let nonCompliantConformancePackCount: Int?
 
+        @inlinable
         public init(compliantConformancePackCount: Int? = nil, nonCompliantConformancePackCount: Int? = nil) {
             self.compliantConformancePackCount = compliantConformancePackCount
             self.nonCompliantConformancePackCount = nonCompliantConformancePackCount
@@ -847,6 +853,7 @@ extension ConfigService {
         /// The name of the conformance pack.
         public let conformancePackName: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, complianceType: ConformancePackComplianceType? = nil, conformancePackName: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -877,6 +884,7 @@ extension ConfigService {
         /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region.
         public let groupName: String?
 
+        @inlinable
         public init(complianceSummary: AggregateConformancePackComplianceCount? = nil, groupName: String? = nil) {
             self.complianceSummary = complianceSummary
             self.groupName = groupName
@@ -894,6 +902,7 @@ extension ConfigService {
         /// The source Amazon Web Services Region from where the data is aggregated.
         public let awsRegion: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -933,6 +942,7 @@ extension ConfigService {
         /// 			result.
         public let resultRecordedTime: Date?
 
+        @inlinable
         public init(accountId: String? = nil, annotation: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: Date? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: Date? = nil) {
             self.accountId = accountId
             self.annotation = annotation
@@ -966,6 +976,7 @@ extension ConfigService {
         /// The source region where data is aggregated.
         public let sourceRegion: String
 
+        @inlinable
         public init(resourceId: String, resourceName: String? = nil, resourceType: ResourceType, sourceAccountId: String, sourceRegion: String) {
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -1012,6 +1023,7 @@ extension ConfigService {
         /// The source account or an organization.
         public let sourceType: AggregatedSourceType?
 
+        @inlinable
         public init(awsRegion: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastUpdateStatus: AggregatedSourceStatusType? = nil, lastUpdateTime: Date? = nil, sourceId: String? = nil, sourceType: AggregatedSourceType? = nil) {
             self.awsRegion = awsRegion
             self.lastErrorCode = lastErrorCode
@@ -1046,6 +1058,7 @@ extension ConfigService {
         /// 			created.
         public let creationTime: Date?
 
+        @inlinable
         public init(aggregationAuthorizationArn: String? = nil, authorizedAccountId: String? = nil, authorizedAwsRegion: String? = nil, creationTime: Date? = nil) {
             self.aggregationAuthorizationArn = aggregationAuthorizationArn
             self.authorizedAccountId = authorizedAccountId
@@ -1101,6 +1114,7 @@ extension ConfigService {
         /// The version number of the resource configuration.
         public let version: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemDeliveryTime: Date? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, recordingFrequency: RecordingFrequency? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -1146,6 +1160,7 @@ extension ConfigService {
         /// A list of aggregate ResourceIdentifiers objects.
         public let resourceIdentifiers: [AggregateResourceIdentifier]
 
+        @inlinable
         public init(configurationAggregatorName: String, resourceIdentifiers: [AggregateResourceIdentifier]) {
             self.configurationAggregatorName = configurationAggregatorName
             self.resourceIdentifiers = resourceIdentifiers
@@ -1174,6 +1189,7 @@ extension ConfigService {
         /// A list of resource identifiers that were not processed with current scope. The list is empty if all the resources are processed.
         public let unprocessedResourceIdentifiers: [AggregateResourceIdentifier]?
 
+        @inlinable
         public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
             self.baseConfigurationItems = baseConfigurationItems
             self.unprocessedResourceIdentifiers = unprocessedResourceIdentifiers
@@ -1191,6 +1207,7 @@ extension ConfigService {
         /// 			resource ID.
         public let resourceKeys: [ResourceKey]
 
+        @inlinable
         public init(resourceKeys: [ResourceKey]) {
             self.resourceKeys = resourceKeys
         }
@@ -1221,6 +1238,7 @@ extension ConfigService {
         /// 			empty unprocessedResourceKeys list.
         public let unprocessedResourceKeys: [ResourceKey]?
 
+        @inlinable
         public init(baseConfigurationItems: [BaseConfigurationItem]? = nil, unprocessedResourceKeys: [ResourceKey]? = nil) {
             self.baseConfigurationItems = baseConfigurationItems
             self.unprocessedResourceKeys = unprocessedResourceKeys
@@ -1249,6 +1267,7 @@ extension ConfigService {
         /// 				Compliance data type.
         public let complianceType: ComplianceType?
 
+        @inlinable
         public init(complianceContributorCount: ComplianceContributorCount? = nil, complianceType: ComplianceType? = nil) {
             self.complianceContributorCount = complianceContributorCount
             self.complianceType = complianceType
@@ -1266,6 +1285,7 @@ extension ConfigService {
         /// The name of the Config rule.
         public let configRuleName: String?
 
+        @inlinable
         public init(compliance: Compliance? = nil, configRuleName: String? = nil) {
             self.compliance = compliance
             self.configRuleName = configRuleName
@@ -1285,6 +1305,7 @@ extension ConfigService {
         /// The type of the Amazon Web Services resource that was evaluated.
         public let resourceType: String?
 
+        @inlinable
         public init(compliance: Compliance? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.compliance = compliance
             self.resourceId = resourceId
@@ -1305,6 +1326,7 @@ extension ConfigService {
         /// 			the current compliance of the item.
         public let cappedCount: Int?
 
+        @inlinable
         public init(capExceeded: Bool? = nil, cappedCount: Int? = nil) {
             self.capExceeded = capExceeded
             self.cappedCount = cappedCount
@@ -1329,6 +1351,7 @@ extension ConfigService {
         /// 			resources.
         public let nonCompliantResourceCount: ComplianceContributorCount?
 
+        @inlinable
         public init(complianceSummaryTimestamp: Date? = nil, compliantResourceCount: ComplianceContributorCount? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.compliantResourceCount = compliantResourceCount
@@ -1349,6 +1372,7 @@ extension ConfigService {
         /// The type of Amazon Web Services resource.
         public let resourceType: String?
 
+        @inlinable
         public init(complianceSummary: ComplianceSummary? = nil, resourceType: String? = nil) {
             self.complianceSummary = complianceSummary
             self.resourceType = resourceType
@@ -1374,6 +1398,7 @@ extension ConfigService {
         /// The time that the next delivery occurs.
         public let nextDeliveryTime: Date?
 
+        @inlinable
         public init(lastAttemptTime: Date? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastSuccessfulTime: Date? = nil, nextDeliveryTime: Date? = nil) {
             self.lastAttemptTime = lastAttemptTime
             self.lastErrorCode = lastErrorCode
@@ -1451,6 +1476,7 @@ extension ConfigService {
         /// 			resources.
         public let source: Source
 
+        @inlinable
         public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, configRuleState: ConfigRuleState? = nil, createdBy: String? = nil, description: String? = nil, evaluationModes: [EvaluationModeConfiguration]? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, scope: Scope? = nil, source: Source) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
@@ -1512,6 +1538,7 @@ extension ConfigService {
         /// The name of the Config rule.
         public let configRuleName: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, complianceType: ComplianceType? = nil, configRuleName: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -1542,6 +1569,7 @@ extension ConfigService {
         /// The source region where the data is aggregated.
         public let awsRegion: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -1603,6 +1631,7 @@ extension ConfigService {
         /// The time that Config last successfully invoked the Config rule to evaluate your Amazon Web Services resources.
         public let lastSuccessfulInvocationTime: Date?
 
+        @inlinable
         public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: Date? = nil, firstEvaluationStarted: Bool? = nil, lastDeactivatedTime: Date? = nil, lastDebugLogDeliveryStatus: String? = nil, lastDebugLogDeliveryStatusReason: String? = nil, lastDebugLogDeliveryTime: Date? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: Date? = nil, lastFailedInvocationTime: Date? = nil, lastSuccessfulEvaluationTime: Date? = nil, lastSuccessfulInvocationTime: Date? = nil) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
@@ -1645,6 +1674,7 @@ extension ConfigService {
         /// 			snapshots.
         public let deliveryFrequency: MaximumExecutionFrequency?
 
+        @inlinable
         public init(deliveryFrequency: MaximumExecutionFrequency? = nil) {
             self.deliveryFrequency = deliveryFrequency
         }
@@ -1666,6 +1696,7 @@ extension ConfigService {
         /// The time from the last status change.
         public let lastStatusChangeTime: Date?
 
+        @inlinable
         public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: Date? = nil) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -1700,6 +1731,7 @@ extension ConfigService {
         /// 			aggregated.
         public let organizationAggregationSource: OrganizationAggregationSource?
 
+        @inlinable
         public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorArn: String? = nil, configurationAggregatorName: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, organizationAggregationSource: OrganizationAggregationSource? = nil) {
             self.accountAggregationSources = accountAggregationSources
             self.configurationAggregatorArn = configurationAggregatorArn
@@ -1780,6 +1812,7 @@ extension ConfigService {
         /// The version number of the resource configuration.
         public let version: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, availabilityZone: String? = nil, awsRegion: String? = nil, configuration: String? = nil, configurationItemCaptureTime: Date? = nil, configurationItemDeliveryTime: Date? = nil, configurationItemMD5Hash: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationStateId: String? = nil, recordingFrequency: RecordingFrequency? = nil, relatedEvents: [String]? = nil, relationships: [Relationship]? = nil, resourceCreationTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, supplementaryConfiguration: [String: String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -1860,6 +1893,7 @@ extension ConfigService {
         ///
         public let roleARN: String?
 
+        @inlinable
         public init(name: String? = nil, recordingGroup: RecordingGroup? = nil, recordingMode: RecordingMode? = nil, roleARN: String? = nil) {
             self.name = name
             self.recordingGroup = recordingGroup
@@ -1900,6 +1934,7 @@ extension ConfigService {
         /// 			recording.
         public let recording: Bool?
 
+        @inlinable
         public init(lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastStartTime: Date? = nil, lastStatus: RecorderStatus? = nil, lastStatusChangeTime: Date? = nil, lastStopTime: Date? = nil, name: String? = nil, recording: Bool? = nil) {
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
@@ -1929,6 +1964,7 @@ extension ConfigService {
         /// Filters the results by Config rule names.
         public let configRuleNames: [String]?
 
+        @inlinable
         public init(complianceType: ConformancePackComplianceType? = nil, configRuleNames: [String]? = nil) {
             self.complianceType = complianceType
             self.configRuleNames = configRuleNames
@@ -1956,6 +1992,7 @@ extension ConfigService {
         /// Compliance score for the conformance pack. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
         public let score: String?
 
+        @inlinable
         public init(conformancePackName: String? = nil, lastUpdatedTime: Date? = nil, score: String? = nil) {
             self.conformancePackName = conformancePackName
             self.lastUpdatedTime = lastUpdatedTime
@@ -1974,6 +2011,7 @@ extension ConfigService {
         /// 			You can include up to 25 conformance packs in the ConformancePackNames array of strings, each with a character limit of 256 characters for the conformance pack name.
         public let conformancePackNames: [String]
 
+        @inlinable
         public init(conformancePackNames: [String]) {
             self.conformancePackNames = conformancePackNames
         }
@@ -1999,6 +2037,7 @@ extension ConfigService {
         /// The name of the conformance pack name.
         public let conformancePackName: String
 
+        @inlinable
         public init(conformancePackComplianceStatus: ConformancePackComplianceType, conformancePackName: String) {
             self.conformancePackComplianceStatus = conformancePackComplianceStatus
             self.conformancePackName = conformancePackName
@@ -2030,6 +2069,7 @@ extension ConfigService {
         /// An object that contains the name or Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
         public let templateSSMDocumentDetails: TemplateSSMDocumentDetails?
 
+        @inlinable
         public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: Date? = nil, templateSSMDocumentDetails: TemplateSSMDocumentDetails? = nil) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
@@ -2065,6 +2105,7 @@ extension ConfigService {
         /// Filters the results by the resource type (for example, "AWS::EC2::Instance").
         public let resourceType: String?
 
+        @inlinable
         public init(complianceType: ConformancePackComplianceType? = nil, configRuleNames: [String]? = nil, resourceIds: [String]? = nil, resourceType: String? = nil) {
             self.complianceType = complianceType
             self.configRuleNames = configRuleNames
@@ -2106,6 +2147,7 @@ extension ConfigService {
         /// The time when Config recorded the evaluation result.
         public let resultRecordedTime: Date
 
+        @inlinable
         public init(annotation: String? = nil, complianceType: ConformancePackComplianceType, configRuleInvokedTime: Date, evaluationResultIdentifier: EvaluationResultIdentifier, resultRecordedTime: Date) {
             self.annotation = annotation
             self.complianceType = complianceType
@@ -2129,6 +2171,7 @@ extension ConfigService {
         /// Another part of the key-value pair.
         public let parameterValue: String
 
+        @inlinable
         public init(parameterName: String, parameterValue: String) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
@@ -2154,6 +2197,7 @@ extension ConfigService {
         /// 			A control can align with a specific compliance regime or map to internal controls defined by an organization.
         public let controls: [String]?
 
+        @inlinable
         public init(complianceType: ConformancePackComplianceType? = nil, configRuleName: String? = nil, controls: [String]? = nil) {
             self.complianceType = complianceType
             self.configRuleName = configRuleName
@@ -2185,6 +2229,7 @@ extension ConfigService {
         /// Amazon Resource Name (ARN) of CloudFormation stack.
         public let stackArn: String
 
+        @inlinable
         public init(conformancePackArn: String, conformancePackId: String, conformancePackName: String, conformancePackState: ConformancePackState, conformancePackStatusReason: String? = nil, lastUpdateCompletedTime: Date? = nil, lastUpdateRequestedTime: Date, stackArn: String) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
@@ -2217,6 +2262,7 @@ extension ConfigService {
         /// The policy definition containing the logic for your Config Custom Policy rule.
         public let policyText: String
 
+        @inlinable
         public init(enableDebugLogDelivery: Bool? = nil, policyRuntime: String, policyText: String) {
             self.enableDebugLogDelivery = enableDebugLogDelivery
             self.policyRuntime = policyRuntime
@@ -2244,6 +2290,7 @@ extension ConfigService {
         /// The region authorized to collect aggregated data.
         public let authorizedAwsRegion: String
 
+        @inlinable
         public init(authorizedAccountId: String, authorizedAwsRegion: String) {
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
@@ -2266,6 +2313,7 @@ extension ConfigService {
         /// 			delete.
         public let configRuleName: String
 
+        @inlinable
         public init(configRuleName: String) {
             self.configRuleName = configRuleName
         }
@@ -2285,6 +2333,7 @@ extension ConfigService {
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
 
+        @inlinable
         public init(configurationAggregatorName: String) {
             self.configurationAggregatorName = configurationAggregatorName
         }
@@ -2306,6 +2355,7 @@ extension ConfigService {
         /// 				DescribeConfigurationRecorders action.
         public let configurationRecorderName: String
 
+        @inlinable
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
         }
@@ -2324,6 +2374,7 @@ extension ConfigService {
         /// Name of the conformance pack you want to delete.
         public let conformancePackName: String
 
+        @inlinable
         public init(conformancePackName: String) {
             self.conformancePackName = conformancePackName
         }
@@ -2343,6 +2394,7 @@ extension ConfigService {
         /// The name of the delivery channel to delete.
         public let deliveryChannelName: String
 
+        @inlinable
         public init(deliveryChannelName: String) {
             self.deliveryChannelName = deliveryChannelName
         }
@@ -2362,6 +2414,7 @@ extension ConfigService {
         /// 			the evaluation results.
         public let configRuleName: String
 
+        @inlinable
         public init(configRuleName: String) {
             self.configRuleName = configRuleName
         }
@@ -2384,6 +2437,7 @@ extension ConfigService {
         /// The name of organization Config rule that you want to delete.
         public let organizationConfigRuleName: String
 
+        @inlinable
         public init(organizationConfigRuleName: String) {
             self.organizationConfigRuleName = organizationConfigRuleName
         }
@@ -2403,6 +2457,7 @@ extension ConfigService {
         /// The name of organization conformance pack that you want to delete.
         public let organizationConformancePackName: String
 
+        @inlinable
         public init(organizationConformancePackName: String) {
             self.organizationConformancePackName = organizationConformancePackName
         }
@@ -2425,6 +2480,7 @@ extension ConfigService {
         /// The region requesting to aggregate data.
         public let requesterAwsRegion: String
 
+        @inlinable
         public init(requesterAccountId: String, requesterAwsRegion: String) {
             self.requesterAccountId = requesterAccountId
             self.requesterAwsRegion = requesterAwsRegion
@@ -2448,6 +2504,7 @@ extension ConfigService {
         /// The type of a resource.
         public let resourceType: String?
 
+        @inlinable
         public init(configRuleName: String, resourceType: String? = nil) {
             self.configRuleName = configRuleName
             self.resourceType = resourceType
@@ -2475,6 +2532,7 @@ extension ConfigService {
         /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
         public let resourceKeys: [RemediationExceptionResourceKey]
 
+        @inlinable
         public init(configRuleName: String, resourceKeys: [RemediationExceptionResourceKey]) {
             self.configRuleName = configRuleName
             self.resourceKeys = resourceKeys
@@ -2501,6 +2559,7 @@ extension ConfigService {
         /// Returns a list of failed delete remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
         public let failedBatches: [FailedDeleteRemediationExceptionsBatch]?
 
+        @inlinable
         public init(failedBatches: [FailedDeleteRemediationExceptionsBatch]? = nil) {
             self.failedBatches = failedBatches
         }
@@ -2516,6 +2575,7 @@ extension ConfigService {
         /// The type of the resource.
         public let resourceType: String
 
+        @inlinable
         public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2538,6 +2598,7 @@ extension ConfigService {
         /// The name of the retention configuration to delete.
         public let retentionConfigurationName: String
 
+        @inlinable
         public init(retentionConfigurationName: String) {
             self.retentionConfigurationName = retentionConfigurationName
         }
@@ -2557,6 +2618,7 @@ extension ConfigService {
         /// The name of the query that you want to delete.
         public let queryName: String
 
+        @inlinable
         public init(queryName: String) {
             self.queryName = queryName
         }
@@ -2581,6 +2643,7 @@ extension ConfigService {
         /// 			delivered.
         public let deliveryChannelName: String
 
+        @inlinable
         public init(deliveryChannelName: String) {
             self.deliveryChannelName = deliveryChannelName
         }
@@ -2599,6 +2662,7 @@ extension ConfigService {
         /// The ID of the snapshot that is being created.
         public let configSnapshotId: String?
 
+        @inlinable
         public init(configSnapshotId: String? = nil) {
             self.configSnapshotId = configSnapshotId
         }
@@ -2637,6 +2701,7 @@ extension ConfigService {
         /// 			Developer Guide.
         public let snsTopicARN: String?
 
+        @inlinable
         public init(configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, s3KmsKeyArn: String? = nil, snsTopicARN: String? = nil) {
             self.configSnapshotDeliveryProperties = configSnapshotDeliveryProperties
             self.name = name
@@ -2675,6 +2740,7 @@ extension ConfigService {
         /// The name of the delivery channel.
         public let name: String?
 
+        @inlinable
         public init(configHistoryDeliveryInfo: ConfigExportDeliveryInfo? = nil, configSnapshotDeliveryInfo: ConfigExportDeliveryInfo? = nil, configStreamDeliveryInfo: ConfigStreamDeliveryInfo? = nil, name: String? = nil) {
             self.configHistoryDeliveryInfo = configHistoryDeliveryInfo
             self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
@@ -2705,6 +2771,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -2737,6 +2804,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]? = nil, nextToken: String? = nil) {
             self.aggregateComplianceByConfigRules = aggregateComplianceByConfigRules
             self.nextToken = nextToken
@@ -2758,6 +2826,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -2788,6 +2857,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregateComplianceByConformancePacks: [AggregateComplianceByConformancePack]? = nil, nextToken: String? = nil) {
             self.aggregateComplianceByConformancePacks = aggregateComplianceByConformancePacks
             self.nextToken = nextToken
@@ -2808,6 +2878,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -2832,6 +2903,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregationAuthorizations: [AggregationAuthorization]? = nil, nextToken: String? = nil) {
             self.aggregationAuthorizations = aggregationAuthorizations
             self.nextToken = nextToken
@@ -2854,6 +2926,7 @@ extension ConfigService {
         /// 			response.
         public let nextToken: String?
 
+        @inlinable
         public init(complianceTypes: [ComplianceType]? = nil, configRuleNames: [String]? = nil, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleNames = configRuleNames
@@ -2885,6 +2958,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(complianceByConfigRules: [ComplianceByConfigRule]? = nil, nextToken: String? = nil) {
             self.complianceByConfigRules = complianceByConfigRules
             self.nextToken = nextToken
@@ -2918,6 +2992,7 @@ extension ConfigService {
         /// 			specifying AWS::::Account.
         public let resourceType: String?
 
+        @inlinable
         public init(complianceTypes: [ComplianceType]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.complianceTypes = complianceTypes
             self.limit = limit
@@ -2953,6 +3028,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(complianceByResources: [ComplianceByResource]? = nil, nextToken: String? = nil) {
             self.complianceByResources = complianceByResources
             self.nextToken = nextToken
@@ -2981,6 +3057,7 @@ extension ConfigService {
         /// 			response.
         public let nextToken: String?
 
+        @inlinable
         public init(configRuleNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.limit = limit
@@ -3012,6 +3089,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]? = nil, nextToken: String? = nil) {
             self.configRulesEvaluationStatus = configRulesEvaluationStatus
             self.nextToken = nextToken
@@ -3027,6 +3105,7 @@ extension ConfigService {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public let evaluationMode: EvaluationMode?
 
+        @inlinable
         public init(evaluationMode: EvaluationMode? = nil) {
             self.evaluationMode = evaluationMode
         }
@@ -3049,6 +3128,7 @@ extension ConfigService {
         /// 			response.
         public let nextToken: String?
 
+        @inlinable
         public init(configRuleNames: [String]? = nil, filters: DescribeConfigRulesFilters? = nil, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.filters = filters
@@ -3078,6 +3158,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configRules: [ConfigRule]? = nil, nextToken: String? = nil) {
             self.configRules = configRules
             self.nextToken = nextToken
@@ -3105,6 +3186,7 @@ extension ConfigService {
         /// 					recent.
         public let updateStatus: [AggregatedSourceStatusType]?
 
+        @inlinable
         public init(configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.limit = limit
@@ -3137,6 +3219,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregatedSourceStatusList: [AggregatedSourceStatus]? = nil, nextToken: String? = nil) {
             self.aggregatedSourceStatusList = aggregatedSourceStatusList
             self.nextToken = nextToken
@@ -3159,6 +3242,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorNames = configurationAggregatorNames
             self.limit = limit
@@ -3190,6 +3274,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregators: [ConfigurationAggregator]? = nil, nextToken: String? = nil) {
             self.configurationAggregators = configurationAggregators
             self.nextToken = nextToken
@@ -3207,6 +3292,7 @@ extension ConfigService {
         /// 			configuration recorders associated with the account.
         public let configurationRecorderNames: [String]?
 
+        @inlinable
         public init(configurationRecorderNames: [String]? = nil) {
             self.configurationRecorderNames = configurationRecorderNames
         }
@@ -3228,6 +3314,7 @@ extension ConfigService {
         /// 			recorders.
         public let configurationRecordersStatus: [ConfigurationRecorderStatus]?
 
+        @inlinable
         public init(configurationRecordersStatus: [ConfigurationRecorderStatus]? = nil) {
             self.configurationRecordersStatus = configurationRecordersStatus
         }
@@ -3241,6 +3328,7 @@ extension ConfigService {
         /// A list of configuration recorder names.
         public let configurationRecorderNames: [String]?
 
+        @inlinable
         public init(configurationRecorderNames: [String]? = nil) {
             self.configurationRecorderNames = configurationRecorderNames
         }
@@ -3262,6 +3350,7 @@ extension ConfigService {
         /// 			configuration recorders.
         public let configurationRecorders: [ConfigurationRecorder]?
 
+        @inlinable
         public init(configurationRecorders: [ConfigurationRecorder]? = nil) {
             self.configurationRecorders = configurationRecorders
         }
@@ -3281,6 +3370,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackName: String, filters: ConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.filters = filters
@@ -3313,6 +3403,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackName: String, conformancePackRuleComplianceList: [ConformancePackRuleCompliance], nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.conformancePackRuleComplianceList = conformancePackRuleComplianceList
@@ -3334,6 +3425,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
@@ -3364,6 +3456,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackStatusDetails: [ConformancePackStatusDetail]? = nil, nextToken: String? = nil) {
             self.conformancePackStatusDetails = conformancePackStatusDetails
             self.nextToken = nextToken
@@ -3383,6 +3476,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
@@ -3413,6 +3507,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackDetails: [ConformancePackDetail]? = nil, nextToken: String? = nil) {
             self.conformancePackDetails = conformancePackDetails
             self.nextToken = nextToken
@@ -3428,6 +3523,7 @@ extension ConfigService {
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
 
+        @inlinable
         public init(deliveryChannelNames: [String]? = nil) {
             self.deliveryChannelNames = deliveryChannelNames
         }
@@ -3449,6 +3545,7 @@ extension ConfigService {
         /// 			channel.
         public let deliveryChannelsStatus: [DeliveryChannelStatus]?
 
+        @inlinable
         public init(deliveryChannelsStatus: [DeliveryChannelStatus]? = nil) {
             self.deliveryChannelsStatus = deliveryChannelsStatus
         }
@@ -3462,6 +3559,7 @@ extension ConfigService {
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
 
+        @inlinable
         public init(deliveryChannelNames: [String]? = nil) {
             self.deliveryChannelNames = deliveryChannelNames
         }
@@ -3483,6 +3581,7 @@ extension ConfigService {
         /// 			channel.
         public let deliveryChannels: [DeliveryChannel]?
 
+        @inlinable
         public init(deliveryChannels: [DeliveryChannel]? = nil) {
             self.deliveryChannels = deliveryChannels
         }
@@ -3500,6 +3599,7 @@ extension ConfigService {
         /// The names of organization Config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3529,6 +3629,7 @@ extension ConfigService {
         /// A list of OrganizationConfigRuleStatus objects.
         public let organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRuleStatuses = organizationConfigRuleStatuses
@@ -3548,6 +3649,7 @@ extension ConfigService {
         /// The names of organization Config rules for which you want details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3577,6 +3679,7 @@ extension ConfigService {
         /// Returns a list of OrganizationConfigRule objects.
         public let organizationConfigRules: [OrganizationConfigRule]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationConfigRules: [OrganizationConfigRule]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRules = organizationConfigRules
@@ -3598,6 +3701,7 @@ extension ConfigService {
         /// 			If you do not specify any names, Config returns details for all your organization conformance packs.
         public let organizationConformancePackNames: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3628,6 +3732,7 @@ extension ConfigService {
         /// A list of OrganizationConformancePackStatus objects.
         public let organizationConformancePackStatuses: [OrganizationConformancePackStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationConformancePackStatuses: [OrganizationConformancePackStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConformancePackStatuses = organizationConformancePackStatuses
@@ -3649,6 +3754,7 @@ extension ConfigService {
         /// The name that you assign to an organization conformance pack.
         public let organizationConformancePackNames: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3680,6 +3786,7 @@ extension ConfigService {
         /// Returns a list of OrganizationConformancePacks objects.
         public let organizationConformancePacks: [OrganizationConformancePack]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationConformancePacks: [OrganizationConformancePack]? = nil) {
             self.nextToken = nextToken
             self.organizationConformancePacks = organizationConformancePacks
@@ -3700,6 +3807,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3723,6 +3831,7 @@ extension ConfigService {
         /// Returns a PendingAggregationRequests object.
         public let pendingAggregationRequests: [PendingAggregationRequest]?
 
+        @inlinable
         public init(nextToken: String? = nil, pendingAggregationRequests: [PendingAggregationRequest]? = nil) {
             self.nextToken = nextToken
             self.pendingAggregationRequests = pendingAggregationRequests
@@ -3738,6 +3847,7 @@ extension ConfigService {
         /// A list of Config rule names of remediation configurations for which you want details.
         public let configRuleNames: [String]
 
+        @inlinable
         public init(configRuleNames: [String]) {
             self.configRuleNames = configRuleNames
         }
@@ -3760,6 +3870,7 @@ extension ConfigService {
         /// Returns a remediation configuration object.
         public let remediationConfigurations: [RemediationConfiguration]?
 
+        @inlinable
         public init(remediationConfigurations: [RemediationConfiguration]? = nil) {
             self.remediationConfigurations = remediationConfigurations
         }
@@ -3779,6 +3890,7 @@ extension ConfigService {
         /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
         public let resourceKeys: [RemediationExceptionResourceKey]?
 
+        @inlinable
         public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [RemediationExceptionResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
@@ -3813,6 +3925,7 @@ extension ConfigService {
         /// Returns a list of remediation exception objects.
         public let remediationExceptions: [RemediationException]?
 
+        @inlinable
         public init(nextToken: String? = nil, remediationExceptions: [RemediationException]? = nil) {
             self.nextToken = nextToken
             self.remediationExceptions = remediationExceptions
@@ -3834,6 +3947,7 @@ extension ConfigService {
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]?
 
+        @inlinable
         public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
@@ -3868,6 +3982,7 @@ extension ConfigService {
         /// Returns a list of remediation execution statuses objects.
         public let remediationExecutionStatuses: [RemediationExecutionStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, remediationExecutionStatuses: [RemediationExecutionStatus]? = nil) {
             self.nextToken = nextToken
             self.remediationExecutionStatuses = remediationExecutionStatuses
@@ -3890,6 +4005,7 @@ extension ConfigService {
         /// 				configuration per region in your account.
         public let retentionConfigurationNames: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, retentionConfigurationNames: [String]? = nil) {
             self.nextToken = nextToken
             self.retentionConfigurationNames = retentionConfigurationNames
@@ -3918,6 +4034,7 @@ extension ConfigService {
         /// Returns a retention configuration object.
         public let retentionConfigurations: [RetentionConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, retentionConfigurations: [RetentionConfiguration]? = nil) {
             self.nextToken = nextToken
             self.retentionConfigurations = retentionConfigurations
@@ -3955,6 +4072,7 @@ extension ConfigService {
         /// 			example, every 24 hours).
         public let orderingTimestamp: Date
 
+        @inlinable
         public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: Date) {
             self.annotation = annotation
             self.complianceResourceId = complianceResourceId
@@ -3985,6 +4103,7 @@ extension ConfigService {
         /// A unique EvaluationContextIdentifier ID for an EvaluationContext.
         public let evaluationContextIdentifier: String?
 
+        @inlinable
         public init(evaluationContextIdentifier: String? = nil) {
             self.evaluationContextIdentifier = evaluationContextIdentifier
         }
@@ -4003,6 +4122,7 @@ extension ConfigService {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public let mode: EvaluationMode?
 
+        @inlinable
         public init(mode: EvaluationMode? = nil) {
             self.mode = mode
         }
@@ -4035,6 +4155,7 @@ extension ConfigService {
         /// 			evaluated, and the event that triggered the evaluation.
         public let resultToken: String?
 
+        @inlinable
         public init(annotation: String? = nil, complianceType: ComplianceType? = nil, configRuleInvokedTime: Date? = nil, evaluationResultIdentifier: EvaluationResultIdentifier? = nil, resultRecordedTime: Date? = nil, resultToken: String? = nil) {
             self.annotation = annotation
             self.complianceType = complianceType
@@ -4066,6 +4187,7 @@ extension ConfigService {
         /// A Unique ID for an evaluation result.
         public let resourceEvaluationId: String?
 
+        @inlinable
         public init(evaluationResultQualifier: EvaluationResultQualifier? = nil, orderingTimestamp: Date? = nil, resourceEvaluationId: String? = nil) {
             self.evaluationResultQualifier = evaluationResultQualifier
             self.orderingTimestamp = orderingTimestamp
@@ -4090,6 +4212,7 @@ extension ConfigService {
         /// The type of Amazon Web Services resource that was evaluated.
         public let resourceType: String?
 
+        @inlinable
         public init(configRuleName: String? = nil, evaluationMode: EvaluationMode? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.configRuleName = configRuleName
             self.evaluationMode = evaluationMode
@@ -4111,6 +4234,7 @@ extension ConfigService {
         /// The status of an execution. The valid values are In_Progress, Succeeded or Failed.
         public let status: ResourceEvaluationStatus
 
+        @inlinable
         public init(failureReason: String? = nil, status: ResourceEvaluationStatus) {
             self.failureReason = failureReason
             self.status = status
@@ -4127,6 +4251,7 @@ extension ConfigService {
         /// 			recorder.
         public let resourceTypes: [ResourceType]?
 
+        @inlinable
         public init(resourceTypes: [ResourceType]? = nil) {
             self.resourceTypes = resourceTypes
         }
@@ -4140,6 +4265,7 @@ extension ConfigService {
         /// A SsmControls object.
         public let ssmControls: SsmControls?
 
+        @inlinable
         public init(ssmControls: SsmControls? = nil) {
             self.ssmControls = ssmControls
         }
@@ -4165,6 +4291,7 @@ extension ConfigService {
         /// The time when the compliance was recorded.
         public let orderingTimestamp: Date
 
+        @inlinable
         public init(annotation: String? = nil, complianceResourceId: String, complianceResourceType: String, complianceType: ComplianceType, orderingTimestamp: Date) {
             self.annotation = annotation
             self.complianceResourceId = complianceResourceId
@@ -4197,6 +4324,7 @@ extension ConfigService {
         /// Returns a failure message for delete remediation exception. For example, Config creates an exception due to an internal error.
         public let failureMessage: String?
 
+        @inlinable
         public init(failedItems: [RemediationExceptionResourceKey]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
@@ -4214,6 +4342,7 @@ extension ConfigService {
         /// Returns a failure message. For example, the resource is already compliant.
         public let failureMessage: String?
 
+        @inlinable
         public init(failedItems: [RemediationConfiguration]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
@@ -4231,6 +4360,7 @@ extension ConfigService {
         /// Returns a failure message. For example, the auto-remediation has failed.
         public let failureMessage: String?
 
+        @inlinable
         public init(failedItems: [RemediationException]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
@@ -4246,6 +4376,7 @@ extension ConfigService {
         /// Name of the field.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4280,6 +4411,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -4322,6 +4454,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregateEvaluationResults: [AggregateEvaluationResult]? = nil, nextToken: String? = nil) {
             self.aggregateEvaluationResults = aggregateEvaluationResults
             self.nextToken = nextToken
@@ -4349,6 +4482,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -4384,6 +4518,7 @@ extension ConfigService {
         /// 			to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregateComplianceCounts: [AggregateComplianceCount]? = nil, groupByKey: String? = nil, nextToken: String? = nil) {
             self.aggregateComplianceCounts = aggregateComplianceCounts
             self.groupByKey = groupByKey
@@ -4409,6 +4544,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceSummaryFilters? = nil, groupByKey: AggregateConformancePackComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -4443,6 +4579,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregateConformancePackComplianceSummaries: [AggregateConformancePackComplianceSummary]? = nil, groupByKey: String? = nil, nextToken: String? = nil) {
             self.aggregateConformancePackComplianceSummaries = aggregateConformancePackComplianceSummaries
             self.groupByKey = groupByKey
@@ -4468,6 +4605,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -4504,6 +4642,7 @@ extension ConfigService {
         /// The total number of resources that are present in an aggregator with the filters that you provide.
         public let totalDiscoveredResources: Int64
 
+        @inlinable
         public init(groupByKey: String? = nil, groupedResourceCounts: [GroupedResourceCount]? = nil, nextToken: String? = nil, totalDiscoveredResources: Int64) {
             self.groupByKey = groupByKey
             self.groupedResourceCounts = groupedResourceCounts
@@ -4525,6 +4664,7 @@ extension ConfigService {
         /// An object that identifies aggregate resource.
         public let resourceIdentifier: AggregateResourceIdentifier
 
+        @inlinable
         public init(configurationAggregatorName: String, resourceIdentifier: AggregateResourceIdentifier) {
             self.configurationAggregatorName = configurationAggregatorName
             self.resourceIdentifier = resourceIdentifier
@@ -4547,6 +4687,7 @@ extension ConfigService {
         /// Returns a ConfigurationItem object.
         public let configurationItem: ConfigurationItem?
 
+        @inlinable
         public init(configurationItem: ConfigurationItem? = nil) {
             self.configurationItem = configurationItem
         }
@@ -4571,6 +4712,7 @@ extension ConfigService {
         /// 			response.
         public let nextToken: String?
 
+        @inlinable
         public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleName = configRuleName
@@ -4602,6 +4744,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
             self.evaluationResults = evaluationResults
             self.nextToken = nextToken
@@ -4629,6 +4772,7 @@ extension ConfigService {
         /// 			information.
         public let resourceType: String?
 
+        @inlinable
         public init(complianceTypes: [ComplianceType]? = nil, nextToken: String? = nil, resourceEvaluationId: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.complianceTypes = complianceTypes
             self.nextToken = nextToken
@@ -4663,6 +4807,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(evaluationResults: [EvaluationResult]? = nil, nextToken: String? = nil) {
             self.evaluationResults = evaluationResults
             self.nextToken = nextToken
@@ -4680,6 +4825,7 @@ extension ConfigService {
         /// 			each.
         public let complianceSummary: ComplianceSummary?
 
+        @inlinable
         public init(complianceSummary: ComplianceSummary? = nil) {
             self.complianceSummary = complianceSummary
         }
@@ -4698,6 +4844,7 @@ extension ConfigService {
         /// 				AWS::::Account.
         public let resourceTypes: [String]?
 
+        @inlinable
         public init(resourceTypes: [String]? = nil) {
             self.resourceTypes = resourceTypes
         }
@@ -4722,6 +4869,7 @@ extension ConfigService {
         /// 			maximum number returned is 100.
         public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
 
+        @inlinable
         public init(complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil) {
             self.complianceSummariesByResourceType = complianceSummariesByResourceType
         }
@@ -4741,6 +4889,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackName: String, filters: ConformancePackEvaluationFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.filters = filters
@@ -4773,6 +4922,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackName: String, conformancePackRuleEvaluationResults: [ConformancePackEvaluationResult]? = nil, nextToken: String? = nil) {
             self.conformancePackName = conformancePackName
             self.conformancePackRuleEvaluationResults = conformancePackRuleEvaluationResults
@@ -4794,6 +4944,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackNames: [String], limit: Int? = nil, nextToken: String? = nil) {
             self.conformancePackNames = conformancePackNames
             self.limit = limit
@@ -4825,6 +4976,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackComplianceSummaryList: [ConformancePackComplianceSummary]? = nil, nextToken: String? = nil) {
             self.conformancePackComplianceSummaryList = conformancePackComplianceSummaryList
             self.nextToken = nextToken
@@ -4840,6 +4992,7 @@ extension ConfigService {
         /// The name of your Config Custom Policy rule.
         public let configRuleName: String?
 
+        @inlinable
         public init(configRuleName: String? = nil) {
             self.configRuleName = configRuleName
         }
@@ -4859,6 +5012,7 @@ extension ConfigService {
         /// The policy definition containing the logic for your Config Custom Policy rule.
         public let policyText: String?
 
+        @inlinable
         public init(policyText: String? = nil) {
             self.policyText = policyText
         }
@@ -4889,6 +5043,7 @@ extension ConfigService {
         /// 				type is not returned in the list of ResourceCount objects.
         public let resourceTypes: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -4933,6 +5088,7 @@ extension ConfigService {
         /// 						totalDiscoveredResources.
         public let totalDiscoveredResources: Int64?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceCounts: [ResourceCount]? = nil, totalDiscoveredResources: Int64? = nil) {
             self.nextToken = nextToken
             self.resourceCounts = resourceCounts
@@ -4956,6 +5112,7 @@ extension ConfigService {
         /// The name of your organization Config rule for which you want status details for member accounts.
         public let organizationConfigRuleName: String
 
+        @inlinable
         public init(filters: StatusDetailFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
             self.filters = filters
             self.limit = limit
@@ -4986,6 +5143,7 @@ extension ConfigService {
         /// A list of MemberAccountStatus objects.
         public let organizationConfigRuleDetailedStatus: [MemberAccountStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationConfigRuleDetailedStatus: [MemberAccountStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConfigRuleDetailedStatus = organizationConfigRuleDetailedStatus
@@ -5008,6 +5166,7 @@ extension ConfigService {
         /// The name of organization conformance pack for which you want status details for member accounts.
         public let organizationConformancePackName: String
 
+        @inlinable
         public init(filters: OrganizationResourceDetailedStatusFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConformancePackName: String) {
             self.filters = filters
             self.limit = limit
@@ -5038,6 +5197,7 @@ extension ConfigService {
         /// A list of OrganizationConformancePackDetailedStatus objects.
         public let organizationConformancePackDetailedStatuses: [OrganizationConformancePackDetailedStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationConformancePackDetailedStatuses: [OrganizationConformancePackDetailedStatus]? = nil) {
             self.nextToken = nextToken
             self.organizationConformancePackDetailedStatuses = organizationConformancePackDetailedStatuses
@@ -5053,6 +5213,7 @@ extension ConfigService {
         /// The name of your organization Config Custom Policy rule.
         public let organizationConfigRuleName: String
 
+        @inlinable
         public init(organizationConfigRuleName: String) {
             self.organizationConfigRuleName = organizationConfigRuleName
         }
@@ -5072,6 +5233,7 @@ extension ConfigService {
         /// The policy definition containing the logic for your organization Config Custom Policy rule.
         public let policyText: String?
 
+        @inlinable
         public init(policyText: String? = nil) {
             self.policyText = policyText
         }
@@ -5108,6 +5270,7 @@ extension ConfigService {
         /// The resource type.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, laterTime: Date? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
             self.chronologicalOrder = chronologicalOrder
             self.earlierTime = earlierTime
@@ -5144,6 +5307,7 @@ extension ConfigService {
         /// 			page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationItems: [ConfigurationItem]? = nil, nextToken: String? = nil) {
             self.configurationItems = configurationItems
             self.nextToken = nextToken
@@ -5159,6 +5323,7 @@ extension ConfigService {
         /// The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary.
         public let resourceEvaluationId: String
 
+        @inlinable
         public init(resourceEvaluationId: String) {
             self.resourceEvaluationId = resourceEvaluationId
         }
@@ -5189,6 +5354,7 @@ extension ConfigService {
         /// The unique ResourceEvaluationId of Amazon Web Services resource execution for which you want to retrieve the evaluation summary.
         public let resourceEvaluationId: String?
 
+        @inlinable
         public init(compliance: ComplianceType? = nil, evaluationContext: EvaluationContext? = nil, evaluationMode: EvaluationMode? = nil, evaluationStartTimestamp: Date? = nil, evaluationStatus: EvaluationStatus? = nil, resourceDetails: ResourceDetails? = nil, resourceEvaluationId: String? = nil) {
             self.compliance = compliance
             self.evaluationContext = evaluationContext
@@ -5214,6 +5380,7 @@ extension ConfigService {
         /// The name of the query.
         public let queryName: String
 
+        @inlinable
         public init(queryName: String) {
             self.queryName = queryName
         }
@@ -5233,6 +5400,7 @@ extension ConfigService {
         /// Returns a StoredQuery object.
         public let storedQuery: StoredQuery?
 
+        @inlinable
         public init(storedQuery: StoredQuery? = nil) {
             self.storedQuery = storedQuery
         }
@@ -5248,6 +5416,7 @@ extension ConfigService {
         /// The number of resources in the group.
         public let resourceCount: Int64
 
+        @inlinable
         public init(groupName: String, resourceCount: Int64) {
             self.groupName = groupName
             self.resourceCount = resourceCount
@@ -5271,6 +5440,7 @@ extension ConfigService {
         /// The type of resources that you want Config to list in the response.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int? = nil, nextToken: String? = nil, resourceType: ResourceType) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
@@ -5303,6 +5473,7 @@ extension ConfigService {
         /// Returns a list of ResourceIdentifiers objects.
         public let resourceIdentifiers: [AggregateResourceIdentifier]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceIdentifiers: [AggregateResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.resourceIdentifiers = resourceIdentifiers
@@ -5327,6 +5498,7 @@ extension ConfigService {
         /// Determines the order in which conformance pack compliance scores are sorted. Either in ascending or descending order. By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack. Conformance pack compliance scores are sorted in reverse alphabetical order if you enter DESCENDING. You can sort conformance pack compliance scores by the numerical value of the compliance score by entering SCORE in the SortBy action. When compliance scores are sorted by SCORE, conformance packs with a compliance score of INSUFFICIENT_DATA will be last when sorting by ascending order and first when sorting by descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(filters: ConformancePackComplianceScoresFilters? = nil, limit: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.limit = limit
@@ -5356,6 +5528,7 @@ extension ConfigService {
         /// The nextToken string that you can use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(conformancePackComplianceScores: [ConformancePackComplianceScore], nextToken: String? = nil) {
             self.conformancePackComplianceScores = conformancePackComplianceScores
             self.nextToken = nextToken
@@ -5391,6 +5564,7 @@ extension ConfigService {
         /// 			response.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(includeDeletedResources: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
             self.includeDeletedResources = includeDeletedResources
             self.limit = limit
@@ -5427,6 +5601,7 @@ extension ConfigService {
         /// 			custom resource name.
         public let resourceIdentifiers: [ResourceIdentifier]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceIdentifiers: [ResourceIdentifier]? = nil) {
             self.nextToken = nextToken
             self.resourceIdentifiers = resourceIdentifiers
@@ -5447,6 +5622,7 @@ extension ConfigService {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: ResourceEvaluationFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.limit = limit
@@ -5472,6 +5648,7 @@ extension ConfigService {
         /// Returns a ResourceEvaluations object.
         public let resourceEvaluations: [ResourceEvaluation]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceEvaluations: [ResourceEvaluation]? = nil) {
             self.nextToken = nextToken
             self.resourceEvaluations = resourceEvaluations
@@ -5489,6 +5666,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5513,6 +5691,7 @@ extension ConfigService {
         /// A list of StoredQueryMetadata objects.
         public let storedQueryMetadata: [StoredQueryMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, storedQueryMetadata: [StoredQueryMetadata]? = nil) {
             self.nextToken = nextToken
             self.storedQueryMetadata = storedQueryMetadata
@@ -5532,6 +5711,7 @@ extension ConfigService {
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -5558,6 +5738,7 @@ extension ConfigService {
         /// The tags for the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -5587,6 +5768,7 @@ extension ConfigService {
         /// 		 Config sets the state of the rule to:    CREATE_SUCCESSFUL when Config rule has been created in the member account.     CREATE_IN_PROGRESS when Config rule is being created in the member account.    CREATE_FAILED when Config rule creation has failed in the member account.    DELETE_FAILED when Config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when Config rule is being deleted in the member account.    DELETE_SUCCESSFUL when Config rule has been deleted in the member account.     UPDATE_SUCCESSFUL when Config rule has been updated in the member account.    UPDATE_IN_PROGRESS when Config rule is being updated in the member account.    UPDATE_FAILED when Config rule deletion has failed in the member account.
         public let memberAccountRuleStatus: MemberAccountRuleStatus
 
+        @inlinable
         public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
             self.accountId = accountId
             self.configRuleName = configRuleName
@@ -5616,6 +5798,7 @@ extension ConfigService {
         /// 			associated with the aggregator account.
         public let roleArn: String
 
+        @inlinable
         public init(allAwsRegions: Bool? = nil, awsRegions: [String]? = nil, roleArn: String) {
             self.allAwsRegions = allAwsRegions
             self.awsRegions = awsRegions
@@ -5652,6 +5835,7 @@ extension ConfigService {
         /// An OrganizationManagedRuleMetadata object.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
+        @inlinable
         public init(excludedAccounts: [String]? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadataNoPolicy? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.lastUpdateTime = lastUpdateTime
@@ -5688,6 +5872,7 @@ extension ConfigService {
         /// 			Config rule status is deleted when the management account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. Config sets the state of the rule to:    CREATE_SUCCESSFUL when an organization Config rule has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization Config rule creation is in progress.    CREATE_FAILED when an organization Config rule creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization Config rule deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization Config rule deletion is in progress.    DELETE_SUCCESSFUL when an organization Config rule has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization Config rule has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization Config rule update is in progress.    UPDATE_FAILED when an organization Config rule update failed in one or more member accounts within that organization.
         public let organizationRuleStatus: OrganizationRuleStatus
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -5721,6 +5906,7 @@ extension ConfigService {
         /// The name you assign to an organization conformance pack.
         public let organizationConformancePackName: String
 
+        @inlinable
         public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, lastUpdateTime: Date, organizationConformancePackArn: String, organizationConformancePackName: String) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
@@ -5762,6 +5948,7 @@ extension ConfigService {
         /// 		 Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.
         public let status: OrganizationResourceDetailedStatus
 
+        @inlinable
         public init(accountId: String, conformancePackName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, status: OrganizationResourceDetailedStatus) {
             self.accountId = accountId
             self.conformancePackName = conformancePackName
@@ -5802,6 +5989,7 @@ extension ConfigService {
         /// 			access for config-multiaccountsetup.amazonaws.com. Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when an organization conformance pack has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization conformance pack creation is in progress.    CREATE_FAILED when an organization conformance pack creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization conformance pack deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization conformance pack deletion is in progress.    DELETE_SUCCESSFUL when an organization conformance pack has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization conformance pack has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization conformance pack update is in progress.    UPDATE_FAILED when an organization conformance pack update failed in one or more member accounts within that organization.
         public let status: OrganizationResourceStatus
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, organizationConformancePackName: String, status: OrganizationResourceStatus) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -5850,6 +6038,7 @@ extension ConfigService {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let tagValueScope: String?
 
+        @inlinable
         public init(debugLogDeliveryAccounts: [String]? = nil, description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerTypeNoSN]? = nil, policyRuntime: String, policyText: String, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.debugLogDeliveryAccounts = debugLogDeliveryAccounts
             self.description = description
@@ -5932,6 +6121,7 @@ extension ConfigService {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let tagValueScope: String?
 
+        @inlinable
         public init(debugLogDeliveryAccounts: [String]? = nil, description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerTypeNoSN]? = nil, policyRuntime: String? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.debugLogDeliveryAccounts = debugLogDeliveryAccounts
             self.description = description
@@ -5984,6 +6174,7 @@ extension ConfigService {
         /// 			A value acts as a descriptor within a tag category (key).
         public let tagValueScope: String?
 
+        @inlinable
         public init(description: String? = nil, inputParameters: String? = nil, lambdaFunctionArn: String, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType], resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.description = description
             self.inputParameters = inputParameters
@@ -6051,6 +6242,7 @@ extension ConfigService {
         /// 			A value acts as a descriptor within a tag category (key).
         public let tagValueScope: String?
 
+        @inlinable
         public init(description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, ruleIdentifier: String, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
             self.description = description
             self.inputParameters = inputParameters
@@ -6103,6 +6295,7 @@ extension ConfigService {
         /// 		 Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.
         public let status: OrganizationResourceDetailedStatus?
 
+        @inlinable
         public init(accountId: String? = nil, status: OrganizationResourceDetailedStatus? = nil) {
             self.accountId = accountId
             self.status = status
@@ -6125,6 +6318,7 @@ extension ConfigService {
         /// The region requesting to aggregate data.
         public let requesterAwsRegion: String?
 
+        @inlinable
         public init(requesterAccountId: String? = nil, requesterAwsRegion: String? = nil) {
             self.requesterAccountId = requesterAccountId
             self.requesterAwsRegion = requesterAwsRegion
@@ -6144,6 +6338,7 @@ extension ConfigService {
         /// An array of tag object.
         public let tags: [Tag]?
 
+        @inlinable
         public init(authorizedAccountId: String, authorizedAwsRegion: String, tags: [Tag]? = nil) {
             self.authorizedAccountId = authorizedAccountId
             self.authorizedAwsRegion = authorizedAwsRegion
@@ -6173,6 +6368,7 @@ extension ConfigService {
         ///
         public let aggregationAuthorization: AggregationAuthorization?
 
+        @inlinable
         public init(aggregationAuthorization: AggregationAuthorization? = nil) {
             self.aggregationAuthorization = aggregationAuthorization
         }
@@ -6188,6 +6384,7 @@ extension ConfigService {
         /// An array of tag object.
         public let tags: [Tag]?
 
+        @inlinable
         public init(configRule: ConfigRule, tags: [Tag]? = nil) {
             self.configRule = configRule
             self.tags = tags
@@ -6219,6 +6416,7 @@ extension ConfigService {
         /// An array of tag object.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorName: String, organizationAggregationSource: OrganizationAggregationSource? = nil, tags: [Tag]? = nil) {
             self.accountAggregationSources = accountAggregationSources
             self.configurationAggregatorName = configurationAggregatorName
@@ -6253,6 +6451,7 @@ extension ConfigService {
         /// Returns a ConfigurationAggregator object.
         public let configurationAggregator: ConfigurationAggregator?
 
+        @inlinable
         public init(configurationAggregator: ConfigurationAggregator? = nil) {
             self.configurationAggregator = configurationAggregator
         }
@@ -6266,6 +6465,7 @@ extension ConfigService {
         /// An object for the configuration recorder to record configuration changes for specified resource types.
         public let configurationRecorder: ConfigurationRecorder
 
+        @inlinable
         public init(configurationRecorder: ConfigurationRecorder) {
             self.configurationRecorder = configurationRecorder
         }
@@ -6296,6 +6496,7 @@ extension ConfigService {
         /// An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
         public let templateSSMDocumentDetails: TemplateSSMDocumentDetails?
 
+        @inlinable
         public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, templateBody: String? = nil, templateS3Uri: String? = nil, templateSSMDocumentDetails: TemplateSSMDocumentDetails? = nil) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.conformancePackName = conformancePackName
@@ -6339,6 +6540,7 @@ extension ConfigService {
         /// ARN of the conformance pack.
         public let conformancePackArn: String?
 
+        @inlinable
         public init(conformancePackArn: String? = nil) {
             self.conformancePackArn = conformancePackArn
         }
@@ -6354,6 +6556,7 @@ extension ConfigService {
         /// 			SNS topic.
         public let deliveryChannel: DeliveryChannel
 
+        @inlinable
         public init(deliveryChannel: DeliveryChannel) {
             self.deliveryChannel = deliveryChannel
         }
@@ -6385,6 +6588,7 @@ extension ConfigService {
         /// 				be null.
         public let testMode: Bool?
 
+        @inlinable
         public init(evaluations: [Evaluation]? = nil, resultToken: String, testMode: Bool? = nil) {
             self.evaluations = evaluations
             self.resultToken = resultToken
@@ -6410,6 +6614,7 @@ extension ConfigService {
         /// 			error.
         public let failedEvaluations: [Evaluation]?
 
+        @inlinable
         public init(failedEvaluations: [Evaluation]? = nil) {
             self.failedEvaluations = failedEvaluations
         }
@@ -6425,6 +6630,7 @@ extension ConfigService {
         /// An ExternalEvaluation object that provides details about compliance.
         public let externalEvaluation: ExternalEvaluation
 
+        @inlinable
         public init(configRuleName: String, externalEvaluation: ExternalEvaluation) {
             self.configRuleName = configRuleName
             self.externalEvaluation = externalEvaluation
@@ -6465,6 +6671,7 @@ extension ConfigService {
         /// 			It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
+        @inlinable
         public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.organizationConfigRuleName = organizationConfigRuleName
@@ -6499,6 +6706,7 @@ extension ConfigService {
         /// The Amazon Resource Name (ARN) of an organization Config rule.
         public let organizationConfigRuleArn: String?
 
+        @inlinable
         public init(organizationConfigRuleArn: String? = nil) {
             self.organizationConfigRuleArn = organizationConfigRuleArn
         }
@@ -6527,6 +6735,7 @@ extension ConfigService {
         /// 			In addition, in order to ensure a successful deployment, the template object must not be in an archived storage class if this parameter is passed.
         public let templateS3Uri: String?
 
+        @inlinable
         public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, templateBody: String? = nil, templateS3Uri: String? = nil) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
@@ -6573,6 +6782,7 @@ extension ConfigService {
         /// ARN of the organization conformance pack.
         public let organizationConformancePackArn: String?
 
+        @inlinable
         public init(organizationConformancePackArn: String? = nil) {
             self.organizationConformancePackArn = organizationConformancePackArn
         }
@@ -6586,6 +6796,7 @@ extension ConfigService {
         /// A list of remediation configuration objects.
         public let remediationConfigurations: [RemediationConfiguration]
 
+        @inlinable
         public init(remediationConfigurations: [RemediationConfiguration]) {
             self.remediationConfigurations = remediationConfigurations
         }
@@ -6606,6 +6817,7 @@ extension ConfigService {
         /// Returns a list of failed remediation batch objects.
         public let failedBatches: [FailedRemediationBatch]?
 
+        @inlinable
         public init(failedBatches: [FailedRemediationBatch]? = nil) {
             self.failedBatches = failedBatches
         }
@@ -6625,6 +6837,7 @@ extension ConfigService {
         /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
         public let resourceKeys: [RemediationExceptionResourceKey]
 
+        @inlinable
         public init(configRuleName: String, expirationTime: Date? = nil, message: String? = nil, resourceKeys: [RemediationExceptionResourceKey]) {
             self.configRuleName = configRuleName
             self.expirationTime = expirationTime
@@ -6657,6 +6870,7 @@ extension ConfigService {
         /// Returns a list of failed remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
         public let failedBatches: [FailedRemediationExceptionBatch]?
 
+        @inlinable
         public init(failedBatches: [FailedRemediationExceptionBatch]? = nil) {
             self.failedBatches = failedBatches
         }
@@ -6681,6 +6895,7 @@ extension ConfigService {
         /// 			Tags for PutResourceConfig are tags that you supply for the configuration items of your custom resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configuration: String, resourceId: String, resourceName: String? = nil, resourceType: String, schemaVersionId: String, tags: [String: String]? = nil) {
             self.configuration = configuration
             self.resourceId = resourceId
@@ -6716,6 +6931,7 @@ extension ConfigService {
         /// 				history.
         public let retentionPeriodInDays: Int
 
+        @inlinable
         public init(retentionPeriodInDays: Int) {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
@@ -6734,6 +6950,7 @@ extension ConfigService {
         /// Returns a retention configuration object.
         public let retentionConfiguration: RetentionConfiguration?
 
+        @inlinable
         public init(retentionConfiguration: RetentionConfiguration? = nil) {
             self.retentionConfiguration = retentionConfiguration
         }
@@ -6751,6 +6968,7 @@ extension ConfigService {
         /// A list of Tags object.
         public let tags: [Tag]?
 
+        @inlinable
         public init(storedQuery: StoredQuery, tags: [Tag]? = nil) {
             self.storedQuery = storedQuery
             self.tags = tags
@@ -6775,6 +6993,7 @@ extension ConfigService {
         /// 			For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
         public let queryArn: String?
 
+        @inlinable
         public init(queryArn: String? = nil) {
             self.queryArn = queryArn
         }
@@ -6788,6 +7007,7 @@ extension ConfigService {
         /// Returns a FieldInfo object.
         public let selectFields: [FieldInfo]?
 
+        @inlinable
         public init(selectFields: [FieldInfo]? = nil) {
             self.selectFields = selectFields
         }
@@ -6846,6 +7066,7 @@ extension ConfigService {
         /// 				even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
         public let resourceTypes: [ResourceType]?
 
+        @inlinable
         public init(allSupported: Bool? = nil, exclusionByResourceTypes: ExclusionByResourceTypes? = nil, includeGlobalResourceTypes: Bool? = nil, recordingStrategy: RecordingStrategy? = nil, resourceTypes: [ResourceType]? = nil) {
             self.allSupported = allSupported
             self.exclusionByResourceTypes = exclusionByResourceTypes
@@ -6870,6 +7091,7 @@ extension ConfigService {
         /// 			The recordingModeOverride object in the recordingModeOverrides array consists of three fields: a description, the new recordingFrequency, and an array of resourceTypes to override.
         public let recordingModeOverrides: [RecordingModeOverride]?
 
+        @inlinable
         public init(recordingFrequency: RecordingFrequency, recordingModeOverrides: [RecordingModeOverride]? = nil) {
             self.recordingFrequency = recordingFrequency
             self.recordingModeOverrides = recordingModeOverrides
@@ -6899,6 +7121,7 @@ extension ConfigService {
         /// 			includes in the override.  Daily recording is not supported for the following resource types:    AWS::Config::ResourceCompliance     AWS::Config::ConformancePackCompliance     AWS::Config::ConfigurationRecorder
         public let resourceTypes: [ResourceType]
 
+        @inlinable
         public init(description: String? = nil, recordingFrequency: RecordingFrequency, resourceTypes: [ResourceType]) {
             self.description = description
             self.recordingFrequency = recordingFrequency
@@ -6936,6 +7159,7 @@ extension ConfigService {
         /// 				You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:   Asia Pacific (Hyderabad)   Asia Pacific (Melbourne)   Canada West (Calgary)   Europe (Spain)   Europe (Zurich)   Israel (Tel Aviv)   Middle East (UAE)
         public let useOnly: RecordingStrategyType?
 
+        @inlinable
         public init(useOnly: RecordingStrategyType? = nil) {
             self.useOnly = useOnly
         }
@@ -6957,6 +7181,7 @@ extension ConfigService {
         /// The resource type of the related resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(relationshipName: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
             self.relationshipName = relationshipName
             self.resourceId = resourceId
@@ -7005,6 +7230,7 @@ extension ConfigService {
         /// 			you must call PutRemediationConfiguration API again to ensure the remediations can run.
         public let targetVersion: String?
 
+        @inlinable
         public init(arn: String? = nil, automatic: Bool? = nil, configRuleName: String, createdByService: String? = nil, executionControls: ExecutionControls? = nil, maximumAutomaticAttempts: Int? = nil, parameters: [String: RemediationParameterValue]? = nil, resourceType: String? = nil, retryAttemptSeconds: Int64? = nil, targetId: String, targetType: RemediationTargetType, targetVersion: String? = nil) {
             self.arn = arn
             self.automatic = automatic
@@ -7071,6 +7297,7 @@ extension ConfigService {
         /// The type of a resource.
         public let resourceType: String
 
+        @inlinable
         public init(configRuleName: String, expirationTime: Date? = nil, message: String? = nil, resourceId: String, resourceType: String) {
             self.configRuleName = configRuleName
             self.expirationTime = expirationTime
@@ -7094,6 +7321,7 @@ extension ConfigService {
         /// The type of a resource.
         public let resourceType: String?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -7123,6 +7351,7 @@ extension ConfigService {
         /// Details of every step.
         public let stepDetails: [RemediationExecutionStep]?
 
+        @inlinable
         public init(invocationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceKey: ResourceKey? = nil, state: RemediationExecutionState? = nil, stepDetails: [RemediationExecutionStep]? = nil) {
             self.invocationTime = invocationTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -7152,6 +7381,7 @@ extension ConfigService {
         /// The time when the step stopped.
         public let stopTime: Date?
 
+        @inlinable
         public init(errorMessage: String? = nil, name: String? = nil, startTime: Date? = nil, state: RemediationExecutionStepState? = nil, stopTime: Date? = nil) {
             self.errorMessage = errorMessage
             self.name = name
@@ -7175,6 +7405,7 @@ extension ConfigService {
         /// The value is static and does not change at run-time.
         public let staticValue: StaticValue?
 
+        @inlinable
         public init(resourceValue: ResourceValue? = nil, staticValue: StaticValue? = nil) {
             self.resourceValue = resourceValue
             self.staticValue = staticValue
@@ -7197,6 +7428,7 @@ extension ConfigService {
         /// 				"AWS::EC2::Instance").
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(count: Int64? = nil, resourceType: ResourceType? = nil) {
             self.count = count
             self.resourceType = resourceType
@@ -7216,6 +7448,7 @@ extension ConfigService {
         /// The type of the Amazon Web Services resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(accountId: String? = nil, region: String? = nil, resourceType: ResourceType? = nil) {
             self.accountId = accountId
             self.region = region
@@ -7248,6 +7481,7 @@ extension ConfigService {
         /// The type of resource being evaluated.
         public let resourceType: String
 
+        @inlinable
         public init(resourceConfiguration: String, resourceConfigurationSchemaType: ResourceConfigurationSchemaType? = nil, resourceId: String, resourceType: String) {
             self.resourceConfiguration = resourceConfiguration
             self.resourceConfigurationSchemaType = resourceConfigurationSchemaType
@@ -7280,6 +7514,7 @@ extension ConfigService {
         /// The ResourceEvaluationId of a evaluation.
         public let resourceEvaluationId: String?
 
+        @inlinable
         public init(evaluationMode: EvaluationMode? = nil, evaluationStartTimestamp: Date? = nil, resourceEvaluationId: String? = nil) {
             self.evaluationMode = evaluationMode
             self.evaluationStartTimestamp = evaluationStartTimestamp
@@ -7301,6 +7536,7 @@ extension ConfigService {
         /// Returns a TimeWindow object.
         public let timeWindow: TimeWindow?
 
+        @inlinable
         public init(evaluationContextIdentifier: String? = nil, evaluationMode: EvaluationMode? = nil, timeWindow: TimeWindow? = nil) {
             self.evaluationContextIdentifier = evaluationContextIdentifier
             self.evaluationMode = evaluationMode
@@ -7329,6 +7565,7 @@ extension ConfigService {
         /// The name of the resource.
         public let resourceName: String?
 
+        @inlinable
         public init(accountId: String? = nil, region: String? = nil, resourceId: String? = nil, resourceName: String? = nil) {
             self.accountId = accountId
             self.region = region
@@ -7363,6 +7600,7 @@ extension ConfigService {
         /// The type of resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(resourceDeletionTime: Date? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceDeletionTime = resourceDeletionTime
             self.resourceId = resourceId
@@ -7384,6 +7622,7 @@ extension ConfigService {
         /// The resource type.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -7404,6 +7643,7 @@ extension ConfigService {
         /// The value is a resource ID.
         public let value: ResourceValueType
 
+        @inlinable
         public init(value: ResourceValueType) {
             self.value = value
         }
@@ -7419,6 +7659,7 @@ extension ConfigService {
         /// Number of days Config stores your historical information.  Currently, only applicable to the configuration item history.
         public let retentionPeriodInDays: Int
 
+        @inlinable
         public init(name: String, retentionPeriodInDays: Int) {
             self.name = name
             self.retentionPeriodInDays = retentionPeriodInDays
@@ -7450,6 +7691,7 @@ extension ConfigService {
         /// 				TagKey.
         public let tagValue: String?
 
+        @inlinable
         public init(complianceResourceId: String? = nil, complianceResourceTypes: [String]? = nil, tagKey: String? = nil, tagValue: String? = nil) {
             self.complianceResourceId = complianceResourceId
             self.complianceResourceTypes = complianceResourceTypes
@@ -7491,6 +7733,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationAggregatorName: String, expression: String, limit: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.expression = expression
@@ -7527,6 +7770,7 @@ extension ConfigService {
         /// Returns the results for the SQL query.
         public let results: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, queryInfo: QueryInfo? = nil, results: [String]? = nil) {
             self.nextToken = nextToken
             self.queryInfo = queryInfo
@@ -7548,6 +7792,7 @@ extension ConfigService {
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(expression: String, limit: Int? = nil, nextToken: String? = nil) {
             self.expression = expression
             self.limit = limit
@@ -7576,6 +7821,7 @@ extension ConfigService {
         /// Returns the results for the SQL query.
         public let results: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, queryInfo: QueryInfo? = nil, results: [String]? = nil) {
             self.nextToken = nextToken
             self.queryInfo = queryInfo
@@ -7603,6 +7849,7 @@ extension ConfigService {
         /// 			arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name. For Config Custom Policy rules, this field will be ignored.
         public let sourceIdentifier: String?
 
+        @inlinable
         public init(customPolicyDetails: CustomPolicyDetails? = nil, owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String? = nil) {
             self.customPolicyDetails = customPolicyDetails
             self.owner = owner
@@ -7661,6 +7908,7 @@ extension ConfigService {
         /// 				OversizedConfigurationItemChangeNotification.
         public let messageType: MessageType?
 
+        @inlinable
         public init(eventSource: EventSource? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, messageType: MessageType? = nil) {
             self.eventSource = eventSource
             self.maximumExecutionFrequency = maximumExecutionFrequency
@@ -7682,6 +7930,7 @@ extension ConfigService {
         /// 			For example, if you set the ErrorPercentage to 40% for 10 non-compliant resources, then SSM stops running the automations when the fifth error is received.
         public let errorPercentage: Int?
 
+        @inlinable
         public init(concurrentExecutionRatePercentage: Int? = nil, errorPercentage: Int? = nil) {
             self.concurrentExecutionRatePercentage = concurrentExecutionRatePercentage
             self.errorPercentage = errorPercentage
@@ -7705,6 +7954,7 @@ extension ConfigService {
         /// 			evaluations for.
         public let configRuleNames: [String]?
 
+        @inlinable
         public init(configRuleNames: [String]? = nil) {
             self.configRuleNames = configRuleNames
         }
@@ -7733,6 +7983,7 @@ extension ConfigService {
         /// 			change made to the resources.
         public let configurationRecorderName: String
 
+        @inlinable
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
         }
@@ -7753,6 +8004,7 @@ extension ConfigService {
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]
 
+        @inlinable
         public init(configRuleName: String, resourceKeys: [ResourceKey]) {
             self.configRuleName = configRuleName
             self.resourceKeys = resourceKeys
@@ -7781,6 +8033,7 @@ extension ConfigService {
         /// Returns a failure message. For example, the resource is already compliant.
         public let failureMessage: String?
 
+        @inlinable
         public init(failedItems: [ResourceKey]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
@@ -7810,6 +8063,7 @@ extension ConfigService {
         /// Returns a ResourceDetails object.
         public let resourceDetails: ResourceDetails
 
+        @inlinable
         public init(clientToken: String? = nil, evaluationContext: EvaluationContext? = nil, evaluationMode: EvaluationMode, evaluationTimeout: Int? = nil, resourceDetails: ResourceDetails) {
             self.clientToken = clientToken
             self.evaluationContext = evaluationContext
@@ -7841,6 +8095,7 @@ extension ConfigService {
         /// 			unique ResourceEvaluationId that is associated with a single execution.
         public let resourceEvaluationId: String?
 
+        @inlinable
         public init(resourceEvaluationId: String? = nil) {
             self.resourceEvaluationId = resourceEvaluationId
         }
@@ -7854,6 +8109,7 @@ extension ConfigService {
         /// A list of values. For example, the ARN of the assumed role.
         public let values: [String]
 
+        @inlinable
         public init(values: [String]) {
             self.values = values
         }
@@ -7881,6 +8137,7 @@ extension ConfigService {
         /// 			 Config sets the state of the rule to:    CREATE_SUCCESSFUL when Config rule has been created in the member account.    CREATE_IN_PROGRESS when Config rule is being created in the member account.    CREATE_FAILED when Config rule creation has failed in the member account.    DELETE_FAILED when Config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when Config rule is being deleted in the member account.    DELETE_SUCCESSFUL when Config rule has been deleted in the member account.    UPDATE_SUCCESSFUL when Config rule has been updated in the member account.    UPDATE_IN_PROGRESS when Config rule is being updated in the member account.    UPDATE_FAILED when Config rule deletion has failed in the member account.
         public let memberAccountRuleStatus: MemberAccountRuleStatus?
 
+        @inlinable
         public init(accountId: String? = nil, memberAccountRuleStatus: MemberAccountRuleStatus? = nil) {
             self.accountId = accountId
             self.memberAccountRuleStatus = memberAccountRuleStatus
@@ -7900,6 +8157,7 @@ extension ConfigService {
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
 
+        @inlinable
         public init(configurationRecorderName: String) {
             self.configurationRecorderName = configurationRecorderName
         }
@@ -7932,6 +8190,7 @@ extension ConfigService {
         /// The name of the query.
         public let queryName: String
 
+        @inlinable
         public init(description: String? = nil, expression: String? = nil, queryArn: String? = nil, queryId: String? = nil, queryName: String) {
             self.description = description
             self.expression = expression
@@ -7976,6 +8235,7 @@ extension ConfigService {
         /// The name of the query.
         public let queryName: String
 
+        @inlinable
         public init(description: String? = nil, queryArn: String, queryId: String, queryName: String) {
             self.description = description
             self.queryArn = queryArn
@@ -7997,6 +8257,7 @@ extension ConfigService {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -8020,6 +8281,7 @@ extension ConfigService {
         /// An array of tag object.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -8048,6 +8310,7 @@ extension ConfigService {
         /// The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version.  This field is optional.
         public let documentVersion: String?
 
+        @inlinable
         public init(documentName: String, documentVersion: String? = nil) {
             self.documentName = documentName
             self.documentVersion = documentVersion
@@ -8070,6 +8333,7 @@ extension ConfigService {
         /// The start time of an execution.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -8087,6 +8351,7 @@ extension ConfigService {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

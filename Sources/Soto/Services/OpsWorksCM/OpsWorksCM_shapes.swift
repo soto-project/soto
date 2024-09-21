@@ -80,6 +80,7 @@ extension OpsWorksCM {
         ///  The current usage, such as the current number of servers that are associated with the account.
         public let used: Int?
 
+        @inlinable
         public init(maximum: Int? = nil, name: String? = nil, used: Int? = nil) {
             self.maximum = maximum
             self.name = name
@@ -101,6 +102,7 @@ extension OpsWorksCM {
         /// The name of the server with which to associate the node.
         public let serverName: String
 
+        @inlinable
         public init(engineAttributes: [EngineAttribute], nodeName: String, serverName: String) {
             self.engineAttributes = engineAttributes
             self.nodeName = nodeName
@@ -129,6 +131,7 @@ extension OpsWorksCM {
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request.
         public let nodeAssociationStatusToken: String?
 
+        @inlinable
         public init(nodeAssociationStatusToken: String? = nil) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
@@ -188,6 +191,7 @@ extension OpsWorksCM {
         ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups.
         public let userArn: String?
 
+        @inlinable
         public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: Date? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
             self.backupArn = backupArn
             self.backupId = backupId
@@ -216,6 +220,7 @@ extension OpsWorksCM {
         }
 
         @available(*, deprecated, message: "Members s3DataSize, s3DataUrl have been deprecated")
+        @inlinable
         public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: Date? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3DataSize: Int? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
             self.backupArn = backupArn
             self.backupId = backupId
@@ -279,6 +284,7 @@ extension OpsWorksCM {
         /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, serverName: String, tags: [Tag]? = nil) {
             self.description = description
             self.serverName = serverName
@@ -308,6 +314,7 @@ extension OpsWorksCM {
         /// Backup created by request.
         public let backup: Backup?
 
+        @inlinable
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -361,6 +368,7 @@ extension OpsWorksCM {
         /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.
         public let tags: [Tag]?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int? = nil, customCertificate: String? = nil, customDomain: String? = nil, customPrivateKey: String? = nil, disableAutomatedBackup: Bool? = nil, engine: String, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupId = backupId
@@ -462,6 +470,7 @@ extension OpsWorksCM {
         /// The server that is created by the request.
         public let server: Server?
 
+        @inlinable
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -475,6 +484,7 @@ extension OpsWorksCM {
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
         public let backupId: String
 
+        @inlinable
         public init(backupId: String) {
             self.backupId = backupId
         }
@@ -497,6 +507,7 @@ extension OpsWorksCM {
         /// The ID of the server to delete.
         public let serverName: String
 
+        @inlinable
         public init(serverName: String) {
             self.serverName = serverName
         }
@@ -524,6 +535,7 @@ extension OpsWorksCM {
         ///  The attributes that are currently set for the account.
         public let attributes: [AccountAttribute]?
 
+        @inlinable
         public init(attributes: [AccountAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -543,6 +555,7 @@ extension OpsWorksCM {
         /// Returns backups for the server with the specified ServerName.
         public let serverName: String?
 
+        @inlinable
         public init(backupId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serverName: String? = nil) {
             self.backupId = backupId
             self.maxResults = maxResults
@@ -575,6 +588,7 @@ extension OpsWorksCM {
         /// This is not currently implemented for DescribeBackups requests.
         public let nextToken: String?
 
+        @inlinable
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
@@ -594,6 +608,7 @@ extension OpsWorksCM {
         /// The name of the server for which you want to view events.
         public let serverName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -622,6 +637,7 @@ extension OpsWorksCM {
         /// Contains the response to a DescribeEvents request.
         public let serverEvents: [ServerEvent]?
 
+        @inlinable
         public init(nextToken: String? = nil, serverEvents: [ServerEvent]? = nil) {
             self.nextToken = nextToken
             self.serverEvents = serverEvents
@@ -639,6 +655,7 @@ extension OpsWorksCM {
         /// The name of the server from which to disassociate the node.
         public let serverName: String
 
+        @inlinable
         public init(nodeAssociationStatusToken: String, serverName: String) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
             self.serverName = serverName
@@ -664,6 +681,7 @@ extension OpsWorksCM {
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.
         public let nodeAssociationStatus: NodeAssociationStatus?
 
+        @inlinable
         public init(engineAttributes: [EngineAttribute]? = nil, nodeAssociationStatus: NodeAssociationStatus? = nil) {
             self.engineAttributes = engineAttributes
             self.nodeAssociationStatus = nodeAssociationStatus
@@ -683,6 +701,7 @@ extension OpsWorksCM {
         /// Describes the server with the specified ServerName.
         public let serverName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -711,6 +730,7 @@ extension OpsWorksCM {
         /// Contains the response to a DescribeServers request.  For Chef Automate servers:  If DescribeServersResponse$Servers$EngineAttributes includes  CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running  Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet servers:   DescribeServersResponse$Servers$EngineAttributes contains the following two responses:    PUPPET_API_CA_CERT, the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140.  The CA certificate is also used to sign node certificates.    PUPPET_API_CRL, a certificate revocation list. The certificate revocation list is for internal  maintenance purposes only. For more information about the Puppet certificate revocation list, see  Man Page: puppet certificate_revocation_list in the Puppet documentation.
         public let servers: [Server]?
 
+        @inlinable
         public init(nextToken: String? = nil, servers: [Server]? = nil) {
             self.nextToken = nextToken
             self.servers = servers
@@ -730,6 +750,7 @@ extension OpsWorksCM {
         /// The name of the server from which to disassociate the node.
         public let serverName: String
 
+        @inlinable
         public init(engineAttributes: [EngineAttribute]? = nil, nodeName: String, serverName: String) {
             self.engineAttributes = engineAttributes
             self.nodeName = nodeName
@@ -758,6 +779,7 @@ extension OpsWorksCM {
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request.
         public let nodeAssociationStatusToken: String?
 
+        @inlinable
         public init(nodeAssociationStatusToken: String? = nil) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
@@ -773,6 +795,7 @@ extension OpsWorksCM {
         /// The value of the engine attribute.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -799,6 +822,7 @@ extension OpsWorksCM {
         /// The name of the server from which you are exporting the attribute.
         public let serverName: String
 
+        @inlinable
         public init(exportAttributeName: String, inputAttributes: [EngineAttribute]? = nil, serverName: String) {
             self.exportAttributeName = exportAttributeName
             self.inputAttributes = inputAttributes
@@ -829,6 +853,7 @@ extension OpsWorksCM {
         /// The server name used in the request.
         public let serverName: String?
 
+        @inlinable
         public init(engineAttribute: EngineAttribute? = nil, serverName: String? = nil) {
             self.engineAttribute = engineAttribute
             self.serverName = serverName
@@ -848,6 +873,7 @@ extension OpsWorksCM {
         /// The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server for which you want to show applied tags. For example,  arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -874,6 +900,7 @@ extension OpsWorksCM {
         /// Tags that have been applied to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -895,6 +922,7 @@ extension OpsWorksCM {
         ///  The name of the server that you want to restore.
         public let serverName: String
 
+        @inlinable
         public init(backupId: String, instanceType: String? = nil, keyPair: String? = nil, serverName: String) {
             self.backupId = backupId
             self.instanceType = instanceType
@@ -925,6 +953,7 @@ extension OpsWorksCM {
     public struct RestoreServerResponse: AWSDecodableShape {
         public let server: Server?
 
+        @inlinable
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -984,6 +1013,7 @@ extension OpsWorksCM {
         ///  The subnet IDs specified in a CreateServer request.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int? = nil, cloudFormationStackArn: String? = nil, createdAt: Date? = nil, customDomain: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupRetentionCount = backupRetentionCount
@@ -1049,6 +1079,7 @@ extension OpsWorksCM {
         /// The name of the server on or for which the event occurred.
         public let serverName: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, logUrl: String? = nil, message: String? = nil, serverName: String? = nil) {
             self.createdAt = createdAt
             self.logUrl = logUrl
@@ -1070,6 +1101,7 @@ extension OpsWorksCM {
         /// The name of the server on which to run maintenance.
         public let serverName: String
 
+        @inlinable
         public init(engineAttributes: [EngineAttribute]? = nil, serverName: String) {
             self.engineAttributes = engineAttributes
             self.serverName = serverName
@@ -1094,6 +1126,7 @@ extension OpsWorksCM {
         /// Contains the response to a StartMaintenance request.
         public let server: Server?
 
+        @inlinable
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -1109,6 +1142,7 @@ extension OpsWorksCM {
         /// An optional tag value, such as Production or test-owcm-server. The value can be a maximum of 255 characters,  and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1134,6 +1168,7 @@ extension OpsWorksCM {
         /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1163,6 +1198,7 @@ extension OpsWorksCM {
         /// The keys of tags that you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1196,6 +1232,7 @@ extension OpsWorksCM {
         /// The name of the server to update.
         public let serverName: String
 
+        @inlinable
         public init(attributeName: String, attributeValue: String? = nil, serverName: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1224,6 +1261,7 @@ extension OpsWorksCM {
         /// Contains the response to an UpdateServerEngineAttributes request.
         public let server: Server?
 
+        @inlinable
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -1243,6 +1281,7 @@ extension OpsWorksCM {
         /// The name of the server to update.
         public let serverName: String
 
+        @inlinable
         public init(backupRetentionCount: Int? = nil, disableAutomatedBackup: Bool? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String) {
             self.backupRetentionCount = backupRetentionCount
             self.disableAutomatedBackup = disableAutomatedBackup
@@ -1274,6 +1313,7 @@ extension OpsWorksCM {
         /// Contains the response to a UpdateServer request.
         public let server: Server?
 
+        @inlinable
         public init(server: Server? = nil) {
             self.server = server
         }

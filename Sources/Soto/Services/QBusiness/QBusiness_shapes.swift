@@ -933,6 +933,7 @@ extension QBusiness {
         /// Describes the member relation within the AccessControlList object.
         public let memberRelation: MemberRelation?
 
+        @inlinable
         public init(accessControls: [AccessControl], memberRelation: MemberRelation? = nil) {
             self.accessControls = accessControls
             self.memberRelation = memberRelation
@@ -956,6 +957,7 @@ extension QBusiness {
         /// Contains a list of principals, where a principal can be either a USER or a GROUP. Each principal can be have the following type of document access: ALLOW or DENY.
         public let principals: [Principal]
 
+        @inlinable
         public init(memberRelation: MemberRelation? = nil, principals: [Principal]) {
             self.memberRelation = memberRelation
             self.principals = principals
@@ -981,6 +983,7 @@ extension QBusiness {
         /// The identifier of the plugin the action is attached to.
         public let pluginId: String
 
+        @inlinable
         public init(payload: [String: ActionExecutionPayloadField], payloadFieldNameSeparator: String, pluginId: String) {
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
@@ -1013,6 +1016,7 @@ extension QBusiness {
         /// The identifier of the plugin for which the action is being requested.
         public let pluginId: String
 
+        @inlinable
         public init(payload: [String: ActionExecutionPayloadField], payloadFieldNameSeparator: String, pluginId: String) {
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
@@ -1041,6 +1045,7 @@ extension QBusiness {
         /// The content of a user input field in an plugin action execution payload.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -1060,6 +1065,7 @@ extension QBusiness {
         /// The type of plugin.
         public let pluginType: PluginType?
 
+        @inlinable
         public init(payload: [String: ActionReviewPayloadField]? = nil, payloadFieldNameSeparator: String? = nil, pluginId: String? = nil, pluginType: PluginType? = nil) {
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
@@ -1091,6 +1097,7 @@ extension QBusiness {
         /// The identifier of the conversation with which the plugin action is associated.
         public let userMessageId: String?
 
+        @inlinable
         public init(conversationId: String? = nil, payload: [String: ActionReviewPayloadField]? = nil, payloadFieldNameSeparator: String? = nil, pluginId: String? = nil, pluginType: PluginType? = nil, systemMessageId: String? = nil, userMessageId: String? = nil) {
             self.conversationId = conversationId
             self.payload = payload
@@ -1130,6 +1137,7 @@ extension QBusiness {
         /// The field value.
         public let value: String?
 
+        @inlinable
         public init(allowedFormat: String? = nil, allowedValues: [ActionReviewPayloadFieldAllowedValue]? = nil, displayDescription: String? = nil, displayName: String? = nil, displayOrder: Int? = nil, required: Bool? = nil, type: ActionPayloadFieldType? = nil, value: String? = nil) {
             self.allowedFormat = allowedFormat
             self.allowedValues = allowedValues
@@ -1159,6 +1167,7 @@ extension QBusiness {
         /// The field value.
         public let value: String?
 
+        @inlinable
         public init(displayValue: String? = nil, value: String? = nil) {
             self.displayValue = displayValue
             self.value = value
@@ -1184,6 +1193,7 @@ extension QBusiness {
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(applicationId: String? = nil, createdAt: Date? = nil, displayName: String? = nil, identityType: IdentityType? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationId = applicationId
             self.createdAt = createdAt
@@ -1207,6 +1217,7 @@ extension QBusiness {
         /// Information about whether file upload during chat functionality is activated for your application.
         public let attachmentsControlMode: AttachmentsControlMode?
 
+        @inlinable
         public init(attachmentsControlMode: AttachmentsControlMode? = nil) {
             self.attachmentsControlMode = attachmentsControlMode
         }
@@ -1220,6 +1231,7 @@ extension QBusiness {
         ///  Information about whether creator mode is enabled or disabled for an Amazon Q Business application.
         public let creatorModeControl: CreatorModeControl
 
+        @inlinable
         public init(creatorModeControl: CreatorModeControl) {
             self.creatorModeControl = creatorModeControl
         }
@@ -1235,6 +1247,7 @@ extension QBusiness {
         /// The name of the file.
         public let name: String
 
+        @inlinable
         public init(data: AWSBase64Data, name: String) {
             self.data = data
             self.name = name
@@ -1255,6 +1268,7 @@ extension QBusiness {
     public struct AttachmentInputEvent: AWSEncodableShape {
         public let attachment: AttachmentInput?
 
+        @inlinable
         public init(attachment: AttachmentInput? = nil) {
             self.attachment = attachment
         }
@@ -1276,6 +1290,7 @@ extension QBusiness {
         /// The status of a file uploaded during chat.
         public let status: AttachmentStatus?
 
+        @inlinable
         public init(error: ErrorDetail? = nil, name: String? = nil, status: AttachmentStatus? = nil) {
             self.error = error
             self.name = name
@@ -1293,6 +1308,7 @@ extension QBusiness {
         /// Status information about whether file upload functionality is activated or deactivated for your end user.
         public let attachmentsControlMode: AttachmentsControlMode
 
+        @inlinable
         public init(attachmentsControlMode: AttachmentsControlMode) {
             self.attachmentsControlMode = attachmentsControlMode
         }
@@ -1324,6 +1340,7 @@ extension QBusiness {
         ///  Performs a logical OR operation on all supplied filters.
         public let orAllFilters: [AttributeFilter]?
 
+        @inlinable
         public init(andAllFilters: [AttributeFilter]? = nil, containsAll: DocumentAttribute? = nil, containsAny: DocumentAttribute? = nil, equalsTo: DocumentAttribute? = nil, greaterThan: DocumentAttribute? = nil, greaterThanOrEquals: DocumentAttribute? = nil, lessThan: DocumentAttribute? = nil, lessThanOrEquals: DocumentAttribute? = nil, notFilter: AttributeFilter? = nil, orAllFilters: [AttributeFilter]? = nil) {
             self.andAllFilters = andAllFilters
             self.containsAll = containsAll
@@ -1372,6 +1389,7 @@ extension QBusiness {
         /// The URL sent by Amazon Q Business to the third party authentication server to authenticate a custom plugin user through an OAuth protocol.
         public let authorizationUrl: String
 
+        @inlinable
         public init(authorizationUrl: String) {
             self.authorizationUrl = authorizationUrl
         }
@@ -1385,6 +1403,7 @@ extension QBusiness {
         /// The URL sent by Amazon Q Business to a third party authentication server in response to an authentication verification event activated by an end user request to use a custom plugin.
         public let authorizationUrl: String
 
+        @inlinable
         public init(authorizationUrl: String) {
             self.authorizationUrl = authorizationUrl
         }
@@ -1398,6 +1417,7 @@ extension QBusiness {
         /// The mapping of key-value pairs in an authentication challenge response.
         public let responseMap: [String: String]
 
+        @inlinable
         public init(responseMap: [String: String]) {
             self.responseMap = responseMap
         }
@@ -1420,6 +1440,7 @@ extension QBusiness {
         /// The mapping of key-value pairs in an authentication challenge response.
         public let responseMap: [String: String]
 
+        @inlinable
         public init(responseMap: [String: String]) {
             self.responseMap = responseMap
         }
@@ -1444,6 +1465,7 @@ extension QBusiness {
         /// Describes the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management. If the value for autoSubscribe is set to ENABLED you must select a value for this field.
         public let defaultSubscriptionType: SubscriptionType?
 
+        @inlinable
         public init(autoSubscribe: AutoSubscriptionStatus, defaultSubscriptionType: SubscriptionType? = nil) {
             self.autoSubscribe = autoSubscribe
             self.defaultSubscriptionType = defaultSubscriptionType
@@ -1461,6 +1483,7 @@ extension QBusiness {
         /// The ARN of the Secrets Manager secret that stores the basic authentication credentials used for plugin configuration..
         public let secretArn: String
 
+        @inlinable
         public init(roleArn: String, secretArn: String) {
             self.roleArn = roleArn
             self.secretArn = secretArn
@@ -1489,6 +1512,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business index that contains the documents to delete.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceSyncId: String? = nil, documents: [DeleteDocument], indexId: String) {
             self.applicationId = applicationId
             self.dataSourceSyncId = dataSourceSyncId
@@ -1530,6 +1554,7 @@ extension QBusiness {
         /// A list of documents that couldn't be removed from the Amazon Q Business index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
         public let failedDocuments: [FailedDocument]?
 
+        @inlinable
         public init(failedDocuments: [FailedDocument]? = nil) {
             self.failedDocuments = failedDocuments
         }
@@ -1551,6 +1576,7 @@ extension QBusiness {
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket.
         public let roleArn: String?
 
+        @inlinable
         public init(applicationId: String, dataSourceSyncId: String? = nil, documents: [Document], indexId: String, roleArn: String? = nil) {
             self.applicationId = applicationId
             self.dataSourceSyncId = dataSourceSyncId
@@ -1599,6 +1625,7 @@ extension QBusiness {
         ///  A list of documents that were not added to the Amazon Q Business index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index.
         public let failedDocuments: [FailedDocument]?
 
+        @inlinable
         public init(failedDocuments: [FailedDocument]? = nil) {
             self.failedDocuments = failedDocuments
         }
@@ -1614,6 +1641,7 @@ extension QBusiness {
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
         public let systemMessageOverride: String?
 
+        @inlinable
         public init(blockedPhrases: [String]? = nil, systemMessageOverride: String? = nil) {
             self.blockedPhrases = blockedPhrases
             self.systemMessageOverride = systemMessageOverride
@@ -1633,6 +1661,7 @@ extension QBusiness {
         /// The configured custom message displayed to your end user when they use blocked phrase during chat.
         public let systemMessageOverride: String?
 
+        @inlinable
         public init(blockedPhrasesToCreateOrUpdate: [String]? = nil, blockedPhrasesToDelete: [String]? = nil, systemMessageOverride: String? = nil) {
             self.blockedPhrasesToCreateOrUpdate = blockedPhrasesToCreateOrUpdate
             self.blockedPhrasesToDelete = blockedPhrasesToDelete
@@ -1677,6 +1706,7 @@ extension QBusiness {
         /// The identifier of the user attached to the chat input.
         public let userId: String?
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = ChatInput.idempotencyToken(), conversationId: String? = nil, inputStream: AWSEventStream<ChatInputStream>? = nil, parentMessageId: String? = nil, userGroups: [String]? = nil, userId: String? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -1728,6 +1758,7 @@ extension QBusiness {
         /// The streaming output for the Chat API.
         public let outputStream: AWSEventStream<ChatOutputStream>
 
+        @inlinable
         public init(outputStream: AWSEventStream<ChatOutputStream>) {
             self.outputStream = outputStream
         }
@@ -1768,6 +1799,7 @@ extension QBusiness {
         /// A end user message in a conversation.
         public let userMessage: String?
 
+        @inlinable
         public init(actionExecution: ActionExecution? = nil, applicationId: String, attachments: [AttachmentInput]? = nil, attributeFilter: AttributeFilter? = nil, authChallengeResponse: AuthChallengeResponse? = nil, chatMode: ChatMode? = nil, chatModeConfiguration: ChatModeConfiguration? = nil, clientToken: String? = ChatSyncInput.idempotencyToken(), conversationId: String? = nil, parentMessageId: String? = nil, userGroups: [String]? = nil, userId: String? = nil, userMessage: String? = nil) {
             self.actionExecution = actionExecution
             self.applicationId = applicationId
@@ -1865,6 +1897,7 @@ extension QBusiness {
         /// The identifier of an Amazon Q Business end user text input message within the conversation.
         public let userMessageId: String?
 
+        @inlinable
         public init(actionReview: ActionReview? = nil, authChallengeRequest: AuthChallengeRequest? = nil, conversationId: String? = nil, failedAttachments: [AttachmentOutput]? = nil, sourceAttributions: [SourceAttribution]? = nil, systemMessage: String? = nil, systemMessageId: String? = nil, userMessageId: String? = nil) {
             self.actionReview = actionReview
             self.authChallengeRequest = authChallengeRequest
@@ -1894,6 +1927,7 @@ extension QBusiness {
         public let chatMode: ChatMode?
         public let chatModeConfiguration: ChatModeConfiguration?
 
+        @inlinable
         public init(attributeFilter: AttributeFilter? = nil, chatMode: ChatMode? = nil, chatModeConfiguration: ChatModeConfiguration? = nil) {
             self.attributeFilter = attributeFilter
             self.chatMode = chatMode
@@ -1916,6 +1950,7 @@ extension QBusiness {
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
         public let systemMessageOverride: String?
 
+        @inlinable
         public init(systemMessageOverride: String? = nil) {
             self.systemMessageOverride = systemMessageOverride
         }
@@ -1934,6 +1969,7 @@ extension QBusiness {
         /// Specifies data sources in a Amazon Q Business application to use for content generation.
         public let eligibleDataSources: [EligibleDataSource]?
 
+        @inlinable
         public init(eligibleDataSources: [EligibleDataSource]? = nil) {
             self.eligibleDataSources = eligibleDataSources
         }
@@ -1958,6 +1994,7 @@ extension QBusiness {
         /// The title of the conversation.
         public let title: String?
 
+        @inlinable
         public init(conversationId: String? = nil, startTime: Date? = nil, title: String? = nil) {
             self.conversationId = conversationId
             self.startTime = startTime
@@ -1999,6 +2036,7 @@ extension QBusiness {
         /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientIdsForOIDC: [String]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, iamIdentityProviderArn: String? = nil, identityCenterInstanceArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.attachmentsConfiguration = attachmentsConfiguration
             self.clientIdsForOIDC = clientIdsForOIDC
@@ -2065,6 +2103,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business application.
         public let applicationId: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, applicationId: String? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -2099,6 +2138,7 @@ extension QBusiness {
         /// Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source. For more information, see Using Amazon VPC with Amazon Q Business connectors.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: String, description: String? = nil, displayName: String, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, roleArn: String? = nil, syncSchedule: String? = nil, tags: [Tag]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -2174,6 +2214,7 @@ extension QBusiness {
         /// The identifier of the data source connector.
         public let dataSourceId: String?
 
+        @inlinable
         public init(dataSourceArn: String? = nil, dataSourceId: String? = nil) {
             self.dataSourceArn = dataSourceArn
             self.dataSourceId = dataSourceId
@@ -2201,6 +2242,7 @@ extension QBusiness {
         /// The index type that's suitable for your needs. For more information on what's included in each type of index, see Amazon Q Business tiers.
         public let type: IndexType?
 
+        @inlinable
         public init(applicationId: String, capacityConfiguration: IndexCapacityConfiguration? = nil, clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, displayName: String, tags: [Tag]? = nil, type: IndexType? = nil) {
             self.applicationId = applicationId
             self.capacityConfiguration = capacityConfiguration
@@ -2257,6 +2299,7 @@ extension QBusiness {
         /// The identifier for the Amazon Q Business index.
         public let indexId: String?
 
+        @inlinable
         public init(indexArn: String? = nil, indexId: String? = nil) {
             self.indexArn = indexArn
             self.indexId = indexId
@@ -2285,6 +2328,7 @@ extension QBusiness {
         /// The type of plugin you want to create.
         public let type: PluginType
 
+        @inlinable
         public init(applicationId: String, authConfiguration: PluginAuthConfiguration, clientToken: String? = CreatePluginRequest.idempotencyToken(), customPluginConfiguration: CustomPluginConfiguration? = nil, displayName: String, serverUrl: String? = nil, tags: [Tag]? = nil, type: PluginType) {
             self.applicationId = applicationId
             self.authConfiguration = authConfiguration
@@ -2348,6 +2392,7 @@ extension QBusiness {
         /// The identifier of the plugin created.
         public let pluginId: String?
 
+        @inlinable
         public init(buildStatus: PluginBuildStatus? = nil, pluginArn: String? = nil, pluginId: String? = nil) {
             self.buildStatus = buildStatus
             self.pluginArn = pluginArn
@@ -2376,6 +2421,7 @@ extension QBusiness {
         /// The type of retriever you are using.
         public let type: RetrieverType
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = CreateRetrieverRequest.idempotencyToken(), configuration: RetrieverConfiguration, displayName: String, roleArn: String? = nil, tags: [Tag]? = nil, type: RetrieverType) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -2432,6 +2478,7 @@ extension QBusiness {
         /// The identifier of the retriever you are using.
         public let retrieverId: String?
 
+        @inlinable
         public init(retrieverArn: String? = nil, retrieverId: String? = nil) {
             self.retrieverArn = retrieverArn
             self.retrieverId = retrieverId
@@ -2453,6 +2500,7 @@ extension QBusiness {
         /// The user emails attached to a user mapping.
         public let userId: String
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = CreateUserRequest.idempotencyToken(), userAliases: [UserAlias]? = nil, userId: String) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -2513,6 +2561,7 @@ extension QBusiness {
         /// The customized welcome message for end users of an Amazon Q Business web experience.
         public let welcomeMessage: String?
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -2577,6 +2626,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business web experience.
         public let webExperienceId: String?
 
+        @inlinable
         public init(webExperienceArn: String? = nil, webExperienceId: String? = nil) {
             self.webExperienceArn = webExperienceArn
             self.webExperienceId = webExperienceId
@@ -2592,6 +2642,7 @@ extension QBusiness {
         /// Status information about whether CREATOR_MODE has been enabled or disabled. The default status is DISABLED.
         public let creatorModeControl: CreatorModeControl
 
+        @inlinable
         public init(creatorModeControl: CreatorModeControl) {
             self.creatorModeControl = creatorModeControl
         }
@@ -2609,6 +2660,7 @@ extension QBusiness {
         /// A description for your custom plugin configuration.
         public let description: String
 
+        @inlinable
         public init(apiSchema: APISchema, apiSchemaType: APISchemaType, description: String) {
             self.apiSchema = apiSchema
             self.apiSchemaType = apiSchemaType
@@ -2642,6 +2694,7 @@ extension QBusiness {
         /// The Unix timestamp when the Amazon Q Business data source was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataSourceId: String? = nil, displayName: String? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
@@ -2677,6 +2730,7 @@ extension QBusiness {
         /// The status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public let status: DataSourceSyncJobStatus?
 
+        @inlinable
         public init(dataSourceErrorCode: String? = nil, endTime: Date? = nil, error: ErrorDetail? = nil, executionId: String? = nil, metrics: DataSourceSyncJobMetrics? = nil, startTime: Date? = nil, status: DataSourceSyncJobStatus? = nil) {
             self.dataSourceErrorCode = dataSourceErrorCode
             self.endTime = endTime
@@ -2710,6 +2764,7 @@ extension QBusiness {
         /// The current count of documents crawled by the ongoing sync job in the data source.
         public let documentsScanned: String?
 
+        @inlinable
         public init(documentsAdded: String? = nil, documentsDeleted: String? = nil, documentsFailed: String? = nil, documentsModified: String? = nil, documentsScanned: String? = nil) {
             self.documentsAdded = documentsAdded
             self.documentsDeleted = documentsDeleted
@@ -2733,6 +2788,7 @@ extension QBusiness {
         /// A list of identifiers for subnets within your Amazon VPC. The subnets should be able to connect to each other in the VPC, and they should have outgoing access to the Internet through a NAT device.
         public let subnetIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2765,6 +2821,7 @@ extension QBusiness {
         /// Specifies how much a document attribute is boosted.
         public let boostingLevel: DocumentAttributeBoostingLevel
 
+        @inlinable
         public init(boostingDurationInSeconds: Int64? = nil, boostingLevel: DocumentAttributeBoostingLevel) {
             self.boostingDurationInSeconds = boostingDurationInSeconds
             self.boostingLevel = boostingLevel
@@ -2785,6 +2842,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2812,6 +2870,7 @@ extension QBusiness {
         /// The identifier of the application the chat controls have been configured for.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -2843,6 +2902,7 @@ extension QBusiness {
         /// The identifier of the user who is deleting the conversation.
         public let userId: String?
 
+        @inlinable
         public init(applicationId: String, conversationId: String, userId: String? = nil) {
             self.applicationId = applicationId
             self.conversationId = conversationId
@@ -2884,6 +2944,7 @@ extension QBusiness {
         /// The identifier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String, indexId: String) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -2921,6 +2982,7 @@ extension QBusiness {
         /// The identifier of the deleted document.
         public let documentId: String
 
+        @inlinable
         public init(documentId: String) {
             self.documentId = documentId
         }
@@ -2946,6 +3008,7 @@ extension QBusiness {
         /// The identifier of the index you want to delete the group from.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String? = nil, groupName: String, indexId: String) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -2990,6 +3053,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business index.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, indexId: String) {
             self.applicationId = applicationId
             self.indexId = indexId
@@ -3024,6 +3088,7 @@ extension QBusiness {
         /// The identifier of the plugin being deleted.
         public let pluginId: String
 
+        @inlinable
         public init(applicationId: String, pluginId: String) {
             self.applicationId = applicationId
             self.pluginId = pluginId
@@ -3058,6 +3123,7 @@ extension QBusiness {
         /// The identifier of the retriever being deleted.
         public let retrieverId: String
 
+        @inlinable
         public init(applicationId: String, retrieverId: String) {
             self.applicationId = applicationId
             self.retrieverId = retrieverId
@@ -3092,6 +3158,7 @@ extension QBusiness {
         /// The user email being deleted.
         public let userId: String
 
+        @inlinable
         public init(applicationId: String, userId: String) {
             self.applicationId = applicationId
             self.userId = userId
@@ -3125,6 +3192,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business web experience being deleted.
         public let webExperienceId: String
 
+        @inlinable
         public init(applicationId: String, webExperienceId: String) {
             self.applicationId = applicationId
             self.webExperienceId = webExperienceId
@@ -3169,6 +3237,7 @@ extension QBusiness {
         /// The title of the document.
         public let title: String?
 
+        @inlinable
         public init(accessConfiguration: AccessConfiguration? = nil, attributes: [DocumentAttribute]? = nil, content: DocumentContent? = nil, contentType: ContentType? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, id: String, title: String? = nil) {
             self.accessConfiguration = accessConfiguration
             self.attributes = attributes
@@ -3212,6 +3281,7 @@ extension QBusiness {
         /// The value of the attribute.
         public let value: DocumentAttributeValue
 
+        @inlinable
         public init(name: String, value: DocumentAttributeValue) {
             self.name = name
             self.value = value
@@ -3237,6 +3307,7 @@ extension QBusiness {
         public let `operator`: DocumentEnrichmentConditionOperator
         public let value: DocumentAttributeValue?
 
+        @inlinable
         public init(key: String, operator: DocumentEnrichmentConditionOperator, value: DocumentAttributeValue? = nil) {
             self.key = key
             self.`operator` = `operator`
@@ -3265,6 +3336,7 @@ extension QBusiness {
         /// The type of document attribute.
         public let type: AttributeType?
 
+        @inlinable
         public init(name: String? = nil, search: Status? = nil, type: AttributeType? = nil) {
             self.name = name
             self.search = search
@@ -3291,6 +3363,7 @@ extension QBusiness {
         public let key: String
         public let value: DocumentAttributeValue?
 
+        @inlinable
         public init(attributeValueOperator: AttributeValueOperator? = nil, key: String, value: DocumentAttributeValue? = nil) {
             self.attributeValueOperator = attributeValueOperator
             self.key = key
@@ -3323,6 +3396,7 @@ extension QBusiness {
         /// The timestamp for when the document was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, documentId: String? = nil, error: ErrorDetail? = nil, status: DocumentStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.documentId = documentId
@@ -3346,6 +3420,7 @@ extension QBusiness {
         public let postExtractionHookConfiguration: HookConfiguration?
         public let preExtractionHookConfiguration: HookConfiguration?
 
+        @inlinable
         public init(inlineConfigurations: [InlineDocumentEnrichmentConfiguration]? = nil, postExtractionHookConfiguration: HookConfiguration? = nil, preExtractionHookConfiguration: HookConfiguration? = nil) {
             self.inlineConfigurations = inlineConfigurations
             self.postExtractionHookConfiguration = postExtractionHookConfiguration
@@ -3375,6 +3450,7 @@ extension QBusiness {
         /// The identifier of the index the data source is attached to.
         public let indexId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil, indexId: String? = nil) {
             self.dataSourceId = dataSourceId
             self.indexId = indexId
@@ -3399,6 +3475,7 @@ extension QBusiness {
         /// The identifier of the KMS key. Amazon Q Business doesn't support asymmetric keys.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -3423,6 +3500,7 @@ extension QBusiness {
         /// The message explaining the data source sync error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3443,6 +3521,7 @@ extension QBusiness {
         /// The identifier of the end user chat message associated with the file upload.
         public let userMessageId: String?
 
+        @inlinable
         public init(attachment: AttachmentOutput? = nil, conversationId: String? = nil, systemMessageId: String? = nil, userMessageId: String? = nil) {
             self.attachment = attachment
             self.conversationId = conversationId
@@ -3466,6 +3545,7 @@ extension QBusiness {
         /// The identifier of the document that couldn't be removed from the Amazon Q Business index.
         public let id: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil, error: ErrorDetail? = nil, id: String? = nil) {
             self.dataSourceId = dataSourceId
             self.error = error
@@ -3483,6 +3563,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -3540,6 +3621,7 @@ extension QBusiness {
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, autoSubscriptionConfiguration: AutoSubscriptionConfiguration? = nil, clientIdsForOIDC: [String]? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, iamIdentityProviderArn: String? = nil, identityCenterApplicationArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -3591,6 +3673,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business chat controls configured.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -3630,6 +3713,7 @@ extension QBusiness {
         /// The topic specific controls configured for a Amazon Q Business application.
         public let topicConfigurations: [TopicConfiguration]?
 
+        @inlinable
         public init(blockedPhrases: BlockedPhrasesConfiguration? = nil, creatorModeConfiguration: AppliedCreatorModeConfiguration? = nil, nextToken: String? = nil, responseScope: ResponseScope? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
             self.blockedPhrases = blockedPhrases
             self.creatorModeConfiguration = creatorModeConfiguration
@@ -3655,6 +3739,7 @@ extension QBusiness {
         /// The identfier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String, indexId: String) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -3717,6 +3802,7 @@ extension QBusiness {
         /// Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(applicationId: String? = nil, configuration: String? = nil, createdAt: Date? = nil, dataSourceArn: String? = nil, dataSourceId: String? = nil, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, error: ErrorDetail? = nil, indexId: String? = nil, roleArn: String? = nil, status: DataSourceStatus? = nil, syncSchedule: String? = nil, type: String? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
@@ -3766,6 +3852,7 @@ extension QBusiness {
         /// The identifier of the index the group is attached to.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String? = nil, groupName: String, indexId: String) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -3806,6 +3893,7 @@ extension QBusiness {
         /// The status history of the group.
         public let statusHistory: [GroupStatusDetail]?
 
+        @inlinable
         public init(status: GroupStatusDetail? = nil, statusHistory: [GroupStatusDetail]? = nil) {
             self.status = status
             self.statusHistory = statusHistory
@@ -3823,6 +3911,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business index you want information on.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, indexId: String) {
             self.applicationId = applicationId
             self.indexId = indexId
@@ -3875,6 +3964,7 @@ extension QBusiness {
         /// The Unix timestamp when the Amazon Q Business index was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(applicationId: String? = nil, capacityConfiguration: IndexCapacityConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, documentAttributeConfigurations: [DocumentAttributeConfiguration]? = nil, error: ErrorDetail? = nil, indexArn: String? = nil, indexId: String? = nil, indexStatistics: IndexStatistics? = nil, status: IndexStatus? = nil, type: IndexType? = nil, updatedAt: Date? = nil) {
             self.applicationId = applicationId
             self.capacityConfiguration = capacityConfiguration
@@ -3914,6 +4004,7 @@ extension QBusiness {
         /// The identifier of the plugin.
         public let pluginId: String
 
+        @inlinable
         public init(applicationId: String, pluginId: String) {
             self.applicationId = applicationId
             self.pluginId = pluginId
@@ -3963,6 +4054,7 @@ extension QBusiness {
         /// The timestamp for when the plugin was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(applicationId: String? = nil, authConfiguration: PluginAuthConfiguration? = nil, buildStatus: PluginBuildStatus? = nil, createdAt: Date? = nil, customPluginConfiguration: CustomPluginConfiguration? = nil, displayName: String? = nil, pluginArn: String? = nil, pluginId: String? = nil, serverUrl: String? = nil, state: PluginState? = nil, type: PluginType? = nil, updatedAt: Date? = nil) {
             self.applicationId = applicationId
             self.authConfiguration = authConfiguration
@@ -4000,6 +4092,7 @@ extension QBusiness {
         /// The identifier of the retriever.
         public let retrieverId: String
 
+        @inlinable
         public init(applicationId: String, retrieverId: String) {
             self.applicationId = applicationId
             self.retrieverId = retrieverId
@@ -4045,6 +4138,7 @@ extension QBusiness {
         /// The Unix timestamp when the retriever was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(applicationId: String? = nil, configuration: RetrieverConfiguration? = nil, createdAt: Date? = nil, displayName: String? = nil, retrieverArn: String? = nil, retrieverId: String? = nil, roleArn: String? = nil, status: RetrieverStatus? = nil, type: RetrieverType? = nil, updatedAt: Date? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
@@ -4078,6 +4172,7 @@ extension QBusiness {
         /// The user email address attached to the user.
         public let userId: String
 
+        @inlinable
         public init(applicationId: String, userId: String) {
             self.applicationId = applicationId
             self.userId = userId
@@ -4105,6 +4200,7 @@ extension QBusiness {
         /// A list of user aliases attached to a user.
         public let userAliases: [UserAlias]?
 
+        @inlinable
         public init(userAliases: [UserAlias]? = nil) {
             self.userAliases = userAliases
         }
@@ -4120,6 +4216,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business web experience.
         public let webExperienceId: String
 
+        @inlinable
         public init(applicationId: String, webExperienceId: String) {
             self.applicationId = applicationId
             self.webExperienceId = webExperienceId
@@ -4176,6 +4273,7 @@ extension QBusiness {
         /// The customized welcome message for end users of an Amazon Q Business web experience.
         public let welcomeMessage: String?
 
+        @inlinable
         public init(applicationId: String? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
@@ -4195,6 +4293,7 @@ extension QBusiness {
         }
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
+        @inlinable
         public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
@@ -4238,6 +4337,7 @@ extension QBusiness {
         /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
         public let memberUsers: [MemberUser]?
 
+        @inlinable
         public init(memberGroups: [MemberGroup]? = nil, memberUsers: [MemberUser]? = nil) {
             self.memberGroups = memberGroups
             self.memberUsers = memberUsers
@@ -4270,6 +4370,7 @@ extension QBusiness {
         /// The status of a group.
         public let status: GroupStatus?
 
+        @inlinable
         public init(errorDetail: ErrorDetail? = nil, lastUpdatedAt: Date? = nil, status: GroupStatus? = nil) {
             self.errorDetail = errorDetail
             self.lastUpdatedAt = lastUpdatedAt
@@ -4287,6 +4388,7 @@ extension QBusiness {
         /// The name of the group the summary information is for.
         public let groupName: String?
 
+        @inlinable
         public init(groupName: String? = nil) {
             self.groupName = groupName
         }
@@ -4306,6 +4408,7 @@ extension QBusiness {
         /// Stores the original, raw documents or the structured, parsed documents before and after altering them. For more information, see Data contracts for Lambda functions.
         public let s3BucketName: String?
 
+        @inlinable
         public init(invocationCondition: DocumentAttributeCondition? = nil, lambdaArn: String? = nil, roleArn: String? = nil, s3BucketName: String? = nil) {
             self.invocationCondition = invocationCondition
             self.lambdaArn = lambdaArn
@@ -4345,6 +4448,7 @@ extension QBusiness {
         /// The Unix timestamp when the index was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, displayName: String? = nil, indexId: String? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.displayName = displayName
@@ -4366,6 +4470,7 @@ extension QBusiness {
         /// The number of storage units configured for an Amazon Q Business index.
         public let units: Int?
 
+        @inlinable
         public init(units: Int? = nil) {
             self.units = units
         }
@@ -4383,6 +4488,7 @@ extension QBusiness {
         /// The number of documents indexed.
         public let textDocumentStatistics: TextDocumentStatistics?
 
+        @inlinable
         public init(textDocumentStatistics: TextDocumentStatistics? = nil) {
             self.textDocumentStatistics = textDocumentStatistics
         }
@@ -4398,6 +4504,7 @@ extension QBusiness {
         public let documentContentOperator: DocumentContentOperator?
         public let target: DocumentAttributeTarget?
 
+        @inlinable
         public init(condition: DocumentAttributeCondition? = nil, documentContentOperator: DocumentContentOperator? = nil, target: DocumentAttributeTarget? = nil) {
             self.condition = condition
             self.documentContentOperator = documentContentOperator
@@ -4420,6 +4527,7 @@ extension QBusiness {
         /// The identifier of the Amazon Kendra index.
         public let indexId: String
 
+        @inlinable
         public init(indexId: String) {
             self.indexId = indexId
         }
@@ -4441,6 +4549,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business applications.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4469,6 +4578,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token. You can use this token in a subsequent request to retrieve the next set of applications.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [Application]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -4490,6 +4600,7 @@ extension QBusiness {
         /// The identifier of the user involved in the Amazon Q Business web experience conversation.
         public let userId: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, userId: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -4528,6 +4639,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of messages.
         public let nextToken: String?
 
+        @inlinable
         public init(conversations: [Conversation]? = nil, nextToken: String? = nil) {
             self.conversations = conversations
             self.nextToken = nextToken
@@ -4557,6 +4669,7 @@ extension QBusiness {
         /// Only returns synchronization jobs with the Status field equal to the specified status.
         public let statusFilter: DataSourceSyncJobStatus?
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String, endTime: Date? = nil, indexId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, statusFilter: DataSourceSyncJobStatus? = nil) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -4606,6 +4719,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token. You can use this token in any subsequent request to retrieve the next set of jobs.
         public let nextToken: String?
 
+        @inlinable
         public init(history: [DataSourceSyncJob]? = nil, nextToken: String? = nil) {
             self.history = history
             self.nextToken = nextToken
@@ -4627,6 +4741,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business data source connectors.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.indexId = indexId
@@ -4665,6 +4780,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token. You can use this token in a subsequent request to retrieve the next set of data source connectors.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSources: [DataSource]? = nil, nextToken: String? = nil) {
             self.dataSources = dataSources
             self.nextToken = nextToken
@@ -4688,6 +4804,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of documents.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, dataSourceIds: [String]? = nil, indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.dataSourceIds = dataSourceIds
@@ -4735,6 +4852,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of documents.
         public let nextToken: String?
 
+        @inlinable
         public init(documentDetailList: [DocumentDetails]? = nil, nextToken: String? = nil) {
             self.documentDetailList = documentDetailList
             self.nextToken = nextToken
@@ -4760,6 +4878,7 @@ extension QBusiness {
         /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups.
         public let updatedEarlierThan: Date
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String? = nil, indexId: String, maxResults: Int? = nil, nextToken: String? = nil, updatedEarlierThan: Date) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -4805,6 +4924,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token that you can use in the subsequent request to retrieve the next set of groups that are mapped to users.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [GroupSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4824,6 +4944,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business indices.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -4857,6 +4978,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token that you can use in the subsequent request to retrieve the next set of indexes.
         public let nextToken: String?
 
+        @inlinable
         public init(indices: [Index]? = nil, nextToken: String? = nil) {
             self.indices = indices
             self.nextToken = nextToken
@@ -4880,6 +5002,7 @@ extension QBusiness {
         /// The identifier of the user involved in the Amazon Q Business web experience conversation.
         public let userId: String?
 
+        @inlinable
         public init(applicationId: String, conversationId: String, maxResults: Int? = nil, nextToken: String? = nil, userId: String? = nil) {
             self.applicationId = applicationId
             self.conversationId = conversationId
@@ -4923,6 +5046,7 @@ extension QBusiness {
         /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of messages.
         public let nextToken: String?
 
+        @inlinable
         public init(messages: [Message]? = nil, nextToken: String? = nil) {
             self.messages = messages
             self.nextToken = nextToken
@@ -4942,6 +5066,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of plugins.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -4975,6 +5100,7 @@ extension QBusiness {
         /// Information about a configured plugin.
         public let plugins: [Plugin]?
 
+        @inlinable
         public init(nextToken: String? = nil, plugins: [Plugin]? = nil) {
             self.nextToken = nextToken
             self.plugins = plugins
@@ -4994,6 +5120,7 @@ extension QBusiness {
         /// If the number of retrievers returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of retrievers.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -5027,6 +5154,7 @@ extension QBusiness {
         /// An array of summary information for one or more retrievers.
         public let retrievers: [Retriever]?
 
+        @inlinable
         public init(nextToken: String? = nil, retrievers: [Retriever]? = nil) {
             self.nextToken = nextToken
             self.retrievers = retrievers
@@ -5042,6 +5170,7 @@ extension QBusiness {
         /// The Amazon Resource Name (ARN) of the Amazon Q Business application or data source to get a list of tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -5064,6 +5193,7 @@ extension QBusiness {
         /// A list of tags associated with the Amazon Q Business application or data source.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -5081,6 +5211,7 @@ extension QBusiness {
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business conversations.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -5114,6 +5245,7 @@ extension QBusiness {
         /// An array of summary information for one or more Amazon Q Business experiences.
         public let webExperiences: [WebExperience]?
 
+        @inlinable
         public init(nextToken: String? = nil, webExperiences: [WebExperience]? = nil) {
             self.nextToken = nextToken
             self.webExperiences = webExperiences
@@ -5131,6 +5263,7 @@ extension QBusiness {
         /// The type of the sub group.
         public let type: MembershipType?
 
+        @inlinable
         public init(groupName: String, type: MembershipType? = nil) {
             self.groupName = groupName
             self.type = type
@@ -5154,6 +5287,7 @@ extension QBusiness {
         /// The identifier of the user you want to map to a group.
         public let userId: String
 
+        @inlinable
         public init(type: MembershipType? = nil, userId: String) {
             self.type = type
             self.userId = userId
@@ -5187,6 +5321,7 @@ extension QBusiness {
         /// The type of Amazon Q Business message, whether HUMAN or AI generated.
         public let type: MessageType?
 
+        @inlinable
         public init(actionExecution: ActionExecution? = nil, actionReview: ActionReview? = nil, attachments: [AttachmentOutput]? = nil, body: String? = nil, messageId: String? = nil, sourceAttribution: [SourceAttribution]? = nil, time: Date? = nil, type: MessageType? = nil) {
             self.actionExecution = actionExecution
             self.actionReview = actionReview
@@ -5220,6 +5355,7 @@ extension QBusiness {
         /// The usefulness value assigned by an end user to a message.
         public let usefulness: MessageUsefulness
 
+        @inlinable
         public init(comment: String? = nil, reason: MessageUsefulnessReason? = nil, submittedAt: Date, usefulness: MessageUsefulness) {
             self.comment = comment
             self.reason = reason
@@ -5252,6 +5388,7 @@ extension QBusiness {
         /// The identifier of an Amazon Q Business end user text input message within the conversation.
         public let userMessageId: String?
 
+        @inlinable
         public init(conversationId: String? = nil, finalTextMessage: String? = nil, sourceAttributions: [SourceAttribution]? = nil, systemMessageId: String? = nil, userMessageId: String? = nil) {
             self.conversationId = conversationId
             self.finalTextMessage = finalTextMessage
@@ -5275,6 +5412,7 @@ extension QBusiness {
         /// The identifier for the Amazon Q Business index.
         public let indexId: String
 
+        @inlinable
         public init(boostingOverride: [String: DocumentAttributeBoostingConfiguration]? = nil, indexId: String) {
             self.boostingOverride = boostingOverride
             self.indexId = indexId
@@ -5309,6 +5447,7 @@ extension QBusiness {
         /// Specifies how much a document attribute is boosted.
         public let boostingType: NumberAttributeBoostingType?
 
+        @inlinable
         public init(boostingLevel: DocumentAttributeBoostingLevel, boostingType: NumberAttributeBoostingType? = nil) {
             self.boostingLevel = boostingLevel
             self.boostingType = boostingType
@@ -5326,6 +5465,7 @@ extension QBusiness {
         /// The ARN of the Secrets Manager secret that stores the OAuth 2.0 credentials/token used for plugin configuration.
         public let secretArn: String
 
+        @inlinable
         public init(roleArn: String, secretArn: String) {
             self.roleArn = roleArn
             self.secretArn = secretArn
@@ -5350,6 +5490,7 @@ extension QBusiness {
         /// An IAM role with permissions to access KMS to decrypt the Secrets Manager secret containing your OIDC client secret.
         public let secretsRole: String
 
+        @inlinable
         public init(secretsArn: String, secretsRole: String) {
             self.secretsArn = secretsArn
             self.secretsRole = secretsRole
@@ -5372,6 +5513,7 @@ extension QBusiness {
         /// An option to allow Amazon Q Business to customize chat responses using user specific metadata—specifically, location and job information—in your IAM Identity Center instance.
         public let personalizationControlMode: PersonalizationControlMode
 
+        @inlinable
         public init(personalizationControlMode: PersonalizationControlMode) {
             self.personalizationControlMode = personalizationControlMode
         }
@@ -5399,6 +5541,7 @@ extension QBusiness {
         /// The timestamp for when the plugin was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(buildStatus: PluginBuildStatus? = nil, createdAt: Date? = nil, displayName: String? = nil, pluginId: String? = nil, serverUrl: String? = nil, state: PluginState? = nil, type: PluginType? = nil, updatedAt: Date? = nil) {
             self.buildStatus = buildStatus
             self.createdAt = createdAt
@@ -5426,6 +5569,7 @@ extension QBusiness {
         ///  The identifier of the plugin you want to use.
         public let pluginId: String
 
+        @inlinable
         public init(pluginId: String) {
             self.pluginId = pluginId
         }
@@ -5449,6 +5593,7 @@ extension QBusiness {
         /// The name of the group.
         public let name: String?
 
+        @inlinable
         public init(access: ReadAccessType, membershipType: MembershipType? = nil, name: String? = nil) {
             self.access = access
             self.membershipType = membershipType
@@ -5476,6 +5621,7 @@ extension QBusiness {
         /// The type of group.
         public let membershipType: MembershipType?
 
+        @inlinable
         public init(access: ReadAccessType, id: String? = nil, membershipType: MembershipType? = nil) {
             self.access = access
             self.id = id
@@ -5509,6 +5655,7 @@ extension QBusiness {
         /// The identifier of the user giving the feedback.
         public let userId: String?
 
+        @inlinable
         public init(applicationId: String, conversationId: String, messageCopiedAt: Date? = nil, messageId: String, messageUsefulness: MessageUsefulnessFeedback? = nil, userId: String? = nil) {
             self.applicationId = applicationId
             self.conversationId = conversationId
@@ -5564,6 +5711,7 @@ extension QBusiness {
         /// The type of the group.
         public let type: MembershipType
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String? = nil, groupMembers: GroupMembers, groupName: String, indexId: String, type: MembershipType) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -5616,6 +5764,7 @@ extension QBusiness {
         /// Status information about whether end users can create and use Amazon Q Apps in the web experience.
         public let qAppsControlMode: QAppsControlMode
 
+        @inlinable
         public init(qAppsControlMode: QAppsControlMode) {
             self.qAppsControlMode = qAppsControlMode
         }
@@ -5637,6 +5786,7 @@ extension QBusiness {
         /// The type of your retriever.
         public let type: RetrieverType?
 
+        @inlinable
         public init(applicationId: String? = nil, displayName: String? = nil, retrieverId: String? = nil, status: RetrieverStatus? = nil, type: RetrieverType? = nil) {
             self.applicationId = applicationId
             self.displayName = displayName
@@ -5664,6 +5814,7 @@ extension QBusiness {
         /// The type of rule.
         public let ruleType: RuleType
 
+        @inlinable
         public init(excludedUsersAndGroups: UsersAndGroups? = nil, includedUsersAndGroups: UsersAndGroups? = nil, ruleConfiguration: RuleConfiguration? = nil, ruleType: RuleType) {
             self.excludedUsersAndGroups = excludedUsersAndGroups
             self.includedUsersAndGroups = includedUsersAndGroups
@@ -5691,6 +5842,7 @@ extension QBusiness {
         /// The name of the file.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -5720,6 +5872,7 @@ extension QBusiness {
         /// The user attribute name in your IdP that maps to the user email.
         public let userIdAttribute: String
 
+        @inlinable
         public init(metadataXML: String, roleArn: String, userGroupAttribute: String? = nil, userIdAttribute: String) {
             self.metadataXML = metadataXML
             self.roleArn = roleArn
@@ -5751,6 +5904,7 @@ extension QBusiness {
         /// The URL where Amazon Q Business end users will be redirected for authentication.
         public let authenticationUrl: String
 
+        @inlinable
         public init(authenticationUrl: String) {
             self.authenticationUrl = authenticationUrl
         }
@@ -5770,6 +5924,7 @@ extension QBusiness {
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q chat response.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -5793,6 +5948,7 @@ extension QBusiness {
         /// The URL of the document which is the source for the Amazon Q Business generated response.
         public let url: String?
 
+        @inlinable
         public init(citationNumber: Int? = nil, snippet: String? = nil, textMessageSegments: [TextSegment]? = nil, title: String? = nil, updatedAt: Date? = nil, url: String? = nil) {
             self.citationNumber = citationNumber
             self.snippet = snippet
@@ -5820,6 +5976,7 @@ extension QBusiness {
         /// The identifier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String, indexId: String) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -5853,6 +6010,7 @@ extension QBusiness {
         /// The identifier for a particular synchronization job.
         public let executionId: String?
 
+        @inlinable
         public init(executionId: String? = nil) {
             self.executionId = executionId
         }
@@ -5870,6 +6028,7 @@ extension QBusiness {
         /// The identifier of the index used with the Amazon Q Business data source connector.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, dataSourceId: String, indexId: String) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
@@ -5909,6 +6068,7 @@ extension QBusiness {
         /// Specifies how much a document attribute is boosted.
         public let boostingLevel: DocumentAttributeBoostingLevel
 
+        @inlinable
         public init(attributeValueBoosting: [String: StringAttributeValueBoostingLevel]? = nil, boostingLevel: DocumentAttributeBoostingLevel) {
             self.attributeValueBoosting = attributeValueBoosting
             self.boostingLevel = boostingLevel
@@ -5933,6 +6093,7 @@ extension QBusiness {
         /// Specifies how much a document attribute is boosted.
         public let boostingLevel: DocumentAttributeBoostingLevel
 
+        @inlinable
         public init(boostingLevel: DocumentAttributeBoostingLevel) {
             self.boostingLevel = boostingLevel
         }
@@ -5948,6 +6109,7 @@ extension QBusiness {
         /// The value associated with the tag. The value may be an empty string but it can't be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5971,6 +6133,7 @@ extension QBusiness {
         /// A list of tag keys to add to the Amazon Q Business application or data source. If a tag already exists, the existing value is replaced with the new value.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -6007,6 +6170,7 @@ extension QBusiness {
         /// The number of text documents indexed.
         public let indexedTextDocumentCount: Int?
 
+        @inlinable
         public init(indexedTextBytes: Int64? = nil, indexedTextDocumentCount: Int? = nil) {
             self.indexedTextBytes = indexedTextBytes
             self.indexedTextDocumentCount = indexedTextDocumentCount
@@ -6022,6 +6186,7 @@ extension QBusiness {
         /// A user message in a text message input event.
         public let userMessage: String
 
+        @inlinable
         public init(userMessage: String) {
             self.userMessage = userMessage
         }
@@ -6046,6 +6211,7 @@ extension QBusiness {
         /// The identifier of an end user message in a TextOutputEvent.
         public let userMessageId: String?
 
+        @inlinable
         public init(conversationId: String? = nil, systemMessage: String? = nil, systemMessageId: String? = nil, userMessageId: String? = nil) {
             self.conversationId = conversationId
             self.systemMessage = systemMessage
@@ -6069,6 +6235,7 @@ extension QBusiness {
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
         public let snippetExcerpt: SnippetExcerpt?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, snippetExcerpt: SnippetExcerpt? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -6092,6 +6259,7 @@ extension QBusiness {
         /// Rules defined for a topic configuration.
         public let rules: [Rule]
 
+        @inlinable
         public init(description: String? = nil, exampleChatMessages: [String]? = nil, name: String, rules: [Rule]) {
             self.description = description
             self.exampleChatMessages = exampleChatMessages
@@ -6130,6 +6298,7 @@ extension QBusiness {
         /// A list of tag keys to remove from the Amazon Q Business application or data source. If a tag key does not exist on the resource, it is ignored.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -6179,6 +6348,7 @@ extension QBusiness {
         /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
         public let roleArn: String?
 
+        @inlinable
         public init(applicationId: String, attachmentsConfiguration: AttachmentsConfiguration? = nil, autoSubscriptionConfiguration: AutoSubscriptionConfiguration? = nil, description: String? = nil, displayName: String? = nil, identityCenterInstanceArn: String? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil) {
             self.applicationId = applicationId
             self.attachmentsConfiguration = attachmentsConfiguration
@@ -6253,6 +6423,7 @@ extension QBusiness {
         /// The configured topic specific chat controls you want to delete.
         public let topicConfigurationsToDelete: [TopicConfiguration]?
 
+        @inlinable
         public init(applicationId: String, blockedPhrasesConfigurationUpdate: BlockedPhrasesConfigurationUpdate? = nil, clientToken: String? = UpdateChatControlsConfigurationRequest.idempotencyToken(), creatorModeConfiguration: CreatorModeConfiguration? = nil, responseScope: ResponseScope? = nil, topicConfigurationsToCreateOrUpdate: [TopicConfiguration]? = nil, topicConfigurationsToDelete: [TopicConfiguration]? = nil) {
             self.applicationId = applicationId
             self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
@@ -6325,6 +6496,7 @@ extension QBusiness {
         public let syncSchedule: String?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(applicationId: String, configuration: String? = nil, dataSourceId: String, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, roleArn: String? = nil, syncSchedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
@@ -6405,6 +6577,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business index.
         public let indexId: String
 
+        @inlinable
         public init(applicationId: String, capacityConfiguration: IndexCapacityConfiguration? = nil, description: String? = nil, displayName: String? = nil, documentAttributeConfigurations: [DocumentAttributeConfiguration]? = nil, indexId: String) {
             self.applicationId = applicationId
             self.capacityConfiguration = capacityConfiguration
@@ -6473,6 +6646,7 @@ extension QBusiness {
         /// The status of the plugin.
         public let state: PluginState?
 
+        @inlinable
         public init(applicationId: String, authConfiguration: PluginAuthConfiguration? = nil, customPluginConfiguration: CustomPluginConfiguration? = nil, displayName: String? = nil, pluginId: String, serverUrl: String? = nil, state: PluginState? = nil) {
             self.applicationId = applicationId
             self.authConfiguration = authConfiguration
@@ -6536,6 +6710,7 @@ extension QBusiness {
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access the retriever and required resources.
         public let roleArn: String?
 
+        @inlinable
         public init(applicationId: String, configuration: RetrieverConfiguration? = nil, displayName: String? = nil, retrieverId: String, roleArn: String? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
@@ -6590,6 +6765,7 @@ extension QBusiness {
         /// The email id attached to the user.
         public let userId: String
 
+        @inlinable
         public init(applicationId: String, userAliasesToDelete: [UserAlias]? = nil, userAliasesToUpdate: [UserAlias]? = nil, userId: String) {
             self.applicationId = applicationId
             self.userAliasesToDelete = userAliasesToDelete
@@ -6634,6 +6810,7 @@ extension QBusiness {
         /// The user aliases attached to a user id that have been updated.
         public let userAliasesUpdated: [UserAlias]?
 
+        @inlinable
         public init(userAliasesAdded: [UserAlias]? = nil, userAliasesDeleted: [UserAlias]? = nil, userAliasesUpdated: [UserAlias]? = nil) {
             self.userAliasesAdded = userAliasesAdded
             self.userAliasesDeleted = userAliasesDeleted
@@ -6667,6 +6844,7 @@ extension QBusiness {
         /// A customized welcome message for an end user in an Amazon Q Business web experience.
         public let welcomeMessage: String?
 
+        @inlinable
         public init(applicationId: String, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
@@ -6680,6 +6858,7 @@ extension QBusiness {
         }
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
+        @inlinable
         public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
@@ -6747,6 +6926,7 @@ extension QBusiness {
         /// The identifier of the user id associated with the user aliases.
         public let userId: String
 
+        @inlinable
         public init(dataSourceId: String? = nil, indexId: String? = nil, userId: String) {
             self.dataSourceId = dataSourceId
             self.indexId = indexId
@@ -6777,6 +6957,7 @@ extension QBusiness {
         /// The user ids associated with a topic control rule.
         public let userIds: [String]?
 
+        @inlinable
         public init(userGroups: [String]? = nil, userIds: [String]? = nil) {
             self.userGroups = userGroups
             self.userIds = userIds
@@ -6811,6 +6992,7 @@ extension QBusiness {
         /// The identifier of your Amazon Q Business web experience.
         public let webExperienceId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, defaultEndpoint: String? = nil, status: WebExperienceStatus? = nil, updatedAt: Date? = nil, webExperienceId: String? = nil) {
             self.createdAt = createdAt
             self.defaultEndpoint = defaultEndpoint
@@ -6832,6 +7014,7 @@ extension QBusiness {
         /// Configuration information required to invoke chat in PLUGIN_MODE.
         public let pluginConfiguration: PluginConfiguration?
 
+        @inlinable
         public init(pluginConfiguration: PluginConfiguration? = nil) {
             self.pluginConfiguration = pluginConfiguration
         }
@@ -6848,6 +7031,7 @@ extension QBusiness {
     public struct WebExperienceAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let samlConfiguration: SamlConfiguration?
 
+        @inlinable
         public init(samlConfiguration: SamlConfiguration? = nil) {
             self.samlConfiguration = samlConfiguration
         }

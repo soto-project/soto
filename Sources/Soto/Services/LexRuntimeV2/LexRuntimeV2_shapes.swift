@@ -269,6 +269,7 @@ extension LexRuntimeV2 {
     public struct AccessDeniedException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -286,6 +287,7 @@ extension LexRuntimeV2 {
         /// Indicates the number of turns or seconds that the context is active. Once the time to live expires, the context is no longer returned in a response.
         public let timeToLive: ActiveContextTimeToLive
 
+        @inlinable
         public init(contextAttributes: [String: String], name: String, timeToLive: ActiveContextTimeToLive) {
             self.contextAttributes = contextAttributes
             self.name = name
@@ -319,6 +321,7 @@ extension LexRuntimeV2 {
         /// The number of turns that the context is active. You can specify up to 20 turns. Each request and response from the bot is a turn.
         public let turnsToLive: Int
 
+        @inlinable
         public init(timeToLiveInSeconds: Int, turnsToLive: Int) {
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
@@ -347,6 +350,7 @@ extension LexRuntimeV2 {
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
 
+        @inlinable
         public init(audioChunk: AWSBase64Data? = nil, clientTimestampMillis: Int64? = nil, contentType: String, eventId: String? = nil) {
             self.audioChunk = audioChunk
             self.clientTimestampMillis = clientTimestampMillis
@@ -377,6 +381,7 @@ extension LexRuntimeV2 {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
 
+        @inlinable
         public init(audioChunk: AWSBase64Data? = nil, contentType: String? = nil, eventId: String? = nil) {
             self.audioChunk = audioChunk
             self.contentType = contentType
@@ -393,6 +398,7 @@ extension LexRuntimeV2 {
     public struct BadGatewayException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -408,6 +414,7 @@ extension LexRuntimeV2 {
         /// The value returned to Amazon Lex V2 when a user chooses the button.
         public let value: String
 
+        @inlinable
         public init(text: String, value: String) {
             self.text = text
             self.value = value
@@ -430,6 +437,7 @@ extension LexRuntimeV2 {
         /// A score that indicates how confident Amazon Lex V2 is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public let score: Double?
 
+        @inlinable
         public init(score: Double? = nil) {
             self.score = score
         }
@@ -454,6 +462,7 @@ extension LexRuntimeV2 {
         /// A list of messages to send to the user. If you set the welcomeMessage field, you must also set the  DialogAction structure's  type field.
         public let welcomeMessages: [Message]?
 
+        @inlinable
         public init(clientTimestampMillis: Int64? = nil, disablePlayback: Bool? = nil, eventId: String? = nil, requestAttributes: [String: String]? = nil, responseContentType: String, sessionState: SessionState? = nil, welcomeMessages: [Message]? = nil) {
             self.clientTimestampMillis = clientTimestampMillis
             self.disablePlayback = disablePlayback
@@ -493,6 +502,7 @@ extension LexRuntimeV2 {
     public struct ConflictException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -510,6 +520,7 @@ extension LexRuntimeV2 {
         /// The DTMF character that the user pressed. The allowed characters are A - D, 0 - 9, # and *.
         public let inputCharacter: String
 
+        @inlinable
         public init(clientTimestampMillis: Int64? = nil, eventId: String? = nil, inputCharacter: String) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
@@ -542,6 +553,7 @@ extension LexRuntimeV2 {
         /// The identifier of the session to delete.
         public let sessionId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, localeId: String, sessionId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -581,6 +593,7 @@ extension LexRuntimeV2 {
         /// The identifier of the deleted session.
         public let sessionId: String?
 
+        @inlinable
         public init(botAliasId: String? = nil, botId: String? = nil, localeId: String? = nil, sessionId: String? = nil) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -599,6 +612,7 @@ extension LexRuntimeV2 {
     public struct DependencyFailedException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -618,6 +632,7 @@ extension LexRuntimeV2 {
         /// The next action that the bot should take in its interaction with the user. The following values are possible:    Close – Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent – The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate – The next action is determined by Amazon Lex V2.    ElicitIntent – The next action is to elicit an intent from the user.    ElicitSlot – The next action is to elicit a slot value from the user.
         public let type: DialogActionType
 
+        @inlinable
         public init(slotElicitationStyle: StyleType? = nil, slotToElicit: String? = nil, subSlotToElicit: ElicitSubSlot? = nil, type: DialogActionType) {
             self.slotElicitationStyle = slotElicitationStyle
             self.slotToElicit = slotToElicit
@@ -644,6 +659,7 @@ extension LexRuntimeV2 {
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
 
+        @inlinable
         public init(clientTimestampMillis: Int64? = nil, eventId: String? = nil) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
@@ -667,6 +683,7 @@ extension LexRuntimeV2 {
         /// The field is not supported.
         public let subSlotToElicit: ElicitSubSlot?
 
+        @inlinable
         public init(name: String, subSlotToElicit: ElicitSubSlot? = nil) {
             self.name = name
             self.subSlotToElicit = subSlotToElicit
@@ -693,6 +710,7 @@ extension LexRuntimeV2 {
         /// The identifier of the session to return.
         public let sessionId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, localeId: String, sessionId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -732,6 +750,7 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot. You can use this to determine the progress of the conversation and what the next action might be.
         public let sessionState: SessionState?
 
+        @inlinable
         public init(interpretations: [Interpretation]? = nil, messages: [Message]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
             self.interpretations = interpretations
             self.messages = messages
@@ -751,6 +770,7 @@ extension LexRuntimeV2 {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
 
+        @inlinable
         public init(eventId: String? = nil) {
             self.eventId = eventId
         }
@@ -770,6 +790,7 @@ extension LexRuntimeV2 {
         /// The title to display on the response card. The format of the title is determined by the platform displaying the response card.
         public let title: String
 
+        @inlinable
         public init(buttons: [Button]? = nil, imageUrl: String? = nil, subtitle: String? = nil, title: String) {
             self.buttons = buttons
             self.imageUrl = imageUrl
@@ -808,6 +829,7 @@ extension LexRuntimeV2 {
         /// Indicates the fulfillment state for the intent. The meanings of each value are as follows:    Failed – The bot failed to fulfill the intent.    Fulfilled – The bot has completed fulfillment of the intent.    FulfillmentInProgress – The bot is in the middle of fulfilling the intent.    InProgress – The bot is in the middle of eliciting the slot values that are necessary to fulfill the intent.    ReadyForFulfillment – The bot has elicited all the slot values for the intent and is ready to fulfill the intent.    Waiting – The bot is waiting for a response from the user (limited to streaming conversations).
         public let state: IntentState?
 
+        @inlinable
         public init(confirmationState: ConfirmationState? = nil, name: String, slots: [String: Slot]? = nil, state: IntentState? = nil) {
             self.confirmationState = confirmationState
             self.name = name
@@ -846,6 +868,7 @@ extension LexRuntimeV2 {
         public let sessionId: String?
         public let sessionState: SessionState?
 
+        @inlinable
         public init(eventId: String? = nil, inputMode: InputMode? = nil, interpretations: [Interpretation]? = nil, recognizedBotMember: RecognizedBotMember? = nil, requestAttributes: [String: String]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
             self.eventId = eventId
             self.inputMode = inputMode
@@ -870,6 +893,7 @@ extension LexRuntimeV2 {
     public struct InternalServerException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -889,6 +913,7 @@ extension LexRuntimeV2 {
         /// The sentiment expressed in an utterance.  When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
         public let sentimentResponse: SentimentResponse?
 
+        @inlinable
         public init(intent: Intent? = nil, interpretationSource: InterpretationSource? = nil, nluConfidence: ConfidenceScore? = nil, sentimentResponse: SentimentResponse? = nil) {
             self.intent = intent
             self.interpretationSource = interpretationSource
@@ -911,6 +936,7 @@ extension LexRuntimeV2 {
         public let contentType: MessageContentType
         public let imageResponseCard: ImageResponseCard?
 
+        @inlinable
         public init(content: String? = nil, contentType: MessageContentType, imageResponseCard: ImageResponseCard? = nil) {
             self.content = content
             self.contentType = contentType
@@ -936,6 +962,7 @@ extension LexRuntimeV2 {
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
 
+        @inlinable
         public init(clientTimestampMillis: Int64? = nil, eventId: String? = nil) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
@@ -961,6 +988,7 @@ extension LexRuntimeV2 {
         /// Indicates the type of user input that Amazon Lex V2 detected.
         public let eventReason: PlaybackInterruptionReason?
 
+        @inlinable
         public init(causedByEventId: String? = nil, eventId: String? = nil, eventReason: PlaybackInterruptionReason? = nil) {
             self.causedByEventId = causedByEventId
             self.eventId = eventId
@@ -992,6 +1020,7 @@ extension LexRuntimeV2 {
         /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex V2 should use in the conversation with the user.
         public let sessionState: SessionState
 
+        @inlinable
         public init(botAliasId: String, botId: String, localeId: String, messages: [Message]? = nil, requestAttributes: [String: String]? = nil, responseContentType: String? = nil, sessionId: String, sessionState: SessionState) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -1057,6 +1086,7 @@ extension LexRuntimeV2 {
         /// A base-64-encoded gzipped field that represents the current state of  the dialog between the user and the bot. Use this to determine the progress  of the conversation and what the next action may be.
         public let sessionState: String?
 
+        @inlinable
         public init(audioStream: AWSHTTPBody, contentType: String? = nil, messages: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
@@ -1096,6 +1126,7 @@ extension LexRuntimeV2 {
         /// The text that the user entered. Amazon Lex V2 interprets this text.
         public let text: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, localeId: String, requestAttributes: [String: String]? = nil, sessionId: String, sessionState: SessionState? = nil, text: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -1155,6 +1186,7 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot.  Use this to determine the progress of the conversation and what the next action may be.
         public let sessionState: SessionState?
 
+        @inlinable
         public init(interpretations: [Interpretation]? = nil, messages: [Message]? = nil, recognizedBotMember: RecognizedBotMember? = nil, requestAttributes: [String: String]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
             self.interpretations = interpretations
             self.messages = messages
@@ -1195,6 +1227,7 @@ extension LexRuntimeV2 {
         /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex V2 should use in the conversation with the user. The sessionState field must be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
         public let sessionState: String?
 
+        @inlinable
         public init(botAliasId: String, botId: String, inputStream: AWSHTTPBody? = nil, localeId: String, requestAttributes: String? = nil, requestContentType: String, responseContentType: String? = nil, sessionId: String, sessionState: String? = nil) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -1259,6 +1292,7 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action might be. The sessionState field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let sessionState: String?
 
+        @inlinable
         public init(audioStream: AWSHTTPBody, contentType: String? = nil, inputMode: String? = nil, inputTranscript: String? = nil, interpretations: String? = nil, messages: String? = nil, recognizedBotMember: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
@@ -1296,6 +1330,7 @@ extension LexRuntimeV2 {
         /// The name of the bot member that processes the request.
         public let botName: String?
 
+        @inlinable
         public init(botId: String, botName: String? = nil) {
             self.botId = botId
             self.botName = botName
@@ -1310,6 +1345,7 @@ extension LexRuntimeV2 {
     public struct ResourceNotFoundException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -1325,6 +1361,7 @@ extension LexRuntimeV2 {
         /// A map of constituent sub slot names inside a composite slot in the intent and the phrases  that should be added for each sub slot. Inside each composite slot hints, this structure provides  a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots.  The intent name, composite slot name and the constituent sub slot names must exist.
         public let subSlotHints: [String: RuntimeHintDetails]?
 
+        @inlinable
         public init(runtimeHintValues: [RuntimeHintValue]? = nil, subSlotHints: [String: RuntimeHintDetails]? = nil) {
             self.runtimeHintValues = runtimeHintValues
             self.subSlotHints = subSlotHints
@@ -1354,6 +1391,7 @@ extension LexRuntimeV2 {
         /// The phrase that Amazon Lex V2 should look for in the user's input to the bot.
         public let phrase: String
 
+        @inlinable
         public init(phrase: String) {
             self.phrase = phrase
         }
@@ -1372,6 +1410,7 @@ extension LexRuntimeV2 {
         /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see Using hints to improve accuracy. The intent name and slot name must exist.
         public let slotHints: [String: [String: RuntimeHintDetails]]?
 
+        @inlinable
         public init(slotHints: [String: [String: RuntimeHintDetails]]? = nil) {
             self.slotHints = slotHints
         }
@@ -1394,6 +1433,7 @@ extension LexRuntimeV2 {
         public let sentiment: SentimentType?
         public let sentimentScore: SentimentScore?
 
+        @inlinable
         public init(sentiment: SentimentType? = nil, sentimentScore: SentimentScore? = nil) {
             self.sentiment = sentiment
             self.sentimentScore = sentimentScore
@@ -1415,6 +1455,7 @@ extension LexRuntimeV2 {
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the POSITIVE sentiment.
         public let positive: Double?
 
+        @inlinable
         public init(mixed: Double? = nil, negative: Double? = nil, neutral: Double? = nil, positive: Double? = nil) {
             self.mixed = mixed
             self.negative = negative
@@ -1444,6 +1485,7 @@ extension LexRuntimeV2 {
         /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex V2 and a client application.
         public let sessionAttributes: [String: String]?
 
+        @inlinable
         public init(activeContexts: [ActiveContext]? = nil, dialogAction: DialogAction? = nil, intent: Intent? = nil, originatingRequestId: String? = nil, runtimeHints: RuntimeHints? = nil, sessionAttributes: [String: String]? = nil) {
             self.activeContexts = activeContexts
             self.dialogAction = dialogAction
@@ -1487,6 +1529,7 @@ extension LexRuntimeV2 {
         /// A list of one or more values that the user provided for the slot. For example, if a for a slot that elicits pizza toppings, the values might be "pepperoni" and "pineapple."
         public let values: [Slot]?
 
+        @inlinable
         public init(shape: Shape? = nil, subSlots: [String: Slot]? = nil, value: Value? = nil, values: [Slot]? = nil) {
             self.shape = shape
             self.subSlots = subSlots
@@ -1527,6 +1570,7 @@ extension LexRuntimeV2 {
         /// The identifier of the user session that is having the conversation.
         public let sessionId: String
 
+        @inlinable
         public init(botAliasId: String, botId: String, conversationMode: ConversationMode? = nil, localeId: String, requestEventStream: AWSEventStream<StartConversationRequestEventStream>, sessionId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
@@ -1565,6 +1609,7 @@ extension LexRuntimeV2 {
         /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
         public let responseEventStream: AWSEventStream<StartConversationResponseEventStream>
 
+        @inlinable
         public init(responseEventStream: AWSEventStream<StartConversationResponseEventStream>) {
             self.responseEventStream = responseEventStream
         }
@@ -1585,6 +1630,7 @@ extension LexRuntimeV2 {
         /// The text from the user. Amazon Lex V2 processes this as a complete statement.
         public let text: String
 
+        @inlinable
         public init(clientTimestampMillis: Int64? = nil, eventId: String? = nil, text: String) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
@@ -1612,6 +1658,7 @@ extension LexRuntimeV2 {
         /// A list of messages to send to the user. Messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
         public let messages: [Message]?
 
+        @inlinable
         public init(eventId: String? = nil, messages: [Message]? = nil) {
             self.eventId = eventId
             self.messages = messages
@@ -1626,6 +1673,7 @@ extension LexRuntimeV2 {
     public struct ThrottlingException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -1641,6 +1689,7 @@ extension LexRuntimeV2 {
         /// The transcript of the voice audio from the user.
         public let transcript: String?
 
+        @inlinable
         public init(eventId: String? = nil, transcript: String? = nil) {
             self.eventId = eventId
             self.transcript = transcript
@@ -1655,6 +1704,7 @@ extension LexRuntimeV2 {
     public struct ValidationException: AWSDecodableShape {
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -1672,6 +1722,7 @@ extension LexRuntimeV2 {
         /// A list of values that Amazon Lex V2 determines are possible resolutions for the user input. The first value matches the interpretedValue.
         public let resolvedValues: [String]?
 
+        @inlinable
         public init(interpretedValue: String, originalValue: String? = nil, resolvedValues: [String]? = nil) {
             self.interpretedValue = interpretedValue
             self.originalValue = originalValue

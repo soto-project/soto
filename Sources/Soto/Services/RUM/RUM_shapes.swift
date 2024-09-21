@@ -79,6 +79,7 @@ extension RUM {
         /// The list of tag keys and values associated with this app monitor.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, customEvents: CustomEvents? = nil, dataStorage: DataStorage? = nil, domain: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.created = created
@@ -126,6 +127,7 @@ extension RUM {
         /// An array that lists the types of telemetry data that this app monitor is to collect.    errors indicates that RUM collects data about unhandled JavaScript errors raised by your application.    performance indicates that RUM collects performance data about how your application and its resources are loaded and rendered. This includes Core Web Vitals.    http indicates that RUM collects data about HTTP errors thrown by your application.
         public let telemetries: [Telemetry]?
 
+        @inlinable
         public init(allowCookies: Bool? = nil, enableXRay: Bool? = nil, excludedPages: [String]? = nil, favoritePages: [String]? = nil, guestRoleArn: String? = nil, identityPoolId: String? = nil, includedPages: [String]? = nil, sessionSampleRate: Double? = nil, telemetries: [Telemetry]? = nil) {
             self.allowCookies = allowCookies
             self.enableXRay = enableXRay
@@ -181,6 +183,7 @@ extension RUM {
         /// The version of the app monitor.
         public let version: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, version: String? = nil) {
             self.id = id
             self.name = name
@@ -206,6 +209,7 @@ extension RUM {
         /// The current state of this app monitor.
         public let state: StateEnum?
 
+        @inlinable
         public init(created: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil) {
             self.created = created
             self.id = id
@@ -231,6 +235,7 @@ extension RUM {
         /// The metric definition that caused this error.
         public let metricDefinition: MetricDefinitionRequest
 
+        @inlinable
         public init(errorCode: String, errorMessage: String, metricDefinition: MetricDefinitionRequest) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -254,6 +259,7 @@ extension RUM {
         /// An array of structures which define the metrics that you want to send.
         public let metricDefinitions: [MetricDefinitionRequest]
 
+        @inlinable
         public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, metricDefinitions: [MetricDefinitionRequest]) {
             self.appMonitorName = appMonitorName
             self.destination = destination
@@ -294,6 +300,7 @@ extension RUM {
         /// An array of structures that define the extended metrics.
         public let metricDefinitions: [MetricDefinition]?
 
+        @inlinable
         public init(errors: [BatchCreateRumMetricDefinitionsError], metricDefinitions: [MetricDefinition]? = nil) {
             self.errors = errors
             self.metricDefinitions = metricDefinitions
@@ -313,6 +320,7 @@ extension RUM {
         /// The ID of the metric definition that caused this error.
         public let metricDefinitionId: String
 
+        @inlinable
         public init(errorCode: String, errorMessage: String, metricDefinitionId: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -336,6 +344,7 @@ extension RUM {
         /// An array of structures which define the metrics that you want to stop sending.
         public let metricDefinitionIds: [String]
 
+        @inlinable
         public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, metricDefinitionIds: [String]) {
             self.appMonitorName = appMonitorName
             self.destination = destination
@@ -373,6 +382,7 @@ extension RUM {
         /// The IDs of the metric definitions that were deleted.
         public let metricDefinitionIds: [String]?
 
+        @inlinable
         public init(errors: [BatchDeleteRumMetricDefinitionsError], metricDefinitionIds: [String]? = nil) {
             self.errors = errors
             self.metricDefinitionIds = metricDefinitionIds
@@ -396,6 +406,7 @@ extension RUM {
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appMonitorName = appMonitorName
             self.destination = destination
@@ -433,6 +444,7 @@ extension RUM {
         /// A token that you can use in a subsequent operation to  retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(metricDefinitions: [MetricDefinition]? = nil, nextToken: String? = nil) {
             self.metricDefinitions = metricDefinitions
             self.nextToken = nextToken
@@ -458,6 +470,7 @@ extension RUM {
         /// Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, domain: String, name: String, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.customEvents = customEvents
@@ -497,6 +510,7 @@ extension RUM {
         /// The unique ID of the new app monitor.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -510,6 +524,7 @@ extension RUM {
         /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED.
         public let status: CustomEventsStatus?
 
+        @inlinable
         public init(status: CustomEventsStatus? = nil) {
             self.status = status
         }
@@ -525,6 +540,7 @@ extension RUM {
         /// The name of the log group where the copies are stored.
         public let cwLogGroup: String?
 
+        @inlinable
         public init(cwLogEnabled: Bool? = nil, cwLogGroup: String? = nil) {
             self.cwLogEnabled = cwLogEnabled
             self.cwLogGroup = cwLogGroup
@@ -540,6 +556,7 @@ extension RUM {
         /// A structure that contains the information about whether the app monitor stores copies of the data that RUM collects in CloudWatch Logs. If it does, this structure also contains the name of the log group.
         public let cwLog: CwLog?
 
+        @inlinable
         public init(cwLog: CwLog? = nil) {
             self.cwLog = cwLog
         }
@@ -553,6 +570,7 @@ extension RUM {
         /// The name of the app monitor to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -584,6 +602,7 @@ extension RUM {
         /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete.
         public let destinationArn: String?
 
+        @inlinable
         public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil) {
             self.appMonitorName = appMonitorName
             self.destination = destination
@@ -625,6 +644,7 @@ extension RUM {
         /// A structure that defines the time range that you want to retrieve results from.
         public let timeRange: TimeRange
 
+        @inlinable
         public init(filters: [QueryFilter]? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, timeRange: TimeRange) {
             self.filters = filters
             self.maxResults = maxResults
@@ -665,6 +685,7 @@ extension RUM {
         /// A token that you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [String]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -680,6 +701,7 @@ extension RUM {
         /// The app monitor to retrieve information for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -703,6 +725,7 @@ extension RUM {
         /// A structure containing all the configuration information for the app monitor.
         public let appMonitor: AppMonitor?
 
+        @inlinable
         public init(appMonitor: AppMonitor? = nil) {
             self.appMonitor = appMonitor
         }
@@ -718,6 +741,7 @@ extension RUM {
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -744,6 +768,7 @@ extension RUM {
         /// A token that you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appMonitorSummaries: [AppMonitorSummary]? = nil, nextToken: String? = nil) {
             self.appMonitorSummaries = appMonitorSummaries
             self.nextToken = nextToken
@@ -763,6 +788,7 @@ extension RUM {
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appMonitorName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appMonitorName = appMonitorName
             self.maxResults = maxResults
@@ -794,6 +820,7 @@ extension RUM {
         /// A token that you can use in a subsequent operation to  retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(destinations: [MetricDestinationSummary]? = nil, nextToken: String? = nil) {
             self.destinations = destinations
             self.nextToken = nextToken
@@ -809,6 +836,7 @@ extension RUM {
         /// The ARN of the resource that you want to see the tags of.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -832,6 +860,7 @@ extension RUM {
         /// The list of tag keys and values associated with the resource you specified.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -859,6 +888,7 @@ extension RUM {
         /// The field within the event object that the metric value is sourced from.
         public let valueKey: String?
 
+        @inlinable
         public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, metricDefinitionId: String, name: String, namespace: String? = nil, unitLabel: String? = nil, valueKey: String? = nil) {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
@@ -894,6 +924,7 @@ extension RUM {
         /// The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you want to count the number of events that the filter catches.  If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw. Evidently will handle data extraction from the event.
         public let valueKey: String?
 
+        @inlinable
         public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, name: String, namespace: String? = nil, unitLabel: String? = nil, valueKey: String? = nil) {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
@@ -942,6 +973,7 @@ extension RUM {
         /// This field appears only when the destination is Evidently. It specifies the ARN of the IAM role that is used to write to the Evidently experiment that receives the metrics.
         public let iamRoleArn: String?
 
+        @inlinable
         public init(destination: MetricDestination? = nil, destinationArn: String? = nil, iamRoleArn: String? = nil) {
             self.destination = destination
             self.destinationArn = destinationArn
@@ -967,6 +999,7 @@ extension RUM {
         /// A structure that contains information about the user session that this batch of events was collected from.
         public let userDetails: UserDetails
 
+        @inlinable
         public init(appMonitorDetails: AppMonitorDetails, batchId: String, id: String, rumEvents: [RumEvent], userDetails: UserDetails) {
             self.appMonitorDetails = appMonitorDetails
             self.batchId = batchId
@@ -1013,6 +1046,7 @@ extension RUM {
         /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently  experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions.
         public let iamRoleArn: String?
 
+        @inlinable
         public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, iamRoleArn: String? = nil) {
             self.appMonitorName = appMonitorName
             self.destination = destination
@@ -1055,6 +1089,7 @@ extension RUM {
         /// The values of the Name that are to be be included in the returned results.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1078,6 +1113,7 @@ extension RUM {
         /// The JSON schema that denotes the type of event this is, such as a page load or a new session.
         public let type: String
 
+        @inlinable
         public init(details: String, id: String, metadata: String? = nil, timestamp: Date, type: String) {
             self.details = details
             self.id = id
@@ -1101,6 +1137,7 @@ extension RUM {
         /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1138,6 +1175,7 @@ extension RUM {
         /// The end of the time range to retrieve performance events from. If you omit this, the time  range extends to the time that this operation is performed.
         public let before: Int64?
 
+        @inlinable
         public init(after: Int64 = 0, before: Int64? = nil) {
             self.after = after
             self.before = before
@@ -1155,6 +1193,7 @@ extension RUM {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1196,6 +1235,7 @@ extension RUM {
         /// The name of the app monitor to update.
         public let name: String
 
+        @inlinable
         public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, domain: String? = nil, name: String) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.customEvents = customEvents
@@ -1248,6 +1288,7 @@ extension RUM {
         /// The ID of the metric definition to update.
         public let metricDefinitionId: String
 
+        @inlinable
         public init(appMonitorName: String, destination: MetricDestination, destinationArn: String? = nil, metricDefinition: MetricDefinitionRequest, metricDefinitionId: String) {
             self.appMonitorName = appMonitorName
             self.destination = destination
@@ -1295,6 +1336,7 @@ extension RUM {
         /// The ID of the user for this user session. This ID is generated by RUM and does not include any  personally identifiable information about the user.
         public let userId: String?
 
+        @inlinable
         public init(sessionId: String? = nil, userId: String? = nil) {
             self.sessionId = sessionId
             self.userId = userId

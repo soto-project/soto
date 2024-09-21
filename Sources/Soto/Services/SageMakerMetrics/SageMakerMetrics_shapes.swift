@@ -42,6 +42,7 @@ extension SageMakerMetrics {
         /// An index that corresponds to the metric in the request.
         public let metricIndex: Int?
 
+        @inlinable
         public init(code: PutMetricsErrorCode? = nil, metricIndex: Int? = nil) {
             self.code = code
             self.metricIndex = metricIndex
@@ -59,6 +60,7 @@ extension SageMakerMetrics {
         /// The name of the Trial Component to associate with the metrics.
         public let trialComponentName: String?
 
+        @inlinable
         public init(metricData: [RawMetricData]? = nil, trialComponentName: String? = nil) {
             self.metricData = metricData
             self.trialComponentName = trialComponentName
@@ -85,6 +87,7 @@ extension SageMakerMetrics {
         /// Lists any errors that occur when inserting metric data.
         public let errors: [BatchPutMetricsError]?
 
+        @inlinable
         public init(errors: [BatchPutMetricsError]? = nil) {
             self.errors = errors
         }
@@ -104,6 +107,7 @@ extension SageMakerMetrics {
         /// The metric value.
         public let value: Double?
 
+        @inlinable
         public init(metricName: String? = nil, step: Int? = nil, timestamp: Date? = nil, value: Double? = nil) {
             self.metricName = metricName
             self.step = step

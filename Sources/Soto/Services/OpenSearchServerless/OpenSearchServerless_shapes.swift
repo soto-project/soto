@@ -118,6 +118,7 @@ extension OpenSearchServerless {
         /// The type of access policy.
         public let type: AccessPolicyType?
 
+        @inlinable
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -143,6 +144,7 @@ extension OpenSearchServerless {
         /// The number of data access policies in the current account.
         public let dataPolicyCount: Int64?
 
+        @inlinable
         public init(dataPolicyCount: Int64? = nil) {
             self.dataPolicyCount = dataPolicyCount
         }
@@ -166,6 +168,7 @@ extension OpenSearchServerless {
         /// The type of access policy. Currently, the only available type is data.
         public let type: AccessPolicyType?
 
+        @inlinable
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -188,6 +191,7 @@ extension OpenSearchServerless {
     public struct AccountSettingsDetail: AWSDecodableShape {
         public let capacityLimits: CapacityLimits?
 
+        @inlinable
         public init(capacityLimits: CapacityLimits? = nil) {
             self.capacityLimits = capacityLimits
         }
@@ -203,6 +207,7 @@ extension OpenSearchServerless {
         /// A list of collection names. You can't provide names and IDs in the same request.
         public let names: [String]?
 
+        @inlinable
         public init(ids: [String]? = nil, names: [String]? = nil) {
             self.ids = ids
             self.names = names
@@ -237,6 +242,7 @@ extension OpenSearchServerless {
         /// Error information for the request.
         public let collectionErrorDetails: [CollectionErrorDetail]?
 
+        @inlinable
         public init(collectionDetails: [CollectionDetail]? = nil, collectionErrorDetails: [CollectionErrorDetail]? = nil) {
             self.collectionDetails = collectionDetails
             self.collectionErrorDetails = collectionErrorDetails
@@ -252,6 +258,7 @@ extension OpenSearchServerless {
         /// The unique identifiers of policy types and resource names.
         public let resourceIdentifiers: [LifecyclePolicyResourceIdentifier]
 
+        @inlinable
         public init(resourceIdentifiers: [LifecyclePolicyResourceIdentifier]) {
             self.resourceIdentifiers = resourceIdentifiers
         }
@@ -275,6 +282,7 @@ extension OpenSearchServerless {
         /// A list of resources for which retrieval failed.
         public let effectiveLifecyclePolicyErrorDetails: [EffectiveLifecyclePolicyErrorDetail]?
 
+        @inlinable
         public init(effectiveLifecyclePolicyDetails: [EffectiveLifecyclePolicyDetail]? = nil, effectiveLifecyclePolicyErrorDetails: [EffectiveLifecyclePolicyErrorDetail]? = nil) {
             self.effectiveLifecyclePolicyDetails = effectiveLifecyclePolicyDetails
             self.effectiveLifecyclePolicyErrorDetails = effectiveLifecyclePolicyErrorDetails
@@ -290,6 +298,7 @@ extension OpenSearchServerless {
         /// The unique identifiers of policy types and policy names.
         public let identifiers: [LifecyclePolicyIdentifier]
 
+        @inlinable
         public init(identifiers: [LifecyclePolicyIdentifier]) {
             self.identifiers = identifiers
         }
@@ -313,6 +322,7 @@ extension OpenSearchServerless {
         /// A list of lifecycle policy names and policy types for which retrieval failed.
         public let lifecyclePolicyErrorDetails: [LifecyclePolicyErrorDetail]?
 
+        @inlinable
         public init(lifecyclePolicyDetails: [LifecyclePolicyDetail]? = nil, lifecyclePolicyErrorDetails: [LifecyclePolicyErrorDetail]? = nil) {
             self.lifecyclePolicyDetails = lifecyclePolicyDetails
             self.lifecyclePolicyErrorDetails = lifecyclePolicyErrorDetails
@@ -328,6 +338,7 @@ extension OpenSearchServerless {
         /// A list of VPC endpoint identifiers.
         public let ids: [String]
 
+        @inlinable
         public init(ids: [String]) {
             self.ids = ids
         }
@@ -352,6 +363,7 @@ extension OpenSearchServerless {
         /// Error information for a failed request.
         public let vpcEndpointErrorDetails: [VpcEndpointErrorDetail]?
 
+        @inlinable
         public init(vpcEndpointDetails: [VpcEndpointDetail]? = nil, vpcEndpointErrorDetails: [VpcEndpointErrorDetail]? = nil) {
             self.vpcEndpointDetails = vpcEndpointDetails
             self.vpcEndpointErrorDetails = vpcEndpointErrorDetails
@@ -369,6 +381,7 @@ extension OpenSearchServerless {
         /// The maximum search capacity for collections.
         public let maxSearchCapacityInOCU: Int?
 
+        @inlinable
         public init(maxIndexingCapacityInOCU: Int? = nil, maxSearchCapacityInOCU: Int? = nil) {
             self.maxIndexingCapacityInOCU = maxIndexingCapacityInOCU
             self.maxSearchCapacityInOCU = maxSearchCapacityInOCU
@@ -415,6 +428,7 @@ extension OpenSearchServerless {
         /// The type of collection.
         public let type: CollectionType?
 
+        @inlinable
         public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
@@ -460,6 +474,7 @@ extension OpenSearchServerless {
         /// If the request contains collection names, the response includes the names provided in the request.
         public let name: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil, name: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -481,6 +496,7 @@ extension OpenSearchServerless {
         /// The current status of the collection.
         public let status: CollectionStatus?
 
+        @inlinable
         public init(name: String? = nil, status: CollectionStatus? = nil) {
             self.name = name
             self.status = status
@@ -508,6 +524,7 @@ extension OpenSearchServerless {
         /// The current status of the collection.
         public let status: CollectionStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -535,6 +552,7 @@ extension OpenSearchServerless {
         /// The type of policy.
         public let type: AccessPolicyType
 
+        @inlinable
         public init(clientToken: String? = CreateAccessPolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String, type: AccessPolicyType) {
             self.clientToken = clientToken
             self.description = description
@@ -568,6 +586,7 @@ extension OpenSearchServerless {
         /// Details about the created access policy.
         public let accessPolicyDetail: AccessPolicyDetail?
 
+        @inlinable
         public init(accessPolicyDetail: AccessPolicyDetail? = nil) {
             self.accessPolicyDetail = accessPolicyDetail
         }
@@ -599,6 +618,7 @@ extension OpenSearchServerless {
         /// The type of collection.
         public let type: CollectionType?
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -640,6 +660,7 @@ extension OpenSearchServerless {
         /// The type of collection.
         public let type: CollectionType?
 
+        @inlinable
         public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -675,6 +696,7 @@ extension OpenSearchServerless {
         /// Details about the collection.
         public let createCollectionDetail: CreateCollectionDetail?
 
+        @inlinable
         public init(createCollectionDetail: CreateCollectionDetail? = nil) {
             self.createCollectionDetail = createCollectionDetail
         }
@@ -696,6 +718,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType
 
+        @inlinable
         public init(clientToken: String? = CreateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String, type: LifecyclePolicyType) {
             self.clientToken = clientToken
             self.description = description
@@ -729,6 +752,7 @@ extension OpenSearchServerless {
         /// Details about the created lifecycle policy.
         public let lifecyclePolicyDetail: LifecyclePolicyDetail?
 
+        @inlinable
         public init(lifecyclePolicyDetail: LifecyclePolicyDetail? = nil) {
             self.lifecyclePolicyDetail = lifecyclePolicyDetail
         }
@@ -750,6 +774,7 @@ extension OpenSearchServerless {
         /// The type of security configuration.
         public let type: SecurityConfigType
 
+        @inlinable
         public init(clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(), description: String? = nil, name: String, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType) {
             self.clientToken = clientToken
             self.description = description
@@ -782,6 +807,7 @@ extension OpenSearchServerless {
         /// Details about the created security configuration.
         public let securityConfigDetail: SecurityConfigDetail?
 
+        @inlinable
         public init(securityConfigDetail: SecurityConfigDetail? = nil) {
             self.securityConfigDetail = securityConfigDetail
         }
@@ -803,6 +829,7 @@ extension OpenSearchServerless {
         /// The type of security policy.
         public let type: SecurityPolicyType
 
+        @inlinable
         public init(clientToken: String? = CreateSecurityPolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String, type: SecurityPolicyType) {
             self.clientToken = clientToken
             self.description = description
@@ -836,6 +863,7 @@ extension OpenSearchServerless {
         /// Details about the created security policy.
         public let securityPolicyDetail: SecurityPolicyDetail?
 
+        @inlinable
         public init(securityPolicyDetail: SecurityPolicyDetail? = nil) {
             self.securityPolicyDetail = securityPolicyDetail
         }
@@ -853,6 +881,7 @@ extension OpenSearchServerless {
         /// The current status in the endpoint creation process.
         public let status: VpcEndpointStatus?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, status: VpcEndpointStatus? = nil) {
             self.id = id
             self.name = name
@@ -878,6 +907,7 @@ extension OpenSearchServerless {
         /// The ID of the VPC from which you'll access OpenSearch Serverless.
         public let vpcId: String
 
+        @inlinable
         public init(clientToken: String? = CreateVpcEndpointRequest.idempotencyToken(), name: String, securityGroupIds: [String]? = nil, subnetIds: [String], vpcId: String) {
             self.clientToken = clientToken
             self.name = name
@@ -924,6 +954,7 @@ extension OpenSearchServerless {
         /// Details about the created interface VPC endpoint.
         public let createVpcEndpointDetail: CreateVpcEndpointDetail?
 
+        @inlinable
         public init(createVpcEndpointDetail: CreateVpcEndpointDetail? = nil) {
             self.createVpcEndpointDetail = createVpcEndpointDetail
         }
@@ -941,6 +972,7 @@ extension OpenSearchServerless {
         /// The type of policy.
         public let type: AccessPolicyType
 
+        @inlinable
         public init(clientToken: String? = DeleteAccessPolicyRequest.idempotencyToken(), name: String, type: AccessPolicyType) {
             self.clientToken = clientToken
             self.name = name
@@ -974,6 +1006,7 @@ extension OpenSearchServerless {
         /// The current status of the collection.
         public let status: CollectionStatus?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
             self.id = id
             self.name = name
@@ -993,6 +1026,7 @@ extension OpenSearchServerless {
         /// The unique identifier of the collection. For example, 1iu5usc406kd. The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API.
         public let id: String
 
+        @inlinable
         public init(clientToken: String? = DeleteCollectionRequest.idempotencyToken(), id: String) {
             self.clientToken = clientToken
             self.id = id
@@ -1016,6 +1050,7 @@ extension OpenSearchServerless {
         /// Details of the deleted collection.
         public let deleteCollectionDetail: DeleteCollectionDetail?
 
+        @inlinable
         public init(deleteCollectionDetail: DeleteCollectionDetail? = nil) {
             self.deleteCollectionDetail = deleteCollectionDetail
         }
@@ -1033,6 +1068,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType
 
+        @inlinable
         public init(clientToken: String? = DeleteLifecyclePolicyRequest.idempotencyToken(), name: String, type: LifecyclePolicyType) {
             self.clientToken = clientToken
             self.name = name
@@ -1064,6 +1100,7 @@ extension OpenSearchServerless {
         /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
         public let id: String
 
+        @inlinable
         public init(clientToken: String? = DeleteSecurityConfigRequest.idempotencyToken(), id: String) {
             self.clientToken = clientToken
             self.id = id
@@ -1094,6 +1131,7 @@ extension OpenSearchServerless {
         /// The type of policy.
         public let type: SecurityPolicyType
 
+        @inlinable
         public init(clientToken: String? = DeleteSecurityPolicyRequest.idempotencyToken(), name: String, type: SecurityPolicyType) {
             self.clientToken = clientToken
             self.name = name
@@ -1127,6 +1165,7 @@ extension OpenSearchServerless {
         /// The current status of the endpoint deletion process.
         public let status: VpcEndpointStatus?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, status: VpcEndpointStatus? = nil) {
             self.id = id
             self.name = name
@@ -1146,6 +1185,7 @@ extension OpenSearchServerless {
         /// The VPC endpoint identifier.
         public let id: String
 
+        @inlinable
         public init(clientToken: String? = DeleteVpcEndpointRequest.idempotencyToken(), id: String) {
             self.clientToken = clientToken
             self.id = id
@@ -1169,6 +1209,7 @@ extension OpenSearchServerless {
         /// Details about the deleted endpoint.
         public let deleteVpcEndpointDetail: DeleteVpcEndpointDetail?
 
+        @inlinable
         public init(deleteVpcEndpointDetail: DeleteVpcEndpointDetail? = nil) {
             self.deleteVpcEndpointDetail = deleteVpcEndpointDetail
         }
@@ -1192,6 +1233,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
+        @inlinable
         public init(noMinRetentionPeriod: Bool? = nil, policyName: String? = nil, resource: String? = nil, resourceType: ResourceType? = nil, retentionPeriod: String? = nil, type: LifecyclePolicyType? = nil) {
             self.noMinRetentionPeriod = noMinRetentionPeriod
             self.policyName = policyName
@@ -1221,6 +1263,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, resource: String? = nil, type: LifecyclePolicyType? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1242,6 +1285,7 @@ extension OpenSearchServerless {
         /// Tye type of policy. Currently, the only supported value is data.
         public let type: AccessPolicyType
 
+        @inlinable
         public init(name: String, type: AccessPolicyType) {
             self.name = name
             self.type = type
@@ -1263,6 +1307,7 @@ extension OpenSearchServerless {
         /// Details about the requested access policy.
         public let accessPolicyDetail: AccessPolicyDetail?
 
+        @inlinable
         public init(accessPolicyDetail: AccessPolicyDetail? = nil) {
             self.accessPolicyDetail = accessPolicyDetail
         }
@@ -1280,6 +1325,7 @@ extension OpenSearchServerless {
         /// OpenSearch Serverless-related details for the current account.
         public let accountSettingsDetail: AccountSettingsDetail?
 
+        @inlinable
         public init(accountSettingsDetail: AccountSettingsDetail? = nil) {
             self.accountSettingsDetail = accountSettingsDetail
         }
@@ -1305,6 +1351,7 @@ extension OpenSearchServerless {
         /// The total number of OpenSearch Serverless security policies and configurations in your account.
         public let totalPolicyCount: Int64?
 
+        @inlinable
         public init(accessPolicyStats: AccessPolicyStats? = nil, lifecyclePolicyStats: LifecyclePolicyStats? = nil, securityConfigStats: SecurityConfigStats? = nil, securityPolicyStats: SecurityPolicyStats? = nil, totalPolicyCount: Int64? = nil) {
             self.accessPolicyStats = accessPolicyStats
             self.lifecyclePolicyStats = lifecyclePolicyStats
@@ -1326,6 +1373,7 @@ extension OpenSearchServerless {
         /// The unique identifier of the security configuration.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1344,6 +1392,7 @@ extension OpenSearchServerless {
         /// Details of the requested security configuration.
         public let securityConfigDetail: SecurityConfigDetail?
 
+        @inlinable
         public init(securityConfigDetail: SecurityConfigDetail? = nil) {
             self.securityConfigDetail = securityConfigDetail
         }
@@ -1359,6 +1408,7 @@ extension OpenSearchServerless {
         /// The type of security policy.
         public let type: SecurityPolicyType
 
+        @inlinable
         public init(name: String, type: SecurityPolicyType) {
             self.name = name
             self.type = type
@@ -1380,6 +1430,7 @@ extension OpenSearchServerless {
         /// Details about the requested security policy.
         public let securityPolicyDetail: SecurityPolicyDetail?
 
+        @inlinable
         public init(securityPolicyDetail: SecurityPolicyDetail? = nil) {
             self.securityPolicyDetail = securityPolicyDetail
         }
@@ -1405,6 +1456,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
+        @inlinable
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -1436,6 +1488,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, name: String? = nil, type: LifecyclePolicyType? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1457,6 +1510,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType
 
+        @inlinable
         public init(name: String, type: LifecyclePolicyType) {
             self.name = name
             self.type = type
@@ -1480,6 +1534,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType
 
+        @inlinable
         public init(resource: String, type: LifecyclePolicyType) {
             self.resource = resource
             self.type = type
@@ -1499,6 +1554,7 @@ extension OpenSearchServerless {
         /// The number of retention lifecycle policies in the current account.
         public let retentionPolicyCount: Int64?
 
+        @inlinable
         public init(retentionPolicyCount: Int64? = nil) {
             self.retentionPolicyCount = retentionPolicyCount
         }
@@ -1522,6 +1578,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
+        @inlinable
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -1551,6 +1608,7 @@ extension OpenSearchServerless {
         /// The type of access policy.
         public let type: AccessPolicyType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resource: [String]? = nil, type: AccessPolicyType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1572,6 +1630,7 @@ extension OpenSearchServerless {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPolicySummaries: [AccessPolicySummary]? = nil, nextToken: String? = nil) {
             self.accessPolicySummaries = accessPolicySummaries
             self.nextToken = nextToken
@@ -1591,6 +1650,7 @@ extension OpenSearchServerless {
         /// If your initial ListCollections operation returns a nextToken, you can include the returned nextToken in subsequent ListCollections operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(collectionFilters: CollectionFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collectionFilters = collectionFilters
             self.maxResults = maxResults
@@ -1614,6 +1674,7 @@ extension OpenSearchServerless {
         /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(collectionSummaries: [CollectionSummary]? = nil, nextToken: String? = nil) {
             self.collectionSummaries = collectionSummaries
             self.nextToken = nextToken
@@ -1635,6 +1696,7 @@ extension OpenSearchServerless {
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resources: [String]? = nil, type: LifecyclePolicyType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1656,6 +1718,7 @@ extension OpenSearchServerless {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(lifecyclePolicySummaries: [LifecyclePolicySummary]? = nil, nextToken: String? = nil) {
             self.lifecyclePolicySummaries = lifecyclePolicySummaries
             self.nextToken = nextToken
@@ -1675,6 +1738,7 @@ extension OpenSearchServerless {
         /// The type of security configuration.
         public let type: SecurityConfigType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, type: SecurityConfigType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1694,6 +1758,7 @@ extension OpenSearchServerless {
         /// Details about the security configurations in your account.
         public let securityConfigSummaries: [SecurityConfigSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityConfigSummaries: [SecurityConfigSummary]? = nil) {
             self.nextToken = nextToken
             self.securityConfigSummaries = securityConfigSummaries
@@ -1715,6 +1780,7 @@ extension OpenSearchServerless {
         /// The type of policy.
         public let type: SecurityPolicyType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resource: [String]? = nil, type: SecurityPolicyType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1736,6 +1802,7 @@ extension OpenSearchServerless {
         /// Details about the security policies in your account.
         public let securityPolicySummaries: [SecurityPolicySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityPolicySummaries: [SecurityPolicySummary]? = nil) {
             self.nextToken = nextToken
             self.securityPolicySummaries = securityPolicySummaries
@@ -1751,6 +1818,7 @@ extension OpenSearchServerless {
         /// The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1769,6 +1837,7 @@ extension OpenSearchServerless {
         /// The tags associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1786,6 +1855,7 @@ extension OpenSearchServerless {
         /// Filter the results according to the current status of the VPC endpoint. Possible statuses are CREATING, DELETING, UPDATING, ACTIVE, and FAILED.
         public let vpcEndpointFilters: VpcEndpointFilters?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointFilters: VpcEndpointFilters? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1805,6 +1875,7 @@ extension OpenSearchServerless {
         /// Details about each VPC endpoint, including the name and current status.
         public let vpcEndpointSummaries: [VpcEndpointSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcEndpointSummaries: [VpcEndpointSummary]? = nil) {
             self.nextToken = nextToken
             self.vpcEndpointSummaries = vpcEndpointSummaries
@@ -1826,6 +1897,7 @@ extension OpenSearchServerless {
         /// A user attribute for this SAML integration.
         public let userAttribute: String?
 
+        @inlinable
         public init(groupAttribute: String? = nil, metadata: String, sessionTimeout: Int? = nil, userAttribute: String? = nil) {
             self.groupAttribute = groupAttribute
             self.metadata = metadata
@@ -1869,6 +1941,7 @@ extension OpenSearchServerless {
         /// The type of security configuration.
         public let type: SecurityConfigType?
 
+        @inlinable
         public init(configVersion: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType? = nil) {
             self.configVersion = configVersion
             self.createdDate = createdDate
@@ -1894,6 +1967,7 @@ extension OpenSearchServerless {
         /// The number of security configurations in the current account.
         public let samlConfigCount: Int64?
 
+        @inlinable
         public init(samlConfigCount: Int64? = nil) {
             self.samlConfigCount = samlConfigCount
         }
@@ -1917,6 +1991,7 @@ extension OpenSearchServerless {
         /// The type of security configuration.
         public let type: SecurityConfigType?
 
+        @inlinable
         public init(configVersion: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, type: SecurityConfigType? = nil) {
             self.configVersion = configVersion
             self.createdDate = createdDate
@@ -1952,6 +2027,7 @@ extension OpenSearchServerless {
         /// The type of security policy.
         public let type: SecurityPolicyType?
 
+        @inlinable
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: SecurityPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -1979,6 +2055,7 @@ extension OpenSearchServerless {
         /// The number of network policies in the current account.
         public let networkPolicyCount: Int64?
 
+        @inlinable
         public init(encryptionPolicyCount: Int64? = nil, networkPolicyCount: Int64? = nil) {
             self.encryptionPolicyCount = encryptionPolicyCount
             self.networkPolicyCount = networkPolicyCount
@@ -2004,6 +2081,7 @@ extension OpenSearchServerless {
         /// The type of security policy.
         public let type: SecurityPolicyType?
 
+        @inlinable
         public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policyVersion: String? = nil, type: SecurityPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -2029,6 +2107,7 @@ extension OpenSearchServerless {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2052,6 +2131,7 @@ extension OpenSearchServerless {
         /// A list of tags (key-value pairs) to add to the resource. All tag keys in the request must be unique.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2082,6 +2162,7 @@ extension OpenSearchServerless {
         /// The tag or set of tags to remove from the resource. All tag keys in the request must be unique.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2121,6 +2202,7 @@ extension OpenSearchServerless {
         /// The type of policy.
         public let type: AccessPolicyType
 
+        @inlinable
         public init(clientToken: String? = UpdateAccessPolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String? = nil, policyVersion: String, type: AccessPolicyType) {
             self.clientToken = clientToken
             self.description = description
@@ -2159,6 +2241,7 @@ extension OpenSearchServerless {
         /// Details about the updated access policy.
         public let accessPolicyDetail: AccessPolicyDetail?
 
+        @inlinable
         public init(accessPolicyDetail: AccessPolicyDetail? = nil) {
             self.accessPolicyDetail = accessPolicyDetail
         }
@@ -2171,6 +2254,7 @@ extension OpenSearchServerless {
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
         public let capacityLimits: CapacityLimits?
 
+        @inlinable
         public init(capacityLimits: CapacityLimits? = nil) {
             self.capacityLimits = capacityLimits
         }
@@ -2188,6 +2272,7 @@ extension OpenSearchServerless {
         /// OpenSearch Serverless-related settings for the current Amazon Web Services account.
         public let accountSettingsDetail: AccountSettingsDetail?
 
+        @inlinable
         public init(accountSettingsDetail: AccountSettingsDetail? = nil) {
             self.accountSettingsDetail = accountSettingsDetail
         }
@@ -2215,6 +2300,7 @@ extension OpenSearchServerless {
         /// The collection type.
         public let type: CollectionType?
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -2246,6 +2332,7 @@ extension OpenSearchServerless {
         /// The unique identifier of the collection.
         public let id: String
 
+        @inlinable
         public init(clientToken: String? = UpdateCollectionRequest.idempotencyToken(), description: String? = nil, id: String) {
             self.clientToken = clientToken
             self.description = description
@@ -2271,6 +2358,7 @@ extension OpenSearchServerless {
         /// Details about the updated collection.
         public let updateCollectionDetail: UpdateCollectionDetail?
 
+        @inlinable
         public init(updateCollectionDetail: UpdateCollectionDetail? = nil) {
             self.updateCollectionDetail = updateCollectionDetail
         }
@@ -2294,6 +2382,7 @@ extension OpenSearchServerless {
         ///  The type of lifecycle policy.
         public let type: LifecyclePolicyType
 
+        @inlinable
         public init(clientToken: String? = UpdateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String? = nil, policyVersion: String, type: LifecyclePolicyType) {
             self.clientToken = clientToken
             self.description = description
@@ -2332,6 +2421,7 @@ extension OpenSearchServerless {
         /// Details about the updated lifecycle policy.
         public let lifecyclePolicyDetail: LifecyclePolicyDetail?
 
+        @inlinable
         public init(lifecyclePolicyDetail: LifecyclePolicyDetail? = nil) {
             self.lifecyclePolicyDetail = lifecyclePolicyDetail
         }
@@ -2353,6 +2443,7 @@ extension OpenSearchServerless {
         /// SAML options in in the form of a key-value map.
         public let samlOptions: SamlConfigOptions?
 
+        @inlinable
         public init(clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(), configVersion: String, description: String? = nil, id: String, samlOptions: SamlConfigOptions? = nil) {
             self.clientToken = clientToken
             self.configVersion = configVersion
@@ -2387,6 +2478,7 @@ extension OpenSearchServerless {
         /// Details about the updated security configuration.
         public let securityConfigDetail: SecurityConfigDetail?
 
+        @inlinable
         public init(securityConfigDetail: SecurityConfigDetail? = nil) {
             self.securityConfigDetail = securityConfigDetail
         }
@@ -2410,6 +2502,7 @@ extension OpenSearchServerless {
         /// The type of access policy.
         public let type: SecurityPolicyType
 
+        @inlinable
         public init(clientToken: String? = UpdateSecurityPolicyRequest.idempotencyToken(), description: String? = nil, name: String, policy: String? = nil, policyVersion: String, type: SecurityPolicyType) {
             self.clientToken = clientToken
             self.description = description
@@ -2448,6 +2541,7 @@ extension OpenSearchServerless {
         /// Details about the updated security policy.
         public let securityPolicyDetail: SecurityPolicyDetail?
 
+        @inlinable
         public init(securityPolicyDetail: SecurityPolicyDetail? = nil) {
             self.securityPolicyDetail = securityPolicyDetail
         }
@@ -2471,6 +2565,7 @@ extension OpenSearchServerless {
         /// The ID of the subnets from which you access OpenSearch Serverless.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: VpcEndpointStatus? = nil, subnetIds: [String]? = nil) {
             self.id = id
             self.lastModifiedDate = lastModifiedDate
@@ -2504,6 +2599,7 @@ extension OpenSearchServerless {
         /// The unique identifiers of the subnets to remove from the endpoint.
         public let removeSubnetIds: [String]?
 
+        @inlinable
         public init(addSecurityGroupIds: [String]? = nil, addSubnetIds: [String]? = nil, clientToken: String? = UpdateVpcEndpointRequest.idempotencyToken(), id: String, removeSecurityGroupIds: [String]? = nil, removeSubnetIds: [String]? = nil) {
             self.addSecurityGroupIds = addSecurityGroupIds
             self.addSubnetIds = addSubnetIds
@@ -2563,6 +2659,7 @@ extension OpenSearchServerless {
         /// Details about the updated VPC endpoint.
         public let updateVpcEndpointDetail: UpdateVpcEndpointDetail?
 
+        @inlinable
         public init(updateVpcEndpointDetail: UpdateVpcEndpointDetail? = nil) {
             self.updateVpcEndpointDetail = updateVpcEndpointDetail
         }
@@ -2592,6 +2689,7 @@ extension OpenSearchServerless {
         /// The ID of the VPC from which you access OpenSearch Serverless.
         public let vpcId: String?
 
+        @inlinable
         public init(createdDate: Int64? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: VpcEndpointStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.createdDate = createdDate
             self.failureCode = failureCode
@@ -2625,6 +2723,7 @@ extension OpenSearchServerless {
         /// The unique identifier of the VPC endpoint.
         public let id: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2642,6 +2741,7 @@ extension OpenSearchServerless {
         /// The current status of the endpoint.
         public let status: VpcEndpointStatus?
 
+        @inlinable
         public init(status: VpcEndpointStatus? = nil) {
             self.status = status
         }
@@ -2659,6 +2759,7 @@ extension OpenSearchServerless {
         /// The current status of the endpoint.
         public let status: VpcEndpointStatus?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, status: VpcEndpointStatus? = nil) {
             self.id = id
             self.name = name

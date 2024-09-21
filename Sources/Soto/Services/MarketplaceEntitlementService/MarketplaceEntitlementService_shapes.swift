@@ -46,6 +46,7 @@ extension MarketplaceEntitlementService {
         /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
         public let value: EntitlementValue?
 
+        @inlinable
         public init(customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: Date? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
@@ -73,6 +74,7 @@ extension MarketplaceEntitlementService {
         /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
         public let stringValue: String?
 
+        @inlinable
         public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
@@ -98,6 +100,7 @@ extension MarketplaceEntitlementService {
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code will be provided by AWS Marketplace when the product listing is created.
         public let productCode: String
 
+        @inlinable
         public init(filter: [GetEntitlementFilterName: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, productCode: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -130,6 +133,7 @@ extension MarketplaceEntitlementService {
         /// For paginated results, use NextToken in subsequent calls to GetEntitlements. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
         public let nextToken: String?
 
+        @inlinable
         public init(entitlements: [Entitlement]? = nil, nextToken: String? = nil) {
             self.entitlements = entitlements
             self.nextToken = nextToken

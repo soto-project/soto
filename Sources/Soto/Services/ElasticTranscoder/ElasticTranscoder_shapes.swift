@@ -44,6 +44,7 @@ extension ElasticTranscoder {
         /// Specify one of the following values to control scaling of the output album art:     Fit: Elastic Transcoder scales the output art so it matches the value that you specified in either MaxWidth or MaxHeight without  exceeding the other value.    Fill: Elastic Transcoder scales the output art so it matches the value that you specified in either MaxWidth or MaxHeight and matches or  exceeds the other value. Elastic Transcoder centers the output art and then crops it in the  dimension (if any) that exceeds the maximum value.     Stretch: Elastic Transcoder stretches the output art to match the values that you specified for MaxWidth and MaxHeight. If the relative  proportions of the input art and the output art are different, the output art will  be distorted.    Keep: Elastic Transcoder does not scale the output art. If either dimension of the input art exceeds the values that you specified for MaxWidth and  MaxHeight, Elastic Transcoder crops the output art.    ShrinkToFit: Elastic Transcoder scales the output art down so that its dimensions  match the values that you specified for at least one of MaxWidth and  MaxHeight without exceeding either value. If you specify this option,  Elastic Transcoder does not scale the art up.    ShrinkToFill Elastic Transcoder scales the output art down so that its dimensions  match the values that you specified for at least one of MaxWidth and  MaxHeight without dropping below either value. If you specify this  option, Elastic Transcoder does not scale the art up.
         public let sizingPolicy: String?
 
+        @inlinable
         public init(albumArtFormat: String? = nil, encryption: Encryption? = nil, inputKey: String? = nil, maxHeight: String? = nil, maxWidth: String? = nil, paddingPolicy: String? = nil, sizingPolicy: String? = nil) {
             self.albumArtFormat = albumArtFormat
             self.encryption = encryption
@@ -87,6 +88,7 @@ extension ElasticTranscoder {
         /// You can only choose whether an audio sample is signed when you specify  pcm for the value of Audio:Codec. Whether audio samples are represented with negative and positive numbers (signed) or  only positive numbers (unsigned). The supported value is Signed.
         public let signed: String?
 
+        @inlinable
         public init(bitDepth: String? = nil, bitOrder: String? = nil, profile: String? = nil, signed: String? = nil) {
             self.bitDepth = bitDepth
             self.bitOrder = bitOrder
@@ -127,6 +129,7 @@ extension ElasticTranscoder {
         /// The sample rate of the audio stream in the output file, in Hertz. Valid values include:  auto, 22050, 32000, 44100, 48000, 96000  If you specify auto, Elastic Transcoder automatically detects the sample rate.
         public let sampleRate: String?
 
+        @inlinable
         public init(audioPackingMode: String? = nil, bitRate: String? = nil, channels: String? = nil, codec: String? = nil, codecOptions: AudioCodecOptions? = nil, sampleRate: String? = nil) {
             self.audioPackingMode = audioPackingMode
             self.bitRate = bitRate
@@ -159,6 +162,7 @@ extension ElasticTranscoder {
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -188,6 +192,7 @@ extension ElasticTranscoder {
         /// The prefix for caption filenames, in the form description-{language}, where:    description is a description of the video.    {language} is a literal value that Elastic Transcoder replaces with the two- or three-letter code for the language of the caption in the output file names.   If you don't include {language} in the file name pattern, Elastic Transcoder automatically appends "{language}" to the value that you specify for the description.  In addition, Elastic Transcoder automatically appends the count to the end of the segment files. For example, suppose you're transcoding into srt format. When you enter "Sydney-{language}-sunrise",  and the language of the captions is English (en), the name of the first caption file is be  Sydney-en-sunrise00000.srt.
         public let pattern: String?
 
+        @inlinable
         public init(encryption: Encryption? = nil, format: String? = nil, pattern: String? = nil) {
             self.encryption = encryption
             self.format = format
@@ -219,6 +224,7 @@ extension ElasticTranscoder {
         /// For clip generation or captions that do not start at the same time as the associated video file, the TimeOffset tells Elastic Transcoder how much of the video to encode before including captions. Specify the TimeOffset in the form [+-]SS.sss or [+-]HH:mm:SS.ss.
         public let timeOffset: String?
 
+        @inlinable
         public init(encryption: Encryption? = nil, key: String? = nil, label: String? = nil, language: String? = nil, timeOffset: String? = nil) {
             self.encryption = encryption
             self.key = key
@@ -255,6 +261,7 @@ extension ElasticTranscoder {
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain:  Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
 
+        @inlinable
         public init(captionFormats: [CaptionFormat]? = nil) {
             self.captionFormats = captionFormats
             self.captionSources = nil
@@ -262,6 +269,7 @@ extension ElasticTranscoder {
         }
 
         @available(*, deprecated, message: "Members captionSources, mergePolicy have been deprecated")
+        @inlinable
         public init(captionFormats: [CaptionFormat]? = nil, captionSources: [CaptionSource]? = nil, mergePolicy: String? = nil) {
             self.captionFormats = captionFormats
             self.captionSources = captionSources
@@ -291,6 +299,7 @@ extension ElasticTranscoder {
         /// Settings that determine when a clip begins and how long it lasts.
         public let timeSpan: TimeSpan?
 
+        @inlinable
         public init(timeSpan: TimeSpan? = nil) {
             self.timeSpan = timeSpan
         }
@@ -329,6 +338,7 @@ extension ElasticTranscoder {
         /// Information about the watermarks that you want Elastic Transcoder to add to the video during transcoding.  You can specify up to four watermarks for each output. Settings for each watermark must be defined  in the preset for the current output.
         public let watermarks: [JobWatermark]?
 
+        @inlinable
         public init(albumArt: JobAlbumArt? = nil, captions: Captions? = nil, encryption: Encryption? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil) {
             self.albumArt = albumArt
             self.captions = captions
@@ -344,6 +354,7 @@ extension ElasticTranscoder {
         }
 
         @available(*, deprecated, message: "Members composition have been deprecated")
+        @inlinable
         public init(albumArt: JobAlbumArt? = nil, captions: Captions? = nil, composition: [Clip]? = nil, encryption: Encryption? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil) {
             self.albumArt = albumArt
             self.captions = captions
@@ -406,6 +417,7 @@ extension ElasticTranscoder {
         /// The DRM settings, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
         public let playReadyDrm: PlayReadyDrm?
 
+        @inlinable
         public init(format: String? = nil, hlsContentProtection: HlsContentProtection? = nil, name: String? = nil, outputKeys: [String]? = nil, playReadyDrm: PlayReadyDrm? = nil) {
             self.format = format
             self.hlsContentProtection = hlsContentProtection
@@ -454,6 +466,7 @@ extension ElasticTranscoder {
         /// User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in  key/value pairs, and you can add up to 10 key/value pairs per job.  Elastic Transcoder does not guarantee that key/value pairs are returned in the same  order in which you specify them.
         public let userMetadata: [String: String]?
 
+        @inlinable
         public init(input: JobInput? = nil, inputs: [JobInput]? = nil, output: CreateJobOutput? = nil, outputKeyPrefix: String? = nil, outputs: [CreateJobOutput]? = nil, pipelineId: String, playlists: [CreateJobPlaylist]? = nil, userMetadata: [String: String]? = nil) {
             self.input = input
             self.inputs = inputs
@@ -501,6 +514,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the job that is created.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -535,6 +549,7 @@ extension ElasticTranscoder {
         /// The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig even if you don't want to create thumbnails. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files.    Permissions (Optional): The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to thumbnail files, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    GranteeType: Specify the type of value that appears in the Grantee object:     Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.   A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.     Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to thumbnail files. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group.     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the thumbnail files that Elastic Transcoder adds to the bucket. Valid values include:     READ: The grantee can read the thumbnails and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.     WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.       StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the thumbnails that it stores in your Amazon S3 bucket.
         public let thumbnailConfig: PipelineOutputConfig?
 
+        @inlinable
         public init(awsKmsKeyArn: String? = nil, contentConfig: PipelineOutputConfig? = nil, inputBucket: String, name: String, notifications: Notifications? = nil, outputBucket: String? = nil, role: String, thumbnailConfig: PipelineOutputConfig? = nil) {
             self.awsKmsKeyArn = awsKmsKeyArn
             self.contentConfig = contentConfig
@@ -576,6 +591,7 @@ extension ElasticTranscoder {
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as  the pipeline.  Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and  AWS KMS key, reduces processing time and prevents cross-regional charges.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil, warnings: [Warning]? = nil) {
             self.pipeline = pipeline
             self.warnings = warnings
@@ -601,6 +617,7 @@ extension ElasticTranscoder {
         /// A section of the request body that specifies the video parameters.
         public let video: VideoParameters?
 
+        @inlinable
         public init(audio: AudioParameters? = nil, container: String, description: String? = nil, name: String, thumbnails: Thumbnails? = nil, video: VideoParameters? = nil) {
             self.audio = audio
             self.container = container
@@ -636,6 +653,7 @@ extension ElasticTranscoder {
         /// If the preset settings don't comply with the standards for the video codec but Elastic Transcoder  created the preset, this message explains the reason the preset settings don't meet the  standard. Elastic Transcoder created the preset because the settings might produce  acceptable output.
         public let warning: String?
 
+        @inlinable
         public init(preset: Preset? = nil, warning: String? = nil) {
             self.preset = preset
             self.warning = warning
@@ -651,6 +669,7 @@ extension ElasticTranscoder {
         /// The identifier of the pipeline that you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -676,6 +695,7 @@ extension ElasticTranscoder {
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -709,6 +729,7 @@ extension ElasticTranscoder {
         /// The detected width of the input file, in pixels.
         public let width: Int?
 
+        @inlinable
         public init(durationMillis: Int64? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, width: Int? = nil) {
             self.durationMillis = durationMillis
             self.fileSize = fileSize
@@ -740,6 +761,7 @@ extension ElasticTranscoder {
         /// The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting  your input files or encrypting your output files. Elastic Transcoder supports the following options:    s3: Amazon S3 creates and manages the keys used for encrypting your files.    s3-aws-kms: Amazon S3 calls the Amazon Key Management  Service, which creates and manages the keys that are used for encrypting your files. If you specify s3-aws-kms and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.    aes-cbc-pkcs7: A padded cipher-block mode of operation originally used for HLS files.    aes-ctr: AES Counter Mode.    aes-gcm: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.   For all three AES options, you must provide the following settings, which must be base64-encoded:    Key     Key MD5     Initialization Vector     For the AES modes, your private encryption keys and your unencrypted data are never  stored by AWS; therefore, it is important that you safely manage your encryption keys.  If you lose them, you won't be able to unencrypt your data.
         public let mode: String?
 
+        @inlinable
         public init(initializationVector: String? = nil, key: String? = nil, keyMd5: String? = nil, mode: String? = nil) {
             self.initializationVector = initializationVector
             self.key = key
@@ -780,6 +802,7 @@ extension ElasticTranscoder {
         /// playlist.
         public let method: String?
 
+        @inlinable
         public init(initializationVector: String? = nil, key: String? = nil, keyMd5: String? = nil, keyStoragePolicy: String? = nil, licenseAcquisitionUrl: String? = nil, method: String? = nil) {
             self.initializationVector = initializationVector
             self.key = key
@@ -814,6 +837,7 @@ extension ElasticTranscoder {
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain:  Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
 
+        @inlinable
         public init(captionSources: [CaptionSource]? = nil, mergePolicy: String? = nil) {
             self.captionSources = captionSources
             self.mergePolicy = mergePolicy
@@ -863,6 +887,7 @@ extension ElasticTranscoder {
         /// User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value pairs per job. Elastic Transcoder does not guarantee that key/value pairs are returned in the same order in which you specify them. Metadata keys and values must use characters from the following list:    0-9     A-Z and a-z     Space    The following symbols: _.:/=+-%@
         public let userMetadata: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, input: JobInput? = nil, inputs: [JobInput]? = nil, output: JobOutput? = nil, outputKeyPrefix: String? = nil, outputs: [JobOutput]? = nil, pipelineId: String? = nil, playlists: [Playlist]? = nil, status: String? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -900,6 +925,7 @@ extension ElasticTranscoder {
         /// A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.     Replace: The specified album art replaces any existing album art.    Prepend: The specified album art is placed in front of any existing  album art.    Append: The specified album art is placed after any existing album art.    Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the  specified album art file.
         public let mergePolicy: String?
 
+        @inlinable
         public init(artwork: [Artwork]? = nil, mergePolicy: String? = nil) {
             self.artwork = artwork
             self.mergePolicy = mergePolicy
@@ -940,6 +966,7 @@ extension ElasticTranscoder {
         /// Settings for clipping an input. Each input can have different clip settings.
         public let timeSpan: TimeSpan?
 
+        @inlinable
         public init(aspectRatio: String? = nil, container: String? = nil, detectedProperties: DetectedProperties? = nil, encryption: Encryption? = nil, frameRate: String? = nil, inputCaptions: InputCaptions? = nil, interlaced: String? = nil, key: String? = nil, resolution: String? = nil, timeSpan: TimeSpan? = nil) {
             self.aspectRatio = aspectRatio
             self.container = container
@@ -1028,6 +1055,7 @@ extension ElasticTranscoder {
         /// Specifies the width of the output file in pixels.
         public let width: Int?
 
+        @inlinable
         public init(albumArt: JobAlbumArt? = nil, appliedColorSpaceConversion: String? = nil, captions: Captions? = nil, duration: Int64? = nil, durationMillis: Int64? = nil, encryption: Encryption? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, id: String? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, status: String? = nil, statusDetail: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil, width: Int? = nil) {
             self.albumArt = albumArt
             self.appliedColorSpaceConversion = appliedColorSpaceConversion
@@ -1053,6 +1081,7 @@ extension ElasticTranscoder {
         }
 
         @available(*, deprecated, message: "Members composition have been deprecated")
+        @inlinable
         public init(albumArt: JobAlbumArt? = nil, appliedColorSpaceConversion: String? = nil, captions: Captions? = nil, composition: [Clip]? = nil, duration: Int64? = nil, durationMillis: Int64? = nil, encryption: Encryption? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, id: String? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, status: String? = nil, statusDetail: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil, width: Int? = nil) {
             self.albumArt = albumArt
             self.appliedColorSpaceConversion = appliedColorSpaceConversion
@@ -1110,6 +1139,7 @@ extension ElasticTranscoder {
         /// The ID of the watermark settings that Elastic Transcoder uses to add watermarks to the video during transcoding.  The settings are in the preset specified by Preset for the current output. In that preset, the value  of Watermarks Id tells Elastic Transcoder which settings to use.
         public let presetWatermarkId: String?
 
+        @inlinable
         public init(encryption: Encryption? = nil, inputKey: String? = nil, presetWatermarkId: String? = nil) {
             self.encryption = encryption
             self.inputKey = inputKey
@@ -1140,6 +1170,7 @@ extension ElasticTranscoder {
         /// The ID of the pipeline for which you want to get job information.
         public let pipelineId: String
 
+        @inlinable
         public init(ascending: String? = nil, pageToken: String? = nil, pipelineId: String) {
             self.ascending = ascending
             self.pageToken = pageToken
@@ -1169,6 +1200,7 @@ extension ElasticTranscoder {
         ///  A value that you use to access the second and subsequent pages of results, if any. When the jobs in the specified pipeline fit on one page or when you've reached the last page of results, the value of NextPageToken is null.
         public let nextPageToken: String?
 
+        @inlinable
         public init(jobs: [Job]? = nil, nextPageToken: String? = nil) {
             self.jobs = jobs
             self.nextPageToken = nextPageToken
@@ -1188,6 +1220,7 @@ extension ElasticTranscoder {
         /// To get information about all of the jobs associated with the current AWS account that have a given status, specify the following status: Submitted, Progressing, Complete, Canceled, or Error.
         public let status: String
 
+        @inlinable
         public init(ascending: String? = nil, pageToken: String? = nil, status: String) {
             self.ascending = ascending
             self.pageToken = pageToken
@@ -1217,6 +1250,7 @@ extension ElasticTranscoder {
         ///  A value that you use to access the second and subsequent pages of results, if any. When the jobs in the specified pipeline fit on one page or when you've reached the last page of results, the value of NextPageToken is null.
         public let nextPageToken: String?
 
+        @inlinable
         public init(jobs: [Job]? = nil, nextPageToken: String? = nil) {
             self.jobs = jobs
             self.nextPageToken = nextPageToken
@@ -1234,6 +1268,7 @@ extension ElasticTranscoder {
         /// When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
         public let pageToken: String?
 
+        @inlinable
         public init(ascending: String? = nil, pageToken: String? = nil) {
             self.ascending = ascending
             self.pageToken = pageToken
@@ -1260,6 +1295,7 @@ extension ElasticTranscoder {
         /// An array of Pipeline objects.
         public let pipelines: [Pipeline]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, pipelines: [Pipeline]? = nil) {
             self.nextPageToken = nextPageToken
             self.pipelines = pipelines
@@ -1277,6 +1313,7 @@ extension ElasticTranscoder {
         /// When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
         public let pageToken: String?
 
+        @inlinable
         public init(ascending: String? = nil, pageToken: String? = nil) {
             self.ascending = ascending
             self.pageToken = pageToken
@@ -1303,6 +1340,7 @@ extension ElasticTranscoder {
         /// An array of Preset objects.
         public let presets: [Preset]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, presets: [Preset]? = nil) {
             self.nextPageToken = nextPageToken
             self.presets = presets
@@ -1324,6 +1362,7 @@ extension ElasticTranscoder {
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition.
         public let warning: String?
 
+        @inlinable
         public init(completed: String? = nil, error: String? = nil, progressing: String? = nil, warning: String? = nil) {
             self.completed = completed
             self.error = error
@@ -1357,6 +1396,7 @@ extension ElasticTranscoder {
         /// 					           A canonical user ID is not the same as an AWS account number.     Email: The registered email address of an AWS account.    Group: One of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.
         public let granteeType: String?
 
+        @inlinable
         public init(access: [String]? = nil, grantee: String? = nil, granteeType: String? = nil) {
             self.access = access
             self.grantee = grantee
@@ -1409,6 +1449,7 @@ extension ElasticTranscoder {
         /// 						                  READ: The grantee can read the thumbnails and metadata for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.        StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the thumbnails that it stores in your Amazon S3 bucket.
         public let thumbnailConfig: PipelineOutputConfig?
 
+        @inlinable
         public init(arn: String? = nil, awsKmsKeyArn: String? = nil, contentConfig: PipelineOutputConfig? = nil, id: String? = nil, inputBucket: String? = nil, name: String? = nil, notifications: Notifications? = nil, outputBucket: String? = nil, role: String? = nil, status: String? = nil, thumbnailConfig: PipelineOutputConfig? = nil) {
             self.arn = arn
             self.awsKmsKeyArn = awsKmsKeyArn
@@ -1448,6 +1489,7 @@ extension ElasticTranscoder {
         ///  The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the video files and playlists that it stores in your Amazon S3 bucket.
         public let storageClass: String?
 
+        @inlinable
         public init(bucket: String? = nil, permissions: [Permission]? = nil, storageClass: String? = nil) {
             self.bucket = bucket
             self.permissions = permissions
@@ -1488,6 +1530,7 @@ extension ElasticTranscoder {
         /// https://www.example.com/exampleKey/
         public let licenseAcquisitionUrl: String?
 
+        @inlinable
         public init(format: String? = nil, initializationVector: String? = nil, key: String? = nil, keyId: String? = nil, keyMd5: String? = nil, licenseAcquisitionUrl: String? = nil) {
             self.format = format
             self.initializationVector = initializationVector
@@ -1535,6 +1578,7 @@ extension ElasticTranscoder {
         /// Information that further explains the status.
         public let statusDetail: String?
 
+        @inlinable
         public init(format: String? = nil, hlsContentProtection: HlsContentProtection? = nil, name: String? = nil, outputKeys: [String]? = nil, playReadyDrm: PlayReadyDrm? = nil, status: String? = nil, statusDetail: String? = nil) {
             self.format = format
             self.hlsContentProtection = hlsContentProtection
@@ -1576,6 +1620,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the video preset values.
         public let video: VideoParameters?
 
+        @inlinable
         public init(arn: String? = nil, audio: AudioParameters? = nil, container: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, thumbnails: Thumbnails? = nil, type: String? = nil, video: VideoParameters? = nil) {
             self.arn = arn
             self.audio = audio
@@ -1635,6 +1680,7 @@ extension ElasticTranscoder {
         ///  Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the offset calculation.
         public let verticalOffset: String?
 
+        @inlinable
         public init(horizontalAlign: String? = nil, horizontalOffset: String? = nil, id: String? = nil, maxHeight: String? = nil, maxWidth: String? = nil, opacity: String? = nil, sizingPolicy: String? = nil, target: String? = nil, verticalAlign: String? = nil, verticalOffset: String? = nil) {
             self.horizontalAlign = horizontalAlign
             self.horizontalOffset = horizontalOffset
@@ -1680,6 +1726,7 @@ extension ElasticTranscoder {
         /// The identifier of the job for which you want to get detailed information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1701,6 +1748,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the job.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -1714,6 +1762,7 @@ extension ElasticTranscoder {
         /// The identifier of the pipeline to read.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1737,6 +1786,7 @@ extension ElasticTranscoder {
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region  as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics,  and AWS KMS key, reduces processing time and prevents cross-regional charges.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil, warnings: [Warning]? = nil) {
             self.pipeline = pipeline
             self.warnings = warnings
@@ -1752,6 +1802,7 @@ extension ElasticTranscoder {
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1773,6 +1824,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the preset.
         public let preset: Preset?
 
+        @inlinable
         public init(preset: Preset? = nil) {
             self.preset = preset
         }
@@ -1792,6 +1844,7 @@ extension ElasticTranscoder {
         /// The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics that you want the action to send a test notification to.
         public let topics: [String]
 
+        @inlinable
         public init(inputBucket: String, outputBucket: String, role: String, topics: [String]) {
             self.inputBucket = inputBucket
             self.outputBucket = outputBucket
@@ -1823,6 +1876,7 @@ extension ElasticTranscoder {
         /// If the operation is successful, this value is true; otherwise, the value is false.
         public let success: String?
 
+        @inlinable
         public init(messages: [String]? = nil, success: String? = nil) {
             self.messages = messages
             self.success = success
@@ -1852,6 +1906,7 @@ extension ElasticTranscoder {
         /// Specify one of the following values to control scaling of thumbnails:     Fit: Elastic Transcoder scales thumbnails so they match the value that you specified in thumbnail MaxWidth or MaxHeight settings without exceeding the other value.     Fill: Elastic Transcoder scales thumbnails so they match the value that you specified in thumbnail MaxWidth or MaxHeight settings and matches or exceeds the other value. Elastic Transcoder centers the image in thumbnails and then crops in the dimension (if any) that exceeds the maximum value.    Stretch: Elastic Transcoder stretches thumbnails to match the values that you specified for thumbnail MaxWidth and MaxHeight settings. If the relative proportions of the input video and thumbnails are different, the thumbnails will be distorted.    Keep: Elastic Transcoder does not scale thumbnails. If either dimension of the input video exceeds the values that you specified for thumbnail MaxWidth and MaxHeight settings, Elastic Transcoder crops the thumbnails.    ShrinkToFit: Elastic Transcoder scales thumbnails down so that their dimensions match the values that you specified for at least one of thumbnail MaxWidth and MaxHeight without exceeding either value. If you specify this option, Elastic Transcoder does not scale thumbnails up.    ShrinkToFill: Elastic Transcoder scales thumbnails down so that their dimensions match the values that you specified for at least one of MaxWidth and MaxHeight without dropping below either value. If you specify this option, Elastic Transcoder does not scale thumbnails up.
         public let sizingPolicy: String?
 
+        @inlinable
         public init(aspectRatio: String? = nil, format: String? = nil, interval: String? = nil, maxHeight: String? = nil, maxWidth: String? = nil, paddingPolicy: String? = nil, resolution: String? = nil, sizingPolicy: String? = nil) {
             self.aspectRatio = aspectRatio
             self.format = format
@@ -1892,6 +1947,7 @@ extension ElasticTranscoder {
         /// The place in the input file where you want a clip to start. The format can be either  HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS  (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder starts at the beginning of  the input file.
         public let startTime: String?
 
+        @inlinable
         public init(duration: String? = nil, startTime: String? = nil) {
             self.duration = duration
             self.startTime = startTime
@@ -1916,6 +1972,7 @@ extension ElasticTranscoder {
         /// The time the job was submitted to Elastic Transcoder, in epoch milliseconds.
         public let submitTimeMillis: Int64?
 
+        @inlinable
         public init(finishTimeMillis: Int64? = nil, startTimeMillis: Int64? = nil, submitTimeMillis: Int64? = nil) {
             self.finishTimeMillis = finishTimeMillis
             self.startTimeMillis = startTimeMillis
@@ -1935,6 +1992,7 @@ extension ElasticTranscoder {
         /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Complete: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.
         public let notifications: Notifications
 
+        @inlinable
         public init(id: String, notifications: Notifications) {
             self.id = id
             self.notifications = notifications
@@ -1961,6 +2019,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the pipeline associated  with this notification.
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -1988,6 +2047,7 @@ extension ElasticTranscoder {
         /// The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig even if you don't want to create thumbnails. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files.    Permissions (Optional): The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to thumbnail files, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    GranteeType: Specify the type of value that appears in the Grantee object:     Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.   A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.     Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to thumbnail files. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group.     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the thumbnail files that Elastic Transcoder adds to the bucket. Valid values include:     READ: The grantee can read the thumbnails and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.     WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.       StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the thumbnails that it stores in your Amazon S3 bucket.
         public let thumbnailConfig: PipelineOutputConfig?
 
+        @inlinable
         public init(awsKmsKeyArn: String? = nil, contentConfig: PipelineOutputConfig? = nil, id: String, inputBucket: String? = nil, name: String? = nil, notifications: Notifications? = nil, role: String? = nil, thumbnailConfig: PipelineOutputConfig? = nil) {
             self.awsKmsKeyArn = awsKmsKeyArn
             self.contentConfig = contentConfig
@@ -2041,6 +2101,7 @@ extension ElasticTranscoder {
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the  pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and  AWS KMS key, reduces processing time and prevents cross-regional charges.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil, warnings: [Warning]? = nil) {
             self.pipeline = pipeline
             self.warnings = warnings
@@ -2058,6 +2119,7 @@ extension ElasticTranscoder {
         /// The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.
         public let status: String
 
+        @inlinable
         public init(id: String, status: String) {
             self.id = id
             self.status = status
@@ -2084,6 +2146,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -2127,6 +2190,7 @@ extension ElasticTranscoder {
         /// Settings for the size, location, and opacity of graphics that you want Elastic Transcoder to overlay  over videos that are transcoded using this preset. You can specify settings for up to four  watermarks. Watermarks appear in the specified size and location, and with the specified  opacity for the duration of the transcoded video. Watermarks can be in .png or .jpg format. If you want to display a watermark that is not  rectangular, use the .png format, which supports transparency. When you create a job that uses this preset, you specify the .png or .jpg graphics that  you want Elastic Transcoder to include in the transcoded videos. You can specify fewer graphics in the job  than you specify watermark settings in the preset, which allows you to use the same preset  for up to four watermarks that have different dimensions.
         public let watermarks: [PresetWatermark]?
 
+        @inlinable
         public init(aspectRatio: String? = nil, bitRate: String? = nil, codec: String? = nil, codecOptions: [String: String]? = nil, displayAspectRatio: String? = nil, fixedGOP: String? = nil, frameRate: String? = nil, keyframesMaxDist: String? = nil, maxFrameRate: String? = nil, maxHeight: String? = nil, maxWidth: String? = nil, paddingPolicy: String? = nil, resolution: String? = nil, sizingPolicy: String? = nil, watermarks: [PresetWatermark]? = nil) {
             self.aspectRatio = aspectRatio
             self.bitRate = bitRate
@@ -2196,6 +2260,7 @@ extension ElasticTranscoder {
         /// The message explaining what resources are in a different region from the pipeline.  AWS KMS keys must be in the same region as the pipeline.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message

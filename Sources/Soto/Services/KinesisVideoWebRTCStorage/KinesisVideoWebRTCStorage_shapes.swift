@@ -34,6 +34,7 @@ extension KinesisVideoWebRTCStorage {
         ///  The unique identifier for the sender client.
         public let clientId: String
 
+        @inlinable
         public init(channelArn: String, clientId: String) {
             self.channelArn = channelArn
             self.clientId = clientId
@@ -56,6 +57,7 @@ extension KinesisVideoWebRTCStorage {
         ///  The Amazon Resource Name (ARN) of the signaling channel.
         public let channelArn: String
 
+        @inlinable
         public init(channelArn: String) {
             self.channelArn = channelArn
         }

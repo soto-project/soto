@@ -392,6 +392,7 @@ extension GuardDuty {
         /// The value that is used to validate the administrator account to the member account.
         public let invitationId: String?
 
+        @inlinable
         public init(administratorId: String? = nil, detectorId: String, invitationId: String? = nil) {
             self.administratorId = administratorId
             self.detectorId = detectorId
@@ -429,6 +430,7 @@ extension GuardDuty {
         /// The account ID of the GuardDuty administrator account whose invitation you're accepting.
         public let masterId: String?
 
+        @inlinable
         public init(detectorId: String, invitationId: String? = nil, masterId: String? = nil) {
             self.detectorId = detectorId
             self.invitationId = invitationId
@@ -464,6 +466,7 @@ extension GuardDuty {
         /// A value that indicates whether public write access for the bucket is enabled through an Access Control List (ACL).
         public let allowsPublicWriteAccess: Bool?
 
+        @inlinable
         public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
@@ -485,6 +488,7 @@ extension GuardDuty {
         /// The type of the user.
         public let userType: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, principalId: String? = nil, userName: String? = nil, userType: String? = nil) {
             self.accessKeyId = accessKeyId
             self.principalId = principalId
@@ -506,6 +510,7 @@ extension GuardDuty {
         /// The email address of the member account.
         public let email: String?
 
+        @inlinable
         public init(accountId: String? = nil, email: String? = nil) {
             self.accountId = accountId
             self.email = email
@@ -532,6 +537,7 @@ extension GuardDuty {
         /// A list of features enabled for the GuardDuty account.
         public let features: [FreeTrialFeatureConfigurationResult]?
 
+        @inlinable
         public init(accountId: String? = nil, features: [FreeTrialFeatureConfigurationResult]? = nil) {
             self.accountId = accountId
             self.dataSources = nil
@@ -539,6 +545,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(accountId: String? = nil, dataSources: DataSourcesFreeTrial? = nil, features: [FreeTrialFeatureConfigurationResult]? = nil) {
             self.accountId = accountId
             self.dataSources = dataSources
@@ -556,6 +563,7 @@ extension GuardDuty {
         /// Describes the S3 Block Public Access settings of the bucket's parent account.
         public let blockPublicAccess: BlockPublicAccess?
 
+        @inlinable
         public init(blockPublicAccess: BlockPublicAccess? = nil) {
             self.blockPublicAccess = blockPublicAccess
         }
@@ -573,6 +581,7 @@ extension GuardDuty {
         /// The total number of findings associated with an account.
         public let totalFindings: Int?
 
+        @inlinable
         public init(accountId: String? = nil, lastGeneratedAt: Date? = nil, totalFindings: Int? = nil) {
             self.accountId = accountId
             self.lastGeneratedAt = lastGeneratedAt
@@ -608,6 +617,7 @@ extension GuardDuty {
         /// Information about RDS_LOGIN_ATTEMPT action described in this finding.
         public let rdsLoginAttemptAction: RdsLoginAttemptAction?
 
+        @inlinable
         public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, kubernetesApiCallAction: KubernetesApiCallAction? = nil, kubernetesPermissionCheckedDetails: KubernetesPermissionCheckedDetails? = nil, kubernetesRoleBindingDetails: KubernetesRoleBindingDetails? = nil, kubernetesRoleDetails: KubernetesRoleDetails? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil, rdsLoginAttemptAction: RdsLoginAttemptAction? = nil) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
@@ -641,6 +651,7 @@ extension GuardDuty {
         /// Version of the installed EKS add-on.
         public let addonVersion: String?
 
+        @inlinable
         public init(addonStatus: String? = nil, addonVersion: String? = nil) {
             self.addonStatus = addonStatus
             self.addonVersion = addonVersion
@@ -658,6 +669,7 @@ extension GuardDuty {
         /// Indicates whether the account is enabled as the delegated administrator.
         public let adminStatus: AdminStatus?
 
+        @inlinable
         public init(adminAccountId: String? = nil, adminStatus: AdminStatus? = nil) {
             self.adminAccountId = adminAccountId
             self.adminStatus = adminStatus
@@ -679,6 +691,7 @@ extension GuardDuty {
         /// The status of the relationship between the administrator and member accounts.
         public let relationshipStatus: String?
 
+        @inlinable
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -698,6 +711,7 @@ extension GuardDuty {
         /// Version of the installed GuardDuty security agent.
         public let version: String?
 
+        @inlinable
         public init(version: String? = nil) {
             self.version = version
         }
@@ -713,6 +727,7 @@ extension GuardDuty {
         /// Information about the behavior of the anomalies.
         public let unusual: AnomalyUnusual?
 
+        @inlinable
         public init(profiles: [String: [String: [AnomalyObject]]]? = nil, unusual: AnomalyUnusual? = nil) {
             self.profiles = profiles
             self.unusual = unusual
@@ -732,6 +747,7 @@ extension GuardDuty {
         /// The type of behavior of the profile.
         public let profileType: ProfileType?
 
+        @inlinable
         public init(observations: Observations? = nil, profileSubtype: ProfileSubtype? = nil, profileType: ProfileType? = nil) {
             self.observations = observations
             self.profileSubtype = profileSubtype
@@ -749,6 +765,7 @@ extension GuardDuty {
         /// The behavior of the anomalous activity that caused GuardDuty to  generate the finding.
         public let behavior: [String: [String: AnomalyObject]]?
 
+        @inlinable
         public init(behavior: [String: [String: AnomalyObject]]? = nil) {
             self.behavior = behavior
         }
@@ -764,6 +781,7 @@ extension GuardDuty {
         /// The IDs of the findings that you want to archive.
         public let findingIds: [String]?
 
+        @inlinable
         public init(detectorId: String, findingIds: [String]? = nil) {
             self.detectorId = detectorId
             self.findingIds = findingIds
@@ -815,6 +833,7 @@ extension GuardDuty {
         /// The agent through which the API request was made.
         public let userAgent: String?
 
+        @inlinable
         public init(affectedResources: [String: String]? = nil, api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteAccountDetails: RemoteAccountDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil, userAgent: String? = nil) {
             self.affectedResources = affectedResources
             self.api = api
@@ -850,6 +869,7 @@ extension GuardDuty {
         /// Indicates if S3 Block Public Access is set to RestrictPublicBuckets.
         public let restrictPublicBuckets: Bool?
 
+        @inlinable
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
@@ -873,6 +893,7 @@ extension GuardDuty {
         /// Contains information on the bucket policies for the S3 bucket.
         public let bucketPolicy: BucketPolicy?
 
+        @inlinable
         public init(accessControlList: AccessControlList? = nil, blockPublicAccess: BlockPublicAccess? = nil, bucketPolicy: BucketPolicy? = nil) {
             self.accessControlList = accessControlList
             self.blockPublicAccess = blockPublicAccess
@@ -892,6 +913,7 @@ extension GuardDuty {
         /// A value that indicates whether public write access for the bucket is enabled through a bucket policy.
         public let allowsPublicWriteAccess: Bool?
 
+        @inlinable
         public init(allowsPublicReadAccess: Bool? = nil, allowsPublicWriteAccess: Bool? = nil) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
@@ -907,6 +929,7 @@ extension GuardDuty {
         /// The city name of the remote IP address.
         public let cityName: String?
 
+        @inlinable
         public init(cityName: String? = nil) {
             self.cityName = cityName
         }
@@ -920,6 +943,7 @@ extension GuardDuty {
         /// Describes whether CloudTrail is enabled as a data source for the detector.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(status: DataSourceStatus? = nil) {
             self.status = status
         }
@@ -955,6 +979,7 @@ extension GuardDuty {
         /// Represents a not equal condition to be applied to a single field when querying for findings.
         public let notEquals: [String]?
 
+        @inlinable
         public init(equals: [String]? = nil, greaterThan: Int64? = nil, greaterThanOrEqual: Int64? = nil, lessThan: Int64? = nil, lessThanOrEqual: Int64? = nil, notEquals: [String]? = nil) {
             self.eq = nil
             self.equals = equals
@@ -971,6 +996,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members eq, gt, gte, lt, lte, neq have been deprecated")
+        @inlinable
         public init(eq: [String]? = nil, equals: [String]? = nil, greaterThan: Int64? = nil, greaterThanOrEqual: Int64? = nil, gt: Int? = nil, gte: Int? = nil, lessThan: Int64? = nil, lessThanOrEqual: Int64? = nil, lt: Int? = nil, lte: Int? = nil, neq: [String]? = nil, notEquals: [String]? = nil) {
             self.eq = eq
             self.equals = equals
@@ -1018,6 +1044,7 @@ extension GuardDuty {
         /// Container volume mounts.
         public let volumeMounts: [VolumeMount]?
 
+        @inlinable
         public init(containerRuntime: String? = nil, id: String? = nil, image: String? = nil, imagePrefix: String? = nil, name: String? = nil, securityContext: SecurityContext? = nil, volumeMounts: [VolumeMount]? = nil) {
             self.containerRuntime = containerRuntime
             self.id = id
@@ -1045,6 +1072,7 @@ extension GuardDuty {
         /// Represents the nodes in the Amazon ECS cluster that has a HEALTHY coverage status.
         public let coveredContainerInstances: Int64?
 
+        @inlinable
         public init(compatibleContainerInstances: Int64? = nil, coveredContainerInstances: Int64? = nil) {
             self.compatibleContainerInstances = compatibleContainerInstances
             self.coveredContainerInstances = coveredContainerInstances
@@ -1062,6 +1090,7 @@ extension GuardDuty {
         /// The country name of the remote IP address.
         public let countryName: String?
 
+        @inlinable
         public init(countryCode: String? = nil, countryName: String? = nil) {
             self.countryCode = countryCode
             self.countryName = countryName
@@ -1085,6 +1114,7 @@ extension GuardDuty {
         /// Indicates how the GuardDuty security agent is managed for this resource.    AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.    MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty  security agent updates for this resource.    The DISABLED status doesn't apply to Amazon  EC2 instances and Amazon EKS clusters.
         public let managementType: ManagementType?
 
+        @inlinable
         public init(agentDetails: AgentDetails? = nil, clusterArn: String? = nil, instanceId: String? = nil, instanceType: String? = nil, managementType: ManagementType? = nil) {
             self.agentDetails = agentDetails
             self.clusterArn = clusterArn
@@ -1110,6 +1140,7 @@ extension GuardDuty {
         /// Information about the Fargate details associated with the Amazon  ECS cluster.
         public let fargateDetails: FargateDetails?
 
+        @inlinable
         public init(clusterName: String? = nil, containerInstanceDetails: ContainerInstanceDetails? = nil, fargateDetails: FargateDetails? = nil) {
             self.clusterName = clusterName
             self.containerInstanceDetails = containerInstanceDetails
@@ -1135,6 +1166,7 @@ extension GuardDuty {
         /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster.  AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource.  MANUAL indicates that you are responsible to deploy, update, and manage  the Amazon EKS add-on GuardDuty agent for this resource.
         public let managementType: ManagementType?
 
+        @inlinable
         public init(addonDetails: AddonDetails? = nil, clusterName: String? = nil, compatibleNodes: Int64? = nil, coveredNodes: Int64? = nil, managementType: ManagementType? = nil) {
             self.addonDetails = addonDetails
             self.clusterName = clusterName
@@ -1158,6 +1190,7 @@ extension GuardDuty {
         /// Represents a not equal condition that is applied to a single field while retrieving the coverage details.
         public let notEquals: [String]?
 
+        @inlinable
         public init(equals: [String]? = nil, notEquals: [String]? = nil) {
             self.equals = equals
             self.notEquals = notEquals
@@ -1173,6 +1206,7 @@ extension GuardDuty {
         /// Represents a condition that when matched will be added to the response of the operation.
         public let filterCriterion: [CoverageFilterCriterion]?
 
+        @inlinable
         public init(filterCriterion: [CoverageFilterCriterion]? = nil) {
             self.filterCriterion = filterCriterion
         }
@@ -1192,6 +1226,7 @@ extension GuardDuty {
         /// Contains information about the condition.
         public let filterCondition: CoverageFilterCondition?
 
+        @inlinable
         public init(criterionKey: CoverageFilterCriterionKey? = nil, filterCondition: CoverageFilterCondition? = nil) {
             self.criterionKey = criterionKey
             self.filterCondition = filterCondition
@@ -1219,6 +1254,7 @@ extension GuardDuty {
         /// The timestamp at which the coverage details for the resource were last updated. This is in UTC format.
         public let updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, coverageStatus: CoverageStatus? = nil, detectorId: String? = nil, issue: String? = nil, resourceDetails: CoverageResourceDetails? = nil, resourceId: String? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.coverageStatus = coverageStatus
@@ -1250,6 +1286,7 @@ extension GuardDuty {
         /// The type of Amazon Web Services resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(ec2InstanceDetails: CoverageEc2InstanceDetails? = nil, ecsClusterDetails: CoverageEcsClusterDetails? = nil, eksClusterDetails: CoverageEksClusterDetails? = nil, resourceType: ResourceType? = nil) {
             self.ec2InstanceDetails = ec2InstanceDetails
             self.ecsClusterDetails = ecsClusterDetails
@@ -1271,6 +1308,7 @@ extension GuardDuty {
         /// The order in which the sorted findings are to be displayed.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: CoverageSortKey? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -1288,6 +1326,7 @@ extension GuardDuty {
         /// Represents coverage statistics for EKS clusters aggregated by resource type.
         public let countByResourceType: [ResourceType: Int64]?
 
+        @inlinable
         public init(countByCoverageStatus: [CoverageStatus: Int64]? = nil, countByResourceType: [ResourceType: Int64]? = nil) {
             self.countByCoverageStatus = countByCoverageStatus
             self.countByResourceType = countByResourceType
@@ -1313,6 +1352,7 @@ extension GuardDuty {
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), enable: Bool? = nil, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.dataSources = nil
@@ -1323,6 +1363,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool? = nil, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.dataSources = dataSources
@@ -1360,6 +1401,7 @@ extension GuardDuty {
         /// Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the first time.
         public let unprocessedDataSources: UnprocessedDataSourcesResult?
 
+        @inlinable
         public init(detectorId: String? = nil, unprocessedDataSources: UnprocessedDataSourcesResult? = nil) {
             self.detectorId = detectorId
             self.unprocessedDataSources = unprocessedDataSources
@@ -1389,6 +1431,7 @@ extension GuardDuty {
         /// The tags to be added to a new filter resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: FilterAction? = nil, clientToken: String? = CreateFilterRequest.idempotencyToken(), description: String? = nil, detectorId: String, findingCriteria: FindingCriteria? = nil, name: String? = nil, rank: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
@@ -1447,6 +1490,7 @@ extension GuardDuty {
         /// The name of the successfully created filter.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1472,6 +1516,7 @@ extension GuardDuty {
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activate: Bool? = nil, clientToken: String? = CreateIPSetRequest.idempotencyToken(), detectorId: String, format: IpSetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
@@ -1526,6 +1571,7 @@ extension GuardDuty {
         /// The ID of the IPSet resource.
         public let ipSetId: String?
 
+        @inlinable
         public init(ipSetId: String? = nil) {
             self.ipSetId = ipSetId
         }
@@ -1547,6 +1593,7 @@ extension GuardDuty {
         /// Tags added to the Malware Protection plan resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(actions: MalwareProtectionPlanActions? = nil, clientToken: String? = CreateMalwareProtectionPlanRequest.idempotencyToken(), protectedResource: CreateProtectedResource? = nil, role: String? = nil, tags: [String: String]? = nil) {
             self.actions = actions
             self.clientToken = clientToken
@@ -1581,6 +1628,7 @@ extension GuardDuty {
         /// A unique identifier associated with the Malware Protection plan resource.
         public let malwareProtectionPlanId: String?
 
+        @inlinable
         public init(malwareProtectionPlanId: String? = nil) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
@@ -1596,6 +1644,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts.
         public let detectorId: String
 
+        @inlinable
         public init(accountDetails: [AccountDetail]? = nil, detectorId: String) {
             self.accountDetails = accountDetails
             self.detectorId = detectorId
@@ -1627,6 +1676,7 @@ extension GuardDuty {
         /// A list of objects that include the accountIds of the unprocessed accounts and a result string that explains why each was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -1640,6 +1690,7 @@ extension GuardDuty {
         /// Information about the protected S3 bucket resource.
         public let s3Bucket: CreateS3BucketResource?
 
+        @inlinable
         public init(s3Bucket: CreateS3BucketResource? = nil) {
             self.s3Bucket = s3Bucket
         }
@@ -1663,6 +1714,7 @@ extension GuardDuty {
         /// The ID of the GuardDuty detector associated with the publishing destination.
         public let detectorId: String
 
+        @inlinable
         public init(clientToken: String? = CreatePublishingDestinationRequest.idempotencyToken(), destinationProperties: DestinationProperties? = nil, destinationType: DestinationType? = nil, detectorId: String) {
             self.clientToken = clientToken
             self.destinationProperties = destinationProperties
@@ -1696,6 +1748,7 @@ extension GuardDuty {
         /// The ID of the publishing destination that is created.
         public let destinationId: String?
 
+        @inlinable
         public init(destinationId: String? = nil) {
             self.destinationId = destinationId
         }
@@ -1711,6 +1764,7 @@ extension GuardDuty {
         /// Information about the specified object prefixes. The S3 object will be scanned only  if it belongs to any of the specified object prefixes.
         public let objectPrefixes: [String]?
 
+        @inlinable
         public init(bucketName: String? = nil, objectPrefixes: [String]? = nil) {
             self.bucketName = bucketName
             self.objectPrefixes = objectPrefixes
@@ -1732,6 +1786,7 @@ extension GuardDuty {
         /// The types of sample findings to generate.
         public let findingTypes: [String]?
 
+        @inlinable
         public init(detectorId: String, findingTypes: [String]? = nil) {
             self.detectorId = detectorId
             self.findingTypes = findingTypes
@@ -1779,6 +1834,7 @@ extension GuardDuty {
         /// The tags to be added to a new threat list resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activate: Bool? = nil, clientToken: String? = CreateThreatIntelSetRequest.idempotencyToken(), detectorId: String, format: ThreatIntelSetFormat? = nil, location: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.activate = activate
             self.clientToken = clientToken
@@ -1833,6 +1889,7 @@ extension GuardDuty {
         /// The ID of the ThreatIntelSet resource.
         public let threatIntelSetId: String?
 
+        @inlinable
         public init(threatIntelSetId: String? = nil) {
             self.threatIntelSetId = threatIntelSetId
         }
@@ -1846,6 +1903,7 @@ extension GuardDuty {
         /// Denotes whether DNS logs is enabled as a data source.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(status: DataSourceStatus? = nil) {
             self.status = status
         }
@@ -1863,6 +1921,7 @@ extension GuardDuty {
         /// Describes whether S3 data event logs are enabled as a data source.
         public let s3Logs: S3LogsConfiguration?
 
+        @inlinable
         public init(kubernetes: KubernetesConfiguration? = nil, malwareProtection: MalwareProtectionConfiguration? = nil, s3Logs: S3LogsConfiguration? = nil) {
             self.kubernetes = kubernetes
             self.malwareProtection = malwareProtection
@@ -1890,6 +1949,7 @@ extension GuardDuty {
         /// An object that contains information on the status of S3 Data event logs as a data source.
         public let s3Logs: S3LogsConfigurationResult?
 
+        @inlinable
         public init(cloudTrail: CloudTrailConfigurationResult? = nil, dnsLogs: DNSLogsConfigurationResult? = nil, flowLogs: FlowLogsConfigurationResult? = nil, kubernetes: KubernetesConfigurationResult? = nil, malwareProtection: MalwareProtectionConfigurationResult? = nil, s3Logs: S3LogsConfigurationResult? = nil) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
@@ -1913,6 +1973,7 @@ extension GuardDuty {
         /// A value that specifies the number of days left to use each enabled data source.
         public let freeTrialDaysRemaining: Int?
 
+        @inlinable
         public init(freeTrialDaysRemaining: Int? = nil) {
             self.freeTrialDaysRemaining = freeTrialDaysRemaining
         }
@@ -1936,6 +1997,7 @@ extension GuardDuty {
         /// Describes whether any S3 data event logs are enabled as data sources.
         public let s3Logs: DataSourceFreeTrial?
 
+        @inlinable
         public init(cloudTrail: DataSourceFreeTrial? = nil, dnsLogs: DataSourceFreeTrial? = nil, flowLogs: DataSourceFreeTrial? = nil, kubernetes: KubernetesDataSourceFreeTrial? = nil, malwareProtection: MalwareProtectionDataSourceFreeTrial? = nil, s3Logs: DataSourceFreeTrial? = nil) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
@@ -1965,6 +2027,7 @@ extension GuardDuty {
         /// The total number of findings that were generated per severity level on each date.
         public let totalFindings: Int?
 
+        @inlinable
         public init(date: Date? = nil, lastGeneratedAt: Date? = nil, severity: Double? = nil, totalFindings: Int? = nil) {
             self.date = date
             self.lastGeneratedAt = lastGeneratedAt
@@ -1984,6 +2047,7 @@ extension GuardDuty {
         /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -2006,6 +2070,7 @@ extension GuardDuty {
         /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2021,6 +2086,7 @@ extension GuardDuty {
         /// The Amazon Resource Name (ARN) of the KMS encryption key. Only available if the bucket EncryptionType is aws:kms.
         public let kmsMasterKeyArn: String?
 
+        @inlinable
         public init(encryptionType: String? = nil, kmsMasterKeyArn: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsMasterKeyArn = kmsMasterKeyArn
@@ -2036,6 +2102,7 @@ extension GuardDuty {
         /// The unique ID of the detector that you want to delete.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -2064,6 +2131,7 @@ extension GuardDuty {
         /// The name of the filter that you want to delete.
         public let filterName: String
 
+        @inlinable
         public init(detectorId: String, filterName: String) {
             self.detectorId = detectorId
             self.filterName = filterName
@@ -2094,6 +2162,7 @@ extension GuardDuty {
         /// The unique ID of the IPSet to delete.
         public let ipSetId: String
 
+        @inlinable
         public init(detectorId: String, ipSetId: String) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
@@ -2122,6 +2191,7 @@ extension GuardDuty {
         /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -2144,6 +2214,7 @@ extension GuardDuty {
         /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2157,6 +2228,7 @@ extension GuardDuty {
         /// A unique identifier associated with Malware Protection plan resource.
         public let malwareProtectionPlanId: String
 
+        @inlinable
         public init(malwareProtectionPlanId: String) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
@@ -2176,6 +2248,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account whose members you want to delete.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -2208,6 +2281,7 @@ extension GuardDuty {
         /// The accounts that could not be processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2223,6 +2297,7 @@ extension GuardDuty {
         /// The unique ID of the detector associated with the publishing destination to delete.
         public let detectorId: String
 
+        @inlinable
         public init(destinationId: String, detectorId: String) {
             self.destinationId = destinationId
             self.detectorId = detectorId
@@ -2253,6 +2328,7 @@ extension GuardDuty {
         /// The unique ID of the threatIntelSet that you want to delete.
         public let threatIntelSetId: String
 
+        @inlinable
         public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
             self.threatIntelSetId = threatIntelSetId
@@ -2289,6 +2365,7 @@ extension GuardDuty {
         /// Represents the criteria used for sorting scan entries. The  attributeName is required and it must be scanStartTime.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(detectorId: String, filterCriteria: FilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.filterCriteria = filterCriteria
@@ -2329,6 +2406,7 @@ extension GuardDuty {
         /// Contains information about malware scans.
         public let scans: [Scan]?
 
+        @inlinable
         public init(nextToken: String? = nil, scans: [Scan]? = nil) {
             self.nextToken = nextToken
             self.scans = scans
@@ -2348,6 +2426,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -2386,6 +2465,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(autoEnableOrganizationMembers: AutoEnableMembers? = nil, features: [OrganizationFeatureConfigurationResult]? = nil, memberAccountLimitReached: Bool? = nil, nextToken: String? = nil) {
             self.autoEnable = nil
             self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
@@ -2396,6 +2476,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members autoEnable, dataSources have been deprecated")
+        @inlinable
         public init(autoEnable: Bool? = nil, autoEnableOrganizationMembers: AutoEnableMembers? = nil, dataSources: OrganizationDataSourceConfigurationsResult? = nil, features: [OrganizationFeatureConfigurationResult]? = nil, memberAccountLimitReached: Bool? = nil, nextToken: String? = nil) {
             self.autoEnable = autoEnable
             self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
@@ -2421,6 +2502,7 @@ extension GuardDuty {
         /// The unique ID of the detector associated with the publishing destination to retrieve.
         public let detectorId: String
 
+        @inlinable
         public init(destinationId: String, detectorId: String) {
             self.destinationId = destinationId
             self.detectorId = detectorId
@@ -2453,6 +2535,7 @@ extension GuardDuty {
         /// The status of the publishing destination.
         public let status: PublishingStatus?
 
+        @inlinable
         public init(destinationId: String? = nil, destinationProperties: DestinationProperties? = nil, destinationType: DestinationType? = nil, publishingFailureStartTimestamp: Int64? = nil, status: PublishingStatus? = nil) {
             self.destinationId = destinationId
             self.destinationProperties = destinationProperties
@@ -2478,6 +2561,7 @@ extension GuardDuty {
         /// The status of the publishing destination.
         public let status: PublishingStatus?
 
+        @inlinable
         public init(destinationId: String? = nil, destinationType: DestinationType? = nil, status: PublishingStatus? = nil) {
             self.destinationId = destinationId
             self.destinationType = destinationType
@@ -2497,6 +2581,7 @@ extension GuardDuty {
         /// The ARN of the KMS key to use for encryption.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(destinationArn: String? = nil, kmsKeyArn: String? = nil) {
             self.destinationArn = destinationArn
             self.kmsKeyArn = kmsKeyArn
@@ -2512,6 +2597,7 @@ extension GuardDuty {
         /// The details about the anomalous activity that caused GuardDuty to  generate the finding.
         public let anomaly: Anomaly?
 
+        @inlinable
         public init(anomaly: Anomaly? = nil) {
             self.anomaly = anomaly
         }
@@ -2527,6 +2613,7 @@ extension GuardDuty {
         /// Status of the additional configuration.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil) {
             self.name = name
             self.status = status
@@ -2546,6 +2633,7 @@ extension GuardDuty {
         /// The timestamp at which the additional configuration was last updated. This is in UTC format.
         public let updatedAt: Date?
 
+        @inlinable
         public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.name = name
             self.status = status
@@ -2567,6 +2655,7 @@ extension GuardDuty {
         /// The status of the feature.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(additionalConfiguration: [DetectorAdditionalConfiguration]? = nil, name: DetectorFeature? = nil, status: FeatureStatus? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
@@ -2590,6 +2679,7 @@ extension GuardDuty {
         /// The timestamp at which the feature object was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
@@ -2609,6 +2699,7 @@ extension GuardDuty {
         /// The Amazon Web Services Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
         public let adminAccountId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
@@ -2626,6 +2717,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -2652,6 +2744,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -2680,6 +2773,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -2712,6 +2806,7 @@ extension GuardDuty {
         /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -2731,6 +2826,7 @@ extension GuardDuty {
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public let `protocol`: String?
 
+        @inlinable
         public init(blocked: Bool? = nil, domain: String? = nil, domainWithSuffix: String? = nil, protocol: String? = nil) {
             self.blocked = blocked
             self.domain = domain
@@ -2750,6 +2846,7 @@ extension GuardDuty {
         /// The domain information for the Amazon Web Services API call.
         public let domain: String?
 
+        @inlinable
         public init(domain: String? = nil) {
             self.domain = domain
         }
@@ -2765,6 +2862,7 @@ extension GuardDuty {
         /// List of EBS volumes that were skipped from the malware scan.
         public let skippedVolumeDetails: [VolumeDetail]?
 
+        @inlinable
         public init(scannedVolumeDetails: [VolumeDetail]? = nil, skippedVolumeDetails: [VolumeDetail]? = nil) {
             self.scannedVolumeDetails = scannedVolumeDetails
             self.skippedVolumeDetails = skippedVolumeDetails
@@ -2792,6 +2890,7 @@ extension GuardDuty {
         /// GuardDuty finding ID that triggered a malware scan.
         public let triggerFindingId: String?
 
+        @inlinable
         public init(scanCompletedAt: Date? = nil, scanDetections: ScanDetections? = nil, scanId: String? = nil, scanStartedAt: Date? = nil, scanType: ScanType? = nil, sources: [String]? = nil, triggerFindingId: String? = nil) {
             self.scanCompletedAt = scanCompletedAt
             self.scanDetections = scanDetections
@@ -2819,6 +2918,7 @@ extension GuardDuty {
         /// Describes whether scanning EBS volumes is enabled as a data source.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: DataSourceStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -2848,6 +2948,7 @@ extension GuardDuty {
         /// Contains information about the details of the ECS Task.
         public let taskDetails: EcsTaskDetails?
 
+        @inlinable
         public init(activeServicesCount: Int? = nil, arn: String? = nil, name: String? = nil, registeredContainerInstancesCount: Int? = nil, runningTasksCount: Int? = nil, status: String? = nil, tags: [Tag]? = nil, taskDetails: EcsTaskDetails? = nil) {
             self.activeServicesCount = activeServicesCount
             self.arn = arn
@@ -2893,6 +2994,7 @@ extension GuardDuty {
         /// The list of data volume definitions for the task.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(arn: String? = nil, containers: [Container]? = nil, definitionArn: String? = nil, group: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskCreatedAt: Date? = nil, version: String? = nil, volumes: [Volume]? = nil) {
             self.arn = arn
             self.containers = containers
@@ -2934,6 +3036,7 @@ extension GuardDuty {
         /// The VPC ID to which the EKS cluster is attached.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, name: String? = nil, status: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2957,6 +3060,7 @@ extension GuardDuty {
         /// The Amazon Web Services account ID for the organization account to be enabled as a GuardDuty delegated administrator.
         public let adminAccountId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
@@ -2974,6 +3078,7 @@ extension GuardDuty {
         /// A list of threat intelligence details related to the evidence.
         public let threatIntelligenceDetails: [ThreatIntelligenceDetail]?
 
+        @inlinable
         public init(threatIntelligenceDetails: [ThreatIntelligenceDetail]? = nil) {
             self.threatIntelligenceDetails = threatIntelligenceDetails
         }
@@ -2989,6 +3094,7 @@ extension GuardDuty {
         /// Indicates how the GuardDuty security agent is managed for this resource.    AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.    DISABLED indicates that the deployment of the GuardDuty security agent is disabled for this resource.    The MANUAL status doesn't apply to the Amazon Web Services Fargate (Amazon ECS only) woprkloads.
         public let managementType: ManagementType?
 
+        @inlinable
         public init(issues: [String]? = nil, managementType: ManagementType? = nil) {
             self.issues = issues
             self.managementType = managementType
@@ -3008,6 +3114,7 @@ extension GuardDuty {
         /// Represents a less than condition to be applied to a single field when querying for scan entries.
         public let lessThan: Int64?
 
+        @inlinable
         public init(equalsValue: String? = nil, greaterThan: Int64? = nil, lessThan: Int64? = nil) {
             self.equalsValue = equalsValue
             self.greaterThan = greaterThan
@@ -3030,6 +3137,7 @@ extension GuardDuty {
         /// Represents a condition that when matched will be added to the response of the operation.
         public let filterCriterion: [FilterCriterion]?
 
+        @inlinable
         public init(filterCriterion: [FilterCriterion]? = nil) {
             self.filterCriterion = filterCriterion
         }
@@ -3052,6 +3160,7 @@ extension GuardDuty {
         /// Contains information about the condition.
         public let filterCondition: FilterCondition?
 
+        @inlinable
         public init(criterionKey: CriterionKey? = nil, filterCondition: FilterCondition? = nil) {
             self.criterionKey = criterionKey
             self.filterCondition = filterCondition
@@ -3097,6 +3206,7 @@ extension GuardDuty {
         /// The time and date when the finding was last updated.
         public let updatedAt: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, confidence: Double? = nil, createdAt: String? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, region: String? = nil, resource: Resource? = nil, schemaVersion: String? = nil, service: Service? = nil, severity: Double? = nil, title: String? = nil, type: String? = nil, updatedAt: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -3138,6 +3248,7 @@ extension GuardDuty {
         /// Represents a map of finding properties that match specified conditions and values when querying findings.
         public let criterion: [String: Condition]?
 
+        @inlinable
         public init(criterion: [String: Condition]? = nil) {
             self.criterion = criterion
         }
@@ -3161,6 +3272,7 @@ extension GuardDuty {
         /// Represents a list of map of total findings for each severity level.
         public let groupedBySeverity: [SeverityStatistics]?
 
+        @inlinable
         public init(groupedByAccount: [AccountStatistics]? = nil, groupedByDate: [DateStatistics]? = nil, groupedByFindingType: [FindingTypeStatistics]? = nil, groupedByResource: [ResourceStatistics]? = nil, groupedBySeverity: [SeverityStatistics]? = nil) {
             self.countBySeverity = nil
             self.groupedByAccount = groupedByAccount
@@ -3171,6 +3283,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members countBySeverity have been deprecated")
+        @inlinable
         public init(countBySeverity: [String: Int]? = nil, groupedByAccount: [AccountStatistics]? = nil, groupedByDate: [DateStatistics]? = nil, groupedByFindingType: [FindingTypeStatistics]? = nil, groupedByResource: [ResourceStatistics]? = nil, groupedBySeverity: [SeverityStatistics]? = nil) {
             self.countBySeverity = countBySeverity
             self.groupedByAccount = groupedByAccount
@@ -3198,6 +3311,7 @@ extension GuardDuty {
         /// The total number of findings associated with generated for each distinct finding type.
         public let totalFindings: Int?
 
+        @inlinable
         public init(findingType: String? = nil, lastGeneratedAt: Date? = nil, totalFindings: Int? = nil) {
             self.findingType = findingType
             self.lastGeneratedAt = lastGeneratedAt
@@ -3215,6 +3329,7 @@ extension GuardDuty {
         /// Denotes whether VPC flow logs is enabled as a data source.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(status: DataSourceStatus? = nil) {
             self.status = status
         }
@@ -3230,6 +3345,7 @@ extension GuardDuty {
         /// The name of the feature for which the free trial is configured.
         public let name: FreeTrialFeatureResult?
 
+        @inlinable
         public init(freeTrialDaysRemaining: Int? = nil, name: FreeTrialFeatureResult? = nil) {
             self.freeTrialDaysRemaining = freeTrialDaysRemaining
             self.name = name
@@ -3247,6 +3363,7 @@ extension GuardDuty {
         /// The longitude information of the remote IP address.
         public let lon: Double?
 
+        @inlinable
         public init(lat: Double? = nil, lon: Double? = nil) {
             self.lat = lat
             self.lon = lon
@@ -3262,6 +3379,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -3284,6 +3402,7 @@ extension GuardDuty {
         /// The administrator account details.
         public let administrator: Administrator?
 
+        @inlinable
         public init(administrator: Administrator? = nil) {
             self.administrator = administrator
         }
@@ -3301,6 +3420,7 @@ extension GuardDuty {
         /// Represents the statistics type used to aggregate the coverage details.
         public let statisticsType: [CoverageStatisticsType]?
 
+        @inlinable
         public init(detectorId: String, filterCriteria: CoverageFilterCriteria? = nil, statisticsType: [CoverageStatisticsType]? = nil) {
             self.detectorId = detectorId
             self.filterCriteria = filterCriteria
@@ -3331,6 +3451,7 @@ extension GuardDuty {
         /// Represents the count aggregated by the statusCode and resourceType.
         public let coverageStatistics: CoverageStatistics?
 
+        @inlinable
         public init(coverageStatistics: CoverageStatistics? = nil) {
             self.coverageStatistics = coverageStatistics
         }
@@ -3344,6 +3465,7 @@ extension GuardDuty {
         /// The unique ID of the detector that you want to get.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -3380,6 +3502,7 @@ extension GuardDuty {
         /// The last-updated timestamp for the detector.
         public let updatedAt: String?
 
+        @inlinable
         public init(createdAt: String? = nil, features: [DetectorFeatureConfigurationResult]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String? = nil, status: DetectorStatus? = nil, tags: [String: String]? = nil, updatedAt: String? = nil) {
             self.createdAt = createdAt
             self.dataSources = nil
@@ -3392,6 +3515,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(createdAt: String? = nil, dataSources: DataSourceConfigurationsResult? = nil, features: [DetectorFeatureConfigurationResult]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String? = nil, status: DetectorStatus? = nil, tags: [String: String]? = nil, updatedAt: String? = nil) {
             self.createdAt = createdAt
             self.dataSources = dataSources
@@ -3421,6 +3545,7 @@ extension GuardDuty {
         /// The name of the filter you want to get.
         public let filterName: String
 
+        @inlinable
         public init(detectorId: String, filterName: String) {
             self.detectorId = detectorId
             self.filterName = filterName
@@ -3455,6 +3580,7 @@ extension GuardDuty {
         /// The tags of the filter resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: FilterAction? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, name: String? = nil, rank: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.description = description
@@ -3482,6 +3608,7 @@ extension GuardDuty {
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(detectorId: String, findingIds: [String]? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.findingIds = findingIds
@@ -3516,6 +3643,7 @@ extension GuardDuty {
         /// A list of findings.
         public let findings: [Finding]?
 
+        @inlinable
         public init(findings: [Finding]? = nil) {
             self.findings = findings
         }
@@ -3539,6 +3667,7 @@ extension GuardDuty {
         /// Displays the sorted findings in the requested order. The default value of orderBy is DESC. You can use this parameter only with the groupBy parameter.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(detectorId: String, findingCriteria: FindingCriteria? = nil, groupBy: GroupByType? = nil, maxResults: Int? = nil, orderBy: OrderBy? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
@@ -3549,6 +3678,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members findingStatisticTypes have been deprecated")
+        @inlinable
         public init(detectorId: String, findingCriteria: FindingCriteria? = nil, findingStatisticTypes: [FindingStatisticType]? = nil, groupBy: GroupByType? = nil, maxResults: Int? = nil, orderBy: OrderBy? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
@@ -3592,6 +3722,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items. This parameter is currently not supported.
         public let nextToken: String?
 
+        @inlinable
         public init(findingStatistics: FindingStatistics? = nil, nextToken: String? = nil) {
             self.findingStatistics = findingStatistics
             self.nextToken = nextToken
@@ -3609,6 +3740,7 @@ extension GuardDuty {
         /// The unique ID of the IPSet to retrieve.
         public let ipSetId: String
 
+        @inlinable
         public init(detectorId: String, ipSetId: String) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
@@ -3641,6 +3773,7 @@ extension GuardDuty {
         /// The tags of the IPSet resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(format: IpSetFormat? = nil, location: String? = nil, name: String? = nil, status: IpSetStatus? = nil, tags: [String: String]? = nil) {
             self.format = format
             self.location = location
@@ -3666,6 +3799,7 @@ extension GuardDuty {
         /// The number of received invitations.
         public let invitationsCount: Int?
 
+        @inlinable
         public init(invitationsCount: Int? = nil) {
             self.invitationsCount = invitationsCount
         }
@@ -3679,6 +3813,7 @@ extension GuardDuty {
         /// A unique identifier associated with Malware Protection plan resource.
         public let malwareProtectionPlanId: String
 
+        @inlinable
         public init(malwareProtectionPlanId: String) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
@@ -3710,6 +3845,7 @@ extension GuardDuty {
         /// Tags added to the Malware Protection plan resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(actions: MalwareProtectionPlanActions? = nil, arn: String? = nil, createdAt: Date? = nil, protectedResource: CreateProtectedResource? = nil, role: String? = nil, status: MalwareProtectionPlanStatus? = nil, statusReasons: [MalwareProtectionPlanStatusReason]? = nil, tags: [String: String]? = nil) {
             self.actions = actions
             self.arn = arn
@@ -3737,6 +3873,7 @@ extension GuardDuty {
         /// The unique ID of the detector that is associated with this scan.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -3761,6 +3898,7 @@ extension GuardDuty {
         /// Represents the criteria to be used in the filter for scanning resources.
         public let scanResourceCriteria: ScanResourceCriteria?
 
+        @inlinable
         public init(ebsSnapshotPreservation: EbsSnapshotPreservation? = nil, scanResourceCriteria: ScanResourceCriteria? = nil) {
             self.ebsSnapshotPreservation = ebsSnapshotPreservation
             self.scanResourceCriteria = scanResourceCriteria
@@ -3776,6 +3914,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -3798,6 +3937,7 @@ extension GuardDuty {
         /// The administrator account details.
         public let master: Master?
 
+        @inlinable
         public init(master: Master? = nil) {
             self.master = master
         }
@@ -3813,6 +3953,7 @@ extension GuardDuty {
         /// The detector ID for the administrator account.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -3847,6 +3988,7 @@ extension GuardDuty {
         /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(memberDataSourceConfigurations: [MemberDataSourceConfiguration]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.memberDataSourceConfigurations = memberDataSourceConfigurations
             self.unprocessedAccounts = unprocessedAccounts
@@ -3864,6 +4006,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -3898,6 +4041,7 @@ extension GuardDuty {
         /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(members: [Member]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
@@ -3913,6 +4057,7 @@ extension GuardDuty {
         /// Information about the statistics report for your organization.
         public let organizationDetails: OrganizationDetails?
 
+        @inlinable
         public init(organizationDetails: OrganizationDetails? = nil) {
             self.organizationDetails = organizationDetails
         }
@@ -3928,6 +4073,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty member account.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -3962,6 +4108,7 @@ extension GuardDuty {
         /// The member account that was included in a request but for which the request could not be processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(accounts: [AccountFreeTrialInfo]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.accounts = accounts
             self.unprocessedAccounts = unprocessedAccounts
@@ -3979,6 +4126,7 @@ extension GuardDuty {
         /// The unique ID of the threatIntelSet that you want to get.
         public let threatIntelSetId: String
 
+        @inlinable
         public init(detectorId: String, threatIntelSetId: String) {
             self.detectorId = detectorId
             self.threatIntelSetId = threatIntelSetId
@@ -4011,6 +4159,7 @@ extension GuardDuty {
         /// The tags of the threat list resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(format: ThreatIntelSetFormat? = nil, location: String? = nil, name: String? = nil, status: ThreatIntelSetStatus? = nil, tags: [String: String]? = nil) {
             self.format = format
             self.location = location
@@ -4042,6 +4191,7 @@ extension GuardDuty {
         /// The type of usage statistics to retrieve.
         public let usageStatisticType: UsageStatisticType?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, unit: String? = nil, usageCriteria: UsageCriteria? = nil, usageStatisticType: UsageStatisticType? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -4085,6 +4235,7 @@ extension GuardDuty {
         /// The usage statistics object. If a UsageStatisticType was provided, the objects representing other types will be null.
         public let usageStatistics: UsageStatistics?
 
+        @inlinable
         public init(nextToken: String? = nil, usageStatistics: UsageStatistics? = nil) {
             self.nextToken = nextToken
             self.usageStatistics = usageStatistics
@@ -4104,6 +4255,7 @@ extension GuardDuty {
         /// Threat name of the highest severity threat detected as part of the malware scan.
         public let threatName: String?
 
+        @inlinable
         public init(count: Int? = nil, severity: String? = nil, threatName: String? = nil) {
             self.count = count
             self.severity = severity
@@ -4121,6 +4273,7 @@ extension GuardDuty {
         /// Path of the file or directory on the host that the volume maps to.
         public let path: String?
 
+        @inlinable
         public init(path: String? = nil) {
             self.path = path
         }
@@ -4136,6 +4289,7 @@ extension GuardDuty {
         /// The profile ID of the EC2 instance.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -4153,6 +4307,7 @@ extension GuardDuty {
         /// Information about the username that was being impersonated.
         public let username: String?
 
+        @inlinable
         public init(groups: [String]? = nil, username: String? = nil) {
             self.groups = groups
             self.username = username
@@ -4192,6 +4347,7 @@ extension GuardDuty {
         /// The tags of the EC2 instance.
         public let tags: [Tag]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageDescription: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceState: String? = nil, instanceType: String? = nil, launchTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, outpostArn: String? = nil, platform: String? = nil, productCodes: [ProductCode]? = nil, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.iamInstanceProfile = iamInstanceProfile
@@ -4235,6 +4391,7 @@ extension GuardDuty {
         /// The status of the relationship between the inviter and invitee accounts.
         public let relationshipStatus: String?
 
+        @inlinable
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -4260,6 +4417,7 @@ extension GuardDuty {
         /// The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
         public let message: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String, disableEmailNotification: Bool? = nil, message: String? = nil) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -4298,6 +4456,7 @@ extension GuardDuty {
         /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -4313,6 +4472,7 @@ extension GuardDuty {
         /// The nested item path where the infected file was found.
         public let nestedItemPath: String?
 
+        @inlinable
         public init(hash: String? = nil, nestedItemPath: String? = nil) {
             self.hash = hash
             self.nestedItemPath = nestedItemPath
@@ -4347,6 +4507,7 @@ extension GuardDuty {
         /// The Kubernetes API request HTTP verb.
         public let verb: String?
 
+        @inlinable
         public init(namespace: String? = nil, parameters: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, requestUri: String? = nil, resource: String? = nil, resourceName: String? = nil, sourceIps: [String]? = nil, statusCode: Int? = nil, subresource: String? = nil, userAgent: String? = nil, verb: String? = nil) {
             self.namespace = namespace
             self.parameters = parameters
@@ -4380,6 +4541,7 @@ extension GuardDuty {
         /// The status of Kubernetes audit logs as a data source.
         public let enable: Bool?
 
+        @inlinable
         public init(enable: Bool? = nil) {
             self.enable = enable
         }
@@ -4393,6 +4555,7 @@ extension GuardDuty {
         /// A value that describes whether Kubernetes audit logs are enabled as a data source.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(status: DataSourceStatus? = nil) {
             self.status = status
         }
@@ -4406,6 +4569,7 @@ extension GuardDuty {
         /// The status of Kubernetes audit logs as a data source.
         public let auditLogs: KubernetesAuditLogsConfiguration?
 
+        @inlinable
         public init(auditLogs: KubernetesAuditLogsConfiguration? = nil) {
             self.auditLogs = auditLogs
         }
@@ -4419,6 +4583,7 @@ extension GuardDuty {
         /// Describes whether Kubernetes audit logs are enabled as a data source.
         public let auditLogs: KubernetesAuditLogsConfigurationResult?
 
+        @inlinable
         public init(auditLogs: KubernetesAuditLogsConfigurationResult? = nil) {
             self.auditLogs = auditLogs
         }
@@ -4432,6 +4597,7 @@ extension GuardDuty {
         /// Describes whether Kubernetes audit logs are enabled as a data source.
         public let auditLogs: DataSourceFreeTrial?
 
+        @inlinable
         public init(auditLogs: DataSourceFreeTrial? = nil) {
             self.auditLogs = auditLogs
         }
@@ -4447,6 +4613,7 @@ extension GuardDuty {
         /// Details about the Kubernetes workload involved in a Kubernetes finding.
         public let kubernetesWorkloadDetails: KubernetesWorkloadDetails?
 
+        @inlinable
         public init(kubernetesUserDetails: KubernetesUserDetails? = nil, kubernetesWorkloadDetails: KubernetesWorkloadDetails? = nil) {
             self.kubernetesUserDetails = kubernetesUserDetails
             self.kubernetesWorkloadDetails = kubernetesWorkloadDetails
@@ -4468,6 +4635,7 @@ extension GuardDuty {
         /// The verb component of the Kubernetes API call. For example, when you check whether or not you have the permission to call the CreatePod API, the verb component will be Create.
         public let verb: String?
 
+        @inlinable
         public init(allowed: Bool? = nil, namespace: String? = nil, resource: String? = nil, verb: String? = nil) {
             self.allowed = allowed
             self.namespace = namespace
@@ -4495,6 +4663,7 @@ extension GuardDuty {
         /// The unique identifier of the role binding.
         public let uid: String?
 
+        @inlinable
         public init(kind: String? = nil, name: String? = nil, roleRefKind: String? = nil, roleRefName: String? = nil, uid: String? = nil) {
             self.kind = kind
             self.name = name
@@ -4520,6 +4689,7 @@ extension GuardDuty {
         /// The unique identifier of the Kubernetes role name.
         public let uid: String?
 
+        @inlinable
         public init(kind: String? = nil, name: String? = nil, uid: String? = nil) {
             self.kind = kind
             self.name = name
@@ -4545,6 +4715,7 @@ extension GuardDuty {
         /// The username of the user who called the Kubernetes API.
         public let username: String?
 
+        @inlinable
         public init(groups: [String]? = nil, impersonatedUser: ImpersonatedUser? = nil, sessionName: [String]? = nil, uid: String? = nil, username: String? = nil) {
             self.groups = groups
             self.impersonatedUser = impersonatedUser
@@ -4584,6 +4755,7 @@ extension GuardDuty {
         /// Volumes used by the Kubernetes workload.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(containers: [Container]? = nil, hostIPC: Bool? = nil, hostNetwork: Bool? = nil, hostPID: Bool? = nil, name: String? = nil, namespace: String? = nil, serviceAccountName: String? = nil, type: String? = nil, uid: String? = nil, volumes: [Volume]? = nil) {
             self.containers = containers
             self.hostIPC = hostIPC
@@ -4631,6 +4803,7 @@ extension GuardDuty {
         /// Amazon Virtual Private Cloud configuration details associated with your Lambda function.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(description: String? = nil, functionArn: String? = nil, functionName: String? = nil, functionVersion: String? = nil, lastModifiedAt: Date? = nil, revisionId: String? = nil, role: String? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.description = description
             self.functionArn = functionArn
@@ -4676,6 +4849,7 @@ extension GuardDuty {
         /// The unique ID assigned to the process by GuardDuty.
         public let uuid: String?
 
+        @inlinable
         public init(euid: Int? = nil, executablePath: String? = nil, name: String? = nil, namespacePid: Int? = nil, parentUuid: String? = nil, pid: Int? = nil, startTime: Date? = nil, userId: Int? = nil, uuid: String? = nil) {
             self.euid = euid
             self.executablePath = executablePath
@@ -4713,6 +4887,7 @@ extension GuardDuty {
         /// Represents the criteria used to sort the coverage details.
         public let sortCriteria: CoverageSortCriteria?
 
+        @inlinable
         public init(detectorId: String, filterCriteria: CoverageFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: CoverageSortCriteria? = nil) {
             self.detectorId = detectorId
             self.filterCriteria = filterCriteria
@@ -4753,6 +4928,7 @@ extension GuardDuty {
         /// A list of resources and their attributes providing cluster details.
         public let resources: [CoverageResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [CoverageResource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -4770,6 +4946,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4796,6 +4973,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorIds: [String]? = nil, nextToken: String? = nil) {
             self.detectorIds = detectorIds
             self.nextToken = nextToken
@@ -4815,6 +4993,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -4845,6 +5024,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(filterNames: [String]? = nil, nextToken: String? = nil) {
             self.filterNames = filterNames
             self.nextToken = nextToken
@@ -4868,6 +5048,7 @@ extension GuardDuty {
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(detectorId: String, findingCriteria: FindingCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
@@ -4907,6 +5088,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(findingIds: [String]? = nil, nextToken: String? = nil) {
             self.findingIds = findingIds
             self.nextToken = nextToken
@@ -4926,6 +5108,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -4956,6 +5139,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(ipSetIds: [String]? = nil, nextToken: String? = nil) {
             self.ipSetIds = ipSetIds
             self.nextToken = nextToken
@@ -4973,6 +5157,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4999,6 +5184,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -5014,6 +5200,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -5033,6 +5220,7 @@ extension GuardDuty {
         /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(malwareProtectionPlans: [MalwareProtectionPlanSummary]? = nil, nextToken: String? = nil) {
             self.malwareProtectionPlans = malwareProtectionPlans
             self.nextToken = nextToken
@@ -5054,6 +5242,7 @@ extension GuardDuty {
         /// Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated). Member accounts must have been previously associated with the GuardDuty administrator account using  Create Members .
         public let onlyAssociated: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -5086,6 +5275,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -5103,6 +5293,7 @@ extension GuardDuty {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5129,6 +5320,7 @@ extension GuardDuty {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(adminAccounts: [AdminAccount]? = nil, nextToken: String? = nil) {
             self.adminAccounts = adminAccounts
             self.nextToken = nextToken
@@ -5148,6 +5340,7 @@ extension GuardDuty {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -5178,6 +5371,7 @@ extension GuardDuty {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(destinations: [Destination]? = nil, nextToken: String? = nil) {
             self.destinations = destinations
             self.nextToken = nextToken
@@ -5193,6 +5387,7 @@ extension GuardDuty {
         /// The Amazon Resource Name (ARN) for the given GuardDuty resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5214,6 +5409,7 @@ extension GuardDuty {
         /// The tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -5231,6 +5427,7 @@ extension GuardDuty {
         /// You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -5261,6 +5458,7 @@ extension GuardDuty {
         /// The IDs of the ThreatIntelSet resources.
         public let threatIntelSetIds: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, threatIntelSetIds: [String]? = nil) {
             self.nextToken = nextToken
             self.threatIntelSetIds = threatIntelSetIds
@@ -5278,6 +5476,7 @@ extension GuardDuty {
         /// The IPv6 local address of the connection.
         public let ipAddressV6: String?
 
+        @inlinable
         public init(ipAddressV4: String? = nil, ipAddressV6: String? = nil) {
             self.ipAddressV4 = ipAddressV4
             self.ipAddressV6 = ipAddressV6
@@ -5295,6 +5494,7 @@ extension GuardDuty {
         /// The port name of the local connection.
         public let portName: String?
 
+        @inlinable
         public init(port: Int? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
@@ -5316,6 +5516,7 @@ extension GuardDuty {
         /// Indicates the user name which attempted to log in.
         public let user: String?
 
+        @inlinable
         public init(application: String? = nil, failedLoginAttempts: Int? = nil, successfulLoginAttempts: Int? = nil, user: String? = nil) {
             self.application = application
             self.failedLoginAttempts = failedLoginAttempts
@@ -5335,6 +5536,7 @@ extension GuardDuty {
         /// Describes the configuration of Malware Protection for EC2 instances with findings.
         public let scanEc2InstanceWithFindings: ScanEc2InstanceWithFindings?
 
+        @inlinable
         public init(scanEc2InstanceWithFindings: ScanEc2InstanceWithFindings? = nil) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
@@ -5350,6 +5552,7 @@ extension GuardDuty {
         /// The GuardDuty Malware Protection service role.
         public let serviceRole: String?
 
+        @inlinable
         public init(scanEc2InstanceWithFindings: ScanEc2InstanceWithFindingsResult? = nil, serviceRole: String? = nil) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
             self.serviceRole = serviceRole
@@ -5365,6 +5568,7 @@ extension GuardDuty {
         /// Describes whether Malware Protection for EC2 instances with findings is enabled as a data source.
         public let scanEc2InstanceWithFindings: DataSourceFreeTrial?
 
+        @inlinable
         public init(scanEc2InstanceWithFindings: DataSourceFreeTrial? = nil) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
@@ -5378,6 +5582,7 @@ extension GuardDuty {
         /// Indicates whether the scanned S3 object will have tags about the scan result.
         public let tagging: MalwareProtectionPlanTaggingAction?
 
+        @inlinable
         public init(tagging: MalwareProtectionPlanTaggingAction? = nil) {
             self.tagging = tagging
         }
@@ -5393,6 +5598,7 @@ extension GuardDuty {
         /// Issue message that specifies the reason. For information about potential troubleshooting steps, see Troubleshooting Malware Protection for S3 status issues in the  GuardDuty User Guide.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -5408,6 +5614,7 @@ extension GuardDuty {
         /// A unique identifier associated with Malware Protection plan.
         public let malwareProtectionPlanId: String?
 
+        @inlinable
         public init(malwareProtectionPlanId: String? = nil) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
@@ -5421,6 +5628,7 @@ extension GuardDuty {
         /// Indicates whether or not the tags will added.
         public let status: MalwareProtectionPlanTaggingActionStatus?
 
+        @inlinable
         public init(status: MalwareProtectionPlanTaggingActionStatus? = nil) {
             self.status = status
         }
@@ -5434,6 +5642,7 @@ extension GuardDuty {
         /// Information about the detected threats associated with the generated GuardDuty finding.
         public let threats: [Threat]?
 
+        @inlinable
         public init(threats: [Threat]? = nil) {
             self.threats = threats
         }
@@ -5453,6 +5662,7 @@ extension GuardDuty {
         /// The status of the relationship between the administrator and member accounts.
         public let relationshipStatus: String?
 
+        @inlinable
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -5486,6 +5696,7 @@ extension GuardDuty {
         /// The last-updated timestamp of the member.
         public let updatedAt: String?
 
+        @inlinable
         public init(accountId: String? = nil, administratorId: String? = nil, detectorId: String? = nil, email: String? = nil, invitedAt: String? = nil, masterId: String? = nil, relationshipStatus: String? = nil, updatedAt: String? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
@@ -5515,6 +5726,7 @@ extension GuardDuty {
         /// Status of the additional configuration.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil) {
             self.name = name
             self.status = status
@@ -5534,6 +5746,7 @@ extension GuardDuty {
         /// The timestamp at which the additional configuration was set for the member account. This is in UTC format.
         public let updatedAt: Date?
 
+        @inlinable
         public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.name = name
             self.status = status
@@ -5555,6 +5768,7 @@ extension GuardDuty {
         /// Contains information about the status of the features for the member account.
         public let features: [MemberFeaturesConfigurationResult]?
 
+        @inlinable
         public init(accountId: String? = nil, features: [MemberFeaturesConfigurationResult]? = nil) {
             self.accountId = accountId
             self.dataSources = nil
@@ -5562,6 +5776,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(accountId: String? = nil, dataSources: DataSourceConfigurationsResult? = nil, features: [MemberFeaturesConfigurationResult]? = nil) {
             self.accountId = accountId
             self.dataSources = dataSources
@@ -5583,6 +5798,7 @@ extension GuardDuty {
         /// The status of the feature.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(additionalConfiguration: [MemberAdditionalConfiguration]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
@@ -5606,6 +5822,7 @@ extension GuardDuty {
         /// The timestamp at which the feature object was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
@@ -5637,6 +5854,7 @@ extension GuardDuty {
         /// The remote port information of the connection.
         public let remotePortDetails: RemotePortDetails?
 
+        @inlinable
         public init(blocked: Bool? = nil, connectionDirection: String? = nil, localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
@@ -5680,6 +5898,7 @@ extension GuardDuty {
         /// The VPC ID of the EC2 instance.
         public let vpcId: String?
 
+        @inlinable
         public init(ipv6Addresses: [String]? = nil, networkInterfaceId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressDetails]? = nil, publicDnsName: String? = nil, publicIp: String? = nil, securityGroups: [SecurityGroup]? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.ipv6Addresses = ipv6Addresses
             self.networkInterfaceId = networkInterfaceId
@@ -5711,6 +5930,7 @@ extension GuardDuty {
         /// The text that was unusual.
         public let text: [String]?
 
+        @inlinable
         public init(text: [String]? = nil) {
             self.text = text
         }
@@ -5730,6 +5950,7 @@ extension GuardDuty {
         /// The name of the internet provider.
         public let org: String?
 
+        @inlinable
         public init(asn: String? = nil, asnOrg: String? = nil, isp: String? = nil, org: String? = nil) {
             self.asn = asn
             self.asnOrg = asnOrg
@@ -5751,6 +5972,7 @@ extension GuardDuty {
         /// The name of the additional configuration that will be configured for the organization.
         public let name: OrgFeatureAdditionalConfiguration?
 
+        @inlinable
         public init(autoEnable: OrgFeatureStatus? = nil, name: OrgFeatureAdditionalConfiguration? = nil) {
             self.autoEnable = autoEnable
             self.name = name
@@ -5768,6 +5990,7 @@ extension GuardDuty {
         /// The name of the additional configuration that is configured for the member accounts within the organization.
         public let name: OrgFeatureAdditionalConfiguration?
 
+        @inlinable
         public init(autoEnable: OrgFeatureStatus? = nil, name: OrgFeatureAdditionalConfiguration? = nil) {
             self.autoEnable = autoEnable
             self.name = name
@@ -5787,6 +6010,7 @@ extension GuardDuty {
         /// Describes whether S3 data event logs are enabled for new members of the organization.
         public let s3Logs: OrganizationS3LogsConfiguration?
 
+        @inlinable
         public init(kubernetes: OrganizationKubernetesConfiguration? = nil, malwareProtection: OrganizationMalwareProtectionConfiguration? = nil, s3Logs: OrganizationS3LogsConfiguration? = nil) {
             self.kubernetes = kubernetes
             self.malwareProtection = malwareProtection
@@ -5808,6 +6032,7 @@ extension GuardDuty {
         /// Describes whether S3 data event logs are enabled as a data source.
         public let s3Logs: OrganizationS3LogsConfigurationResult?
 
+        @inlinable
         public init(kubernetes: OrganizationKubernetesConfigurationResult? = nil, malwareProtection: OrganizationMalwareProtectionConfigurationResult? = nil, s3Logs: OrganizationS3LogsConfigurationResult? = nil) {
             self.kubernetes = kubernetes
             self.malwareProtection = malwareProtection
@@ -5827,6 +6052,7 @@ extension GuardDuty {
         /// The timestamp at which the organization statistics was last updated. This is in UTC format.
         public let updatedAt: Date?
 
+        @inlinable
         public init(organizationStatistics: OrganizationStatistics? = nil, updatedAt: Date? = nil) {
             self.organizationStatistics = organizationStatistics
             self.updatedAt = updatedAt
@@ -5842,6 +6068,7 @@ extension GuardDuty {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -5855,6 +6082,7 @@ extension GuardDuty {
         /// An object that contains the status of whether scanning EBS volumes should be auto-enabled for new members joining the organization.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -5872,6 +6100,7 @@ extension GuardDuty {
         /// The name of the feature that will be configured for the organization.
         public let name: OrgFeature?
 
+        @inlinable
         public init(additionalConfiguration: [OrganizationAdditionalConfiguration]? = nil, autoEnable: OrgFeatureStatus? = nil, name: OrgFeature? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.autoEnable = autoEnable
@@ -5893,6 +6122,7 @@ extension GuardDuty {
         /// The name of the feature that is configured for the member accounts within the organization.
         public let name: OrgFeature?
 
+        @inlinable
         public init(additionalConfiguration: [OrganizationAdditionalConfigurationResult]? = nil, autoEnable: OrgFeatureStatus? = nil, name: OrgFeature? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.autoEnable = autoEnable
@@ -5914,6 +6144,7 @@ extension GuardDuty {
         /// Name of the feature.
         public let name: OrgFeature?
 
+        @inlinable
         public init(additionalConfiguration: [OrganizationFeatureStatisticsAdditionalConfiguration]? = nil, enabledAccountsCount: Int? = nil, name: OrgFeature? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.enabledAccountsCount = enabledAccountsCount
@@ -5933,6 +6164,7 @@ extension GuardDuty {
         /// Name of the additional configuration within a feature.
         public let name: OrgFeatureAdditionalConfiguration?
 
+        @inlinable
         public init(enabledAccountsCount: Int? = nil, name: OrgFeatureAdditionalConfiguration? = nil) {
             self.enabledAccountsCount = enabledAccountsCount
             self.name = name
@@ -5948,6 +6180,7 @@ extension GuardDuty {
         /// A value that contains information on whether Kubernetes audit logs should be enabled automatically as a data source for the organization.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -5961,6 +6194,7 @@ extension GuardDuty {
         /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -5974,6 +6208,7 @@ extension GuardDuty {
         /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
         public let auditLogs: OrganizationKubernetesAuditLogsConfiguration?
 
+        @inlinable
         public init(auditLogs: OrganizationKubernetesAuditLogsConfiguration? = nil) {
             self.auditLogs = auditLogs
         }
@@ -5987,6 +6222,7 @@ extension GuardDuty {
         /// The current configuration of Kubernetes audit logs as a data source for the organization.
         public let auditLogs: OrganizationKubernetesAuditLogsConfigurationResult?
 
+        @inlinable
         public init(auditLogs: OrganizationKubernetesAuditLogsConfigurationResult? = nil) {
             self.auditLogs = auditLogs
         }
@@ -6000,6 +6236,7 @@ extension GuardDuty {
         /// Whether Malware Protection for EC2 instances with findings should be auto-enabled for new members joining the organization.
         public let scanEc2InstanceWithFindings: OrganizationScanEc2InstanceWithFindings?
 
+        @inlinable
         public init(scanEc2InstanceWithFindings: OrganizationScanEc2InstanceWithFindings? = nil) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
@@ -6013,6 +6250,7 @@ extension GuardDuty {
         /// Describes the configuration for scanning EC2 instances with findings for an organization.
         public let scanEc2InstanceWithFindings: OrganizationScanEc2InstanceWithFindingsResult?
 
+        @inlinable
         public init(scanEc2InstanceWithFindings: OrganizationScanEc2InstanceWithFindingsResult? = nil) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
@@ -6026,6 +6264,7 @@ extension GuardDuty {
         /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -6039,6 +6278,7 @@ extension GuardDuty {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -6052,6 +6292,7 @@ extension GuardDuty {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
         public let ebsVolumes: OrganizationEbsVolumes?
 
+        @inlinable
         public init(ebsVolumes: OrganizationEbsVolumes? = nil) {
             self.ebsVolumes = ebsVolumes
         }
@@ -6065,6 +6306,7 @@ extension GuardDuty {
         /// Describes the configuration for scanning EBS volumes for an organization.
         public let ebsVolumes: OrganizationEbsVolumesResult?
 
+        @inlinable
         public init(ebsVolumes: OrganizationEbsVolumesResult? = nil) {
             self.ebsVolumes = ebsVolumes
         }
@@ -6086,6 +6328,7 @@ extension GuardDuty {
         /// Total number of accounts in your Amazon Web Services organization.
         public let totalAccountsCount: Int?
 
+        @inlinable
         public init(activeAccountsCount: Int? = nil, countByFeature: [OrganizationFeatureStatistics]? = nil, enabledAccountsCount: Int? = nil, memberAccountsCount: Int? = nil, totalAccountsCount: Int? = nil) {
             self.activeAccountsCount = activeAccountsCount
             self.countByFeature = countByFeature
@@ -6107,6 +6350,7 @@ extension GuardDuty {
         /// The canonical user ID of the bucket owner. For information about locating your canonical user ID see Finding Your Account Canonical User ID.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -6122,6 +6366,7 @@ extension GuardDuty {
         /// Contains information about the bucket level permissions for the S3 bucket.
         public let bucketLevelPermissions: BucketLevelPermissions?
 
+        @inlinable
         public init(accountLevelPermissions: AccountLevelPermissions? = nil, bucketLevelPermissions: BucketLevelPermissions? = nil) {
             self.accountLevelPermissions = accountLevelPermissions
             self.bucketLevelPermissions = bucketLevelPermissions
@@ -6139,6 +6384,7 @@ extension GuardDuty {
         /// A list of objects related to port probe details.
         public let portProbeDetails: [PortProbeDetail]?
 
+        @inlinable
         public init(blocked: Bool? = nil, portProbeDetails: [PortProbeDetail]? = nil) {
             self.blocked = blocked
             self.portProbeDetails = portProbeDetails
@@ -6158,6 +6404,7 @@ extension GuardDuty {
         /// The remote IP information of the connection.
         public let remoteIpDetails: RemoteIpDetails?
 
+        @inlinable
         public init(localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
             self.localIpDetails = localIpDetails
             self.localPortDetails = localPortDetails
@@ -6177,6 +6424,7 @@ extension GuardDuty {
         /// The private IP address of the EC2 instance.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
@@ -6216,6 +6464,7 @@ extension GuardDuty {
         /// The unique ID assigned to the process by GuardDuty.
         public let uuid: String?
 
+        @inlinable
         public init(euid: Int? = nil, executablePath: String? = nil, executableSha256: String? = nil, lineage: [LineageObject]? = nil, name: String? = nil, namespacePid: Int? = nil, parentUuid: String? = nil, pid: Int? = nil, pwd: String? = nil, startTime: Date? = nil, user: String? = nil, userId: Int? = nil, uuid: String? = nil) {
             self.euid = euid
             self.executablePath = executablePath
@@ -6255,6 +6504,7 @@ extension GuardDuty {
         /// The product code type.
         public let productType: String?
 
+        @inlinable
         public init(code: String? = nil, productType: String? = nil) {
             self.code = code
             self.productType = productType
@@ -6272,6 +6522,7 @@ extension GuardDuty {
         /// Contains information about how permissions are configured for the S3 bucket.
         public let permissionConfiguration: PermissionConfiguration?
 
+        @inlinable
         public init(effectivePermission: String? = nil, permissionConfiguration: PermissionConfiguration? = nil) {
             self.effectivePermission = effectivePermission
             self.permissionConfiguration = permissionConfiguration
@@ -6297,6 +6548,7 @@ extension GuardDuty {
         /// Instance tag key-value pairs associated with the database instance ID.
         public let tags: [Tag]?
 
+        @inlinable
         public init(dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, tags: [Tag]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
@@ -6328,6 +6580,7 @@ extension GuardDuty {
         /// The user name used in the anomalous login attempt.
         public let user: String?
 
+        @inlinable
         public init(application: String? = nil, authMethod: String? = nil, database: String? = nil, ssl: String? = nil, user: String? = nil) {
             self.application = application
             self.authMethod = authMethod
@@ -6350,6 +6603,7 @@ extension GuardDuty {
         public let loginAttributes: [LoginAttribute]?
         public let remoteIpDetails: RemoteIpDetails?
 
+        @inlinable
         public init(loginAttributes: [LoginAttribute]? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
             self.loginAttributes = loginAttributes
             self.remoteIpDetails = remoteIpDetails
@@ -6367,6 +6621,7 @@ extension GuardDuty {
         /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment. If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
         public let affiliated: Bool?
 
+        @inlinable
         public init(accountId: String? = nil, affiliated: Bool? = nil) {
             self.accountId = accountId
             self.affiliated = affiliated
@@ -6392,6 +6647,7 @@ extension GuardDuty {
         /// The ISP organization information of the remote IP address.
         public let organization: Organization?
 
+        @inlinable
         public init(city: City? = nil, country: Country? = nil, geoLocation: GeoLocation? = nil, ipAddressV4: String? = nil, ipAddressV6: String? = nil, organization: Organization? = nil) {
             self.city = city
             self.country = country
@@ -6417,6 +6673,7 @@ extension GuardDuty {
         /// The port name of the remote connection.
         public let portName: String?
 
+        @inlinable
         public init(port: Int? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
@@ -6453,6 +6710,7 @@ extension GuardDuty {
         /// Contains information on the S3 bucket.
         public let s3BucketDetails: [S3BucketDetail]?
 
+        @inlinable
         public init(accessKeyDetails: AccessKeyDetails? = nil, containerDetails: Container? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, lambdaDetails: LambdaDetails? = nil, rdsDbInstanceDetails: RdsDbInstanceDetails? = nil, rdsDbUserDetails: RdsDbUserDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
             self.containerDetails = containerDetails
@@ -6488,6 +6746,7 @@ extension GuardDuty {
         /// Instance ARN that was scanned in the scan entry.
         public let instanceArn: String?
 
+        @inlinable
         public init(instanceArn: String? = nil) {
             self.instanceArn = instanceArn
         }
@@ -6509,6 +6768,7 @@ extension GuardDuty {
         /// The total number of findings associated with this resource.
         public let totalFindings: Int?
 
+        @inlinable
         public init(accountId: String? = nil, lastGeneratedAt: Date? = nil, resourceId: String? = nil, resourceType: String? = nil, totalFindings: Int? = nil) {
             self.accountId = accountId
             self.lastGeneratedAt = lastGeneratedAt
@@ -6578,6 +6838,7 @@ extension GuardDuty {
         /// Name of the potentially suspicious tool.
         public let toolName: String?
 
+        @inlinable
         public init(addressFamily: String? = nil, commandLineExample: String? = nil, fileSystemType: String? = nil, flags: [String]? = nil, ianaProtocolNumber: Int? = nil, ldPreloadValue: String? = nil, libraryPath: String? = nil, memoryRegions: [String]? = nil, modifiedAt: Date? = nil, modifyingProcess: ProcessDetails? = nil, moduleFilePath: String? = nil, moduleName: String? = nil, moduleSha256: String? = nil, mountSource: String? = nil, mountTarget: String? = nil, releaseAgentPath: String? = nil, runcBinaryPath: String? = nil, scriptPath: String? = nil, serviceName: String? = nil, shellHistoryFilePath: String? = nil, socketPath: String? = nil, targetProcess: ProcessDetails? = nil, threatFilePath: String? = nil, toolCategory: String? = nil, toolName: String? = nil) {
             self.addressFamily = addressFamily
             self.commandLineExample = commandLineExample
@@ -6641,6 +6902,7 @@ extension GuardDuty {
         /// Information about the observed process.
         public let process: ProcessDetails?
 
+        @inlinable
         public init(context: RuntimeContext? = nil, process: ProcessDetails? = nil) {
             self.context = context
             self.process = process
@@ -6672,6 +6934,7 @@ extension GuardDuty {
         /// Describes whether the bucket is a source or destination bucket.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, s3ObjectDetails: [S3ObjectDetail]? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -6701,6 +6964,7 @@ extension GuardDuty {
         ///  The status of S3 data event logs as a data source.
         public let enable: Bool?
 
+        @inlinable
         public init(enable: Bool? = nil) {
             self.enable = enable
         }
@@ -6714,6 +6978,7 @@ extension GuardDuty {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(status: DataSourceStatus? = nil) {
             self.status = status
         }
@@ -6735,6 +7000,7 @@ extension GuardDuty {
         /// Version ID of the object.
         public let versionId: String?
 
+        @inlinable
         public init(eTag: String? = nil, hash: String? = nil, key: String? = nil, objectArn: String? = nil, versionId: String? = nil) {
             self.eTag = eTag
             self.hash = hash
@@ -6784,6 +7050,7 @@ extension GuardDuty {
         /// Specifies the reason why the scan was initiated.
         public let triggerDetails: TriggerDetails?
 
+        @inlinable
         public init(accountId: String? = nil, adminDetectorId: String? = nil, attachedVolumes: [VolumeDetail]? = nil, detectorId: String? = nil, failureReason: String? = nil, fileCount: Int64? = nil, resourceDetails: ResourceDetails? = nil, scanEndTime: Date? = nil, scanId: String? = nil, scanResultDetails: ScanResultDetails? = nil, scanStartTime: Date? = nil, scanStatus: ScanStatus? = nil, scanType: ScanType? = nil, totalBytes: Int64? = nil, triggerDetails: TriggerDetails? = nil) {
             self.accountId = accountId
             self.adminDetectorId = adminDetectorId
@@ -6825,6 +7092,7 @@ extension GuardDuty {
         /// Represents an mapEqual condition to be applied to a single field when triggering for malware scan.
         public let mapEquals: [ScanConditionPair]?
 
+        @inlinable
         public init(mapEquals: [ScanConditionPair]? = nil) {
             self.mapEquals = mapEquals
         }
@@ -6846,6 +7114,7 @@ extension GuardDuty {
         /// Represents optional value in the map condition. If not specified, only the key will be matched.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -6874,6 +7143,7 @@ extension GuardDuty {
         /// Total number of infected files.
         public let threatsDetectedItemCount: ThreatsDetectedItemCount?
 
+        @inlinable
         public init(highestSeverityThreatDetails: HighestSeverityThreatDetails? = nil, scannedItemCount: ScannedItemCount? = nil, threatDetectedByName: ThreatDetectedByName? = nil, threatsDetectedItemCount: ThreatsDetectedItemCount? = nil) {
             self.highestSeverityThreatDetails = highestSeverityThreatDetails
             self.scannedItemCount = scannedItemCount
@@ -6893,6 +7163,7 @@ extension GuardDuty {
         /// Describes the configuration for scanning EBS volumes as data source.
         public let ebsVolumes: Bool?
 
+        @inlinable
         public init(ebsVolumes: Bool? = nil) {
             self.ebsVolumes = ebsVolumes
         }
@@ -6906,6 +7177,7 @@ extension GuardDuty {
         /// Describes the configuration of scanning EBS volumes as a data source.
         public let ebsVolumes: EbsVolumesResult?
 
+        @inlinable
         public init(ebsVolumes: EbsVolumesResult? = nil) {
             self.ebsVolumes = ebsVolumes
         }
@@ -6925,6 +7197,7 @@ extension GuardDuty {
         /// EBS volume ARN details of the infected file.
         public let volumeArn: String?
 
+        @inlinable
         public init(fileName: String? = nil, filePath: String? = nil, hash: String? = nil, volumeArn: String? = nil) {
             self.fileName = fileName
             self.filePath = filePath
@@ -6946,6 +7219,7 @@ extension GuardDuty {
         /// Represents condition that when matched will allow a malware scan for a certain resource.
         public let include: [ScanCriterionKey: ScanCondition]?
 
+        @inlinable
         public init(exclude: [ScanCriterionKey: ScanCondition]? = nil, include: [ScanCriterionKey: ScanCondition]? = nil) {
             self.exclude = exclude
             self.include = include
@@ -6970,6 +7244,7 @@ extension GuardDuty {
         /// An enum value representing possible scan results.
         public let scanResult: ScanResult?
 
+        @inlinable
         public init(scanResult: ScanResult? = nil) {
             self.scanResult = scanResult
         }
@@ -6989,6 +7264,7 @@ extension GuardDuty {
         /// Severity of threat identified as part of the malware scan.
         public let severity: String?
 
+        @inlinable
         public init(filePaths: [ScanFilePath]? = nil, itemCount: Int? = nil, name: String? = nil, severity: String? = nil) {
             self.filePaths = filePaths
             self.itemCount = itemCount
@@ -7012,6 +7288,7 @@ extension GuardDuty {
         /// Total number of scanned volumes.
         public let volumes: Int?
 
+        @inlinable
         public init(files: Int? = nil, totalGb: Int? = nil, volumes: Int? = nil) {
             self.files = files
             self.totalGb = totalGb
@@ -7031,6 +7308,7 @@ extension GuardDuty {
         /// Whether the container is privileged.
         public let privileged: Bool?
 
+        @inlinable
         public init(allowPrivilegeEscalation: Bool? = nil, privileged: Bool? = nil) {
             self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
@@ -7048,6 +7326,7 @@ extension GuardDuty {
         /// The security group name of the EC2 instance.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -7093,6 +7372,7 @@ extension GuardDuty {
         /// Feedback that was submitted about the finding.
         public let userFeedback: String?
 
+        @inlinable
         public init(action: Action? = nil, additionalInfo: ServiceAdditionalInfo? = nil, archived: Bool? = nil, count: Int? = nil, detection: Detection? = nil, detectorId: String? = nil, ebsVolumeScanDetails: EbsVolumeScanDetails? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, featureName: String? = nil, malwareScanDetails: MalwareScanDetails? = nil, resourceRole: String? = nil, runtimeDetails: RuntimeDetails? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
             self.action = action
             self.additionalInfo = additionalInfo
@@ -7138,6 +7418,7 @@ extension GuardDuty {
         /// This field specifies the value of the additional information.
         public let value: String?
 
+        @inlinable
         public init(type: String? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -7157,6 +7438,7 @@ extension GuardDuty {
         /// The total number of findings associated with this severity.
         public let totalFindings: Int?
 
+        @inlinable
         public init(lastGeneratedAt: Date? = nil, severity: Double? = nil, totalFindings: Int? = nil) {
             self.lastGeneratedAt = lastGeneratedAt
             self.severity = severity
@@ -7176,6 +7458,7 @@ extension GuardDuty {
         /// The order by which the sorted findings are to be displayed.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -7191,6 +7474,7 @@ extension GuardDuty {
         /// Amazon Resource Name (ARN) of the resource for which you invoked the API.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -7208,6 +7492,7 @@ extension GuardDuty {
         /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has  a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
         public let scanId: String?
 
+        @inlinable
         public init(scanId: String? = nil) {
             self.scanId = scanId
         }
@@ -7223,6 +7508,7 @@ extension GuardDuty {
         /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -7255,6 +7541,7 @@ extension GuardDuty {
         /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -7270,6 +7557,7 @@ extension GuardDuty {
         /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts.
         public let detectorId: String
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
@@ -7302,6 +7590,7 @@ extension GuardDuty {
         /// A list of objects that contain an accountId for each account that could not be processed, and a result string that indicates why the account was not processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -7317,6 +7606,7 @@ extension GuardDuty {
         /// The EC2 instance tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -7334,6 +7624,7 @@ extension GuardDuty {
         /// The tags to be added to a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -7375,6 +7666,7 @@ extension GuardDuty {
         /// Source of the threat that generated this finding.
         public let source: String?
 
+        @inlinable
         public init(itemPaths: [ItemPath]? = nil, name: String? = nil, source: String? = nil) {
             self.itemPaths = itemPaths
             self.name = name
@@ -7398,6 +7690,7 @@ extension GuardDuty {
         /// Total number of unique threats by name identified, as part of the malware scan.
         public let uniqueThreatNameCount: Int?
 
+        @inlinable
         public init(itemCount: Int? = nil, shortened: Bool? = nil, threatNames: [ScanThreatName]? = nil, uniqueThreatNameCount: Int? = nil) {
             self.itemCount = itemCount
             self.shortened = shortened
@@ -7421,6 +7714,7 @@ extension GuardDuty {
         /// A list of names of the threats in the threat intelligence list that triggered the finding.
         public let threatNames: [String]?
 
+        @inlinable
         public init(threatFileSha256: String? = nil, threatListName: String? = nil, threatNames: [String]? = nil) {
             self.threatFileSha256 = threatFileSha256
             self.threatListName = threatListName
@@ -7438,6 +7732,7 @@ extension GuardDuty {
         /// Total number of infected files.
         public let files: Int?
 
+        @inlinable
         public init(files: Int? = nil) {
             self.files = files
         }
@@ -7453,6 +7748,7 @@ extension GuardDuty {
         /// The currency unit that the amount is given in.
         public let unit: String?
 
+        @inlinable
         public init(amount: String? = nil, unit: String? = nil) {
             self.amount = amount
             self.unit = unit
@@ -7470,6 +7766,7 @@ extension GuardDuty {
         /// The ID of the GuardDuty finding that triggered the malware scan.
         public let guardDutyFindingId: String?
 
+        @inlinable
         public init(description: String? = nil, guardDutyFindingId: String? = nil) {
             self.description = description
             self.guardDutyFindingId = guardDutyFindingId
@@ -7487,6 +7784,7 @@ extension GuardDuty {
         /// The IDs of the findings to unarchive.
         public let findingIds: [String]?
 
+        @inlinable
         public init(detectorId: String, findingIds: [String]? = nil) {
             self.detectorId = detectorId
             self.findingIds = findingIds
@@ -7524,6 +7822,7 @@ extension GuardDuty {
         /// A reason why the account hasn't been processed.
         public let result: String?
 
+        @inlinable
         public init(accountId: String? = nil, result: String? = nil) {
             self.accountId = accountId
             self.result = result
@@ -7538,6 +7837,7 @@ extension GuardDuty {
     public struct UnprocessedDataSourcesResult: AWSDecodableShape {
         public let malwareProtection: MalwareProtectionConfigurationResult?
 
+        @inlinable
         public init(malwareProtection: MalwareProtectionConfigurationResult? = nil) {
             self.malwareProtection = malwareProtection
         }
@@ -7553,6 +7853,7 @@ extension GuardDuty {
         /// The tag keys to remove from the resource.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7595,6 +7896,7 @@ extension GuardDuty {
         /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
+        @inlinable
         public init(detectorId: String, enable: Bool? = nil, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
             self.dataSources = nil
             self.detectorId = detectorId
@@ -7604,6 +7906,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool? = nil, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
             self.dataSources = dataSources
             self.detectorId = detectorId
@@ -7653,6 +7956,7 @@ extension GuardDuty {
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
         public let rank: Int?
 
+        @inlinable
         public init(action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String, findingCriteria: FindingCriteria? = nil, rank: Int? = nil) {
             self.action = action
             self.description = description
@@ -7693,6 +7997,7 @@ extension GuardDuty {
         /// The name of the filter.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -7712,6 +8017,7 @@ extension GuardDuty {
         /// The IDs of the findings that you want to mark as useful or not useful.
         public let findingIds: [String]?
 
+        @inlinable
         public init(comments: String? = nil, detectorId: String, feedback: Feedback? = nil, findingIds: [String]? = nil) {
             self.comments = comments
             self.detectorId = detectorId
@@ -7761,6 +8067,7 @@ extension GuardDuty {
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
 
+        @inlinable
         public init(activate: Bool? = nil, detectorId: String, ipSetId: String, location: String? = nil, name: String? = nil) {
             self.activate = activate
             self.detectorId = detectorId
@@ -7809,6 +8116,7 @@ extension GuardDuty {
         /// Amazon Resource Name (ARN) of the IAM role with permissions to scan and add tags to  the associated protected resource.
         public let role: String?
 
+        @inlinable
         public init(actions: MalwareProtectionPlanActions? = nil, malwareProtectionPlanId: String, protectedResource: UpdateProtectedResource? = nil, role: String? = nil) {
             self.actions = actions
             self.malwareProtectionPlanId = malwareProtectionPlanId
@@ -7844,6 +8152,7 @@ extension GuardDuty {
         /// Represents the criteria to be used in the filter for selecting resources to scan.
         public let scanResourceCriteria: ScanResourceCriteria?
 
+        @inlinable
         public init(detectorId: String, ebsSnapshotPreservation: EbsSnapshotPreservation? = nil, scanResourceCriteria: ScanResourceCriteria? = nil) {
             self.detectorId = detectorId
             self.ebsSnapshotPreservation = ebsSnapshotPreservation
@@ -7884,6 +8193,7 @@ extension GuardDuty {
         /// A list of features that will be updated for the specified member accounts.
         public let features: [MemberFeaturesConfiguration]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, detectorId: String, features: [MemberFeaturesConfiguration]? = nil) {
             self.accountIds = accountIds
             self.dataSources = nil
@@ -7892,6 +8202,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(accountIds: [String]? = nil, dataSources: DataSourceConfigurations? = nil, detectorId: String, features: [MemberFeaturesConfiguration]? = nil) {
             self.accountIds = accountIds
             self.dataSources = dataSources
@@ -7930,6 +8241,7 @@ extension GuardDuty {
         /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -7951,6 +8263,7 @@ extension GuardDuty {
         /// A list of features that will be configured for the organization.
         public let features: [OrganizationFeatureConfiguration]?
 
+        @inlinable
         public init(autoEnableOrganizationMembers: AutoEnableMembers? = nil, detectorId: String, features: [OrganizationFeatureConfiguration]? = nil) {
             self.autoEnable = nil
             self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
@@ -7960,6 +8273,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members autoEnable, dataSources have been deprecated")
+        @inlinable
         public init(autoEnable: Bool? = nil, autoEnableOrganizationMembers: AutoEnableMembers? = nil, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String, features: [OrganizationFeatureConfiguration]? = nil) {
             self.autoEnable = autoEnable
             self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
@@ -7999,6 +8313,7 @@ extension GuardDuty {
         /// Information about the protected S3 bucket resource.
         public let s3Bucket: UpdateS3BucketResource?
 
+        @inlinable
         public init(s3Bucket: UpdateS3BucketResource? = nil) {
             self.s3Bucket = s3Bucket
         }
@@ -8020,6 +8335,7 @@ extension GuardDuty {
         /// The ID of the detector associated with the publishing destinations to update.
         public let detectorId: String
 
+        @inlinable
         public init(destinationId: String, destinationProperties: DestinationProperties? = nil, detectorId: String) {
             self.destinationId = destinationId
             self.destinationProperties = destinationProperties
@@ -8052,6 +8368,7 @@ extension GuardDuty {
         /// Information about the specified object prefixes. The S3 object will be scanned only  if it belongs to any of the specified object prefixes.
         public let objectPrefixes: [String]?
 
+        @inlinable
         public init(objectPrefixes: [String]? = nil) {
             self.objectPrefixes = objectPrefixes
         }
@@ -8077,6 +8394,7 @@ extension GuardDuty {
         /// The unique ID that specifies the ThreatIntelSet that you want to update.
         public let threatIntelSetId: String
 
+        @inlinable
         public init(activate: Bool? = nil, detectorId: String, location: String? = nil, name: String? = nil, threatIntelSetId: String) {
             self.activate = activate
             self.detectorId = detectorId
@@ -8121,6 +8439,7 @@ extension GuardDuty {
         /// Represents the total of usage for the Account ID.
         public let total: Total?
 
+        @inlinable
         public init(accountId: String? = nil, total: Total? = nil) {
             self.accountId = accountId
             self.total = total
@@ -8142,6 +8461,7 @@ extension GuardDuty {
         /// The resources to aggregate usage statistics from. Only accepts exact resource names.
         public let resources: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, features: [UsageFeature]? = nil, resources: [String]? = nil) {
             self.accountIds = accountIds
             self.dataSources = nil
@@ -8150,6 +8470,7 @@ extension GuardDuty {
         }
 
         @available(*, deprecated, message: "Members dataSources have been deprecated")
+        @inlinable
         public init(accountIds: [String]? = nil, dataSources: [DataSource]? = nil, features: [UsageFeature]? = nil, resources: [String]? = nil) {
             self.accountIds = accountIds
             self.dataSources = dataSources
@@ -8180,6 +8501,7 @@ extension GuardDuty {
         /// Represents the total of usage for the specified data source.
         public let total: Total?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, total: Total? = nil) {
             self.dataSource = dataSource
             self.total = total
@@ -8196,6 +8518,7 @@ extension GuardDuty {
         public let feature: UsageFeature?
         public let total: Total?
 
+        @inlinable
         public init(feature: UsageFeature? = nil, total: Total? = nil) {
             self.feature = feature
             self.total = total
@@ -8213,6 +8536,7 @@ extension GuardDuty {
         /// Represents the sum total of usage for the specified resource type.
         public let total: Total?
 
+        @inlinable
         public init(resource: String? = nil, total: Total? = nil) {
             self.resource = resource
             self.total = total
@@ -8238,6 +8562,7 @@ extension GuardDuty {
         /// Lists the top 50 resources that have generated the most GuardDuty usage, in order from most to least expensive.
         public let topResources: [UsageResourceResult]?
 
+        @inlinable
         public init(sumByAccount: [UsageAccountResult]? = nil, sumByDataSource: [UsageDataSourceResult]? = nil, sumByFeature: [UsageFeatureResult]? = nil, sumByResource: [UsageResourceResult]? = nil, topAccountsByFeature: [UsageTopAccountsResult]? = nil, topResources: [UsageResourceResult]? = nil) {
             self.sumByAccount = sumByAccount
             self.sumByDataSource = sumByDataSource
@@ -8262,6 +8587,7 @@ extension GuardDuty {
         public let accountId: String?
         public let total: Total?
 
+        @inlinable
         public init(accountId: String? = nil, total: Total? = nil) {
             self.accountId = accountId
             self.total = total
@@ -8279,6 +8605,7 @@ extension GuardDuty {
         /// Features by which you can generate the usage statistics.  RDS_LOGIN_EVENTS is currently not supported  with topAccountsByFeature.
         public let feature: UsageFeature?
 
+        @inlinable
         public init(accounts: [UsageTopAccountResult]? = nil, feature: UsageFeature? = nil) {
             self.accounts = accounts
             self.feature = feature
@@ -8296,6 +8623,7 @@ extension GuardDuty {
         /// Volume name.
         public let name: String?
 
+        @inlinable
         public init(hostPath: HostPath? = nil, name: String? = nil) {
             self.hostPath = hostPath
             self.name = name
@@ -8323,6 +8651,7 @@ extension GuardDuty {
         /// The EBS volume type.
         public let volumeType: String?
 
+        @inlinable
         public init(deviceName: String? = nil, encryptionType: String? = nil, kmsKeyArn: String? = nil, snapshotArn: String? = nil, volumeArn: String? = nil, volumeSizeInGB: Int? = nil, volumeType: String? = nil) {
             self.deviceName = deviceName
             self.encryptionType = encryptionType
@@ -8350,6 +8679,7 @@ extension GuardDuty {
         /// Volume mount name.
         public let name: String?
 
+        @inlinable
         public init(mountPath: String? = nil, name: String? = nil) {
             self.mountPath = mountPath
             self.name = name
@@ -8369,6 +8699,7 @@ extension GuardDuty {
         /// The identifier of the Amazon Virtual Private Cloud.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroups: [SecurityGroup]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds

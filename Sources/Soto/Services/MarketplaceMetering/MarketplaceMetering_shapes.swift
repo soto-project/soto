@@ -41,6 +41,7 @@ extension MarketplaceMetering {
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
         public let usageRecords: [UsageRecord]
 
+        @inlinable
         public init(productCode: String, usageRecords: [UsageRecord]) {
             self.productCode = productCode
             self.usageRecords = usageRecords
@@ -68,6 +69,7 @@ extension MarketplaceMetering {
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
 
+        @inlinable
         public init(results: [UsageRecordResult]? = nil, unprocessedRecords: [UsageRecord]? = nil) {
             self.results = results
             self.unprocessedRecords = unprocessedRecords
@@ -93,6 +95,7 @@ extension MarketplaceMetering {
         /// Consumption value for the hour. Defaults to 0 if not specified.
         public let usageQuantity: Int?
 
+        @inlinable
         public init(dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantity: Int? = nil) {
             self.dryRun = dryRun
             self.productCode = productCode
@@ -132,6 +135,7 @@ extension MarketplaceMetering {
         /// Metering record id.
         public let meteringRecordId: String?
 
+        @inlinable
         public init(meteringRecordId: String? = nil) {
             self.meteringRecordId = meteringRecordId
         }
@@ -149,6 +153,7 @@ extension MarketplaceMetering {
         /// Public Key Version provided by AWS Marketplace
         public let publicKeyVersion: Int
 
+        @inlinable
         public init(nonce: String? = nil, productCode: String, publicKeyVersion: Int) {
             self.nonce = nonce
             self.productCode = productCode
@@ -177,6 +182,7 @@ extension MarketplaceMetering {
         /// JWT Token
         public let signature: String?
 
+        @inlinable
         public init(publicKeyRotationTimestamp: Date? = nil, signature: String? = nil) {
             self.publicKeyRotationTimestamp = publicKeyRotationTimestamp
             self.signature = signature
@@ -192,6 +198,7 @@ extension MarketplaceMetering {
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
         public let registrationToken: String
 
+        @inlinable
         public init(registrationToken: String) {
             self.registrationToken = registrationToken
         }
@@ -213,6 +220,7 @@ extension MarketplaceMetering {
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
         public let productCode: String?
 
+        @inlinable
         public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, productCode: String? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
@@ -232,6 +240,7 @@ extension MarketplaceMetering {
         /// One part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -258,6 +267,7 @@ extension MarketplaceMetering {
         /// The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out.
         public let tags: [Tag]?
 
+        @inlinable
         public init(allocatedUsageQuantity: Int, tags: [Tag]? = nil) {
             self.allocatedUsageQuantity = allocatedUsageQuantity
             self.tags = tags
@@ -291,6 +301,7 @@ extension MarketplaceMetering {
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
         public let usageAllocations: [UsageAllocation]?
 
+        @inlinable
         public init(customerIdentifier: String, dimension: String, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
@@ -332,6 +343,7 @@ extension MarketplaceMetering {
         /// The UsageRecord that was part of the BatchMeterUsage request.
         public let usageRecord: UsageRecord?
 
+        @inlinable
         public init(meteringRecordId: String? = nil, status: UsageRecordResultStatus? = nil, usageRecord: UsageRecord? = nil) {
             self.meteringRecordId = meteringRecordId
             self.status = status

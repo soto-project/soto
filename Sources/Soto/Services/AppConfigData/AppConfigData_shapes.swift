@@ -32,6 +32,7 @@ extension AppConfigData {
         /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls.  This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
         public let configurationToken: String
 
+        @inlinable
         public init(configurationToken: String) {
             self.configurationToken = configurationToken
         }
@@ -62,6 +63,7 @@ extension AppConfigData {
         /// The user-defined label for the AppConfig hosted configuration version. This attribute doesn't apply if the configuration is not from an AppConfig hosted configuration version. If the client already has the latest version of the configuration data, this value is empty.
         public let versionLabel: String?
 
+        @inlinable
         public init(configuration: AWSHTTPBody, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil, versionLabel: String? = nil) {
             self.configuration = configuration
             self.contentType = contentType
@@ -93,6 +95,7 @@ extension AppConfigData {
         /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently than every 60 seconds.
         public let requiredMinimumPollIntervalInSeconds: Int?
 
+        @inlinable
         public init(applicationIdentifier: String, configurationProfileIdentifier: String, environmentIdentifier: String, requiredMinimumPollIntervalInSeconds: Int? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.configurationProfileIdentifier = configurationProfileIdentifier
@@ -123,6 +126,7 @@ extension AppConfigData {
         /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data.  This token should only be used once in your first call to GetLatestConfiguration. You must use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration. The InitialConfigurationToken and NextPollConfigurationToken should only be used once. To support long poll use cases, the tokens are valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
         public let initialConfigurationToken: String?
 
+        @inlinable
         public init(initialConfigurationToken: String? = nil) {
             self.initialConfigurationToken = initialConfigurationToken
         }

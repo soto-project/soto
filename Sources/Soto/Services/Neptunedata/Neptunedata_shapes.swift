@@ -123,6 +123,7 @@ extension Neptunedata {
         /// The unique identifier that identifies the query to be canceled.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -140,6 +141,7 @@ extension Neptunedata {
         /// The status of the cancelation
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -153,6 +155,7 @@ extension Neptunedata {
         /// The ID of the load job to be deleted.
         public let loadId: String
 
+        @inlinable
         public init(loadId: String) {
             self.loadId = loadId
         }
@@ -170,6 +173,7 @@ extension Neptunedata {
         /// The cancellation status.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -187,6 +191,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(clean: Bool? = nil, id: String, neptuneIamRoleArn: String? = nil) {
             self.clean = clean
             self.id = id
@@ -208,6 +213,7 @@ extension Neptunedata {
         /// The status of the cancellation request.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -225,6 +231,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(clean: Bool? = nil, id: String, neptuneIamRoleArn: String? = nil) {
             self.clean = clean
             self.id = id
@@ -246,6 +253,7 @@ extension Neptunedata {
         /// The status of the cancellation.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -263,6 +271,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(clean: Bool? = nil, id: String, neptuneIamRoleArn: String? = nil) {
             self.clean = clean
             self.id = id
@@ -284,6 +293,7 @@ extension Neptunedata {
         /// the status of the cancelation.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -299,6 +309,7 @@ extension Neptunedata {
         /// If set to TRUE, causes the cancelation of the openCypher query to happen silently.
         public let silent: Bool?
 
+        @inlinable
         public init(queryId: String, silent: Bool? = nil) {
             self.queryId = queryId
             self.silent = silent
@@ -320,6 +331,7 @@ extension Neptunedata {
         /// The cancellation status of the openCypher query.
         public let status: String?
 
+        @inlinable
         public init(payload: Bool? = nil, status: String? = nil) {
             self.payload = payload
             self.status = status
@@ -351,6 +363,7 @@ extension Neptunedata {
         /// The Amazon Key Management Service (Amazon KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
         public let volumeEncryptionKMSKey: String?
 
+        @inlinable
         public init(id: String? = nil, instanceCount: Int? = nil, instanceType: String? = nil, mlModelTrainingJobId: String? = nil, mlModelTransformJobId: String? = nil, modelName: String? = nil, neptuneIamRoleArn: String? = nil, update: Bool? = nil, volumeEncryptionKMSKey: String? = nil) {
             self.id = id
             self.instanceCount = instanceCount
@@ -384,6 +397,7 @@ extension Neptunedata {
         /// The unique ID of the new inference endpoint.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTimeInMillis: Int64? = nil, id: String? = nil) {
             self.arn = arn
             self.creationTimeInMillis = creationTimeInMillis
@@ -405,6 +419,7 @@ extension Neptunedata {
         /// The name of the entry point in your module of a script that should be run after the best model from the hyperparameter search has been identified, to compute the model artifacts necessary for model deployment. It should be able to run with no command-line arguments.The default is transform.py.
         public let transformEntryPointScript: String?
 
+        @inlinable
         public init(sourceS3DirectoryPath: String, trainingEntryPointScript: String? = nil, transformEntryPointScript: String? = nil) {
             self.sourceS3DirectoryPath = sourceS3DirectoryPath
             self.trainingEntryPointScript = trainingEntryPointScript
@@ -424,6 +439,7 @@ extension Neptunedata {
         /// The name of the entry point in your module of a script that should be run after the best model from the hyperparameter search has been identified, to compute the model artifacts necessary for model deployment. It should be able to run with no command-line arguments. The default is transform.py.
         public let transformEntryPointScript: String?
 
+        @inlinable
         public init(sourceS3DirectoryPath: String, transformEntryPointScript: String? = nil) {
             self.sourceS3DirectoryPath = sourceS3DirectoryPath
             self.transformEntryPointScript = transformEntryPointScript
@@ -443,6 +459,7 @@ extension Neptunedata {
         /// The ARN of an IAM role providing Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will be thrown.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(clean: Bool? = nil, id: String, neptuneIamRoleArn: String? = nil) {
             self.clean = clean
             self.id = id
@@ -464,6 +481,7 @@ extension Neptunedata {
         /// The status of the cancellation.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -481,6 +499,7 @@ extension Neptunedata {
         /// The HTTP response code: 200 if the delete was successful, or 204 if there were no statistics to delete.
         public let statusCode: Int?
 
+        @inlinable
         public init(payload: DeleteStatisticsValueMap? = nil, status: String? = nil, statusCode: Int? = nil) {
             self.payload = payload
             self.status = status
@@ -509,6 +528,7 @@ extension Neptunedata {
         /// The HTTP response code: 200 if the delete was successful, or 204 if there were no statistics to delete.
         public let statusCode: Int?
 
+        @inlinable
         public init(payload: DeleteStatisticsValueMap? = nil, status: String? = nil, statusCode: Int? = nil) {
             self.payload = payload
             self.status = status
@@ -535,6 +555,7 @@ extension Neptunedata {
         /// The ID of the statistics generation run that is currently occurring.
         public let statisticsId: String?
 
+        @inlinable
         public init(active: Bool? = nil, statisticsId: String? = nil) {
             self.active = active
             self.statisticsId = statisticsId
@@ -552,6 +573,7 @@ extension Neptunedata {
         /// A list of edge properties present in this specific structure.
         public let edgeProperties: [String]?
 
+        @inlinable
         public init(count: Int64? = nil, edgeProperties: [String]? = nil) {
             self.count = count
             self.edgeProperties = edgeProperties
@@ -569,6 +591,7 @@ extension Neptunedata {
         /// The fast-reset token to initiate the reset.
         public let token: String?
 
+        @inlinable
         public init(action: Action, token: String? = nil) {
             self.action = action
             self.token = token
@@ -586,6 +609,7 @@ extension Neptunedata {
         /// The status is only returned for the performDatabaseReset action, and indicates whether or not the fast reset rquest is accepted.
         public let status: String
 
+        @inlinable
         public init(payload: FastResetToken? = nil, status: String) {
             self.payload = payload
             self.status = status
@@ -601,6 +625,7 @@ extension Neptunedata {
         /// The Gremlin explain query string.
         public let gremlinQuery: String
 
+        @inlinable
         public init(gremlinQuery: String) {
             self.gremlinQuery = gremlinQuery
         }
@@ -615,6 +640,7 @@ extension Neptunedata {
         /// A text blob containing the Gremlin explain result, as described in Tuning Gremlin queries.
         public let output: AWSHTTPBody
 
+        @inlinable
         public init(output: AWSHTTPBody) {
             self.output = output
         }
@@ -639,6 +665,7 @@ extension Neptunedata {
         /// If non-null, the gathered results are returned in a serialized response message in the format specified by this parameter. See Gremlin profile API in Neptune for more information.
         public let serializer: String?
 
+        @inlinable
         public init(chop: Int? = nil, gremlinQuery: String, indexOps: Bool? = nil, results: Bool? = nil, serializer: String? = nil) {
             self.chop = chop
             self.gremlinQuery = gremlinQuery
@@ -661,6 +688,7 @@ extension Neptunedata {
         /// A text blob containing the Gremlin Profile result. See Gremlin profile API in Neptune for details.
         public let output: AWSHTTPBody
 
+        @inlinable
         public init(output: AWSHTTPBody) {
             self.output = output
         }
@@ -679,6 +707,7 @@ extension Neptunedata {
         /// If non-null, the query results are returned in a serialized response message in the format specified by this parameter. See the GraphSON section in the TinkerPop documentation for a list of the formats that are currently supported.
         public let serializer: String?
 
+        @inlinable
         public init(gremlinQuery: String, serializer: String? = nil) {
             self.gremlinQuery = gremlinQuery
             self.serializer = serializer
@@ -706,6 +735,7 @@ extension Neptunedata {
         /// The status of the Gremlin query.
         public let status: GremlinQueryStatusAttributes?
 
+        @inlinable
         public init(meta: String? = nil, requestId: String? = nil, result: String? = nil, status: GremlinQueryStatusAttributes? = nil) {
             self.meta = meta
             self.requestId = requestId
@@ -729,6 +759,7 @@ extension Neptunedata {
         /// The openCypher query parameters.
         public let parameters: String?
 
+        @inlinable
         public init(explainMode: OpenCypherExplainMode, openCypherQuery: String, parameters: String? = nil) {
             self.explainMode = explainMode
             self.openCypherQuery = openCypherQuery
@@ -747,6 +778,7 @@ extension Neptunedata {
         /// A text blob containing the openCypher explain results.
         public let results: AWSHTTPBody
 
+        @inlinable
         public init(results: AWSHTTPBody) {
             self.results = results
         }
@@ -765,6 +797,7 @@ extension Neptunedata {
         /// The openCypher query parameters for query execution. See Examples of openCypher parameterized queries for more information.
         public let parameters: String?
 
+        @inlinable
         public init(openCypherQuery: String, parameters: String? = nil) {
             self.openCypherQuery = openCypherQuery
             self.parameters = parameters
@@ -780,6 +813,7 @@ extension Neptunedata {
         /// The openCypherquery results.
         public let results: String
 
+        @inlinable
         public init(results: String) {
             self.results = results
         }
@@ -793,6 +827,7 @@ extension Neptunedata {
         /// A UUID generated by the database in the initiateDatabaseReset action, and then consumed by the performDatabaseReset to reset the database.
         public let token: String?
 
+        @inlinable
         public init(token: String? = nil) {
             self.token = token
         }
@@ -830,6 +865,7 @@ extension Neptunedata {
         /// Set to healthy if the instance is not experiencing problems. If the instance is recovering from a crash or from being rebooted and there are active transactions running from the latest server shutdown, status is set to recovery.
         public let status: String?
 
+        @inlinable
         public init(dbEngineVersion: String? = nil, dfeQueryEngine: String? = nil, features: [String: String]? = nil, gremlin: QueryLanguageVersion? = nil, labMode: [String: String]? = nil, opencypher: QueryLanguageVersion? = nil, role: String? = nil, rollingBackTrxCount: Int? = nil, rollingBackTrxEarliestStartTime: String? = nil, settings: [String: String]? = nil, sparql: QueryLanguageVersion? = nil, startTime: String? = nil, status: String? = nil) {
             self.dbEngineVersion = dbEngineVersion
             self.dfeQueryEngine = dfeQueryEngine
@@ -867,6 +903,7 @@ extension Neptunedata {
         /// The unique identifier that identifies the Gremlin query.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -888,6 +925,7 @@ extension Neptunedata {
         /// The Gremlin query string.
         public let queryString: String?
 
+        @inlinable
         public init(queryEvalStats: QueryEvalStats? = nil, queryId: String? = nil, queryString: String? = nil) {
             self.queryEvalStats = queryEvalStats
             self.queryId = queryId
@@ -913,6 +951,7 @@ extension Neptunedata {
         /// The error page number (a positive integer; the default is 1). Only valid when the errors parameter is set to TRUE.
         public let page: Int?
 
+        @inlinable
         public init(details: Bool? = nil, errors: Bool? = nil, errorsPerPage: Int? = nil, loadId: String, page: Int? = nil) {
             self.details = details
             self.errors = errors
@@ -945,6 +984,7 @@ extension Neptunedata {
         /// The HTTP response code for the request.
         public let status: String
 
+        @inlinable
         public init(payload: String, status: String) {
             self.payload = payload
             self.status = status
@@ -962,6 +1002,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(id: String, neptuneIamRoleArn: String? = nil) {
             self.id = id
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -985,6 +1026,7 @@ extension Neptunedata {
         /// Status of the data processing job.
         public let status: String?
 
+        @inlinable
         public init(id: String? = nil, processingJob: MlResourceDefinition? = nil, status: String? = nil) {
             self.id = id
             self.processingJob = processingJob
@@ -1004,6 +1046,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(id: String, neptuneIamRoleArn: String? = nil) {
             self.id = id
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1029,6 +1072,7 @@ extension Neptunedata {
         /// The status of the inference endpoint.
         public let status: String?
 
+        @inlinable
         public init(endpoint: MlResourceDefinition? = nil, endpointConfig: MlConfigDefinition? = nil, id: String? = nil, status: String? = nil) {
             self.endpoint = endpoint
             self.endpointConfig = endpointConfig
@@ -1050,6 +1094,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(id: String, neptuneIamRoleArn: String? = nil) {
             self.id = id
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1079,6 +1124,7 @@ extension Neptunedata {
         /// The status of the model training job.
         public let status: String?
 
+        @inlinable
         public init(hpoJob: MlResourceDefinition? = nil, id: String? = nil, mlModels: [MlConfigDefinition]? = nil, modelTransformJob: MlResourceDefinition? = nil, processingJob: MlResourceDefinition? = nil, status: String? = nil) {
             self.hpoJob = hpoJob
             self.id = id
@@ -1104,6 +1150,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(id: String, neptuneIamRoleArn: String? = nil) {
             self.id = id
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1131,6 +1178,7 @@ extension Neptunedata {
         /// The status of the model-transform job.
         public let status: String?
 
+        @inlinable
         public init(baseProcessingJob: MlResourceDefinition? = nil, id: String? = nil, models: [MlConfigDefinition]? = nil, remoteModelTransformJob: MlResourceDefinition? = nil, status: String? = nil) {
             self.baseProcessingJob = baseProcessingJob
             self.id = id
@@ -1152,6 +1200,7 @@ extension Neptunedata {
         /// The unique ID of the openCypher query for which to retrieve the query status.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -1173,6 +1222,7 @@ extension Neptunedata {
         /// The openCypher query string.
         public let queryString: String?
 
+        @inlinable
         public init(queryEvalStats: QueryEvalStats? = nil, queryId: String? = nil, queryString: String? = nil) {
             self.queryEvalStats = queryEvalStats
             self.queryId = queryId
@@ -1192,6 +1242,7 @@ extension Neptunedata {
         /// The HTTP return code of the request. If the request succeeded, the code is 200. See Common error codes for DFE statistics request for a list of common errors.
         public let status: String
 
+        @inlinable
         public init(payload: Statistics, status: String) {
             self.payload = payload
             self.status = status
@@ -1215,6 +1266,7 @@ extension Neptunedata {
         /// The operation sequence number within the specified commit to start reading from in the change-log stream data. The default is 1.
         public let opNum: Int64?
 
+        @inlinable
         public init(commitNum: Int64? = nil, encoding: Encoding? = nil, iteratorType: IteratorType? = nil, limit: Int64? = nil, opNum: Int64? = nil) {
             self.commitNum = commitNum
             self.encoding = encoding
@@ -1248,6 +1300,7 @@ extension Neptunedata {
         /// The total number of records in the response.
         public let totalRecords: Int
 
+        @inlinable
         public init(format: String, lastEventId: [String: String], lastTrxTimestampInMillis: Int64, records: [PropertygraphRecord], totalRecords: Int) {
             self.format = format
             self.lastEventId = lastEventId
@@ -1269,6 +1322,7 @@ extension Neptunedata {
         /// Mode can take one of two values: BASIC (the default), and DETAILED.
         public let mode: GraphSummaryType?
 
+        @inlinable
         public init(mode: GraphSummaryType? = nil) {
             self.mode = mode
         }
@@ -1288,6 +1342,7 @@ extension Neptunedata {
         /// The HTTP return code of the request. If the request succeeded, the code is 200.
         public let statusCode: Int?
 
+        @inlinable
         public init(payload: PropertygraphSummaryValueMap? = nil, statusCode: Int? = nil) {
             self.payload = payload
             self.statusCode = statusCode
@@ -1309,6 +1364,7 @@ extension Neptunedata {
         /// Mode can take one of two values: BASIC (the default), and DETAILED.
         public let mode: GraphSummaryType?
 
+        @inlinable
         public init(mode: GraphSummaryType? = nil) {
             self.mode = mode
         }
@@ -1328,6 +1384,7 @@ extension Neptunedata {
         /// The HTTP return code of the request. If the request succeeded, the code is 200.
         public let statusCode: Int?
 
+        @inlinable
         public init(payload: RDFGraphSummaryValueMap? = nil, statusCode: Int? = nil) {
             self.payload = payload
             self.statusCode = statusCode
@@ -1351,6 +1408,7 @@ extension Neptunedata {
         /// The HTTP return code of the request. If the request succeeded, the code is 200. See Common error codes for DFE statistics request for a list of common errors. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
         public let status: String
 
+        @inlinable
         public init(payload: Statistics, status: String) {
             self.payload = payload
             self.status = status
@@ -1374,6 +1432,7 @@ extension Neptunedata {
         /// The operation sequence number within the specified commit to start reading from in the change-log stream data. The default is 1.
         public let opNum: Int64?
 
+        @inlinable
         public init(commitNum: Int64? = nil, encoding: Encoding? = nil, iteratorType: IteratorType? = nil, limit: Int64? = nil, opNum: Int64? = nil) {
             self.commitNum = commitNum
             self.encoding = encoding
@@ -1407,6 +1466,7 @@ extension Neptunedata {
         /// The total number of records in the response.
         public let totalRecords: Int
 
+        @inlinable
         public init(format: String, lastEventId: [String: String], lastTrxTimestampInMillis: Int64, records: [SparqlRecord], totalRecords: Int) {
             self.format = format
             self.lastEventId = lastEventId
@@ -1432,6 +1492,7 @@ extension Neptunedata {
         /// The query string of the Gremlin query.
         public let queryString: String?
 
+        @inlinable
         public init(queryEvalStats: QueryEvalStats? = nil, queryId: String? = nil, queryString: String? = nil) {
             self.queryEvalStats = queryEvalStats
             self.queryId = queryId
@@ -1453,6 +1514,7 @@ extension Neptunedata {
         /// The status message.
         public let message: String?
 
+        @inlinable
         public init(attributes: String? = nil, code: Int? = nil, message: String? = nil) {
             self.attributes = attributes
             self.code = code
@@ -1470,6 +1532,7 @@ extension Neptunedata {
         /// If set to TRUE, the list returned includes waiting queries. The default is FALSE;
         public let includeWaiting: Bool?
 
+        @inlinable
         public init(includeWaiting: Bool? = nil) {
             self.includeWaiting = includeWaiting
         }
@@ -1491,6 +1554,7 @@ extension Neptunedata {
         /// The number of Gremlin queries currently running.
         public let runningQueryCount: Int?
 
+        @inlinable
         public init(acceptedQueryCount: Int? = nil, queries: [GremlinQueryStatus]? = nil, runningQueryCount: Int? = nil) {
             self.acceptedQueryCount = acceptedQueryCount
             self.queries = queries
@@ -1510,6 +1574,7 @@ extension Neptunedata {
         /// The number of load IDs to list. Must be a positive integer greater than zero and not more than 100 (which is the default).
         public let limit: Int?
 
+        @inlinable
         public init(includeQueuedLoads: Bool? = nil, limit: Int? = nil) {
             self.includeQueuedLoads = includeQueuedLoads
             self.limit = limit
@@ -1535,6 +1600,7 @@ extension Neptunedata {
         /// Returns the status of the job list request.
         public let status: String
 
+        @inlinable
         public init(payload: LoaderIdResult, status: String) {
             self.payload = payload
             self.status = status
@@ -1552,6 +1618,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, neptuneIamRoleArn: String? = nil) {
             self.maxItems = maxItems
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1575,6 +1642,7 @@ extension Neptunedata {
         /// A page listing data processing job IDs.
         public let ids: [String]?
 
+        @inlinable
         public init(ids: [String]? = nil) {
             self.ids = ids
         }
@@ -1590,6 +1658,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, neptuneIamRoleArn: String? = nil) {
             self.maxItems = maxItems
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1613,6 +1682,7 @@ extension Neptunedata {
         /// A page from the list of inference endpoint IDs.
         public let ids: [String]?
 
+        @inlinable
         public init(ids: [String]? = nil) {
             self.ids = ids
         }
@@ -1628,6 +1698,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, neptuneIamRoleArn: String? = nil) {
             self.maxItems = maxItems
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1651,6 +1722,7 @@ extension Neptunedata {
         /// A page of the list of model training job IDs.
         public let ids: [String]?
 
+        @inlinable
         public init(ids: [String]? = nil) {
             self.ids = ids
         }
@@ -1666,6 +1738,7 @@ extension Neptunedata {
         /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
         public let neptuneIamRoleArn: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, neptuneIamRoleArn: String? = nil) {
             self.maxItems = maxItems
             self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1689,6 +1762,7 @@ extension Neptunedata {
         /// A page from the list of model transform IDs.
         public let ids: [String]?
 
+        @inlinable
         public init(ids: [String]? = nil) {
             self.ids = ids
         }
@@ -1702,6 +1776,7 @@ extension Neptunedata {
         ///  When set to TRUE and other parameters are not present, causes status information to be returned for waiting queries as well as for running queries.
         public let includeWaiting: Bool?
 
+        @inlinable
         public init(includeWaiting: Bool? = nil) {
             self.includeWaiting = includeWaiting
         }
@@ -1723,6 +1798,7 @@ extension Neptunedata {
         /// The number of currently running openCypher queries.
         public let runningQueryCount: Int?
 
+        @inlinable
         public init(acceptedQueryCount: Int? = nil, queries: [GremlinQueryStatus]? = nil, runningQueryCount: Int? = nil) {
             self.acceptedQueryCount = acceptedQueryCount
             self.queries = queries
@@ -1740,6 +1816,7 @@ extension Neptunedata {
         /// A list of load IDs.
         public let loadIds: [String]?
 
+        @inlinable
         public init(loadIds: [String]? = nil) {
             self.loadIds = loadIds
         }
@@ -1753,6 +1830,7 @@ extension Neptunedata {
         /// The statistics generation mode. One of: DISABLE_AUTOCOMPUTE, ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics generation.
         public let mode: StatisticsAutoGenerationMode?
 
+        @inlinable
         public init(mode: StatisticsAutoGenerationMode? = nil) {
             self.mode = mode
         }
@@ -1768,6 +1846,7 @@ extension Neptunedata {
         /// The HTTP return code of the request. If the request succeeded, the code is 200.
         public let status: String
 
+        @inlinable
         public init(payload: RefreshStatisticsIdMap? = nil, status: String) {
             self.payload = payload
             self.status = status
@@ -1783,6 +1862,7 @@ extension Neptunedata {
         /// The statistics generation mode. One of: DISABLE_AUTOCOMPUTE, ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics generation.
         public let mode: StatisticsAutoGenerationMode?
 
+        @inlinable
         public init(mode: StatisticsAutoGenerationMode? = nil) {
             self.mode = mode
         }
@@ -1798,6 +1878,7 @@ extension Neptunedata {
         /// The HTTP return code of the request. If the request succeeded, the code is 200.
         public let status: String
 
+        @inlinable
         public init(payload: RefreshStatisticsIdMap? = nil, status: String) {
             self.payload = payload
             self.status = status
@@ -1815,6 +1896,7 @@ extension Neptunedata {
         /// The configuration name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1840,6 +1922,7 @@ extension Neptunedata {
         /// The resource status.
         public let status: String?
 
+        @inlinable
         public init(arn: String? = nil, cloudwatchLogUrl: String? = nil, failureReason: String? = nil, name: String? = nil, outputLocation: String? = nil, status: String? = nil) {
             self.arn = arn
             self.cloudwatchLogUrl = cloudwatchLogUrl
@@ -1867,6 +1950,7 @@ extension Neptunedata {
         /// A list of the node properties present in this specific structure.
         public let nodeProperties: [String]?
 
+        @inlinable
         public init(count: Int64? = nil, distinctOutgoingEdgeLabels: [String]? = nil, nodeProperties: [String]? = nil) {
             self.count = count
             self.distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabels
@@ -1894,6 +1978,7 @@ extension Neptunedata {
         /// This is a JSON object that contains a value field for the value itself, and a datatype field for the JSON data type of that value:
         public let value: String
 
+        @inlinable
         public init(from: String? = nil, id: String, key: String, to: String? = nil, type: String, value: String) {
             self.from = from
             self.id = id
@@ -1925,6 +2010,7 @@ extension Neptunedata {
         /// The operation that created the change.
         public let op: String
 
+        @inlinable
         public init(commitTimestampInMillis: Int64, data: PropertygraphData, eventId: [String: String], isLastOp: Bool? = nil, op: String) {
             self.commitTimestampInMillis = commitTimestampInMillis
             self.data = data
@@ -1972,6 +2058,7 @@ extension Neptunedata {
         /// The total number of usages of all node properties.
         public let totalNodePropertyValues: Int64?
 
+        @inlinable
         public init(edgeLabels: [String]? = nil, edgeProperties: [[String: Int64]]? = nil, edgeStructures: [EdgeStructure]? = nil, nodeLabels: [String]? = nil, nodeProperties: [[String: Int64]]? = nil, nodeStructures: [NodeStructure]? = nil, numEdgeLabels: Int64? = nil, numEdgeProperties: Int64? = nil, numEdges: Int64? = nil, numNodeLabels: Int64? = nil, numNodeProperties: Int64? = nil, numNodes: Int64? = nil, totalEdgePropertyValues: Int64? = nil, totalNodePropertyValues: Int64? = nil) {
             self.edgeLabels = edgeLabels
             self.edgeProperties = edgeProperties
@@ -2015,6 +2102,7 @@ extension Neptunedata {
         /// The version of this graph summary response.
         public let version: String?
 
+        @inlinable
         public init(graphSummary: PropertygraphSummary? = nil, lastStatisticsComputationTime: Date? = nil, version: String? = nil) {
             self.graphSummary = graphSummary
             self.lastStatisticsComputationTime = lastStatisticsComputationTime
@@ -2038,6 +2126,7 @@ extension Neptunedata {
         /// Indicates how long the query waited, in milliseconds.
         public let waited: Int?
 
+        @inlinable
         public init(cancelled: Bool? = nil, elapsed: Int? = nil, subqueries: String? = nil, waited: Int? = nil) {
             self.cancelled = cancelled
             self.elapsed = elapsed
@@ -2057,6 +2146,7 @@ extension Neptunedata {
         /// The version of the query language.
         public let version: String
 
+        @inlinable
         public init(version: String) {
             self.version = version
         }
@@ -2082,6 +2172,7 @@ extension Neptunedata {
         /// This field is only present when the request mode is DETAILED. It contains a list of subject structures.
         public let subjectStructures: [SubjectStructure]?
 
+        @inlinable
         public init(classes: [String]? = nil, numClasses: Int64? = nil, numDistinctPredicates: Int64? = nil, numDistinctSubjects: Int64? = nil, numQuads: Int64? = nil, predicates: [[String: Int64]]? = nil, subjectStructures: [SubjectStructure]? = nil) {
             self.classes = classes
             self.numClasses = numClasses
@@ -2111,6 +2202,7 @@ extension Neptunedata {
         /// The version of this graph summary response.
         public let version: String?
 
+        @inlinable
         public init(graphSummary: RDFGraphSummary? = nil, lastStatisticsComputationTime: Date? = nil, version: String? = nil) {
             self.graphSummary = graphSummary
             self.lastStatisticsComputationTime = lastStatisticsComputationTime
@@ -2128,6 +2220,7 @@ extension Neptunedata {
         /// The ID of the statistics generation run that is currently occurring.
         public let statisticsId: String?
 
+        @inlinable
         public init(statisticsId: String? = nil) {
             self.statisticsId = statisticsId
         }
@@ -2141,6 +2234,7 @@ extension Neptunedata {
         /// Holds an N-QUADS statement expressing the changed quad.
         public let stmt: String
 
+        @inlinable
         public init(stmt: String) {
             self.stmt = stmt
         }
@@ -2162,6 +2256,7 @@ extension Neptunedata {
         /// The operation that created the change.
         public let op: String
 
+        @inlinable
         public init(commitTimestampInMillis: Int64, data: SparqlData, eventId: [String: String], isLastOp: Bool? = nil, op: String) {
             self.commitTimestampInMillis = commitTimestampInMillis
             self.data = data
@@ -2205,6 +2300,7 @@ extension Neptunedata {
         /// This parameter is required only when loading openCypher data that contains relationship IDs. It must be included and set to True when openCypher relationship IDs are explicitly provided in the load data (recommended). When userProvidedEdgeIds is absent or set to True, an :ID column must be present in every relationship file in the load. When userProvidedEdgeIds is present and set to False, relationship files in the load must not contain an :ID column. Instead, the Neptune loader automatically generates an ID for each relationship. It's useful to provide relationship IDs explicitly so that the loader can resume loading after error in the CSV data have been fixed, without having to reload any relationships that have already been loaded. If relationship IDs have not been explicitly assigned, the loader cannot resume a failed load if any relationship file has had to be corrected, and must instead reload all the relationships.
         public let userProvidedEdgeIds: Bool?
 
+        @inlinable
         public init(dependencies: [String]? = nil, failOnError: Bool? = nil, format: Format, iamRoleArn: String, mode: Mode? = nil, parallelism: Parallelism? = nil, parserConfiguration: [String: String]? = nil, queueRequest: Bool? = nil, s3BucketRegion: S3BucketRegion, source: String, updateSingleCardinalityProperties: Bool? = nil, userProvidedEdgeIds: Bool? = nil) {
             self.dependencies = dependencies
             self.failOnError = failOnError
@@ -2242,6 +2338,7 @@ extension Neptunedata {
         /// The HTTP return code indicating the status of the load job.
         public let status: String
 
+        @inlinable
         public init(payload: [String: String], status: String) {
             self.payload = payload
             self.status = status
@@ -2285,6 +2382,7 @@ extension Neptunedata {
         /// The Amazon Key Management Service (Amazon KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
         public let volumeEncryptionKMSKey: String?
 
+        @inlinable
         public init(configFileName: String? = nil, id: String? = nil, inputDataS3Location: String, modelType: String? = nil, neptuneIamRoleArn: String? = nil, previousDataProcessingJobId: String? = nil, processedDataS3Location: String, processingInstanceType: String? = nil, processingInstanceVolumeSizeInGB: Int? = nil, processingTimeOutInSeconds: Int? = nil, s3OutputEncryptionKMSKey: String? = nil, sagemakerIamRoleArn: String? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, volumeEncryptionKMSKey: String? = nil) {
             self.configFileName = configFileName
             self.id = id
@@ -2330,6 +2428,7 @@ extension Neptunedata {
         /// The unique ID of the new data processing job.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTimeInMillis: Int64? = nil, id: String? = nil) {
             self.arn = arn
             self.creationTimeInMillis = creationTimeInMillis
@@ -2381,6 +2480,7 @@ extension Neptunedata {
         /// The Amazon Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
         public let volumeEncryptionKMSKey: String?
 
+        @inlinable
         public init(baseProcessingInstanceType: String? = nil, customModelTrainingParameters: CustomModelTrainingParameters? = nil, dataProcessingJobId: String, enableManagedSpotTraining: Bool? = nil, id: String? = nil, maxHPONumberOfTrainingJobs: Int? = nil, maxHPOParallelTrainingJobs: Int? = nil, neptuneIamRoleArn: String? = nil, previousModelTrainingJobId: String? = nil, s3OutputEncryptionKMSKey: String? = nil, sagemakerIamRoleArn: String? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, trainingInstanceType: String? = nil, trainingInstanceVolumeSizeInGB: Int? = nil, trainingTimeOutInSeconds: Int? = nil, trainModelS3Location: String, volumeEncryptionKMSKey: String? = nil) {
             self.baseProcessingInstanceType = baseProcessingInstanceType
             self.customModelTrainingParameters = customModelTrainingParameters
@@ -2432,6 +2532,7 @@ extension Neptunedata {
         /// The unique ID of the new model training job.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTimeInMillis: Int64? = nil, id: String? = nil) {
             self.arn = arn
             self.creationTimeInMillis = creationTimeInMillis
@@ -2475,6 +2576,7 @@ extension Neptunedata {
         /// The Amazon Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
         public let volumeEncryptionKMSKey: String?
 
+        @inlinable
         public init(baseProcessingInstanceType: String? = nil, baseProcessingInstanceVolumeSizeInGB: Int? = nil, customModelTransformParameters: CustomModelTransformParameters? = nil, dataProcessingJobId: String? = nil, id: String? = nil, mlModelTrainingJobId: String? = nil, modelTransformOutputS3Location: String, neptuneIamRoleArn: String? = nil, s3OutputEncryptionKMSKey: String? = nil, sagemakerIamRoleArn: String? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, trainingJobName: String? = nil, volumeEncryptionKMSKey: String? = nil) {
             self.baseProcessingInstanceType = baseProcessingInstanceType
             self.baseProcessingInstanceVolumeSizeInGB = baseProcessingInstanceVolumeSizeInGB
@@ -2518,6 +2620,7 @@ extension Neptunedata {
         /// The unique ID of the new model transform job.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTimeInMillis: Int64? = nil, id: String? = nil) {
             self.arn = arn
             self.creationTimeInMillis = creationTimeInMillis
@@ -2545,6 +2648,7 @@ extension Neptunedata {
         /// Reports the ID of the current statistics generation run. A value of -1 indicates that no statistics have been generated.
         public let statisticsId: String?
 
+        @inlinable
         public init(active: Bool? = nil, autoCompute: Bool? = nil, date: Date? = nil, note: String? = nil, signatureInfo: StatisticsSummary? = nil, statisticsId: String? = nil) {
             self.active = active
             self.autoCompute = autoCompute
@@ -2572,6 +2676,7 @@ extension Neptunedata {
         /// The total number of signatures across all characteristic sets.
         public let signatureCount: Int?
 
+        @inlinable
         public init(instanceCount: Int? = nil, predicateCount: Int? = nil, signatureCount: Int? = nil) {
             self.instanceCount = instanceCount
             self.predicateCount = predicateCount
@@ -2591,6 +2696,7 @@ extension Neptunedata {
         /// A list of predicates present in this specific structure.
         public let predicates: [String]?
 
+        @inlinable
         public init(count: Int64? = nil, predicates: [String]? = nil) {
             self.count = count
             self.predicates = predicates

@@ -202,6 +202,7 @@ extension Evidently {
         /// An array of structures, where each structure assigns a feature variation to one user session.
         public let requests: [EvaluationRequest]
 
+        @inlinable
         public init(project: String, requests: [EvaluationRequest]) {
             self.project = project
             self.requests = requests
@@ -233,6 +234,7 @@ extension Evidently {
         /// An array of structures, where each structure displays the results of one feature evaluation assignment to one user session.
         public let results: [EvaluationResult]?
 
+        @inlinable
         public init(results: [EvaluationResult]? = nil) {
             self.results = results
         }
@@ -246,6 +248,7 @@ extension Evidently {
         /// The name of the log group where the project stores evaluation events.
         public let logGroup: String?
 
+        @inlinable
         public init(logGroup: String? = nil) {
             self.logGroup = logGroup
         }
@@ -259,6 +262,7 @@ extension Evidently {
         /// The name of the log group where the project stores evaluation events.
         public let logGroup: String?
 
+        @inlinable
         public init(logGroup: String? = nil) {
             self.logGroup = logGroup
         }
@@ -296,6 +300,7 @@ extension Evidently {
         /// An array of structures that describe the configuration of each feature variation used in the experiment.
         public let treatments: [TreatmentConfig]
 
+        @inlinable
         public init(description: String? = nil, metricGoals: [MetricGoalConfig], name: String, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, samplingRate: Int64? = nil, segment: String? = nil, tags: [String: String]? = nil, treatments: [TreatmentConfig]) {
             self.description = description
             self.metricGoals = metricGoals
@@ -373,6 +378,7 @@ extension Evidently {
         /// A structure containing the configuration details of the experiment that you created.
         public let experiment: Experiment
 
+        @inlinable
         public init(experiment: Experiment) {
             self.experiment = experiment
         }
@@ -400,6 +406,7 @@ extension Evidently {
         /// An array of structures that contain the configuration of the feature's different variations.
         public let variations: [VariationConfig]
 
+        @inlinable
         public init(defaultVariation: String? = nil, description: String? = nil, entityOverrides: [String: String]? = nil, evaluationStrategy: FeatureEvaluationStrategy? = nil, name: String, project: String, tags: [String: String]? = nil, variations: [VariationConfig]) {
             self.defaultVariation = defaultVariation
             self.description = description
@@ -472,6 +479,7 @@ extension Evidently {
         /// A structure that contains information about the new feature.
         public let feature: Feature?
 
+        @inlinable
         public init(feature: Feature? = nil) {
             self.feature = feature
         }
@@ -499,6 +507,7 @@ extension Evidently {
         /// Assigns one or more tags (key-value pairs) to the launch. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a launch. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, groups: [LaunchGroupConfig], metricMonitors: [MetricMonitorConfig]? = nil, name: String, project: String, randomizationSalt: String? = nil, scheduledSplitsConfig: ScheduledSplitsLaunchConfig? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.groups = groups
@@ -566,6 +575,7 @@ extension Evidently {
         /// A structure that contains the configuration of the launch that was created.
         public let launch: Launch
 
+        @inlinable
         public init(launch: Launch) {
             self.launch = launch
         }
@@ -587,6 +597,7 @@ extension Evidently {
         /// Assigns one or more tags (key-value pairs) to the project. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a project. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appConfigResource: ProjectAppConfigResourceConfig? = nil, dataDelivery: ProjectDataDeliveryConfig? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.appConfigResource = appConfigResource
             self.dataDelivery = dataDelivery
@@ -624,6 +635,7 @@ extension Evidently {
         /// A structure that contains information about the created project.
         public let project: Project
 
+        @inlinable
         public init(project: Project) {
             self.project = project
         }
@@ -643,6 +655,7 @@ extension Evidently {
         /// Assigns one or more tags (key-value pairs) to the segment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a segment. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, pattern: String, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -678,6 +691,7 @@ extension Evidently {
         /// A structure that contains the complete information about the segment that was just created.
         public let segment: Segment
 
+        @inlinable
         public init(segment: Segment) {
             self.segment = segment
         }
@@ -693,6 +707,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the experiment to delete.
         public let project: String
 
+        @inlinable
         public init(experiment: String, project: String) {
             self.experiment = experiment
             self.project = project
@@ -726,6 +741,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the feature to delete.
         public let project: String
 
+        @inlinable
         public init(feature: String, project: String) {
             self.feature = feature
             self.project = project
@@ -759,6 +775,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the launch to delete.
         public let project: String
 
+        @inlinable
         public init(launch: String, project: String) {
             self.launch = launch
             self.project = project
@@ -790,6 +807,7 @@ extension Evidently {
         /// The name or ARN of the project to delete.
         public let project: String
 
+        @inlinable
         public init(project: String) {
             self.project = project
         }
@@ -816,6 +834,7 @@ extension Evidently {
         /// Specifies the segment to delete.
         public let segment: String
 
+        @inlinable
         public init(segment: String) {
             self.segment = segment
         }
@@ -848,6 +867,7 @@ extension Evidently {
         /// The name or ARN of the project that contains this feature.
         public let project: String
 
+        @inlinable
         public init(entityId: String, evaluationContext: String? = nil, feature: String, project: String) {
             self.entityId = entityId
             self.evaluationContext = evaluationContext
@@ -891,6 +911,7 @@ extension Evidently {
         /// The name of the variation that was served to the user session.
         public let variation: String?
 
+        @inlinable
         public init(details: String? = nil, reason: String? = nil, value: VariableValue? = nil, variation: String? = nil) {
             self.details = details
             self.reason = reason
@@ -914,6 +935,7 @@ extension Evidently {
         /// The name of the feature being evaluated.
         public let feature: String
 
+        @inlinable
         public init(entityId: String, evaluationContext: String? = nil, feature: String) {
             self.entityId = entityId
             self.evaluationContext = evaluationContext
@@ -952,6 +974,7 @@ extension Evidently {
         /// The name of the variation that was served to the user session.
         public let variation: String?
 
+        @inlinable
         public init(details: String? = nil, entityId: String, feature: String, project: String? = nil, reason: String? = nil, value: VariableValue? = nil, variation: String? = nil) {
             self.details = details
             self.entityId = entityId
@@ -979,6 +1002,7 @@ extension Evidently {
         /// This value is aws.evidently.splits if this is an evaluation rule for a launch, and it is aws.evidently.onlineab if this is an evaluation rule for an experiment.
         public let type: String
 
+        @inlinable
         public init(name: String? = nil, type: String) {
             self.name = name
             self.type = type
@@ -998,6 +1022,7 @@ extension Evidently {
         ///  aws.evidently.evaluation specifies an evaluation event, which determines which feature variation that a user sees. aws.evidently.custom specifies a custom event, which generates metrics from user actions such as clicks and checkouts.
         public let type: EventType
 
+        @inlinable
         public init(data: String, timestamp: Date, type: EventType) {
             self.data = data
             self.timestamp = timestamp
@@ -1049,6 +1074,7 @@ extension Evidently {
         /// The type of this experiment. Currently, this value must be aws.experiment.onlineab.
         public let type: ExperimentType
 
+        @inlinable
         public init(arn: String, createdTime: Date, description: String? = nil, execution: ExperimentExecution? = nil, lastUpdatedTime: Date, metricGoals: [MetricGoal]? = nil, name: String, onlineAbDefinition: OnlineAbDefinition? = nil, project: String? = nil, randomizationSalt: String? = nil, samplingRate: Int64? = nil, schedule: ExperimentSchedule? = nil, segment: String? = nil, status: ExperimentStatus, statusReason: String? = nil, tags: [String: String]? = nil, treatments: [Treatment]? = nil, type: ExperimentType) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1098,6 +1124,7 @@ extension Evidently {
         /// The date and time that the experiment started.
         public let startedTime: Date?
 
+        @inlinable
         public init(endedTime: Date? = nil, startedTime: Date? = nil) {
             self.endedTime = endedTime
             self.startedTime = startedTime
@@ -1119,6 +1146,7 @@ extension Evidently {
         /// The name of the variation that this report pertains to.
         public let treatmentName: String?
 
+        @inlinable
         public init(content: String? = nil, metricName: String? = nil, reportName: ExperimentReportName? = nil, treatmentName: String? = nil) {
             self.content = content
             self.metricName = metricName
@@ -1144,6 +1172,7 @@ extension Evidently {
         /// The values for the metricName that were recorded in the experiment.
         public let values: [Double]?
 
+        @inlinable
         public init(metricName: String? = nil, resultStat: ExperimentResultResponseType? = nil, treatmentName: String? = nil, values: [Double]? = nil) {
             self.metricName = metricName
             self.resultStat = resultStat
@@ -1163,6 +1192,7 @@ extension Evidently {
         /// The time and date that Evidently completed the analysis of the experiment.
         public let analysisCompleteTime: Date?
 
+        @inlinable
         public init(analysisCompleteTime: Date? = nil) {
             self.analysisCompleteTime = analysisCompleteTime
         }
@@ -1202,6 +1232,7 @@ extension Evidently {
         /// An array of structures that contain the configuration of the feature's different variations.
         public let variations: [Variation]
 
+        @inlinable
         public init(arn: String, createdTime: Date, defaultVariation: String? = nil, description: String? = nil, entityOverrides: [String: String]? = nil, evaluationRules: [EvaluationRule]? = nil, evaluationStrategy: FeatureEvaluationStrategy, lastUpdatedTime: Date, name: String, project: String? = nil, status: FeatureStatus, tags: [String: String]? = nil, valueType: VariationValueType, variations: [Variation]) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1259,6 +1290,7 @@ extension Evidently {
         /// The list of tag keys and values associated with this feature.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, createdTime: Date, defaultVariation: String? = nil, evaluationRules: [EvaluationRule]? = nil, evaluationStrategy: FeatureEvaluationStrategy, lastUpdatedTime: Date, name: String, project: String? = nil, status: FeatureStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1292,6 +1324,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the experiment.
         public let project: String
 
+        @inlinable
         public init(experiment: String, project: String) {
             self.experiment = experiment
             self.project = project
@@ -1319,6 +1352,7 @@ extension Evidently {
         /// A structure containing the configuration details of the experiment.
         public let experiment: Experiment?
 
+        @inlinable
         public init(experiment: Experiment? = nil) {
             self.experiment = experiment
         }
@@ -1350,6 +1384,7 @@ extension Evidently {
         /// The names of the experiment treatments that you want to see the results for.
         public let treatmentNames: [String]
 
+        @inlinable
         public init(baseStat: ExperimentBaseStat? = nil, endTime: Date? = nil, experiment: String, metricNames: [String], period: Int64? = nil, project: String, reportNames: [ExperimentReportName]? = nil, resultStats: [ExperimentResultRequestType]? = nil, startTime: Date? = nil, treatmentNames: [String]) {
             self.baseStat = baseStat
             self.endTime = endTime
@@ -1426,6 +1461,7 @@ extension Evidently {
         /// The timestamps of each result returned.
         public let timestamps: [Date]?
 
+        @inlinable
         public init(details: String? = nil, reports: [ExperimentReport]? = nil, resultsData: [ExperimentResultsData]? = nil, timestamps: [Date]? = nil) {
             self.details = details
             self.reports = reports
@@ -1447,6 +1483,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the feature.
         public let project: String
 
+        @inlinable
         public init(feature: String, project: String) {
             self.feature = feature
             self.project = project
@@ -1474,6 +1511,7 @@ extension Evidently {
         /// A structure containing the configuration details of the feature.
         public let feature: Feature
 
+        @inlinable
         public init(feature: Feature) {
             self.feature = feature
         }
@@ -1489,6 +1527,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the launch.
         public let project: String
 
+        @inlinable
         public init(launch: String, project: String) {
             self.launch = launch
             self.project = project
@@ -1516,6 +1555,7 @@ extension Evidently {
         /// A structure containing the configuration details of the launch.
         public let launch: Launch?
 
+        @inlinable
         public init(launch: Launch? = nil) {
             self.launch = launch
         }
@@ -1529,6 +1569,7 @@ extension Evidently {
         /// The name or ARN of the project that you want to see the details of.
         public let project: String
 
+        @inlinable
         public init(project: String) {
             self.project = project
         }
@@ -1551,6 +1592,7 @@ extension Evidently {
         /// A structure containing the configuration details of the project.
         public let project: Project
 
+        @inlinable
         public init(project: Project) {
             self.project = project
         }
@@ -1564,6 +1606,7 @@ extension Evidently {
         /// The ARN of the segment to return information for.
         public let segment: String
 
+        @inlinable
         public init(segment: String) {
             self.segment = segment
         }
@@ -1586,6 +1629,7 @@ extension Evidently {
         /// A structure that contains the complete information about the segment.
         public let segment: Segment
 
+        @inlinable
         public init(segment: Segment) {
             self.segment = segment
         }
@@ -1627,6 +1671,7 @@ extension Evidently {
         /// The type of launch.
         public let type: LaunchType
 
+        @inlinable
         public init(arn: String, createdTime: Date, description: String? = nil, execution: LaunchExecution? = nil, groups: [LaunchGroup]? = nil, lastUpdatedTime: Date, metricMonitors: [MetricMonitor]? = nil, name: String, project: String? = nil, randomizationSalt: String? = nil, scheduledSplitsDefinition: ScheduledSplitsLaunchDefinition? = nil, status: LaunchStatus, statusReason: String? = nil, tags: [String: String]? = nil, type: LaunchType) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1670,6 +1715,7 @@ extension Evidently {
         /// The date and time that the launch started.
         public let startedTime: Date?
 
+        @inlinable
         public init(endedTime: Date? = nil, startedTime: Date? = nil) {
             self.endedTime = endedTime
             self.startedTime = startedTime
@@ -1689,6 +1735,7 @@ extension Evidently {
         /// The name of the launch group.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, featureVariations: [String: String], name: String) {
             self.description = description
             self.featureVariations = featureVariations
@@ -1712,6 +1759,7 @@ extension Evidently {
         /// The feature variation to use for this launch group.
         public let variation: String
 
+        @inlinable
         public init(description: String? = nil, feature: String, name: String, variation: String) {
             self.description = description
             self.feature = feature
@@ -1751,6 +1799,7 @@ extension Evidently {
         /// Use this optional parameter to limit the returned results to only the experiments with the status that you specify here.
         public let status: ExperimentStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, project: String, status: ExperimentStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1786,6 +1835,7 @@ extension Evidently {
         /// The token to use in a subsequent ListExperiments operation to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(experiments: [Experiment]? = nil, nextToken: String? = nil) {
             self.experiments = experiments
             self.nextToken = nextToken
@@ -1805,6 +1855,7 @@ extension Evidently {
         /// The name or ARN of the project to return the feature list from.
         public let project: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, project: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1838,6 +1889,7 @@ extension Evidently {
         /// The token to use in a subsequent ListFeatures operation to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(features: [FeatureSummary]? = nil, nextToken: String? = nil) {
             self.features = features
             self.nextToken = nextToken
@@ -1859,6 +1911,7 @@ extension Evidently {
         /// Use this optional parameter to limit the returned results to only the launches with the status that you specify here.
         public let status: LaunchStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, project: String, status: LaunchStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1894,6 +1947,7 @@ extension Evidently {
         /// The token to use in a subsequent ListLaunches operation to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(launches: [Launch]? = nil, nextToken: String? = nil) {
             self.launches = launches
             self.nextToken = nextToken
@@ -1911,6 +1965,7 @@ extension Evidently {
         /// The token to use when requesting the next set of results. You received this token from a previous  ListProjects operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1940,6 +1995,7 @@ extension Evidently {
         /// An array of structures that contain the configuration details of the projects in the Region.
         public let projects: [ProjectSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [ProjectSummary]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -1961,6 +2017,7 @@ extension Evidently {
         /// Specifies whether to return information about launches or experiments that use this segment.
         public let type: SegmentReferenceResourceType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, segment: String, type: SegmentReferenceResourceType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1996,6 +2053,7 @@ extension Evidently {
         /// An array of structures, where each structure contains information about one experiment or launch that uses this segment.
         public let referencedBy: [RefResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, referencedBy: [RefResource]? = nil) {
             self.nextToken = nextToken
             self.referencedBy = referencedBy
@@ -2013,6 +2071,7 @@ extension Evidently {
         /// The token to use when requesting the next set of results. You received this token from a previous  ListSegments operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2042,6 +2101,7 @@ extension Evidently {
         /// An array of structures that contain information about the segments in this Region.
         public let segments: [Segment]?
 
+        @inlinable
         public init(nextToken: String? = nil, segments: [Segment]? = nil) {
             self.nextToken = nextToken
             self.segments = segments
@@ -2057,6 +2117,7 @@ extension Evidently {
         /// The ARN of the resource that you want to see the tags of.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2079,6 +2140,7 @@ extension Evidently {
         /// The list of tag keys and values associated with the resource you specified.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2100,6 +2162,7 @@ extension Evidently {
         /// The value that is tracked to produce the metric.
         public let valueKey: String?
 
+        @inlinable
         public init(entityIdKey: String? = nil, eventPattern: String? = nil, name: String? = nil, unitLabel: String? = nil, valueKey: String? = nil) {
             self.entityIdKey = entityIdKey
             self.eventPattern = eventPattern
@@ -2129,6 +2192,7 @@ extension Evidently {
         /// The value that is tracked to produce the metric.
         public let valueKey: String
 
+        @inlinable
         public init(entityIdKey: String, eventPattern: String? = nil, name: String, unitLabel: String? = nil, valueKey: String) {
             self.entityIdKey = entityIdKey
             self.eventPattern = eventPattern
@@ -2167,6 +2231,7 @@ extension Evidently {
         /// A structure that contains details about the metric.
         public let metricDefinition: MetricDefinition
 
+        @inlinable
         public init(desiredChange: ChangeDirectionEnum? = nil, metricDefinition: MetricDefinition) {
             self.desiredChange = desiredChange
             self.metricDefinition = metricDefinition
@@ -2184,6 +2249,7 @@ extension Evidently {
         /// A structure that contains details about the metric.
         public let metricDefinition: MetricDefinitionConfig
 
+        @inlinable
         public init(desiredChange: ChangeDirectionEnum? = nil, metricDefinition: MetricDefinitionConfig) {
             self.desiredChange = desiredChange
             self.metricDefinition = metricDefinition
@@ -2203,6 +2269,7 @@ extension Evidently {
         /// A structure that defines the metric.
         public let metricDefinition: MetricDefinition
 
+        @inlinable
         public init(metricDefinition: MetricDefinition) {
             self.metricDefinition = metricDefinition
         }
@@ -2216,6 +2283,7 @@ extension Evidently {
         /// A structure that defines the metric.
         public let metricDefinition: MetricDefinitionConfig
 
+        @inlinable
         public init(metricDefinition: MetricDefinitionConfig) {
             self.metricDefinition = metricDefinition
         }
@@ -2235,6 +2303,7 @@ extension Evidently {
         /// A set of key-value pairs. The keys are variation names, and the values are the portion of experiment traffic to be assigned to that variation. Specify the traffic portion in thousandths of a percent, so 20,000 for a variation would allocate 20% of the experiment traffic to that variation.
         public let treatmentWeights: [String: Int64]?
 
+        @inlinable
         public init(controlTreatmentName: String? = nil, treatmentWeights: [String: Int64]? = nil) {
             self.controlTreatmentName = controlTreatmentName
             self.treatmentWeights = treatmentWeights
@@ -2265,6 +2334,7 @@ extension Evidently {
         /// A set of key-value pairs.  The keys are variation names, and the values are the portion of experiment traffic to be assigned to that variation. The traffic portion is specified in thousandths of a percent, so 20,000 for a variation would allocate 20% of the experiment traffic to that variation.
         public let treatmentWeights: [String: Int64]?
 
+        @inlinable
         public init(controlTreatmentName: String? = nil, treatmentWeights: [String: Int64]? = nil) {
             self.controlTreatmentName = controlTreatmentName
             self.treatmentWeights = treatmentWeights
@@ -2306,6 +2376,7 @@ extension Evidently {
         /// The list of tag keys and values associated with this project.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activeExperimentCount: Int64? = nil, activeLaunchCount: Int64? = nil, appConfigResource: ProjectAppConfigResource? = nil, arn: String, createdTime: Date, dataDelivery: ProjectDataDelivery? = nil, description: String? = nil, experimentCount: Int64? = nil, featureCount: Int64? = nil, lastUpdatedTime: Date, launchCount: Int64? = nil, name: String, status: ProjectStatus, tags: [String: String]? = nil) {
             self.activeExperimentCount = activeExperimentCount
             self.activeLaunchCount = activeLaunchCount
@@ -2349,6 +2420,7 @@ extension Evidently {
         /// The ID of the AppConfig environment to use for client-side evaluation. This must be an  environment that is within the application that you specify for applicationId.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, environmentId: String) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -2368,6 +2440,7 @@ extension Evidently {
         /// The ID of the AppConfig environment to use for client-side evaluation. This must be an  environment that is within the application that you specify for applicationId.
         public let environmentId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, environmentId: String? = nil) {
             self.applicationId = applicationId
             self.environmentId = environmentId
@@ -2390,6 +2463,7 @@ extension Evidently {
         /// If the project stores evaluation events in an Amazon S3 bucket, this structure stores the bucket name and bucket prefix.
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsDestination? = nil, s3Destination: S3Destination? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Destination = s3Destination
@@ -2407,6 +2481,7 @@ extension Evidently {
         /// If the project stores evaluation events in an Amazon S3 bucket, this structure stores the bucket name and bucket prefix.
         public let s3Destination: S3DestinationConfig?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsDestinationConfig? = nil, s3Destination: S3DestinationConfig? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Destination = s3Destination
@@ -2449,6 +2524,7 @@ extension Evidently {
         /// The list of tag keys and values associated with this project.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activeExperimentCount: Int64? = nil, activeLaunchCount: Int64? = nil, arn: String, createdTime: Date, description: String? = nil, experimentCount: Int64? = nil, featureCount: Int64? = nil, lastUpdatedTime: Date, launchCount: Int64? = nil, name: String, status: ProjectStatus, tags: [String: String]? = nil) {
             self.activeExperimentCount = activeExperimentCount
             self.activeLaunchCount = activeLaunchCount
@@ -2486,6 +2562,7 @@ extension Evidently {
         /// The name or ARN of the project to write the events to.
         public let project: String
 
+        @inlinable
         public init(events: [Event], project: String) {
             self.events = events
             self.project = project
@@ -2515,6 +2592,7 @@ extension Evidently {
         /// The number of events in the operation that could not be used by Evidently.
         public let failedEventCount: Int?
 
+        @inlinable
         public init(eventResults: [PutProjectEventsResultEntry]? = nil, failedEventCount: Int? = nil) {
             self.eventResults = eventResults
             self.failedEventCount = failedEventCount
@@ -2534,6 +2612,7 @@ extension Evidently {
         /// A unique ID assigned to this PutProjectEvents operation.
         public let eventId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, eventId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2563,6 +2642,7 @@ extension Evidently {
         /// Specifies whether the resource that this structure contains information about is an experiment or a launch.
         public let type: String
 
+        @inlinable
         public init(arn: String? = nil, endTime: String? = nil, lastUpdatedOn: String? = nil, name: String, startTime: String? = nil, status: String? = nil, type: String) {
             self.arn = arn
             self.endTime = endTime
@@ -2590,6 +2670,7 @@ extension Evidently {
         /// The bucket prefix in which Evidently stores evaluation events.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -2607,6 +2688,7 @@ extension Evidently {
         /// The bucket prefix in which Evidently stores evaluation events.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -2635,6 +2717,7 @@ extension Evidently {
         /// The date and time that this step of the launch starts.
         public let startTime: Date
 
+        @inlinable
         public init(groupWeights: [String: Int64]? = nil, segmentOverrides: [SegmentOverride]? = nil, startTime: Date) {
             self.groupWeights = groupWeights
             self.segmentOverrides = segmentOverrides
@@ -2656,6 +2739,7 @@ extension Evidently {
         /// The date and time that this step of the launch starts.
         public let startTime: Date
 
+        @inlinable
         public init(groupWeights: [String: Int64], segmentOverrides: [SegmentOverride]? = nil, startTime: Date) {
             self.groupWeights = groupWeights
             self.segmentOverrides = segmentOverrides
@@ -2688,6 +2772,7 @@ extension Evidently {
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch. This also defines the start time of each step.
         public let steps: [ScheduledSplitConfig]
 
+        @inlinable
         public init(steps: [ScheduledSplitConfig]) {
             self.steps = steps
         }
@@ -2709,6 +2794,7 @@ extension Evidently {
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch. This also defines the start time of each step.
         public let steps: [ScheduledSplit]?
 
+        @inlinable
         public init(steps: [ScheduledSplit]? = nil) {
             self.steps = steps
         }
@@ -2738,6 +2824,7 @@ extension Evidently {
         /// The list of tag keys and values associated with this launch.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, createdTime: Date, description: String? = nil, experimentCount: Int64? = nil, lastUpdatedTime: Date, launchCount: Int64? = nil, name: String, pattern: String, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -2771,6 +2858,7 @@ extension Evidently {
         /// The traffic allocation percentages among the feature variations to assign to this  segment. This is a set of key-value pairs.   The keys are variation names. The values represent the amount of traffic to allocate to that variation for this segment. This is expressed in thousandths of a percent, so a weight of 50000 represents 50% of traffic.
         public let weights: [String: Int64]
 
+        @inlinable
         public init(evaluationOrder: Int64, segment: String, weights: [String: Int64]) {
             self.evaluationOrder = evaluationOrder
             self.segment = segment
@@ -2805,6 +2893,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the experiment to start.
         public let project: String
 
+        @inlinable
         public init(analysisCompleteTime: Date, experiment: String, project: String) {
             self.analysisCompleteTime = analysisCompleteTime
             self.experiment = experiment
@@ -2836,6 +2925,7 @@ extension Evidently {
         /// A timestamp that indicates when the experiment started.
         public let startedTime: Date?
 
+        @inlinable
         public init(startedTime: Date? = nil) {
             self.startedTime = startedTime
         }
@@ -2851,6 +2941,7 @@ extension Evidently {
         /// The name or ARN of the project that contains the launch to start.
         public let project: String
 
+        @inlinable
         public init(launch: String, project: String) {
             self.launch = launch
             self.project = project
@@ -2878,6 +2969,7 @@ extension Evidently {
         /// A structure that contains information about the launch that was started.
         public let launch: Launch
 
+        @inlinable
         public init(launch: Launch) {
             self.launch = launch
         }
@@ -2897,6 +2989,7 @@ extension Evidently {
         /// A string that describes why you are stopping the experiment.
         public let reason: String?
 
+        @inlinable
         public init(desiredState: ExperimentStopDesiredState? = nil, experiment: String, project: String, reason: String? = nil) {
             self.desiredState = desiredState
             self.experiment = experiment
@@ -2933,6 +3026,7 @@ extension Evidently {
         /// The date and time that the experiment stopped.
         public let endedTime: Date?
 
+        @inlinable
         public init(endedTime: Date? = nil) {
             self.endedTime = endedTime
         }
@@ -2952,6 +3046,7 @@ extension Evidently {
         /// A string that describes why you are stopping the launch.
         public let reason: String?
 
+        @inlinable
         public init(desiredState: LaunchStopDesiredState? = nil, launch: String, project: String, reason: String? = nil) {
             self.desiredState = desiredState
             self.launch = launch
@@ -2988,6 +3083,7 @@ extension Evidently {
         /// The date and time that the launch stopped.
         public let endedTime: Date?
 
+        @inlinable
         public init(endedTime: Date? = nil) {
             self.endedTime = endedTime
         }
@@ -3003,6 +3099,7 @@ extension Evidently {
         /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3041,6 +3138,7 @@ extension Evidently {
         /// A sample evaluationContext JSON block to test against the specified pattern.
         public let payload: String
 
+        @inlinable
         public init(pattern: String, payload: String) {
             self.pattern = pattern
             self.payload = payload
@@ -3061,6 +3159,7 @@ extension Evidently {
         /// Returns true if the pattern matches the payload.
         public let match: Bool
 
+        @inlinable
         public init(match: Bool) {
             self.match = match
         }
@@ -3078,6 +3177,7 @@ extension Evidently {
         /// The name of this treatment.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, featureVariations: [String: String]? = nil, name: String) {
             self.description = description
             self.featureVariations = featureVariations
@@ -3101,6 +3201,7 @@ extension Evidently {
         /// The name of the variation to use as this treatment in the experiment.
         public let variation: String
 
+        @inlinable
         public init(description: String? = nil, feature: String, name: String, variation: String) {
             self.description = description
             self.feature = feature
@@ -3136,6 +3237,7 @@ extension Evidently {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3188,6 +3290,7 @@ extension Evidently {
         /// An array of structures that define the variations being tested in the experiment.
         public let treatments: [TreatmentConfig]?
 
+        @inlinable
         public init(description: String? = nil, experiment: String, metricGoals: [MetricGoalConfig]? = nil, onlineAbConfig: OnlineAbConfig? = nil, project: String, randomizationSalt: String? = nil, removeSegment: Bool? = nil, samplingRate: Int64? = nil, segment: String? = nil, treatments: [TreatmentConfig]? = nil) {
             self.description = description
             self.experiment = experiment
@@ -3258,6 +3361,7 @@ extension Evidently {
         /// A structure containing the configuration details of the experiment that was updated.
         public let experiment: Experiment
 
+        @inlinable
         public init(experiment: Experiment) {
             self.experiment = experiment
         }
@@ -3285,6 +3389,7 @@ extension Evidently {
         /// Removes a variation from the feature. If the variation you specify doesn't exist, then this  makes no change and does not report an error. This operation fails if you try to remove a variation that is part of an  ongoing launch or experiment.
         public let removeVariations: [String]?
 
+        @inlinable
         public init(addOrUpdateVariations: [VariationConfig]? = nil, defaultVariation: String? = nil, description: String? = nil, entityOverrides: [String: String]? = nil, evaluationStrategy: FeatureEvaluationStrategy? = nil, feature: String, project: String, removeVariations: [String]? = nil) {
             self.addOrUpdateVariations = addOrUpdateVariations
             self.defaultVariation = defaultVariation
@@ -3356,6 +3461,7 @@ extension Evidently {
         /// A structure that contains information about the updated feature.
         public let feature: Feature
 
+        @inlinable
         public init(feature: Feature) {
             self.feature = feature
         }
@@ -3381,6 +3487,7 @@ extension Evidently {
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch.
         public let scheduledSplitsConfig: ScheduledSplitsLaunchConfig?
 
+        @inlinable
         public init(description: String? = nil, groups: [LaunchGroupConfig]? = nil, launch: String, metricMonitors: [MetricMonitorConfig]? = nil, project: String, randomizationSalt: String? = nil, scheduledSplitsConfig: ScheduledSplitsLaunchConfig? = nil) {
             self.description = description
             self.groups = groups
@@ -3438,6 +3545,7 @@ extension Evidently {
         /// A structure that contains the new configuration of the launch that was updated.
         public let launch: Launch
 
+        @inlinable
         public init(launch: Launch) {
             self.launch = launch
         }
@@ -3455,6 +3563,7 @@ extension Evidently {
         /// A structure containing the S3 bucket name and bucket prefix where you want to store evaluation events.
         public let s3Destination: S3DestinationConfig?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsDestinationConfig? = nil, project: String, s3Destination: S3DestinationConfig? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.project = project
@@ -3486,6 +3595,7 @@ extension Evidently {
         /// A structure containing details about the project that you updated.
         public let project: Project
 
+        @inlinable
         public init(project: Project) {
             self.project = project
         }
@@ -3503,6 +3613,7 @@ extension Evidently {
         /// The name or ARN of the project to update.
         public let project: String
 
+        @inlinable
         public init(appConfigResource: ProjectAppConfigResourceConfig? = nil, description: String? = nil, project: String) {
             self.appConfigResource = appConfigResource
             self.description = description
@@ -3535,6 +3646,7 @@ extension Evidently {
         /// A structure containing information about the updated project.
         public let project: Project
 
+        @inlinable
         public init(project: Project) {
             self.project = project
         }
@@ -3550,6 +3662,7 @@ extension Evidently {
         /// The value assigned to this variation.
         public let value: VariableValue?
 
+        @inlinable
         public init(name: String? = nil, value: VariableValue? = nil) {
             self.name = name
             self.value = value
@@ -3567,6 +3680,7 @@ extension Evidently {
         /// The value assigned to this variation.
         public let value: VariableValue
 
+        @inlinable
         public init(name: String, value: VariableValue) {
             self.name = name
             self.value = value

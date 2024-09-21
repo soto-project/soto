@@ -206,6 +206,7 @@ extension LexModelBuildingService {
         /// The name of the bot alias.
         public let name: String?
 
+        @inlinable
         public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
@@ -249,6 +250,7 @@ extension LexModelBuildingService {
         /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
         public let type: ChannelType?
 
+        @inlinable
         public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: Date? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
             self.botAlias = botAlias
             self.botConfiguration = botConfiguration
@@ -288,6 +290,7 @@ extension LexModelBuildingService {
         /// The version of the bot. For a new bot, the version is always $LATEST.
         public let version: String?
 
+        @inlinable
         public init(createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, status: Status? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -313,6 +316,7 @@ extension LexModelBuildingService {
         /// A list of identifiers for the locales that the intent supports.
         public let supportedLocales: [Locale]?
 
+        @inlinable
         public init(signature: String? = nil, supportedLocales: [Locale]? = nil) {
             self.signature = signature
             self.supportedLocales = supportedLocales
@@ -328,6 +332,7 @@ extension LexModelBuildingService {
         /// A list of the slots defined for the intent.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -343,6 +348,7 @@ extension LexModelBuildingService {
         /// A list of target locales for the slot.
         public let supportedLocales: [Locale]?
 
+        @inlinable
         public init(signature: String? = nil, supportedLocales: [Locale]? = nil) {
             self.signature = signature
             self.supportedLocales = supportedLocales
@@ -360,6 +366,7 @@ extension LexModelBuildingService {
         /// The Amazon Resource Name (ARN) of the Lambda function.
         public let uri: String
 
+        @inlinable
         public init(messageVersion: String, uri: String) {
             self.messageVersion = messageVersion
             self.uri = uri
@@ -385,6 +392,7 @@ extension LexModelBuildingService {
         /// The settings for your conversation logs. You can log the conversation text, conversation audio, or both.
         public let logSettings: [LogSettingsRequest]
 
+        @inlinable
         public init(iamRoleArn: String, logSettings: [LogSettingsRequest]) {
             self.iamRoleArn = iamRoleArn
             self.logSettings = logSettings
@@ -411,6 +419,7 @@ extension LexModelBuildingService {
         /// The settings for your conversation logs. You can log text, audio, or both.
         public let logSettings: [LogSettingsResponse]?
 
+        @inlinable
         public init(iamRoleArn: String? = nil, logSettings: [LogSettingsResponse]? = nil) {
             self.iamRoleArn = iamRoleArn
             self.logSettings = logSettings
@@ -428,6 +437,7 @@ extension LexModelBuildingService {
         /// The name of the bot that you want to create a new version of. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
@@ -487,6 +497,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
         public let voiceId: String?
 
+        @inlinable
         public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: Date? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
@@ -534,6 +545,7 @@ extension LexModelBuildingService {
         /// The name of the intent that you want to create a new version of. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
@@ -595,6 +607,7 @@ extension LexModelBuildingService {
         /// The version number assigned to the new version of the intent.
         public let version: String?
 
+        @inlinable
         public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
@@ -644,6 +657,7 @@ extension LexModelBuildingService {
         /// The name of the slot type that you want to create a new version for. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
@@ -689,6 +703,7 @@ extension LexModelBuildingService {
         /// The version assigned to the new slot type version.
         public let version: String?
 
+        @inlinable
         public init(checksum: String? = nil, createdDate: Date? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
@@ -722,6 +737,7 @@ extension LexModelBuildingService {
         /// The name of the alias to delete. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
@@ -754,6 +770,7 @@ extension LexModelBuildingService {
         /// The name of the association. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(botAlias: String, botName: String, name: String) {
             self.botAlias = botAlias
             self.botName = botName
@@ -787,6 +804,7 @@ extension LexModelBuildingService {
         /// The name of the bot. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -812,6 +830,7 @@ extension LexModelBuildingService {
         /// The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
         public let version: String
 
+        @inlinable
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -840,6 +859,7 @@ extension LexModelBuildingService {
         /// The name of the intent. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -865,6 +885,7 @@ extension LexModelBuildingService {
         /// The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
         public let version: String
 
+        @inlinable
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -893,6 +914,7 @@ extension LexModelBuildingService {
         /// The name of the slot type. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -918,6 +940,7 @@ extension LexModelBuildingService {
         /// The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
         public let version: String
 
+        @inlinable
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -948,6 +971,7 @@ extension LexModelBuildingService {
         ///  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
         public let userId: String
 
+        @inlinable
         public init(botName: String, userId: String) {
             self.botName = botName
             self.userId = userId
@@ -977,6 +1001,7 @@ extension LexModelBuildingService {
         /// The value of the slot type.
         public let value: String
 
+        @inlinable
         public init(synonyms: [String]? = nil, value: String) {
             self.synonyms = synonyms
             self.value = value
@@ -1003,6 +1028,7 @@ extension LexModelBuildingService {
         /// If the user answers "no" to the question defined in the prompt field, Amazon Lex responds with this statement to acknowledge that the intent was canceled.
         public let rejectionStatement: Statement
 
+        @inlinable
         public init(prompt: Prompt, rejectionStatement: Statement) {
             self.prompt = prompt
             self.rejectionStatement = rejectionStatement
@@ -1025,6 +1051,7 @@ extension LexModelBuildingService {
         ///  How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application.
         public let type: FulfillmentActivityType
 
+        @inlinable
         public init(codeHook: CodeHook? = nil, type: FulfillmentActivityType) {
             self.codeHook = codeHook
             self.type = type
@@ -1046,6 +1073,7 @@ extension LexModelBuildingService {
         /// The name of the bot alias. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
@@ -1088,6 +1116,7 @@ extension LexModelBuildingService {
         /// The name of the bot alias.
         public let name: String?
 
+        @inlinable
         public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
@@ -1121,6 +1150,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(botName: String, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.botName = botName
             self.maxResults = maxResults
@@ -1157,6 +1187,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(botAliases: [BotAliasMetadata]? = nil, nextToken: String? = nil) {
             self.botAliases = botAliases
             self.nextToken = nextToken
@@ -1176,6 +1207,7 @@ extension LexModelBuildingService {
         /// The name of the association between the bot and the channel. The name is case sensitive.
         public let name: String
 
+        @inlinable
         public init(botAlias: String, botName: String, name: String) {
             self.botAlias = botAlias
             self.botName = botName
@@ -1225,6 +1257,7 @@ extension LexModelBuildingService {
         /// The type of the messaging platform.
         public let type: ChannelType?
 
+        @inlinable
         public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: Date? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
             self.botAlias = botAlias
             self.botConfiguration = botConfiguration
@@ -1262,6 +1295,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(botAlias: String, botName: String, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.botAlias = botAlias
             self.botName = botName
@@ -1303,6 +1337,7 @@ extension LexModelBuildingService {
         /// A pagination token that fetches the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(botChannelAssociations: [BotChannelAssociation]? = nil, nextToken: String? = nil) {
             self.botChannelAssociations = botChannelAssociations
             self.nextToken = nextToken
@@ -1320,6 +1355,7 @@ extension LexModelBuildingService {
         /// The version or alias of the bot.
         public let versionOrAlias: String
 
+        @inlinable
         public init(name: String, versionOrAlias: String) {
             self.name = name
             self.versionOrAlias = versionOrAlias
@@ -1379,6 +1415,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
+        @inlinable
         public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: Date? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
@@ -1430,6 +1467,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -1461,6 +1499,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(bots: [BotMetadata]? = nil, nextToken: String? = nil) {
             self.bots = bots
             self.nextToken = nextToken
@@ -1480,6 +1519,7 @@ extension LexModelBuildingService {
         /// A pagination token that fetches the next page of bots. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of bots, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -1511,6 +1551,7 @@ extension LexModelBuildingService {
         /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of bots.
         public let nextToken: String?
 
+        @inlinable
         public init(bots: [BotMetadata]? = nil, nextToken: String? = nil) {
             self.bots = bots
             self.nextToken = nextToken
@@ -1526,6 +1567,7 @@ extension LexModelBuildingService {
         /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String
 
+        @inlinable
         public init(signature: String) {
             self.signature = signature
         }
@@ -1547,6 +1589,7 @@ extension LexModelBuildingService {
         /// A list of locales that the intent supports.
         public let supportedLocales: [Locale]?
 
+        @inlinable
         public init(signature: String? = nil, slots: [BuiltinIntentSlot]? = nil, supportedLocales: [Locale]? = nil) {
             self.signature = signature
             self.slots = slots
@@ -1570,6 +1613,7 @@ extension LexModelBuildingService {
         /// Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signatureContains: String?
 
+        @inlinable
         public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
             self.locale = locale
             self.maxResults = maxResults
@@ -1600,6 +1644,7 @@ extension LexModelBuildingService {
         /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(intents: [BuiltinIntentMetadata]? = nil, nextToken: String? = nil) {
             self.intents = intents
             self.nextToken = nextToken
@@ -1621,6 +1666,7 @@ extension LexModelBuildingService {
         /// Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let signatureContains: String?
 
+        @inlinable
         public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
             self.locale = locale
             self.maxResults = maxResults
@@ -1651,6 +1697,7 @@ extension LexModelBuildingService {
         /// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type returned.
         public let slotTypes: [BuiltinSlotTypeMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, slotTypes: [BuiltinSlotTypeMetadata]? = nil) {
             self.nextToken = nextToken
             self.slotTypes = slotTypes
@@ -1672,6 +1719,7 @@ extension LexModelBuildingService {
         /// The version of the bot to export.
         public let version: String
 
+        @inlinable
         public init(exportType: ExportType, name: String, resourceType: ResourceType, version: String) {
             self.exportType = exportType
             self.name = name
@@ -1716,6 +1764,7 @@ extension LexModelBuildingService {
         /// The version of the bot being exported.
         public let version: String?
 
+        @inlinable
         public init(exportStatus: ExportStatus? = nil, exportType: ExportType? = nil, failureReason: String? = nil, name: String? = nil, resourceType: ResourceType? = nil, url: String? = nil, version: String? = nil) {
             self.exportStatus = exportStatus
             self.exportType = exportType
@@ -1741,6 +1790,7 @@ extension LexModelBuildingService {
         /// The identifier of the import job information to return.
         public let importId: String
 
+        @inlinable
         public init(importId: String) {
             self.importId = importId
         }
@@ -1770,6 +1820,7 @@ extension LexModelBuildingService {
         /// The type of resource imported.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(createdDate: Date? = nil, failureReason: [String]? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil) {
             self.createdDate = createdDate
             self.failureReason = failureReason
@@ -1797,6 +1848,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let version: String
 
+        @inlinable
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -1859,6 +1911,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let version: String?
 
+        @inlinable
         public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
@@ -1910,6 +1963,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -1941,6 +1995,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(intents: [IntentMetadata]? = nil, nextToken: String? = nil) {
             self.intents = intents
             self.nextToken = nextToken
@@ -1960,6 +2015,7 @@ extension LexModelBuildingService {
         /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -1991,6 +2047,7 @@ extension LexModelBuildingService {
         /// If the response is truncated, the response includes a pagination token that you can specify in your next request to fetch the next page of intents.
         public let nextToken: String?
 
+        @inlinable
         public init(intents: [IntentMetadata]? = nil, nextToken: String? = nil) {
             self.intents = intents
             self.nextToken = nextToken
@@ -2006,6 +2063,7 @@ extension LexModelBuildingService {
         /// The unique identifier of the migration to view. The migrationID is returned by the  operation.
         public let migrationId: String
 
+        @inlinable
         public init(migrationId: String) {
             self.migrationId = migrationId
         }
@@ -2047,6 +2105,7 @@ extension LexModelBuildingService {
         /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
         public let v2BotRole: String?
 
+        @inlinable
         public init(alerts: [MigrationAlert]? = nil, migrationId: String? = nil, migrationStatus: MigrationStatus? = nil, migrationStrategy: MigrationStrategy? = nil, migrationTimestamp: Date? = nil, v1BotLocale: Locale? = nil, v1BotName: String? = nil, v1BotVersion: String? = nil, v2BotId: String? = nil, v2BotRole: String? = nil) {
             self.alerts = alerts
             self.migrationId = migrationId
@@ -2088,6 +2147,7 @@ extension LexModelBuildingService {
         /// Filters the list to contain only bots whose name contains the specified string. The string is matched anywhere in bot name.
         public let v1BotNameContains: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, migrationStatusEquals: MigrationStatus? = nil, nextToken: String? = nil, sortByAttribute: MigrationSortAttribute? = nil, sortByOrder: SortOrder? = nil, v1BotNameContains: String? = nil) {
             self.maxResults = maxResults
             self.migrationStatusEquals = migrationStatusEquals
@@ -2125,6 +2185,7 @@ extension LexModelBuildingService {
         /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of migrations.
         public let nextToken: String?
 
+        @inlinable
         public init(migrationSummaries: [MigrationSummary]? = nil, nextToken: String? = nil) {
             self.migrationSummaries = migrationSummaries
             self.nextToken = nextToken
@@ -2142,6 +2203,7 @@ extension LexModelBuildingService {
         /// The version of the slot type.
         public let version: String
 
+        @inlinable
         public init(name: String, version: String) {
             self.name = name
             self.version = version
@@ -2188,6 +2250,7 @@ extension LexModelBuildingService {
         /// The version of the slot type.
         public let version: String?
 
+        @inlinable
         public init(checksum: String? = nil, createdDate: Date? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
@@ -2223,6 +2286,7 @@ extension LexModelBuildingService {
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2254,6 +2318,7 @@ extension LexModelBuildingService {
         /// An array of SlotTypeMetadata objects, one for each numbered version of the slot type plus one for the $LATEST version.
         public let slotTypes: [SlotTypeMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, slotTypes: [SlotTypeMetadata]? = nil) {
             self.nextToken = nextToken
             self.slotTypes = slotTypes
@@ -2273,6 +2338,7 @@ extension LexModelBuildingService {
         /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -2304,6 +2370,7 @@ extension LexModelBuildingService {
         /// An array of objects, one for each slot type, that provides information such as the name of the slot type, the version, and a description.
         public let slotTypes: [SlotTypeMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, slotTypes: [SlotTypeMetadata]? = nil) {
             self.nextToken = nextToken
             self.slotTypes = slotTypes
@@ -2323,6 +2390,7 @@ extension LexModelBuildingService {
         /// To return utterances that were recognized and handled, use Detected. To return utterances that were not recognized, use Missed.
         public let statusType: StatusType
 
+        @inlinable
         public init(botName: String, botVersions: [String], statusType: StatusType) {
             self.botName = botName
             self.botVersions = botVersions
@@ -2359,6 +2427,7 @@ extension LexModelBuildingService {
         /// An array of UtteranceList objects, each containing a list of UtteranceData objects describing the utterances that were processed by your bot. The response contains a maximum of 100 UtteranceData objects for each version. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days.
         public let utterances: [UtteranceList]?
 
+        @inlinable
         public init(botName: String? = nil, utterances: [UtteranceList]? = nil) {
             self.botName = botName
             self.utterances = utterances
@@ -2374,6 +2443,7 @@ extension LexModelBuildingService {
         /// The name of the context.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2395,6 +2465,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let intentVersion: String
 
+        @inlinable
         public init(intentName: String, intentVersion: String) {
             self.intentName = intentName
             self.intentVersion = intentVersion
@@ -2427,6 +2498,7 @@ extension LexModelBuildingService {
         /// The version of the intent.
         public let version: String?
 
+        @inlinable
         public init(createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -2452,6 +2524,7 @@ extension LexModelBuildingService {
         /// The Amazon Resource Name (ARN) of an IAM role that has permission to search the Amazon Kendra index. The role must be in the same account and Region as the Amazon Lex bot. If the role does not exist, you get an exception when you call the PutIntent operation.
         public let role: String
 
+        @inlinable
         public init(kendraIndex: String, queryFilterString: String? = nil, role: String) {
             self.kendraIndex = kendraIndex
             self.queryFilterString = queryFilterString
@@ -2478,6 +2551,7 @@ extension LexModelBuildingService {
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2500,6 +2574,7 @@ extension LexModelBuildingService {
         /// The tags associated with a resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2519,6 +2594,7 @@ extension LexModelBuildingService {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket where the logs should be delivered.
         public let resourceArn: String
 
+        @inlinable
         public init(destination: Destination, kmsKeyArn: String? = nil, logType: LogType, resourceArn: String) {
             self.destination = destination
             self.kmsKeyArn = kmsKeyArn
@@ -2555,6 +2631,7 @@ extension LexModelBuildingService {
         /// The resource prefix is the first part of the S3 object key within the S3 bucket that you specified to contain audio logs. For CloudWatch Logs it is the prefix of the log stream name within the log group that you specified.
         public let resourcePrefix: String?
 
+        @inlinable
         public init(destination: Destination? = nil, kmsKeyArn: String? = nil, logType: LogType? = nil, resourceArn: String? = nil, resourcePrefix: String? = nil) {
             self.destination = destination
             self.kmsKeyArn = kmsKeyArn
@@ -2580,6 +2657,7 @@ extension LexModelBuildingService {
         /// Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
         public let groupNumber: Int?
 
+        @inlinable
         public init(content: String, contentType: ContentType, groupNumber: Int? = nil) {
             self.content = content
             self.contentType = contentType
@@ -2610,6 +2688,7 @@ extension LexModelBuildingService {
         /// The type of alert. There are two kinds of alerts:    ERROR - There was an issue with the migration that can't be resolved. The migration stops.    WARN - There was an issue with the migration that requires manual changes to the new Amazon Lex V2 bot. The migration continues.
         public let type: MigrationAlertType?
 
+        @inlinable
         public init(details: [String]? = nil, message: String? = nil, referenceURLs: [String]? = nil, type: MigrationAlertType? = nil) {
             self.details = details
             self.message = message
@@ -2645,6 +2724,7 @@ extension LexModelBuildingService {
         /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
         public let v2BotRole: String?
 
+        @inlinable
         public init(migrationId: String? = nil, migrationStatus: MigrationStatus? = nil, migrationStrategy: MigrationStrategy? = nil, migrationTimestamp: Date? = nil, v1BotLocale: Locale? = nil, v1BotName: String? = nil, v1BotVersion: String? = nil, v2BotId: String? = nil, v2BotRole: String? = nil) {
             self.migrationId = migrationId
             self.migrationStatus = migrationStatus
@@ -2678,6 +2758,7 @@ extension LexModelBuildingService {
         /// The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Amazon Lex.
         public let turnsToLive: Int
 
+        @inlinable
         public init(name: String, timeToLiveInSeconds: Int, turnsToLive: Int) {
             self.name = name
             self.timeToLiveInSeconds = timeToLiveInSeconds
@@ -2709,6 +2790,7 @@ extension LexModelBuildingService {
         /// A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card.
         public let responseCard: String?
 
+        @inlinable
         public init(maxAttempts: Int, messages: [Message], responseCard: String? = nil) {
             self.maxAttempts = maxAttempts
             self.messages = messages
@@ -2750,6 +2832,7 @@ extension LexModelBuildingService {
         /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(botName: String, botVersion: String, checksum: String? = nil, conversationLogs: ConversationLogsRequest? = nil, description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.botName = botName
             self.botVersion = botVersion
@@ -2819,6 +2902,7 @@ extension LexModelBuildingService {
         /// A list of tags associated with a bot.
         public let tags: [Tag]?
 
+        @inlinable
         public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.botName = botName
             self.botVersion = botVersion
@@ -2878,6 +2962,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide.
         public let voiceId: String?
 
+        @inlinable
         public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, nluIntentConfidenceThreshold: Double? = nil, processBehavior: ProcessBehavior? = nil, tags: [Tag]? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
@@ -2999,6 +3084,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
+        @inlinable
         public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, enableModelImprovements: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: Date? = nil, locale: Locale? = nil, name: String? = nil, nluIntentConfidenceThreshold: Double? = nil, status: Status? = nil, tags: [Tag]? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
@@ -3080,6 +3166,7 @@ extension LexModelBuildingService {
         /// An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works.
         public let slots: [Slot]?
 
+        @inlinable
         public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, name: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
@@ -3210,6 +3297,7 @@ extension LexModelBuildingService {
         /// The version of the intent. For a new intent, the version is always $LATEST.
         public let version: String?
 
+        @inlinable
         public init(checksum: String? = nil, conclusionStatement: Statement? = nil, confirmationPrompt: Prompt? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, followUpPrompt: FollowUpPrompt? = nil, fulfillmentActivity: FulfillmentActivity? = nil, inputContexts: [InputContext]? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, rejectionStatement: Statement? = nil, sampleUtterances: [String]? = nil, slots: [Slot]? = nil, version: String? = nil) {
             self.checksum = checksum
             self.conclusionStatement = conclusionStatement
@@ -3273,6 +3361,7 @@ extension LexModelBuildingService {
         /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
         public let valueSelectionStrategy: SlotValueSelectionStrategy?
 
+        @inlinable
         public init(checksum: String? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, name: String, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil) {
             self.checksum = checksum
             self.createVersion = createVersion
@@ -3350,6 +3439,7 @@ extension LexModelBuildingService {
         /// The version of the slot type. For a new slot type, the version is always $LATEST.
         public let version: String?
 
+        @inlinable
         public init(checksum: String? = nil, createdDate: Date? = nil, createVersion: Bool? = nil, description: String? = nil, enumerationValues: [EnumerationValue]? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeConfigurations: [SlotTypeConfiguration]? = nil, valueSelectionStrategy: SlotValueSelectionStrategy? = nil, version: String? = nil) {
             self.checksum = checksum
             self.createdDate = createdDate
@@ -3403,6 +3493,7 @@ extension LexModelBuildingService {
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let valueElicitationPrompt: Prompt?
 
+        @inlinable
         public init(defaultValueSpec: SlotDefaultValueSpec? = nil, description: String? = nil, name: String, obfuscationSetting: ObfuscationSetting? = nil, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
             self.defaultValueSpec = defaultValueSpec
             self.description = description
@@ -3460,6 +3551,7 @@ extension LexModelBuildingService {
         /// The default value for the slot. You can specify one of the following:    #context-name.slot-name - The slot value "slot-name" in the context "context-name."    {attribute} - The slot value of the session attribute "attribute."    'value' - The discrete value "value."
         public let defaultValue: String
 
+        @inlinable
         public init(defaultValue: String) {
             self.defaultValue = defaultValue
         }
@@ -3478,6 +3570,7 @@ extension LexModelBuildingService {
         /// The default values for a slot. You can specify more than one default. For example, you can specify a default value to use from a matching context variable, a session attribute, or a fixed value. The default value chosen is selected based on the order that you specify them in the list. For example, if you specify a context variable and a fixed value in that order, Amazon Lex uses the context variable if it is available, else it uses the fixed value.
         public let defaultValueList: [SlotDefaultValue]
 
+        @inlinable
         public init(defaultValueList: [SlotDefaultValue]) {
             self.defaultValueList = defaultValueList
         }
@@ -3498,6 +3591,7 @@ extension LexModelBuildingService {
         /// A regular expression used to validate the value of a slot.
         public let regexConfiguration: SlotTypeRegexConfiguration?
 
+        @inlinable
         public init(regexConfiguration: SlotTypeRegexConfiguration? = nil) {
             self.regexConfiguration = regexConfiguration
         }
@@ -3523,6 +3617,7 @@ extension LexModelBuildingService {
         /// The version of the slot type.
         public let version: String?
 
+        @inlinable
         public init(createdDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, name: String? = nil, version: String? = nil) {
             self.createdDate = createdDate
             self.description = description
@@ -3544,6 +3639,7 @@ extension LexModelBuildingService {
         /// A regular expression used to validate the value of a slot.  Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:   A-Z, a-z   0-9   Unicode characters ("\ u")   Represent Unicode characters with four digits, for example "\u0041" or "\u005A". The following regular expression operators are not supported:   Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)
         public let pattern: String
 
+        @inlinable
         public init(pattern: String) {
             self.pattern = pattern
         }
@@ -3568,6 +3664,7 @@ extension LexModelBuildingService {
         /// A list of tags to add to the imported bot. You can only add tags when you import a bot, you can't add tags to an intent or slot type.
         public let tags: [Tag]?
 
+        @inlinable
         public init(mergeStrategy: MergeStrategy, payload: AWSBase64Data, resourceType: ResourceType, tags: [Tag]? = nil) {
             self.mergeStrategy = mergeStrategy
             self.payload = payload
@@ -3606,6 +3703,7 @@ extension LexModelBuildingService {
         /// A list of tags added to the imported bot.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdDate: Date? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, name: String? = nil, resourceType: ResourceType? = nil, tags: [Tag]? = nil) {
             self.createdDate = createdDate
             self.importId = importId
@@ -3639,6 +3737,7 @@ extension LexModelBuildingService {
         /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
         public let v2BotRole: String
 
+        @inlinable
         public init(migrationStrategy: MigrationStrategy, v1BotName: String, v1BotVersion: String, v2BotName: String, v2BotRole: String) {
             self.migrationStrategy = migrationStrategy
             self.v1BotName = v1BotName
@@ -3689,6 +3788,7 @@ extension LexModelBuildingService {
         /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
         public let v2BotRole: String?
 
+        @inlinable
         public init(migrationId: String? = nil, migrationStrategy: MigrationStrategy? = nil, migrationTimestamp: Date? = nil, v1BotLocale: Locale? = nil, v1BotName: String? = nil, v1BotVersion: String? = nil, v2BotId: String? = nil, v2BotRole: String? = nil) {
             self.migrationId = migrationId
             self.migrationStrategy = migrationStrategy
@@ -3718,6 +3818,7 @@ extension LexModelBuildingService {
         ///  At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
         public let responseCard: String?
 
+        @inlinable
         public init(messages: [Message], responseCard: String? = nil) {
             self.messages = messages
             self.responseCard = responseCard
@@ -3745,6 +3846,7 @@ extension LexModelBuildingService {
         /// The value associated with a key. The value may be an empty string but it can't be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3768,6 +3870,7 @@ extension LexModelBuildingService {
         /// A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3804,6 +3907,7 @@ extension LexModelBuildingService {
         /// A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3845,6 +3949,7 @@ extension LexModelBuildingService {
         /// The text that was entered by the user or the text representation of an audio clip.
         public let utteranceString: String?
 
+        @inlinable
         public init(count: Int? = nil, distinctUsers: Int? = nil, firstUtteredDate: Date? = nil, lastUtteredDate: Date? = nil, utteranceString: String? = nil) {
             self.count = count
             self.distinctUsers = distinctUsers
@@ -3868,6 +3973,7 @@ extension LexModelBuildingService {
         /// One or more UtteranceData objects that contain information about the utterances that have been made to a bot. The maximum number of object is 100.
         public let utterances: [UtteranceData]?
 
+        @inlinable
         public init(botVersion: String? = nil, utterances: [UtteranceData]? = nil) {
             self.botVersion = botVersion
             self.utterances = utterances

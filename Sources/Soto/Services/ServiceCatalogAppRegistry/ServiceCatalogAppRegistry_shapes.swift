@@ -75,6 +75,7 @@ extension ServiceCatalogAppRegistry {
         ///  Includes the definition  of a tagQuery.
         public let tagQueryConfiguration: TagQueryConfiguration?
 
+        @inlinable
         public init(tagQueryConfiguration: TagQueryConfiguration? = nil) {
             self.tagQueryConfiguration = tagQueryConfiguration
         }
@@ -108,6 +109,7 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs you can use to associate with the application.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationTag: [String: String]? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.applicationTag = applicationTag
             self.arn = arn
@@ -147,6 +149,7 @@ extension ServiceCatalogAppRegistry {
         /// The name of the application. The name must be unique in the region in which you are creating the application.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -176,6 +179,7 @@ extension ServiceCatalogAppRegistry {
         ///  The resources associated with an application
         public let resources: [ResourcesListItem]?
 
+        @inlinable
         public init(applicationTagStatus: ApplicationTagStatus? = nil, errorMessage: String? = nil, nextToken: String? = nil, resources: [ResourcesListItem]? = nil) {
             self.applicationTagStatus = applicationTagStatus
             self.errorMessage = errorMessage
@@ -197,6 +201,7 @@ extension ServiceCatalogAppRegistry {
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
+        @inlinable
         public init(application: String, attributeGroup: String) {
             self.application = application
             self.attributeGroup = attributeGroup
@@ -227,6 +232,7 @@ extension ServiceCatalogAppRegistry {
         /// The Amazon resource name (ARN) of the attribute group that contains the application's new attributes.
         public let attributeGroupArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, attributeGroupArn: String? = nil) {
             self.applicationArn = applicationArn
             self.attributeGroupArn = attributeGroupArn
@@ -248,6 +254,7 @@ extension ServiceCatalogAppRegistry {
         /// The type of resource of which the application will be associated.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(application: String, options: [AssociationOption]? = nil, resource: String, resourceType: ResourceType) {
             self.application = application
             self.options = options
@@ -286,6 +293,7 @@ extension ServiceCatalogAppRegistry {
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, options: [AssociationOption]? = nil, resourceArn: String? = nil) {
             self.applicationArn = applicationArn
             self.options = options
@@ -317,6 +325,7 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs you can use to associate with the attribute group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -348,6 +357,7 @@ extension ServiceCatalogAppRegistry {
         ///   This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication.    The name of the attribute group.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -381,6 +391,7 @@ extension ServiceCatalogAppRegistry {
         /// The name of the attribute group.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -412,6 +423,7 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs you can use to associate with the application.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateApplicationRequest.idempotencyToken(), description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -449,6 +461,7 @@ extension ServiceCatalogAppRegistry {
         /// Information about the application.
         public let application: Application?
 
+        @inlinable
         public init(application: Application? = nil) {
             self.application = application
         }
@@ -470,6 +483,7 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs you can use to associate with the attribute group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributes: String, clientToken: String = CreateAttributeGroupRequest.idempotencyToken(), description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.attributes = attributes
             self.clientToken = clientToken
@@ -512,6 +526,7 @@ extension ServiceCatalogAppRegistry {
         /// Information about the attribute group.
         public let attributeGroup: AttributeGroup?
 
+        @inlinable
         public init(attributeGroup: AttributeGroup? = nil) {
             self.attributeGroup = attributeGroup
         }
@@ -525,6 +540,7 @@ extension ServiceCatalogAppRegistry {
         ///  The name, ID, or ARN  of the application.
         public let application: String
 
+        @inlinable
         public init(application: String) {
             self.application = application
         }
@@ -548,6 +564,7 @@ extension ServiceCatalogAppRegistry {
         /// Information about the deleted application.
         public let application: ApplicationSummary?
 
+        @inlinable
         public init(application: ApplicationSummary? = nil) {
             self.application = application
         }
@@ -561,6 +578,7 @@ extension ServiceCatalogAppRegistry {
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
+        @inlinable
         public init(attributeGroup: String) {
             self.attributeGroup = attributeGroup
         }
@@ -584,6 +602,7 @@ extension ServiceCatalogAppRegistry {
         /// Information about the deleted attribute group.
         public let attributeGroup: AttributeGroupSummary?
 
+        @inlinable
         public init(attributeGroup: AttributeGroupSummary? = nil) {
             self.attributeGroup = attributeGroup
         }
@@ -599,6 +618,7 @@ extension ServiceCatalogAppRegistry {
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
+        @inlinable
         public init(application: String, attributeGroup: String) {
             self.application = application
             self.attributeGroup = attributeGroup
@@ -629,6 +649,7 @@ extension ServiceCatalogAppRegistry {
         /// The Amazon resource name (ARN) that specifies the attribute group.
         public let attributeGroupArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, attributeGroupArn: String? = nil) {
             self.applicationArn = applicationArn
             self.attributeGroupArn = attributeGroupArn
@@ -648,6 +669,7 @@ extension ServiceCatalogAppRegistry {
         /// The type of the resource that is being disassociated.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(application: String, resource: String, resourceType: ResourceType) {
             self.application = application
             self.resource = resource
@@ -680,6 +702,7 @@ extension ServiceCatalogAppRegistry {
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, resourceArn: String? = nil) {
             self.applicationArn = applicationArn
             self.resourceArn = resourceArn
@@ -695,6 +718,7 @@ extension ServiceCatalogAppRegistry {
         ///  The name, ID, or ARN  of the application.
         public let application: String
 
+        @inlinable
         public init(application: String) {
             self.application = application
         }
@@ -738,6 +762,7 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs associated with the application.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationTag: [String: String]? = nil, arn: String? = nil, associatedResourceCount: Int? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, integrations: Integrations? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.applicationTag = applicationTag
             self.arn = arn
@@ -779,6 +804,7 @@ extension ServiceCatalogAppRegistry {
         /// The type of resource associated with the application.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(application: String, maxResults: Int? = nil, nextToken: String? = nil, resource: String, resourceTagStatus: [ResourceItemStatus]? = nil, resourceType: ResourceType) {
             self.application = application
             self.maxResults = maxResults
@@ -826,6 +852,7 @@ extension ServiceCatalogAppRegistry {
         /// The resource associated with the application.
         public let resource: Resource?
 
+        @inlinable
         public init(applicationTagResult: ApplicationTagResult? = nil, options: [AssociationOption]? = nil, resource: Resource? = nil) {
             self.applicationTagResult = applicationTagResult
             self.options = options
@@ -843,6 +870,7 @@ extension ServiceCatalogAppRegistry {
         ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
+        @inlinable
         public init(attributeGroup: String) {
             self.attributeGroup = attributeGroup
         }
@@ -884,6 +912,7 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs associated with the attribute group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, attributes: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -913,6 +942,7 @@ extension ServiceCatalogAppRegistry {
         ///  Retrieves TagKey configuration  from an account.
         public let configuration: AppRegistryConfiguration?
 
+        @inlinable
         public init(configuration: AppRegistryConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -927,6 +957,7 @@ extension ServiceCatalogAppRegistry {
         ///  The information about the resource group integration.
         public let resourceGroup: ResourceGroup?
 
+        @inlinable
         public init(applicationTagResourceGroup: ResourceGroup? = nil, resourceGroup: ResourceGroup? = nil) {
             self.applicationTagResourceGroup = applicationTagResourceGroup
             self.resourceGroup = resourceGroup
@@ -944,6 +975,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -973,6 +1005,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -992,6 +1025,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(application: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.application = application
             self.maxResults = maxResults
@@ -1026,6 +1060,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(attributeGroups: [String]? = nil, nextToken: String? = nil) {
             self.attributeGroups = attributeGroups
             self.nextToken = nextToken
@@ -1045,6 +1080,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(application: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.application = application
             self.maxResults = maxResults
@@ -1079,6 +1115,7 @@ extension ServiceCatalogAppRegistry {
         /// Information about the resources.
         public let resources: [ResourceInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [ResourceInfo]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -1098,6 +1135,7 @@ extension ServiceCatalogAppRegistry {
         /// This token retrieves the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(application: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.application = application
             self.maxResults = maxResults
@@ -1132,6 +1170,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(attributeGroupsDetails: [AttributeGroupDetails]? = nil, nextToken: String? = nil) {
             self.attributeGroupsDetails = attributeGroupsDetails
             self.nextToken = nextToken
@@ -1149,6 +1188,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1178,6 +1218,7 @@ extension ServiceCatalogAppRegistry {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(attributeGroups: [AttributeGroupSummary]? = nil, nextToken: String? = nil) {
             self.attributeGroups = attributeGroups
             self.nextToken = nextToken
@@ -1193,6 +1234,7 @@ extension ServiceCatalogAppRegistry {
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1216,6 +1258,7 @@ extension ServiceCatalogAppRegistry {
         /// The tags on the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1229,6 +1272,7 @@ extension ServiceCatalogAppRegistry {
         ///  Associates a TagKey configuration  to an account.
         public let configuration: AppRegistryConfiguration
 
+        @inlinable
         public init(configuration: AppRegistryConfiguration) {
             self.configuration = configuration
         }
@@ -1253,6 +1297,7 @@ extension ServiceCatalogAppRegistry {
         /// The name of the resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, associationTime: Date? = nil, integrations: ResourceIntegrations? = nil, name: String? = nil) {
             self.arn = arn
             self.associationTime = associationTime
@@ -1272,6 +1317,7 @@ extension ServiceCatalogAppRegistry {
         /// The value of the tag.
         public let tagValue: String?
 
+        @inlinable
         public init(tagValue: String? = nil) {
             self.tagValue = tagValue
         }
@@ -1289,6 +1335,7 @@ extension ServiceCatalogAppRegistry {
         /// The state of the propagation process for the resource group. The states includes:  CREATING if the resource group is in the process of being created.  CREATE_COMPLETE if the resource group was created successfully.  CREATE_FAILED if the resource group failed to be created.  UPDATING if the resource group is in the process of being updated.  UPDATE_COMPLETE if the resource group updated successfully.  UPDATE_FAILED if the resource group could not update successfully.
         public let state: ResourceGroupState?
 
+        @inlinable
         public init(arn: String? = nil, errorMessage: String? = nil, state: ResourceGroupState? = nil) {
             self.arn = arn
             self.errorMessage = errorMessage
@@ -1314,6 +1361,7 @@ extension ServiceCatalogAppRegistry {
         ///  Provides information  about the Service Catalog App Registry resource type.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, options: [AssociationOption]? = nil, resourceDetails: ResourceDetails? = nil, resourceType: ResourceType? = nil) {
             self.arn = arn
             self.name = name
@@ -1335,6 +1383,7 @@ extension ServiceCatalogAppRegistry {
         /// The information about the integration of Resource Groups.
         public let resourceGroup: ResourceGroup?
 
+        @inlinable
         public init(resourceGroup: ResourceGroup? = nil) {
             self.resourceGroup = resourceGroup
         }
@@ -1354,6 +1403,7 @@ extension ServiceCatalogAppRegistry {
         ///  The status of the list item.
         public let status: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, status: String? = nil) {
             self.errorMessage = errorMessage
             self.resourceArn = resourceArn
@@ -1375,6 +1425,7 @@ extension ServiceCatalogAppRegistry {
         /// The type of resource of which the application will be associated.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(resource: String, resourceType: ResourceType) {
             self.resource = resource
             self.resourceType = resourceType
@@ -1404,6 +1455,7 @@ extension ServiceCatalogAppRegistry {
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(actionTaken: SyncAction? = nil, applicationArn: String? = nil, resourceArn: String? = nil) {
             self.actionTaken = actionTaken
             self.applicationArn = applicationArn
@@ -1421,6 +1473,7 @@ extension ServiceCatalogAppRegistry {
         ///  Condition  in the IAM policy  that associates resources  to an application.
         public let tagKey: String?
 
+        @inlinable
         public init(tagKey: String? = nil) {
             self.tagKey = tagKey
         }
@@ -1441,6 +1494,7 @@ extension ServiceCatalogAppRegistry {
         /// The new or modified tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1482,6 +1536,7 @@ extension ServiceCatalogAppRegistry {
         /// A list of the tag keys to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1521,6 +1576,7 @@ extension ServiceCatalogAppRegistry {
         /// Deprecated: The new name of the application. The name must be unique in the region in which you are updating the application. Please do not use this field as we have stopped supporting name updates.
         public let name: String?
 
+        @inlinable
         public init(application: String, description: String? = nil) {
             self.application = application
             self.description = description
@@ -1528,6 +1584,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         @available(*, deprecated, message: "Members name have been deprecated")
+        @inlinable
         public init(application: String, description: String? = nil, name: String? = nil) {
             self.application = application
             self.description = description
@@ -1562,6 +1619,7 @@ extension ServiceCatalogAppRegistry {
         /// The updated information of the application.
         public let application: Application?
 
+        @inlinable
         public init(application: Application? = nil) {
             self.application = application
         }
@@ -1581,6 +1639,7 @@ extension ServiceCatalogAppRegistry {
         /// Deprecated: The new name of the attribute group. The name must be unique in the region in which you are updating the attribute group. Please do not use this field as we have stopped supporting name updates.
         public let name: String?
 
+        @inlinable
         public init(attributeGroup: String, attributes: String? = nil, description: String? = nil) {
             self.attributeGroup = attributeGroup
             self.attributes = attributes
@@ -1589,6 +1648,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         @available(*, deprecated, message: "Members name have been deprecated")
+        @inlinable
         public init(attributeGroup: String, attributes: String? = nil, description: String? = nil, name: String? = nil) {
             self.attributeGroup = attributeGroup
             self.attributes = attributes
@@ -1629,6 +1689,7 @@ extension ServiceCatalogAppRegistry {
         /// The updated information of the attribute group.
         public let attributeGroup: AttributeGroup?
 
+        @inlinable
         public init(attributeGroup: AttributeGroup? = nil) {
             self.attributeGroup = attributeGroup
         }

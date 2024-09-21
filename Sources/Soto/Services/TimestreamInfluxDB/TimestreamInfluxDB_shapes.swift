@@ -111,6 +111,7 @@ extension TimestreamInfluxDB {
         /// A list of VPC subnet IDs to associate with the DB instance. Provide at least two VPC subnet IDs in different availability zones when deploying with a Multi-AZ standby.
         public let vpcSubnetIds: [String]
 
+        @inlinable
         public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, organization: String? = nil, password: String, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
@@ -224,6 +225,7 @@ extension TimestreamInfluxDB {
         /// A list of VPC subnet IDs associated with the DB instance.
         public let vpcSubnetIds: [String]
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
@@ -275,6 +277,7 @@ extension TimestreamInfluxDB {
         /// A list of key-value pairs to associate with the DB parameter group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, parameters: Parameters? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -315,6 +318,7 @@ extension TimestreamInfluxDB {
         /// A list of the parameters that comprise the DB parameter group.
         public let parameters: Parameters?
 
+        @inlinable
         public init(arn: String, description: String? = nil, id: String, name: String, parameters: Parameters? = nil) {
             self.arn = arn
             self.description = description
@@ -352,6 +356,7 @@ extension TimestreamInfluxDB {
         /// The status of the DB instance.
         public let status: Status?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, name: String, status: Status? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
@@ -387,6 +392,7 @@ extension TimestreamInfluxDB {
         /// This customer-supplied name uniquely identifies the parameter group.
         public let name: String
 
+        @inlinable
         public init(arn: String, description: String? = nil, id: String, name: String) {
             self.arn = arn
             self.description = description
@@ -406,6 +412,7 @@ extension TimestreamInfluxDB {
         /// The id of the DB instance.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -457,6 +464,7 @@ extension TimestreamInfluxDB {
         /// A list of VPC subnet IDs associated with the DB instance.
         public let vpcSubnetIds: [String]
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
@@ -502,6 +510,7 @@ extension TimestreamInfluxDB {
         /// The id of the DB instance.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -553,6 +562,7 @@ extension TimestreamInfluxDB {
         /// A list of VPC subnet IDs associated with the DB instance.
         public let vpcSubnetIds: [String]
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
@@ -598,6 +608,7 @@ extension TimestreamInfluxDB {
         /// The id of the DB parameter group.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -625,6 +636,7 @@ extension TimestreamInfluxDB {
         /// The parameters that comprise the DB parameter group.
         public let parameters: Parameters?
 
+        @inlinable
         public init(arn: String, description: String? = nil, id: String, name: String, parameters: Parameters? = nil) {
             self.arn = arn
             self.description = description
@@ -658,6 +670,7 @@ extension TimestreamInfluxDB {
         /// Enable tracing in InfluxDB and specifies the tracing type. Tracing is disabled by default.
         public let tracingType: TracingType?
 
+        @inlinable
         public init(fluxLogEnabled: Bool? = nil, logLevel: LogLevel? = nil, metricsDisabled: Bool? = nil, noTasks: Bool? = nil, queryConcurrency: Int? = nil, queryQueueSize: Int? = nil, tracingType: TracingType? = nil) {
             self.fluxLogEnabled = fluxLogEnabled
             self.logLevel = logLevel
@@ -685,6 +698,7 @@ extension TimestreamInfluxDB {
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -708,6 +722,7 @@ extension TimestreamInfluxDB {
         /// Token from a previous call of the operation. When this value is provided, the service returns results from where the previous response left off.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DbInstanceSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -725,6 +740,7 @@ extension TimestreamInfluxDB {
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -748,6 +764,7 @@ extension TimestreamInfluxDB {
         /// Token from a previous call of the operation. When this value is provided, the service returns results from where the previous response left off.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DbParameterGroupSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -763,6 +780,7 @@ extension TimestreamInfluxDB {
         /// The Amazon Resource Name (ARN) of the tagged resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -782,6 +800,7 @@ extension TimestreamInfluxDB {
         /// A list of tags used to categorize and track resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -795,6 +814,7 @@ extension TimestreamInfluxDB {
         /// Configuration for S3 bucket log delivery.
         public let s3Configuration: S3Configuration
 
+        @inlinable
         public init(s3Configuration: S3Configuration) {
             self.s3Configuration = s3Configuration
         }
@@ -810,6 +830,7 @@ extension TimestreamInfluxDB {
         /// Indicates whether log delivery to the S3 bucket is enabled.
         public let enabled: Bool
 
+        @inlinable
         public init(bucketName: String, enabled: Bool) {
             self.bucketName = bucketName
             self.enabled = enabled
@@ -827,6 +848,7 @@ extension TimestreamInfluxDB {
         /// A list of tags used to categorize and track resources.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -857,6 +879,7 @@ extension TimestreamInfluxDB {
         /// The keys used to identify the tags.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -898,6 +921,7 @@ extension TimestreamInfluxDB {
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
 
+        @inlinable
         public init(dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil) {
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -960,6 +984,7 @@ extension TimestreamInfluxDB {
         /// A list of VPC subnet IDs associated with the DB instance.
         public let vpcSubnetIds: [String]
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
@@ -1005,6 +1030,7 @@ extension TimestreamInfluxDB {
         /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
         public let influxDBv2: InfluxDBv2Parameters?
 
+        @inlinable
         public init(influxDBv2: InfluxDBv2Parameters? = nil) {
             self.influxDBv2 = influxDBv2
         }

@@ -267,6 +267,7 @@ extension CodePipeline {
         /// The token for the session.
         public let sessionToken: String
 
+        @inlinable
         public init(accessKeyId: String, secretAccessKey: String, sessionToken: String) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
@@ -286,6 +287,7 @@ extension CodePipeline {
         /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
         public let nonce: String
 
+        @inlinable
         public init(jobId: String, nonce: String) {
             self.jobId = jobId
             self.nonce = nonce
@@ -307,6 +309,7 @@ extension CodePipeline {
         /// Whether the job worker has received the specified job.
         public let status: JobStatus?
 
+        @inlinable
         public init(status: JobStatus? = nil) {
             self.status = status
         }
@@ -324,6 +327,7 @@ extension CodePipeline {
         /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
         public let nonce: String
 
+        @inlinable
         public init(clientToken: String, jobId: String, nonce: String) {
             self.clientToken = clientToken
             self.jobId = jobId
@@ -350,6 +354,7 @@ extension CodePipeline {
         /// The status information for the third party job, if any.
         public let status: JobStatus?
 
+        @inlinable
         public init(status: JobStatus? = nil) {
             self.status = status
         }
@@ -363,6 +368,7 @@ extension CodePipeline {
         /// The configuration data for the action.
         public let configuration: [String: String]?
 
+        @inlinable
         public init(configuration: [String: String]? = nil) {
             self.configuration = configuration
         }
@@ -388,6 +394,7 @@ extension CodePipeline {
         /// The type of the configuration property.
         public let type: ActionConfigurationPropertyType?
 
+        @inlinable
         public init(description: String? = nil, key: Bool, name: String, queryable: Bool? = nil, required: Bool, secret: Bool, type: ActionConfigurationPropertyType? = nil) {
             self.description = description
             self.key = key
@@ -422,6 +429,7 @@ extension CodePipeline {
         /// The name of the action in the context of a job.
         public let name: String?
 
+        @inlinable
         public init(actionExecutionId: String? = nil, name: String? = nil) {
             self.actionExecutionId = actionExecutionId
             self.name = name
@@ -455,6 +463,7 @@ extension CodePipeline {
         /// A timeout duration in minutes that can be applied against the ActionType’s default timeout value specified in Quotas for CodePipeline . This attribute is available only to the manual approval ActionType.
         public let timeoutInMinutes: Int?
 
+        @inlinable
         public init(actionTypeId: ActionTypeId, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, namespace: String? = nil, outputArtifacts: [OutputArtifact]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil, timeoutInMinutes: Int? = nil) {
             self.actionTypeId = actionTypeId
             self.configuration = configuration
@@ -534,6 +543,7 @@ extension CodePipeline {
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command. It is used to validate that the approval request corresponding to this token is still valid.
         public let token: String?
 
+        @inlinable
         public init(actionExecutionId: String? = nil, errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
             self.actionExecutionId = actionExecutionId
             self.errorDetails = errorDetails
@@ -585,6 +595,7 @@ extension CodePipeline {
         /// The ARN of the user who changed the pipeline execution details.
         public let updatedBy: String?
 
+        @inlinable
         public init(actionExecutionId: String? = nil, actionName: String? = nil, input: ActionExecutionInput? = nil, lastUpdateTime: Date? = nil, output: ActionExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int? = nil, stageName: String? = nil, startTime: Date? = nil, status: ActionExecutionStatus? = nil, updatedBy: String? = nil) {
             self.actionExecutionId = actionExecutionId
             self.actionName = actionName
@@ -620,6 +631,7 @@ extension CodePipeline {
         /// The pipeline execution ID used to filter action execution history.
         public let pipelineExecutionId: String?
 
+        @inlinable
         public init(latestInPipelineExecution: LatestInPipelineExecutionFilter? = nil, pipelineExecutionId: String? = nil) {
             self.latestInPipelineExecution = latestInPipelineExecution
             self.pipelineExecutionId = pipelineExecutionId
@@ -651,6 +663,7 @@ extension CodePipeline {
         /// The ARN of the IAM service role that performs the declared action. This is assumed through the roleArn for the pipeline.
         public let roleArn: String?
 
+        @inlinable
         public init(actionTypeId: ActionTypeId? = nil, configuration: [String: String]? = nil, inputArtifacts: [ArtifactDetail]? = nil, namespace: String? = nil, region: String? = nil, resolvedConfiguration: [String: String]? = nil, roleArn: String? = nil) {
             self.actionTypeId = actionTypeId
             self.configuration = configuration
@@ -680,6 +693,7 @@ extension CodePipeline {
         /// The outputVariables field shows the key-value pairs that were output as part of that execution.
         public let outputVariables: [String: String]?
 
+        @inlinable
         public init(executionResult: ActionExecutionResult? = nil, outputArtifacts: [ArtifactDetail]? = nil, outputVariables: [String: String]? = nil) {
             self.executionResult = executionResult
             self.outputArtifacts = outputArtifacts
@@ -702,6 +716,7 @@ extension CodePipeline {
         /// The deepest external link to the external resource (for example, a repository URL or deployment endpoint) that is used when running the action.
         public let externalExecutionUrl: String?
 
+        @inlinable
         public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionSummary: String? = nil, externalExecutionUrl: String? = nil) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
@@ -725,6 +740,7 @@ extension CodePipeline {
         /// The system-generated unique ID that identifies the revision number of the action.
         public let revisionId: String
 
+        @inlinable
         public init(created: Date, revisionChangeId: String, revisionId: String) {
             self.created = created
             self.revisionChangeId = revisionChangeId
@@ -757,6 +773,7 @@ extension CodePipeline {
         /// A URL link for more information about the revision, such as a commit details page.
         public let revisionUrl: String?
 
+        @inlinable
         public init(actionName: String? = nil, currentRevision: ActionRevision? = nil, entityUrl: String? = nil, latestExecution: ActionExecution? = nil, revisionUrl: String? = nil) {
             self.actionName = actionName
             self.currentRevision = currentRevision
@@ -786,6 +803,7 @@ extension CodePipeline {
         /// The settings for the action type.
         public let settings: ActionTypeSettings?
 
+        @inlinable
         public init(actionConfigurationProperties: [ActionConfigurationProperty]? = nil, id: ActionTypeId, inputArtifactDetails: ArtifactDetails, outputArtifactDetails: ArtifactDetails, settings: ActionTypeSettings? = nil) {
             self.actionConfigurationProperties = actionConfigurationProperties
             self.id = id
@@ -809,6 +827,7 @@ extension CodePipeline {
         /// The minimum number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         public let minimumCount: Int
 
+        @inlinable
         public init(maximumCount: Int, minimumCount: Int) {
             self.maximumCount = maximumCount
             self.minimumCount = minimumCount
@@ -845,6 +864,7 @@ extension CodePipeline {
         /// The links associated with the action type to be updated.
         public let urls: ActionTypeUrls?
 
+        @inlinable
         public init(description: String? = nil, executor: ActionTypeExecutor, id: ActionTypeIdentifier, inputArtifactDetails: ActionTypeArtifactDetails, outputArtifactDetails: ActionTypeArtifactDetails, permissions: ActionTypePermissions? = nil, properties: [ActionTypeProperty]? = nil, urls: ActionTypeUrls? = nil) {
             self.description = description
             self.executor = executor
@@ -893,6 +913,7 @@ extension CodePipeline {
         /// The integration model used to create and update the action type, Lambda or JobWorker.
         public let type: ExecutorType
 
+        @inlinable
         public init(configuration: ExecutorConfiguration, jobTimeout: Int? = nil, policyStatementsTemplate: String? = nil, type: ExecutorType) {
             self.configuration = configuration
             self.jobTimeout = jobTimeout
@@ -926,6 +947,7 @@ extension CodePipeline {
         /// A string that describes the action version.
         public let version: String
 
+        @inlinable
         public init(category: ActionCategory, owner: ActionOwner, provider: String, version: String) {
             self.category = category
             self.owner = owner
@@ -960,6 +982,7 @@ extension CodePipeline {
         /// A string that describes the action type version.
         public let version: String
 
+        @inlinable
         public init(category: ActionCategory, owner: String, provider: String, version: String) {
             self.category = category
             self.owner = owner
@@ -989,6 +1012,7 @@ extension CodePipeline {
         /// A list of Amazon Web Services account IDs with access to use the action type in their pipelines.
         public let allowedAccounts: [String]
 
+        @inlinable
         public init(allowedAccounts: [String]) {
             self.allowedAccounts = allowedAccounts
         }
@@ -1020,6 +1044,7 @@ extension CodePipeline {
         /// Indicates that the property is used with polling. An action type can have up to one queryable property. If it has one, that property must be both required and not secret.
         public let queryable: Bool?
 
+        @inlinable
         public init(description: String? = nil, key: Bool, name: String, noEcho: Bool, optional: Bool, queryable: Bool? = nil) {
             self.description = description
             self.key = key
@@ -1056,6 +1081,7 @@ extension CodePipeline {
         /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
         public let thirdPartyConfigurationUrl: String?
 
+        @inlinable
         public init(entityUrlTemplate: String? = nil, executionUrlTemplate: String? = nil, revisionUrlTemplate: String? = nil, thirdPartyConfigurationUrl: String? = nil) {
             self.entityUrlTemplate = entityUrlTemplate
             self.executionUrlTemplate = executionUrlTemplate
@@ -1092,6 +1118,7 @@ extension CodePipeline {
         /// The URL returned to the CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
         public let revisionUrlTemplate: String?
 
+        @inlinable
         public init(configurationUrl: String? = nil, entityUrlTemplate: String? = nil, executionUrlTemplate: String? = nil, revisionUrlTemplate: String? = nil) {
             self.configurationUrl = configurationUrl
             self.entityUrlTemplate = entityUrlTemplate
@@ -1124,6 +1151,7 @@ extension CodePipeline {
         /// The summary of the current status of the approval request.
         public let summary: String
 
+        @inlinable
         public init(status: ApprovalStatus, summary: String) {
             self.status = status
             self.summary = summary
@@ -1147,6 +1175,7 @@ extension CodePipeline {
         /// The artifact's revision ID. Depending on the type of object, this could be a commit ID (GitHub) or a revision ID (Amazon S3).
         public let revision: String?
 
+        @inlinable
         public init(location: ArtifactLocation? = nil, name: String? = nil, revision: String? = nil) {
             self.location = location
             self.name = name
@@ -1166,6 +1195,7 @@ extension CodePipeline {
         /// The Amazon S3 artifact location for the action execution.
         public let s3location: S3Location?
 
+        @inlinable
         public init(name: String? = nil, s3location: S3Location? = nil) {
             self.name = name
             self.s3location = s3location
@@ -1183,6 +1213,7 @@ extension CodePipeline {
         /// The minimum number of artifacts allowed for the action type.
         public let minimumCount: Int
 
+        @inlinable
         public init(maximumCount: Int, minimumCount: Int) {
             self.maximumCount = maximumCount
             self.minimumCount = minimumCount
@@ -1207,6 +1238,7 @@ extension CodePipeline {
         /// The type of artifact in the location.
         public let type: ArtifactLocationType?
 
+        @inlinable
         public init(s3Location: S3ArtifactLocation? = nil, type: ArtifactLocationType? = nil) {
             self.s3Location = s3Location
             self.type = type
@@ -1232,6 +1264,7 @@ extension CodePipeline {
         /// The commit ID for the artifact revision. For artifacts stored in GitHub or CodeCommit repositories, the commit ID is linked to a commit details page.
         public let revisionUrl: String?
 
+        @inlinable
         public init(created: Date? = nil, name: String? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionSummary: String? = nil, revisionUrl: String? = nil) {
             self.created = created
             self.name = name
@@ -1259,6 +1292,7 @@ extension CodePipeline {
         /// The type of the artifact store, such as S3.
         public let type: ArtifactStoreType
 
+        @inlinable
         public init(encryptionKey: EncryptionKey? = nil, location: String, type: ArtifactStoreType) {
             self.encryptionKey = encryptionKey
             self.location = location
@@ -1283,6 +1317,7 @@ extension CodePipeline {
         /// The conditions that are configured as entry conditions.
         public let conditions: [Condition]
 
+        @inlinable
         public init(conditions: [Condition]) {
             self.conditions = conditions
         }
@@ -1306,6 +1341,7 @@ extension CodePipeline {
         /// Reserved for future use.
         public let type: BlockerType
 
+        @inlinable
         public init(name: String, type: BlockerType) {
             self.name = name
             self.type = type
@@ -1328,6 +1364,7 @@ extension CodePipeline {
         /// The rules that make up the condition.
         public let rules: [RuleDeclaration]?
 
+        @inlinable
         public init(result: Result? = nil, rules: [RuleDeclaration]? = nil) {
             self.result = result
             self.rules = rules
@@ -1355,6 +1392,7 @@ extension CodePipeline {
         /// The summary of information about a run for a condition.
         public let summary: String?
 
+        @inlinable
         public init(lastStatusChange: Date? = nil, status: ConditionExecutionStatus? = nil, summary: String? = nil) {
             self.lastStatusChange = lastStatusChange
             self.status = status
@@ -1374,6 +1412,7 @@ extension CodePipeline {
         /// The state of the rules for the condition.
         public let ruleStates: [RuleState]?
 
+        @inlinable
         public init(latestExecution: ConditionExecution? = nil, ruleStates: [RuleState]? = nil) {
             self.latestExecution = latestExecution
             self.ruleStates = ruleStates
@@ -1403,6 +1442,7 @@ extension CodePipeline {
         /// The version identifier of the custom action.
         public let version: String
 
+        @inlinable
         public init(category: ActionCategory, configurationProperties: [ActionConfigurationProperty]? = nil, inputArtifactDetails: ArtifactDetails, outputArtifactDetails: ArtifactDetails, provider: String, settings: ActionTypeSettings? = nil, tags: [Tag]? = nil, version: String) {
             self.category = category
             self.configurationProperties = configurationProperties
@@ -1451,6 +1491,7 @@ extension CodePipeline {
         /// Specifies the tags applied to the custom action.
         public let tags: [Tag]?
 
+        @inlinable
         public init(actionType: ActionType, tags: [Tag]? = nil) {
             self.actionType = actionType
             self.tags = tags
@@ -1468,6 +1509,7 @@ extension CodePipeline {
         /// The tags for the pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(pipeline: PipelineDeclaration, tags: [Tag]? = nil) {
             self.pipeline = pipeline
             self.tags = tags
@@ -1492,6 +1534,7 @@ extension CodePipeline {
         /// Specifies the tags applied to the pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(pipeline: PipelineDeclaration? = nil, tags: [Tag]? = nil) {
             self.pipeline = pipeline
             self.tags = tags
@@ -1513,6 +1556,7 @@ extension CodePipeline {
         /// The summary of the most recent revision of the artifact.
         public let revisionSummary: String?
 
+        @inlinable
         public init(changeIdentifier: String, created: Date? = nil, revision: String, revisionSummary: String? = nil) {
             self.changeIdentifier = changeIdentifier
             self.created = created
@@ -1545,6 +1589,7 @@ extension CodePipeline {
         /// The version of the custom action to delete.
         public let version: String
 
+        @inlinable
         public init(category: ActionCategory, provider: String, version: String) {
             self.category = category
             self.provider = provider
@@ -1571,6 +1616,7 @@ extension CodePipeline {
         /// The name of the pipeline to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1590,6 +1636,7 @@ extension CodePipeline {
         /// The name of the webhook you want to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1613,6 +1660,7 @@ extension CodePipeline {
         /// The name of the webhook you want to deregister.
         public let webhookName: String?
 
+        @inlinable
         public init(webhookName: String? = nil) {
             self.webhookName = webhookName
         }
@@ -1642,6 +1690,7 @@ extension CodePipeline {
         /// Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
         public let transitionType: StageTransitionType
 
+        @inlinable
         public init(pipelineName: String, reason: String, stageName: String, transitionType: StageTransitionType) {
             self.pipelineName = pipelineName
             self.reason = reason
@@ -1677,6 +1726,7 @@ extension CodePipeline {
         /// Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound).
         public let transitionType: StageTransitionType
 
+        @inlinable
         public init(pipelineName: String, stageName: String, transitionType: StageTransitionType) {
             self.pipelineName = pipelineName
             self.stageName = stageName
@@ -1705,6 +1755,7 @@ extension CodePipeline {
         /// The type of encryption key, such as an Amazon Web Services KMS key. When creating or updating a pipeline, the value must be set to 'KMS'.
         public let type: EncryptionKeyType
 
+        @inlinable
         public init(id: String, type: EncryptionKeyType) {
             self.id = id
             self.type = type
@@ -1727,6 +1778,7 @@ extension CodePipeline {
         /// The text of the error message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -1746,6 +1798,7 @@ extension CodePipeline {
         /// The summary of the current status of the actions.
         public let summary: String?
 
+        @inlinable
         public init(externalExecutionId: String? = nil, percentComplete: Int? = nil, summary: String? = nil) {
             self.externalExecutionId = externalExecutionId
             self.percentComplete = percentComplete
@@ -1774,6 +1827,7 @@ extension CodePipeline {
         /// The type of change-detection method, command, or user interaction that started a pipeline execution.
         public let triggerType: TriggerType?
 
+        @inlinable
         public init(triggerDetail: String? = nil, triggerType: TriggerType? = nil) {
             self.triggerDetail = triggerDetail
             self.triggerType = triggerType
@@ -1791,6 +1845,7 @@ extension CodePipeline {
         /// Details about the Lambda executor of the action type.
         public let lambdaExecutorConfiguration: LambdaExecutorConfiguration?
 
+        @inlinable
         public init(jobWorkerExecutorConfiguration: JobWorkerExecutorConfiguration? = nil, lambdaExecutorConfiguration: LambdaExecutorConfiguration? = nil) {
             self.jobWorkerExecutorConfiguration = jobWorkerExecutorConfiguration
             self.lambdaExecutorConfiguration = lambdaExecutorConfiguration
@@ -1813,6 +1868,7 @@ extension CodePipeline {
         /// The specified result for when the failure conditions are met, such as rolling back the stage.
         public let result: Result?
 
+        @inlinable
         public init(conditions: [Condition]? = nil, result: Result? = nil) {
             self.conditions = conditions
             self.result = result
@@ -1840,6 +1896,7 @@ extension CodePipeline {
         /// The type of the failure.
         public let type: FailureType
 
+        @inlinable
         public init(externalExecutionId: String? = nil, message: String, type: FailureType) {
             self.externalExecutionId = externalExecutionId
             self.message = message
@@ -1870,6 +1927,7 @@ extension CodePipeline {
         /// A string that describes the action type version.
         public let version: String
 
+        @inlinable
         public init(category: ActionCategory, owner: String, provider: String, version: String) {
             self.category = category
             self.owner = owner
@@ -1899,6 +1957,7 @@ extension CodePipeline {
         /// The action type information for the requested action type, such as the action type ID.
         public let actionType: ActionTypeDeclaration?
 
+        @inlinable
         public init(actionType: ActionTypeDeclaration? = nil) {
             self.actionType = actionType
         }
@@ -1912,6 +1971,7 @@ extension CodePipeline {
         /// The unique system-generated ID for the job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1929,6 +1989,7 @@ extension CodePipeline {
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials.
         public let jobDetails: JobDetails?
 
+        @inlinable
         public init(jobDetails: JobDetails? = nil) {
             self.jobDetails = jobDetails
         }
@@ -1944,6 +2005,7 @@ extension CodePipeline {
         /// The name of the pipeline about which you want to get execution details.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineExecutionId: String, pipelineName: String) {
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
@@ -1966,6 +2028,7 @@ extension CodePipeline {
         /// Represents information about the execution of a pipeline.
         public let pipelineExecution: PipelineExecution?
 
+        @inlinable
         public init(pipelineExecution: PipelineExecution? = nil) {
             self.pipelineExecution = pipelineExecution
         }
@@ -1981,6 +2044,7 @@ extension CodePipeline {
         /// The version number of the pipeline. If you do not specify a version, defaults to the current version.
         public let version: Int?
 
+        @inlinable
         public init(name: String, version: Int? = nil) {
             self.name = name
             self.version = version
@@ -2005,6 +2069,7 @@ extension CodePipeline {
         /// Represents the structure of actions and stages to be performed in the pipeline.
         public let pipeline: PipelineDeclaration?
 
+        @inlinable
         public init(metadata: PipelineMetadata? = nil, pipeline: PipelineDeclaration? = nil) {
             self.metadata = metadata
             self.pipeline = pipeline
@@ -2020,6 +2085,7 @@ extension CodePipeline {
         /// The name of the pipeline about which you want to get information.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2047,6 +2113,7 @@ extension CodePipeline {
         /// The date and time the pipeline was last updated, in timestamp format.
         public let updated: Date?
 
+        @inlinable
         public init(created: Date? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, stageStates: [StageState]? = nil, updated: Date? = nil) {
             self.created = created
             self.pipelineName = pipelineName
@@ -2070,6 +2137,7 @@ extension CodePipeline {
         /// The unique system-generated ID used for identifying the job.
         public let jobId: String
 
+        @inlinable
         public init(clientToken: String, jobId: String) {
             self.clientToken = clientToken
             self.jobId = jobId
@@ -2092,6 +2160,7 @@ extension CodePipeline {
         /// The details of the job, including any protected values defined for the job.
         public let jobDetails: ThirdPartyJobDetails?
 
+        @inlinable
         public init(jobDetails: ThirdPartyJobDetails? = nil) {
             self.jobDetails = jobDetails
         }
@@ -2107,6 +2176,7 @@ extension CodePipeline {
         /// The list of patterns of Git branches that, when a commit is pushed, are to be included as criteria that starts the pipeline.
         public let includes: [String]?
 
+        @inlinable
         public init(excludes: [String]? = nil, includes: [String]? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -2143,6 +2213,7 @@ extension CodePipeline {
         /// The name of the pipeline source action where the trigger configuration, such as Git tags, is specified. The trigger configuration will start the pipeline upon the specified change only.  You can only specify one trigger configuration per source action.
         public let sourceActionName: String
 
+        @inlinable
         public init(pullRequest: [GitPullRequestFilter]? = nil, push: [GitPushFilter]? = nil, sourceActionName: String) {
             self.pullRequest = pullRequest
             self.push = push
@@ -2178,6 +2249,7 @@ extension CodePipeline {
         /// The list of patterns of Git repository file paths that, when a commit is pushed, are to be included as criteria that starts the pipeline.
         public let includes: [String]?
 
+        @inlinable
         public init(excludes: [String]? = nil, includes: [String]? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -2214,6 +2286,7 @@ extension CodePipeline {
         /// The field that specifies to filter on file paths for the pull request trigger configuration.
         public let filePaths: GitFilePathFilterCriteria?
 
+        @inlinable
         public init(branches: GitBranchFilterCriteria? = nil, events: [GitPullRequestEventType]? = nil, filePaths: GitFilePathFilterCriteria? = nil) {
             self.branches = branches
             self.events = events
@@ -2242,6 +2315,7 @@ extension CodePipeline {
         /// The field that contains the details for the Git tags trigger configuration.
         public let tags: GitTagFilterCriteria?
 
+        @inlinable
         public init(branches: GitBranchFilterCriteria? = nil, filePaths: GitFilePathFilterCriteria? = nil, tags: GitTagFilterCriteria? = nil) {
             self.branches = branches
             self.filePaths = filePaths
@@ -2267,6 +2341,7 @@ extension CodePipeline {
         /// The list of patterns of Git tags that, when pushed, are to be included as criteria that starts the pipeline.
         public let includes: [String]?
 
+        @inlinable
         public init(excludes: [String]? = nil, includes: [String]? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -2297,6 +2372,7 @@ extension CodePipeline {
         /// The name of the artifact to be worked on (for example, "My App"). Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action input artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2322,6 +2398,7 @@ extension CodePipeline {
         /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeJob request.
         public let nonce: String?
 
+        @inlinable
         public init(accountId: String? = nil, data: JobData? = nil, id: String? = nil, nonce: String? = nil) {
             self.accountId = accountId
             self.data = data
@@ -2355,6 +2432,7 @@ extension CodePipeline {
         /// Represents information about a pipeline to a job worker.  Includes pipelineArn and pipelineExecutionId for custom jobs.
         public let pipelineContext: PipelineContext?
 
+        @inlinable
         public init(actionConfiguration: ActionConfiguration? = nil, actionTypeId: ActionTypeId? = nil, artifactCredentials: AWSSessionCredentials? = nil, continuationToken: String? = nil, encryptionKey: EncryptionKey? = nil, inputArtifacts: [Artifact]? = nil, outputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
             self.actionConfiguration = actionConfiguration
             self.actionTypeId = actionTypeId
@@ -2386,6 +2464,7 @@ extension CodePipeline {
         /// The unique system-generated ID of the job.
         public let id: String?
 
+        @inlinable
         public init(accountId: String? = nil, data: JobData? = nil, id: String? = nil) {
             self.accountId = accountId
             self.data = data
@@ -2405,6 +2484,7 @@ extension CodePipeline {
         /// The service Principals in which the job worker is configured and might poll for jobs as part of the action execution.
         public let pollingServicePrincipals: [String]?
 
+        @inlinable
         public init(pollingAccounts: [String]? = nil, pollingServicePrincipals: [String]? = nil) {
             self.pollingAccounts = pollingAccounts
             self.pollingServicePrincipals = pollingServicePrincipals
@@ -2434,6 +2514,7 @@ extension CodePipeline {
         /// The ARN of the Lambda function used by the action engine.
         public let lambdaFunctionArn: String
 
+        @inlinable
         public init(lambdaFunctionArn: String) {
             self.lambdaFunctionArn = lambdaFunctionArn
         }
@@ -2455,6 +2536,7 @@ extension CodePipeline {
         /// The start time to filter on for the latest execution in the pipeline. Valid options:   All   Latest
         public let startTimeRange: StartTimeRange
 
+        @inlinable
         public init(pipelineExecutionId: String, startTimeRange: StartTimeRange) {
             self.pipelineExecutionId = pipelineExecutionId
             self.startTimeRange = startTimeRange
@@ -2480,6 +2562,7 @@ extension CodePipeline {
         ///  The name of the pipeline for which you want to list action execution history.
         public let pipelineName: String
 
+        @inlinable
         public init(filter: ActionExecutionFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2512,6 +2595,7 @@ extension CodePipeline {
         /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListActionExecutions call to return the next set of action executions in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(actionExecutionDetails: [ActionExecutionDetail]? = nil, nextToken: String? = nil) {
             self.actionExecutionDetails = actionExecutionDetails
             self.nextToken = nextToken
@@ -2531,6 +2615,7 @@ extension CodePipeline {
         /// The Region to filter on for the list of action types.
         public let regionFilter: String?
 
+        @inlinable
         public init(actionOwnerFilter: ActionOwner? = nil, nextToken: String? = nil, regionFilter: String? = nil) {
             self.actionOwnerFilter = actionOwnerFilter
             self.nextToken = nextToken
@@ -2557,6 +2642,7 @@ extension CodePipeline {
         /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list action types call to return the next set of action types in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(actionTypes: [ActionType], nextToken: String? = nil) {
             self.actionTypes = actionTypes
             self.nextToken = nextToken
@@ -2578,6 +2664,7 @@ extension CodePipeline {
         /// The name of the pipeline for which you want to get execution summary information.
         public let pipelineName: String
 
+        @inlinable
         public init(filter: PipelineExecutionFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2610,6 +2697,7 @@ extension CodePipeline {
         /// A list of executions in the history of a pipeline.
         public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelineExecutionSummaries: [PipelineExecutionSummary]? = nil) {
             self.nextToken = nextToken
             self.pipelineExecutionSummaries = pipelineExecutionSummaries
@@ -2627,6 +2715,7 @@ extension CodePipeline {
         /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2651,6 +2740,7 @@ extension CodePipeline {
         /// The list of pipelines.
         public let pipelines: [PipelineSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelines: [PipelineSummary]? = nil) {
             self.nextToken = nextToken
             self.pipelines = pipelines
@@ -2672,6 +2762,7 @@ extension CodePipeline {
         /// The name of the pipeline for which you want to get execution summary information.
         public let pipelineName: String
 
+        @inlinable
         public init(filter: RuleExecutionFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2704,6 +2795,7 @@ extension CodePipeline {
         /// Details about the output for listing rule executions.
         public let ruleExecutionDetails: [RuleExecutionDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, ruleExecutionDetails: [RuleExecutionDetail]? = nil) {
             self.nextToken = nextToken
             self.ruleExecutionDetails = ruleExecutionDetails
@@ -2721,6 +2813,7 @@ extension CodePipeline {
         /// The rule owner to filter on.
         public let ruleOwnerFilter: RuleOwner?
 
+        @inlinable
         public init(regionFilter: String? = nil, ruleOwnerFilter: RuleOwner? = nil) {
             self.regionFilter = regionFilter
             self.ruleOwnerFilter = ruleOwnerFilter
@@ -2741,6 +2834,7 @@ extension CodePipeline {
         /// Lists the rules that are configured for the condition.
         public let ruleTypes: [RuleType]
 
+        @inlinable
         public init(ruleTypes: [RuleType]) {
             self.ruleTypes = ruleTypes
         }
@@ -2758,6 +2852,7 @@ extension CodePipeline {
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2785,6 +2880,7 @@ extension CodePipeline {
         /// The tags for the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2812,6 +2908,7 @@ extension CodePipeline {
         /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook makes the old URL invalid and generates a new one.
         public let url: String
 
+        @inlinable
         public init(arn: String? = nil, definition: WebhookDefinition, errorCode: String? = nil, errorMessage: String? = nil, lastTriggered: Date? = nil, tags: [Tag]? = nil, url: String) {
             self.arn = arn
             self.definition = definition
@@ -2839,6 +2936,7 @@ extension CodePipeline {
         /// The token that was returned from the previous ListWebhooks call, which can be used to return the next set of webhooks in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2863,6 +2961,7 @@ extension CodePipeline {
         /// The JSON detail returned for each webhook in the list output for the ListWebhooks call.
         public let webhooks: [ListWebhookItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, webhooks: [ListWebhookItem]? = nil) {
             self.nextToken = nextToken
             self.webhooks = webhooks
@@ -2878,6 +2977,7 @@ extension CodePipeline {
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2903,6 +3003,7 @@ extension CodePipeline {
         /// The name of the stage for the override.
         public let stageName: String
 
+        @inlinable
         public init(conditionType: ConditionType, pipelineExecutionId: String, pipelineName: String, stageName: String) {
             self.conditionType = conditionType
             self.pipelineExecutionId = pipelineExecutionId
@@ -2940,6 +3041,7 @@ extension CodePipeline {
         /// The stage of the pipeline.
         public let stage: StageContext?
 
+        @inlinable
         public init(action: ActionContext? = nil, pipelineArn: String? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, stage: StageContext? = nil) {
             self.action = action
             self.pipelineArn = pipelineArn
@@ -2979,6 +3081,7 @@ extension CodePipeline {
         /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is incremented when a pipeline is updated.
         public let version: Int?
 
+        @inlinable
         public init(artifactStore: ArtifactStore? = nil, artifactStores: [String: ArtifactStore]? = nil, executionMode: ExecutionMode? = nil, name: String, pipelineType: PipelineType? = nil, roleArn: String, stages: [StageDeclaration], triggers: [PipelineTriggerDeclaration]? = nil, variables: [PipelineVariableDeclaration]? = nil, version: Int? = nil) {
             self.artifactStore = artifactStore
             self.artifactStores = artifactStores
@@ -3055,6 +3158,7 @@ extension CodePipeline {
         /// A list of pipeline variables used for the pipeline execution.
         public let variables: [ResolvedPipelineVariable]?
 
+        @inlinable
         public init(artifactRevisions: [ArtifactRevision]? = nil, executionMode: ExecutionMode? = nil, executionType: ExecutionType? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, rollbackMetadata: PipelineRollbackMetadata? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil, trigger: ExecutionTrigger? = nil, variables: [ResolvedPipelineVariable]? = nil) {
             self.artifactRevisions = artifactRevisions
             self.executionMode = executionMode
@@ -3088,6 +3192,7 @@ extension CodePipeline {
         /// Filter for pipeline executions where the stage was successful in the current pipeline version.
         public let succeededInStage: SucceededInStageFilter?
 
+        @inlinable
         public init(succeededInStage: SucceededInStageFilter? = nil) {
             self.succeededInStage = succeededInStage
         }
@@ -3125,6 +3230,7 @@ extension CodePipeline {
         /// The interaction or event that started a pipeline execution, such as automated change detection or a StartPipelineExecution API call.
         public let trigger: ExecutionTrigger?
 
+        @inlinable
         public init(executionMode: ExecutionMode? = nil, executionType: ExecutionType? = nil, lastUpdateTime: Date? = nil, pipelineExecutionId: String? = nil, rollbackMetadata: PipelineRollbackMetadata? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: Date? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil, stopTrigger: StopExecutionTrigger? = nil, trigger: ExecutionTrigger? = nil) {
             self.executionMode = executionMode
             self.executionType = executionType
@@ -3164,6 +3270,7 @@ extension CodePipeline {
         /// The date and time the pipeline was last updated, in timestamp format.
         public let updated: Date?
 
+        @inlinable
         public init(created: Date? = nil, pipelineArn: String? = nil, pollingDisabledAt: Date? = nil, updated: Date? = nil) {
             self.created = created
             self.pipelineArn = pipelineArn
@@ -3183,6 +3290,7 @@ extension CodePipeline {
         /// The pipeline execution ID to which the stage will be rolled back.
         public let rollbackTargetPipelineExecutionId: String?
 
+        @inlinable
         public init(rollbackTargetPipelineExecutionId: String? = nil) {
             self.rollbackTargetPipelineExecutionId = rollbackTargetPipelineExecutionId
         }
@@ -3206,6 +3314,7 @@ extension CodePipeline {
         /// The version number of the pipeline.
         public let version: Int?
 
+        @inlinable
         public init(created: Date? = nil, executionMode: ExecutionMode? = nil, name: String? = nil, pipelineType: PipelineType? = nil, updated: Date? = nil, version: Int? = nil) {
             self.created = created
             self.executionMode = executionMode
@@ -3231,6 +3340,7 @@ extension CodePipeline {
         /// The source provider for the event, such as connections configured for a repository with Git tags, for the specified trigger configuration.
         public let providerType: PipelineTriggerProviderType
 
+        @inlinable
         public init(gitConfiguration: GitConfiguration, providerType: PipelineTriggerProviderType) {
             self.gitConfiguration = gitConfiguration
             self.providerType = providerType
@@ -3252,6 +3362,7 @@ extension CodePipeline {
         /// The value of a pipeline-level variable.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -3280,6 +3391,7 @@ extension CodePipeline {
         /// The name of a pipeline-level variable.
         public let name: String
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, name: String) {
             self.defaultValue = defaultValue
             self.description = description
@@ -3312,6 +3424,7 @@ extension CodePipeline {
         /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value are returned.
         public let queryParam: [String: String]?
 
+        @inlinable
         public init(actionTypeId: ActionTypeId, maxBatchSize: Int? = nil, queryParam: [String: String]? = nil) {
             self.actionTypeId = actionTypeId
             self.maxBatchSize = maxBatchSize
@@ -3342,6 +3455,7 @@ extension CodePipeline {
         /// Information about the jobs to take action on.
         public let jobs: [Job]?
 
+        @inlinable
         public init(jobs: [Job]? = nil) {
             self.jobs = jobs
         }
@@ -3357,6 +3471,7 @@ extension CodePipeline {
         /// The maximum number of jobs to return in a poll for jobs call.
         public let maxBatchSize: Int?
 
+        @inlinable
         public init(actionTypeId: ActionTypeId, maxBatchSize: Int? = nil) {
             self.actionTypeId = actionTypeId
             self.maxBatchSize = maxBatchSize
@@ -3377,6 +3492,7 @@ extension CodePipeline {
         /// Information about the jobs to take action on.
         public let jobs: [ThirdPartyJob]?
 
+        @inlinable
         public init(jobs: [ThirdPartyJob]? = nil) {
             self.jobs = jobs
         }
@@ -3396,6 +3512,7 @@ extension CodePipeline {
         /// The name of the stage that contains the action that acts on the revision.
         public let stageName: String
 
+        @inlinable
         public init(actionName: String, actionRevision: ActionRevision, pipelineName: String, stageName: String) {
             self.actionName = actionName
             self.actionRevision = actionRevision
@@ -3430,6 +3547,7 @@ extension CodePipeline {
         /// The ID of the current workflow state of the pipeline.
         public let pipelineExecutionId: String?
 
+        @inlinable
         public init(newRevision: Bool? = nil, pipelineExecutionId: String? = nil) {
             self.newRevision = newRevision
             self.pipelineExecutionId = pipelineExecutionId
@@ -3453,6 +3571,7 @@ extension CodePipeline {
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.
         public let token: String
 
+        @inlinable
         public init(actionName: String, pipelineName: String, result: ApprovalResult, stageName: String, token: String) {
             self.actionName = actionName
             self.pipelineName = pipelineName
@@ -3488,6 +3607,7 @@ extension CodePipeline {
         /// The timestamp showing when the approval or rejection was submitted.
         public let approvedAt: Date?
 
+        @inlinable
         public init(approvedAt: Date? = nil) {
             self.approvedAt = approvedAt
         }
@@ -3503,6 +3623,7 @@ extension CodePipeline {
         /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
         public let jobId: String
 
+        @inlinable
         public init(failureDetails: FailureDetails, jobId: String) {
             self.failureDetails = failureDetails
             self.jobId = jobId
@@ -3531,6 +3652,7 @@ extension CodePipeline {
         /// Key-value pairs produced as output by a job worker that can be made available to a downstream action configuration. outputVariables can be included only when there is no continuation token on the request.
         public let outputVariables: [String: String]?
 
+        @inlinable
         public init(continuationToken: String? = nil, currentRevision: CurrentRevision? = nil, executionDetails: ExecutionDetails? = nil, jobId: String, outputVariables: [String: String]? = nil) {
             self.continuationToken = continuationToken
             self.currentRevision = currentRevision
@@ -3567,6 +3689,7 @@ extension CodePipeline {
         /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs.
         public let jobId: String
 
+        @inlinable
         public init(clientToken: String, failureDetails: FailureDetails, jobId: String) {
             self.clientToken = clientToken
             self.failureDetails = failureDetails
@@ -3600,6 +3723,7 @@ extension CodePipeline {
         /// The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs.
         public let jobId: String
 
+        @inlinable
         public init(clientToken: String, continuationToken: String? = nil, currentRevision: CurrentRevision? = nil, executionDetails: ExecutionDetails? = nil, jobId: String) {
             self.clientToken = clientToken
             self.continuationToken = continuationToken
@@ -3634,6 +3758,7 @@ extension CodePipeline {
         /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name that helps you identify it. You might name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
         public let webhook: WebhookDefinition
 
+        @inlinable
         public init(tags: [Tag]? = nil, webhook: WebhookDefinition) {
             self.tags = tags
             self.webhook = webhook
@@ -3656,6 +3781,7 @@ extension CodePipeline {
         /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
         public let webhook: ListWebhookItem?
 
+        @inlinable
         public init(webhook: ListWebhookItem? = nil) {
             self.webhook = webhook
         }
@@ -3669,6 +3795,7 @@ extension CodePipeline {
         /// The name of an existing webhook created with PutWebhook to register with a supported third party.
         public let webhookName: String?
 
+        @inlinable
         public init(webhookName: String? = nil) {
             self.webhookName = webhookName
         }
@@ -3694,6 +3821,7 @@ extension CodePipeline {
         /// The resolved value of a pipeline-level variable.
         public let resolvedValue: String?
 
+        @inlinable
         public init(name: String? = nil, resolvedValue: String? = nil) {
             self.name = name
             self.resolvedValue = resolvedValue
@@ -3715,6 +3843,7 @@ extension CodePipeline {
         /// The name of the failed stage to be retried.
         public let stageName: String
 
+        @inlinable
         public init(pipelineExecutionId: String, pipelineName: String, retryMode: StageRetryMode, stageName: String) {
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
@@ -3744,6 +3873,7 @@ extension CodePipeline {
         /// The ID of the current workflow execution in the failed stage.
         public let pipelineExecutionId: String?
 
+        @inlinable
         public init(pipelineExecutionId: String? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
         }
@@ -3761,6 +3891,7 @@ extension CodePipeline {
         /// The pipeline execution ID for the stage to be rolled back to.
         public let targetPipelineExecutionId: String
 
+        @inlinable
         public init(pipelineName: String, stageName: String, targetPipelineExecutionId: String) {
             self.pipelineName = pipelineName
             self.stageName = stageName
@@ -3788,6 +3919,7 @@ extension CodePipeline {
         /// The execution ID of the pipeline execution for the stage that has been rolled back.
         public let pipelineExecutionId: String
 
+        @inlinable
         public init(pipelineExecutionId: String) {
             self.pipelineExecutionId = pipelineExecutionId
         }
@@ -3813,6 +3945,7 @@ extension CodePipeline {
         /// The type of the configuration property.
         public let type: RuleConfigurationPropertyType?
 
+        @inlinable
         public init(description: String? = nil, key: Bool, name: String, queryable: Bool? = nil, required: Bool, secret: Bool, type: RuleConfigurationPropertyType? = nil) {
             self.description = description
             self.key = key
@@ -3850,6 +3983,7 @@ extension CodePipeline {
         /// The action timeout for the rule.
         public let timeoutInMinutes: Int?
 
+        @inlinable
         public init(configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, region: String? = nil, roleArn: String? = nil, ruleTypeId: RuleTypeId, timeoutInMinutes: Int? = nil) {
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
@@ -3913,6 +4047,7 @@ extension CodePipeline {
         /// The system-generated token used to identify a unique request.
         public let token: String?
 
+        @inlinable
         public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, ruleExecutionId: String? = nil, status: RuleExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
@@ -3962,6 +4097,7 @@ extension CodePipeline {
         /// The ARN of the user who changed the rule execution details.
         public let updatedBy: String?
 
+        @inlinable
         public init(input: RuleExecutionInput? = nil, lastUpdateTime: Date? = nil, output: RuleExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int? = nil, ruleExecutionId: String? = nil, ruleName: String? = nil, stageName: String? = nil, startTime: Date? = nil, status: RuleExecutionStatus? = nil, updatedBy: String? = nil) {
             self.input = input
             self.lastUpdateTime = lastUpdateTime
@@ -3996,6 +4132,7 @@ extension CodePipeline {
         /// The pipeline execution ID used to filter rule execution history.
         public let pipelineExecutionId: String?
 
+        @inlinable
         public init(latestInPipelineExecution: LatestInPipelineExecutionFilter? = nil, pipelineExecutionId: String? = nil) {
             self.latestInPipelineExecution = latestInPipelineExecution
             self.pipelineExecutionId = pipelineExecutionId
@@ -4026,6 +4163,7 @@ extension CodePipeline {
         /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version.
         public let ruleTypeId: RuleTypeId?
 
+        @inlinable
         public init(configuration: [String: String]? = nil, inputArtifacts: [ArtifactDetail]? = nil, region: String? = nil, resolvedConfiguration: [String: String]? = nil, roleArn: String? = nil, ruleTypeId: RuleTypeId? = nil) {
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
@@ -4049,6 +4187,7 @@ extension CodePipeline {
         /// Execution result information listed in the output details for a rule execution.
         public let executionResult: RuleExecutionResult?
 
+        @inlinable
         public init(executionResult: RuleExecutionResult? = nil) {
             self.executionResult = executionResult
         }
@@ -4067,6 +4206,7 @@ extension CodePipeline {
         /// The deepest external link to the external resource (for example, a repository URL or deployment endpoint) that is used when running the rule.
         public let externalExecutionUrl: String?
 
+        @inlinable
         public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionSummary: String? = nil, externalExecutionUrl: String? = nil) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
@@ -4090,6 +4230,7 @@ extension CodePipeline {
         /// The system-generated unique ID that identifies the revision number of the rule.
         public let revisionId: String
 
+        @inlinable
         public init(created: Date, revisionChangeId: String, revisionId: String) {
             self.created = created
             self.revisionChangeId = revisionChangeId
@@ -4115,6 +4256,7 @@ extension CodePipeline {
         /// The name of the rule.
         public let ruleName: String?
 
+        @inlinable
         public init(currentRevision: RuleRevision? = nil, entityUrl: String? = nil, latestExecution: RuleExecution? = nil, revisionUrl: String? = nil, ruleName: String? = nil) {
             self.currentRevision = currentRevision
             self.entityUrl = entityUrl
@@ -4141,6 +4283,7 @@ extension CodePipeline {
         /// Returns information about the settings for a rule type.
         public let settings: RuleTypeSettings?
 
+        @inlinable
         public init(id: RuleTypeId, inputArtifactDetails: ArtifactDetails, ruleConfigurationProperties: [RuleConfigurationProperty]? = nil, settings: RuleTypeSettings? = nil) {
             self.id = id
             self.inputArtifactDetails = inputArtifactDetails
@@ -4166,6 +4309,7 @@ extension CodePipeline {
         /// A string that describes the rule version.
         public let version: String?
 
+        @inlinable
         public init(category: RuleCategory, owner: RuleOwner? = nil, provider: String, version: String? = nil) {
             self.category = category
             self.owner = owner
@@ -4200,6 +4344,7 @@ extension CodePipeline {
         /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
         public let thirdPartyConfigurationUrl: String?
 
+        @inlinable
         public init(entityUrlTemplate: String? = nil, executionUrlTemplate: String? = nil, revisionUrlTemplate: String? = nil, thirdPartyConfigurationUrl: String? = nil) {
             self.entityUrlTemplate = entityUrlTemplate
             self.executionUrlTemplate = executionUrlTemplate
@@ -4221,6 +4366,7 @@ extension CodePipeline {
         /// The key of the object in the S3 bucket, which uniquely identifies the object in the bucket.
         public let objectKey: String
 
+        @inlinable
         public init(bucketName: String, objectKey: String) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -4238,6 +4384,7 @@ extension CodePipeline {
         /// The artifact name.
         public let key: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -4259,6 +4406,7 @@ extension CodePipeline {
         /// The commit ID for the artifact revision. For artifacts stored in GitHub or CodeCommit repositories, the commit ID is linked to a commit details page.
         public let revisionUrl: String?
 
+        @inlinable
         public init(actionName: String, revisionId: String? = nil, revisionSummary: String? = nil, revisionUrl: String? = nil) {
             self.actionName = actionName
             self.revisionId = revisionId
@@ -4282,6 +4430,7 @@ extension CodePipeline {
         /// The source revision, or version of your source artifact, with the changes that you want to run in the pipeline execution.
         public let revisionValue: String
 
+        @inlinable
         public init(actionName: String, revisionType: SourceRevisionType, revisionValue: String) {
             self.actionName = actionName
             self.revisionType = revisionType
@@ -4309,6 +4458,7 @@ extension CodePipeline {
         /// Represents information about the latest run of a condition for a stage.
         public let latestExecution: StageConditionsExecution?
 
+        @inlinable
         public init(conditionStates: [ConditionState]? = nil, latestExecution: StageConditionsExecution? = nil) {
             self.conditionStates = conditionStates
             self.latestExecution = latestExecution
@@ -4326,6 +4476,7 @@ extension CodePipeline {
         /// A summary of the run of the condition for a stage.
         public let summary: String?
 
+        @inlinable
         public init(status: ConditionExecutionStatus? = nil, summary: String? = nil) {
             self.status = status
             self.summary = summary
@@ -4341,6 +4492,7 @@ extension CodePipeline {
         /// The name of the stage.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -4364,6 +4516,7 @@ extension CodePipeline {
         /// The method to use when a stage has succeeded. For example, configuring this field for conditions will allow the stage to succeed when the conditions are met.
         public let onSuccess: SuccessConditions?
 
+        @inlinable
         public init(actions: [ActionDeclaration], beforeEntry: BeforeEntryConditions? = nil, blockers: [BlockerDeclaration]? = nil, name: String, onFailure: FailureConditions? = nil, onSuccess: SuccessConditions? = nil) {
             self.actions = actions
             self.beforeEntry = beforeEntry
@@ -4406,6 +4559,7 @@ extension CodePipeline {
         /// The type of pipeline execution for the stage, such as a rollback pipeline execution.
         public let type: ExecutionType?
 
+        @inlinable
         public init(pipelineExecutionId: String, status: StageExecutionStatus, type: ExecutionType? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
             self.status = status
@@ -4438,6 +4592,7 @@ extension CodePipeline {
         /// The name of the stage.
         public let stageName: String?
 
+        @inlinable
         public init(actionStates: [ActionState]? = nil, beforeEntryConditionState: StageConditionState? = nil, inboundExecution: StageExecution? = nil, inboundExecutions: [StageExecution]? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, onFailureConditionState: StageConditionState? = nil, onSuccessConditionState: StageConditionState? = nil, stageName: String? = nil) {
             self.actionStates = actionStates
             self.beforeEntryConditionState = beforeEntryConditionState
@@ -4473,6 +4628,7 @@ extension CodePipeline {
         /// A list that overrides pipeline variables for a pipeline execution that's being started. Variable names must match [A-Za-z0-9@\-_]+, and the values can be anything except an empty string.
         public let variables: [PipelineVariable]?
 
+        @inlinable
         public init(clientRequestToken: String? = StartPipelineExecutionInput.idempotencyToken(), name: String, sourceRevisions: [SourceRevisionOverride]? = nil, variables: [PipelineVariable]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -4510,6 +4666,7 @@ extension CodePipeline {
         /// The unique system-generated ID of the pipeline execution that was started.
         public let pipelineExecutionId: String?
 
+        @inlinable
         public init(pipelineExecutionId: String? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
         }
@@ -4523,6 +4680,7 @@ extension CodePipeline {
         /// The user-specified reason the pipeline was stopped.
         public let reason: String?
 
+        @inlinable
         public init(reason: String? = nil) {
             self.reason = reason
         }
@@ -4542,6 +4700,7 @@ extension CodePipeline {
         /// Use this option to enter comments, such as the reason the pipeline was stopped.
         public let reason: String?
 
+        @inlinable
         public init(abandon: Bool? = nil, pipelineExecutionId: String, pipelineName: String, reason: String? = nil) {
             self.abandon = abandon
             self.pipelineExecutionId = pipelineExecutionId
@@ -4569,6 +4728,7 @@ extension CodePipeline {
         /// The unique system-generated ID of the pipeline execution that was stopped.
         public let pipelineExecutionId: String?
 
+        @inlinable
         public init(pipelineExecutionId: String? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
         }
@@ -4582,6 +4742,7 @@ extension CodePipeline {
         /// The name of the stage for filtering for pipeline executions where the stage was successful in the current pipeline version.
         public let stageName: String?
 
+        @inlinable
         public init(stageName: String? = nil) {
             self.stageName = stageName
         }
@@ -4601,6 +4762,7 @@ extension CodePipeline {
         /// The conditions that are success conditions.
         public let conditions: [Condition]
 
+        @inlinable
         public init(conditions: [Condition]) {
             self.conditions = conditions
         }
@@ -4624,6 +4786,7 @@ extension CodePipeline {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4647,6 +4810,7 @@ extension CodePipeline {
         /// The tags you want to modify or add to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4675,6 +4839,7 @@ extension CodePipeline {
         /// The identifier used to identify the job in CodePipeline.
         public let jobId: String?
 
+        @inlinable
         public init(clientId: String? = nil, jobId: String? = nil) {
             self.clientId = clientId
             self.jobId = jobId
@@ -4704,6 +4869,7 @@ extension CodePipeline {
         /// Represents information about a pipeline to a job worker.  Does not include pipelineArn and pipelineExecutionId for ThirdParty jobs.
         public let pipelineContext: PipelineContext?
 
+        @inlinable
         public init(actionConfiguration: ActionConfiguration? = nil, actionTypeId: ActionTypeId? = nil, artifactCredentials: AWSSessionCredentials? = nil, continuationToken: String? = nil, encryptionKey: EncryptionKey? = nil, inputArtifacts: [Artifact]? = nil, outputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
             self.actionConfiguration = actionConfiguration
             self.actionTypeId = actionTypeId
@@ -4735,6 +4901,7 @@ extension CodePipeline {
         /// A system-generated random number that CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeThirdPartyJob request.
         public let nonce: String?
 
+        @inlinable
         public init(data: ThirdPartyJobData? = nil, id: String? = nil, nonce: String? = nil) {
             self.data = data
             self.id = id
@@ -4758,6 +4925,7 @@ extension CodePipeline {
         /// The ID of the user who last changed the transition state.
         public let lastChangedBy: String?
 
+        @inlinable
         public init(disabledReason: String? = nil, enabled: Bool? = nil, lastChangedAt: Date? = nil, lastChangedBy: String? = nil) {
             self.disabledReason = disabledReason
             self.enabled = enabled
@@ -4779,6 +4947,7 @@ extension CodePipeline {
         /// The list of keys for the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4806,6 +4975,7 @@ extension CodePipeline {
         /// The action type definition for the action type to be updated.
         public let actionType: ActionTypeDeclaration
 
+        @inlinable
         public init(actionType: ActionTypeDeclaration) {
             self.actionType = actionType
         }
@@ -4823,6 +4993,7 @@ extension CodePipeline {
         /// The name of the pipeline to be updated.
         public let pipeline: PipelineDeclaration
 
+        @inlinable
         public init(pipeline: PipelineDeclaration) {
             self.pipeline = pipeline
         }
@@ -4840,6 +5011,7 @@ extension CodePipeline {
         /// The structure of the updated pipeline.
         public let pipeline: PipelineDeclaration?
 
+        @inlinable
         public init(pipeline: PipelineDeclaration? = nil) {
             self.pipeline = pipeline
         }
@@ -4855,6 +5027,7 @@ extension CodePipeline {
         /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.  When creating CodePipeline webhooks, do not use your own credentials or reuse the same secret token across multiple webhooks. For optimal security, generate a unique secret token for each webhook you create. The secret token is an arbitrary string that you provide, which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook payloads. Using your own credentials or reusing the same token across multiple webhooks can lead to security vulnerabilities.   If a secret token was provided, it will be redacted in the response.
         public let secretToken: String?
 
+        @inlinable
         public init(allowedIPRange: String? = nil, secretToken: String? = nil) {
             self.allowedIPRange = allowedIPRange
             self.secretToken = secretToken
@@ -4887,6 +5060,7 @@ extension CodePipeline {
         /// The name of the pipeline you want to connect to the webhook.
         public let targetPipeline: String
 
+        @inlinable
         public init(authentication: WebhookAuthenticationType, authenticationConfiguration: WebhookAuthConfiguration, filters: [WebhookFilterRule], name: String, targetAction: String, targetPipeline: String) {
             self.authentication = authentication
             self.authenticationConfiguration = authenticationConfiguration
@@ -4929,6 +5103,7 @@ extension CodePipeline {
         /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field. Otherwise, the request is ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly brackets. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "main", the MatchEquals value is evaluated as "refs/heads/main". For a list of action configuration properties for built-in action types, see Pipeline Structure Reference Action Requirements.
         public let matchEquals: String?
 
+        @inlinable
         public init(jsonPath: String, matchEquals: String? = nil) {
             self.jsonPath = jsonPath
             self.matchEquals = matchEquals

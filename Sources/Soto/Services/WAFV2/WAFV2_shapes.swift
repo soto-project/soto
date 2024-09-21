@@ -502,6 +502,7 @@ extension WAFV2 {
         /// Internal value used by WAF to manage the key.
         public let version: Int?
 
+        @inlinable
         public init(apiKey: String? = nil, creationTimestamp: Date? = nil, tokenDomains: [String]? = nil, version: Int? = nil) {
             self.apiKey = apiKey
             self.creationTimestamp = creationTimestamp
@@ -545,6 +546,7 @@ extension WAFV2 {
         /// The criteria for inspecting responses to account creation requests, used by the ACFP rule group to track account creation success rates.   Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.  The ACFP rule group evaluates the responses that your protected resources send back to client account creation attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels  and mitigates requests from client sessions and IP addresses that have had too many successful account creation attempts in a short amount of time.
         public let responseInspection: ResponseInspection?
 
+        @inlinable
         public init(creationPath: String, enableRegexInPath: Bool? = nil, registrationPagePath: String, requestInspection: RequestInspectionACFP, responseInspection: ResponseInspection? = nil) {
             self.creationPath = creationPath
             self.enableRegexInPath = enableRegexInPath
@@ -583,6 +585,7 @@ extension WAFV2 {
         /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates.   Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.  The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts for each IP address and client session. Using this information, the rule group labels  and mitigates requests from client sessions and IP addresses that have had too many failed login attempts in a short amount of time.
         public let responseInspection: ResponseInspection?
 
+        @inlinable
         public init(enableRegexInPath: Bool? = nil, loginPath: String, requestInspection: RequestInspection? = nil, responseInspection: ResponseInspection? = nil) {
             self.enableRegexInPath = enableRegexInPath
             self.loginPath = loginPath
@@ -610,6 +613,7 @@ extension WAFV2 {
         /// The inspection level to use for the Bot Control rule group. The common level is the least expensive. The  targeted level includes all common level rules and adds rules with more advanced inspection criteria. For  details, see WAF Bot Control rule group in the WAF Developer Guide.
         public let inspectionLevel: InspectionLevel
 
+        @inlinable
         public init(enableMachineLearning: Bool? = nil, inspectionLevel: InspectionLevel) {
             self.enableMachineLearning = enableMachineLearning
             self.inspectionLevel = inspectionLevel
@@ -625,6 +629,7 @@ extension WAFV2 {
         /// The action setting that a log record must contain in order to meet the condition. This is the action that WAF applied to the web request.  For rule groups, this is either the configured rule action setting, or if you've applied a rule action override to the rule, it's the override action.  The value EXCLUDED_AS_COUNT matches on  excluded rules and also on rules that have a rule action override of Count.
         public let action: ActionValue
 
+        @inlinable
         public init(action: ActionValue) {
             self.action = action
         }
@@ -638,6 +643,7 @@ extension WAFV2 {
         /// The name of a single primary address field.  How you specify the address fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } },  the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryaddressline1, primaryaddressline2, and primaryaddressline3, the address fields identifiers are primaryaddressline1, primaryaddressline2, and primaryaddressline3.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -665,6 +671,7 @@ extension WAFV2 {
         /// Defines custom handling for the web request. For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.
         public let customRequestHandling: CustomRequestHandling?
 
+        @inlinable
         public init(customRequestHandling: CustomRequestHandling? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -682,6 +689,7 @@ extension WAFV2 {
         /// The statements to combine with AND logic. You can use any statements that can be nested.
         public let statements: [Statement]
 
+        @inlinable
         public init(statements: [Statement]) {
             self.statements = statements
         }
@@ -703,6 +711,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public let webACLArn: String
 
+        @inlinable
         public init(resourceArn: String, webACLArn: String) {
             self.resourceArn = resourceArn
             self.webACLArn = webACLArn
@@ -731,6 +740,7 @@ extension WAFV2 {
         /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types.   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" }  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public let requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]?
 
+        @inlinable
         public init(requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]? = nil) {
             self.requestBody = requestBody
         }
@@ -744,6 +754,7 @@ extension WAFV2 {
         /// Defines a custom response for the web request. For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.
         public let customResponse: CustomResponse?
 
+        @inlinable
         public init(customResponse: CustomResponse? = nil) {
             self.customResponse = customResponse
         }
@@ -761,6 +772,7 @@ extension WAFV2 {
         /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service  only forwards the contents that are within the limit to WAF for inspection.    For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).   For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and  you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.    The options for oversize handling are the following:    CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit.  Default: CONTINUE
         public let oversizeHandling: OversizeHandling?
 
+        @inlinable
         public init(oversizeHandling: OversizeHandling? = nil) {
             self.oversizeHandling = oversizeHandling
         }
@@ -783,6 +795,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, searchString: AWSBase64Data, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
@@ -810,6 +823,7 @@ extension WAFV2 {
         /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.
         public let customRequestHandling: CustomRequestHandling?
 
+        @inlinable
         public init(customRequestHandling: CustomRequestHandling? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -827,6 +841,7 @@ extension WAFV2 {
         /// Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
         public let immunityTimeProperty: ImmunityTimeProperty?
 
+        @inlinable
         public init(immunityTimeProperty: ImmunityTimeProperty? = nil) {
             self.immunityTimeProperty = immunityTimeProperty
         }
@@ -848,6 +863,7 @@ extension WAFV2 {
         /// The time that the CAPTCHA was last solved for the supplied token.
         public let solveTimestamp: Int64?
 
+        @inlinable
         public init(failureReason: FailureReason? = nil, responseCode: Int? = nil, solveTimestamp: Int64? = nil) {
             self.failureReason = failureReason
             self.responseCode = responseCode
@@ -865,6 +881,7 @@ extension WAFV2 {
         /// Defines custom handling for the web request, used when the challenge inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.
         public let customRequestHandling: CustomRequestHandling?
 
+        @inlinable
         public init(customRequestHandling: CustomRequestHandling? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -882,6 +899,7 @@ extension WAFV2 {
         /// Determines how long a challenge timestamp in the token remains valid after the client successfully responds to a challenge.
         public let immunityTimeProperty: ImmunityTimeProperty?
 
+        @inlinable
         public init(immunityTimeProperty: ImmunityTimeProperty? = nil) {
             self.immunityTimeProperty = immunityTimeProperty
         }
@@ -903,6 +921,7 @@ extension WAFV2 {
         /// The time that the challenge was last solved for the supplied token.
         public let solveTimestamp: Int64?
 
+        @inlinable
         public init(failureReason: FailureReason? = nil, responseCode: Int? = nil, solveTimestamp: Int64? = nil) {
             self.failureReason = failureReason
             self.responseCode = responseCode
@@ -922,6 +941,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(rules: [Rule], scope: Scope) {
             self.rules = rules
             self.scope = scope
@@ -943,6 +963,7 @@ extension WAFV2 {
         /// The capacity required by the rules and scope.
         public let capacity: Int64?
 
+        @inlinable
         public init(capacity: Int64? = nil) {
             self.capacity = capacity
         }
@@ -958,6 +979,7 @@ extension WAFV2 {
         /// A single label name condition. This is the fully qualified label name that a log record must contain in order to meet the condition.  Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.
         public let labelNameCondition: LabelNameCondition?
 
+        @inlinable
         public init(actionCondition: ActionCondition? = nil, labelNameCondition: LabelNameCondition? = nil) {
             self.actionCondition = actionCondition
             self.labelNameCondition = labelNameCondition
@@ -981,6 +1003,7 @@ extension WAFV2 {
         /// Inspect only the cookies that have a key that matches one of the strings specified here.
         public let includedCookies: [String]?
 
+        @inlinable
         public init(all: All? = nil, excludedCookies: [String]? = nil, includedCookies: [String]? = nil) {
             self.all = all
             self.excludedCookies = excludedCookies
@@ -1019,6 +1042,7 @@ extension WAFV2 {
         /// What WAF should do if the cookies of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request cookies  when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available cookies normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
+        @inlinable
         public init(matchPattern: CookieMatchPattern, matchScope: MapMatchScope, oversizeHandling: OversizeHandling) {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
@@ -1040,6 +1064,7 @@ extension WAFV2 {
         /// Defines custom handling for the web request. For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.
         public let customRequestHandling: CustomRequestHandling?
 
+        @inlinable
         public init(customRequestHandling: CustomRequestHandling? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -1059,6 +1084,7 @@ extension WAFV2 {
         /// The client application domains that you want to use this API key for.   Example JSON: "TokenDomains": ["abc.com", "store.abc.com"]  Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
         public let tokenDomains: [String]
 
+        @inlinable
         public init(scope: Scope, tokenDomains: [String]) {
             self.scope = scope
             self.tokenDomains = tokenDomains
@@ -1083,6 +1109,7 @@ extension WAFV2 {
         /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration.
         public let apiKey: String?
 
+        @inlinable
         public init(apiKey: String? = nil) {
             self.apiKey = apiKey
         }
@@ -1106,6 +1133,7 @@ extension WAFV2 {
         /// An array of key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(addresses: [String], description: String? = nil, ipAddressVersion: IPAddressVersion, name: String, scope: Scope, tags: [Tag]? = nil) {
             self.addresses = addresses
             self.description = description
@@ -1147,6 +1175,7 @@ extension WAFV2 {
         /// High-level information about an IPSet, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage an IPSet, and the ARN, that you provide to the IPSetReferenceStatement to use the address set in a Rule.
         public let summary: IPSetSummary?
 
+        @inlinable
         public init(summary: IPSetSummary? = nil) {
             self.summary = summary
         }
@@ -1168,6 +1197,7 @@ extension WAFV2 {
         /// An array of key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, regularExpressionList: [Regex], scope: Scope, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -1205,6 +1235,7 @@ extension WAFV2 {
         /// High-level information about a RegexPatternSet, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RegexPatternSet, and the ARN, that you provide to the RegexPatternSetReferenceStatement to use the pattern set in a Rule.
         public let summary: RegexPatternSetSummary?
 
+        @inlinable
         public init(summary: RegexPatternSetSummary? = nil) {
             self.summary = summary
         }
@@ -1234,6 +1265,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(capacity: Int64, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
             self.capacity = capacity
             self.customResponseBodies = customResponseBodies
@@ -1286,6 +1318,7 @@ extension WAFV2 {
         /// High-level information about a RuleGroup, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the RuleGroupReferenceStatement to use the rule group in a Rule.
         public let summary: RuleGroupSummary?
 
+        @inlinable
         public init(summary: RuleGroupSummary? = nil) {
             self.summary = summary
         }
@@ -1322,6 +1355,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
@@ -1389,6 +1423,7 @@ extension WAFV2 {
         /// High-level information about a WebACL, returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a WebACL, and the ARN, that you provide to operations like AssociateWebACL.
         public let summary: WebACLSummary?
 
+        @inlinable
         public init(summary: WebACLSummary? = nil) {
             self.summary = summary
         }
@@ -1404,6 +1439,7 @@ extension WAFV2 {
         /// The value of the custom header.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1428,6 +1464,7 @@ extension WAFV2 {
         /// The HTTP headers to insert into the request. Duplicate header names are not allowed.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
         public let insertHeaders: [CustomHTTPHeader]
 
+        @inlinable
         public init(insertHeaders: [CustomHTTPHeader]) {
             self.insertHeaders = insertHeaders
         }
@@ -1452,6 +1489,7 @@ extension WAFV2 {
         /// The HTTP headers to use in the response. You can specify any header name except for content-type. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
         public let responseHeaders: [CustomHTTPHeader]?
 
+        @inlinable
         public init(customResponseBodyKey: String? = nil, responseCode: Int, responseHeaders: [CustomHTTPHeader]? = nil) {
             self.customResponseBodyKey = customResponseBodyKey
             self.responseCode = responseCode
@@ -1483,6 +1521,7 @@ extension WAFV2 {
         /// The type of content in the payload that you are defining in the Content string.
         public let contentType: ResponseContentType
 
+        @inlinable
         public init(content: String, contentType: ResponseContentType) {
             self.content = content
             self.contentType = contentType
@@ -1506,6 +1545,7 @@ extension WAFV2 {
         /// Specifies that WAF should block requests by default.
         public let block: BlockAction?
 
+        @inlinable
         public init(allow: AllowAction? = nil, block: BlockAction? = nil) {
             self.allow = allow
             self.block = block
@@ -1528,6 +1568,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(apiKey: String, scope: Scope) {
             self.apiKey = apiKey
             self.scope = scope
@@ -1555,6 +1596,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let webACLLockToken: String
 
+        @inlinable
         public init(webACLArn: String, webACLLockToken: String) {
             self.webACLArn = webACLArn
             self.webACLLockToken = webACLLockToken
@@ -1579,6 +1621,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let nextWebACLLockToken: String?
 
+        @inlinable
         public init(nextWebACLLockToken: String? = nil) {
             self.nextWebACLLockToken = nextWebACLLockToken
         }
@@ -1598,6 +1641,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, lockToken: String, name: String, scope: Scope) {
             self.id = id
             self.lockToken = lockToken
@@ -1637,6 +1681,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
         public let resourceArn: String
 
+        @inlinable
         public init(logScope: LogScope? = nil, logType: LogType? = nil, resourceArn: String) {
             self.logScope = logScope
             self.logType = logType
@@ -1664,6 +1709,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the rule group from which you want to delete the policy. You must be the owner of the rule group to perform this operation.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1693,6 +1739,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, lockToken: String, name: String, scope: Scope) {
             self.id = id
             self.lockToken = lockToken
@@ -1734,6 +1781,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, lockToken: String, name: String, scope: Scope) {
             self.id = id
             self.lockToken = lockToken
@@ -1775,6 +1823,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, lockToken: String, name: String, scope: Scope) {
             self.id = id
             self.lockToken = lockToken
@@ -1810,6 +1859,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(scope: Scope) {
             self.scope = scope
         }
@@ -1823,6 +1873,7 @@ extension WAFV2 {
         /// High-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
         public let managedProducts: [ManagedProductDescriptor]?
 
+        @inlinable
         public init(managedProducts: [ManagedProductDescriptor]? = nil) {
             self.managedProducts = managedProducts
         }
@@ -1838,6 +1889,7 @@ extension WAFV2 {
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         public let vendorName: String
 
+        @inlinable
         public init(scope: Scope, vendorName: String) {
             self.scope = scope
             self.vendorName = vendorName
@@ -1859,6 +1911,7 @@ extension WAFV2 {
         /// High-level information for the managed rule groups owned by the specified vendor.
         public let managedProducts: [ManagedProductDescriptor]?
 
+        @inlinable
         public init(managedProducts: [ManagedProductDescriptor]? = nil) {
             self.managedProducts = managedProducts
         }
@@ -1878,6 +1931,7 @@ extension WAFV2 {
         /// The version of the rule group. You can only use a version that is not scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
         public let versionName: String?
 
+        @inlinable
         public init(name: String, scope: Scope, vendorName: String, versionName: String? = nil) {
             self.name = name
             self.scope = scope
@@ -1922,6 +1976,7 @@ extension WAFV2 {
         /// The managed rule group's version.
         public let versionName: String?
 
+        @inlinable
         public init(availableLabels: [LabelSummary]? = nil, capacity: Int64? = nil, consumedLabels: [LabelSummary]? = nil, labelNamespace: String? = nil, rules: [RuleSummary]? = nil, snsTopicArn: String? = nil, versionName: String? = nil) {
             self.availableLabels = availableLabels
             self.capacity = capacity
@@ -1947,6 +2002,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1970,6 +2026,7 @@ extension WAFV2 {
         /// The name of the email field.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "email": "THE_EMAIL" } },  the email field specification is /form/email.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named email1, the email field specification is email1.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1989,6 +2046,7 @@ extension WAFV2 {
         /// The name of the rule whose action you want to override to Count.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2036,6 +2094,7 @@ extension WAFV2 {
         /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
 
+        @inlinable
         public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, ja3Fingerprint: JA3Fingerprint? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
             self.allQueryArguments = allQueryArguments
             self.body = body
@@ -2083,6 +2142,7 @@ extension WAFV2 {
         /// Logic to apply to the filtering conditions. You can specify that, in order to satisfy the filter, a log must match all conditions or must match at least one condition.
         public let requirement: FilterRequirement
 
+        @inlinable
         public init(behavior: FilterBehavior, conditions: [Condition], requirement: FilterRequirement) {
             self.behavior = behavior
             self.conditions = conditions
@@ -2115,6 +2175,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(firewallManagerStatement: FirewallManagerStatement, name: String, overrideAction: OverrideAction, priority: Int, visibilityConfig: VisibilityConfig) {
             self.firewallManagerStatement = firewallManagerStatement
             self.name = name
@@ -2138,6 +2199,7 @@ extension WAFV2 {
         /// A statement used by Firewall Manager to run the rules that are defined in a rule group. This is managed by Firewall Manager for an Firewall Manager WAF policy.
         public let ruleGroupReferenceStatement: RuleGroupReferenceStatement?
 
+        @inlinable
         public init(managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil) {
             self.managedRuleGroupStatement = managedRuleGroupStatement
             self.ruleGroupReferenceStatement = ruleGroupReferenceStatement
@@ -2155,6 +2217,7 @@ extension WAFV2 {
         /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For.  If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
         public let headerName: String
 
+        @inlinable
         public init(fallbackBehavior: FallbackBehavior, headerName: String) {
             self.fallbackBehavior = fallbackBehavior
             self.headerName = headerName
@@ -2178,6 +2241,7 @@ extension WAFV2 {
         /// The release version. For the latest available version, specify LATEST.
         public let releaseVersion: String
 
+        @inlinable
         public init(platform: Platform, releaseVersion: String) {
             self.platform = platform
             self.releaseVersion = releaseVersion
@@ -2199,6 +2263,7 @@ extension WAFV2 {
         /// The presigned download URL for the specified SDK release.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2214,6 +2279,7 @@ extension WAFV2 {
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.   If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
         public let forwardedIPConfig: ForwardedIPConfig?
 
+        @inlinable
         public init(countryCodes: [CountryCode]? = nil, forwardedIPConfig: ForwardedIPConfig? = nil) {
             self.countryCodes = countryCodes
             self.forwardedIPConfig = forwardedIPConfig
@@ -2236,6 +2302,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(apiKey: String, scope: Scope) {
             self.apiKey = apiKey
             self.scope = scope
@@ -2259,6 +2326,7 @@ extension WAFV2 {
         /// The token domains that are defined in this API key.
         public let tokenDomains: [String]?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, tokenDomains: [String]? = nil) {
             self.creationTimestamp = creationTimestamp
             self.tokenDomains = tokenDomains
@@ -2278,6 +2346,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, name: String, scope: Scope) {
             self.id = id
             self.name = name
@@ -2305,6 +2374,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let lockToken: String?
 
+        @inlinable
         public init(ipSet: IPSet? = nil, lockToken: String? = nil) {
             self.ipSet = ipSet
             self.lockToken = lockToken
@@ -2324,6 +2394,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
         public let resourceArn: String
 
+        @inlinable
         public init(logScope: LogScope? = nil, logType: LogType? = nil, resourceArn: String) {
             self.logScope = logScope
             self.logType = logType
@@ -2347,6 +2418,7 @@ extension WAFV2 {
         /// The LoggingConfiguration for the specified web ACL.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -2364,6 +2436,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, name: String, scope: Scope) {
             self.id = id
             self.name = name
@@ -2392,6 +2465,7 @@ extension WAFV2 {
         /// The managed rule set that you requested.
         public let managedRuleSet: ManagedRuleSet?
 
+        @inlinable
         public init(lockToken: String? = nil, managedRuleSet: ManagedRuleSet? = nil) {
             self.lockToken = lockToken
             self.managedRuleSet = managedRuleSet
@@ -2409,6 +2483,7 @@ extension WAFV2 {
         /// The release version. For the latest available version, specify LATEST.
         public let releaseVersion: String
 
+        @inlinable
         public init(platform: Platform, releaseVersion: String) {
             self.platform = platform
             self.releaseVersion = releaseVersion
@@ -2430,6 +2505,7 @@ extension WAFV2 {
         /// Information for a specified SDK release, including release notes and tags.
         public let mobileSdkRelease: MobileSdkRelease?
 
+        @inlinable
         public init(mobileSdkRelease: MobileSdkRelease? = nil) {
             self.mobileSdkRelease = mobileSdkRelease
         }
@@ -2443,6 +2519,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the rule group for which you want to get the policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2462,6 +2539,7 @@ extension WAFV2 {
         /// The IAM policy that is attached to the specified rule group.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2483,6 +2561,7 @@ extension WAFV2 {
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let webACLName: String
 
+        @inlinable
         public init(ruleGroupRuleName: String? = nil, ruleName: String, scope: Scope, webACLId: String, webACLName: String) {
             self.ruleGroupRuleName = ruleGroupRuleName
             self.ruleName = ruleName
@@ -2521,6 +2600,7 @@ extension WAFV2 {
         /// The keys that are of Internet Protocol version 6 (IPv6).
         public let managedKeysIPV6: RateBasedStatementManagedKeysIPSet?
 
+        @inlinable
         public init(managedKeysIPV4: RateBasedStatementManagedKeysIPSet? = nil, managedKeysIPV6: RateBasedStatementManagedKeysIPSet? = nil) {
             self.managedKeysIPV4 = managedKeysIPV4
             self.managedKeysIPV6 = managedKeysIPV6
@@ -2540,6 +2620,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, name: String, scope: Scope) {
             self.id = id
             self.name = name
@@ -2567,6 +2648,7 @@ extension WAFV2 {
         public let lockToken: String?
         public let regexPatternSet: RegexPatternSet?
 
+        @inlinable
         public init(lockToken: String? = nil, regexPatternSet: RegexPatternSet? = nil) {
             self.lockToken = lockToken
             self.regexPatternSet = regexPatternSet
@@ -2588,6 +2670,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, scope: Scope? = nil) {
             self.arn = arn
             self.id = id
@@ -2620,6 +2703,7 @@ extension WAFV2 {
         public let lockToken: String?
         public let ruleGroup: RuleGroup?
 
+        @inlinable
         public init(lockToken: String? = nil, ruleGroup: RuleGroup? = nil) {
             self.lockToken = lockToken
             self.ruleGroup = ruleGroup
@@ -2643,6 +2727,7 @@ extension WAFV2 {
         /// The Amazon resource name (ARN) of the WebACL for which you want a sample of requests.
         public let webAclArn: String
 
+        @inlinable
         public init(maxItems: Int64, ruleMetricName: String, scope: Scope, timeWindow: TimeWindow, webAclArn: String) {
             self.maxItems = maxItems
             self.ruleMetricName = ruleMetricName
@@ -2679,6 +2764,7 @@ extension WAFV2 {
         /// Usually, TimeWindow is the time range that you specified in the GetSampledRequests request. However, if your Amazon Web Services resource received more than 5,000 requests during the time range that you specified in the request, GetSampledRequests returns the time range for the first 5,000 requests. Times are in Coordinated Universal Time (UTC) format.
         public let timeWindow: TimeWindow?
 
+        @inlinable
         public init(populationSize: Int64? = nil, sampledRequests: [SampledHTTPRequest]? = nil, timeWindow: TimeWindow? = nil) {
             self.populationSize = populationSize
             self.sampledRequests = sampledRequests
@@ -2696,6 +2782,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2715,6 +2802,7 @@ extension WAFV2 {
         /// The web ACL that is associated with the resource. If there is no associated resource, WAF returns a null web ACL.
         public let webACL: WebACL?
 
+        @inlinable
         public init(webACL: WebACL? = nil) {
             self.webACL = webACL
         }
@@ -2732,6 +2820,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(id: String, name: String, scope: Scope) {
             self.id = id
             self.name = name
@@ -2763,6 +2852,7 @@ extension WAFV2 {
         /// The web ACL specification. You can modify the settings in this web ACL and use it to update this web ACL or create a new one.
         public let webACL: WebACL?
 
+        @inlinable
         public init(applicationIntegrationURL: String? = nil, lockToken: String? = nil, webACL: WebACL? = nil) {
             self.applicationIntegrationURL = applicationIntegrationURL
             self.lockToken = lockToken
@@ -2782,6 +2872,7 @@ extension WAFV2 {
         /// The value of the HTTP header.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2807,6 +2898,7 @@ extension WAFV2 {
         /// The URI path of the request, which identifies the resource, for example, /images/daily-ad.jpg.
         public let uri: String?
 
+        @inlinable
         public init(clientIP: String? = nil, country: String? = nil, headers: [HTTPHeader]? = nil, httpVersion: String? = nil, method: String? = nil, uri: String? = nil) {
             self.clientIP = clientIP
             self.country = country
@@ -2834,6 +2926,7 @@ extension WAFV2 {
         /// Inspect only the headers that have a key that matches one of the strings specified here.
         public let includedHeaders: [String]?
 
+        @inlinable
         public init(all: All? = nil, excludedHeaders: [String]? = nil, includedHeaders: [String]? = nil) {
             self.all = all
             self.excludedHeaders = excludedHeaders
@@ -2868,6 +2961,7 @@ extension WAFV2 {
         /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
+        @inlinable
         public init(oversizeHandling: OversizeHandling) {
             self.oversizeHandling = oversizeHandling
         }
@@ -2885,6 +2979,7 @@ extension WAFV2 {
         /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let oversizeHandling: OversizeHandling
 
+        @inlinable
         public init(matchPattern: HeaderMatchPattern, matchScope: MapMatchScope, oversizeHandling: OversizeHandling) {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
@@ -2916,6 +3011,7 @@ extension WAFV2 {
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public let name: String
 
+        @inlinable
         public init(addresses: [String], arn: String, description: String? = nil, id: String, ipAddressVersion: IPAddressVersion, name: String) {
             self.addresses = addresses
             self.arn = arn
@@ -2943,6 +3039,7 @@ extension WAFV2 {
         /// The position in the header to search for the IP address. The header can contain IP addresses of the original client and also of proxies. For example, the header value could be 10.1.1.1, 127.0.0.0, 10.10.10.10 where the first IP address identifies the original client and the rest identify proxies that the request went through.  The options for this setting are the following:    FIRST - Inspect the first IP address in the list of IP addresses in the header. This is usually the client's original IP.   LAST - Inspect the last IP address in the list of IP addresses in the header.   ANY - Inspect all IP addresses in the header for a match. If the header contains more than 10 IP addresses, WAF inspects the last 10.
         public let position: ForwardedIPPosition
 
+        @inlinable
         public init(fallbackBehavior: FallbackBehavior, headerName: String, position: ForwardedIPPosition) {
             self.fallbackBehavior = fallbackBehavior
             self.headerName = headerName
@@ -2968,6 +3065,7 @@ extension WAFV2 {
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.   If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
         public let ipSetForwardedIPConfig: IPSetForwardedIPConfig?
 
+        @inlinable
         public init(arn: String, ipSetForwardedIPConfig: IPSetForwardedIPConfig? = nil) {
             self.arn = arn
             self.ipSetForwardedIPConfig = ipSetForwardedIPConfig
@@ -2998,6 +3096,7 @@ extension WAFV2 {
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, lockToken: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -3019,6 +3118,7 @@ extension WAFV2 {
         /// The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF. The default setting is 300.  For the Challenge action, the minimum setting is 300.
         public let immunityTime: Int64
 
+        @inlinable
         public init(immunityTime: Int64) {
             self.immunityTime = immunityTime
         }
@@ -3037,6 +3137,7 @@ extension WAFV2 {
         /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let fallbackBehavior: FallbackBehavior
 
+        @inlinable
         public init(fallbackBehavior: FallbackBehavior) {
             self.fallbackBehavior = fallbackBehavior
         }
@@ -3056,6 +3157,7 @@ extension WAFV2 {
         /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service  only forwards the contents that are within the limit to WAF for inspection.    For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).   For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and  you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.    The options for oversize handling are the following:    CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit.  Default: CONTINUE
         public let oversizeHandling: OversizeHandling?
 
+        @inlinable
         public init(invalidFallbackBehavior: BodyParsingFallbackBehavior? = nil, matchPattern: JsonMatchPattern, matchScope: JsonMatchScope, oversizeHandling: OversizeHandling? = nil) {
             self.invalidFallbackBehavior = invalidFallbackBehavior
             self.matchPattern = matchPattern
@@ -3081,6 +3183,7 @@ extension WAFV2 {
         /// Match only the specified include paths. See also MatchScope in JsonBody.  Provide the include paths using JSON Pointer syntax. For example, "IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]. For information about this syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript Object Notation (JSON) Pointer.  You must specify either this setting or the All setting, but not both.  Don't use this option to include all paths. Instead, use the All setting.
         public let includedPaths: [String]?
 
+        @inlinable
         public init(all: All? = nil, includedPaths: [String]? = nil) {
             self.all = all
             self.includedPaths = includedPaths
@@ -3105,6 +3208,7 @@ extension WAFV2 {
         /// The label string.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3126,6 +3230,7 @@ extension WAFV2 {
         /// Specify whether you want to match using the label name or just the namespace.
         public let scope: LabelMatchScope
 
+        @inlinable
         public init(key: String, scope: LabelMatchScope) {
             self.key = key
             self.scope = scope
@@ -3147,6 +3252,7 @@ extension WAFV2 {
         /// The label name that a log record must contain in order to meet the condition. This must be a fully qualified label name. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.
         public let labelName: String
 
+        @inlinable
         public init(labelName: String) {
             self.labelName = labelName
         }
@@ -3166,6 +3272,7 @@ extension WAFV2 {
         /// An individual label specification.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -3183,6 +3290,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3212,6 +3320,7 @@ extension WAFV2 {
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(apiKeySummaries: [APIKeySummary]? = nil, applicationIntegrationURL: String? = nil, nextMarker: String? = nil) {
             self.apiKeySummaries = apiKeySummaries
             self.applicationIntegrationURL = applicationIntegrationURL
@@ -3237,6 +3346,7 @@ extension WAFV2 {
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         public let vendorName: String
 
+        @inlinable
         public init(limit: Int? = nil, name: String, nextMarker: String? = nil, scope: Scope, vendorName: String) {
             self.limit = limit
             self.name = name
@@ -3276,6 +3386,7 @@ extension WAFV2 {
         /// The versions that are currently available for the specified managed rule group. If you specified a Limit in your request, this might not be the full list.
         public let versions: [ManagedRuleGroupVersion]?
 
+        @inlinable
         public init(currentDefaultVersion: String? = nil, nextMarker: String? = nil, versions: [ManagedRuleGroupVersion]? = nil) {
             self.currentDefaultVersion = currentDefaultVersion
             self.nextMarker = nextMarker
@@ -3297,6 +3408,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3324,6 +3436,7 @@ extension WAFV2 {
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(managedRuleGroups: [ManagedRuleGroupSummary]? = nil, nextMarker: String? = nil) {
             self.managedRuleGroups = managedRuleGroups
             self.nextMarker = nextMarker
@@ -3343,6 +3456,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3370,6 +3484,7 @@ extension WAFV2 {
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(ipSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
             self.ipSets = ipSets
             self.nextMarker = nextMarker
@@ -3391,6 +3506,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, logScope: LogScope? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.logScope = logScope
@@ -3420,6 +3536,7 @@ extension WAFV2 {
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(loggingConfigurations: [LoggingConfiguration]? = nil, nextMarker: String? = nil) {
             self.loggingConfigurations = loggingConfigurations
             self.nextMarker = nextMarker
@@ -3439,6 +3556,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3466,6 +3584,7 @@ extension WAFV2 {
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
 
+        @inlinable
         public init(managedRuleSets: [ManagedRuleSetSummary]? = nil, nextMarker: String? = nil) {
             self.managedRuleSets = managedRuleSets
             self.nextMarker = nextMarker
@@ -3485,6 +3604,7 @@ extension WAFV2 {
         /// The device platform to retrieve the list for.
         public let platform: Platform
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, platform: Platform) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3512,6 +3632,7 @@ extension WAFV2 {
         /// The high level information for the available SDK releases. If you specified a Limit in your request, this might not be the full list.
         public let releaseSummaries: [ReleaseSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, releaseSummaries: [ReleaseSummary]? = nil) {
             self.nextMarker = nextMarker
             self.releaseSummaries = releaseSummaries
@@ -3531,6 +3652,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3558,6 +3680,7 @@ extension WAFV2 {
         /// Array of regex pattern sets. If you specified a Limit in your request, this might not be the full list.
         public let regexPatternSets: [RegexPatternSetSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, regexPatternSets: [RegexPatternSetSummary]? = nil) {
             self.nextMarker = nextMarker
             self.regexPatternSets = regexPatternSets
@@ -3575,6 +3698,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the web ACL.
         public let webACLArn: String
 
+        @inlinable
         public init(resourceType: ResourceType? = nil, webACLArn: String) {
             self.resourceType = resourceType
             self.webACLArn = webACLArn
@@ -3596,6 +3720,7 @@ extension WAFV2 {
         /// The array of Amazon Resource Names (ARNs) of the associated resources.
         public let resourceArns: [String]?
 
+        @inlinable
         public init(resourceArns: [String]? = nil) {
             self.resourceArns = resourceArns
         }
@@ -3613,6 +3738,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3640,6 +3766,7 @@ extension WAFV2 {
         /// Array of rule groups. If you specified a Limit in your request, this might not be the full list.
         public let ruleGroups: [RuleGroupSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, ruleGroups: [RuleGroupSummary]? = nil) {
             self.nextMarker = nextMarker
             self.ruleGroups = ruleGroups
@@ -3659,6 +3786,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, resourceARN: String) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3689,6 +3817,7 @@ extension WAFV2 {
         /// The collection of tagging definitions for the resource. If you specified a Limit in your request, this might not be the full list.
         public let tagInfoForResource: TagInfoForResource?
 
+        @inlinable
         public init(nextMarker: String? = nil, tagInfoForResource: TagInfoForResource? = nil) {
             self.nextMarker = nextMarker
             self.tagInfoForResource = tagInfoForResource
@@ -3708,6 +3837,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(limit: Int? = nil, nextMarker: String? = nil, scope: Scope) {
             self.limit = limit
             self.nextMarker = nextMarker
@@ -3735,6 +3865,7 @@ extension WAFV2 {
         /// Array of web ACLs. If you specified a Limit in your request, this might not be the full list.
         public let webACLs: [WebACLSummary]?
 
+        @inlinable
         public init(nextMarker: String? = nil, webACLs: [WebACLSummary]? = nil) {
             self.nextMarker = nextMarker
             self.webACLs = webACLs
@@ -3762,6 +3893,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         public let resourceArn: String
 
+        @inlinable
         public init(logDestinationConfigs: [String], loggingFilter: LoggingFilter? = nil, logScope: LogScope? = nil, logType: LogType? = nil, managedByFirewallManager: Bool? = nil, redactedFields: [FieldToMatch]? = nil, resourceArn: String) {
             self.logDestinationConfigs = logDestinationConfigs
             self.loggingFilter = loggingFilter
@@ -3807,6 +3939,7 @@ extension WAFV2 {
         /// The filters that you want to apply to the logs.
         public let filters: [Filter]
 
+        @inlinable
         public init(defaultBehavior: FilterBehavior, filters: [Filter]) {
             self.defaultBehavior = defaultBehavior
             self.filters = filters
@@ -3845,6 +3978,7 @@ extension WAFV2 {
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         public let vendorName: String?
 
+        @inlinable
         public init(isAdvancedManagedRuleSet: Bool? = nil, isVersioningSupported: Bool? = nil, managedRuleSetName: String? = nil, productDescription: String? = nil, productId: String? = nil, productLink: String? = nil, productTitle: String? = nil, snsTopicArn: String? = nil, vendorName: String? = nil) {
             self.isAdvancedManagedRuleSet = isAdvancedManagedRuleSet
             self.isVersioningSupported = isVersioningSupported
@@ -3886,6 +4020,7 @@ extension WAFV2 {
         ///  Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         public let usernameField: UsernameField?
 
+        @inlinable
         public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
@@ -3897,6 +4032,7 @@ extension WAFV2 {
         }
 
         @available(*, deprecated, message: "Members loginPath, passwordField, payloadType, usernameField have been deprecated")
+        @inlinable
         public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil, loginPath: String? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType? = nil, usernameField: UsernameField? = nil) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
@@ -3944,6 +4080,7 @@ extension WAFV2 {
         /// The version of the managed rule group to use. If you specify this, the version setting is fixed until you change it. If you don't specify this, WAF uses the vendor's default version, and then keeps the version at the vendor's default when the vendor updates the managed rule group settings.
         public let version: String?
 
+        @inlinable
         public init(excludedRules: [ExcludedRule]? = nil, managedRuleGroupConfigs: [ManagedRuleGroupConfig]? = nil, name: String, ruleActionOverrides: [RuleActionOverride]? = nil, scopeDownStatement: Statement? = nil, vendorName: String, version: String? = nil) {
             self.excludedRules = excludedRules
             self.managedRuleGroupConfigs = managedRuleGroupConfigs
@@ -3999,6 +4136,7 @@ extension WAFV2 {
         /// Indicates whether the managed rule group is versioned. If it is, you can retrieve the versions list by calling ListAvailableManagedRuleGroupVersions.
         public let versioningSupported: Bool?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, vendorName: String? = nil, versioningSupported: Bool? = nil) {
             self.description = description
             self.name = name
@@ -4020,6 +4158,7 @@ extension WAFV2 {
         /// The version name.
         public let name: String?
 
+        @inlinable
         public init(lastUpdateTimestamp: Date? = nil, name: String? = nil) {
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
@@ -4047,6 +4186,7 @@ extension WAFV2 {
         /// The version that you would like your customers to use.
         public let recommendedVersion: String?
 
+        @inlinable
         public init(arn: String, description: String? = nil, id: String, labelNamespace: String? = nil, name: String, publishedVersions: [String: ManagedRuleSetVersion]? = nil, recommendedVersion: String? = nil) {
             self.arn = arn
             self.description = description
@@ -4082,6 +4222,7 @@ extension WAFV2 {
         /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, labelNamespace: String? = nil, lockToken: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -4117,6 +4258,7 @@ extension WAFV2 {
         /// The time that you first published this version.  Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
         public let publishTimestamp: Date?
 
+        @inlinable
         public init(associatedRuleGroupArn: String? = nil, capacity: Int64? = nil, expiryTimestamp: Date? = nil, forecastedLifetime: Int? = nil, lastUpdateTimestamp: Date? = nil, publishTimestamp: Date? = nil) {
             self.associatedRuleGroupArn = associatedRuleGroupArn
             self.capacity = capacity
@@ -4150,6 +4292,7 @@ extension WAFV2 {
         /// The timestamp of the release.
         public let timestamp: Date?
 
+        @inlinable
         public init(releaseNotes: String? = nil, releaseVersion: String? = nil, tags: [Tag]? = nil, timestamp: Date? = nil) {
             self.releaseNotes = releaseNotes
             self.releaseVersion = releaseVersion
@@ -4173,6 +4316,7 @@ extension WAFV2 {
         /// The statement to negate. You can use any statement that can be nested.
         public let statement: Statement
 
+        @inlinable
         public init(statement: Statement) {
             self.statement = statement
         }
@@ -4190,6 +4334,7 @@ extension WAFV2 {
         /// The statements to combine with OR logic. You can use any statements that can be nested.
         public let statements: [Statement]
 
+        @inlinable
         public init(statements: [Statement]) {
             self.statements = statements
         }
@@ -4211,6 +4356,7 @@ extension WAFV2 {
         /// Don't override the rule group evaluation result. This is the most common setting.
         public let none: NoneAction?
 
+        @inlinable
         public init(count: CountAction? = nil, none: NoneAction? = nil) {
             self.count = count
             self.none = none
@@ -4230,6 +4376,7 @@ extension WAFV2 {
         /// The name of the password field.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } },  the password field specification is /form/password.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -4249,6 +4396,7 @@ extension WAFV2 {
         /// The name of a single primary phone number field.  How you specify the phone number fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } },  the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryphoneline1, primaryphoneline2, and primaryphoneline3, the phone number field identifiers are primaryphoneline1, primaryphoneline2, and primaryphoneline3.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -4267,6 +4415,7 @@ extension WAFV2 {
     public struct PutLoggingConfigurationRequest: AWSEncodableShape {
         public let loggingConfiguration: LoggingConfiguration
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -4283,6 +4432,7 @@ extension WAFV2 {
     public struct PutLoggingConfigurationResponse: AWSDecodableShape {
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -4306,6 +4456,7 @@ extension WAFV2 {
         /// The versions of the named managed rule group that you want to offer to your customers.
         public let versionsToPublish: [String: VersionToPublish]?
 
+        @inlinable
         public init(id: String, lockToken: String, name: String, recommendedVersion: String? = nil, scope: Scope, versionsToPublish: [String: VersionToPublish]? = nil) {
             self.id = id
             self.lockToken = lockToken
@@ -4350,6 +4501,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let nextLockToken: String?
 
+        @inlinable
         public init(nextLockToken: String? = nil) {
             self.nextLockToken = nextLockToken
         }
@@ -4365,6 +4517,7 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -4407,6 +4560,7 @@ extension WAFV2 {
         /// An optional nested statement that narrows the scope of the web requests that are evaluated and managed by the rate-based statement. When you use a scope-down statement,  the rate-based rule only tracks and rate limits  requests that match the scope-down statement. You can use any nestable Statement in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public let scopeDownStatement: Statement?
 
+        @inlinable
         public init(aggregateKeyType: RateBasedStatementAggregateKeyType, customKeys: [RateBasedStatementCustomKey]? = nil, evaluationWindowSec: Int64? = nil, forwardedIPConfig: ForwardedIPConfig? = nil, limit: Int64, scopeDownStatement: Statement? = nil) {
             self.aggregateKeyType = aggregateKeyType
             self.customKeys = customKeys
@@ -4457,6 +4611,7 @@ extension WAFV2 {
         /// Use the request's URI path as an aggregate key. Each distinct URI path contributes to the aggregation instance. If you use just the  URI path as your custom key, then each URI path fully defines an aggregation instance.
         public let uriPath: RateLimitUriPath?
 
+        @inlinable
         public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
             self.cookie = cookie
             self.forwardedIP = forwardedIP
@@ -4497,6 +4652,7 @@ extension WAFV2 {
         /// The version of the IP addresses, either IPV4 or IPV6.
         public let ipAddressVersion: IPAddressVersion?
 
+        @inlinable
         public init(addresses: [String]? = nil, ipAddressVersion: IPAddressVersion? = nil) {
             self.addresses = addresses
             self.ipAddressVersion = ipAddressVersion
@@ -4514,6 +4670,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(name: String, textTransformations: [TextTransformation]) {
             self.name = name
             self.textTransformations = textTransformations
@@ -4549,6 +4706,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(name: String, textTransformations: [TextTransformation]) {
             self.name = name
             self.textTransformations = textTransformations
@@ -4578,6 +4736,7 @@ extension WAFV2 {
         /// The namespace to use for aggregation.
         public let namespace: String
 
+        @inlinable
         public init(namespace: String) {
             self.namespace = namespace
         }
@@ -4599,6 +4758,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(name: String, textTransformations: [TextTransformation]) {
             self.name = name
             self.textTransformations = textTransformations
@@ -4624,6 +4784,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(textTransformations: [TextTransformation]) {
             self.textTransformations = textTransformations
         }
@@ -4644,6 +4805,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(textTransformations: [TextTransformation]) {
             self.textTransformations = textTransformations
         }
@@ -4664,6 +4826,7 @@ extension WAFV2 {
         /// The string representing the regular expression.
         public let regexString: String?
 
+        @inlinable
         public init(regexString: String? = nil) {
             self.regexString = regexString
         }
@@ -4687,6 +4850,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, regexString: String, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
             self.regexString = regexString
@@ -4723,6 +4887,7 @@ extension WAFV2 {
         /// The regular expression patterns in the set.
         public let regularExpressionList: [Regex]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, regularExpressionList: [Regex]? = nil) {
             self.arn = arn
             self.description = description
@@ -4748,6 +4913,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(arn: String, fieldToMatch: FieldToMatch, textTransformations: [TextTransformation]) {
             self.arn = arn
             self.fieldToMatch = fieldToMatch
@@ -4784,6 +4950,7 @@ extension WAFV2 {
         /// The name of the data type instance. You cannot change the name after you create the instance.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, lockToken: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -4807,6 +4974,7 @@ extension WAFV2 {
         /// The timestamp of the release.
         public let timestamp: Date?
 
+        @inlinable
         public init(releaseVersion: String? = nil, timestamp: Date? = nil) {
             self.releaseVersion = releaseVersion
             self.timestamp = timestamp
@@ -4822,6 +4990,7 @@ extension WAFV2 {
         /// Specifies the maximum size of the web request body component that an associated CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resource should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body.  Default: 16 KB (16,384 bytes)
         public let defaultSizeInspectionLimit: SizeInspectionLimit
 
+        @inlinable
         public init(defaultSizeInspectionLimit: SizeInspectionLimit) {
             self.defaultSizeInspectionLimit = defaultSizeInspectionLimit
         }
@@ -4839,6 +5008,7 @@ extension WAFV2 {
         /// The name of the field in the request payload that contains your customer's username.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "username": "THE_USERNAME" } },  the username field specification is /form/username.    For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         public let usernameField: UsernameField
 
+        @inlinable
         public init(passwordField: PasswordField, payloadType: PayloadType, usernameField: UsernameField) {
             self.passwordField = passwordField
             self.payloadType = payloadType
@@ -4871,6 +5041,7 @@ extension WAFV2 {
         /// The name of the field in the request payload that contains your customer's username.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "username": "THE_USERNAME" } },  the username field specification is /form/username.    For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         public let usernameField: UsernameField?
 
+        @inlinable
         public init(addressFields: [AddressField]? = nil, emailField: EmailField? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType, phoneNumberFields: [PhoneNumberField]? = nil, usernameField: UsernameField? = nil) {
             self.addressFields = addressFields
             self.emailField = emailField
@@ -4912,6 +5083,7 @@ extension WAFV2 {
         /// Configures inspection of the response status code for success and failure indicators.
         public let statusCode: ResponseInspectionStatusCode?
 
+        @inlinable
         public init(bodyContains: ResponseInspectionBodyContains? = nil, header: ResponseInspectionHeader? = nil, json: ResponseInspectionJson? = nil, statusCode: ResponseInspectionStatusCode? = nil) {
             self.bodyContains = bodyContains
             self.header = header
@@ -4940,6 +5112,7 @@ extension WAFV2 {
         /// Strings in the body of the response that indicate a successful login or account creation attempt. To be counted as a success, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.  JSON examples: "SuccessStrings": [ "Login successful" ] and "SuccessStrings": [ "Account creation successful", "Welcome to our site!" ]
         public let successStrings: [String]
 
+        @inlinable
         public init(failureStrings: [String], successStrings: [String]) {
             self.failureStrings = failureStrings
             self.successStrings = successStrings
@@ -4976,6 +5149,7 @@ extension WAFV2 {
         /// Values in the response header with the specified name that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON examples: "SuccessValues": [ "LoginPassed", "Successful login" ] and "SuccessValues": [ "AccountCreated", "Successful account creation" ]
         public let successValues: [String]
 
+        @inlinable
         public init(failureValues: [String], name: String, successValues: [String]) {
             self.failureValues = failureValues
             self.name = name
@@ -5017,6 +5191,7 @@ extension WAFV2 {
         /// Values for the specified identifier in the response JSON that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "SuccessValues": [ "True", "Succeeded" ]
         public let successValues: [String]
 
+        @inlinable
         public init(failureValues: [String], identifier: String, successValues: [String]) {
             self.failureValues = failureValues
             self.identifier = identifier
@@ -5056,6 +5231,7 @@ extension WAFV2 {
         /// Status codes in the response that indicate a successful login or account creation attempt. To be counted as a success, the response status code must match one of these. Each code must be unique among the success and failure status codes.  JSON example: "SuccessCodes": [ 200, 201 ]
         public let successCodes: [Int]
 
+        @inlinable
         public init(failureCodes: [Int], successCodes: [Int]) {
             self.failureCodes = failureCodes
             self.successCodes = successCodes
@@ -5102,6 +5278,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.   If you change the name of a Rule after you create it and you want the rule's metric name to reflect the change, update the metric name as well. WAF  doesn't automatically update the metric name.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(action: RuleAction? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, name: String, overrideAction: OverrideAction? = nil, priority: Int, ruleLabels: [Label]? = nil, statement: Statement, visibilityConfig: VisibilityConfig) {
             self.action = action
             self.captchaConfig = captchaConfig
@@ -5155,6 +5332,7 @@ extension WAFV2 {
         /// Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
         public let count: CountAction?
 
+        @inlinable
         public init(allow: AllowAction? = nil, block: BlockAction? = nil, captcha: CaptchaAction? = nil, challenge: ChallengeAction? = nil, count: CountAction? = nil) {
             self.allow = allow
             self.block = block
@@ -5186,6 +5364,7 @@ extension WAFV2 {
         /// The name of the rule to override.
         public let name: String
 
+        @inlinable
         public init(actionToUse: RuleAction, name: String) {
             self.actionToUse = actionToUse
             self.name = name
@@ -5230,6 +5409,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(arn: String, availableLabels: [LabelSummary]? = nil, capacity: Int64, consumedLabels: [LabelSummary]? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, labelNamespace: String? = nil, name: String, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
             self.arn = arn
             self.availableLabels = availableLabels
@@ -5267,6 +5447,7 @@ extension WAFV2 {
         /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change.  You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public let ruleActionOverrides: [RuleActionOverride]?
 
+        @inlinable
         public init(arn: String, excludedRules: [ExcludedRule]? = nil, ruleActionOverrides: [RuleActionOverride]? = nil) {
             self.arn = arn
             self.excludedRules = excludedRules
@@ -5306,6 +5487,7 @@ extension WAFV2 {
         /// The name of the data type instance. You cannot change the name after you create the instance.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, lockToken: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -5329,6 +5511,7 @@ extension WAFV2 {
         /// The name of the rule.
         public let name: String?
 
+        @inlinable
         public init(action: RuleAction? = nil, name: String? = nil) {
             self.action = action
             self.name = name
@@ -5364,6 +5547,7 @@ extension WAFV2 {
         /// A value that indicates how one result in the response relates proportionally to other results in the response. For example, a result that has a weight of 2 represents roughly twice as many web requests as a result that has a weight of 1.
         public let weight: Int64
 
+        @inlinable
         public init(action: String? = nil, captchaResponse: CaptchaResponse? = nil, challengeResponse: ChallengeResponse? = nil, labels: [Label]? = nil, overriddenAction: String? = nil, request: HTTPRequest, requestHeadersInserted: [HTTPHeader]? = nil, responseCodeSent: Int? = nil, ruleNameWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
             self.action = action
             self.captchaResponse = captchaResponse
@@ -5397,6 +5581,7 @@ extension WAFV2 {
         /// The name of the query header to inspect.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -5416,6 +5601,7 @@ extension WAFV2 {
         /// The name of the query argument to inspect.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -5441,6 +5627,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator, fieldToMatch: FieldToMatch, size: Int64, textTransformations: [TextTransformation]) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
@@ -5474,6 +5661,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, sensitivityLevel: SensitivityLevel? = nil, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
             self.sensitivityLevel = sensitivityLevel
@@ -5528,6 +5716,7 @@ extension WAFV2 {
         /// uses vulnerabilities in a benign website as a vehicle to inject malicious client-site scripts into other legitimate web browsers.
         public let xssMatchStatement: XssMatchStatement?
 
+        @inlinable
         public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, ipSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
             self.andStatement = andStatement
             self.byteMatchStatement = byteMatchStatement
@@ -5589,6 +5778,7 @@ extension WAFV2 {
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5614,6 +5804,7 @@ extension WAFV2 {
         /// The array of Tag objects defined for the resource.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tagList: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tagList = tagList
@@ -5631,6 +5822,7 @@ extension WAFV2 {
         /// An array of key:value pairs to associate with the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -5662,6 +5854,7 @@ extension WAFV2 {
         /// For detailed descriptions of each of the transformation types, see Text transformations  in the WAF Developer Guide.
         public let type: TextTransformationType
 
+        @inlinable
         public init(priority: Int, type: TextTransformationType) {
             self.priority = priority
             self.type = type
@@ -5683,6 +5876,7 @@ extension WAFV2 {
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -5700,6 +5894,7 @@ extension WAFV2 {
         /// An array of keys identifying the tags to disassociate from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -5741,6 +5936,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(addresses: [String], description: String? = nil, id: String, lockToken: String, name: String, scope: Scope) {
             self.addresses = addresses
             self.description = description
@@ -5784,6 +5980,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
         public let nextLockToken: String?
 
+        @inlinable
         public init(nextLockToken: String? = nil) {
             self.nextLockToken = nextLockToken
         }
@@ -5807,6 +6004,7 @@ extension WAFV2 {
         /// The version that you want to remove from your list of offerings for the named managed rule group.
         public let versionToExpire: String
 
+        @inlinable
         public init(expiryTimestamp: Date, id: String, lockToken: String, name: String, scope: Scope, versionToExpire: String) {
             self.expiryTimestamp = expiryTimestamp
             self.id = id
@@ -5849,6 +6047,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let nextLockToken: String?
 
+        @inlinable
         public init(expiringVersion: String? = nil, expiryTimestamp: Date? = nil, nextLockToken: String? = nil) {
             self.expiringVersion = expiringVersion
             self.expiryTimestamp = expiryTimestamp
@@ -5875,6 +6074,7 @@ extension WAFV2 {
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
         public let scope: Scope
 
+        @inlinable
         public init(description: String? = nil, id: String, lockToken: String, name: String, regularExpressionList: [Regex], scope: Scope) {
             self.description = description
             self.id = id
@@ -5916,6 +6116,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
         public let nextLockToken: String?
 
+        @inlinable
         public init(nextLockToken: String? = nil) {
             self.nextLockToken = nextLockToken
         }
@@ -5943,6 +6144,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
             self.customResponseBodies = customResponseBodies
             self.description = description
@@ -5996,6 +6198,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
         public let nextLockToken: String?
 
+        @inlinable
         public init(nextLockToken: String? = nil) {
             self.nextLockToken = nextLockToken
         }
@@ -6034,6 +6237,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
@@ -6105,6 +6309,7 @@ extension WAFV2 {
         /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
         public let nextLockToken: String?
 
+        @inlinable
         public init(nextLockToken: String? = nil) {
             self.nextLockToken = nextLockToken
         }
@@ -6122,6 +6327,7 @@ extension WAFV2 {
         /// The name of the username field.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "username": "THE_USERNAME" } },  the username field specification is /form/username.    For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -6143,6 +6349,7 @@ extension WAFV2 {
         /// The amount of time the vendor expects this version of the managed rule group to last, in days.
         public let forecastedLifetime: Int?
 
+        @inlinable
         public init(associatedRuleGroupArn: String? = nil, forecastedLifetime: Int? = nil) {
             self.associatedRuleGroupArn = associatedRuleGroupArn
             self.forecastedLifetime = forecastedLifetime
@@ -6170,6 +6377,7 @@ extension WAFV2 {
         /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.   Request sampling doesn't provide a field redaction option, and any field redaction that you specify in your logging configuration doesn't affect sampling.  The only way to exclude fields from request sampling is by disabling sampling in the web ACL visibility configuration.
         public let sampledRequestsEnabled: Bool
 
+        @inlinable
         public init(cloudWatchMetricsEnabled: Bool, metricName: String, sampledRequestsEnabled: Bool) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.metricName = metricName
@@ -6228,6 +6436,7 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
+        @inlinable
         public init(arn: String, associationConfig: AssociationConfig? = nil, capacity: Int64? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, rules: [Rule]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.arn = arn
             self.associationConfig = associationConfig
@@ -6281,6 +6490,7 @@ extension WAFV2 {
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, lockToken: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -6304,6 +6514,7 @@ extension WAFV2 {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
+        @inlinable
         public init(fieldToMatch: FieldToMatch, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
             self.textTransformations = textTransformations

@@ -156,6 +156,7 @@ extension EMRServerless {
         /// The specification applied to each worker type.
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
+        @inlinable
         public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
@@ -227,6 +228,7 @@ extension EMRServerless {
         /// The date and time when the application was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(architecture: Architecture? = nil, arn: String, createdAt: Date, id: String, name: String? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, type: String, updatedAt: Date) {
             self.architecture = architecture
             self.arn = arn
@@ -258,6 +260,7 @@ extension EMRServerless {
         /// Enables the application to automatically start on job submission. Defaults to true.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -273,6 +276,7 @@ extension EMRServerless {
         /// The amount of idle time in minutes after which your application will automatically stop. Defaults to 15 minutes.
         public let idleTimeoutMinutes: Int?
 
+        @inlinable
         public init(enabled: Bool? = nil, idleTimeoutMinutes: Int? = nil) {
             self.enabled = enabled
             self.idleTimeoutMinutes = idleTimeoutMinutes
@@ -290,6 +294,7 @@ extension EMRServerless {
         /// The ID of the job run to cancel.
         public let jobRunId: String
 
+        @inlinable
         public init(applicationId: String, jobRunId: String) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
@@ -320,6 +325,7 @@ extension EMRServerless {
         /// The output contains the ID of the cancelled job run.
         public let jobRunId: String
 
+        @inlinable
         public init(applicationId: String, jobRunId: String) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
@@ -343,6 +349,7 @@ extension EMRServerless {
         /// The types of logs that you want to publish to CloudWatch. If you don't specify any log types, driver STDOUT and STDERR logs will be published to CloudWatch Logs by default. For more information including the supported worker types for Hive and Spark, see Logging for EMR Serverless with CloudWatch.    Key Valid Values: SPARK_DRIVER, SPARK_EXECUTOR, HIVE_DRIVER, TEZ_TASK     Array Members Valid Values: STDOUT, STDERR, HIVE_LOG, TEZ_AM, SYSTEM_LOGS
         public let logTypes: [String: [String]]?
 
+        @inlinable
         public init(enabled: Bool, encryptionKeyArn: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logTypes: [String: [String]]? = nil) {
             self.enabled = enabled
             self.encryptionKeyArn = encryptionKeyArn
@@ -389,6 +396,7 @@ extension EMRServerless {
         /// A set of properties specified within a configuration classification.
         public let properties: [String: String]?
 
+        @inlinable
         public init(classification: String, configurations: [Configuration]? = nil, properties: [String: String]? = nil) {
             self.classification = classification
             self.configurations = configurations
@@ -426,6 +434,7 @@ extension EMRServerless {
         /// The override configurations for monitoring.
         public let monitoringConfiguration: MonitoringConfiguration?
 
+        @inlinable
         public init(applicationConfiguration: [Configuration]? = nil, monitoringConfiguration: MonitoringConfiguration? = nil) {
             self.applicationConfiguration = applicationConfiguration
             self.monitoringConfiguration = monitoringConfiguration
@@ -479,6 +488,7 @@ extension EMRServerless {
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
+        @inlinable
         public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
@@ -569,6 +579,7 @@ extension EMRServerless {
         /// The output contains the name of the application.
         public let name: String?
 
+        @inlinable
         public init(applicationId: String, arn: String, name: String? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -586,6 +597,7 @@ extension EMRServerless {
         /// The ID of the application that will be deleted.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -613,6 +625,7 @@ extension EMRServerless {
         /// The ID of the application that will be described.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -636,6 +649,7 @@ extension EMRServerless {
         /// The output displays information about the specified application.
         public let application: Application
 
+        @inlinable
         public init(application: Application) {
             self.application = application
         }
@@ -653,6 +667,7 @@ extension EMRServerless {
         /// The ID of the job run.
         public let jobRunId: String
 
+        @inlinable
         public init(applicationId: String, attempt: Int? = nil, jobRunId: String) {
             self.applicationId = applicationId
             self.attempt = attempt
@@ -684,6 +699,7 @@ extension EMRServerless {
         /// The URL to view job run's dashboard.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -701,6 +717,7 @@ extension EMRServerless {
         /// The ID of the job run.
         public let jobRunId: String
 
+        @inlinable
         public init(applicationId: String, attempt: Int? = nil, jobRunId: String) {
             self.applicationId = applicationId
             self.attempt = attempt
@@ -732,6 +749,7 @@ extension EMRServerless {
         /// The output displays information about the job run.
         public let jobRun: JobRun
 
+        @inlinable
         public init(jobRun: JobRun) {
             self.jobRun = jobRun
         }
@@ -749,6 +767,7 @@ extension EMRServerless {
         /// The query for the Hive job run.
         public let query: String
 
+        @inlinable
         public init(initQueryFile: String? = nil, parameters: String? = nil, query: String) {
             self.initQueryFile = initQueryFile
             self.parameters = parameters
@@ -780,6 +799,7 @@ extension EMRServerless {
         /// The SHA256 digest of the image URI. This indicates which specific image the application is configured for. The image digest doesn't exist until an application has started.
         public let resolvedImageDigest: String?
 
+        @inlinable
         public init(imageUri: String, resolvedImageDigest: String? = nil) {
             self.imageUri = imageUri
             self.resolvedImageDigest = resolvedImageDigest
@@ -795,6 +815,7 @@ extension EMRServerless {
         /// The URI of an image in the Amazon ECR registry. This field is required when you create a new application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
         public let imageUri: String?
 
+        @inlinable
         public init(imageUri: String? = nil) {
             self.imageUri = imageUri
         }
@@ -816,6 +837,7 @@ extension EMRServerless {
         /// The number of workers in the initial capacity configuration.
         public let workerCount: Int64
 
+        @inlinable
         public init(workerConfiguration: WorkerResourceConfig? = nil, workerCount: Int64) {
             self.workerConfiguration = workerConfiguration
             self.workerCount = workerCount
@@ -839,6 +861,7 @@ extension EMRServerless {
         /// Enables you to connect an application to Amazon EMR Studio to run interactive workloads in a notebook.
         public let studioEnabled: Bool?
 
+        @inlinable
         public init(livyEndpointEnabled: Bool? = nil, studioEnabled: Bool? = nil) {
             self.livyEndpointEnabled = livyEndpointEnabled
             self.studioEnabled = studioEnabled
@@ -899,6 +922,7 @@ extension EMRServerless {
         /// The date and time when the job run was updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
@@ -986,6 +1010,7 @@ extension EMRServerless {
         /// The date and time of when the job run attempt was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(applicationId: String, arn: String, attempt: Int? = nil, createdAt: Date, createdBy: String, executionRole: String, id: String, jobCreatedAt: Date, mode: JobRunMode? = nil, name: String? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, type: String? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
@@ -1057,6 +1082,7 @@ extension EMRServerless {
         /// The date and time when the job run was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, createdAt: Date, createdBy: String, executionRole: String, id: String, mode: JobRunMode? = nil, name: String? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, type: String? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
@@ -1104,6 +1130,7 @@ extension EMRServerless {
         /// An optional filter for application states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
         public let states: [ApplicationState]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, states: [ApplicationState]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1135,6 +1162,7 @@ extension EMRServerless {
         /// The output displays the token for the next set of application results. This is required for pagination and is available as a response of the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [ApplicationSummary], nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -1156,6 +1184,7 @@ extension EMRServerless {
         /// The token for the next set of job run attempt results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, jobRunId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.jobRunId = jobRunId
@@ -1193,6 +1222,7 @@ extension EMRServerless {
         /// The output displays the token for the next set of application results.  This is required for pagination and is available as a response of the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobRunAttempts: [JobRunAttemptSummary], nextToken: String? = nil) {
             self.jobRunAttempts = jobRunAttempts
             self.nextToken = nextToken
@@ -1220,6 +1250,7 @@ extension EMRServerless {
         /// An optional filter for job run states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
         public let states: [JobRunState]?
 
+        @inlinable
         public init(applicationId: String, createdAtAfter: Date? = nil, createdAtBefore: Date? = nil, maxResults: Int? = nil, mode: JobRunMode? = nil, nextToken: String? = nil, states: [JobRunState]? = nil) {
             self.applicationId = applicationId
             self.createdAtAfter = createdAtAfter
@@ -1261,6 +1292,7 @@ extension EMRServerless {
         /// The output displays the token for the next set of job run results. This is required for pagination and is available as a response of the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobRuns: [JobRunSummary], nextToken: String? = nil) {
             self.jobRuns = jobRuns
             self.nextToken = nextToken
@@ -1276,6 +1308,7 @@ extension EMRServerless {
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1299,6 +1332,7 @@ extension EMRServerless {
         /// The tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1314,6 +1348,7 @@ extension EMRServerless {
         /// The KMS key ARN to encrypt the logs stored in managed log persistence.
         public let encryptionKeyArn: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, encryptionKeyArn: String? = nil) {
             self.enabled = enabled
             self.encryptionKeyArn = encryptionKeyArn
@@ -1339,6 +1374,7 @@ extension EMRServerless {
         /// The maximum allowed resources for an application.
         public let memory: String
 
+        @inlinable
         public init(cpu: String, disk: String? = nil, memory: String) {
             self.cpu = cpu
             self.disk = disk
@@ -1374,6 +1410,7 @@ extension EMRServerless {
         /// The Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: S3MonitoringConfiguration?
 
+        @inlinable
         public init(cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration? = nil, managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration? = nil, prometheusMonitoringConfiguration: PrometheusMonitoringConfiguration? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
             self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
             self.managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfiguration
@@ -1402,6 +1439,7 @@ extension EMRServerless {
         /// The array of subnet Ids for customer VPC connectivity.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1432,6 +1470,7 @@ extension EMRServerless {
         /// The remote write URL in the Amazon Managed Service for Prometheus workspace to send metrics to.
         public let remoteWriteUrl: String?
 
+        @inlinable
         public init(remoteWriteUrl: String? = nil) {
             self.remoteWriteUrl = remoteWriteUrl
         }
@@ -1455,6 +1494,7 @@ extension EMRServerless {
         /// The aggregated vCPU used per hour from the time the job starts executing until the job is terminated.
         public let vCPUHour: Double?
 
+        @inlinable
         public init(memoryGBHour: Double? = nil, storageGBHour: Double? = nil, vCPUHour: Double? = nil) {
             self.memoryGBHour = memoryGBHour
             self.storageGBHour = storageGBHour
@@ -1474,6 +1514,7 @@ extension EMRServerless {
         /// Maximum number of failed attempts per hour. This [arameter is only applicable for STREAMING mode.
         public let maxFailedAttemptsPerHour: Int?
 
+        @inlinable
         public init(maxAttempts: Int? = nil, maxFailedAttemptsPerHour: Int? = nil) {
             self.maxAttempts = maxAttempts
             self.maxFailedAttemptsPerHour = maxFailedAttemptsPerHour
@@ -1495,6 +1536,7 @@ extension EMRServerless {
         /// The Amazon S3 destination URI for log publishing.
         public let logUri: String?
 
+        @inlinable
         public init(encryptionKeyArn: String? = nil, logUri: String? = nil) {
             self.encryptionKeyArn = encryptionKeyArn
             self.logUri = logUri
@@ -1523,6 +1565,7 @@ extension EMRServerless {
         /// The parameters for the Spark submit job run.
         public let sparkSubmitParameters: String?
 
+        @inlinable
         public init(entryPoint: String, entryPointArguments: [String]? = nil, sparkSubmitParameters: String? = nil) {
             self.entryPoint = entryPoint
             self.entryPointArguments = entryPointArguments
@@ -1554,6 +1597,7 @@ extension EMRServerless {
         /// The ID of the application to start.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1599,6 +1643,7 @@ extension EMRServerless {
         /// The tags assigned to the job run.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationId: String, clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver? = nil, mode: JobRunMode? = nil, name: String? = nil, retryPolicy: RetryPolicy? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -1676,6 +1721,7 @@ extension EMRServerless {
         /// The output contains the ID of the started job run.
         public let jobRunId: String
 
+        @inlinable
         public init(applicationId: String, arn: String, jobRunId: String) {
             self.applicationId = applicationId
             self.arn = arn
@@ -1693,6 +1739,7 @@ extension EMRServerless {
         /// The ID of the application to stop.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1722,6 +1769,7 @@ extension EMRServerless {
         /// The tags to add to the resource. A tag is an array of key-value pairs.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1765,6 +1813,7 @@ extension EMRServerless {
         /// The aggregated vCPU used per hour from the time job start executing till the time job is terminated.
         public let vCPUHour: Double?
 
+        @inlinable
         public init(memoryGBHour: Double? = nil, storageGBHour: Double? = nil, vCPUHour: Double? = nil) {
             self.memoryGBHour = memoryGBHour
             self.storageGBHour = storageGBHour
@@ -1784,6 +1833,7 @@ extension EMRServerless {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1845,6 +1895,7 @@ extension EMRServerless {
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
+        @inlinable
         public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
@@ -1935,6 +1986,7 @@ extension EMRServerless {
         /// Information about the updated application.
         public let application: Application
 
+        @inlinable
         public init(application: Application) {
             self.application = application
         }
@@ -1954,6 +2006,7 @@ extension EMRServerless {
         /// The memory requirements for every worker instance of the worker type.
         public let memory: String
 
+        @inlinable
         public init(cpu: String, disk: String? = nil, diskType: String? = nil, memory: String) {
             self.cpu = cpu
             self.disk = disk
@@ -1986,6 +2039,7 @@ extension EMRServerless {
         /// The image configuration for a worker type.
         public let imageConfiguration: ImageConfiguration?
 
+        @inlinable
         public init(imageConfiguration: ImageConfiguration? = nil) {
             self.imageConfiguration = imageConfiguration
         }
@@ -1999,6 +2053,7 @@ extension EMRServerless {
         /// The image configuration for a worker type.
         public let imageConfiguration: ImageConfigurationInput?
 
+        @inlinable
         public init(imageConfiguration: ImageConfigurationInput? = nil) {
             self.imageConfiguration = imageConfiguration
         }

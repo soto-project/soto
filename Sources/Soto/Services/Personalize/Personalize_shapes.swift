@@ -101,6 +101,7 @@ extension Personalize {
         /// The training input mode.
         public let trainingInputMode: String?
 
+        @inlinable
         public init(algorithmArn: String? = nil, algorithmImage: AlgorithmImage? = nil, creationDateTime: Date? = nil, defaultHyperParameterRanges: DefaultHyperParameterRanges? = nil, defaultHyperParameters: [String: String]? = nil, defaultResourceConfig: [String: String]? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, roleArn: String? = nil, trainingInputMode: String? = nil) {
             self.algorithmArn = algorithmArn
             self.algorithmImage = algorithmImage
@@ -134,6 +135,7 @@ extension Personalize {
         /// The name of the algorithm image.
         public let name: String?
 
+        @inlinable
         public init(dockerURI: String, name: String? = nil) {
             self.dockerURI = dockerURI
             self.name = name
@@ -151,6 +153,7 @@ extension Personalize {
         /// The list of candidate recipes.
         public let recipeList: [String]?
 
+        @inlinable
         public init(metricName: String? = nil, recipeList: [String]? = nil) {
             self.metricName = metricName
             self.recipeList = recipeList
@@ -175,6 +178,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the best recipe.
         public let bestRecipeArn: String?
 
+        @inlinable
         public init(bestRecipeArn: String? = nil) {
             self.bestRecipeArn = bestRecipeArn
         }
@@ -188,6 +192,7 @@ extension Personalize {
         /// Specifies how often to automatically train new solution versions. Specify a rate expression in rate(value unit) format. For value, specify a number between 1 and 30. For unit, specify day or days. For example, to automatically create a new solution version every 5 days, specify rate(5 days). The default is every 7 days. For more information about auto training, see Creating and configuring a solution.
         public let schedulingExpression: String?
 
+        @inlinable
         public init(schedulingExpression: String? = nil) {
             self.schedulingExpression = schedulingExpression
         }
@@ -235,6 +240,7 @@ extension Personalize {
         /// The job's theme generation settings.
         public let themeGenerationConfig: ThemeGenerationConfig?
 
+        @inlinable
         public init(batchInferenceJobArn: String? = nil, batchInferenceJobConfig: BatchInferenceJobConfig? = nil, batchInferenceJobMode: BatchInferenceJobMode? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: Date? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil, themeGenerationConfig: ThemeGenerationConfig? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.batchInferenceJobConfig = batchInferenceJobConfig
@@ -276,6 +282,7 @@ extension Personalize {
         /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items.  See User-Personalization.
         public let itemExplorationConfig: [String: String]?
 
+        @inlinable
         public init(itemExplorationConfig: [String: String]? = nil) {
             self.itemExplorationConfig = itemExplorationConfig
         }
@@ -297,6 +304,7 @@ extension Personalize {
         /// The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API endpoint you are calling.
         public let s3DataSource: S3DataConfig
 
+        @inlinable
         public init(s3DataSource: S3DataConfig) {
             self.s3DataSource = s3DataSource
         }
@@ -314,6 +322,7 @@ extension Personalize {
         /// Information on the Amazon S3 bucket in which the batch inference job's output is stored.
         public let s3DataDestination: S3DataConfig
 
+        @inlinable
         public init(s3DataDestination: S3DataConfig) {
             self.s3DataDestination = s3DataDestination
         }
@@ -345,6 +354,7 @@ extension Personalize {
         /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(batchInferenceJobArn: String? = nil, batchInferenceJobMode: BatchInferenceJobMode? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.batchInferenceJobMode = batchInferenceJobMode
@@ -394,6 +404,7 @@ extension Personalize {
         /// The status of the batch segment job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(batchSegmentJobArn: String? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchSegmentJobInput? = nil, jobName: String? = nil, jobOutput: BatchSegmentJobOutput? = nil, lastUpdatedDateTime: Date? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchSegmentJobArn = batchSegmentJobArn
             self.creationDateTime = creationDateTime
@@ -428,6 +439,7 @@ extension Personalize {
     public struct BatchSegmentJobInput: AWSEncodableShape & AWSDecodableShape {
         public let s3DataSource: S3DataConfig
 
+        @inlinable
         public init(s3DataSource: S3DataConfig) {
             self.s3DataSource = s3DataSource
         }
@@ -444,6 +456,7 @@ extension Personalize {
     public struct BatchSegmentJobOutput: AWSEncodableShape & AWSDecodableShape {
         public let s3DataDestination: S3DataConfig
 
+        @inlinable
         public init(s3DataDestination: S3DataConfig) {
             self.s3DataDestination = s3DataDestination
         }
@@ -473,6 +486,7 @@ extension Personalize {
         /// The status of the batch segment job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(batchSegmentJobArn: String? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.batchSegmentJobArn = batchSegmentJobArn
             self.creationDateTime = creationDateTime
@@ -515,6 +529,7 @@ extension Personalize {
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(campaignArn: String? = nil, campaignConfig: CampaignConfig? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
             self.campaignConfig = campaignConfig
@@ -550,6 +565,7 @@ extension Personalize {
         /// Whether the campaign automatically updates to use the latest solution version (trained model) of a solution. If you specify True,  you must specify the ARN of your solution for the SolutionVersionArn parameter. It must be in SolutionArn/$LATEST format. The default is False and you must manually update the campaign to deploy the latest solution version.    For more information about automatic campaign updates, see  Enabling automatic campaign updates.
         public let syncWithLatestSolutionVersion: Bool?
 
+        @inlinable
         public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil, syncWithLatestSolutionVersion: Bool? = nil) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
@@ -585,6 +601,7 @@ extension Personalize {
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(campaignArn: String? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
             self.creationDateTime = creationDateTime
@@ -619,6 +636,7 @@ extension Personalize {
         /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(campaignConfig: CampaignConfig? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
@@ -646,6 +664,7 @@ extension Personalize {
         /// A list of the categories for the hyperparameter.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -673,6 +692,7 @@ extension Personalize {
         /// The name of the hyperparameter.
         public let name: String?
 
+        @inlinable
         public init(maxValue: Double? = nil, minValue: Double? = nil, name: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -716,6 +736,7 @@ extension Personalize {
         /// For theme generation jobs, specify the name of the column in your Items dataset that contains each item's name.
         public let themeGenerationConfig: ThemeGenerationConfig?
 
+        @inlinable
         public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, batchInferenceJobMode: BatchInferenceJobMode? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String, tags: [Tag]? = nil, themeGenerationConfig: ThemeGenerationConfig? = nil) {
             self.batchInferenceJobConfig = batchInferenceJobConfig
             self.batchInferenceJobMode = batchInferenceJobMode
@@ -769,6 +790,7 @@ extension Personalize {
         /// The ARN of the batch inference job.
         public let batchInferenceJobArn: String?
 
+        @inlinable
         public init(batchInferenceJobArn: String? = nil) {
             self.batchInferenceJobArn = batchInferenceJobArn
         }
@@ -796,6 +818,7 @@ extension Personalize {
         /// A list of tags to apply to the batch segment job.
         public let tags: [Tag]?
 
+        @inlinable
         public init(filterArn: String? = nil, jobInput: BatchSegmentJobInput, jobName: String, jobOutput: BatchSegmentJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String, tags: [Tag]? = nil) {
             self.filterArn = filterArn
             self.jobInput = jobInput
@@ -841,6 +864,7 @@ extension Personalize {
         /// The ARN of the batch segment job.
         public let batchSegmentJobArn: String?
 
+        @inlinable
         public init(batchSegmentJobArn: String? = nil) {
             self.batchSegmentJobArn = batchSegmentJobArn
         }
@@ -862,6 +886,7 @@ extension Personalize {
         /// A list of tags to apply to the campaign.
         public let tags: [Tag]?
 
+        @inlinable
         public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, name: String, solutionVersionArn: String, tags: [Tag]? = nil) {
             self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
@@ -897,6 +922,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
 
+        @inlinable
         public init(campaignArn: String? = nil) {
             self.campaignArn = campaignArn
         }
@@ -918,6 +944,7 @@ extension Personalize {
         /// A list of tags to apply to the data deletion job.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetGroupArn: String, dataSource: DataSource, jobName: String, roleArn: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.dataSource = dataSource
@@ -954,6 +981,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the data deletion job.
         public let dataDeletionJobArn: String?
 
+        @inlinable
         public init(dataDeletionJobArn: String? = nil) {
             self.dataDeletionJobArn = dataDeletionJobArn
         }
@@ -977,6 +1005,7 @@ extension Personalize {
         /// A list of tags to apply to the dataset export job.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetArn: String, ingestionMode: IngestionMode? = nil, jobName: String, jobOutput: DatasetExportJobOutput, roleArn: String, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.ingestionMode = ingestionMode
@@ -1015,6 +1044,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset export job.
         public let datasetExportJobArn: String?
 
+        @inlinable
         public init(datasetExportJobArn: String? = nil) {
             self.datasetExportJobArn = datasetExportJobArn
         }
@@ -1036,6 +1066,7 @@ extension Personalize {
         /// A list of tags to apply to the dataset group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(domain: Domain? = nil, kmsKeyArn: String? = nil, name: String, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.domain = domain
             self.kmsKeyArn = kmsKeyArn
@@ -1073,6 +1104,7 @@ extension Personalize {
         /// The domain for the new Domain dataset group.
         public let domain: Domain?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, domain: Domain? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.domain = domain
@@ -1100,6 +1132,7 @@ extension Personalize {
         /// A list of tags to apply to the dataset import job.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetArn: String, dataSource: DataSource, importMode: ImportMode? = nil, jobName: String, publishAttributionMetricsToS3: Bool? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.dataSource = dataSource
@@ -1140,6 +1173,7 @@ extension Personalize {
         /// The ARN of the dataset import job.
         public let datasetImportJobArn: String?
 
+        @inlinable
         public init(datasetImportJobArn: String? = nil) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -1161,6 +1195,7 @@ extension Personalize {
         /// A list of tags to apply to the dataset.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetGroupArn: String, datasetType: String, name: String, schemaArn: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.datasetType = datasetType
@@ -1197,6 +1232,7 @@ extension Personalize {
         /// The ARN of the dataset.
         public let datasetArn: String?
 
+        @inlinable
         public init(datasetArn: String? = nil) {
             self.datasetArn = datasetArn
         }
@@ -1214,6 +1250,7 @@ extension Personalize {
         /// A list of tags to apply to the event tracker.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetGroupArn: String, name: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
@@ -1245,6 +1282,7 @@ extension Personalize {
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
         public let trackingId: String?
 
+        @inlinable
         public init(eventTrackerArn: String? = nil, trackingId: String? = nil) {
             self.eventTrackerArn = eventTrackerArn
             self.trackingId = trackingId
@@ -1266,6 +1304,7 @@ extension Personalize {
         /// A list of tags to apply to the filter.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetGroupArn: String, filterExpression: String, name: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.filterExpression = filterExpression
@@ -1299,6 +1338,7 @@ extension Personalize {
         /// The ARN of the new filter.
         public let filterArn: String?
 
+        @inlinable
         public init(filterArn: String? = nil) {
             self.filterArn = filterArn
         }
@@ -1318,6 +1358,7 @@ extension Personalize {
         /// A name for the metric attribution.
         public let name: String
 
+        @inlinable
         public init(datasetGroupArn: String, metrics: [MetricAttribute], metricsOutputConfig: MetricAttributionOutput, name: String) {
             self.datasetGroupArn = datasetGroupArn
             self.metrics = metrics
@@ -1350,6 +1391,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) for the new metric attribution.
         public let metricAttributionArn: String?
 
+        @inlinable
         public init(metricAttributionArn: String? = nil) {
             self.metricAttributionArn = metricAttributionArn
         }
@@ -1371,6 +1413,7 @@ extension Personalize {
         /// A list of tags to apply to the recommender.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetGroupArn: String, name: String, recipeArn: String, recommenderConfig: RecommenderConfig? = nil, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
@@ -1407,6 +1450,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender.
         public let recommenderArn: String?
 
+        @inlinable
         public init(recommenderArn: String? = nil) {
             self.recommenderArn = recommenderArn
         }
@@ -1424,6 +1468,7 @@ extension Personalize {
         /// A schema in Avro JSON format.
         public let schema: String
 
+        @inlinable
         public init(domain: Domain? = nil, name: String, schema: String) {
             self.domain = domain
             self.name = name
@@ -1448,6 +1493,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the created schema.
         public let schemaArn: String?
 
+        @inlinable
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
         }
@@ -1477,6 +1523,7 @@ extension Personalize {
         /// A list of tags to apply to the solution.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -1522,6 +1569,7 @@ extension Personalize {
         /// The ARN of the solution.
         public let solutionArn: String?
 
+        @inlinable
         public init(solutionArn: String? = nil) {
             self.solutionArn = solutionArn
         }
@@ -1541,6 +1589,7 @@ extension Personalize {
         /// The scope of training to be performed when creating the solution version.  The default is FULL. This creates a completely new model based on the entirety  of the training data from the datasets in your dataset group.  If you use User-Personalization, you can specify a training mode of UPDATE. This updates the model to consider new items for recommendations. It is not a full retraining. You should still complete a full retraining weekly. If you specify UPDATE, Amazon Personalize will stop automatic updates for the solution version. To resume updates, create a new solution with training mode set to FULL and deploy it in a campaign.  For more information about automatic updates, see  Automatic updates.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the  User-Personalization recipe or the legacy HRNN-Coldstart recipe.
         public let trainingMode: TrainingMode?
 
+        @inlinable
         public init(name: String? = nil, solutionArn: String, tags: [Tag]? = nil, trainingMode: TrainingMode? = nil) {
             self.name = name
             self.solutionArn = solutionArn
@@ -1572,6 +1621,7 @@ extension Personalize {
         /// The ARN of the new solution version.
         public let solutionVersionArn: String?
 
+        @inlinable
         public init(solutionVersionArn: String? = nil) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -1602,6 +1652,7 @@ extension Personalize {
         /// The status of the data deletion job. A data deletion job can have one of the following statuses:   PENDING > IN_PROGRESS > COMPLETED -or- FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, dataDeletionJobArn: String? = nil, datasetGroupArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, numDeleted: Int? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.dataDeletionJobArn = dataDeletionJobArn
@@ -1645,6 +1696,7 @@ extension Personalize {
         /// The status of the data deletion job. A data deletion job can have one of the following statuses:   PENDING > IN_PROGRESS > COMPLETED -or- FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, dataDeletionJobArn: String? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.dataDeletionJobArn = dataDeletionJobArn
@@ -1670,6 +1722,7 @@ extension Personalize {
         /// For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete.   For example:   s3://bucket-name/folder-name/fileName.csv  If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder.  With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name:  s3://bucket-name/folder-name/
         public let dataLocation: String?
 
+        @inlinable
         public init(dataLocation: String? = nil) {
             self.dataLocation = dataLocation
         }
@@ -1706,6 +1759,7 @@ extension Personalize {
         /// The ID of the event tracker for an Action interactions dataset.  You specify the tracker's ID in the PutActionInteractions API operation. Amazon Personalize uses it to direct new data to the Action interactions dataset in your dataset group.
         public let trackingId: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, latestDatasetUpdate: DatasetUpdateSummary? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil, trackingId: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -1755,6 +1809,7 @@ extension Personalize {
         /// The status of the dataset export job. A dataset export job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetExportJobArn: String? = nil, failureReason: String? = nil, ingestionMode: IngestionMode? = nil, jobName: String? = nil, jobOutput: DatasetExportJobOutput? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -1785,6 +1840,7 @@ extension Personalize {
     public struct DatasetExportJobOutput: AWSEncodableShape & AWSDecodableShape {
         public let s3DataDestination: S3DataConfig
 
+        @inlinable
         public init(s3DataDestination: S3DataConfig) {
             self.s3DataDestination = s3DataDestination
         }
@@ -1812,6 +1868,7 @@ extension Personalize {
         /// The status of the dataset export job. A dataset export job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetExportJobArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetExportJobArn = datasetExportJobArn
@@ -1851,6 +1908,7 @@ extension Personalize {
         /// The current status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, domain: Domain? = nil, failureReason: String? = nil, kmsKeyArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -1892,6 +1950,7 @@ extension Personalize {
         /// The status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, domain: Domain? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -1937,6 +1996,7 @@ extension Personalize {
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, importMode: ImportMode? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, publishAttributionMetricsToS3: Bool? = nil, roleArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -1982,6 +2042,7 @@ extension Personalize {
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetImportJobArn: String? = nil, failureReason: String? = nil, importMode: ImportMode? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetImportJobArn = datasetImportJobArn
@@ -2017,6 +2078,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the schema.
         public let schemaArn: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, domain: Domain? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, schema: String? = nil, schemaArn: String? = nil) {
             self.creationDateTime = creationDateTime
             self.domain = domain
@@ -2048,6 +2110,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the schema.
         public let schemaArn: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, domain: Domain? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, schemaArn: String? = nil) {
             self.creationDateTime = creationDateTime
             self.domain = domain
@@ -2079,6 +2142,7 @@ extension Personalize {
         /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
@@ -2110,6 +2174,7 @@ extension Personalize {
         /// The status of the dataset update.
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, schemaArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -2135,6 +2200,7 @@ extension Personalize {
         /// A list of the categories for the hyperparameter.
         public let values: [String]?
 
+        @inlinable
         public init(isTunable: Bool? = nil, name: String? = nil, values: [String]? = nil) {
             self.isTunable = isTunable
             self.name = name
@@ -2158,6 +2224,7 @@ extension Personalize {
         /// The name of the hyperparameter.
         public let name: String?
 
+        @inlinable
         public init(isTunable: Bool? = nil, maxValue: Double? = nil, minValue: Double? = nil, name: String? = nil) {
             self.isTunable = isTunable
             self.maxValue = maxValue
@@ -2181,6 +2248,7 @@ extension Personalize {
         /// The integer-valued hyperparameters and their default ranges.
         public let integerHyperParameterRanges: [DefaultIntegerHyperParameterRange]?
 
+        @inlinable
         public init(categoricalHyperParameterRanges: [DefaultCategoricalHyperParameterRange]? = nil, continuousHyperParameterRanges: [DefaultContinuousHyperParameterRange]? = nil, integerHyperParameterRanges: [DefaultIntegerHyperParameterRange]? = nil) {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
@@ -2204,6 +2272,7 @@ extension Personalize {
         /// The name of the hyperparameter.
         public let name: String?
 
+        @inlinable
         public init(isTunable: Bool? = nil, maxValue: Int? = nil, minValue: Int? = nil, name: String? = nil) {
             self.isTunable = isTunable
             self.maxValue = maxValue
@@ -2223,6 +2292,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the campaign to delete.
         public let campaignArn: String
 
+        @inlinable
         public init(campaignArn: String) {
             self.campaignArn = campaignArn
         }
@@ -2241,6 +2311,7 @@ extension Personalize {
         /// The ARN of the dataset group to delete.
         public let datasetGroupArn: String
 
+        @inlinable
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -2259,6 +2330,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
 
+        @inlinable
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -2277,6 +2349,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the event tracker to delete.
         public let eventTrackerArn: String
 
+        @inlinable
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
         }
@@ -2295,6 +2368,7 @@ extension Personalize {
         /// The ARN of the filter to delete.
         public let filterArn: String
 
+        @inlinable
         public init(filterArn: String) {
             self.filterArn = filterArn
         }
@@ -2313,6 +2387,7 @@ extension Personalize {
         /// The metric attribution's Amazon Resource Name (ARN).
         public let metricAttributionArn: String
 
+        @inlinable
         public init(metricAttributionArn: String) {
             self.metricAttributionArn = metricAttributionArn
         }
@@ -2331,6 +2406,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender to delete.
         public let recommenderArn: String
 
+        @inlinable
         public init(recommenderArn: String) {
             self.recommenderArn = recommenderArn
         }
@@ -2349,6 +2425,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the schema to delete.
         public let schemaArn: String
 
+        @inlinable
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -2367,6 +2444,7 @@ extension Personalize {
         /// The ARN of the solution to delete.
         public let solutionArn: String
 
+        @inlinable
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
         }
@@ -2385,6 +2463,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the algorithm to describe.
         public let algorithmArn: String
 
+        @inlinable
         public init(algorithmArn: String) {
             self.algorithmArn = algorithmArn
         }
@@ -2403,6 +2482,7 @@ extension Personalize {
         /// A listing of the properties of the algorithm.
         public let algorithm: Algorithm?
 
+        @inlinable
         public init(algorithm: Algorithm? = nil) {
             self.algorithm = algorithm
         }
@@ -2416,6 +2496,7 @@ extension Personalize {
         /// The ARN of the batch inference job to describe.
         public let batchInferenceJobArn: String
 
+        @inlinable
         public init(batchInferenceJobArn: String) {
             self.batchInferenceJobArn = batchInferenceJobArn
         }
@@ -2434,6 +2515,7 @@ extension Personalize {
         /// Information on the specified batch inference job.
         public let batchInferenceJob: BatchInferenceJob?
 
+        @inlinable
         public init(batchInferenceJob: BatchInferenceJob? = nil) {
             self.batchInferenceJob = batchInferenceJob
         }
@@ -2447,6 +2529,7 @@ extension Personalize {
         /// The ARN of the batch segment job to describe.
         public let batchSegmentJobArn: String
 
+        @inlinable
         public init(batchSegmentJobArn: String) {
             self.batchSegmentJobArn = batchSegmentJobArn
         }
@@ -2465,6 +2548,7 @@ extension Personalize {
         /// Information on the specified batch segment job.
         public let batchSegmentJob: BatchSegmentJob?
 
+        @inlinable
         public init(batchSegmentJob: BatchSegmentJob? = nil) {
             self.batchSegmentJob = batchSegmentJob
         }
@@ -2478,6 +2562,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
 
+        @inlinable
         public init(campaignArn: String) {
             self.campaignArn = campaignArn
         }
@@ -2496,6 +2581,7 @@ extension Personalize {
         /// The properties of the campaign.
         public let campaign: Campaign?
 
+        @inlinable
         public init(campaign: Campaign? = nil) {
             self.campaign = campaign
         }
@@ -2509,6 +2595,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the data deletion job.
         public let dataDeletionJobArn: String
 
+        @inlinable
         public init(dataDeletionJobArn: String) {
             self.dataDeletionJobArn = dataDeletionJobArn
         }
@@ -2527,6 +2614,7 @@ extension Personalize {
         /// Information about the data deletion job, including the status. The status is one of the following values:   PENDING   IN_PROGRESS   COMPLETED   FAILED
         public let dataDeletionJob: DataDeletionJob?
 
+        @inlinable
         public init(dataDeletionJob: DataDeletionJob? = nil) {
             self.dataDeletionJob = dataDeletionJob
         }
@@ -2540,6 +2628,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset export job to describe.
         public let datasetExportJobArn: String
 
+        @inlinable
         public init(datasetExportJobArn: String) {
             self.datasetExportJobArn = datasetExportJobArn
         }
@@ -2558,6 +2647,7 @@ extension Personalize {
         /// Information about the dataset export job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED
         public let datasetExportJob: DatasetExportJob?
 
+        @inlinable
         public init(datasetExportJob: DatasetExportJob? = nil) {
             self.datasetExportJob = datasetExportJob
         }
@@ -2571,6 +2661,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset group to describe.
         public let datasetGroupArn: String
 
+        @inlinable
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -2589,6 +2680,7 @@ extension Personalize {
         /// A listing of the dataset group's properties.
         public let datasetGroup: DatasetGroup?
 
+        @inlinable
         public init(datasetGroup: DatasetGroup? = nil) {
             self.datasetGroup = datasetGroup
         }
@@ -2602,6 +2694,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset import job to describe.
         public let datasetImportJobArn: String
 
+        @inlinable
         public init(datasetImportJobArn: String) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -2620,6 +2713,7 @@ extension Personalize {
         /// Information about the dataset import job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED
         public let datasetImportJob: DatasetImportJob?
 
+        @inlinable
         public init(datasetImportJob: DatasetImportJob? = nil) {
             self.datasetImportJob = datasetImportJob
         }
@@ -2633,6 +2727,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset to describe.
         public let datasetArn: String
 
+        @inlinable
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -2651,6 +2746,7 @@ extension Personalize {
         /// A listing of the dataset's properties.
         public let dataset: Dataset?
 
+        @inlinable
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
         }
@@ -2664,6 +2760,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the event tracker to describe.
         public let eventTrackerArn: String
 
+        @inlinable
         public init(eventTrackerArn: String) {
             self.eventTrackerArn = eventTrackerArn
         }
@@ -2682,6 +2779,7 @@ extension Personalize {
         /// An object that describes the event tracker.
         public let eventTracker: EventTracker?
 
+        @inlinable
         public init(eventTracker: EventTracker? = nil) {
             self.eventTracker = eventTracker
         }
@@ -2695,6 +2793,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the feature transformation to describe.
         public let featureTransformationArn: String
 
+        @inlinable
         public init(featureTransformationArn: String) {
             self.featureTransformationArn = featureTransformationArn
         }
@@ -2713,6 +2812,7 @@ extension Personalize {
         /// A listing of the FeatureTransformation properties.
         public let featureTransformation: FeatureTransformation?
 
+        @inlinable
         public init(featureTransformation: FeatureTransformation? = nil) {
             self.featureTransformation = featureTransformation
         }
@@ -2726,6 +2826,7 @@ extension Personalize {
         /// The ARN of the filter to describe.
         public let filterArn: String
 
+        @inlinable
         public init(filterArn: String) {
             self.filterArn = filterArn
         }
@@ -2744,6 +2845,7 @@ extension Personalize {
         /// The filter's details.
         public let filter: Filter?
 
+        @inlinable
         public init(filter: Filter? = nil) {
             self.filter = filter
         }
@@ -2757,6 +2859,7 @@ extension Personalize {
         /// The metric attribution's Amazon Resource Name (ARN).
         public let metricAttributionArn: String
 
+        @inlinable
         public init(metricAttributionArn: String) {
             self.metricAttributionArn = metricAttributionArn
         }
@@ -2775,6 +2878,7 @@ extension Personalize {
         /// The details of the metric attribution.
         public let metricAttribution: MetricAttribution?
 
+        @inlinable
         public init(metricAttribution: MetricAttribution? = nil) {
             self.metricAttribution = metricAttribution
         }
@@ -2788,6 +2892,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recipe to describe.
         public let recipeArn: String
 
+        @inlinable
         public init(recipeArn: String) {
             self.recipeArn = recipeArn
         }
@@ -2806,6 +2911,7 @@ extension Personalize {
         /// An object that describes the recipe.
         public let recipe: Recipe?
 
+        @inlinable
         public init(recipe: Recipe? = nil) {
             self.recipe = recipe
         }
@@ -2819,6 +2925,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender to describe.
         public let recommenderArn: String
 
+        @inlinable
         public init(recommenderArn: String) {
             self.recommenderArn = recommenderArn
         }
@@ -2837,6 +2944,7 @@ extension Personalize {
         /// The properties of the recommender.
         public let recommender: Recommender?
 
+        @inlinable
         public init(recommender: Recommender? = nil) {
             self.recommender = recommender
         }
@@ -2850,6 +2958,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the schema to retrieve.
         public let schemaArn: String
 
+        @inlinable
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
         }
@@ -2868,6 +2977,7 @@ extension Personalize {
         /// The requested schema.
         public let schema: DatasetSchema?
 
+        @inlinable
         public init(schema: DatasetSchema? = nil) {
             self.schema = schema
         }
@@ -2881,6 +2991,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution to describe.
         public let solutionArn: String
 
+        @inlinable
         public init(solutionArn: String) {
             self.solutionArn = solutionArn
         }
@@ -2899,6 +3010,7 @@ extension Personalize {
         /// An object that describes the solution.
         public let solution: Solution?
 
+        @inlinable
         public init(solution: Solution? = nil) {
             self.solution = solution
         }
@@ -2912,6 +3024,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version.
         public let solutionVersionArn: String
 
+        @inlinable
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -2930,6 +3043,7 @@ extension Personalize {
         /// The solution version.
         public let solutionVersion: SolutionVersion?
 
+        @inlinable
         public init(solutionVersion: SolutionVersion? = nil) {
             self.solutionVersion = solutionVersion
         }
@@ -2957,6 +3071,7 @@ extension Personalize {
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
         public let trackingId: String?
 
+        @inlinable
         public init(accountId: String? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventTrackerArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil, trackingId: String? = nil) {
             self.accountId = accountId
             self.creationDateTime = creationDateTime
@@ -2992,6 +3107,7 @@ extension Personalize {
         /// The status of the event tracker. An event tracker can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, eventTrackerArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.eventTrackerArn = eventTrackerArn
@@ -3023,6 +3139,7 @@ extension Personalize {
         /// The status of the feature transformation. A feature transformation can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, defaultParameters: [String: String]? = nil, featureTransformationArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.defaultParameters = defaultParameters
@@ -3046,6 +3163,7 @@ extension Personalize {
         /// The name of the Items dataset column that stores the name of each item in the dataset.
         public let itemName: String
 
+        @inlinable
         public init(itemName: String) {
             self.itemName = itemName
         }
@@ -3077,6 +3195,7 @@ extension Personalize {
         /// The status of the filter.
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, filterArn: String? = nil, filterExpression: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -3116,6 +3235,7 @@ extension Personalize {
         /// The status of the filter.
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, filterArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -3141,6 +3261,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version for which to get metrics.
         public let solutionVersionArn: String
 
+        @inlinable
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -3161,6 +3282,7 @@ extension Personalize {
         /// The same solution version ARN as specified in the request.
         public let solutionVersionArn: String?
 
+        @inlinable
         public init(metrics: [String: Double]? = nil, solutionVersionArn: String? = nil) {
             self.metrics = metrics
             self.solutionVersionArn = solutionVersionArn
@@ -3180,6 +3302,7 @@ extension Personalize {
         /// Describes the resource configuration for HPO.
         public let hpoResourceConfig: HPOResourceConfig?
 
+        @inlinable
         public init(algorithmHyperParameterRanges: HyperParameterRanges? = nil, hpoObjective: HPOObjective? = nil, hpoResourceConfig: HPOResourceConfig? = nil) {
             self.algorithmHyperParameterRanges = algorithmHyperParameterRanges
             self.hpoObjective = hpoObjective
@@ -3207,6 +3330,7 @@ extension Personalize {
         /// The type of the metric. Valid values are Maximize and Minimize.
         public let type: String?
 
+        @inlinable
         public init(metricName: String? = nil, metricRegex: String? = nil, type: String? = nil) {
             self.metricName = metricName
             self.metricRegex = metricRegex
@@ -3232,6 +3356,7 @@ extension Personalize {
         /// The maximum number of parallel training jobs when you create a solution version. The maximum value for maxParallelTrainingJobs is 10.
         public let maxParallelTrainingJobs: String?
 
+        @inlinable
         public init(maxNumberOfTrainingJobs: String? = nil, maxParallelTrainingJobs: String? = nil) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
@@ -3256,6 +3381,7 @@ extension Personalize {
         /// The integer-valued hyperparameters and their ranges.
         public let integerHyperParameterRanges: [IntegerHyperParameterRange]?
 
+        @inlinable
         public init(categoricalHyperParameterRanges: [CategoricalHyperParameterRange]? = nil, continuousHyperParameterRanges: [ContinuousHyperParameterRange]? = nil, integerHyperParameterRanges: [IntegerHyperParameterRange]? = nil) {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
@@ -3292,6 +3418,7 @@ extension Personalize {
         /// The name of the hyperparameter.
         public let name: String?
 
+        @inlinable
         public init(maxValue: Int? = nil, minValue: Int? = nil, name: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -3319,6 +3446,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version from which the batch inference jobs were created.
         public let solutionVersionArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, solutionVersionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3347,6 +3475,7 @@ extension Personalize {
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(batchInferenceJobs: [BatchInferenceJobSummary]? = nil, nextToken: String? = nil) {
             self.batchInferenceJobs = batchInferenceJobs
             self.nextToken = nextToken
@@ -3366,6 +3495,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version that the batch segment jobs used to generate batch segments.
         public let solutionVersionArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, solutionVersionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3394,6 +3524,7 @@ extension Personalize {
         /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(batchSegmentJobs: [BatchSegmentJobSummary]? = nil, nextToken: String? = nil) {
             self.batchSegmentJobs = batchSegmentJobs
             self.nextToken = nextToken
@@ -3413,6 +3544,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution to list the campaigns for. When a solution is not specified, all the campaigns associated with the account are listed.
         public let solutionArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3441,6 +3573,7 @@ extension Personalize {
         /// A token for getting the next set of campaigns (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(campaigns: [CampaignSummary]? = nil, nextToken: String? = nil) {
             self.campaigns = campaigns
             self.nextToken = nextToken
@@ -3460,6 +3593,7 @@ extension Personalize {
         /// A token returned from the previous call to ListDataDeletionJobs for getting the next set of jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3488,6 +3622,7 @@ extension Personalize {
         /// A token for getting the next set of data deletion jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(dataDeletionJobs: [DataDeletionJobSummary]? = nil, nextToken: String? = nil) {
             self.dataDeletionJobs = dataDeletionJobs
             self.nextToken = nextToken
@@ -3507,6 +3642,7 @@ extension Personalize {
         /// A token returned from the previous call to ListDatasetExportJobs for getting the next set of dataset export jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetArn = datasetArn
             self.maxResults = maxResults
@@ -3535,6 +3671,7 @@ extension Personalize {
         /// A token for getting the next set of dataset export jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetExportJobs: [DatasetExportJobSummary]? = nil, nextToken: String? = nil) {
             self.datasetExportJobs = datasetExportJobs
             self.nextToken = nextToken
@@ -3552,6 +3689,7 @@ extension Personalize {
         /// A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3576,6 +3714,7 @@ extension Personalize {
         /// A token for getting the next set of dataset groups (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroups: [DatasetGroupSummary]? = nil, nextToken: String? = nil) {
             self.datasetGroups = datasetGroups
             self.nextToken = nextToken
@@ -3595,6 +3734,7 @@ extension Personalize {
         /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetArn = datasetArn
             self.maxResults = maxResults
@@ -3623,6 +3763,7 @@ extension Personalize {
         /// A token for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetImportJobs: [DatasetImportJobSummary]? = nil, nextToken: String? = nil) {
             self.datasetImportJobs = datasetImportJobs
             self.nextToken = nextToken
@@ -3642,6 +3783,7 @@ extension Personalize {
         /// A token returned from the previous call to ListDatasets for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3670,6 +3812,7 @@ extension Personalize {
         /// A token for getting the next set of datasets (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasets: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasets = datasets
             self.nextToken = nextToken
@@ -3689,6 +3832,7 @@ extension Personalize {
         /// A token returned from the previous call to ListEventTrackers for getting the next set of event trackers (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3717,6 +3861,7 @@ extension Personalize {
         /// A token for getting the next set of event trackers (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(eventTrackers: [EventTrackerSummary]? = nil, nextToken: String? = nil) {
             self.eventTrackers = eventTrackers
             self.nextToken = nextToken
@@ -3736,6 +3881,7 @@ extension Personalize {
         /// A token returned from the previous call to ListFilters for getting the next set of filters (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3764,6 +3910,7 @@ extension Personalize {
         /// A token for getting the next set of filters (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [FilterSummary]? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.nextToken = nextToken
@@ -3783,6 +3930,7 @@ extension Personalize {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, metricAttributionArn: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.metricAttributionArn = metricAttributionArn
@@ -3811,6 +3959,7 @@ extension Personalize {
         /// Specify the pagination token from a previous ListMetricAttributionMetricsResponse request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(metrics: [MetricAttribute]? = nil, nextToken: String? = nil) {
             self.metrics = metrics
             self.nextToken = nextToken
@@ -3830,6 +3979,7 @@ extension Personalize {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3858,6 +4008,7 @@ extension Personalize {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(metricAttributions: [MetricAttributionSummary]? = nil, nextToken: String? = nil) {
             self.metricAttributions = metricAttributions
             self.nextToken = nextToken
@@ -3879,6 +4030,7 @@ extension Personalize {
         /// The default is SERVICE.
         public let recipeProvider: RecipeProvider?
 
+        @inlinable
         public init(domain: Domain? = nil, maxResults: Int? = nil, nextToken: String? = nil, recipeProvider: RecipeProvider? = nil) {
             self.domain = domain
             self.maxResults = maxResults
@@ -3907,6 +4059,7 @@ extension Personalize {
         /// The list of available recipes.
         public let recipes: [RecipeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, recipes: [RecipeSummary]? = nil) {
             self.nextToken = nextToken
             self.recipes = recipes
@@ -3926,6 +4079,7 @@ extension Personalize {
         /// A token returned from the previous call to ListRecommenders for getting the next set of recommenders (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -3954,6 +4108,7 @@ extension Personalize {
         /// A list of the recommenders.
         public let recommenders: [RecommenderSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommenders: [RecommenderSummary]? = nil) {
             self.nextToken = nextToken
             self.recommenders = recommenders
@@ -3971,6 +4126,7 @@ extension Personalize {
         /// A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3995,6 +4151,7 @@ extension Personalize {
         /// A list of schemas.
         public let schemas: [DatasetSchemaSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemas: [DatasetSchemaSummary]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -4014,6 +4171,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution.
         public let solutionArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4042,6 +4200,7 @@ extension Personalize {
         /// A list of solution versions describing the version properties.
         public let solutionVersions: [SolutionVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, solutionVersions: [SolutionVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.solutionVersions = solutionVersions
@@ -4061,6 +4220,7 @@ extension Personalize {
         /// A token returned from the previous call to ListSolutions for getting the next set of solutions (if they exist).
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
@@ -4089,6 +4249,7 @@ extension Personalize {
         /// A list of the current solutions.
         public let solutions: [SolutionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, solutions: [SolutionSummary]? = nil) {
             self.nextToken = nextToken
             self.solutions = solutions
@@ -4104,6 +4265,7 @@ extension Personalize {
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4122,6 +4284,7 @@ extension Personalize {
         /// The resource's tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -4139,6 +4302,7 @@ extension Personalize {
         /// The metric's name. The name helps you identify the metric in Amazon CloudWatch or Amazon S3.
         public let metricName: String
 
+        @inlinable
         public init(eventType: String, expression: String, metricName: String) {
             self.eventType = eventType
             self.expression = expression
@@ -4176,6 +4340,7 @@ extension Personalize {
         /// The metric attribution's status.
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, metricAttributionArn: String? = nil, metricsOutputConfig: MetricAttributionOutput? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -4204,6 +4369,7 @@ extension Personalize {
         public let roleArn: String
         public let s3DataDestination: S3DataConfig?
 
+        @inlinable
         public init(roleArn: String, s3DataDestination: S3DataConfig? = nil) {
             self.roleArn = roleArn
             self.s3DataDestination = s3DataDestination
@@ -4235,6 +4401,7 @@ extension Personalize {
         /// The metric attribution's status.
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, metricAttributionArn: String? = nil, name: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -4260,6 +4427,7 @@ extension Personalize {
         /// Specifies how Amazon Personalize balances the importance of your optimization objective versus relevance.
         public let objectiveSensitivity: ObjectiveSensitivity?
 
+        @inlinable
         public init(itemAttribute: String? = nil, objectiveSensitivity: ObjectiveSensitivity? = nil) {
             self.itemAttribute = itemAttribute
             self.objectiveSensitivity = objectiveSensitivity
@@ -4296,6 +4464,7 @@ extension Personalize {
         /// The status of the recipe.
         public let status: String?
 
+        @inlinable
         public init(algorithmArn: String? = nil, creationDateTime: Date? = nil, description: String? = nil, featureTransformationArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, recipeArn: String? = nil, recipeType: String? = nil, status: String? = nil) {
             self.algorithmArn = algorithmArn
             self.creationDateTime = creationDateTime
@@ -4335,6 +4504,7 @@ extension Personalize {
         /// The status of the recipe.
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, domain: Domain? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, recipeArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.domain = domain
@@ -4378,6 +4548,7 @@ extension Personalize {
         /// The status of the recommender. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, latestRecommenderUpdate: RecommenderUpdateSummary? = nil, modelMetrics: [String: Double]? = nil, name: String? = nil, recipeArn: String? = nil, recommenderArn: String? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -4417,6 +4588,7 @@ extension Personalize {
         ///  Specifies the training data configuration to use when creating a domain recommender.
         public let trainingDataConfig: TrainingDataConfig?
 
+        @inlinable
         public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil, minRecommendationRequestsPerSecond: Int? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
@@ -4460,6 +4632,7 @@ extension Personalize {
         /// The status of the recommender. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, recipeArn: String? = nil, recommenderArn: String? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -4495,6 +4668,7 @@ extension Personalize {
         /// The status of the recommender update. A recommender update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -4518,6 +4692,7 @@ extension Personalize {
         /// The file path of the Amazon S3 bucket.
         public let path: String
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, path: String) {
             self.kmsKeyArn = kmsKeyArn
             self.path = path
@@ -4568,6 +4743,7 @@ extension Personalize {
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionUpdate: SolutionUpdateSummary? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
             self.autoMLResult = autoMLResult
             self.creationDateTime = creationDateTime
@@ -4623,6 +4799,7 @@ extension Personalize {
         ///  Specifies the training data configuration to use when creating a custom solution version (trained model).
         public let trainingDataConfig: TrainingDataConfig?
 
+        @inlinable
         public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, autoTrainingConfig: AutoTrainingConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil, optimizationObjective: OptimizationObjective? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
@@ -4679,6 +4856,7 @@ extension Personalize {
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, recipeArn: String? = nil, solutionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4701,6 +4879,7 @@ extension Personalize {
     public struct SolutionUpdateConfig: AWSEncodableShape & AWSDecodableShape {
         public let autoTrainingConfig: AutoTrainingConfig?
 
+        @inlinable
         public init(autoTrainingConfig: AutoTrainingConfig? = nil) {
             self.autoTrainingConfig = autoTrainingConfig
         }
@@ -4728,6 +4907,7 @@ extension Personalize {
         /// The status of the solution update. A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, performAutoTraining: Bool? = nil, solutionUpdateConfig: SolutionUpdateConfig? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -4783,6 +4963,7 @@ extension Personalize {
         /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
         public let tunedHPOParams: TunedHPOParams?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, trainingType: TrainingType? = nil, tunedHPOParams: TunedHPOParams? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -4840,6 +5021,7 @@ extension Personalize {
         /// Whether the solution version was created automatically or manually.
         public let trainingType: TrainingType?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingMode: TrainingMode? = nil, trainingType: TrainingType? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -4865,6 +5047,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender to start.
         public let recommenderArn: String
 
+        @inlinable
         public init(recommenderArn: String) {
             self.recommenderArn = recommenderArn
         }
@@ -4883,6 +5066,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender you started.
         public let recommenderArn: String?
 
+        @inlinable
         public init(recommenderArn: String? = nil) {
             self.recommenderArn = recommenderArn
         }
@@ -4896,6 +5080,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender to stop.
         public let recommenderArn: String
 
+        @inlinable
         public init(recommenderArn: String) {
             self.recommenderArn = recommenderArn
         }
@@ -4914,6 +5099,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the recommender you stopped.
         public let recommenderArn: String?
 
+        @inlinable
         public init(recommenderArn: String? = nil) {
             self.recommenderArn = recommenderArn
         }
@@ -4927,6 +5113,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the solution version you want to stop creating.
         public let solutionVersionArn: String
 
+        @inlinable
         public init(solutionVersionArn: String) {
             self.solutionVersionArn = solutionVersionArn
         }
@@ -4947,6 +5134,7 @@ extension Personalize {
         /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key).
         public let tagValue: String
 
+        @inlinable
         public init(tagKey: String, tagValue: String) {
             self.tagKey = tagKey
             self.tagValue = tagValue
@@ -4972,6 +5160,7 @@ extension Personalize {
         /// Tags to apply to the resource. For more information see Tagging Amazon Personalize resources.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5000,6 +5189,7 @@ extension Personalize {
         /// Fields used to generate descriptive themes for a batch inference job.
         public let fieldsForThemeGeneration: FieldsForThemeGeneration
 
+        @inlinable
         public init(fieldsForThemeGeneration: FieldsForThemeGeneration) {
             self.fieldsForThemeGeneration = fieldsForThemeGeneration
         }
@@ -5017,6 +5207,7 @@ extension Personalize {
         /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations.  For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
         public let excludedDatasetColumns: [String: [String]]?
 
+        @inlinable
         public init(excludedDatasetColumns: [String: [String]]? = nil) {
             self.excludedDatasetColumns = excludedDatasetColumns
         }
@@ -5038,6 +5229,7 @@ extension Personalize {
         /// A list of the hyperparameter values of the best performing model.
         public let algorithmHyperParameters: [String: String]?
 
+        @inlinable
         public init(algorithmHyperParameters: [String: String]? = nil) {
             self.algorithmHyperParameters = algorithmHyperParameters
         }
@@ -5053,6 +5245,7 @@ extension Personalize {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5089,6 +5282,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of a new model to deploy. To specify the latest solution version of your solution,  specify the ARN of your solution in SolutionArn/$LATEST format. You must use this format if you set syncWithLatestSolutionVersion to True in the  CampaignConfig.   To deploy a model that isn't the latest solution version of your solution, specify the ARN of the solution version.   For more information about automatic campaign updates, see  Enabling automatic campaign updates.
         public let solutionVersionArn: String?
 
+        @inlinable
         public init(campaignArn: String, campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {
             self.campaignArn = campaignArn
             self.campaignConfig = campaignConfig
@@ -5117,6 +5311,7 @@ extension Personalize {
         /// The same campaign ARN as given in the request.
         public let campaignArn: String?
 
+        @inlinable
         public init(campaignArn: String? = nil) {
             self.campaignArn = campaignArn
         }
@@ -5132,6 +5327,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the new schema you want use.
         public let schemaArn: String
 
+        @inlinable
         public init(datasetArn: String, schemaArn: String) {
             self.datasetArn = datasetArn
             self.schemaArn = schemaArn
@@ -5154,6 +5350,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset you updated.
         public let datasetArn: String?
 
+        @inlinable
         public init(datasetArn: String? = nil) {
             self.datasetArn = datasetArn
         }
@@ -5173,6 +5370,7 @@ extension Personalize {
         /// Remove metric attributes from the metric attribution.
         public let removeMetrics: [String]?
 
+        @inlinable
         public init(addMetrics: [MetricAttribute]? = nil, metricAttributionArn: String? = nil, metricsOutputConfig: MetricAttributionOutput? = nil, removeMetrics: [String]? = nil) {
             self.addMetrics = addMetrics
             self.metricAttributionArn = metricAttributionArn
@@ -5206,6 +5404,7 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) for the metric attribution that you updated.
         public let metricAttributionArn: String?
 
+        @inlinable
         public init(metricAttributionArn: String? = nil) {
             self.metricAttributionArn = metricAttributionArn
         }
@@ -5221,6 +5420,7 @@ extension Personalize {
         /// The configuration details of the recommender.
         public let recommenderConfig: RecommenderConfig
 
+        @inlinable
         public init(recommenderArn: String, recommenderConfig: RecommenderConfig) {
             self.recommenderArn = recommenderArn
             self.recommenderConfig = recommenderConfig
@@ -5242,6 +5442,7 @@ extension Personalize {
         /// The same recommender Amazon Resource Name (ARN) as given in the request.
         public let recommenderArn: String?
 
+        @inlinable
         public init(recommenderArn: String? = nil) {
             self.recommenderArn = recommenderArn
         }
@@ -5259,6 +5460,7 @@ extension Personalize {
         /// The new configuration details of the solution.
         public let solutionUpdateConfig: SolutionUpdateConfig?
 
+        @inlinable
         public init(performAutoTraining: Bool? = nil, solutionArn: String, solutionUpdateConfig: SolutionUpdateConfig? = nil) {
             self.performAutoTraining = performAutoTraining
             self.solutionArn = solutionArn
@@ -5282,6 +5484,7 @@ extension Personalize {
         /// The same solution Amazon Resource Name (ARN) as given in the request.
         public let solutionArn: String?
 
+        @inlinable
         public init(solutionArn: String? = nil) {
             self.solutionArn = solutionArn
         }

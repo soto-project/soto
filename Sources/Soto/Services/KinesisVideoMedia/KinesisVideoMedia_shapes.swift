@@ -46,6 +46,7 @@ extension KinesisVideoMedia {
         /// The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName, you must specify the streamARN.
         public let streamName: String?
 
+        @inlinable
         public init(startSelector: StartSelector, streamARN: String? = nil, streamName: String? = nil) {
             self.startSelector = startSelector
             self.streamARN = streamARN
@@ -76,6 +77,7 @@ extension KinesisVideoMedia {
         ///  The payload Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see . The chunks that Kinesis Video Streams returns in the GetMedia call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_CONTINUATION_TOKEN (UTF-8 string) - In the event your GetMedia call terminates, you can use this continuation token in your next request to get the next chunk where the last request terminated.   AWS_KINESISVIDEO_MILLIS_BEHIND_NOW (UTF-8 string) - Client applications can use this tag value to determine how far behind the chunk returned in the response is from the latest chunk on the stream.    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_TIMESTAMP - Server timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_TIMESTAMP - Producer timestamp of the fragment.   The following tags will be present if an error occurs:   AWS_KINESISVIDEO_ERROR_CODE - String description of an error that caused GetMedia to stop.   AWS_KINESISVIDEO_ERROR_ID: Integer code of the error.   The error codes are as follows:   3002 - Error writing to the stream   4000 - Requested fragment is not found   4500 - Access denied for the stream's KMS key   4501 - Stream's KMS key is disabled   4502 - Validation error on the stream's KMS key   4503 - KMS key specified in the stream is unavailable   4504 - Invalid usage of the KMS key specified in the stream   4505 - Invalid state of the KMS key specified in the stream   4506 - Unable to find the KMS key specified in the stream   5000 - Internal error
         public let payload: AWSHTTPBody
 
+        @inlinable
         public init(contentType: String? = nil, payload: AWSHTTPBody) {
             self.contentType = contentType
             self.payload = payload
@@ -101,6 +103,7 @@ extension KinesisVideoMedia {
         /// A timestamp value. This value is required if you choose the PRODUCER_TIMESTAMP or the SERVER_TIMESTAMP as the startSelectorType. The GetMedia API then starts with the chunk containing the fragment that has the specified timestamp.
         public let startTimestamp: Date?
 
+        @inlinable
         public init(afterFragmentNumber: String? = nil, continuationToken: String? = nil, startSelectorType: StartSelectorType, startTimestamp: Date? = nil) {
             self.afterFragmentNumber = afterFragmentNumber
             self.continuationToken = continuationToken

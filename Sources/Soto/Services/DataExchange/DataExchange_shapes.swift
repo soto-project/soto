@@ -151,6 +151,7 @@ extension DataExchange {
         /// Details for the export revision to Amazon S3 action.
         public let exportRevisionToS3: AutoExportRevisionToS3RequestDetails?
 
+        @inlinable
         public init(exportRevisionToS3: AutoExportRevisionToS3RequestDetails? = nil) {
             self.exportRevisionToS3 = exportRevisionToS3
         }
@@ -181,6 +182,7 @@ extension DataExchange {
         /// The stage of the API asset.
         public let stage: String?
 
+        @inlinable
         public init(apiDescription: String? = nil, apiEndpoint: String? = nil, apiId: String? = nil, apiKey: String? = nil, apiName: String? = nil, apiSpecificationDownloadUrl: String? = nil, apiSpecificationDownloadUrlExpiresAt: Date? = nil, protocolType: ProtocolType? = nil, stage: String? = nil) {
             self.apiDescription = apiDescription
             self.apiEndpoint = apiEndpoint
@@ -214,6 +216,7 @@ extension DataExchange {
         /// The name of the object in Amazon S3 for the asset.
         public let key: String?
 
+        @inlinable
         public init(assetId: String, bucket: String, key: String? = nil) {
             self.assetId = assetId
             self.bucket = bucket
@@ -239,6 +242,7 @@ extension DataExchange {
         /// The Amazon S3 object that is the asset.
         public let s3SnapshotAsset: S3SnapshotAsset?
 
+        @inlinable
         public init(apiGatewayApiAsset: ApiGatewayApiAsset? = nil, lakeFormationDataPermissionAsset: LakeFormationDataPermissionAsset? = nil, redshiftDataShareAsset: RedshiftDataShareAsset? = nil, s3DataAccessAsset: S3DataAccessAsset? = nil, s3SnapshotAsset: S3SnapshotAsset? = nil) {
             self.apiGatewayApiAsset = apiGatewayApiAsset
             self.lakeFormationDataPermissionAsset = lakeFormationDataPermissionAsset
@@ -280,6 +284,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, assetDetails: AssetDetails, assetType: AssetType, createdAt: Date, dataSetId: String, id: String, name: String, revisionId: String, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.assetDetails = assetDetails
@@ -313,6 +318,7 @@ extension DataExchange {
         /// The name of the object in Amazon S3 for the asset.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -330,6 +336,7 @@ extension DataExchange {
         /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see Key patterns when exporting revisions.
         public let keyPattern: String?
 
+        @inlinable
         public init(bucket: String, keyPattern: String? = nil) {
             self.bucket = bucket
             self.keyPattern = keyPattern
@@ -347,6 +354,7 @@ extension DataExchange {
         /// A revision destination is the Amazon S3 bucket folder destination to where the export will be sent.
         public let revisionDestination: AutoExportRevisionDestinationEntry
 
+        @inlinable
         public init(encryption: ExportServerSideEncryption? = nil, revisionDestination: AutoExportRevisionDestinationEntry) {
             self.encryption = encryption
             self.revisionDestination = revisionDestination
@@ -362,6 +370,7 @@ extension DataExchange {
         /// The unique identifier for a job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -385,6 +394,7 @@ extension DataExchange {
         /// A data set tag is an optional label that you can assign to a data set when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assetType: AssetType, description: String, name: String, tags: [String: String]? = nil) {
             self.assetType = assetType
             self.description = description
@@ -426,6 +436,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetType = assetType
@@ -461,6 +472,7 @@ extension DataExchange {
         /// What occurs to start an action.
         public let event: Event
 
+        @inlinable
         public init(action: Action, event: Event) {
             self.action = action
             self.event = event
@@ -488,6 +500,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.arn = arn
@@ -513,6 +526,7 @@ extension DataExchange {
         /// The type of job to be created.
         public let type: `Type`
 
+        @inlinable
         public init(details: RequestDetails, type: `Type`) {
             self.details = details
             self.type = type
@@ -548,6 +562,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -579,6 +594,7 @@ extension DataExchange {
         /// A revision tag is an optional label that you can assign to a revision when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.
         public let tags: [String: String]?
 
+        @inlinable
         public init(comment: String? = nil, dataSetId: String, tags: [String: String]? = nil) {
             self.comment = comment
             self.dataSetId = dataSetId
@@ -632,6 +648,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
@@ -671,6 +688,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(assetSource: S3DataAccessAssetSourceEntry, dataSetId: String, revisionId: String) {
             self.assetSource = assetSource
             self.dataSetId = dataSetId
@@ -696,6 +714,7 @@ extension DataExchange {
         /// The unique identifier for the revision.
         public let revisionId: String
 
+        @inlinable
         public init(assetSource: S3DataAccessAssetSourceEntry, dataSetId: String, revisionId: String) {
             self.assetSource = assetSource
             self.dataSetId = dataSetId
@@ -733,6 +752,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, assetType: AssetType, createdAt: Date, description: String, id: String, name: String, origin: Origin, originDetails: OriginDetails? = nil, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.assetType = assetType
@@ -765,6 +785,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var dataUpdatedAt: Date?
 
+        @inlinable
         public init(dataUpdatedAt: Date? = nil) {
             self.dataUpdatedAt = dataUpdatedAt
         }
@@ -778,6 +799,7 @@ extension DataExchange {
         /// A list of LF-tag conditions that apply to database resources.
         public let expression: [LFTag]
 
+        @inlinable
         public init(expression: [LFTag]) {
             self.expression = expression
         }
@@ -793,6 +815,7 @@ extension DataExchange {
         /// The permissions granted to subscribers on database resources.
         public let permissions: [DatabaseLFTagPolicyPermission]
 
+        @inlinable
         public init(expression: [LFTag], permissions: [DatabaseLFTagPolicyPermission]) {
             self.expression = expression
             self.permissions = permissions
@@ -812,6 +835,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(assetId: String, dataSetId: String, revisionId: String) {
             self.assetId = assetId
             self.dataSetId = dataSetId
@@ -833,6 +857,7 @@ extension DataExchange {
         /// The unique identifier for a data set.
         public let dataSetId: String
 
+        @inlinable
         public init(dataSetId: String) {
             self.dataSetId = dataSetId
         }
@@ -850,6 +875,7 @@ extension DataExchange {
         /// The unique identifier for the event action.
         public let eventActionId: String
 
+        @inlinable
         public init(eventActionId: String) {
             self.eventActionId = eventActionId
         }
@@ -869,6 +895,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(dataSetId: String, revisionId: String) {
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -889,6 +916,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var deprecationAt: Date
 
+        @inlinable
         public init(deprecationAt: Date) {
             self.deprecationAt = deprecationAt
         }
@@ -904,6 +932,7 @@ extension DataExchange {
         /// Details about the job error.
         public let importAssetsFromS3JobErrorDetails: [AssetSourceEntry]?
 
+        @inlinable
         public init(importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails? = nil, importAssetsFromS3JobErrorDetails: [AssetSourceEntry]? = nil) {
             self.importAssetFromSignedUrlJobErrorDetails = importAssetFromSignedUrlJobErrorDetails
             self.importAssetsFromS3JobErrorDetails = importAssetsFromS3JobErrorDetails
@@ -919,6 +948,7 @@ extension DataExchange {
         /// What occurs to start the revision publish action.
         public let revisionPublished: RevisionPublished?
 
+        @inlinable
         public init(revisionPublished: RevisionPublished? = nil) {
             self.revisionPublished = revisionPublished
         }
@@ -944,6 +974,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(action: Action, arn: String, createdAt: Date, event: Event, id: String, updatedAt: Date) {
             self.action = action
             self.arn = arn
@@ -971,6 +1002,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this export request.
         public let revisionId: String
 
+        @inlinable
         public init(assetId: String, dataSetId: String, revisionId: String) {
             self.assetId = assetId
             self.dataSetId = dataSetId
@@ -997,6 +1029,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var signedUrlExpiresAt: Date?
 
+        @inlinable
         public init(assetId: String, dataSetId: String, revisionId: String, signedUrl: String? = nil, signedUrlExpiresAt: Date? = nil) {
             self.assetId = assetId
             self.dataSetId = dataSetId
@@ -1024,6 +1057,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this export request.
         public let revisionId: String
 
+        @inlinable
         public init(assetDestinations: [AssetDestinationEntry], dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionId: String) {
             self.assetDestinations = assetDestinations
             self.dataSetId = dataSetId
@@ -1049,6 +1083,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this export response.
         public let revisionId: String
 
+        @inlinable
         public init(assetDestinations: [AssetDestinationEntry], dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionId: String) {
             self.assetDestinations = assetDestinations
             self.dataSetId = dataSetId
@@ -1072,6 +1107,7 @@ extension DataExchange {
         /// The destination for the revision.
         public let revisionDestinations: [RevisionDestinationEntry]
 
+        @inlinable
         public init(dataSetId: String, encryption: ExportServerSideEncryption? = nil, revisionDestinations: [RevisionDestinationEntry]) {
             self.dataSetId = dataSetId
             self.encryption = encryption
@@ -1095,6 +1131,7 @@ extension DataExchange {
         /// The destination in Amazon S3 where the revision is exported.
         public let revisionDestinations: [RevisionDestinationEntry]
 
+        @inlinable
         public init(dataSetId: String, encryption: ExportServerSideEncryption? = nil, eventActionArn: String? = nil, revisionDestinations: [RevisionDestinationEntry]) {
             self.dataSetId = dataSetId
             self.encryption = encryption
@@ -1116,6 +1153,7 @@ extension DataExchange {
         /// The type of server side encryption used for encrypting the objects in Amazon S3.
         public let type: ServerSideEncryptionTypes
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, type: ServerSideEncryptionTypes) {
             self.kmsKeyArn = kmsKeyArn
             self.type = type
@@ -1135,6 +1173,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(assetId: String, dataSetId: String, revisionId: String) {
             self.assetId = assetId
             self.dataSetId = dataSetId
@@ -1176,6 +1215,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetDetails = assetDetails
@@ -1207,6 +1247,7 @@ extension DataExchange {
         /// The unique identifier for a data set.
         public let dataSetId: String
 
+        @inlinable
         public init(dataSetId: String) {
             self.dataSetId = dataSetId
         }
@@ -1246,6 +1287,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetType = assetType
@@ -1279,6 +1321,7 @@ extension DataExchange {
         /// The unique identifier for the event action.
         public let eventActionId: String
 
+        @inlinable
         public init(eventActionId: String) {
             self.eventActionId = eventActionId
         }
@@ -1308,6 +1351,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.arn = arn
@@ -1331,6 +1375,7 @@ extension DataExchange {
         /// The unique identifier for a job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1364,6 +1409,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1393,6 +1439,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(dataSetId: String, revisionId: String) {
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -1437,6 +1484,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
@@ -1488,6 +1536,7 @@ extension DataExchange {
         /// The API stage.
         public let stage: String
 
+        @inlinable
         public init(apiDescription: String? = nil, apiId: String, apiKey: String? = nil, apiName: String, apiSpecificationMd5Hash: String, dataSetId: String, protocolType: ProtocolType, revisionId: String, stage: String) {
             self.apiDescription = apiDescription
             self.apiId = apiId
@@ -1544,6 +1593,7 @@ extension DataExchange {
         /// The API stage.
         public let stage: String
 
+        @inlinable
         public init(apiDescription: String? = nil, apiId: String, apiKey: String? = nil, apiName: String, apiSpecificationMd5Hash: String, apiSpecificationUploadUrl: String, apiSpecificationUploadUrlExpiresAt: Date, dataSetId: String, protocolType: ProtocolType, revisionId: String, stage: String) {
             self.apiDescription = apiDescription
             self.apiId = apiId
@@ -1577,6 +1627,7 @@ extension DataExchange {
         /// Details about the job error.
         public let assetName: String
 
+        @inlinable
         public init(assetName: String) {
             self.assetName = assetName
         }
@@ -1596,6 +1647,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this import request.
         public let revisionId: String
 
+        @inlinable
         public init(assetName: String, dataSetId: String, md5Hash: String, revisionId: String) {
             self.assetName = assetName
             self.dataSetId = dataSetId
@@ -1632,6 +1684,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var signedUrlExpiresAt: Date?
 
+        @inlinable
         public init(assetName: String, dataSetId: String, md5Hash: String? = nil, revisionId: String, signedUrl: String? = nil, signedUrlExpiresAt: Date? = nil) {
             self.assetName = assetName
             self.dataSetId = dataSetId
@@ -1665,6 +1718,7 @@ extension DataExchange {
         /// A structure for the table object.
         public let table: TableLFTagPolicyAndPermissions?
 
+        @inlinable
         public init(catalogId: String, database: DatabaseLFTagPolicyAndPermissions? = nil, dataSetId: String, revisionId: String, roleArn: String, table: TableLFTagPolicyAndPermissions? = nil) {
             self.catalogId = catalogId
             self.database = database
@@ -1705,6 +1759,7 @@ extension DataExchange {
         /// A structure for the table object.
         public let table: TableLFTagPolicyAndPermissions?
 
+        @inlinable
         public init(catalogId: String, database: DatabaseLFTagPolicyAndPermissions? = nil, dataSetId: String, revisionId: String, roleArn: String, table: TableLFTagPolicyAndPermissions? = nil) {
             self.catalogId = catalogId
             self.database = database
@@ -1732,6 +1787,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this import job.
         public let revisionId: String
 
+        @inlinable
         public init(assetSources: [RedshiftDataShareAssetSourceEntry], dataSetId: String, revisionId: String) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
@@ -1753,6 +1809,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this import job.
         public let revisionId: String
 
+        @inlinable
         public init(assetSources: [RedshiftDataShareAssetSourceEntry], dataSetId: String, revisionId: String) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
@@ -1774,6 +1831,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this import request.
         public let revisionId: String
 
+        @inlinable
         public init(assetSources: [AssetSourceEntry], dataSetId: String, revisionId: String) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
@@ -1795,6 +1853,7 @@ extension DataExchange {
         /// The unique identifier for the revision associated with this import response.
         public let revisionId: String
 
+        @inlinable
         public init(assetSources: [AssetSourceEntry], dataSetId: String, revisionId: String) {
             self.assetSources = assetSources
             self.dataSetId = dataSetId
@@ -1828,6 +1887,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, createdAt: Date, details: ResponseDetails, errors: [JobError]? = nil, id: String, state: State, type: `Type`, updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1867,6 +1927,7 @@ extension DataExchange {
         /// The type of resource related to the error.
         public let resourceType: JobErrorResourceTypes?
 
+        @inlinable
         public init(code: Code, details: Details? = nil, limitName: JobErrorLimitName? = nil, limitValue: Double? = nil, message: String, resourceId: String? = nil, resourceType: JobErrorResourceTypes? = nil) {
             self.code = code
             self.details = details
@@ -1892,6 +1953,7 @@ extension DataExchange {
         /// The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS grant for each subscriber to allow them to access and decrypt their entitled data that is encrypted using this KMS key specified.
         public let kmsKeyArn: String
 
+        @inlinable
         public init(kmsKeyArn: String) {
             self.kmsKeyArn = kmsKeyArn
         }
@@ -1912,6 +1974,7 @@ extension DataExchange {
         /// Details about the table resource included in the AWS Lake Formation data permission.
         public let table: TableLFTagPolicy?
 
+        @inlinable
         public init(database: DatabaseLFTagPolicy? = nil, table: TableLFTagPolicy? = nil) {
             self.database = database
             self.table = table
@@ -1929,6 +1992,7 @@ extension DataExchange {
         /// A list of LF-tag values.
         public let tagValues: [String]
 
+        @inlinable
         public init(tagKey: String, tagValues: [String]) {
             self.tagKey = tagKey
             self.tagValues = tagValues
@@ -1948,6 +2012,7 @@ extension DataExchange {
         /// The resource type for which the LF-tag policy applies.
         public let resourceType: LFResourceType
 
+        @inlinable
         public init(catalogId: String, resourceDetails: LFResourceDetails, resourceType: LFResourceType) {
             self.catalogId = catalogId
             self.resourceDetails = resourceDetails
@@ -1971,6 +2036,7 @@ extension DataExchange {
         /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions to AWS Lake Formation data permissions.
         public let roleArn: String?
 
+        @inlinable
         public init(lakeFormationDataPermissionDetails: LakeFormationDataPermissionDetails, lakeFormationDataPermissionType: LakeFormationDataPermissionType, permissions: [LFPermission], roleArn: String? = nil) {
             self.lakeFormationDataPermissionDetails = lakeFormationDataPermissionDetails
             self.lakeFormationDataPermissionType = lakeFormationDataPermissionType
@@ -1990,6 +2056,7 @@ extension DataExchange {
         /// Details about the LF-tag policy.
         public let lfTagPolicy: LFTagPolicyDetails?
 
+        @inlinable
         public init(lfTagPolicy: LFTagPolicyDetails? = nil) {
             self.lfTagPolicy = lfTagPolicy
         }
@@ -2005,6 +2072,7 @@ extension DataExchange {
         /// The underlying Glue table that the notification is referring to.
         public let table: String?
 
+        @inlinable
         public init(database: String? = nil, table: String? = nil) {
             self.database = database
             self.table = table
@@ -2024,6 +2092,7 @@ extension DataExchange {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dataSetId = dataSetId
             self.maxResults = maxResults
@@ -2052,6 +2121,7 @@ extension DataExchange {
         /// The asset objects listed by the request.
         public let revisions: [RevisionEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, revisions: [RevisionEntry]? = nil) {
             self.nextToken = nextToken
             self.revisions = revisions
@@ -2071,6 +2141,7 @@ extension DataExchange {
         /// A property that defines the data set as OWNED by the account (for providers) or ENTITLED to the account (for subscribers).
         public let origin: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, origin: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2099,6 +2170,7 @@ extension DataExchange {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSets: [DataSetEntry]? = nil, nextToken: String? = nil) {
             self.dataSets = dataSets
             self.nextToken = nextToken
@@ -2118,6 +2190,7 @@ extension DataExchange {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventSourceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.eventSourceId = eventSourceId
             self.maxResults = maxResults
@@ -2146,6 +2219,7 @@ extension DataExchange {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventActions: [EventActionEntry]? = nil, nextToken: String? = nil) {
             self.eventActions = eventActions
             self.nextToken = nextToken
@@ -2167,6 +2241,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String?
 
+        @inlinable
         public init(dataSetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, revisionId: String? = nil) {
             self.dataSetId = dataSetId
             self.maxResults = maxResults
@@ -2197,6 +2272,7 @@ extension DataExchange {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobEntry]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -2218,6 +2294,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(dataSetId: String, maxResults: Int? = nil, nextToken: String? = nil, revisionId: String) {
             self.dataSetId = dataSetId
             self.maxResults = maxResults
@@ -2248,6 +2325,7 @@ extension DataExchange {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assets: [AssetEntry]? = nil, nextToken: String? = nil) {
             self.assets = assets
             self.nextToken = nextToken
@@ -2263,6 +2341,7 @@ extension DataExchange {
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2280,6 +2359,7 @@ extension DataExchange {
         /// A label that consists of a customer-defined key and an optional value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2297,6 +2377,7 @@ extension DataExchange {
         /// Extra details specific to a schema change type notification.
         public let schemaChange: SchemaChangeRequestDetails?
 
+        @inlinable
         public init(dataUpdate: DataUpdateRequestDetails? = nil, deprecation: DeprecationRequestDetails? = nil, schemaChange: SchemaChangeRequestDetails? = nil) {
             self.dataUpdate = dataUpdate
             self.deprecation = deprecation
@@ -2314,6 +2395,7 @@ extension DataExchange {
         /// The product ID of the origin of the data set.
         public let productId: String?
 
+        @inlinable
         public init(productId: String? = nil) {
             self.productId = productId
         }
@@ -2327,6 +2409,7 @@ extension DataExchange {
         /// The Amazon Resource Name (ARN) of the datashare asset.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2340,6 +2423,7 @@ extension DataExchange {
         /// The Amazon Resource Name (ARN) of the datashare asset.
         public let dataShareArn: String
 
+        @inlinable
         public init(dataShareArn: String) {
             self.dataShareArn = dataShareArn
         }
@@ -2363,6 +2447,7 @@ extension DataExchange {
         /// A view name in the Redshift database that is being affected by this notification.
         public let view: String?
 
+        @inlinable
         public init(arn: String, database: String, function: String? = nil, schema: String? = nil, table: String? = nil, view: String? = nil) {
             self.arn = arn
             self.database = database
@@ -2402,6 +2487,7 @@ extension DataExchange {
         /// Details about the import asset from API Gateway API request.
         public let importAssetsFromS3: ImportAssetsFromS3RequestDetails?
 
+        @inlinable
         public init(createS3DataAccessFromS3Bucket: CreateS3DataAccessFromS3BucketRequestDetails? = nil, exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromLakeFormationTagPolicy: ImportAssetsFromLakeFormationTagPolicyRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
             self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetsToS3 = exportAssetsToS3
@@ -2454,6 +2540,7 @@ extension DataExchange {
         /// Details for the import from Amazon S3 response.
         public let importAssetsFromS3: ImportAssetsFromS3ResponseDetails?
 
+        @inlinable
         public init(createS3DataAccessFromS3Bucket: CreateS3DataAccessFromS3BucketResponseDetails? = nil, exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromLakeFormationTagPolicy: ImportAssetsFromLakeFormationTagPolicyResponseDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
             self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetsToS3 = exportAssetsToS3
@@ -2487,6 +2574,7 @@ extension DataExchange {
         /// The unique identifier for the revision.
         public let revisionId: String
 
+        @inlinable
         public init(bucket: String, keyPattern: String? = nil, revisionId: String) {
             self.bucket = bucket
             self.keyPattern = keyPattern
@@ -2527,6 +2615,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(arn: String, comment: String? = nil, createdAt: Date, dataSetId: String, finalized: Bool? = nil, id: String, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.comment = comment
@@ -2560,6 +2649,7 @@ extension DataExchange {
         /// The data set ID of the published revision.
         public let dataSetId: String
 
+        @inlinable
         public init(dataSetId: String) {
             self.dataSetId = dataSetId
         }
@@ -2577,6 +2667,7 @@ extension DataExchange {
         /// A required comment to inform subscribers of the reason their access to the revision was revoked.
         public let revocationComment: String
 
+        @inlinable
         public init(dataSetId: String, revisionId: String, revocationComment: String) {
             self.dataSetId = dataSetId
             self.revisionId = revisionId
@@ -2628,6 +2719,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
@@ -2671,6 +2763,7 @@ extension DataExchange {
         /// The ARN for your Amazon S3 Access Point. Customers can also access their entitled data using the S3 Access Point ARN.
         public let s3AccessPointArn: String?
 
+        @inlinable
         public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil, kmsKeysToGrant: [KmsKeyToGrant]? = nil, s3AccessPointAlias: String? = nil, s3AccessPointArn: String? = nil) {
             self.bucket = bucket
             self.keyPrefixes = keyPrefixes
@@ -2700,6 +2793,7 @@ extension DataExchange {
         /// List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs used to encrypt S3 objects being shared in this S3 Data Access asset.
         public let kmsKeysToGrant: [KmsKeyToGrant]?
 
+        @inlinable
         public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil, kmsKeysToGrant: [KmsKeyToGrant]? = nil) {
             self.bucket = bucket
             self.keyPrefixes = keyPrefixes
@@ -2729,6 +2823,7 @@ extension DataExchange {
         /// A list of the keys affected by this notification. This can have up to 50 entries.
         public let keys: [String]?
 
+        @inlinable
         public init(keyPrefixes: [String]? = nil, keys: [String]? = nil) {
             self.keyPrefixes = keyPrefixes
             self.keys = keys
@@ -2744,6 +2839,7 @@ extension DataExchange {
         /// The size of the Amazon S3 object that is the object.
         public let size: Double
 
+        @inlinable
         public init(size: Double) {
             self.size = size
         }
@@ -2761,6 +2857,7 @@ extension DataExchange {
         /// Is the field being added, removed, or modified?
         public let type: SchemaChangeType
 
+        @inlinable
         public init(description: String? = nil, name: String, type: SchemaChangeType) {
             self.description = description
             self.name = name
@@ -2781,6 +2878,7 @@ extension DataExchange {
         @CustomCoding<ISO8601DateCoder>
         public var schemaChangeAt: Date
 
+        @inlinable
         public init(changes: [SchemaChangeDetails]? = nil, schemaChangeAt: Date) {
             self.changes = changes
             self.schemaChangeAt = schemaChangeAt
@@ -2800,6 +2898,7 @@ extension DataExchange {
         /// Underlying S3 resources that will be affected by this notification.
         public let s3DataAccesses: [S3DataAccessDetails]?
 
+        @inlinable
         public init(lakeFormationTagPolicies: [LakeFormationTagPolicyDetails]? = nil, redshiftDataShares: [RedshiftDataShareDetails]? = nil, s3DataAccesses: [S3DataAccessDetails]? = nil) {
             self.lakeFormationTagPolicies = lakeFormationTagPolicies
             self.redshiftDataShares = redshiftDataShares
@@ -2831,6 +2930,7 @@ extension DataExchange {
         /// Revision ID value for the API request.
         public let revisionId: String
 
+        @inlinable
         public init(assetId: String, body: String? = nil, dataSetId: String, method: String? = nil, path: String? = nil, queryStringParameters: [String: String]? = nil, requestHeaders: [String: String]? = nil, revisionId: String) {
             self.assetId = assetId
             self.body = body
@@ -2864,6 +2964,7 @@ extension DataExchange {
         /// The response headers from the underlying API tracked by the API asset.
         public let responseHeaders: [String: String]?
 
+        @inlinable
         public init(body: String, responseHeaders: [String: String]? = nil) {
             self.body = body
             self.responseHeaders = responseHeaders
@@ -2893,6 +2994,7 @@ extension DataExchange {
         /// The type of the notification. Describing the kind of event the notification is alerting you to.
         public let type: NotificationType
 
+        @inlinable
         public init(clientToken: String? = SendDataSetNotificationRequest.idempotencyToken(), comment: String? = nil, dataSetId: String, details: NotificationDetails? = nil, scope: ScopeDetails? = nil, type: NotificationType) {
             self.clientToken = clientToken
             self.comment = comment
@@ -2937,6 +3039,7 @@ extension DataExchange {
         /// The unique identifier for a job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2958,6 +3061,7 @@ extension DataExchange {
         /// A list of LF-tag conditions that apply to table resources.
         public let expression: [LFTag]
 
+        @inlinable
         public init(expression: [LFTag]) {
             self.expression = expression
         }
@@ -2973,6 +3077,7 @@ extension DataExchange {
         /// The permissions granted to subscribers on table resources.
         public let permissions: [TableTagPolicyLFPermission]
 
+        @inlinable
         public init(expression: [LFTag], permissions: [TableTagPolicyLFPermission]) {
             self.expression = expression
             self.permissions = permissions
@@ -2990,6 +3095,7 @@ extension DataExchange {
         /// A label that consists of a customer-defined key and an optional value.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3013,6 +3119,7 @@ extension DataExchange {
         /// The key tags.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3038,6 +3145,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(assetId: String, dataSetId: String, name: String, revisionId: String) {
             self.assetId = assetId
             self.dataSetId = dataSetId
@@ -3083,6 +3191,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetDetails = assetDetails
@@ -3118,6 +3227,7 @@ extension DataExchange {
         /// The name of the data set.
         public let name: String?
 
+        @inlinable
         public init(dataSetId: String, description: String? = nil, name: String? = nil) {
             self.dataSetId = dataSetId
             self.description = description
@@ -3162,6 +3272,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, origin: Origin? = nil, originDetails: OriginDetails? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetType = assetType
@@ -3195,6 +3306,7 @@ extension DataExchange {
         /// The unique identifier for the event action.
         public let eventActionId: String
 
+        @inlinable
         public init(action: Action? = nil, eventActionId: String) {
             self.action = action
             self.eventActionId = eventActionId
@@ -3228,6 +3340,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(action: Action? = nil, arn: String? = nil, createdAt: Date? = nil, event: Event? = nil, id: String? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.arn = arn
@@ -3257,6 +3370,7 @@ extension DataExchange {
         /// The unique identifier for a revision.
         public let revisionId: String
 
+        @inlinable
         public init(comment: String? = nil, dataSetId: String, finalized: Bool? = nil, revisionId: String) {
             self.comment = comment
             self.dataSetId = dataSetId
@@ -3310,6 +3424,7 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment

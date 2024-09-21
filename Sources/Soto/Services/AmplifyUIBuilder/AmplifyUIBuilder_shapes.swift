@@ -298,6 +298,7 @@ extension AmplifyUIBuilder {
         /// The URL to the location to open. Specify this value for a navigation action.
         public let url: ComponentProperty?
 
+        @inlinable
         public init(anchor: ComponentProperty? = nil, fields: [String: ComponentProperty]? = nil, global: ComponentProperty? = nil, id: ComponentProperty? = nil, model: String? = nil, state: MutationActionSetStateParameter? = nil, target: ComponentProperty? = nil, type: ComponentProperty? = nil, url: ComponentProperty? = nil) {
             self.anchor = anchor
             self.fields = fields
@@ -333,6 +334,7 @@ extension AmplifyUIBuilder {
         /// Indicates the version of the supported dependency package.
         public let supportedVersion: String?
 
+        @inlinable
         public init(isSemVer: Bool? = nil, name: String? = nil, reason: String? = nil, supportedVersion: String? = nil) {
             self.isSemVer = isSemVer
             self.name = name
@@ -354,6 +356,7 @@ extension AmplifyUIBuilder {
         /// Specifes whether a code generation job supports data relationships.
         public let isRelationshipSupported: Bool?
 
+        @inlinable
         public init(isNonModelSupported: Bool? = nil, isRelationshipSupported: Bool? = nil) {
             self.isNonModelSupported = isNonModelSupported
             self.isRelationshipSupported = isRelationshipSupported
@@ -369,6 +372,7 @@ extension AmplifyUIBuilder {
         /// The list of enum values in the generic data schema.
         public let values: [String]
 
+        @inlinable
         public init(values: [String]) {
             self.values = values
         }
@@ -392,6 +396,7 @@ extension AmplifyUIBuilder {
         /// Specifies whether the generic data field is required.
         public let required: Bool
 
+        @inlinable
         public init(dataType: CodegenGenericDataFieldDataType, dataTypeValue: String, isArray: Bool, readOnly: Bool, relationship: CodegenGenericDataRelationshipType? = nil, required: Bool) {
             self.dataType = dataType
             self.dataTypeValue = dataTypeValue
@@ -419,6 +424,7 @@ extension AmplifyUIBuilder {
         /// The primary keys of the generic data model.
         public let primaryKeys: [String]
 
+        @inlinable
         public init(fields: [String: CodegenGenericDataField], isJoinTable: Bool? = nil, primaryKeys: [String]) {
             self.fields = fields
             self.isJoinTable = isJoinTable
@@ -436,6 +442,7 @@ extension AmplifyUIBuilder {
         /// The fields in a generic data schema non model.
         public let fields: [String: CodegenGenericDataField]
 
+        @inlinable
         public init(fields: [String: CodegenGenericDataField]) {
             self.fields = fields
         }
@@ -465,6 +472,7 @@ extension AmplifyUIBuilder {
         /// The data relationship type.
         public let type: GenericDataRelationshipType
 
+        @inlinable
         public init(associatedFields: [String]? = nil, belongsToFieldOnRelatedModel: String? = nil, canUnlinkAssociatedModel: Bool? = nil, isHasManyIndex: Bool? = nil, relatedJoinFieldName: String? = nil, relatedJoinTableName: String? = nil, relatedModelFields: [String]? = nil, relatedModelName: String, type: GenericDataRelationshipType) {
             self.associatedFields = associatedFields
             self.belongsToFieldOnRelatedModel = belongsToFieldOnRelatedModel
@@ -517,6 +525,7 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the code generation job.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appId: String, asset: CodegenJobAsset? = nil, autoGenerateForms: Bool? = nil, createdAt: Date? = nil, dependencies: [CodegenDependency]? = nil, environmentName: String, features: CodegenFeatureFlags? = nil, genericDataSchema: CodegenJobGenericDataSchema? = nil, id: String, modifiedAt: Date? = nil, renderConfig: CodegenJobRenderConfig? = nil, status: CodegenJobStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.appId = appId
             self.asset = asset
@@ -556,6 +565,7 @@ extension AmplifyUIBuilder {
         /// The URL to use to access the asset.
         public let downloadUrl: String?
 
+        @inlinable
         public init(downloadUrl: String? = nil) {
             self.downloadUrl = downloadUrl
         }
@@ -575,6 +585,7 @@ extension AmplifyUIBuilder {
         /// The name of a CodegenGenericDataNonModel.
         public let nonModels: [String: CodegenGenericDataNonModel]
 
+        @inlinable
         public init(dataSourceType: CodegenJobGenericDataSourceType, enums: [String: CodegenGenericDataEnum], models: [String: CodegenGenericDataModel], nonModels: [String: CodegenGenericDataNonModel]) {
             self.dataSourceType = dataSourceType
             self.enums = enums
@@ -602,6 +613,7 @@ extension AmplifyUIBuilder {
         /// The time that the code generation job summary was modified.
         public let modifiedAt: Date?
 
+        @inlinable
         public init(appId: String, createdAt: Date? = nil, environmentName: String, id: String, modifiedAt: Date? = nil) {
             self.appId = appId
             self.createdAt = createdAt
@@ -655,6 +667,7 @@ extension AmplifyUIBuilder {
         /// A list of the component's variants. A variant is a unique style configuration of a main component.
         public let variants: [ComponentVariant]
 
+        @inlinable
         public init(appId: String, bindingProperties: [String: ComponentBindingPropertiesValue], children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String, createdAt: Date, environmentName: String, events: [String: ComponentEvent]? = nil, id: String, modifiedAt: Date? = nil, name: String, overrides: [String: [String: String]], properties: [String: ComponentProperty], schemaVersion: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, variants: [ComponentVariant]) {
             self.appId = appId
             self.bindingProperties = bindingProperties
@@ -704,6 +717,7 @@ extension AmplifyUIBuilder {
         /// The property type.
         public let type: String?
 
+        @inlinable
         public init(bindingProperties: ComponentBindingPropertiesValueProperties? = nil, defaultValue: String? = nil, type: String? = nil) {
             self.bindingProperties = bindingProperties
             self.defaultValue = defaultValue
@@ -739,6 +753,7 @@ extension AmplifyUIBuilder {
         /// An authenticated user attribute.
         public let userAttribute: String?
 
+        @inlinable
         public init(bucket: String? = nil, defaultValue: String? = nil, field: String? = nil, key: String? = nil, model: String? = nil, predicates: [Predicate]? = nil, slotName: String? = nil, userAttribute: String? = nil) {
             self.bucket = bucket
             self.defaultValue = defaultValue
@@ -782,6 +797,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the child component in its original source system, such as Figma.
         public let sourceId: String?
 
+        @inlinable
         public init(children: [ComponentChild]? = nil, componentType: String, events: [String: ComponentEvent]? = nil, name: String, properties: [String: ComponentProperty], sourceId: String? = nil) {
             self.children = children
             self.componentType = componentType
@@ -817,6 +833,7 @@ extension AmplifyUIBuilder {
         /// The value to assign to the property if the condition is met.
         public let then: ComponentProperty?
 
+        @inlinable
         public init(else: ComponentProperty? = nil, field: String? = nil, operand: String? = nil, operandType: String? = nil, operator: String? = nil, property: String? = nil, then: ComponentProperty? = nil) {
             self.`else` = `else`
             self.field = field
@@ -848,6 +865,7 @@ extension AmplifyUIBuilder {
         /// Describes how to sort the component's properties.
         public let sort: [SortProperty]?
 
+        @inlinable
         public init(identifiers: [String]? = nil, model: String, predicate: Predicate? = nil, sort: [SortProperty]? = nil) {
             self.identifiers = identifiers
             self.model = model
@@ -875,6 +893,7 @@ extension AmplifyUIBuilder {
         /// Describes information about the action.
         public let parameters: ActionParameters?
 
+        @inlinable
         public init(action: String? = nil, bindingEvent: String? = nil, parameters: ActionParameters? = nil) {
             self.action = action
             self.bindingEvent = bindingEvent
@@ -920,6 +939,7 @@ extension AmplifyUIBuilder {
         /// The value to assign to the component property.
         public let value: String?
 
+        @inlinable
         public init(bindingProperties: ComponentPropertyBindingProperties? = nil, bindings: [String: FormBindingElement]? = nil, collectionBindingProperties: ComponentPropertyBindingProperties? = nil, componentName: String? = nil, concat: [ComponentProperty]? = nil, condition: ComponentConditionProperty? = nil, configured: Bool? = nil, defaultValue: String? = nil, event: String? = nil, importedValue: String? = nil, model: String? = nil, property: String? = nil, type: String? = nil, userAttribute: String? = nil, value: String? = nil) {
             self.bindingProperties = bindingProperties
             self.bindings = bindings
@@ -963,6 +983,7 @@ extension AmplifyUIBuilder {
         /// The component property to bind to the data field.
         public let property: String
 
+        @inlinable
         public init(field: String? = nil, property: String) {
             self.field = field
             self.property = property
@@ -986,6 +1007,7 @@ extension AmplifyUIBuilder {
         /// The name of the component.
         public let name: String
 
+        @inlinable
         public init(appId: String, componentType: String, environmentName: String, id: String, name: String) {
             self.appId = appId
             self.componentType = componentType
@@ -1009,6 +1031,7 @@ extension AmplifyUIBuilder {
         /// The combination of variants that comprise this variant. You can't specify tags as a valid property for variantValues.
         public let variantValues: [String: String]?
 
+        @inlinable
         public init(overrides: [String: [String: String]]? = nil, variantValues: [String: String]? = nil) {
             self.overrides = overrides
             self.variantValues = variantValues
@@ -1046,6 +1069,7 @@ extension AmplifyUIBuilder {
         /// A list of the unique variants of this component.
         public let variants: [ComponentVariant]
 
+        @inlinable
         public init(bindingProperties: [String: ComponentBindingPropertiesValue], children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String, events: [String: ComponentEvent]? = nil, name: String, overrides: [String: [String: String]], properties: [String: ComponentProperty], schemaVersion: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, variants: [ComponentVariant]) {
             self.bindingProperties = bindingProperties
             self.children = children
@@ -1107,6 +1131,7 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
 
+        @inlinable
         public init(appId: String, clientToken: String? = CreateComponentRequest.idempotencyToken(), componentToCreate: CreateComponentData, environmentName: String) {
             self.appId = appId
             self.clientToken = clientToken
@@ -1134,6 +1159,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the new component.
         public let entity: Component
 
+        @inlinable
         public init(entity: Component) {
             self.entity = entity
         }
@@ -1168,6 +1194,7 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the form data.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig, fields: [String: FieldConfig], formActionType: FormActionType, labelDecorator: LabelDecorator? = nil, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
             self.cta = cta
             self.dataType = dataType
@@ -1217,6 +1244,7 @@ extension AmplifyUIBuilder {
         /// Represents the configuration of the form to create.
         public let formToCreate: CreateFormData
 
+        @inlinable
         public init(appId: String, clientToken: String? = CreateFormRequest.idempotencyToken(), environmentName: String, formToCreate: CreateFormData) {
             self.appId = appId
             self.clientToken = clientToken
@@ -1244,6 +1272,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the new form.
         public let entity: Form
 
+        @inlinable
         public init(entity: Form) {
             self.entity = entity
         }
@@ -1266,6 +1295,7 @@ extension AmplifyUIBuilder {
         /// A list of key-value pairs that deﬁnes the properties of the theme.
         public let values: [ThemeValues]
 
+        @inlinable
         public init(name: String, overrides: [ThemeValues]? = nil, tags: [String: String]? = nil, values: [ThemeValues]) {
             self.name = name
             self.overrides = overrides
@@ -1303,6 +1333,7 @@ extension AmplifyUIBuilder {
         /// Represents the configuration of the theme to create.
         public let themeToCreate: CreateThemeData
 
+        @inlinable
         public init(appId: String, clientToken: String? = CreateThemeRequest.idempotencyToken(), environmentName: String, themeToCreate: CreateThemeData) {
             self.appId = appId
             self.clientToken = clientToken
@@ -1330,6 +1361,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the new theme.
         public let entity: Theme
 
+        @inlinable
         public init(entity: Theme) {
             self.entity = entity
         }
@@ -1354,6 +1386,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the component to delete.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1379,6 +1412,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the form to delete.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1404,6 +1438,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the theme to delete.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1427,6 +1462,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the request.
         public let request: ExchangeCodeForTokenRequestBody
 
+        @inlinable
         public init(provider: TokenProviders, request: ExchangeCodeForTokenRequestBody) {
             self.provider = provider
             self.request = request
@@ -1450,6 +1486,7 @@ extension AmplifyUIBuilder {
         /// The location of the application that will receive the access code.
         public let redirectUri: String
 
+        @inlinable
         public init(clientId: String? = nil, code: String, redirectUri: String) {
             self.clientId = clientId
             self.code = code
@@ -1471,6 +1508,7 @@ extension AmplifyUIBuilder {
         /// The token to use to refresh a previously issued access token that might have expired.
         public let refreshToken: String
 
+        @inlinable
         public init(accessToken: String, expiresIn: Int, refreshToken: String) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
@@ -1492,6 +1530,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1515,6 +1554,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [Component], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -1534,6 +1574,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1557,6 +1598,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [Form], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -1576,6 +1618,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1599,6 +1642,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [Theme], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -1622,6 +1666,7 @@ extension AmplifyUIBuilder {
         /// The validations to perform on the value in the field.
         public let validations: [FieldValidationConfiguration]?
 
+        @inlinable
         public init(excluded: Bool? = nil, inputType: FieldInputConfig? = nil, label: String? = nil, position: FieldPosition? = nil, validations: [FieldValidationConfiguration]? = nil) {
             self.excluded = excluded
             self.inputType = inputType
@@ -1673,6 +1718,7 @@ extension AmplifyUIBuilder {
         /// The information to use to customize the input fields with data at runtime.
         public let valueMappings: ValueMappings?
 
+        @inlinable
         public init(defaultChecked: Bool? = nil, defaultCountryCode: String? = nil, defaultValue: String? = nil, descriptiveText: String? = nil, fileUploaderConfig: FileUploaderFieldConfig? = nil, isArray: Bool? = nil, maxValue: Float? = nil, minValue: Float? = nil, name: String? = nil, placeholder: String? = nil, readOnly: Bool? = nil, required: Bool? = nil, step: Float? = nil, type: String, value: String? = nil, valueMappings: ValueMappings? = nil) {
             self.defaultChecked = defaultChecked
             self.defaultCountryCode = defaultCountryCode
@@ -1722,6 +1768,7 @@ extension AmplifyUIBuilder {
         /// The validation message to display.
         public let validationMessage: String?
 
+        @inlinable
         public init(numValues: [Int]? = nil, strValues: [String]? = nil, type: String, validationMessage: String? = nil) {
             self.numValues = numValues
             self.strValues = strValues
@@ -1751,6 +1798,7 @@ extension AmplifyUIBuilder {
         /// Specifies whether to display or hide the image preview after selecting a file for upload. The default value is true to display the image preview.
         public let showThumbnails: Bool?
 
+        @inlinable
         public init(acceptedFileTypes: [String], accessLevel: StorageAccessLevel, isResumable: Bool? = nil, maxFileCount: Int? = nil, maxSize: Int? = nil, showThumbnails: Bool? = nil) {
             self.acceptedFileTypes = acceptedFileTypes
             self.accessLevel = accessLevel
@@ -1798,6 +1846,7 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the form.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appId: String, cta: FormCTA? = nil, dataType: FormDataTypeConfig, environmentName: String, fields: [String: FieldConfig], formActionType: FormActionType, id: String, labelDecorator: LabelDecorator? = nil, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
             self.appId = appId
             self.cta = cta
@@ -1837,6 +1886,7 @@ extension AmplifyUIBuilder {
         /// The property to retrieve a value from.
         public let property: String
 
+        @inlinable
         public init(element: String, property: String) {
             self.element = element
             self.property = property
@@ -1856,6 +1906,7 @@ extension AmplifyUIBuilder {
         /// The position of the button.
         public let position: FieldPosition?
 
+        @inlinable
         public init(children: String? = nil, excluded: Bool? = nil, position: FieldPosition? = nil) {
             self.children = children
             self.excluded = excluded
@@ -1879,6 +1930,7 @@ extension AmplifyUIBuilder {
         /// Displays a submit button.
         public let submit: FormButton?
 
+        @inlinable
         public init(cancel: FormButton? = nil, clear: FormButton? = nil, position: FormButtonsPosition? = nil, submit: FormButton? = nil) {
             self.cancel = cancel
             self.clear = clear
@@ -1900,6 +1952,7 @@ extension AmplifyUIBuilder {
         /// The unique name of the data type you are using as the data source for the form.
         public let dataTypeName: String
 
+        @inlinable
         public init(dataSourceType: FormDataSourceType, dataTypeName: String) {
             self.dataSourceType = dataSourceType
             self.dataTypeName = dataTypeName
@@ -1917,6 +1970,7 @@ extension AmplifyUIBuilder {
         /// The property type.
         public let type: String?
 
+        @inlinable
         public init(bindingProperties: FormInputBindingPropertiesValueProperties? = nil, type: String? = nil) {
             self.bindingProperties = bindingProperties
             self.type = type
@@ -1932,6 +1986,7 @@ extension AmplifyUIBuilder {
         /// An Amplify DataStore model.
         public let model: String?
 
+        @inlinable
         public init(model: String? = nil) {
             self.model = model
         }
@@ -1949,6 +2004,7 @@ extension AmplifyUIBuilder {
         /// The value to assign to the input field.
         public let value: String?
 
+        @inlinable
         public init(bindingProperties: FormInputValuePropertyBindingProperties? = nil, concat: [FormInputValueProperty]? = nil, value: String? = nil) {
             self.bindingProperties = bindingProperties
             self.concat = concat
@@ -1968,6 +2024,7 @@ extension AmplifyUIBuilder {
         /// The form property to bind to the data field.
         public let property: String
 
+        @inlinable
         public init(field: String? = nil, property: String) {
             self.field = field
             self.property = property
@@ -1987,6 +2044,7 @@ extension AmplifyUIBuilder {
         /// The spacing for the vertical gap.
         public let verticalGap: FormStyleConfig?
 
+        @inlinable
         public init(horizontalGap: FormStyleConfig? = nil, outerPadding: FormStyleConfig? = nil, verticalGap: FormStyleConfig? = nil) {
             self.horizontalGap = horizontalGap
             self.outerPadding = outerPadding
@@ -2014,6 +2072,7 @@ extension AmplifyUIBuilder {
         /// The name of the form.
         public let name: String
 
+        @inlinable
         public init(appId: String, dataType: FormDataTypeConfig, environmentName: String, formActionType: FormActionType, id: String, name: String) {
             self.appId = appId
             self.dataType = dataType
@@ -2041,6 +2100,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the code generation job.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2068,6 +2128,7 @@ extension AmplifyUIBuilder {
         /// The configuration settings for the code generation job.
         public let job: CodegenJob
 
+        @inlinable
         public init(job: CodegenJob) {
             self.job = job
         }
@@ -2088,6 +2149,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the component.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2109,6 +2171,7 @@ extension AmplifyUIBuilder {
         /// Represents the configuration settings for the component.
         public let component: Component
 
+        @inlinable
         public init(component: Component) {
             self.component = component
         }
@@ -2129,6 +2192,7 @@ extension AmplifyUIBuilder {
         /// The unique ID of the form.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2150,6 +2214,7 @@ extension AmplifyUIBuilder {
         /// Represents the configuration settings for the form.
         public let form: Form
 
+        @inlinable
         public init(form: Form) {
             self.form = form
         }
@@ -2168,6 +2233,7 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is part of the Amplify app.
         public let environmentName: String
 
+        @inlinable
         public init(appId: String, environmentName: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2187,6 +2253,7 @@ extension AmplifyUIBuilder {
         /// Represents the configuration settings for the features metadata.
         public let features: [String: String]
 
+        @inlinable
         public init(features: [String: String]) {
             self.features = features
         }
@@ -2204,6 +2271,7 @@ extension AmplifyUIBuilder {
         /// The unique ID for the theme.
         public let id: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2225,6 +2293,7 @@ extension AmplifyUIBuilder {
         /// Represents the configuration settings for the theme.
         public let theme: Theme
 
+        @inlinable
         public init(theme: Theme) {
             self.theme = theme
         }
@@ -2249,6 +2318,7 @@ extension AmplifyUIBuilder {
         /// The path to the GraphQL types file, relative to the component output directory.
         public let typesFilePath: String
 
+        @inlinable
         public init(fragmentsFilePath: String, mutationsFilePath: String, queriesFilePath: String, subscriptionsFilePath: String, typesFilePath: String) {
             self.fragmentsFilePath = fragmentsFilePath
             self.mutationsFilePath = mutationsFilePath
@@ -2276,6 +2346,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2309,6 +2380,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [CodegenJobSummary], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -2330,6 +2402,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2360,6 +2433,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [ComponentSummary], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -2381,6 +2455,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2411,6 +2486,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [FormSummary], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -2426,6 +2502,7 @@ extension AmplifyUIBuilder {
         /// The Amazon Resource Name (ARN) to use to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2443,6 +2520,7 @@ extension AmplifyUIBuilder {
         /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -2462,6 +2540,7 @@ extension AmplifyUIBuilder {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2492,6 +2571,7 @@ extension AmplifyUIBuilder {
         /// The pagination token that's returned if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [ThemeSummary], nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -2511,6 +2591,7 @@ extension AmplifyUIBuilder {
         /// The state configuration to assign to the property.
         public let set: ComponentProperty
 
+        @inlinable
         public init(componentName: String, property: String, set: ComponentProperty) {
             self.componentName = componentName
             self.property = property
@@ -2542,6 +2623,7 @@ extension AmplifyUIBuilder {
         /// A list of predicates to combine logically.
         public let or: [Predicate]?
 
+        @inlinable
         public init(and: [Predicate]? = nil, field: String? = nil, operand: String? = nil, operandType: String? = nil, operator: String? = nil, or: [Predicate]? = nil) {
             self.and = and
             self.field = field
@@ -2575,6 +2657,7 @@ extension AmplifyUIBuilder {
         /// The new information to store.
         public let newValue: String
 
+        @inlinable
         public init(newValue: String) {
             self.newValue = newValue
         }
@@ -2594,6 +2677,7 @@ extension AmplifyUIBuilder {
         /// The name of the feature associated with the metadata.
         public let featureName: String
 
+        @inlinable
         public init(appId: String, body: PutMetadataFlagBody, environmentName: String, featureName: String) {
             self.appId = appId
             self.body = body
@@ -2629,6 +2713,7 @@ extension AmplifyUIBuilder {
         /// The ECMAScript specification to use.
         public let target: JSTarget?
 
+        @inlinable
         public init(apiConfiguration: ApiConfiguration? = nil, dependencies: [String: String]? = nil, inlineSourceMap: Bool? = nil, module: JSModule? = nil, renderTypeDeclarations: Bool? = nil, script: JSScript? = nil, target: JSTarget? = nil) {
             self.apiConfiguration = apiConfiguration
             self.dependencies = dependencies
@@ -2656,6 +2741,7 @@ extension AmplifyUIBuilder {
         /// Information about the refresh token request.
         public let refreshTokenBody: RefreshTokenRequestBody
 
+        @inlinable
         public init(provider: TokenProviders, refreshTokenBody: RefreshTokenRequestBody) {
             self.provider = provider
             self.refreshTokenBody = refreshTokenBody
@@ -2677,6 +2763,7 @@ extension AmplifyUIBuilder {
         /// The token to use to refresh a previously issued access token that might have expired.
         public let token: String
 
+        @inlinable
         public init(clientId: String? = nil, token: String) {
             self.clientId = clientId
             self.token = token
@@ -2694,6 +2781,7 @@ extension AmplifyUIBuilder {
         /// The date and time when the new access token expires.
         public let expiresIn: Int
 
+        @inlinable
         public init(accessToken: String, expiresIn: Int) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
@@ -2719,6 +2807,7 @@ extension AmplifyUIBuilder {
         /// The type of sectional element. Valid values are Heading, Text, and Divider.
         public let type: String
 
+        @inlinable
         public init(excluded: Bool? = nil, level: Int? = nil, orientation: String? = nil, position: FieldPosition? = nil, text: String? = nil, type: String) {
             self.excluded = excluded
             self.level = level
@@ -2744,6 +2833,7 @@ extension AmplifyUIBuilder {
         /// The field to perform the sort on.
         public let field: String
 
+        @inlinable
         public init(direction: SortDirection, field: String) {
             self.direction = direction
             self.field = field
@@ -2767,6 +2857,7 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the code generation job data.
         public let tags: [String: String]?
 
+        @inlinable
         public init(autoGenerateForms: Bool? = nil, features: CodegenFeatureFlags? = nil, genericDataSchema: CodegenJobGenericDataSchema? = nil, renderConfig: CodegenJobRenderConfig, tags: [String: String]? = nil) {
             self.autoGenerateForms = autoGenerateForms
             self.features = features
@@ -2804,6 +2895,7 @@ extension AmplifyUIBuilder {
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
 
+        @inlinable
         public init(appId: String, clientToken: String? = StartCodegenJobRequest.idempotencyToken(), codegenJobToCreate: StartCodegenJobData, environmentName: String) {
             self.appId = appId
             self.clientToken = clientToken
@@ -2834,6 +2926,7 @@ extension AmplifyUIBuilder {
         /// The code generation job for a UI component that is associated with an Amplify app.
         public let entity: CodegenJob
 
+        @inlinable
         public init(entity: CodegenJob) {
             self.entity = entity
         }
@@ -2852,6 +2945,7 @@ extension AmplifyUIBuilder {
         /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2903,6 +2997,7 @@ extension AmplifyUIBuilder {
         /// A list of key-value pairs that defines the properties of the theme.
         public let values: [ThemeValues]
 
+        @inlinable
         public init(appId: String, createdAt: Date, environmentName: String, id: String, modifiedAt: Date? = nil, name: String, overrides: [ThemeValues]? = nil, tags: [String: String]? = nil, values: [ThemeValues]) {
             self.appId = appId
             self.createdAt = createdAt
@@ -2938,6 +3033,7 @@ extension AmplifyUIBuilder {
         /// The name of the theme.
         public let name: String
 
+        @inlinable
         public init(appId: String, environmentName: String, id: String, name: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -2959,6 +3055,7 @@ extension AmplifyUIBuilder {
         /// The value of a theme property.
         public let value: String?
 
+        @inlinable
         public init(children: [ThemeValues]? = nil, value: String? = nil) {
             self.children = children
             self.value = value
@@ -2976,6 +3073,7 @@ extension AmplifyUIBuilder {
         /// The value of the property.
         public let value: ThemeValue?
 
+        @inlinable
         public init(key: String? = nil, value: ThemeValue? = nil) {
             self.key = key
             self.value = value
@@ -2993,6 +3091,7 @@ extension AmplifyUIBuilder {
         /// The tag keys to use to untag a resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3047,6 +3146,7 @@ extension AmplifyUIBuilder {
         /// A list of the unique variants of the main component being updated.
         public let variants: [ComponentVariant]?
 
+        @inlinable
         public init(bindingProperties: [String: ComponentBindingPropertiesValue]? = nil, children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String? = nil, events: [String: ComponentEvent]? = nil, id: String? = nil, name: String? = nil, overrides: [String: [String: String]]? = nil, properties: [String: ComponentProperty]? = nil, schemaVersion: String? = nil, sourceId: String? = nil, variants: [ComponentVariant]? = nil) {
             self.bindingProperties = bindingProperties
             self.children = children
@@ -3103,6 +3203,7 @@ extension AmplifyUIBuilder {
         /// The configuration of the updated component.
         public let updatedComponent: UpdateComponentData
 
+        @inlinable
         public init(appId: String, clientToken: String? = UpdateComponentRequest.idempotencyToken(), environmentName: String, id: String, updatedComponent: UpdateComponentData) {
             self.appId = appId
             self.clientToken = clientToken
@@ -3132,6 +3233,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the updated component.
         public let entity: Component
 
+        @inlinable
         public init(entity: Component) {
             self.entity = entity
         }
@@ -3164,6 +3266,7 @@ extension AmplifyUIBuilder {
         /// The configuration for the form's style.
         public let style: FormStyle?
 
+        @inlinable
         public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig? = nil, fields: [String: FieldConfig]? = nil, formActionType: FormActionType? = nil, labelDecorator: LabelDecorator? = nil, name: String? = nil, schemaVersion: String? = nil, sectionalElements: [String: SectionalElement]? = nil, style: FormStyle? = nil) {
             self.cta = cta
             self.dataType = dataType
@@ -3206,6 +3309,7 @@ extension AmplifyUIBuilder {
         /// The request accepts the following data in JSON format.
         public let updatedForm: UpdateFormData
 
+        @inlinable
         public init(appId: String, clientToken: String? = UpdateFormRequest.idempotencyToken(), environmentName: String, id: String, updatedForm: UpdateFormData) {
             self.appId = appId
             self.clientToken = clientToken
@@ -3235,6 +3339,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the updated form.
         public let entity: Form
 
+        @inlinable
         public init(entity: Form) {
             self.entity = entity
         }
@@ -3257,6 +3362,7 @@ extension AmplifyUIBuilder {
         /// A list of key-value pairs that define the theme's properties.
         public let values: [ThemeValues]
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, overrides: [ThemeValues]? = nil, values: [ThemeValues]) {
             self.id = id
             self.name = name
@@ -3289,6 +3395,7 @@ extension AmplifyUIBuilder {
         /// The configuration of the updated theme.
         public let updatedTheme: UpdateThemeData
 
+        @inlinable
         public init(appId: String, clientToken: String? = UpdateThemeRequest.idempotencyToken(), environmentName: String, id: String, updatedTheme: UpdateThemeData) {
             self.appId = appId
             self.clientToken = clientToken
@@ -3318,6 +3425,7 @@ extension AmplifyUIBuilder {
         /// Describes the configuration of the updated theme.
         public let entity: Theme
 
+        @inlinable
         public init(entity: Theme) {
             self.entity = entity
         }
@@ -3336,6 +3444,7 @@ extension AmplifyUIBuilder {
         /// The complex object.
         public let value: FormInputValueProperty
 
+        @inlinable
         public init(displayValue: FormInputValueProperty? = nil, value: FormInputValueProperty) {
             self.displayValue = displayValue
             self.value = value
@@ -3353,6 +3462,7 @@ extension AmplifyUIBuilder {
         /// The value and display value pairs.
         public let values: [ValueMapping]
 
+        @inlinable
         public init(bindingProperties: [String: FormInputBindingPropertiesValue]? = nil, values: [ValueMapping]) {
             self.bindingProperties = bindingProperties
             self.values = values
@@ -3368,6 +3478,7 @@ extension AmplifyUIBuilder {
         /// The name of the ReactStartCodegenJobData object.
         public let react: ReactStartCodegenJobData?
 
+        @inlinable
         public init(react: ReactStartCodegenJobData? = nil) {
             self.react = react
         }

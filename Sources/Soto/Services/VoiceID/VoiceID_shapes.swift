@@ -125,6 +125,7 @@ extension VoiceID {
         /// The identifier of the watchlist you want to associate with the fraudster.
         public let watchlistId: String
 
+        @inlinable
         public init(domainId: String, fraudsterId: String, watchlistId: String) {
             self.domainId = domainId
             self.fraudsterId = fraudsterId
@@ -153,6 +154,7 @@ extension VoiceID {
     public struct AssociateFraudsterResponse: AWSDecodableShape {
         public let fraudster: Fraudster?
 
+        @inlinable
         public init(fraudster: Fraudster? = nil) {
             self.fraudster = fraudster
         }
@@ -166,6 +168,7 @@ extension VoiceID {
         /// The minimum threshold needed to successfully authenticate a speaker.
         public let acceptanceThreshold: Int
 
+        @inlinable
         public init(acceptanceThreshold: Int) {
             self.acceptanceThreshold = acceptanceThreshold
         }
@@ -193,6 +196,7 @@ extension VoiceID {
         /// The authentication score for the speaker whose authentication result is produced. This value is only present if the authentication decision is either ACCEPT or REJECT.
         public let score: Int?
 
+        @inlinable
         public init(audioAggregationEndedAt: Date? = nil, audioAggregationStartedAt: Date? = nil, authenticationResultId: String? = nil, configuration: AuthenticationConfiguration? = nil, customerSpeakerId: String? = nil, decision: AuthenticationDecision? = nil, generatedSpeakerId: String? = nil, score: Int? = nil) {
             self.audioAggregationEndedAt = audioAggregationEndedAt
             self.audioAggregationStartedAt = audioAggregationStartedAt
@@ -228,6 +232,7 @@ extension VoiceID {
         /// A list of tags you want added to the domain.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateDomainRequest.idempotencyToken(), description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -266,6 +271,7 @@ extension VoiceID {
         /// Information about the newly created domain.
         public let domain: Domain?
 
+        @inlinable
         public init(domain: Domain? = nil) {
             self.domain = domain
         }
@@ -285,6 +291,7 @@ extension VoiceID {
         /// The name of the watchlist.
         public let name: String
 
+        @inlinable
         public init(clientToken: String? = CreateWatchlistRequest.idempotencyToken(), description: String? = nil, domainId: String, name: String) {
             self.clientToken = clientToken
             self.description = description
@@ -319,6 +326,7 @@ extension VoiceID {
         /// Information about the newly created watchlist.
         public let watchlist: Watchlist?
 
+        @inlinable
         public init(watchlist: Watchlist? = nil) {
             self.watchlist = watchlist
         }
@@ -332,6 +340,7 @@ extension VoiceID {
         /// The identifier of the domain you want to delete.
         public let domainId: String
 
+        @inlinable
         public init(domainId: String) {
             self.domainId = domainId
         }
@@ -353,6 +362,7 @@ extension VoiceID {
         /// The identifier of the fraudster you want to delete.
         public let fraudsterId: String
 
+        @inlinable
         public init(domainId: String, fraudsterId: String) {
             self.domainId = domainId
             self.fraudsterId = fraudsterId
@@ -379,6 +389,7 @@ extension VoiceID {
         /// The identifier of the speaker you want to delete.
         public let speakerId: String
 
+        @inlinable
         public init(domainId: String, speakerId: String) {
             self.domainId = domainId
             self.speakerId = speakerId
@@ -405,6 +416,7 @@ extension VoiceID {
         /// The identifier of the watchlist to be deleted.
         public let watchlistId: String
 
+        @inlinable
         public init(domainId: String, watchlistId: String) {
             self.domainId = domainId
             self.watchlistId = watchlistId
@@ -429,6 +441,7 @@ extension VoiceID {
         /// The identifier of the domain that you are describing.
         public let domainId: String
 
+        @inlinable
         public init(domainId: String) {
             self.domainId = domainId
         }
@@ -448,6 +461,7 @@ extension VoiceID {
         /// Information about the specified domain.
         public let domain: Domain?
 
+        @inlinable
         public init(domain: Domain? = nil) {
             self.domain = domain
         }
@@ -463,6 +477,7 @@ extension VoiceID {
         /// The identifier of the fraudster registration job you are describing.
         public let jobId: String
 
+        @inlinable
         public init(domainId: String, jobId: String) {
             self.domainId = domainId
             self.jobId = jobId
@@ -487,6 +502,7 @@ extension VoiceID {
         /// Contains details about the specified fraudster registration job.
         public let job: FraudsterRegistrationJob?
 
+        @inlinable
         public init(job: FraudsterRegistrationJob? = nil) {
             self.job = job
         }
@@ -502,6 +518,7 @@ extension VoiceID {
         /// The identifier of the fraudster you are describing.
         public let fraudsterId: String
 
+        @inlinable
         public init(domainId: String, fraudsterId: String) {
             self.domainId = domainId
             self.fraudsterId = fraudsterId
@@ -526,6 +543,7 @@ extension VoiceID {
         /// Information about the specified fraudster.
         public let fraudster: Fraudster?
 
+        @inlinable
         public init(fraudster: Fraudster? = nil) {
             self.fraudster = fraudster
         }
@@ -541,6 +559,7 @@ extension VoiceID {
         /// The identifier of the speaker enrollment job you are describing.
         public let jobId: String
 
+        @inlinable
         public init(domainId: String, jobId: String) {
             self.domainId = domainId
             self.jobId = jobId
@@ -565,6 +584,7 @@ extension VoiceID {
         /// Contains details about the specified speaker enrollment job.
         public let job: SpeakerEnrollmentJob?
 
+        @inlinable
         public init(job: SpeakerEnrollmentJob? = nil) {
             self.job = job
         }
@@ -580,6 +600,7 @@ extension VoiceID {
         /// The identifier of the speaker you are describing.
         public let speakerId: String
 
+        @inlinable
         public init(domainId: String, speakerId: String) {
             self.domainId = domainId
             self.speakerId = speakerId
@@ -604,6 +625,7 @@ extension VoiceID {
         /// Information about the specified speaker.
         public let speaker: Speaker?
 
+        @inlinable
         public init(speaker: Speaker? = nil) {
             self.speaker = speaker
         }
@@ -619,6 +641,7 @@ extension VoiceID {
         /// The identifier of the watchlist that you are describing.
         public let watchlistId: String
 
+        @inlinable
         public init(domainId: String, watchlistId: String) {
             self.domainId = domainId
             self.watchlistId = watchlistId
@@ -643,6 +666,7 @@ extension VoiceID {
         /// Information about the specified watchlist.
         public let watchlist: Watchlist?
 
+        @inlinable
         public init(watchlist: Watchlist? = nil) {
             self.watchlist = watchlist
         }
@@ -660,6 +684,7 @@ extension VoiceID {
         /// The identifier of the watchlist that you want to disassociate from the fraudster.
         public let watchlistId: String
 
+        @inlinable
         public init(domainId: String, fraudsterId: String, watchlistId: String) {
             self.domainId = domainId
             self.fraudsterId = fraudsterId
@@ -688,6 +713,7 @@ extension VoiceID {
     public struct DisassociateFraudsterResponse: AWSDecodableShape {
         public let fraudster: Fraudster?
 
+        @inlinable
         public init(fraudster: Fraudster? = nil) {
             self.fraudster = fraudster
         }
@@ -719,6 +745,7 @@ extension VoiceID {
         /// The watchlist details of a domain. Contains the default watchlist ID of the domain.
         public let watchlistDetails: WatchlistDetails?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil, watchlistDetails: WatchlistDetails? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -768,6 +795,7 @@ extension VoiceID {
         /// Provides information about watchlistDetails and DefaultWatchlistID.
         public let watchlistDetails: WatchlistDetails?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil, watchlistDetails: WatchlistDetails? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -801,6 +829,7 @@ extension VoiceID {
         /// The fraud detection configuration to use for the speaker enrollment job.
         public let fraudDetectionConfig: EnrollmentJobFraudDetectionConfig?
 
+        @inlinable
         public init(existingEnrollmentAction: ExistingEnrollmentAction? = nil, fraudDetectionConfig: EnrollmentJobFraudDetectionConfig? = nil) {
             self.existingEnrollmentAction = existingEnrollmentAction
             self.fraudDetectionConfig = fraudDetectionConfig
@@ -824,6 +853,7 @@ extension VoiceID {
         /// The identifier of watchlists against which fraud detection is performed.
         public let watchlistIds: [String]?
 
+        @inlinable
         public init(fraudDetectionAction: FraudDetectionAction? = nil, riskThreshold: Int? = nil, watchlistIds: [String]? = nil) {
             self.fraudDetectionAction = fraudDetectionAction
             self.riskThreshold = riskThreshold
@@ -855,6 +885,7 @@ extension VoiceID {
         /// The session identifier, or name of the session, that you want to evaluate. In Voice ID integration, this is the Contact-Id.
         public let sessionNameOrId: String
 
+        @inlinable
         public init(domainId: String, sessionNameOrId: String) {
             self.domainId = domainId
             self.sessionNameOrId = sessionNameOrId
@@ -889,6 +920,7 @@ extension VoiceID {
         /// The current status of audio streaming for this session. This field is useful to infer next steps when the Authentication or Fraud Detection results are empty or the decision is NOT_ENOUGH_SPEECH. In this situation, if the StreamingStatus is ONGOING/PENDING_CONFIGURATION, it can mean that the client should call the API again later, after Voice ID has enough audio to produce a result. If the decision remains NOT_ENOUGH_SPEECH even after StreamingStatus is ENDED, it means that the previously streamed session did not have enough speech to perform evaluation, and a new streaming session is needed to try again.
         public let streamingStatus: StreamingStatus?
 
+        @inlinable
         public init(authenticationResult: AuthenticationResult? = nil, domainId: String? = nil, fraudDetectionResult: FraudDetectionResult? = nil, sessionId: String? = nil, sessionName: String? = nil, streamingStatus: StreamingStatus? = nil) {
             self.authenticationResult = authenticationResult
             self.domainId = domainId
@@ -914,6 +946,7 @@ extension VoiceID {
         /// An HTTP status code representing the nature of the error.
         public let statusCode: Int?
 
+        @inlinable
         public init(message: String? = nil, statusCode: Int? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -931,6 +964,7 @@ extension VoiceID {
         /// The identifier of the watchlist against which fraud detection is performed.
         public let watchlistId: String?
 
+        @inlinable
         public init(riskThreshold: Int? = nil, watchlistId: String? = nil) {
             self.riskThreshold = riskThreshold
             self.watchlistId = watchlistId
@@ -958,6 +992,7 @@ extension VoiceID {
         /// Details about each risk analyzed for this speaker. Currently, this contains KnownFraudsterRisk and VoiceSpoofingRisk details.
         public let riskDetails: FraudRiskDetails?
 
+        @inlinable
         public init(audioAggregationEndedAt: Date? = nil, audioAggregationStartedAt: Date? = nil, configuration: FraudDetectionConfiguration? = nil, decision: FraudDetectionDecision? = nil, fraudDetectionResultId: String? = nil, reasons: [FraudDetectionReason]? = nil, riskDetails: FraudRiskDetails? = nil) {
             self.audioAggregationEndedAt = audioAggregationEndedAt
             self.audioAggregationStartedAt = audioAggregationStartedAt
@@ -985,6 +1020,7 @@ extension VoiceID {
         /// The details resulting from 'Voice Spoofing Risk' analysis of the speaker.
         public let voiceSpoofingRisk: VoiceSpoofingRisk
 
+        @inlinable
         public init(knownFraudsterRisk: KnownFraudsterRisk, voiceSpoofingRisk: VoiceSpoofingRisk) {
             self.knownFraudsterRisk = knownFraudsterRisk
             self.voiceSpoofingRisk = voiceSpoofingRisk
@@ -1006,6 +1042,7 @@ extension VoiceID {
         /// The identifier of the watchlists the fraudster is a part of.
         public let watchlistIds: [String]?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String? = nil, generatedFraudsterId: String? = nil, watchlistIds: [String]? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -1047,6 +1084,7 @@ extension VoiceID {
         /// The registration config containing details such as the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster.
         public let registrationConfig: RegistrationConfig?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataAccessRoleArn: String? = nil, domainId: String? = nil, endedAt: Date? = nil, failureDetails: FailureDetails? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: FraudsterRegistrationJobStatus? = nil, outputDataConfig: OutputDataConfig? = nil, registrationConfig: RegistrationConfig? = nil) {
             self.createdAt = createdAt
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1096,6 +1134,7 @@ extension VoiceID {
         /// The current status of the fraudster registration job.
         public let jobStatus: FraudsterRegistrationJobStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String? = nil, endedAt: Date? = nil, failureDetails: FailureDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: FraudsterRegistrationJobStatus? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -1129,6 +1168,7 @@ extension VoiceID {
         /// The identifier of the watchlists the fraudster is a part of.
         public let watchlistIds: [String]?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String? = nil, generatedFraudsterId: String? = nil, watchlistIds: [String]? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -1148,6 +1188,7 @@ extension VoiceID {
         /// The S3 location for the input manifest file that contains the list of individual enrollment or registration job requests.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -1166,6 +1207,7 @@ extension VoiceID {
         /// Shows the completed percentage of enrollment or registration requests listed in the input file.
         public let percentComplete: Int?
 
+        @inlinable
         public init(percentComplete: Int? = nil) {
             self.percentComplete = percentComplete
         }
@@ -1181,6 +1223,7 @@ extension VoiceID {
         /// The score indicating the likelihood the speaker is a known fraudster.
         public let riskScore: Int
 
+        @inlinable
         public init(generatedFraudsterId: String? = nil, riskScore: Int) {
             self.generatedFraudsterId = generatedFraudsterId
             self.riskScore = riskScore
@@ -1198,6 +1241,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1222,6 +1266,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(domainSummaries: [DomainSummary]? = nil, nextToken: String? = nil) {
             self.domainSummaries = domainSummaries
             self.nextToken = nextToken
@@ -1243,6 +1288,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(domainId: String, jobStatus: FraudsterRegistrationJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainId = domainId
             self.jobStatus = jobStatus
@@ -1274,6 +1320,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaries: [FraudsterRegistrationJobSummary]? = nil, nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -1295,6 +1342,7 @@ extension VoiceID {
         /// The identifier of the watchlist. If provided, all fraudsters in the watchlist are listed. If not provided, all fraudsters in the domain are listed.
         public let watchlistId: String?
 
+        @inlinable
         public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil, watchlistId: String? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
@@ -1329,6 +1377,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(fraudsterSummaries: [FraudsterSummary]? = nil, nextToken: String? = nil) {
             self.fraudsterSummaries = fraudsterSummaries
             self.nextToken = nextToken
@@ -1350,6 +1399,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(domainId: String, jobStatus: SpeakerEnrollmentJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainId = domainId
             self.jobStatus = jobStatus
@@ -1381,6 +1431,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaries: [SpeakerEnrollmentJobSummary]? = nil, nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -1400,6 +1451,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
@@ -1429,6 +1481,7 @@ extension VoiceID {
         /// A list containing details about each speaker in the Amazon Web Services account.
         public let speakerSummaries: [SpeakerSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, speakerSummaries: [SpeakerSummary]? = nil) {
             self.nextToken = nextToken
             self.speakerSummaries = speakerSummaries
@@ -1444,6 +1497,7 @@ extension VoiceID {
         /// The Amazon Resource Name (ARN) of the Voice ID resource for which you want to list the tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1463,6 +1517,7 @@ extension VoiceID {
         /// The list of tags associated with the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1480,6 +1535,7 @@ extension VoiceID {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainId = domainId
             self.maxResults = maxResults
@@ -1509,6 +1565,7 @@ extension VoiceID {
         /// A list that contains details about each watchlist in the Amazon Web Services account.
         public let watchlistSummaries: [WatchlistSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, watchlistSummaries: [WatchlistSummary]? = nil) {
             self.nextToken = nextToken
             self.watchlistSummaries = watchlistSummaries
@@ -1526,6 +1583,7 @@ extension VoiceID {
         /// The identifier of the speaker you want opted-out.
         public let speakerId: String
 
+        @inlinable
         public init(domainId: String, speakerId: String) {
             self.domainId = domainId
             self.speakerId = speakerId
@@ -1550,6 +1608,7 @@ extension VoiceID {
         /// Details about the opted-out speaker.
         public let speaker: Speaker?
 
+        @inlinable
         public init(speaker: Speaker? = nil) {
             self.speaker = speaker
         }
@@ -1565,6 +1624,7 @@ extension VoiceID {
         /// The S3 path of the folder where Voice ID writes the job output file. It has a *.out extension. For example, if the input file name is input-file.json and the output folder path is s3://output-bucket/output-folder, the full output file path is s3://output-bucket/output-folder/job-Id/input-file.json.out.
         public let s3Uri: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -1591,6 +1651,7 @@ extension VoiceID {
         /// The identifiers of watchlists that a fraudster is registered to. If a watchlist isn't provided, the fraudsters are registered to the default watchlist.
         public let watchlistIds: [String]?
 
+        @inlinable
         public init(duplicateRegistrationAction: DuplicateRegistrationAction? = nil, fraudsterSimilarityThreshold: Int? = nil, watchlistIds: [String]? = nil) {
             self.duplicateRegistrationAction = duplicateRegistrationAction
             self.fraudsterSimilarityThreshold = fraudsterSimilarityThreshold
@@ -1620,6 +1681,7 @@ extension VoiceID {
         /// The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys.
         public let kmsKeyId: String
 
+        @inlinable
         public init(kmsKeyId: String) {
             self.kmsKeyId = kmsKeyId
         }
@@ -1642,6 +1704,7 @@ extension VoiceID {
         /// Status of the server-side encryption update. During an update, if there is an issue with the domain's current or old KMS key ID, such as an inaccessible or disabled key, then the status is FAILED. In order to resolve this, the key needs to be made accessible, and then an UpdateDomain call with the existing server-side encryption configuration will re-attempt this update process.
         public let updateStatus: ServerSideEncryptionUpdateStatus?
 
+        @inlinable
         public init(message: String? = nil, oldKmsKeyId: String? = nil, updateStatus: ServerSideEncryptionUpdateStatus? = nil) {
             self.message = message
             self.oldKmsKeyId = oldKmsKeyId
@@ -1671,6 +1734,7 @@ extension VoiceID {
         /// A timestamp of the speaker's last update.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, lastAccessedAt: Date? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.customerSpeakerId = customerSpeakerId
@@ -1718,6 +1782,7 @@ extension VoiceID {
         /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file.
         public let outputDataConfig: OutputDataConfig?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataAccessRoleArn: String? = nil, domainId: String? = nil, endedAt: Date? = nil, enrollmentConfig: EnrollmentConfig? = nil, failureDetails: FailureDetails? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: SpeakerEnrollmentJobStatus? = nil, outputDataConfig: OutputDataConfig? = nil) {
             self.createdAt = createdAt
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1767,6 +1832,7 @@ extension VoiceID {
         /// The current status of the speaker enrollment job.
         public let jobStatus: SpeakerEnrollmentJobStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String? = nil, endedAt: Date? = nil, failureDetails: FailureDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobProgress: JobProgress? = nil, jobStatus: SpeakerEnrollmentJobStatus? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -1806,6 +1872,7 @@ extension VoiceID {
         /// A timestamp showing the speaker's last update.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, lastAccessedAt: Date? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.customerSpeakerId = customerSpeakerId
@@ -1843,6 +1910,7 @@ extension VoiceID {
         /// The registration config containing details such as the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster.
         public let registrationConfig: RegistrationConfig?
 
+        @inlinable
         public init(clientToken: String? = StartFraudsterRegistrationJobRequest.idempotencyToken(), dataAccessRoleArn: String, domainId: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, registrationConfig: RegistrationConfig? = nil) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1886,6 +1954,7 @@ extension VoiceID {
         /// Details about the started fraudster registration job.
         public let job: FraudsterRegistrationJob?
 
+        @inlinable
         public init(job: FraudsterRegistrationJob? = nil) {
             self.job = job
         }
@@ -1911,6 +1980,7 @@ extension VoiceID {
         /// The output data config containing the S3 location where Voice ID writes the job output file; you must also include a KMS key ID to encrypt the file.
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientToken: String? = StartSpeakerEnrollmentJobRequest.idempotencyToken(), dataAccessRoleArn: String, domainId: String, enrollmentConfig: EnrollmentConfig? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1954,6 +2024,7 @@ extension VoiceID {
         /// Details about the started speaker enrollment job.
         public let job: SpeakerEnrollmentJob?
 
+        @inlinable
         public init(job: SpeakerEnrollmentJob? = nil) {
             self.job = job
         }
@@ -1969,6 +2040,7 @@ extension VoiceID {
         /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag 'Department':'Sales', the value is 'Sales'.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1994,6 +2066,7 @@ extension VoiceID {
         /// The list of tags to assign to the specified resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2025,6 +2098,7 @@ extension VoiceID {
         /// The list of tag keys you want to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2062,6 +2136,7 @@ extension VoiceID {
         /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the domain's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
+        @inlinable
         public init(description: String? = nil, domainId: String, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
             self.description = description
             self.domainId = domainId
@@ -2094,6 +2169,7 @@ extension VoiceID {
         /// Details about the updated domain
         public let domain: Domain?
 
+        @inlinable
         public init(domain: Domain? = nil) {
             self.domain = domain
         }
@@ -2113,6 +2189,7 @@ extension VoiceID {
         /// The identifier of the watchlist to be updated.
         public let watchlistId: String
 
+        @inlinable
         public init(description: String? = nil, domainId: String, name: String? = nil, watchlistId: String) {
             self.description = description
             self.domainId = domainId
@@ -2147,6 +2224,7 @@ extension VoiceID {
         /// Details about the updated watchlist.
         public let watchlist: Watchlist?
 
+        @inlinable
         public init(watchlist: Watchlist? = nil) {
             self.watchlist = watchlist
         }
@@ -2160,6 +2238,7 @@ extension VoiceID {
         /// The score indicating the likelihood of speaker’s voice being spoofed.
         public let riskScore: Int
 
+        @inlinable
         public init(riskScore: Int) {
             self.riskScore = riskScore
         }
@@ -2185,6 +2264,7 @@ extension VoiceID {
         /// The identifier of the watchlist.
         public let watchlistId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, defaultWatchlist: Bool? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, updatedAt: Date? = nil, watchlistId: String? = nil) {
             self.createdAt = createdAt
             self.defaultWatchlist = defaultWatchlist
@@ -2210,6 +2290,7 @@ extension VoiceID {
         /// The identifier of the default watchlist.
         public let defaultWatchlistId: String
 
+        @inlinable
         public init(defaultWatchlistId: String) {
             self.defaultWatchlistId = defaultWatchlistId
         }
@@ -2235,6 +2316,7 @@ extension VoiceID {
         /// The identifier of the watchlist.
         public let watchlistId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, defaultWatchlist: Bool? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, updatedAt: Date? = nil, watchlistId: String? = nil) {
             self.createdAt = createdAt
             self.defaultWatchlist = defaultWatchlist

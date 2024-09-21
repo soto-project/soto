@@ -733,6 +733,7 @@ extension MailManager {
         /// The value of the header to add to the email.
         public let headerValue: String
 
+        @inlinable
         public init(headerName: String, headerValue: String) {
             self.headerName = headerName
             self.headerValue = headerValue
@@ -764,6 +765,7 @@ extension MailManager {
         /// The timestamp of when the Add On instance was created.
         public let createdTimestamp: Date?
 
+        @inlinable
         public init(addonInstanceArn: String? = nil, addonInstanceId: String? = nil, addonName: String? = nil, addonSubscriptionId: String? = nil, createdTimestamp: Date? = nil) {
             self.addonInstanceArn = addonInstanceArn
             self.addonInstanceId = addonInstanceId
@@ -791,6 +793,7 @@ extension MailManager {
         /// The timestamp of when the Add On subscription was created.
         public let createdTimestamp: Date?
 
+        @inlinable
         public init(addonName: String? = nil, addonSubscriptionArn: String? = nil, addonSubscriptionId: String? = nil, createdTimestamp: Date? = nil) {
             self.addonName = addonName
             self.addonSubscriptionArn = addonSubscriptionArn
@@ -812,6 +815,7 @@ extension MailManager {
         /// The returned value from an Add On.
         public let resultField: String
 
+        @inlinable
         public init(analyzer: String, resultField: String) {
             self.analyzer = analyzer
             self.resultField = resultField
@@ -840,6 +844,7 @@ extension MailManager {
         /// The timestamp of when the archive was last updated.
         public let lastUpdatedTimestamp: Date?
 
+        @inlinable
         public init(archiveId: String, archiveName: String? = nil, archiveState: ArchiveState? = nil, lastUpdatedTimestamp: Date? = nil) {
             self.archiveId = archiveId
             self.archiveName = archiveName
@@ -861,6 +866,7 @@ extension MailManager {
         /// The identifier of the archive to send the email to.
         public let targetArchive: String
 
+        @inlinable
         public init(actionFailurePolicy: ActionFailurePolicy? = nil, targetArchive: String) {
             self.actionFailurePolicy = actionFailurePolicy
             self.targetArchive = targetArchive
@@ -884,6 +890,7 @@ extension MailManager {
         /// The boolean operator to use for evaluation.
         public let `operator`: ArchiveBooleanOperator
 
+        @inlinable
         public init(evaluate: ArchiveBooleanToEvaluate, operator: ArchiveBooleanOperator) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -901,6 +908,7 @@ extension MailManager {
         /// The filter conditions for emails to exclude.
         public let unless: [ArchiveFilterCondition]?
 
+        @inlinable
         public init(include: [ArchiveFilterCondition]? = nil, unless: [ArchiveFilterCondition]? = nil) {
             self.include = include
             self.unless = unless
@@ -931,6 +939,7 @@ extension MailManager {
         /// The list of string values to evaluate the email attribute against.
         public let values: [String]
 
+        @inlinable
         public init(evaluate: ArchiveStringToEvaluate, operator: ArchiveStringOperator, values: [String]) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -957,6 +966,7 @@ extension MailManager {
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]?
 
+        @inlinable
         public init(addonSubscriptionId: String, clientToken: String? = CreateAddonInstanceRequest.idempotencyToken(), tags: [Tag]? = nil) {
             self.addonSubscriptionId = addonSubscriptionId
             self.clientToken = clientToken
@@ -986,6 +996,7 @@ extension MailManager {
         /// The unique ID of the Add On instance created by this API.
         public let addonInstanceId: String
 
+        @inlinable
         public init(addonInstanceId: String) {
             self.addonInstanceId = addonInstanceId
         }
@@ -1003,6 +1014,7 @@ extension MailManager {
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]?
 
+        @inlinable
         public init(addonName: String, clientToken: String? = CreateAddonSubscriptionRequest.idempotencyToken(), tags: [Tag]? = nil) {
             self.addonName = addonName
             self.clientToken = clientToken
@@ -1029,6 +1041,7 @@ extension MailManager {
         /// The unique ID of the Add On subscription created by this API.
         public let addonSubscriptionId: String
 
+        @inlinable
         public init(addonSubscriptionId: String) {
             self.addonSubscriptionId = addonSubscriptionId
         }
@@ -1050,6 +1063,7 @@ extension MailManager {
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]?
 
+        @inlinable
         public init(archiveName: String, clientToken: String? = CreateArchiveRequest.idempotencyToken(), kmsKeyArn: String? = nil, retention: ArchiveRetention? = nil, tags: [Tag]? = nil) {
             self.archiveName = archiveName
             self.clientToken = clientToken
@@ -1084,6 +1098,7 @@ extension MailManager {
         /// The unique identifier for the newly created archive.
         public let archiveId: String
 
+        @inlinable
         public init(archiveId: String) {
             self.archiveId = archiveId
         }
@@ -1109,6 +1124,7 @@ extension MailManager {
         /// The type of the ingress endpoint to create.
         public let type: IngressPointType
 
+        @inlinable
         public init(clientToken: String? = CreateIngressPointRequest.idempotencyToken(), ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointName: String, ruleSetId: String, tags: [Tag]? = nil, trafficPolicyId: String, type: IngressPointType) {
             self.clientToken = clientToken
             self.ingressPointConfiguration = ingressPointConfiguration
@@ -1151,6 +1167,7 @@ extension MailManager {
         /// The unique identifier for a previously created ingress endpoint.
         public let ingressPointId: String
 
+        @inlinable
         public init(ingressPointId: String) {
             self.ingressPointId = ingressPointId
         }
@@ -1174,6 +1191,7 @@ extension MailManager {
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]?
 
+        @inlinable
         public init(authentication: RelayAuthentication, clientToken: String? = CreateRelayRequest.idempotencyToken(), relayName: String, serverName: String, serverPort: Int, tags: [Tag]? = nil) {
             self.authentication = authentication
             self.clientToken = clientToken
@@ -1215,6 +1233,7 @@ extension MailManager {
         /// A unique identifier of the created relay resource.
         public let relayId: String
 
+        @inlinable
         public init(relayId: String) {
             self.relayId = relayId
         }
@@ -1234,6 +1253,7 @@ extension MailManager {
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateRuleSetRequest.idempotencyToken(), rules: [Rule], ruleSetName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.rules = rules
@@ -1269,6 +1289,7 @@ extension MailManager {
         /// The identifier of the created rule set.
         public let ruleSetId: String
 
+        @inlinable
         public init(ruleSetId: String) {
             self.ruleSetId = ruleSetId
         }
@@ -1292,6 +1313,7 @@ extension MailManager {
         /// A user-friendly name for the traffic policy resource.
         public let trafficPolicyName: String
 
+        @inlinable
         public init(clientToken: String? = CreateTrafficPolicyRequest.idempotencyToken(), defaultAction: AcceptAction, maxMessageSizeBytes: Int? = nil, policyStatements: [PolicyStatement], tags: [Tag]? = nil, trafficPolicyName: String) {
             self.clientToken = clientToken
             self.defaultAction = defaultAction
@@ -1331,6 +1353,7 @@ extension MailManager {
         /// The identifier of the traffic policy resource.
         public let trafficPolicyId: String
 
+        @inlinable
         public init(trafficPolicyId: String) {
             self.trafficPolicyId = trafficPolicyId
         }
@@ -1344,6 +1367,7 @@ extension MailManager {
         /// The Add On instance ID to delete.
         public let addonInstanceId: String
 
+        @inlinable
         public init(addonInstanceId: String) {
             self.addonInstanceId = addonInstanceId
         }
@@ -1367,6 +1391,7 @@ extension MailManager {
         /// The Add On subscription ID to delete.
         public let addonSubscriptionId: String
 
+        @inlinable
         public init(addonSubscriptionId: String) {
             self.addonSubscriptionId = addonSubscriptionId
         }
@@ -1390,6 +1415,7 @@ extension MailManager {
         /// The identifier of the archive to delete.
         public let archiveId: String
 
+        @inlinable
         public init(archiveId: String) {
             self.archiveId = archiveId
         }
@@ -1412,6 +1438,7 @@ extension MailManager {
         /// The identifier of the ingress endpoint resource that you want to delete.
         public let ingressPointId: String
 
+        @inlinable
         public init(ingressPointId: String) {
             self.ingressPointId = ingressPointId
         }
@@ -1434,6 +1461,7 @@ extension MailManager {
         /// The unique relay identifier.
         public let relayId: String
 
+        @inlinable
         public init(relayId: String) {
             self.relayId = relayId
         }
@@ -1457,6 +1485,7 @@ extension MailManager {
         /// The identifier of an existing rule set resource to delete.
         public let ruleSetId: String
 
+        @inlinable
         public init(ruleSetId: String) {
             self.ruleSetId = ruleSetId
         }
@@ -1479,6 +1508,7 @@ extension MailManager {
         /// The identifier of the traffic policy that you want to delete.
         public let trafficPolicyId: String
 
+        @inlinable
         public init(trafficPolicyId: String) {
             self.trafficPolicyId = trafficPolicyId
         }
@@ -1505,6 +1535,7 @@ extension MailManager {
         /// The Amazon Resource Name (ARN) of an IAM role to use to execute this action. The role must have access to the workmail:DeliverToMailbox API.
         public let roleArn: String
 
+        @inlinable
         public init(actionFailurePolicy: ActionFailurePolicy? = nil, mailboxArn: String, roleArn: String) {
             self.actionFailurePolicy = actionFailurePolicy
             self.mailboxArn = mailboxArn
@@ -1541,6 +1572,7 @@ extension MailManager {
         /// The timestamp of when the export job was submitted.
         public let submissionTimestamp: Date?
 
+        @inlinable
         public init(completionTimestamp: Date? = nil, errorMessage: String? = nil, state: ExportState? = nil, submissionTimestamp: Date? = nil) {
             self.completionTimestamp = completionTimestamp
             self.errorMessage = errorMessage
@@ -1562,6 +1594,7 @@ extension MailManager {
         /// The current status of the export job.
         public let status: ExportStatus?
 
+        @inlinable
         public init(exportId: String? = nil, status: ExportStatus? = nil) {
             self.exportId = exportId
             self.status = status
@@ -1577,6 +1610,7 @@ extension MailManager {
         /// The Add On instance ID to retrieve information for.
         public let addonInstanceId: String
 
+        @inlinable
         public init(addonInstanceId: String) {
             self.addonInstanceId = addonInstanceId
         }
@@ -1602,6 +1636,7 @@ extension MailManager {
         /// The timestamp of when the Add On instance was created.
         public let createdTimestamp: Date?
 
+        @inlinable
         public init(addonInstanceArn: String? = nil, addonName: String? = nil, addonSubscriptionId: String? = nil, createdTimestamp: Date? = nil) {
             self.addonInstanceArn = addonInstanceArn
             self.addonName = addonName
@@ -1621,6 +1656,7 @@ extension MailManager {
         /// The Add On subscription ID to retrieve information for.
         public let addonSubscriptionId: String
 
+        @inlinable
         public init(addonSubscriptionId: String) {
             self.addonSubscriptionId = addonSubscriptionId
         }
@@ -1644,6 +1680,7 @@ extension MailManager {
         /// The timestamp of when the Add On subscription was created.
         public let createdTimestamp: Date?
 
+        @inlinable
         public init(addonName: String? = nil, addonSubscriptionArn: String? = nil, createdTimestamp: Date? = nil) {
             self.addonName = addonName
             self.addonSubscriptionArn = addonSubscriptionArn
@@ -1661,6 +1698,7 @@ extension MailManager {
         /// The identifier of the export job to get details for.
         public let exportId: String
 
+        @inlinable
         public init(exportId: String) {
             self.exportId = exportId
         }
@@ -1691,6 +1729,7 @@ extension MailManager {
         /// The end of the date range the exported emails cover.
         public let toTimestamp: Date?
 
+        @inlinable
         public init(archiveId: String? = nil, exportDestinationConfiguration: ExportDestinationConfiguration? = nil, filters: ArchiveFilters? = nil, fromTimestamp: Date? = nil, maxResults: Int? = nil, status: ExportStatus? = nil, toTimestamp: Date? = nil) {
             self.archiveId = archiveId
             self.exportDestinationConfiguration = exportDestinationConfiguration
@@ -1716,6 +1755,7 @@ extension MailManager {
         /// The unique identifier of the archived email message.
         public let archivedMessageId: String
 
+        @inlinable
         public init(archivedMessageId: String) {
             self.archivedMessageId = archivedMessageId
         }
@@ -1729,6 +1769,7 @@ extension MailManager {
         /// The textual body content of the email message.
         public let body: MessageBody?
 
+        @inlinable
         public init(body: MessageBody? = nil) {
             self.body = body
         }
@@ -1742,6 +1783,7 @@ extension MailManager {
         /// The unique identifier of the archived email message.
         public let archivedMessageId: String
 
+        @inlinable
         public init(archivedMessageId: String) {
             self.archivedMessageId = archivedMessageId
         }
@@ -1755,6 +1797,7 @@ extension MailManager {
         /// A pre-signed URL to temporarily download the full message content.
         public let messageDownloadLink: String?
 
+        @inlinable
         public init(messageDownloadLink: String? = nil) {
             self.messageDownloadLink = messageDownloadLink
         }
@@ -1768,6 +1811,7 @@ extension MailManager {
         /// The identifier of the archive to retrieve.
         public let archiveId: String
 
+        @inlinable
         public init(archiveId: String) {
             self.archiveId = archiveId
         }
@@ -1800,6 +1844,7 @@ extension MailManager {
         /// The retention period for emails in this archive.
         public let retention: ArchiveRetention
 
+        @inlinable
         public init(archiveArn: String, archiveId: String, archiveName: String, archiveState: ArchiveState, createdTimestamp: Date? = nil, kmsKeyArn: String? = nil, lastUpdatedTimestamp: Date? = nil, retention: ArchiveRetention) {
             self.archiveArn = archiveArn
             self.archiveId = archiveId
@@ -1827,6 +1872,7 @@ extension MailManager {
         /// The identifier of the search job to get details for.
         public let searchId: String
 
+        @inlinable
         public init(searchId: String) {
             self.searchId = searchId
         }
@@ -1855,6 +1901,7 @@ extension MailManager {
         /// The end timestamp of the range the searched emails cover.
         public let toTimestamp: Date?
 
+        @inlinable
         public init(archiveId: String? = nil, filters: ArchiveFilters? = nil, fromTimestamp: Date? = nil, maxResults: Int? = nil, status: SearchStatus? = nil, toTimestamp: Date? = nil) {
             self.archiveId = archiveId
             self.filters = filters
@@ -1878,6 +1925,7 @@ extension MailManager {
         /// The identifier of the completed search job.
         public let searchId: String
 
+        @inlinable
         public init(searchId: String) {
             self.searchId = searchId
         }
@@ -1896,6 +1944,7 @@ extension MailManager {
         /// The list of email result objects matching the search criteria.
         public let rows: [Row]?
 
+        @inlinable
         public init(rows: [Row]? = nil) {
             self.rows = rows
         }
@@ -1909,6 +1958,7 @@ extension MailManager {
         /// The identifier of an ingress endpoint.
         public let ingressPointId: String
 
+        @inlinable
         public init(ingressPointId: String) {
             self.ingressPointId = ingressPointId
         }
@@ -1947,6 +1997,7 @@ extension MailManager {
         /// The type of ingress endpoint.
         public let type: IngressPointType?
 
+        @inlinable
         public init(aRecord: String? = nil, createdTimestamp: Date? = nil, ingressPointArn: String? = nil, ingressPointAuthConfiguration: IngressPointAuthConfiguration? = nil, ingressPointId: String, ingressPointName: String, lastUpdatedTimestamp: Date? = nil, ruleSetId: String? = nil, status: IngressPointStatus? = nil, trafficPolicyId: String? = nil, type: IngressPointType? = nil) {
             self.aRecord = aRecord
             self.createdTimestamp = createdTimestamp
@@ -1980,6 +2031,7 @@ extension MailManager {
         /// A unique relay identifier.
         public let relayId: String
 
+        @inlinable
         public init(relayId: String) {
             self.relayId = relayId
         }
@@ -2013,6 +2065,7 @@ extension MailManager {
         /// The destination relay server port.
         public let serverPort: Int?
 
+        @inlinable
         public init(authentication: RelayAuthentication? = nil, createdTimestamp: Date? = nil, lastModifiedTimestamp: Date? = nil, relayArn: String? = nil, relayId: String, relayName: String? = nil, serverName: String? = nil, serverPort: Int? = nil) {
             self.authentication = authentication
             self.createdTimestamp = createdTimestamp
@@ -2040,6 +2093,7 @@ extension MailManager {
         /// The identifier of an existing rule set to be retrieved.
         public let ruleSetId: String
 
+        @inlinable
         public init(ruleSetId: String) {
             self.ruleSetId = ruleSetId
         }
@@ -2068,6 +2122,7 @@ extension MailManager {
         /// A user-friendly name for the rule set resource.
         public let ruleSetName: String
 
+        @inlinable
         public init(createdDate: Date, lastModificationDate: Date, rules: [Rule], ruleSetArn: String, ruleSetId: String, ruleSetName: String) {
             self.createdDate = createdDate
             self.lastModificationDate = lastModificationDate
@@ -2091,6 +2146,7 @@ extension MailManager {
         /// The identifier of the traffic policy resource.
         public let trafficPolicyId: String
 
+        @inlinable
         public init(trafficPolicyId: String) {
             self.trafficPolicyId = trafficPolicyId
         }
@@ -2123,6 +2179,7 @@ extension MailManager {
         /// A user-friendly name for the traffic policy resource.
         public let trafficPolicyName: String
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, defaultAction: AcceptAction? = nil, lastUpdatedTimestamp: Date? = nil, maxMessageSizeBytes: Int? = nil, policyStatements: [PolicyStatement]? = nil, trafficPolicyArn: String? = nil, trafficPolicyId: String, trafficPolicyName: String) {
             self.createdTimestamp = createdTimestamp
             self.defaultAction = defaultAction
@@ -2152,6 +2209,7 @@ extension MailManager {
         /// The returned value from an Add On.
         public let resultField: String
 
+        @inlinable
         public init(analyzer: String, resultField: String) {
             self.analyzer = analyzer
             self.resultField = resultField
@@ -2176,6 +2234,7 @@ extension MailManager {
         /// The matching operator for a boolean condition expression.
         public let `operator`: IngressBooleanOperator
 
+        @inlinable
         public init(evaluate: IngressBooleanToEvaluate, operator: IngressBooleanOperator) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -2199,6 +2258,7 @@ extension MailManager {
         /// The right hand side argument of an IP condition expression.
         public let values: [String]
 
+        @inlinable
         public init(evaluate: IngressIpToEvaluate, operator: IngressIpOperator, values: [String]) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -2230,6 +2290,7 @@ extension MailManager {
         /// The type of ingress endpoint resource.
         public let type: IngressPointType
 
+        @inlinable
         public init(aRecord: String? = nil, ingressPointId: String, ingressPointName: String, status: IngressPointStatus, type: IngressPointType) {
             self.aRecord = aRecord
             self.ingressPointId = ingressPointId
@@ -2253,6 +2314,7 @@ extension MailManager {
         /// The ingress endpoint SecretsManager::Secret ARN configuration for the ingress endpoint resource.
         public let secretArn: String?
 
+        @inlinable
         public init(ingressPointPasswordConfiguration: IngressPointPasswordConfiguration? = nil, secretArn: String? = nil) {
             self.ingressPointPasswordConfiguration = ingressPointPasswordConfiguration
             self.secretArn = secretArn
@@ -2272,6 +2334,7 @@ extension MailManager {
         /// The current password expiry timestamp of the ingress endpoint resource.
         public let smtpPasswordVersion: String?
 
+        @inlinable
         public init(previousSmtpPasswordExpiryTimestamp: Date? = nil, previousSmtpPasswordVersion: String? = nil, smtpPasswordVersion: String? = nil) {
             self.previousSmtpPasswordExpiryTimestamp = previousSmtpPasswordExpiryTimestamp
             self.previousSmtpPasswordVersion = previousSmtpPasswordVersion
@@ -2293,6 +2356,7 @@ extension MailManager {
         /// The right hand side argument of a string condition expression.
         public let values: [String]
 
+        @inlinable
         public init(evaluate: IngressStringToEvaluate, operator: IngressStringOperator, values: [String]) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -2314,6 +2378,7 @@ extension MailManager {
         /// The right hand side argument of a TLS condition expression.
         public let value: IngressTlsProtocolAttribute
 
+        @inlinable
         public init(evaluate: IngressTlsProtocolToEvaluate, operator: IngressTlsProtocolOperator, value: IngressTlsProtocolAttribute) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -2333,6 +2398,7 @@ extension MailManager {
         /// The maximum number of ingress endpoint resources that are returned per call. You can use NextToken to obtain further ingress endpoints.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2357,6 +2423,7 @@ extension MailManager {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(addonInstances: [AddonInstance]? = nil, nextToken: String? = nil) {
             self.addonInstances = addonInstances
             self.nextToken = nextToken
@@ -2374,6 +2441,7 @@ extension MailManager {
         /// The maximum number of ingress endpoint resources that are returned per call. You can use NextToken to obtain further ingress endpoints.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2398,6 +2466,7 @@ extension MailManager {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(addonSubscriptions: [AddonSubscription]? = nil, nextToken: String? = nil) {
             self.addonSubscriptions = addonSubscriptions
             self.nextToken = nextToken
@@ -2417,6 +2486,7 @@ extension MailManager {
         /// The maximum number of archive export jobs that are returned per call. You can use NextToken to obtain further pages of archives.
         public let pageSize: Int?
 
+        @inlinable
         public init(archiveId: String, nextToken: String? = nil, pageSize: Int? = nil) {
             self.archiveId = archiveId
             self.nextToken = nextToken
@@ -2446,6 +2516,7 @@ extension MailManager {
         /// If present, use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(exports: [ExportSummary]? = nil, nextToken: String? = nil) {
             self.exports = exports
             self.nextToken = nextToken
@@ -2465,6 +2536,7 @@ extension MailManager {
         /// The maximum number of archive search jobs that are returned per call. You can use NextToken to obtain further pages of archives.
         public let pageSize: Int?
 
+        @inlinable
         public init(archiveId: String, nextToken: String? = nil, pageSize: Int? = nil) {
             self.archiveId = archiveId
             self.nextToken = nextToken
@@ -2494,6 +2566,7 @@ extension MailManager {
         /// The list of search job identifiers and statuses.
         public let searches: [SearchSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, searches: [SearchSummary]? = nil) {
             self.nextToken = nextToken
             self.searches = searches
@@ -2511,6 +2584,7 @@ extension MailManager {
         /// The maximum number of archives that are returned per call. You can use NextToken to obtain further pages of archives.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2535,6 +2609,7 @@ extension MailManager {
         /// If present, use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(archives: [Archive], nextToken: String? = nil) {
             self.archives = archives
             self.nextToken = nextToken
@@ -2552,6 +2627,7 @@ extension MailManager {
         /// The maximum number of ingress endpoint resources that are returned per call. You can use NextToken to obtain further ingress endpoints.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2576,6 +2652,7 @@ extension MailManager {
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(ingressPoints: [IngressPoint]? = nil, nextToken: String? = nil) {
             self.ingressPoints = ingressPoints
             self.nextToken = nextToken
@@ -2593,6 +2670,7 @@ extension MailManager {
         /// The number of relays to be returned in one request.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2615,6 +2693,7 @@ extension MailManager {
         /// The list of returned relays.
         public let relays: [Relay]
 
+        @inlinable
         public init(nextToken: String? = nil, relays: [Relay]) {
             self.nextToken = nextToken
             self.relays = relays
@@ -2632,6 +2711,7 @@ extension MailManager {
         /// The maximum number of rule set resources that are returned per call. You can use NextToken to obtain further rule sets.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2656,6 +2736,7 @@ extension MailManager {
         /// The list of rule sets.
         public let ruleSets: [RuleSet]
 
+        @inlinable
         public init(nextToken: String? = nil, ruleSets: [RuleSet]) {
             self.nextToken = nextToken
             self.ruleSets = ruleSets
@@ -2671,6 +2752,7 @@ extension MailManager {
         /// The Amazon Resource Name (ARN) of the resource to retrieve tags from.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2690,6 +2772,7 @@ extension MailManager {
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]
 
+        @inlinable
         public init(tags: [Tag]) {
             self.tags = tags
         }
@@ -2705,6 +2788,7 @@ extension MailManager {
         /// The maximum number of traffic policy resources that are returned per call. You can use NextToken to obtain further traffic policies.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2729,6 +2813,7 @@ extension MailManager {
         /// The list of traffic policies.
         public let trafficPolicies: [TrafficPolicy]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficPolicies: [TrafficPolicy]? = nil) {
             self.nextToken = nextToken
             self.trafficPolicies = trafficPolicies
@@ -2748,6 +2833,7 @@ extension MailManager {
         /// The plain text body content of the message.
         public let text: String?
 
+        @inlinable
         public init(html: String? = nil, messageMalformed: Bool? = nil, text: String? = nil) {
             self.html = html
             self.messageMalformed = messageMalformed
@@ -2771,6 +2857,7 @@ extension MailManager {
         /// The list of conditions to apply to incoming messages for filtering email traffic.
         public let conditions: [PolicyCondition]
 
+        @inlinable
         public init(action: AcceptAction, conditions: [PolicyCondition]) {
             self.action = action
             self.conditions = conditions
@@ -2797,6 +2884,7 @@ extension MailManager {
         /// The unique relay name.
         public let relayName: String?
 
+        @inlinable
         public init(lastModifiedTimestamp: Date? = nil, relayId: String? = nil, relayName: String? = nil) {
             self.lastModifiedTimestamp = lastModifiedTimestamp
             self.relayId = relayId
@@ -2818,6 +2906,7 @@ extension MailManager {
         /// The identifier of the relay resource to be used when relaying an email.
         public let relay: String
 
+        @inlinable
         public init(actionFailurePolicy: ActionFailurePolicy? = nil, mailFrom: MailFrom? = nil, relay: String) {
             self.actionFailurePolicy = actionFailurePolicy
             self.mailFrom = mailFrom
@@ -2841,6 +2930,7 @@ extension MailManager {
         /// This action specifies the replacement recipient email addresses to insert.
         public let replaceWith: [String]?
 
+        @inlinable
         public init(replaceWith: [String]? = nil) {
             self.replaceWith = replaceWith
         }
@@ -2889,6 +2979,7 @@ extension MailManager {
         /// The priority level of the email.
         public let xPriority: String?
 
+        @inlinable
         public init(archivedMessageId: String? = nil, cc: String? = nil, date: String? = nil, from: String? = nil, hasAttachments: Bool? = nil, inReplyTo: String? = nil, messageId: String? = nil, receivedHeaders: [String]? = nil, receivedTimestamp: Date? = nil, subject: String? = nil, to: String? = nil, xMailer: String? = nil, xOriginalMailer: String? = nil, xPriority: String? = nil) {
             self.archivedMessageId = archivedMessageId
             self.cc = cc
@@ -2934,6 +3025,7 @@ extension MailManager {
         /// The "unless conditions" of this rule. None of the conditions can match the email for the actions to be executed. If any of these conditions do match the email, then the actions are not executed.
         public let unless: [RuleCondition]?
 
+        @inlinable
         public init(actions: [RuleAction], conditions: [RuleCondition]? = nil, name: String? = nil, unless: [RuleCondition]? = nil) {
             self.actions = actions
             self.conditions = conditions
@@ -2974,6 +3066,7 @@ extension MailManager {
         /// The matching operator for a boolean condition expression.
         public let `operator`: RuleBooleanOperator
 
+        @inlinable
         public init(evaluate: RuleBooleanToEvaluate, operator: RuleBooleanOperator) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -2991,6 +3084,7 @@ extension MailManager {
         /// The values to use for the given DMARC policy operator. For the operator EQUALS, if multiple values are given, they are evaluated as an OR. That is, if any of the given values match, the condition is deemed to match. For the operator NOT_EQUALS, if multiple values are given, they are evaluated as an AND. That is, only if the email's DMARC policy is not equal to any of the given values, then the condition is deemed to match.
         public let values: [RuleDmarcPolicy]
 
+        @inlinable
         public init(operator: RuleDmarcOperator, values: [RuleDmarcPolicy]) {
             self.`operator` = `operator`
             self.values = values
@@ -3015,6 +3109,7 @@ extension MailManager {
         /// The IP CIDR blocks in format "x.y.z.w/n" (eg 10.0.0.0/8) to match with the email's IP address. For the operator CIDR_MATCHES, if multiple values are given, they are evaluated as an OR. That is, if the IP address is contained within any of the given CIDR ranges, the condition is deemed to match. For NOT_CIDR_MATCHES, if multiple CIDR ranges are given, the condition is deemed to match if the IP address is not contained in any of the given CIDR ranges.
         public let values: [String]
 
+        @inlinable
         public init(evaluate: RuleIpToEvaluate, operator: RuleIpOperator, values: [String]) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -3046,6 +3141,7 @@ extension MailManager {
         /// The value to evaluate in a numeric condition expression.
         public let value: Double
 
+        @inlinable
         public init(evaluate: RuleNumberToEvaluate, operator: RuleNumberOperator, value: Double) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -3067,6 +3163,7 @@ extension MailManager {
         /// A user-friendly name for the rule set.
         public let ruleSetName: String?
 
+        @inlinable
         public init(lastModificationDate: Date? = nil, ruleSetId: String? = nil, ruleSetName: String? = nil) {
             self.lastModificationDate = lastModificationDate
             self.ruleSetId = ruleSetId
@@ -3088,6 +3185,7 @@ extension MailManager {
         /// The string(s) to be evaluated in a string condition expression. For all operators, except for NOT_EQUALS, if multiple values are given, the values are processed as an OR. That is, if any of the values match the email's string using the given operator, the condition is deemed to match. However, for NOT_EQUALS, the condition is only deemed to match if none of the given strings match the email's string.
         public let values: [String]
 
+        @inlinable
         public init(evaluate: RuleStringToEvaluate, operator: RuleStringOperator, values: [String]) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -3118,6 +3216,7 @@ extension MailManager {
         /// The values to match with the email's verdict using the given operator. For the EQUALS operator, if multiple values are given, the condition is deemed to match if any of the given verdicts match that of the email. For the NOT_EQUALS operator, if multiple values are given, the condition is deemed to match of none of the given verdicts match the verdict of the email.
         public let values: [RuleVerdict]
 
+        @inlinable
         public init(evaluate: RuleVerdictToEvaluate, operator: RuleVerdictOperator, values: [RuleVerdict]) {
             self.evaluate = evaluate
             self.`operator` = `operator`
@@ -3149,6 +3248,7 @@ extension MailManager {
         /// The KMS Key ID to use to encrypt the message in S3.
         public let s3SseKmsKeyId: String?
 
+        @inlinable
         public init(actionFailurePolicy: ActionFailurePolicy? = nil, roleArn: String, s3Bucket: String, s3Prefix: String? = nil, s3SseKmsKeyId: String? = nil) {
             self.actionFailurePolicy = actionFailurePolicy
             self.roleArn = roleArn
@@ -3185,6 +3285,7 @@ extension MailManager {
         /// The S3 location to deliver the exported email data.
         public let s3Location: String?
 
+        @inlinable
         public init(s3Location: String? = nil) {
             self.s3Location = s3Location
         }
@@ -3208,6 +3309,7 @@ extension MailManager {
         /// The timestamp of when the search was submitted.
         public let submissionTimestamp: Date?
 
+        @inlinable
         public init(completionTimestamp: Date? = nil, errorMessage: String? = nil, state: SearchState? = nil, submissionTimestamp: Date? = nil) {
             self.completionTimestamp = completionTimestamp
             self.errorMessage = errorMessage
@@ -3229,6 +3331,7 @@ extension MailManager {
         /// The current status of the search job.
         public let status: SearchStatus?
 
+        @inlinable
         public init(searchId: String? = nil, status: SearchStatus? = nil) {
             self.searchId = searchId
             self.status = status
@@ -3246,6 +3349,7 @@ extension MailManager {
         /// The Amazon Resource Name (ARN) of the role to use for this action. This role must have access to the ses:SendRawEmail API.
         public let roleArn: String
 
+        @inlinable
         public init(actionFailurePolicy: ActionFailurePolicy? = nil, roleArn: String) {
             self.actionFailurePolicy = actionFailurePolicy
             self.roleArn = roleArn
@@ -3277,6 +3381,7 @@ extension MailManager {
         /// The end of the timestamp range to include emails from.
         public let toTimestamp: Date
 
+        @inlinable
         public init(archiveId: String, exportDestinationConfiguration: ExportDestinationConfiguration, filters: ArchiveFilters? = nil, fromTimestamp: Date, maxResults: Int? = nil, toTimestamp: Date) {
             self.archiveId = archiveId
             self.exportDestinationConfiguration = exportDestinationConfiguration
@@ -3308,6 +3413,7 @@ extension MailManager {
         /// The unique identifier for the initiated export job.
         public let exportId: String?
 
+        @inlinable
         public init(exportId: String? = nil) {
             self.exportId = exportId
         }
@@ -3329,6 +3435,7 @@ extension MailManager {
         /// The end timestamp of the range to search emails from.
         public let toTimestamp: Date
 
+        @inlinable
         public init(archiveId: String, filters: ArchiveFilters? = nil, fromTimestamp: Date, maxResults: Int, toTimestamp: Date) {
             self.archiveId = archiveId
             self.filters = filters
@@ -3359,6 +3466,7 @@ extension MailManager {
         /// The unique identifier for the initiated search job.
         public let searchId: String?
 
+        @inlinable
         public init(searchId: String? = nil) {
             self.searchId = searchId
         }
@@ -3372,6 +3480,7 @@ extension MailManager {
         /// The identifier of the export job to stop.
         public let exportId: String
 
+        @inlinable
         public init(exportId: String) {
             self.exportId = exportId
         }
@@ -3394,6 +3503,7 @@ extension MailManager {
         /// The identifier of the search job to stop.
         public let searchId: String
 
+        @inlinable
         public init(searchId: String) {
             self.searchId = searchId
         }
@@ -3418,6 +3528,7 @@ extension MailManager {
         /// The value of the key-value tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3443,6 +3554,7 @@ extension MailManager {
         ///  The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3476,6 +3588,7 @@ extension MailManager {
         /// A user-friendly name of the traffic policy resource.
         public let trafficPolicyName: String
 
+        @inlinable
         public init(defaultAction: AcceptAction, trafficPolicyId: String, trafficPolicyName: String) {
             self.defaultAction = defaultAction
             self.trafficPolicyId = trafficPolicyId
@@ -3495,6 +3608,7 @@ extension MailManager {
         ///  The keys of the key-value pairs for the tag or tags you want to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3530,6 +3644,7 @@ extension MailManager {
         /// A new retention period for emails in the archive.
         public let retention: ArchiveRetention?
 
+        @inlinable
         public init(archiveId: String, archiveName: String? = nil, retention: ArchiveRetention? = nil) {
             self.archiveId = archiveId
             self.archiveName = archiveName
@@ -3569,6 +3684,7 @@ extension MailManager {
         /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
         public let trafficPolicyId: String?
 
+        @inlinable
         public init(ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointId: String, ingressPointName: String? = nil, ruleSetId: String? = nil, statusToUpdate: IngressPointStatusToUpdate? = nil, trafficPolicyId: String? = nil) {
             self.ingressPointConfiguration = ingressPointConfiguration
             self.ingressPointId = ingressPointId
@@ -3617,6 +3733,7 @@ extension MailManager {
         /// The destination relay server port.
         public let serverPort: Int?
 
+        @inlinable
         public init(authentication: RelayAuthentication? = nil, relayId: String, relayName: String? = nil, serverName: String? = nil, serverPort: Int? = nil) {
             self.authentication = authentication
             self.relayId = relayId
@@ -3661,6 +3778,7 @@ extension MailManager {
         /// A user-friendly name for the rule set resource.
         public let ruleSetName: String?
 
+        @inlinable
         public init(rules: [Rule]? = nil, ruleSetId: String, ruleSetName: String? = nil) {
             self.rules = rules
             self.ruleSetId = ruleSetId
@@ -3702,6 +3820,7 @@ extension MailManager {
         /// A user-friendly name for the traffic policy resource.
         public let trafficPolicyName: String?
 
+        @inlinable
         public init(defaultAction: AcceptAction? = nil, maxMessageSizeBytes: Int? = nil, policyStatements: [PolicyStatement]? = nil, trafficPolicyId: String, trafficPolicyName: String? = nil) {
             self.defaultAction = defaultAction
             self.maxMessageSizeBytes = maxMessageSizeBytes
@@ -3739,6 +3858,7 @@ extension MailManager {
         /// The name of the email attribute to evaluate.
         public let attribute: ArchiveBooleanEmailAttribute?
 
+        @inlinable
         public init(attribute: ArchiveBooleanEmailAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3752,6 +3872,7 @@ extension MailManager {
         /// The enum value sets the period for retaining emails in an archive.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(retentionPeriod: RetentionPeriod? = nil) {
             self.retentionPeriod = retentionPeriod
         }
@@ -3765,6 +3886,7 @@ extension MailManager {
         /// The name of the email attribute to evaluate.
         public let attribute: ArchiveStringEmailAttribute?
 
+        @inlinable
         public init(attribute: ArchiveStringEmailAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3778,6 +3900,7 @@ extension MailManager {
         /// Configuration for delivering to an Amazon S3 bucket.
         public let s3: S3ExportDestinationConfiguration?
 
+        @inlinable
         public init(s3: S3ExportDestinationConfiguration? = nil) {
             self.s3 = s3
         }
@@ -3795,6 +3918,7 @@ extension MailManager {
         /// The structure type for a boolean condition stating the Add On ARN and its returned value.
         public let analysis: IngressAnalysis?
 
+        @inlinable
         public init(analysis: IngressAnalysis? = nil) {
             self.analysis = analysis
         }
@@ -3812,6 +3936,7 @@ extension MailManager {
         /// An enum type representing the allowed attribute types for an IP condition.
         public let attribute: IngressIpv4Attribute?
 
+        @inlinable
         public init(attribute: IngressIpv4Attribute? = nil) {
             self.attribute = attribute
         }
@@ -3825,6 +3950,7 @@ extension MailManager {
         /// The enum type representing the allowed attribute types for a string condition.
         public let attribute: IngressStringEmailAttribute?
 
+        @inlinable
         public init(attribute: IngressStringEmailAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3838,6 +3964,7 @@ extension MailManager {
         /// The enum type representing the allowed attribute types for the TLS condition.
         public let attribute: IngressTlsAttribute?
 
+        @inlinable
         public init(attribute: IngressTlsAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3851,6 +3978,7 @@ extension MailManager {
         /// The boolean type representing the allowed attribute types for an email.
         public let attribute: RuleBooleanEmailAttribute?
 
+        @inlinable
         public init(attribute: RuleBooleanEmailAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3864,6 +3992,7 @@ extension MailManager {
         /// The attribute of the email to evaluate.
         public let attribute: RuleIpEmailAttribute?
 
+        @inlinable
         public init(attribute: RuleIpEmailAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3877,6 +4006,7 @@ extension MailManager {
         /// An email attribute that is used as the number to evaluate.
         public let attribute: RuleNumberEmailAttribute?
 
+        @inlinable
         public init(attribute: RuleNumberEmailAttribute? = nil) {
             self.attribute = attribute
         }
@@ -3890,6 +4020,7 @@ extension MailManager {
         /// The email attribute to evaluate in a string condition expression.
         public let attribute: RuleStringEmailAttribute?
 
+        @inlinable
         public init(attribute: RuleStringEmailAttribute? = nil) {
             self.attribute = attribute
         }

@@ -60,6 +60,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view to set as the default for the Amazon Web Services Region and Amazon Web Services account in which you call this operation. The specified view must already exist in the called Region.
         public let viewArn: String
 
+        @inlinable
         public init(viewArn: String) {
             self.viewArn = viewArn
         }
@@ -73,6 +74,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that the operation set as the default for queries made in the Amazon Web Services Region and Amazon Web Services account in which you called this operation.
         public let viewArn: String?
 
+        @inlinable
         public init(viewArn: String? = nil) {
             self.viewArn = viewArn
         }
@@ -88,6 +90,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view for which Resource Explorer failed to retrieve details.
         public let viewArn: String
 
+        @inlinable
         public init(errorMessage: String, viewArn: String) {
             self.errorMessage = errorMessage
             self.viewArn = viewArn
@@ -103,6 +106,7 @@ extension ResourceExplorer2 {
         /// A list of Amazon resource names (ARNs) that identify the views you want details for.
         public let viewArns: [String]?
 
+        @inlinable
         public init(viewArns: [String]? = nil) {
             self.viewArns = viewArns
         }
@@ -118,6 +122,7 @@ extension ResourceExplorer2 {
         /// A structure with a list of objects with details for each of the specified views.
         public let views: [View]?
 
+        @inlinable
         public init(errors: [BatchGetViewError]? = nil, views: [View]? = nil) {
             self.errors = errors
             self.views = views
@@ -135,6 +140,7 @@ extension ResourceExplorer2 {
         /// The specified tags are attached only to the index created in this Amazon Web Services Region. The tags aren't attached to any of the resources listed in the index.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateIndexInput.idempotencyToken(), tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.tags = tags
@@ -154,6 +160,7 @@ extension ResourceExplorer2 {
         /// Indicates the current state of the index. You can check for changes to the state for asynchronous operations by calling the GetIndex operation.  The state can remain in the CREATING or UPDATING state for several hours as Resource Explorer discovers the information about your resources and populates the index.
         public let state: IndexState?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, state: IndexState? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -181,6 +188,7 @@ extension ResourceExplorer2 {
         /// The name of the new view. This name appears in the list of views in Resource Explorer. The name must be no more than 64 characters long, and can include letters, digits, and the dash (-) character. The name must be unique within its Amazon Web Services Region.
         public let viewName: String
 
+        @inlinable
         public init(clientToken: String? = CreateViewInput.idempotencyToken(), filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, scope: String? = nil, tags: [String: String]? = nil, viewName: String) {
             self.clientToken = clientToken
             self.filters = filters
@@ -208,6 +216,7 @@ extension ResourceExplorer2 {
         /// A structure that contains the details about the new view.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -221,6 +230,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the index that you want to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -238,6 +248,7 @@ extension ResourceExplorer2 {
         /// Indicates the current state of the index.
         public let state: IndexState?
 
+        @inlinable
         public init(arn: String? = nil, lastUpdatedAt: Date? = nil, state: IndexState? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -255,6 +266,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that you want to delete.
         public let viewArn: String
 
+        @inlinable
         public init(viewArn: String) {
             self.viewArn = viewArn
         }
@@ -268,6 +280,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that you successfully deleted.
         public let viewArn: String?
 
+        @inlinable
         public init(viewArn: String? = nil) {
             self.viewArn = viewArn
         }
@@ -281,6 +294,7 @@ extension ResourceExplorer2 {
         /// Details about the organization, and whether configuration is ENABLED or DISABLED.
         public let orgConfiguration: OrgConfiguration?
 
+        @inlinable
         public init(orgConfiguration: OrgConfiguration? = nil) {
             self.orgConfiguration = orgConfiguration
         }
@@ -294,6 +308,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that is the current default for the Amazon Web Services Region in which you called this operation.
         public let viewArn: String?
 
+        @inlinable
         public init(viewArn: String? = nil) {
             self.viewArn = viewArn
         }
@@ -321,6 +336,7 @@ extension ResourceExplorer2 {
         /// The type of the index in this Region. For information about the aggregator index and how it differs from a local index, see Turning on cross-Region search by creating an aggregator index.
         public let type: IndexType?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, lastUpdatedAt: Date? = nil, replicatingFrom: [String]? = nil, replicatingTo: [String]? = nil, state: IndexState? = nil, tags: [String: String]? = nil, type: IndexType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -348,6 +364,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that you want information about.
         public let viewArn: String
 
+        @inlinable
         public init(viewArn: String) {
             self.viewArn = viewArn
         }
@@ -363,6 +380,7 @@ extension ResourceExplorer2 {
         /// A structure that contains the details for the requested view.
         public let view: View?
 
+        @inlinable
         public init(tags: [String: String]? = nil, view: View? = nil) {
             self.tags = tags
             self.view = view
@@ -378,6 +396,7 @@ extension ResourceExplorer2 {
         /// The name of the property that is included in this view. You can specify the following property names for this field:    Tags
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -395,6 +414,7 @@ extension ResourceExplorer2 {
         /// The type of index. It can be one of the following values:    LOCAL – The index contains information about resources from only the same Amazon Web Services Region.    AGGREGATOR – Resource Explorer replicates copies of the indexed information about resources in all other Amazon Web Services Regions to the aggregator index. This lets search results in the Region with the aggregator index to include resources from all Regions in the account where Resource Explorer is turned on.
         public let type: IndexType?
 
+        @inlinable
         public init(arn: String? = nil, region: String? = nil, type: IndexType? = nil) {
             self.arn = arn
             self.region = region
@@ -416,6 +436,7 @@ extension ResourceExplorer2 {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIdList: [String], maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountIdList = accountIdList
             self.maxResults = maxResults
@@ -442,6 +463,7 @@ extension ResourceExplorer2 {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(indexes: [MemberIndex]? = nil, nextToken: String? = nil) {
             self.indexes = indexes
             self.nextToken = nextToken
@@ -463,6 +485,7 @@ extension ResourceExplorer2 {
         /// If specified, limits the output to only indexes of the specified Type, either LOCAL or AGGREGATOR. Use this option to discover the aggregator index for your account.
         public let type: IndexType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, regions: [String]? = nil, type: IndexType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -484,6 +507,7 @@ extension ResourceExplorer2 {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(indexes: [Index]? = nil, nextToken: String? = nil) {
             self.indexes = indexes
             self.nextToken = nextToken
@@ -501,6 +525,7 @@ extension ResourceExplorer2 {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -518,6 +543,7 @@ extension ResourceExplorer2 {
         /// The list of resource types supported by Resource Explorer.
         public let resourceTypes: [SupportedResourceType]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceTypes: [SupportedResourceType]? = nil) {
             self.nextToken = nextToken
             self.resourceTypes = resourceTypes
@@ -533,6 +559,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view or index that you want to attach tags to.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -550,6 +577,7 @@ extension ResourceExplorer2 {
         /// The tag key and value pairs that you want to attach to the specified view or index.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -565,6 +593,7 @@ extension ResourceExplorer2 {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -582,6 +611,7 @@ extension ResourceExplorer2 {
         /// The list of views available in the Amazon Web Services Region in which you called this operation.
         public let views: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, views: [String]? = nil) {
             self.nextToken = nextToken
             self.views = views
@@ -603,6 +633,7 @@ extension ResourceExplorer2 {
         /// The type of index. It can be one of the following values:     LOCAL – The index contains information about resources from only the same Amazon Web Services Region.    AGGREGATOR – Resource Explorer replicates copies of the indexed information about resources in all other Amazon Web Services Regions to the aggregator index. This lets search results in the Region with the aggregator index to include resources from all Regions in the account where Resource Explorer is turned on.
         public let type: IndexType?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, region: String? = nil, type: IndexType? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -624,6 +655,7 @@ extension ResourceExplorer2 {
         /// This value shows whether or not you have a valid a service-linked role required to start the multi-account search feature.
         public let serviceLinkedRole: String?
 
+        @inlinable
         public init(awsServiceAccessStatus: AWSServiceAccessStatus, serviceLinkedRole: String? = nil) {
             self.awsServiceAccessStatus = awsServiceAccessStatus
             self.serviceLinkedRole = serviceLinkedRole
@@ -651,6 +683,7 @@ extension ResourceExplorer2 {
         /// The Amazon Web Service that owns the resource and is responsible for creating and updating it.
         public let service: String?
 
+        @inlinable
         public init(arn: String? = nil, lastReportedAt: Date? = nil, owningAccountId: String? = nil, properties: [ResourceProperty]? = nil, region: String? = nil, resourceType: String? = nil, service: String? = nil) {
             self.arn = arn
             self.lastReportedAt = lastReportedAt
@@ -678,6 +711,7 @@ extension ResourceExplorer2 {
         /// The number of resources that match the search query. This value can't exceed 1,000. If there are more than 1,000 resources that match the query, then only 1,000 are counted and the Complete field is set to false. We recommend that you refine your query to return a smaller number of results.
         public let totalResources: Int64?
 
+        @inlinable
         public init(complete: Bool? = nil, totalResources: Int64? = nil) {
             self.complete = complete
             self.totalResources = totalResources
@@ -697,6 +731,7 @@ extension ResourceExplorer2 {
         /// The name of this property of the resource.
         public let name: String?
 
+        @inlinable
         public init(data: String? = nil, lastReportedAt: Date? = nil, name: String? = nil) {
             self.data = data
             self.lastReportedAt = lastReportedAt
@@ -714,6 +749,7 @@ extension ResourceExplorer2 {
         /// The string that contains the search keywords, prefixes, and operators to control the results that can be returned by a Search operation. For more details, see Search query syntax.
         public let filterString: String
 
+        @inlinable
         public init(filterString: String) {
             self.filterString = filterString
         }
@@ -733,6 +769,7 @@ extension ResourceExplorer2 {
         /// Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't specify a value for this parameter, then the operation automatically uses the default view for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have a default view or if you don't have permission to use the default view, then the operation fails with a 401 Unauthorized exception.
         public let viewArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, queryString: String, viewArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -762,6 +799,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that this operation used to perform the search.
         public let viewArn: String?
 
+        @inlinable
         public init(count: ResourceCount? = nil, nextToken: String? = nil, resources: [Resource]? = nil, viewArn: String? = nil) {
             self.count = count
             self.nextToken = nextToken
@@ -783,6 +821,7 @@ extension ResourceExplorer2 {
         /// The Amazon Web Service that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
         public let service: String?
 
+        @inlinable
         public init(resourceType: String? = nil, service: String? = nil) {
             self.resourceType = resourceType
             self.service = service
@@ -800,6 +839,7 @@ extension ResourceExplorer2 {
         /// A list of tag key and value pairs that you want to attach to the specified view or index.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -827,6 +867,7 @@ extension ResourceExplorer2 {
         /// A list of the keys for the tags that you want to remove from the specified view or index.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -852,6 +893,7 @@ extension ResourceExplorer2 {
         /// The type of the index. To understand the difference between LOCAL and AGGREGATOR, see Turning on cross-Region search in the Amazon Web Services Resource Explorer User Guide.
         public let type: IndexType
 
+        @inlinable
         public init(arn: String, type: IndexType) {
             self.arn = arn
             self.type = type
@@ -873,6 +915,7 @@ extension ResourceExplorer2 {
         /// Specifies the type of the specified index after the operation completes.
         public let type: IndexType?
 
+        @inlinable
         public init(arn: String? = nil, lastUpdatedAt: Date? = nil, state: IndexState? = nil, type: IndexType? = nil) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
@@ -896,6 +939,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view that you want to modify.
         public let viewArn: String
 
+        @inlinable
         public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, viewArn: String) {
             self.filters = filters
             self.includedProperties = includedProperties
@@ -913,6 +957,7 @@ extension ResourceExplorer2 {
         /// Details about the view that you changed with this operation.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -936,6 +981,7 @@ extension ResourceExplorer2 {
         /// The Amazon resource name (ARN) of the view.
         public let viewArn: String?
 
+        @inlinable
         public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, lastUpdatedAt: Date? = nil, owner: String? = nil, scope: String? = nil, viewArn: String? = nil) {
             self.filters = filters
             self.includedProperties = includedProperties

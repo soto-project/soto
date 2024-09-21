@@ -94,6 +94,7 @@ extension SimSpaceWeaver {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group for the simulation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference. For more information about log groups, see Working with log groups and log streams in the Amazon CloudWatch Logs User Guide.
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -109,6 +110,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation.
         public let simulation: String
 
+        @inlinable
         public init(destination: S3Destination, simulation: String) {
             self.destination = destination
             self.simulation = simulation
@@ -139,6 +141,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation of the app.
         public let simulation: String
 
+        @inlinable
         public init(app: String, domain: String, simulation: String) {
             self.app = app
             self.domain = domain
@@ -176,6 +179,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation.
         public let simulation: String
 
+        @inlinable
         public init(simulation: String) {
             self.simulation = simulation
         }
@@ -207,6 +211,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation of the app.
         public let simulation: String
 
+        @inlinable
         public init(app: String, domain: String, simulation: String) {
             self.app = app
             self.domain = domain
@@ -253,6 +258,7 @@ extension SimSpaceWeaver {
         /// The desired lifecycle state of the custom app.
         public let targetStatus: SimulationAppTargetStatus?
 
+        @inlinable
         public init(description: String? = nil, domain: String? = nil, endpointInfo: SimulationAppEndpointInfo? = nil, launchOverrides: LaunchOverrides? = nil, name: String? = nil, simulation: String? = nil, status: SimulationAppStatus? = nil, targetStatus: SimulationAppTargetStatus? = nil) {
             self.description = description
             self.domain = domain
@@ -280,6 +286,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation.
         public let simulation: String
 
+        @inlinable
         public init(simulation: String) {
             self.simulation = simulation
         }
@@ -331,6 +338,7 @@ extension SimSpaceWeaver {
         /// The desired lifecycle state of the simulation.
         public let targetStatus: SimulationTargetStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, executionId: String? = nil, liveSimulationState: LiveSimulationState? = nil, loggingConfiguration: LoggingConfiguration? = nil, maximumDuration: String? = nil, name: String? = nil, roleArn: String? = nil, schemaS3Location: S3Location? = nil, snapshotS3Location: S3Location? = nil, startError: String? = nil, status: SimulationStatus? = nil, targetStatus: SimulationTargetStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -350,6 +358,7 @@ extension SimSpaceWeaver {
         }
 
         @available(*, deprecated, message: "Members schemaError have been deprecated")
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, executionId: String? = nil, liveSimulationState: LiveSimulationState? = nil, loggingConfiguration: LoggingConfiguration? = nil, maximumDuration: String? = nil, name: String? = nil, roleArn: String? = nil, schemaError: String? = nil, schemaS3Location: S3Location? = nil, snapshotS3Location: S3Location? = nil, startError: String? = nil, status: SimulationStatus? = nil, targetStatus: SimulationTargetStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -393,6 +402,7 @@ extension SimSpaceWeaver {
         /// The name of the domain.
         public let name: String?
 
+        @inlinable
         public init(lifecycle: LifecycleManagementStrategy? = nil, name: String? = nil) {
             self.lifecycle = lifecycle
             self.name = name
@@ -408,6 +418,7 @@ extension SimSpaceWeaver {
         /// App launch commands and command line parameters that override the launch command configured in the simulation schema.
         public let launchCommands: [String]?
 
+        @inlinable
         public init(launchCommands: [String]? = nil) {
             self.launchCommands = launchCommands
         }
@@ -434,6 +445,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation that you want to list apps for.
         public let simulation: String
 
+        @inlinable
         public init(domain: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, simulation: String) {
             self.domain = domain
             self.maxResults = maxResults
@@ -469,6 +481,7 @@ extension SimSpaceWeaver {
         /// If SimSpace Weaver returns nextToken, then there are more results available.  The value of nextToken is a unique pagination token for each page. To retrieve the next page,  call the operation again using the returned token. Keep all other arguments unchanged. If no results remain,  then nextToken is set to null. Each pagination token expires after 24 hours.  If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(apps: [SimulationAppMetadata]? = nil, nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -486,6 +499,7 @@ extension SimSpaceWeaver {
         /// If SimSpace Weaver returns nextToken, then there are more results available.  The value of nextToken is a unique pagination token for each page. To retrieve the next page,  call the operation again using the returned token. Keep all other arguments unchanged. If no results remain,  then nextToken is set to null. Each pagination token expires after 24 hours.  If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -511,6 +525,7 @@ extension SimSpaceWeaver {
         /// The list of simulations.
         public let simulations: [SimulationMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, simulations: [SimulationMetadata]? = nil) {
             self.nextToken = nextToken
             self.simulations = simulations
@@ -526,6 +541,7 @@ extension SimSpaceWeaver {
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -548,6 +564,7 @@ extension SimSpaceWeaver {
         /// The list of tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -563,6 +580,7 @@ extension SimSpaceWeaver {
         /// A list of domains for the simulation. For more information about domains, see Key concepts: Domains in the SimSpace Weaver User Guide.
         public let domains: [Domain]?
 
+        @inlinable
         public init(clocks: [SimulationClock]? = nil, domains: [Domain]? = nil) {
             self.clocks = clocks
             self.domains = domains
@@ -578,6 +596,7 @@ extension SimSpaceWeaver {
         /// An Amazon CloudWatch Logs log group that stores simulation log data. For more information about log groups, see Working with log groups and log streams in the Amazon CloudWatch Logs User Guide.
         public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
 
+        @inlinable
         public init(cloudWatchLogsLogGroup: CloudWatchLogsLogGroup? = nil) {
             self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
         }
@@ -591,6 +610,7 @@ extension SimSpaceWeaver {
         /// A list of the locations where SimSpace Weaver sends simulation log data.
         public let destinations: [LogDestination]?
 
+        @inlinable
         public init(destinations: [LogDestination]? = nil) {
             self.destinations = destinations
         }
@@ -606,6 +626,7 @@ extension SimSpaceWeaver {
         /// A string prefix for an Amazon S3 object key. It's usually a folder name. For more information about folders in Amazon S3, see Organizing objects in the Amazon S3 console using folders in the Amazon Simple Storage Service User Guide.
         public let objectKeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.objectKeyPrefix = objectKeyPrefix
@@ -629,6 +650,7 @@ extension SimSpaceWeaver {
         /// The key name of an object in Amazon S3. For more information about Amazon S3 objects and object keys, see Uploading, downloading, and working with objects in Amazon S3 in the Amazon Simple Storage Service User Guide.
         public let objectKey: String
 
+        @inlinable
         public init(bucketName: String, objectKey: String) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -653,6 +675,7 @@ extension SimSpaceWeaver {
         /// The inbound TCP/UDP port numbers of the app. The combination of an IP address and a port number form a network endpoint.
         public let ingressPortMappings: [SimulationAppPortMapping]?
 
+        @inlinable
         public init(address: String? = nil, ingressPortMappings: [SimulationAppPortMapping]? = nil) {
             self.address = address
             self.ingressPortMappings = ingressPortMappings
@@ -676,6 +699,7 @@ extension SimSpaceWeaver {
         /// The desired status of the app.
         public let targetStatus: SimulationAppTargetStatus?
 
+        @inlinable
         public init(domain: String? = nil, name: String? = nil, simulation: String? = nil, status: SimulationAppStatus? = nil, targetStatus: SimulationAppTargetStatus? = nil) {
             self.domain = domain
             self.name = name
@@ -699,6 +723,7 @@ extension SimSpaceWeaver {
         /// The TCP/UDP port number of the app, declared in the simulation schema. SimSpace Weaver maps the Declared port to the Actual port. The source code for the app should bind to the Declared port.
         public let declared: Int?
 
+        @inlinable
         public init(actual: Int? = nil, declared: Int? = nil) {
             self.actual = actual
             self.declared = declared
@@ -716,6 +741,7 @@ extension SimSpaceWeaver {
         /// The desired status of the simulation clock.
         public let targetStatus: ClockTargetStatus?
 
+        @inlinable
         public init(status: ClockStatus? = nil, targetStatus: ClockTargetStatus? = nil) {
             self.status = status
             self.targetStatus = targetStatus
@@ -739,6 +765,7 @@ extension SimSpaceWeaver {
         /// The desired status of the simulation.
         public let targetStatus: SimulationTargetStatus?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, name: String? = nil, status: SimulationStatus? = nil, targetStatus: SimulationTargetStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -769,6 +796,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation of the app.
         public let simulation: String
 
+        @inlinable
         public init(clientToken: String? = StartAppInput.idempotencyToken(), description: String? = nil, domain: String, launchOverrides: LaunchOverrides? = nil, name: String, simulation: String) {
             self.clientToken = clientToken
             self.description = description
@@ -813,6 +841,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation of the app.
         public let simulation: String?
 
+        @inlinable
         public init(domain: String? = nil, name: String? = nil, simulation: String? = nil) {
             self.domain = domain
             self.name = name
@@ -830,6 +859,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation.
         public let simulation: String
 
+        @inlinable
         public init(simulation: String) {
             self.simulation = simulation
         }
@@ -867,6 +897,7 @@ extension SimSpaceWeaver {
         /// A list of tags for the simulation. For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = StartSimulationInput.idempotencyToken(), description: String? = nil, maximumDuration: String? = nil, name: String, roleArn: String, schemaS3Location: S3Location? = nil, snapshotS3Location: S3Location? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -922,6 +953,7 @@ extension SimSpaceWeaver {
         /// A universally unique identifier (UUID) for this simulation.
         public let executionId: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, executionId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -943,6 +975,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation of the app.
         public let simulation: String
 
+        @inlinable
         public init(app: String, domain: String, simulation: String) {
             self.app = app
             self.domain = domain
@@ -976,6 +1009,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation.
         public let simulation: String
 
+        @inlinable
         public init(simulation: String) {
             self.simulation = simulation
         }
@@ -999,6 +1033,7 @@ extension SimSpaceWeaver {
         /// The name of the simulation.
         public let simulation: String
 
+        @inlinable
         public init(simulation: String) {
             self.simulation = simulation
         }
@@ -1024,6 +1059,7 @@ extension SimSpaceWeaver {
         /// A list of tags to apply to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1063,6 +1099,7 @@ extension SimSpaceWeaver {
         /// A list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

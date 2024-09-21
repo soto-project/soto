@@ -305,6 +305,7 @@ extension QApps {
         /// The cards that make up the Q App, such as text input, file upload, or query cards.
         public let cards: [Card]
 
+        @inlinable
         public init(appDefinitionVersion: String, canEdit: Bool? = nil, cards: [Card]) {
             self.appDefinitionVersion = appDefinitionVersion
             self.canEdit = canEdit
@@ -324,6 +325,7 @@ extension QApps {
         /// The initial prompt displayed when the Q App is started.
         public let initialPrompt: String?
 
+        @inlinable
         public init(cards: [CardInput], initialPrompt: String? = nil) {
             self.cards = cards
             self.initialPrompt = initialPrompt
@@ -349,6 +351,7 @@ extension QApps {
         /// The unique identifier of the library item to associate the review with.
         public let libraryItemId: String
 
+        @inlinable
         public init(instanceId: String, libraryItemId: String) {
             self.instanceId = instanceId
             self.libraryItemId = libraryItemId
@@ -376,6 +379,7 @@ extension QApps {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
 
+        @inlinable
         public init(appId: String, instanceId: String) {
             self.appId = appId
             self.instanceId = instanceId
@@ -419,6 +423,7 @@ extension QApps {
         ///  Performs a logical OR operation on all supplied filters.
         public let orAllFilters: [AttributeFilter]?
 
+        @inlinable
         public init(andAllFilters: [AttributeFilter]? = nil, containsAll: DocumentAttribute? = nil, containsAny: DocumentAttribute? = nil, equalsTo: DocumentAttribute? = nil, greaterThan: DocumentAttribute? = nil, greaterThanOrEquals: DocumentAttribute? = nil, lessThan: DocumentAttribute? = nil, lessThanOrEquals: DocumentAttribute? = nil, notFilter: AttributeFilter? = nil, orAllFilters: [AttributeFilter]? = nil) {
             self.andAllFilters = andAllFilters
             self.containsAll = containsAll
@@ -469,6 +474,7 @@ extension QApps {
         /// The current value or result associated with the card.
         public let currentValue: String
 
+        @inlinable
         public init(currentState: ExecutionStatus, currentValue: String) {
             self.currentState = currentState
             self.currentValue = currentValue
@@ -486,6 +492,7 @@ extension QApps {
         /// The value or result associated with the card.
         public let value: String
 
+        @inlinable
         public init(cardId: String, value: String) {
             self.cardId = cardId
             self.value = value
@@ -507,6 +514,7 @@ extension QApps {
         /// The title or name of the category.
         public let title: String
 
+        @inlinable
         public init(id: String, title: String) {
             self.id = id
             self.title = title
@@ -524,6 +532,7 @@ extension QApps {
         /// The type of the conversation message.
         public let type: Sender
 
+        @inlinable
         public init(body: String, type: Sender) {
             self.body = body
             self.type = type
@@ -545,6 +554,7 @@ extension QApps {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
 
+        @inlinable
         public init(appId: String, appVersion: Int, categories: [String], instanceId: String) {
             self.appId = appId
             self.appVersion = appVersion
@@ -598,6 +608,7 @@ extension QApps {
         /// The user who last updated the library item.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -633,6 +644,7 @@ extension QApps {
         /// The title of the new Q App.
         public let title: String
 
+        @inlinable
         public init(appDefinition: AppDefinitionInput, description: String? = nil, instanceId: String, tags: [String: String]? = nil, title: String) {
             self.appDefinition = appDefinition
             self.description = description
@@ -694,6 +706,7 @@ extension QApps {
         /// The user who last updated the Q App.
         public let updatedBy: String
 
+        @inlinable
         public init(appArn: String, appId: String, appVersion: Int, createdAt: Date, createdBy: String, description: String? = nil, initialPrompt: String? = nil, requiredCapabilities: [AppRequiredCapability]? = nil, status: AppStatus, title: String, updatedAt: Date, updatedBy: String) {
             self.appArn = appArn
             self.appId = appId
@@ -731,6 +744,7 @@ extension QApps {
         /// The unique identifier of the library item to delete.
         public let libraryItemId: String
 
+        @inlinable
         public init(instanceId: String, libraryItemId: String) {
             self.instanceId = instanceId
             self.libraryItemId = libraryItemId
@@ -758,6 +772,7 @@ extension QApps {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
 
+        @inlinable
         public init(appId: String, instanceId: String) {
             self.appId = appId
             self.instanceId = instanceId
@@ -785,6 +800,7 @@ extension QApps {
         /// The unique identifier of the library item to remove the review from.
         public let libraryItemId: String
 
+        @inlinable
         public init(instanceId: String, libraryItemId: String) {
             self.instanceId = instanceId
             self.libraryItemId = libraryItemId
@@ -812,6 +828,7 @@ extension QApps {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
 
+        @inlinable
         public init(appId: String, instanceId: String) {
             self.appId = appId
             self.instanceId = instanceId
@@ -839,6 +856,7 @@ extension QApps {
         /// The value of the attribute.
         public let value: DocumentAttributeValue
 
+        @inlinable
         public init(name: String, value: DocumentAttributeValue) {
             self.name = name
             self.value = value
@@ -873,6 +891,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(allowOverride: Bool? = nil, dependencies: [String], fileId: String? = nil, filename: String? = nil, id: String, title: String, type: CardType) {
             self.allowOverride = allowOverride
             self.dependencies = dependencies
@@ -908,6 +927,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(allowOverride: Bool? = nil, fileId: String? = nil, filename: String? = nil, id: String, title: String, type: CardType) {
             self.allowOverride = allowOverride
             self.fileId = fileId
@@ -943,6 +963,7 @@ extension QApps {
         /// The unique identifier of the library item to retrieve.
         public let libraryItemId: String
 
+        @inlinable
         public init(appId: String? = nil, instanceId: String, libraryItemId: String) {
             self.appId = appId
             self.instanceId = instanceId
@@ -995,6 +1016,7 @@ extension QApps {
         /// The number of users who have associated the Q App with their account.
         public let userCount: Int?
 
+        @inlinable
         public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
             self.appId = appId
             self.appVersion = appVersion
@@ -1034,6 +1056,7 @@ extension QApps {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
 
+        @inlinable
         public init(appId: String, instanceId: String) {
             self.appId = appId
             self.instanceId = instanceId
@@ -1083,6 +1106,7 @@ extension QApps {
         /// The user who last updated the Q App.
         public let updatedBy: String
 
+        @inlinable
         public init(appArn: String, appDefinition: AppDefinition, appId: String, appVersion: Int, createdAt: Date, createdBy: String, description: String? = nil, initialPrompt: String? = nil, requiredCapabilities: [AppRequiredCapability]? = nil, status: AppStatus, title: String, updatedAt: Date, updatedBy: String) {
             self.appArn = appArn
             self.appDefinition = appDefinition
@@ -1122,6 +1146,7 @@ extension QApps {
         /// The unique identifier of the Q App session to retrieve.
         public let sessionId: String
 
+        @inlinable
         public init(instanceId: String, sessionId: String) {
             self.instanceId = instanceId
             self.sessionId = sessionId
@@ -1151,6 +1176,7 @@ extension QApps {
         /// The current status of the Q App session.
         public let status: ExecutionStatus
 
+        @inlinable
         public init(cardStatus: [String: CardStatus], sessionArn: String, sessionId: String, status: ExecutionStatus) {
             self.cardStatus = cardStatus
             self.sessionArn = sessionArn
@@ -1182,6 +1208,7 @@ extension QApps {
         /// The unique identifier of the Q App session the file is associated with, if applicable.
         public let sessionId: String?
 
+        @inlinable
         public init(appId: String, cardId: String, fileContentsBase64: String, fileName: String, instanceId: String, scope: DocumentScope, sessionId: String? = nil) {
             self.appId = appId
             self.cardId = cardId
@@ -1225,6 +1252,7 @@ extension QApps {
         /// The unique identifier assigned to the uploaded file.
         public let fileId: String?
 
+        @inlinable
         public init(fileId: String? = nil) {
             self.fileId = fileId
         }
@@ -1264,6 +1292,7 @@ extension QApps {
         /// The number of users who have the associated Q App.
         public let userCount: Int?
 
+        @inlinable
         public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
             self.appId = appId
             self.appVersion = appVersion
@@ -1307,6 +1336,7 @@ extension QApps {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(categoryId: String? = nil, instanceId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.categoryId = categoryId
             self.instanceId = instanceId
@@ -1339,6 +1369,7 @@ extension QApps {
         /// The token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(libraryItems: [LibraryItemMember]? = nil, nextToken: String? = nil) {
             self.libraryItems = libraryItems
             self.nextToken = nextToken
@@ -1358,6 +1389,7 @@ extension QApps {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.limit = limit
@@ -1387,6 +1419,7 @@ extension QApps {
         /// The token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(apps: [UserAppItem], nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -1402,6 +1435,7 @@ extension QApps {
         /// The Amazon Resource Name (ARN) of the resource whose tags should be listed.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1424,6 +1458,7 @@ extension QApps {
         /// The list of tags that are assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1441,6 +1476,7 @@ extension QApps {
         /// The title of the generated Q App definition.
         public let title: String
 
+        @inlinable
         public init(appDefinition: AppDefinitionInput, description: String? = nil, title: String) {
             self.appDefinition = appDefinition
             self.description = description
@@ -1460,6 +1496,7 @@ extension QApps {
         /// The input to generate the Q App definition from, either a conversation or problem statement.
         public let options: PredictQAppInputOptions?
 
+        @inlinable
         public init(instanceId: String, options: PredictQAppInputOptions? = nil) {
             self.instanceId = instanceId
             self.options = options
@@ -1483,6 +1520,7 @@ extension QApps {
         /// The problem statement extracted from the input conversation, if provided.
         public let problemStatement: String
 
+        @inlinable
         public init(app: PredictAppDefinition, problemStatement: String) {
             self.app = app
             self.problemStatement = problemStatement
@@ -1510,6 +1548,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(dependencies: [String], id: String, pluginId: String, pluginType: PluginType, prompt: String, title: String, type: CardType) {
             self.dependencies = dependencies
             self.id = id
@@ -1543,6 +1582,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(id: String, pluginId: String, prompt: String, title: String, type: CardType) {
             self.id = id
             self.pluginId = pluginId
@@ -1585,6 +1625,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(attributeFilter: AttributeFilter? = nil, dependencies: [String], id: String, outputSource: CardOutputSource, prompt: String, title: String, type: CardType) {
             self.attributeFilter = attributeFilter
             self.dependencies = dependencies
@@ -1620,6 +1661,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(attributeFilter: AttributeFilter? = nil, id: String, outputSource: CardOutputSource? = nil, prompt: String, title: String, type: CardType) {
             self.attributeFilter = attributeFilter
             self.id = id
@@ -1659,6 +1701,7 @@ extension QApps {
         /// Optional tags to associate with the new Q App session.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appId: String, appVersion: Int, initialValues: [CardValue]? = nil, instanceId: String, tags: [String: String]? = nil) {
             self.appId = appId
             self.appVersion = appVersion
@@ -1701,6 +1744,7 @@ extension QApps {
         /// The unique identifier of the new Q App session.
         public let sessionId: String
 
+        @inlinable
         public init(sessionArn: String, sessionId: String) {
             self.sessionArn = sessionArn
             self.sessionId = sessionId
@@ -1718,6 +1762,7 @@ extension QApps {
         /// The unique identifier of the Q App session to stop.
         public let sessionId: String
 
+        @inlinable
         public init(instanceId: String, sessionId: String) {
             self.instanceId = instanceId
             self.sessionId = sessionId
@@ -1745,6 +1790,7 @@ extension QApps {
         /// The tags to associate with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceARN: String, tags: [String: String]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1790,6 +1836,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(defaultValue: String? = nil, dependencies: [String], id: String, placeholder: String? = nil, title: String, type: CardType) {
             self.defaultValue = defaultValue
             self.dependencies = dependencies
@@ -1821,6 +1868,7 @@ extension QApps {
         /// The type of the card.
         public let type: CardType
 
+        @inlinable
         public init(defaultValue: String? = nil, id: String, placeholder: String? = nil, title: String, type: CardType) {
             self.defaultValue = defaultValue
             self.id = id
@@ -1852,6 +1900,7 @@ extension QApps {
         /// The keys of the tags to disassociate from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1891,6 +1940,7 @@ extension QApps {
         /// The new status to set for the library item, such as "Published" or "Hidden".
         public let status: LibraryItemStatus?
 
+        @inlinable
         public init(categories: [String]? = nil, instanceId: String, libraryItemId: String, status: LibraryItemStatus? = nil) {
             self.categories = categories
             self.instanceId = instanceId
@@ -1930,6 +1980,7 @@ extension QApps {
         /// The unique identifier of the updated library item.
         public let libraryItemId: String
 
+        @inlinable
         public init(instanceId: String, isVerified: Bool? = nil, libraryItemId: String) {
             self.instanceId = instanceId
             self.isVerified = isVerified
@@ -1984,6 +2035,7 @@ extension QApps {
         /// The number of users who have the associated Q App.
         public let userCount: Int?
 
+        @inlinable
         public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
             self.appId = appId
             self.appVersion = appVersion
@@ -2029,6 +2081,7 @@ extension QApps {
         /// The new title for the Q App.
         public let title: String?
 
+        @inlinable
         public init(appDefinition: AppDefinitionInput? = nil, appId: String, description: String? = nil, instanceId: String, title: String? = nil) {
             self.appDefinition = appDefinition
             self.appId = appId
@@ -2091,6 +2144,7 @@ extension QApps {
         /// The user who last updated the Q App.
         public let updatedBy: String
 
+        @inlinable
         public init(appArn: String, appId: String, appVersion: Int, createdAt: Date, createdBy: String, description: String? = nil, initialPrompt: String? = nil, requiredCapabilities: [AppRequiredCapability]? = nil, status: AppStatus, title: String, updatedAt: Date, updatedBy: String) {
             self.appArn = appArn
             self.appId = appId
@@ -2130,6 +2184,7 @@ extension QApps {
         /// The input values to provide for the current state of the Q App session.
         public let values: [CardValue]?
 
+        @inlinable
         public init(instanceId: String, sessionId: String, values: [CardValue]? = nil) {
             self.instanceId = instanceId
             self.sessionId = sessionId
@@ -2164,6 +2219,7 @@ extension QApps {
         /// The unique identifier of the updated Q App session.
         public let sessionId: String
 
+        @inlinable
         public init(sessionArn: String, sessionId: String) {
             self.sessionArn = sessionArn
             self.sessionId = sessionId
@@ -2194,6 +2250,7 @@ extension QApps {
         /// The title of the Q App.
         public let title: String
 
+        @inlinable
         public init(appArn: String, appId: String, canEdit: Bool? = nil, createdAt: Date, description: String? = nil, isVerified: Bool? = nil, status: String? = nil, title: String) {
             self.appArn = appArn
             self.appId = appId

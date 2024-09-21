@@ -49,6 +49,7 @@ extension MediaStoreData {
         /// The path (including the file name) where the object is stored in the container. Format: //
         public let path: String
 
+        @inlinable
         public init(path: String) {
             self.path = path
         }
@@ -76,6 +77,7 @@ extension MediaStoreData {
         /// The path (including the file name) where the object is stored in the container. Format: //
         public let path: String
 
+        @inlinable
         public init(path: String) {
             self.path = path
         }
@@ -108,6 +110,7 @@ extension MediaStoreData {
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
 
+        @inlinable
         public init(cacheControl: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.cacheControl = cacheControl
             self.contentLength = contentLength
@@ -134,6 +137,7 @@ extension MediaStoreData {
         /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
         public let range: String?
 
+        @inlinable
         public init(path: String, range: String? = nil) {
             self.path = path
             self.range = range
@@ -176,6 +180,7 @@ extension MediaStoreData {
         /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
         public let statusCode: Int
 
+        @inlinable
         public init(body: AWSHTTPBody, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, statusCode: Int) {
             self.body = body
             self.cacheControl = cacheControl
@@ -217,6 +222,7 @@ extension MediaStoreData {
         /// The item type (folder or object).
         public let type: ItemType?
 
+        @inlinable
         public init(contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, name: String? = nil, type: ItemType? = nil) {
             self.contentLength = contentLength
             self.contentType = contentType
@@ -244,6 +250,7 @@ extension MediaStoreData {
         /// The path in the container from which to retrieve items. Format: //
         public let path: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, path: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -274,6 +281,7 @@ extension MediaStoreData {
         /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Item]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -300,6 +308,7 @@ extension MediaStoreData {
         /// Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
         public let uploadAvailability: UploadAvailability?
 
+        @inlinable
         public init(body: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
             self.body = body
             self.cacheControl = cacheControl
@@ -338,6 +347,7 @@ extension MediaStoreData {
         /// The storage class where the object was persisted. The class should be “Temporal”.
         public let storageClass: StorageClass?
 
+        @inlinable
         public init(contentSHA256: String? = nil, eTag: String? = nil, storageClass: StorageClass? = nil) {
             self.contentSHA256 = contentSHA256
             self.eTag = eTag

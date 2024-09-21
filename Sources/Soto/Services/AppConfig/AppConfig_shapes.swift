@@ -104,6 +104,7 @@ extension AppConfig {
         /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
         public let deletionProtection: DeletionProtectionSettings?
 
+        @inlinable
         public init(deletionProtection: DeletionProtectionSettings? = nil) {
             self.deletionProtection = deletionProtection
         }
@@ -123,6 +124,7 @@ extension AppConfig {
         /// The extension URI associated to the action point in the extension definition. The URI can be an Amazon Resource Name (ARN) for one of the following: an Lambda function, an Amazon Simple Queue Service queue, an Amazon Simple Notification Service topic, or the Amazon EventBridge default event bus.
         public let uri: String?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, roleArn: String? = nil, uri: String? = nil) {
             self.description = description
             self.name = name
@@ -165,6 +167,7 @@ extension AppConfig {
         /// The extension URI associated to the action point in the extension definition. The URI can be an Amazon Resource Name (ARN) for one of the following: an Lambda function, an Amazon Simple Queue Service queue, an Amazon Simple Notification Service topic, or the Amazon EventBridge default event bus.
         public let uri: String?
 
+        @inlinable
         public init(actionName: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, extensionIdentifier: String? = nil, invocationId: String? = nil, roleArn: String? = nil, uri: String? = nil) {
             self.actionName = actionName
             self.errorCode = errorCode
@@ -194,6 +197,7 @@ extension AppConfig {
         /// The application name.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, name: String? = nil) {
             self.description = description
             self.id = id
@@ -213,6 +217,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Application]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -234,6 +239,7 @@ extension AppConfig {
         /// The extension version number.
         public let versionNumber: Int?
 
+        @inlinable
         public init(extensionAssociationId: String? = nil, extensionId: String? = nil, parameters: [String: String]? = nil, versionNumber: Int? = nil) {
             self.extensionAssociationId = extensionAssociationId
             self.extensionId = extensionId
@@ -258,6 +264,7 @@ extension AppConfig {
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
 
+        @inlinable
         public init(configurationVersion: String? = nil, content: AWSHTTPBody, contentType: String? = nil) {
             self.configurationVersion = configurationVersion
             self.content = content
@@ -297,6 +304,7 @@ extension AppConfig {
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
+        @inlinable
         public init(applicationId: String? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, locationUri: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, type: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
@@ -338,6 +346,7 @@ extension AppConfig {
         /// The types of validators in the configuration profile.
         public let validatorTypes: [ValidatorType]?
 
+        @inlinable
         public init(applicationId: String? = nil, id: String? = nil, locationUri: String? = nil, name: String? = nil, type: String? = nil, validatorTypes: [ValidatorType]? = nil) {
             self.applicationId = applicationId
             self.id = id
@@ -363,6 +372,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ConfigurationProfileSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -382,6 +392,7 @@ extension AppConfig {
         /// Metadata to assign to the application. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -427,6 +438,7 @@ extension AppConfig {
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
+        @inlinable
         public init(applicationId: String, description: String? = nil, kmsKeyIdentifier: String? = nil, locationUri: String, name: String, retrievalRoleArn: String? = nil, tags: [String: String]? = nil, type: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.description = description
@@ -508,6 +520,7 @@ extension AppConfig {
         /// Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deploymentDurationInMinutes: Int, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float, growthType: GrowthType? = nil, name: String, replicateTo: ReplicateTo? = nil, tags: [String: String]? = nil) {
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.description = description
@@ -561,6 +574,7 @@ extension AppConfig {
         /// Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationId: String, description: String? = nil, monitors: [Monitor]? = nil, name: String, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.description = description
@@ -616,6 +630,7 @@ extension AppConfig {
         /// Adds one or more tags for the specified extension association. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(extensionIdentifier: String, extensionVersionNumber: Int? = nil, parameters: [String: String]? = nil, resourceIdentifier: String, tags: [String: String]? = nil) {
             self.extensionIdentifier = extensionIdentifier
             self.extensionVersionNumber = extensionVersionNumber
@@ -666,6 +681,7 @@ extension AppConfig {
         /// Adds one or more tags for the specified extension. Tags are metadata that help you categorize resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(actions: [ActionPoint: [Action]], description: String? = nil, latestVersionNumber: Int? = nil, name: String, parameters: [String: Parameter]? = nil, tags: [String: String]? = nil) {
             self.actions = actions
             self.description = description
@@ -734,6 +750,7 @@ extension AppConfig {
         /// An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0".
         public let versionLabel: String?
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, content: AWSHTTPBody, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -774,6 +791,7 @@ extension AppConfig {
         /// The ID of the application to delete.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -799,6 +817,7 @@ extension AppConfig {
         /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile if your application has called either GetLatestConfiguration or  for the configuration profile during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
         public let deletionProtectionCheck: DeletionProtectionCheck?
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, deletionProtectionCheck: DeletionProtectionCheck? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -825,6 +844,7 @@ extension AppConfig {
         /// The ID of the deployment strategy you want to delete.
         public let deploymentStrategyId: String
 
+        @inlinable
         public init(deploymentStrategyId: String) {
             self.deploymentStrategyId = deploymentStrategyId
         }
@@ -850,6 +870,7 @@ extension AppConfig {
         /// The ID of the environment that you want to delete.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, deletionProtectionCheck: DeletionProtectionCheck? = nil, environmentId: String) {
             self.applicationId = applicationId
             self.deletionProtectionCheck = deletionProtectionCheck
@@ -876,6 +897,7 @@ extension AppConfig {
         /// The ID of the extension association to delete.
         public let extensionAssociationId: String
 
+        @inlinable
         public init(extensionAssociationId: String) {
             self.extensionAssociationId = extensionAssociationId
         }
@@ -899,6 +921,7 @@ extension AppConfig {
         /// A specific version of an extension to delete. If omitted, the highest version is deleted.
         public let versionNumber: Int?
 
+        @inlinable
         public init(extensionIdentifier: String, versionNumber: Int? = nil) {
             self.extensionIdentifier = extensionIdentifier
             self.versionNumber = versionNumber
@@ -927,6 +950,7 @@ extension AppConfig {
         /// The versions number to delete.
         public let versionNumber: Int
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -955,6 +979,7 @@ extension AppConfig {
         /// The time interval during which AppConfig monitors for calls to GetLatestConfiguration or  for a configuration profile or from an environment. AppConfig returns an error if a user calls  or  for the designated configuration profile or environment. To bypass the error and delete a configuration profile or an environment, specify BYPASS for the DeletionProtectionCheck parameter for either  or .
         public let protectionPeriodInMinutes: Int?
 
+        @inlinable
         public init(enabled: Bool? = nil, protectionPeriodInMinutes: Int? = nil) {
             self.enabled = enabled
             self.protectionPeriodInMinutes = protectionPeriodInMinutes
@@ -1019,6 +1044,7 @@ extension AppConfig {
         /// A user-defined label for an AppConfig hosted configuration version.
         public let versionLabel: String?
 
+        @inlinable
         public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.appliedExtensions = appliedExtensions
@@ -1083,6 +1109,7 @@ extension AppConfig {
         /// The entity that triggered the deployment event. Events can be triggered by a user, AppConfig, an Amazon CloudWatch alarm, or an internal error.
         public let triggeredBy: TriggeredBy?
 
+        @inlinable
         public init(actionInvocations: [ActionInvocation]? = nil, description: String? = nil, eventType: DeploymentEventType? = nil, occurredAt: Date? = nil, triggeredBy: TriggeredBy? = nil) {
             self.actionInvocations = actionInvocations
             self.description = description
@@ -1106,6 +1133,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DeploymentStrategy]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1135,6 +1163,7 @@ extension AppConfig {
         /// Save the deployment strategy to a Systems Manager (SSM) document.
         public let replicateTo: ReplicateTo?
 
+        @inlinable
         public init(deploymentDurationInMinutes: Int? = nil, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, id: String? = nil, name: String? = nil, replicateTo: ReplicateTo? = nil) {
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.description = description
@@ -1186,6 +1215,7 @@ extension AppConfig {
         /// A user-defined label for an AppConfig hosted configuration version.
         public let versionLabel: String?
 
+        @inlinable
         public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
             self.completedAt = completedAt
             self.configurationName = configurationName
@@ -1223,6 +1253,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DeploymentSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1248,6 +1279,7 @@ extension AppConfig {
         /// The state of the environment. An environment can be in one of the following states: READY_FOR_DEPLOYMENT, DEPLOYING, ROLLING_BACK, or ROLLED_BACK
         public let state: EnvironmentState?
 
+        @inlinable
         public init(applicationId: String? = nil, description: String? = nil, id: String? = nil, monitors: [Monitor]? = nil, name: String? = nil, state: EnvironmentState? = nil) {
             self.applicationId = applicationId
             self.description = description
@@ -1273,6 +1305,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Environment]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1300,6 +1333,7 @@ extension AppConfig {
         /// The extension version number.
         public let versionNumber: Int?
 
+        @inlinable
         public init(actions: [ActionPoint: [Action]]? = nil, arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, parameters: [String: Parameter]? = nil, versionNumber: Int? = nil) {
             self.actions = actions
             self.arn = arn
@@ -1335,6 +1369,7 @@ extension AppConfig {
         /// The ARNs of applications, configuration profiles, or environments defined in the association.
         public let resourceArn: String?
 
+        @inlinable
         public init(arn: String? = nil, extensionArn: String? = nil, extensionVersionNumber: Int? = nil, id: String? = nil, parameters: [String: String]? = nil, resourceArn: String? = nil) {
             self.arn = arn
             self.extensionArn = extensionArn
@@ -1362,6 +1397,7 @@ extension AppConfig {
         /// The ARNs of applications, configuration profiles, or environments defined in the association.
         public let resourceArn: String?
 
+        @inlinable
         public init(extensionArn: String? = nil, id: String? = nil, resourceArn: String? = nil) {
             self.extensionArn = extensionArn
             self.id = id
@@ -1381,6 +1417,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ExtensionAssociationSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1404,6 +1441,7 @@ extension AppConfig {
         /// The extension version number.
         public let versionNumber: Int?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, versionNumber: Int? = nil) {
             self.arn = arn
             self.description = description
@@ -1427,6 +1465,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ExtensionSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1442,6 +1481,7 @@ extension AppConfig {
         /// The ID of the application you want to get.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -1465,6 +1505,7 @@ extension AppConfig {
         /// The ID of the configuration profile that you want to get.
         public let configurationProfileId: String
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -1497,6 +1538,7 @@ extension AppConfig {
         /// The environment to get. Specify either the environment name or the environment ID.
         public let environment: String
 
+        @inlinable
         public init(application: String, clientConfigurationVersion: String? = nil, clientId: String, configuration: String, environment: String) {
             self.application = application
             self.clientConfigurationVersion = clientConfigurationVersion
@@ -1539,6 +1581,7 @@ extension AppConfig {
         /// The ID of the environment that includes the deployment you want to get.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, deploymentNumber: Int, environmentId: String) {
             self.applicationId = applicationId
             self.deploymentNumber = deploymentNumber
@@ -1565,6 +1608,7 @@ extension AppConfig {
         /// The ID of the deployment strategy to get.
         public let deploymentStrategyId: String
 
+        @inlinable
         public init(deploymentStrategyId: String) {
             self.deploymentStrategyId = deploymentStrategyId
         }
@@ -1588,6 +1632,7 @@ extension AppConfig {
         /// The ID of the environment that you want to get.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, environmentId: String) {
             self.applicationId = applicationId
             self.environmentId = environmentId
@@ -1612,6 +1657,7 @@ extension AppConfig {
         /// The extension association ID to get.
         public let extensionAssociationId: String
 
+        @inlinable
         public init(extensionAssociationId: String) {
             self.extensionAssociationId = extensionAssociationId
         }
@@ -1635,6 +1681,7 @@ extension AppConfig {
         /// The extension version number. If no version number was defined, AppConfig uses the highest version.
         public let versionNumber: Int?
 
+        @inlinable
         public init(extensionIdentifier: String, versionNumber: Int? = nil) {
             self.extensionIdentifier = extensionIdentifier
             self.versionNumber = versionNumber
@@ -1663,6 +1710,7 @@ extension AppConfig {
         /// The version.
         public let versionNumber: Int
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -1704,6 +1752,7 @@ extension AppConfig {
         /// The configuration version.
         public let versionNumber: Int?
 
+        @inlinable
         public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSHTTPBody, contentType: String? = nil, description: String? = nil, kmsKeyArn: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -1747,6 +1796,7 @@ extension AppConfig {
         /// The configuration version.
         public let versionNumber: Int?
 
+        @inlinable
         public init(applicationId: String? = nil, configurationProfileId: String? = nil, contentType: String? = nil, description: String? = nil, kmsKeyArn: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -1774,6 +1824,7 @@ extension AppConfig {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [HostedConfigurationVersionSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1791,6 +1842,7 @@ extension AppConfig {
         /// A token to start the list. Next token is a pagination token generated by AppConfig to describe what page the previous List call ended on. For the first List request, the nextToken should not be set. On subsequent calls, the nextToken parameter should be set to the previous responses nextToken value. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1823,6 +1875,7 @@ extension AppConfig {
         /// A filter based on the type of configurations that the configuration profile contains. A configuration can be a feature flag or a freeform configuration.
         public let type: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, type: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -1857,6 +1910,7 @@ extension AppConfig {
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1889,6 +1943,7 @@ extension AppConfig {
         /// The token returned by a prior call to this operation indicating the next set of results to be returned. If not specified, the operation will return the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.environmentId = environmentId
@@ -1925,6 +1980,7 @@ extension AppConfig {
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -1962,6 +2018,7 @@ extension AppConfig {
         /// The ARN of an application, configuration profile, or environment.
         public let resourceIdentifier: String?
 
+        @inlinable
         public init(extensionIdentifier: String? = nil, extensionVersionNumber: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: String? = nil) {
             self.extensionIdentifier = extensionIdentifier
             self.extensionVersionNumber = extensionVersionNumber
@@ -2003,6 +2060,7 @@ extension AppConfig {
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2041,6 +2099,7 @@ extension AppConfig {
         /// An optional filter that can be used to specify the version label of an AppConfig hosted configuration version. This parameter supports filtering by prefix using a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value, only an exact match is returned.
         public let versionLabel: String?
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, maxResults: Int? = nil, nextToken: String? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -2077,6 +2136,7 @@ extension AppConfig {
         /// The resource ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2102,6 +2162,7 @@ extension AppConfig {
         /// ARN of an Identity and Access Management (IAM) role for AppConfig to monitor AlarmArn.
         public let alarmRoleArn: String?
 
+        @inlinable
         public init(alarmArn: String, alarmRoleArn: String? = nil) {
             self.alarmArn = alarmArn
             self.alarmRoleArn = alarmRoleArn
@@ -2129,6 +2190,7 @@ extension AppConfig {
         /// A parameter value must be specified in the extension association.
         public let required: Bool?
 
+        @inlinable
         public init(description: String? = nil, dynamic: Bool? = nil, required: Bool? = nil) {
             self.description = description
             self.dynamic = dynamic
@@ -2150,6 +2212,7 @@ extension AppConfig {
         /// Metadata to assign to AppConfig resources. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2179,6 +2242,7 @@ extension AppConfig {
         /// Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, configurationVersion: String, deploymentStrategyId: String, description: String? = nil, dynamicExtensionParameters: [String: String]? = nil, environmentId: String, kmsKeyIdentifier: String? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -2249,6 +2313,7 @@ extension AppConfig {
         /// The environment ID.
         public let environmentId: String
 
+        @inlinable
         public init(applicationId: String, deploymentNumber: Int, environmentId: String) {
             self.applicationId = applicationId
             self.deploymentNumber = deploymentNumber
@@ -2277,6 +2342,7 @@ extension AppConfig {
         /// The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2312,6 +2378,7 @@ extension AppConfig {
         /// The tag keys to delete.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2342,6 +2409,7 @@ extension AppConfig {
         /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
         public let deletionProtection: DeletionProtectionSettings?
 
+        @inlinable
         public init(deletionProtection: DeletionProtectionSettings? = nil) {
             self.deletionProtection = deletionProtection
         }
@@ -2363,6 +2431,7 @@ extension AppConfig {
         /// The name of the application.
         public let name: String?
 
+        @inlinable
         public init(applicationId: String, description: String? = nil, name: String? = nil) {
             self.applicationId = applicationId
             self.description = description
@@ -2406,6 +2475,7 @@ extension AppConfig {
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, description: String? = nil, kmsKeyIdentifier: String? = nil, name: String? = nil, retrievalRoleArn: String? = nil, validators: [Validator]? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -2467,6 +2537,7 @@ extension AppConfig {
         /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
 
+        @inlinable
         public init(deploymentDurationInMinutes: Int? = nil, deploymentStrategyId: String, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil) {
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.deploymentStrategyId = deploymentStrategyId
@@ -2519,6 +2590,7 @@ extension AppConfig {
         /// The name of the environment.
         public let name: String?
 
+        @inlinable
         public init(applicationId: String, description: String? = nil, environmentId: String, monitors: [Monitor]? = nil, name: String? = nil) {
             self.applicationId = applicationId
             self.description = description
@@ -2562,6 +2634,7 @@ extension AppConfig {
         /// The parameter names and values defined in the extension.
         public let parameters: [String: String]?
 
+        @inlinable
         public init(extensionAssociationId: String, parameters: [String: String]? = nil) {
             self.extensionAssociationId = extensionAssociationId
             self.parameters = parameters
@@ -2601,6 +2674,7 @@ extension AppConfig {
         /// The extension version number.
         public let versionNumber: Int?
 
+        @inlinable
         public init(actions: [ActionPoint: [Action]]? = nil, description: String? = nil, extensionIdentifier: String, parameters: [String: Parameter]? = nil, versionNumber: Int? = nil) {
             self.actions = actions
             self.description = description
@@ -2653,6 +2727,7 @@ extension AppConfig {
         /// The version of the configuration to validate.
         public let configurationVersion: String
 
+        @inlinable
         public init(applicationId: String, configurationProfileId: String, configurationVersion: String) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
@@ -2683,6 +2758,7 @@ extension AppConfig {
         /// AppConfig supports validators of type JSON_SCHEMA and LAMBDA
         public let type: ValidatorType
 
+        @inlinable
         public init(content: String, type: ValidatorType) {
             self.content = content
             self.type = type

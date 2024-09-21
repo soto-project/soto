@@ -394,6 +394,7 @@ extension PcaConnectorAd {
         /// The date and time that the Access Control Entry was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(accessRights: AccessRights? = nil, createdAt: Date? = nil, groupDisplayName: String? = nil, groupSecurityIdentifier: String? = nil, templateArn: String? = nil, updatedAt: Date? = nil) {
             self.accessRights = accessRights
             self.createdAt = createdAt
@@ -427,6 +428,7 @@ extension PcaConnectorAd {
         /// The date and time that the Access Control Entry was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(accessRights: AccessRights? = nil, createdAt: Date? = nil, groupDisplayName: String? = nil, groupSecurityIdentifier: String? = nil, templateArn: String? = nil, updatedAt: Date? = nil) {
             self.accessRights = accessRights
             self.createdAt = createdAt
@@ -452,6 +454,7 @@ extension PcaConnectorAd {
         /// Allow or deny an Active Directory group from enrolling certificates issued against a template.
         public let enroll: AccessRight?
 
+        @inlinable
         public init(autoEnroll: AccessRight? = nil, enroll: AccessRight? = nil) {
             self.autoEnroll = autoEnroll
             self.enroll = enroll
@@ -469,6 +472,7 @@ extension PcaConnectorAd {
         /// Application policies describe what the certificate can be used for.
         public let policies: [ApplicationPolicy]
 
+        @inlinable
         public init(critical: Bool? = nil, policies: [ApplicationPolicy]) {
             self.critical = critical
             self.policies = policies
@@ -494,6 +498,7 @@ extension PcaConnectorAd {
         /// Information describing the end of the validity period of the certificate. This parameter sets the “Not After” date for the certificate. Certificate validity is the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the certificate expires, or as a span of time after issuance, stated in days, months, or years. For more information, see Validity in RFC 5280. This value is unaffected when ValidityNotBefore is also specified. For example, if Validity is set to 20 days in the future, the certificate will expire 20 days from issuance time regardless of the ValidityNotBefore value.
         public let validityPeriod: ValidityPeriod
 
+        @inlinable
         public init(renewalPeriod: ValidityPeriod, validityPeriod: ValidityPeriod) {
             self.renewalPeriod = renewalPeriod
             self.validityPeriod = validityPeriod
@@ -525,6 +530,7 @@ extension PcaConnectorAd {
         /// Information of the VPC and security group(s) used with the connector.
         public let vpcInformation: VpcInformation?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthorityArn: String? = nil, certificateEnrollmentPolicyServerEndpoint: String? = nil, createdAt: Date? = nil, directoryId: String? = nil, status: ConnectorStatus? = nil, statusReason: ConnectorStatusReason? = nil, updatedAt: Date? = nil, vpcInformation: VpcInformation? = nil) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -570,6 +576,7 @@ extension PcaConnectorAd {
         /// Information of the VPC and security group(s) used with the connector.
         public let vpcInformation: VpcInformation?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthorityArn: String? = nil, certificateEnrollmentPolicyServerEndpoint: String? = nil, createdAt: Date? = nil, directoryId: String? = nil, status: ConnectorStatus? = nil, statusReason: ConnectorStatusReason? = nil, updatedAt: Date? = nil, vpcInformation: VpcInformation? = nil) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -607,6 +614,7 @@ extension PcaConnectorAd {
         /// Security group IDs that describe the inbound and outbound rules.
         public let vpcInformation: VpcInformation
 
+        @inlinable
         public init(certificateAuthorityArn: String, clientToken: String? = CreateConnectorRequest.idempotencyToken(), directoryId: String, tags: [String: String]? = nil, vpcInformation: VpcInformation) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.clientToken = clientToken
@@ -639,6 +647,7 @@ extension PcaConnectorAd {
         /// If successful, the Amazon Resource Name (ARN) of the connector for Active Directory.
         public let connectorArn: String?
 
+        @inlinable
         public init(connectorArn: String? = nil) {
             self.connectorArn = connectorArn
         }
@@ -656,6 +665,7 @@ extension PcaConnectorAd {
         /// Metadata assigned to a directory registration consisting of a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateDirectoryRegistrationRequest.idempotencyToken(), directoryId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.directoryId = directoryId
@@ -680,6 +690,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public let directoryRegistrationArn: String?
 
+        @inlinable
         public init(directoryRegistrationArn: String? = nil) {
             self.directoryRegistrationArn = directoryRegistrationArn
         }
@@ -697,6 +708,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public let directoryRegistrationArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateServicePrincipalNameRequest.idempotencyToken(), connectorArn: String, directoryRegistrationArn: String) {
             self.clientToken = clientToken
             self.connectorArn = connectorArn
@@ -740,6 +752,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(accessRights: AccessRights, clientToken: String? = CreateTemplateGroupAccessControlEntryRequest.idempotencyToken(), groupDisplayName: String, groupSecurityIdentifier: String, templateArn: String) {
             self.accessRights = accessRights
             self.clientToken = clientToken
@@ -792,6 +805,7 @@ extension PcaConnectorAd {
         /// Metadata assigned to a template consisting of a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateTemplateRequest.idempotencyToken(), connectorArn: String, definition: TemplateDefinition, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.connectorArn = connectorArn
@@ -826,6 +840,7 @@ extension PcaConnectorAd {
         /// If successful, the Amazon Resource Name (ARN) of the template.
         public let templateArn: String?
 
+        @inlinable
         public init(templateArn: String? = nil) {
             self.templateArn = templateArn
         }
@@ -839,6 +854,7 @@ extension PcaConnectorAd {
         ///  The Amazon Resource Name (ARN) that was returned when you called CreateConnector.
         public let connectorArn: String
 
+        @inlinable
         public init(connectorArn: String) {
             self.connectorArn = connectorArn
         }
@@ -862,6 +878,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public let directoryRegistrationArn: String
 
+        @inlinable
         public init(directoryRegistrationArn: String) {
             self.directoryRegistrationArn = directoryRegistrationArn
         }
@@ -887,6 +904,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public let directoryRegistrationArn: String
 
+        @inlinable
         public init(connectorArn: String, directoryRegistrationArn: String) {
             self.connectorArn = connectorArn
             self.directoryRegistrationArn = directoryRegistrationArn
@@ -917,6 +935,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(groupSecurityIdentifier: String, templateArn: String) {
             self.groupSecurityIdentifier = groupSecurityIdentifier
             self.templateArn = templateArn
@@ -945,6 +964,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(templateArn: String) {
             self.templateArn = templateArn
         }
@@ -978,6 +998,7 @@ extension PcaConnectorAd {
         /// The date and time that the directory registration was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, directoryId: String? = nil, status: DirectoryRegistrationStatus? = nil, statusReason: DirectoryRegistrationStatusReason? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1011,6 +1032,7 @@ extension PcaConnectorAd {
         /// The date and time that the directory registration was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, directoryId: String? = nil, status: DirectoryRegistrationStatus? = nil, statusReason: DirectoryRegistrationStatusReason? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1042,6 +1064,7 @@ extension PcaConnectorAd {
         /// Require user interaction when the subject is enrolled and the private key associated with the certificate is used.
         public let userInteractionRequired: Bool?
 
+        @inlinable
         public init(enableKeyReuseOnNtTokenKeysetStorageFull: Bool? = nil, includeSymmetricAlgorithms: Bool? = nil, noSecurityExtension: Bool? = nil, removeInvalidCertificateFromPersonalStore: Bool? = nil, userInteractionRequired: Bool? = nil) {
             self.enableKeyReuseOnNtTokenKeysetStorageFull = enableKeyReuseOnNtTokenKeysetStorageFull
             self.includeSymmetricAlgorithms = includeSymmetricAlgorithms
@@ -1071,6 +1094,7 @@ extension PcaConnectorAd {
         /// Require user interaction when the subject is enrolled and the private key associated with the certificate is used.
         public let userInteractionRequired: Bool?
 
+        @inlinable
         public init(enableKeyReuseOnNtTokenKeysetStorageFull: Bool? = nil, includeSymmetricAlgorithms: Bool? = nil, noSecurityExtension: Bool? = nil, removeInvalidCertificateFromPersonalStore: Bool? = nil, userInteractionRequired: Bool? = nil) {
             self.enableKeyReuseOnNtTokenKeysetStorageFull = enableKeyReuseOnNtTokenKeysetStorageFull
             self.includeSymmetricAlgorithms = includeSymmetricAlgorithms
@@ -1100,6 +1124,7 @@ extension PcaConnectorAd {
         /// Require user interaction when the subject is enrolled and the private key associated with the certificate is used.
         public let userInteractionRequired: Bool?
 
+        @inlinable
         public init(enableKeyReuseOnNtTokenKeysetStorageFull: Bool? = nil, includeSymmetricAlgorithms: Bool? = nil, noSecurityExtension: Bool? = nil, removeInvalidCertificateFromPersonalStore: Bool? = nil, userInteractionRequired: Bool? = nil) {
             self.enableKeyReuseOnNtTokenKeysetStorageFull = enableKeyReuseOnNtTokenKeysetStorageFull
             self.includeSymmetricAlgorithms = includeSymmetricAlgorithms
@@ -1123,6 +1148,7 @@ extension PcaConnectorAd {
         /// The key usage extension defines the purpose (e.g., encipherment, signature, certificate signing) of the key contained in the certificate.
         public let keyUsage: KeyUsage
 
+        @inlinable
         public init(applicationPolicies: ApplicationPolicies? = nil, keyUsage: KeyUsage) {
             self.applicationPolicies = applicationPolicies
             self.keyUsage = keyUsage
@@ -1144,6 +1170,7 @@ extension PcaConnectorAd {
         /// The key usage extension defines the purpose (e.g., encipherment, signature, certificate signing) of the key contained in the certificate.
         public let keyUsage: KeyUsage
 
+        @inlinable
         public init(applicationPolicies: ApplicationPolicies? = nil, keyUsage: KeyUsage) {
             self.applicationPolicies = applicationPolicies
             self.keyUsage = keyUsage
@@ -1165,6 +1192,7 @@ extension PcaConnectorAd {
         /// The key usage extension defines the purpose (e.g., encipherment, signature) of the key contained in the certificate.
         public let keyUsage: KeyUsage
 
+        @inlinable
         public init(applicationPolicies: ApplicationPolicies? = nil, keyUsage: KeyUsage) {
             self.applicationPolicies = applicationPolicies
             self.keyUsage = keyUsage
@@ -1186,6 +1214,7 @@ extension PcaConnectorAd {
         /// Defines if the template is for machines or users. Set to TRUE if the template is for machines. Set to FALSE if the template is for users.
         public let machineType: Bool?
 
+        @inlinable
         public init(autoEnrollment: Bool? = nil, machineType: Bool? = nil) {
             self.autoEnrollment = autoEnrollment
             self.machineType = machineType
@@ -1203,6 +1232,7 @@ extension PcaConnectorAd {
         /// Defines if the template is for machines or users. Set to TRUE if the template is for machines. Set to FALSE if the template is for users
         public let machineType: Bool?
 
+        @inlinable
         public init(autoEnrollment: Bool? = nil, machineType: Bool? = nil) {
             self.autoEnrollment = autoEnrollment
             self.machineType = machineType
@@ -1220,6 +1250,7 @@ extension PcaConnectorAd {
         /// Defines if the template is for machines or users. Set to TRUE if the template is for machines. Set to FALSE if the template is for users
         public let machineType: Bool?
 
+        @inlinable
         public init(autoEnrollment: Bool? = nil, machineType: Bool? = nil) {
             self.autoEnrollment = autoEnrollment
             self.machineType = machineType
@@ -1235,6 +1266,7 @@ extension PcaConnectorAd {
         ///  The Amazon Resource Name (ARN) that was returned when you called CreateConnector.
         public let connectorArn: String
 
+        @inlinable
         public init(connectorArn: String) {
             self.connectorArn = connectorArn
         }
@@ -1258,6 +1290,7 @@ extension PcaConnectorAd {
         /// A structure that contains information about your connector.
         public let connector: Connector?
 
+        @inlinable
         public init(connector: Connector? = nil) {
             self.connector = connector
         }
@@ -1271,6 +1304,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public let directoryRegistrationArn: String
 
+        @inlinable
         public init(directoryRegistrationArn: String) {
             self.directoryRegistrationArn = directoryRegistrationArn
         }
@@ -1294,6 +1328,7 @@ extension PcaConnectorAd {
         /// The directory registration represents the authorization of the connector service with a directory.
         public let directoryRegistration: DirectoryRegistration?
 
+        @inlinable
         public init(directoryRegistration: DirectoryRegistration? = nil) {
             self.directoryRegistration = directoryRegistration
         }
@@ -1309,6 +1344,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public let directoryRegistrationArn: String
 
+        @inlinable
         public init(connectorArn: String, directoryRegistrationArn: String) {
             self.connectorArn = connectorArn
             self.directoryRegistrationArn = directoryRegistrationArn
@@ -1337,6 +1373,7 @@ extension PcaConnectorAd {
         /// The service principal name that the connector uses to authenticate with Active Directory.
         public let servicePrincipalName: ServicePrincipalName?
 
+        @inlinable
         public init(servicePrincipalName: ServicePrincipalName? = nil) {
             self.servicePrincipalName = servicePrincipalName
         }
@@ -1352,6 +1389,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(groupSecurityIdentifier: String, templateArn: String) {
             self.groupSecurityIdentifier = groupSecurityIdentifier
             self.templateArn = templateArn
@@ -1380,6 +1418,7 @@ extension PcaConnectorAd {
         /// An access control entry allows or denies an Active Directory group from enrolling and/or autoenrolling with a template.
         public let accessControlEntry: AccessControlEntry?
 
+        @inlinable
         public init(accessControlEntry: AccessControlEntry? = nil) {
             self.accessControlEntry = accessControlEntry
         }
@@ -1393,6 +1432,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(templateArn: String) {
             self.templateArn = templateArn
         }
@@ -1416,6 +1456,7 @@ extension PcaConnectorAd {
         /// A certificate template that the connector uses to issue certificates from a private CA.
         public let template: Template?
 
+        @inlinable
         public init(template: Template? = nil) {
             self.template = template
         }
@@ -1431,6 +1472,7 @@ extension PcaConnectorAd {
         /// The key usage flags represent the purpose (e.g., encipherment, signature) of the key contained in the certificate.
         public let usageFlags: KeyUsageFlags
 
+        @inlinable
         public init(critical: Bool? = nil, usageFlags: KeyUsageFlags) {
             self.critical = critical
             self.usageFlags = usageFlags
@@ -1454,6 +1496,7 @@ extension PcaConnectorAd {
         /// NonRepudiation is asserted when the subject public key is used to verify digital signatures.
         public let nonRepudiation: Bool?
 
+        @inlinable
         public init(dataEncipherment: Bool? = nil, digitalSignature: Bool? = nil, keyAgreement: Bool? = nil, keyEncipherment: Bool? = nil, nonRepudiation: Bool? = nil) {
             self.dataEncipherment = dataEncipherment
             self.digitalSignature = digitalSignature
@@ -1479,6 +1522,7 @@ extension PcaConnectorAd {
         /// Allow key use for digital signature.
         public let sign: Bool?
 
+        @inlinable
         public init(decrypt: Bool? = nil, keyAgreement: Bool? = nil, sign: Bool? = nil) {
             self.decrypt = decrypt
             self.keyAgreement = keyAgreement
@@ -1498,6 +1542,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1527,6 +1572,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(connectors: [ConnectorSummary]? = nil, nextToken: String? = nil) {
             self.connectors = connectors
             self.nextToken = nextToken
@@ -1544,6 +1590,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1573,6 +1620,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryRegistrations: [DirectoryRegistrationSummary]? = nil, nextToken: String? = nil) {
             self.directoryRegistrations = directoryRegistrations
             self.nextToken = nextToken
@@ -1592,6 +1640,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryRegistrationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.directoryRegistrationArn = directoryRegistrationArn
             self.maxResults = maxResults
@@ -1626,6 +1675,7 @@ extension PcaConnectorAd {
         /// The service principal name, if any, that the connector uses to authenticate with Active Directory.
         public let servicePrincipalNames: [ServicePrincipalNameSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, servicePrincipalNames: [ServicePrincipalNameSummary]? = nil) {
             self.nextToken = nextToken
             self.servicePrincipalNames = servicePrincipalNames
@@ -1641,6 +1691,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you created the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1658,6 +1709,7 @@ extension PcaConnectorAd {
         /// The tags, if any, that are associated with your resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1675,6 +1727,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, templateArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1709,6 +1762,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(accessControlEntries: [AccessControlEntrySummary]? = nil, nextToken: String? = nil) {
             self.accessControlEntries = accessControlEntries
             self.nextToken = nextToken
@@ -1728,6 +1782,7 @@ extension PcaConnectorAd {
         /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectorArn = connectorArn
             self.maxResults = maxResults
@@ -1762,6 +1817,7 @@ extension PcaConnectorAd {
         /// Custom configuration templates used when issuing a certificate.
         public let templates: [TemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, templates: [TemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.templates = templates
@@ -1781,6 +1837,7 @@ extension PcaConnectorAd {
         /// Set the minimum key length of the private key.
         public let minimalKeyLength: Int
 
+        @inlinable
         public init(cryptoProviders: [String]? = nil, keySpec: KeySpec, minimalKeyLength: Int) {
             self.cryptoProviders = cryptoProviders
             self.keySpec = keySpec
@@ -1811,6 +1868,7 @@ extension PcaConnectorAd {
         /// Set the minimum key length of the private key.
         public let minimalKeyLength: Int
 
+        @inlinable
         public init(algorithm: PrivateKeyAlgorithm, cryptoProviders: [String]? = nil, keySpec: KeySpec, keyUsageProperty: KeyUsageProperty, minimalKeyLength: Int) {
             self.algorithm = algorithm
             self.cryptoProviders = cryptoProviders
@@ -1845,6 +1903,7 @@ extension PcaConnectorAd {
         /// Set the minimum key length of the private key.
         public let minimalKeyLength: Int
 
+        @inlinable
         public init(algorithm: PrivateKeyAlgorithm? = nil, cryptoProviders: [String]? = nil, keySpec: KeySpec, keyUsageProperty: KeyUsageProperty? = nil, minimalKeyLength: Int) {
             self.algorithm = algorithm
             self.cryptoProviders = cryptoProviders
@@ -1875,6 +1934,7 @@ extension PcaConnectorAd {
         /// Require user input when using the private key for enrollment.
         public let strongKeyProtectionRequired: Bool?
 
+        @inlinable
         public init(clientVersion: ClientCompatibilityV2, exportableKey: Bool? = nil, strongKeyProtectionRequired: Bool? = nil) {
             self.clientVersion = clientVersion
             self.exportableKey = exportableKey
@@ -1898,6 +1958,7 @@ extension PcaConnectorAd {
         /// Requirer user input when using the private key for enrollment.
         public let strongKeyProtectionRequired: Bool?
 
+        @inlinable
         public init(clientVersion: ClientCompatibilityV3, exportableKey: Bool? = nil, requireAlternateSignatureAlgorithm: Bool? = nil, strongKeyProtectionRequired: Bool? = nil) {
             self.clientVersion = clientVersion
             self.exportableKey = exportableKey
@@ -1927,6 +1988,7 @@ extension PcaConnectorAd {
         /// Specifies the cryptographic service provider category used to generate private keys. Set to TRUE to use Legacy Cryptographic Service Providers and FALSE to use Key Storage Providers.
         public let useLegacyProvider: Bool?
 
+        @inlinable
         public init(clientVersion: ClientCompatibilityV4, exportableKey: Bool? = nil, requireAlternateSignatureAlgorithm: Bool? = nil, requireSameKeyRenewal: Bool? = nil, strongKeyProtectionRequired: Bool? = nil, useLegacyProvider: Bool? = nil) {
             self.clientVersion = clientVersion
             self.exportableKey = exportableKey
@@ -1960,6 +2022,7 @@ extension PcaConnectorAd {
         /// The date and time that the service principal name was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(connectorArn: String? = nil, createdAt: Date? = nil, directoryRegistrationArn: String? = nil, status: ServicePrincipalNameStatus? = nil, statusReason: ServicePrincipalNameStatusReason? = nil, updatedAt: Date? = nil) {
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -1993,6 +2056,7 @@ extension PcaConnectorAd {
         /// Time when the service principal name was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(connectorArn: String? = nil, createdAt: Date? = nil, directoryRegistrationArn: String? = nil, status: ServicePrincipalNameStatus? = nil, statusReason: ServicePrincipalNameStatusReason? = nil, updatedAt: Date? = nil) {
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -2034,6 +2098,7 @@ extension PcaConnectorAd {
         /// Include the user principal name (UPN) in the subject alternate name.
         public let sanRequireUpn: Bool?
 
+        @inlinable
         public init(requireCommonName: Bool? = nil, requireDirectoryPath: Bool? = nil, requireDnsAsCn: Bool? = nil, requireEmail: Bool? = nil, sanRequireDirectoryGuid: Bool? = nil, sanRequireDns: Bool? = nil, sanRequireDomainDns: Bool? = nil, sanRequireEmail: Bool? = nil, sanRequireSpn: Bool? = nil, sanRequireUpn: Bool? = nil) {
             self.requireCommonName = requireCommonName
             self.requireDirectoryPath = requireDirectoryPath
@@ -2083,6 +2148,7 @@ extension PcaConnectorAd {
         /// Include the user principal name (UPN) in the subject alternate name.
         public let sanRequireUpn: Bool?
 
+        @inlinable
         public init(requireCommonName: Bool? = nil, requireDirectoryPath: Bool? = nil, requireDnsAsCn: Bool? = nil, requireEmail: Bool? = nil, sanRequireDirectoryGuid: Bool? = nil, sanRequireDns: Bool? = nil, sanRequireDomainDns: Bool? = nil, sanRequireEmail: Bool? = nil, sanRequireSpn: Bool? = nil, sanRequireUpn: Bool? = nil) {
             self.requireCommonName = requireCommonName
             self.requireDirectoryPath = requireDirectoryPath
@@ -2132,6 +2198,7 @@ extension PcaConnectorAd {
         /// Include the user principal name (UPN) in the subject alternate name.
         public let sanRequireUpn: Bool?
 
+        @inlinable
         public init(requireCommonName: Bool? = nil, requireDirectoryPath: Bool? = nil, requireDnsAsCn: Bool? = nil, requireEmail: Bool? = nil, sanRequireDirectoryGuid: Bool? = nil, sanRequireDns: Bool? = nil, sanRequireDomainDns: Bool? = nil, sanRequireEmail: Bool? = nil, sanRequireSpn: Bool? = nil, sanRequireUpn: Bool? = nil) {
             self.requireCommonName = requireCommonName
             self.requireDirectoryPath = requireDirectoryPath
@@ -2165,6 +2232,7 @@ extension PcaConnectorAd {
         /// Metadata assigned to a directory registration consisting of a key-value pair.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2204,6 +2272,7 @@ extension PcaConnectorAd {
         /// The date and time that the template was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, connectorArn: String? = nil, createdAt: Date? = nil, definition: TemplateDefinition? = nil, name: String? = nil, objectIdentifier: String? = nil, policySchema: Int? = nil, revision: TemplateRevision? = nil, status: TemplateStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.connectorArn = connectorArn
@@ -2237,6 +2306,7 @@ extension PcaConnectorAd {
         /// The revision version of the template. Re-enrolling all certificate holders will increment the major revision.
         public let minorRevision: Int
 
+        @inlinable
         public init(majorRevision: Int, minorRevision: Int) {
             self.majorRevision = majorRevision
             self.minorRevision = minorRevision
@@ -2270,6 +2340,7 @@ extension PcaConnectorAd {
         /// The date and time that the template was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, connectorArn: String? = nil, createdAt: Date? = nil, definition: TemplateDefinition? = nil, name: String? = nil, objectIdentifier: String? = nil, policySchema: Int? = nil, revision: TemplateRevision? = nil, status: TemplateStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.connectorArn = connectorArn
@@ -2315,6 +2386,7 @@ extension PcaConnectorAd {
         /// List of templates in Active Directory that are superseded by this template.
         public let supersededTemplates: [String]?
 
+        @inlinable
         public init(certificateValidity: CertificateValidity, enrollmentFlags: EnrollmentFlagsV2, extensions: ExtensionsV2, generalFlags: GeneralFlagsV2, privateKeyAttributes: PrivateKeyAttributesV2, privateKeyFlags: PrivateKeyFlagsV2, subjectNameFlags: SubjectNameFlagsV2, supersededTemplates: [String]? = nil) {
             self.certificateValidity = certificateValidity
             self.enrollmentFlags = enrollmentFlags
@@ -2370,6 +2442,7 @@ extension PcaConnectorAd {
         /// List of templates in Active Directory that are superseded by this template.
         public let supersededTemplates: [String]?
 
+        @inlinable
         public init(certificateValidity: CertificateValidity, enrollmentFlags: EnrollmentFlagsV3, extensions: ExtensionsV3, generalFlags: GeneralFlagsV3, hashAlgorithm: HashAlgorithm, privateKeyAttributes: PrivateKeyAttributesV3, privateKeyFlags: PrivateKeyFlagsV3, subjectNameFlags: SubjectNameFlagsV3, supersededTemplates: [String]? = nil) {
             self.certificateValidity = certificateValidity
             self.enrollmentFlags = enrollmentFlags
@@ -2427,6 +2500,7 @@ extension PcaConnectorAd {
         /// List of templates in Active Directory that are superseded by this template.
         public let supersededTemplates: [String]?
 
+        @inlinable
         public init(certificateValidity: CertificateValidity, enrollmentFlags: EnrollmentFlagsV4, extensions: ExtensionsV4, generalFlags: GeneralFlagsV4, hashAlgorithm: HashAlgorithm? = nil, privateKeyAttributes: PrivateKeyAttributesV4, privateKeyFlags: PrivateKeyFlagsV4, subjectNameFlags: SubjectNameFlagsV4, supersededTemplates: [String]? = nil) {
             self.certificateValidity = certificateValidity
             self.enrollmentFlags = enrollmentFlags
@@ -2470,6 +2544,7 @@ extension PcaConnectorAd {
         /// Specifies a list of tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2495,6 +2570,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(accessRights: AccessRights? = nil, groupDisplayName: String? = nil, groupSecurityIdentifier: String, templateArn: String) {
             self.accessRights = accessRights
             self.groupDisplayName = groupDisplayName
@@ -2536,6 +2612,7 @@ extension PcaConnectorAd {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate.
         public let templateArn: String
 
+        @inlinable
         public init(definition: TemplateDefinition? = nil, reenrollAllCertificateHolders: Bool? = nil, templateArn: String) {
             self.definition = definition
             self.reenrollAllCertificateHolders = reenrollAllCertificateHolders
@@ -2569,6 +2646,7 @@ extension PcaConnectorAd {
         /// The unit of time. You can select hours, days, weeks, months, and years.
         public let periodType: ValidityPeriodType
 
+        @inlinable
         public init(period: Int64, periodType: ValidityPeriodType) {
             self.period = period
             self.periodType = periodType
@@ -2584,6 +2662,7 @@ extension PcaConnectorAd {
         /// The security groups used with the connector. You can use a maximum of 4 security groups with a connector.
         public let securityGroupIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String]) {
             self.securityGroupIds = securityGroupIds
         }

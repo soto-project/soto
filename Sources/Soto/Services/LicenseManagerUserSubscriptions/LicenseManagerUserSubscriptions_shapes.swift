@@ -32,6 +32,7 @@ extension LicenseManagerUserSubscriptions {
         /// The directory ID for an Active Directory identity provider.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -51,6 +52,7 @@ extension LicenseManagerUserSubscriptions {
         /// The user name from the identity provider for the user.
         public let username: String
 
+        @inlinable
         public init(domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
@@ -70,6 +72,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the associate user operation.
         public let instanceUserSummary: InstanceUserSummary
 
+        @inlinable
         public init(instanceUserSummary: InstanceUserSummary) {
             self.instanceUserSummary = instanceUserSummary
         }
@@ -85,6 +88,7 @@ extension LicenseManagerUserSubscriptions {
         /// The name of the user-based subscription product.
         public let product: String
 
+        @inlinable
         public init(identityProvider: IdentityProvider, product: String) {
             self.identityProvider = identityProvider
             self.product = product
@@ -100,6 +104,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the results of an identity provider operation.
         public let identityProviderSummary: IdentityProviderSummary
 
+        @inlinable
         public init(identityProviderSummary: IdentityProviderSummary) {
             self.identityProviderSummary = identityProviderSummary
         }
@@ -119,6 +124,7 @@ extension LicenseManagerUserSubscriptions {
         /// The user name from the identity provider for the user.
         public let username: String
 
+        @inlinable
         public init(domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
@@ -138,6 +144,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the associate user operation.
         public let instanceUserSummary: InstanceUserSummary
 
+        @inlinable
         public init(instanceUserSummary: InstanceUserSummary) {
             self.instanceUserSummary = instanceUserSummary
         }
@@ -155,6 +162,7 @@ extension LicenseManagerUserSubscriptions {
         /// Value of the filter.
         public let value: String?
 
+        @inlinable
         public init(attribute: String? = nil, operation: String? = nil, value: String? = nil) {
             self.attribute = attribute
             self.operation = operation
@@ -180,6 +188,7 @@ extension LicenseManagerUserSubscriptions {
         /// The status of an identity provider.
         public let status: String
 
+        @inlinable
         public init(failureMessage: String? = nil, identityProvider: IdentityProvider, product: String, settings: Settings, status: String) {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
@@ -209,6 +218,7 @@ extension LicenseManagerUserSubscriptions {
         /// The status message for an EC2 instance.
         public let statusMessage: String?
 
+        @inlinable
         public init(instanceId: String, lastStatusCheckDate: String? = nil, products: [String], status: String, statusMessage: String? = nil) {
             self.instanceId = instanceId
             self.lastStatusCheckDate = lastStatusCheckDate
@@ -244,6 +254,7 @@ extension LicenseManagerUserSubscriptions {
         /// The user name from the identity provider for the user.
         public let username: String
 
+        @inlinable
         public init(associationDate: String? = nil, disassociationDate: String? = nil, domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, status: String, statusMessage: String? = nil, username: String) {
             self.associationDate = associationDate
             self.disassociationDate = disassociationDate
@@ -273,6 +284,7 @@ extension LicenseManagerUserSubscriptions {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -290,6 +302,7 @@ extension LicenseManagerUserSubscriptions {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(identityProviderSummaries: [IdentityProviderSummary], nextToken: String? = nil) {
             self.identityProviderSummaries = identityProviderSummaries
             self.nextToken = nextToken
@@ -309,6 +322,7 @@ extension LicenseManagerUserSubscriptions {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -328,6 +342,7 @@ extension LicenseManagerUserSubscriptions {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceSummaries: [InstanceSummary]? = nil, nextToken: String? = nil) {
             self.instanceSummaries = instanceSummaries
             self.nextToken = nextToken
@@ -351,6 +366,7 @@ extension LicenseManagerUserSubscriptions {
         /// The name of the user-based subscription product.
         public let product: String
 
+        @inlinable
         public init(filters: [Filter]? = nil, identityProvider: IdentityProvider, maxResults: Int? = nil, nextToken: String? = nil, product: String) {
             self.filters = filters
             self.identityProvider = identityProvider
@@ -374,6 +390,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the list product subscriptions operation.
         public let productUserSummaries: [ProductUserSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, productUserSummaries: [ProductUserSummary]? = nil) {
             self.nextToken = nextToken
             self.productUserSummaries = productUserSummaries
@@ -397,6 +414,7 @@ extension LicenseManagerUserSubscriptions {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, identityProvider: IdentityProvider, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.identityProvider = identityProvider
@@ -420,6 +438,7 @@ extension LicenseManagerUserSubscriptions {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceUserSummaries: [InstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.instanceUserSummaries = instanceUserSummaries
             self.nextToken = nextToken
@@ -449,6 +468,7 @@ extension LicenseManagerUserSubscriptions {
         /// The user name from the identity provider of the user.
         public let username: String
 
+        @inlinable
         public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, status: String, statusMessage: String? = nil, subscriptionEndDate: String? = nil, subscriptionStartDate: String? = nil, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
@@ -480,6 +500,7 @@ extension LicenseManagerUserSubscriptions {
         /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
         public let settings: Settings?
 
+        @inlinable
         public init(identityProvider: IdentityProvider, product: String, settings: Settings? = nil) {
             self.identityProvider = identityProvider
             self.product = product
@@ -501,6 +522,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the results of an identity provider operation.
         public let identityProviderSummary: IdentityProviderSummary
 
+        @inlinable
         public init(identityProviderSummary: IdentityProviderSummary) {
             self.identityProviderSummary = identityProviderSummary
         }
@@ -516,6 +538,7 @@ extension LicenseManagerUserSubscriptions {
         /// The subnets defined for the registered identity provider.
         public let subnets: [String]
 
+        @inlinable
         public init(securityGroupId: String, subnets: [String]) {
             self.securityGroupId = securityGroupId
             self.subnets = subnets
@@ -546,6 +569,7 @@ extension LicenseManagerUserSubscriptions {
         /// The user name from the identity provider of the user.
         public let username: String
 
+        @inlinable
         public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
@@ -565,6 +589,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the start product subscription operation.
         public let productUserSummary: ProductUserSummary
 
+        @inlinable
         public init(productUserSummary: ProductUserSummary) {
             self.productUserSummary = productUserSummary
         }
@@ -584,6 +609,7 @@ extension LicenseManagerUserSubscriptions {
         /// The user name from the identity provider for the user.
         public let username: String
 
+        @inlinable
         public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
@@ -603,6 +629,7 @@ extension LicenseManagerUserSubscriptions {
         /// Metadata that describes the start product subscription operation.
         public let productUserSummary: ProductUserSummary
 
+        @inlinable
         public init(productUserSummary: ProductUserSummary) {
             self.productUserSummary = productUserSummary
         }
@@ -619,6 +646,7 @@ extension LicenseManagerUserSubscriptions {
         /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
         public let updateSettings: UpdateSettings
 
+        @inlinable
         public init(identityProvider: IdentityProvider, product: String, updateSettings: UpdateSettings) {
             self.identityProvider = identityProvider
             self.product = product
@@ -639,6 +667,7 @@ extension LicenseManagerUserSubscriptions {
     public struct UpdateIdentityProviderSettingsResponse: AWSDecodableShape {
         public let identityProviderSummary: IdentityProviderSummary
 
+        @inlinable
         public init(identityProviderSummary: IdentityProviderSummary) {
             self.identityProviderSummary = identityProviderSummary
         }
@@ -656,6 +685,7 @@ extension LicenseManagerUserSubscriptions {
         /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoints for activation servers.
         public let securityGroupId: String?
 
+        @inlinable
         public init(addSubnets: [String], removeSubnets: [String], securityGroupId: String? = nil) {
             self.addSubnets = addSubnets
             self.removeSubnets = removeSubnets
@@ -685,6 +715,7 @@ extension LicenseManagerUserSubscriptions {
         /// An object that details an Active Directory identity provider.
         public let activeDirectoryIdentityProvider: ActiveDirectoryIdentityProvider?
 
+        @inlinable
         public init(activeDirectoryIdentityProvider: ActiveDirectoryIdentityProvider? = nil) {
             self.activeDirectoryIdentityProvider = activeDirectoryIdentityProvider
         }

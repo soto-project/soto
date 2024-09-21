@@ -130,6 +130,7 @@ extension InternetMonitor {
         /// 			Guide.
         public let percentOfTotalTrafficImpacted: Double?
 
+        @inlinable
         public init(experienceScore: Double? = nil, percentOfClientLocationImpacted: Double? = nil, percentOfTotalTrafficImpacted: Double? = nil) {
             self.experienceScore = experienceScore
             self.percentOfClientLocationImpacted = percentOfClientLocationImpacted
@@ -164,6 +165,7 @@ extension InternetMonitor {
         /// 			(including the United States). For United Kingdom, it maps to a country (England, Scotland, Wales) or province (Northern Ireland).
         public let subdivision: String?
 
+        @inlinable
         public init(asName: String, asNumber: Int64, city: String, country: String, latitude: Double, longitude: Double, metro: String? = nil, subdivision: String? = nil) {
             self.asName = asName
             self.asNumber = asNumber
@@ -217,6 +219,7 @@ extension InternetMonitor {
         /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let trafficPercentageToMonitor: Int?
 
+        @inlinable
         public init(clientToken: String? = CreateMonitorInput.idempotencyToken(), healthEventsConfig: HealthEventsConfig? = nil, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, monitorName: String, resources: [String]? = nil, tags: [String: String]? = nil, trafficPercentageToMonitor: Int? = nil) {
             self.clientToken = clientToken
             self.healthEventsConfig = healthEventsConfig
@@ -268,6 +271,7 @@ extension InternetMonitor {
         /// The status of a monitor.
         public let status: MonitorConfigState
 
+        @inlinable
         public init(arn: String, status: MonitorConfigState) {
             self.arn = arn
             self.status = status
@@ -283,6 +287,7 @@ extension InternetMonitor {
         /// The name of the monitor to delete.
         public let monitorName: String
 
+        @inlinable
         public init(monitorName: String) {
             self.monitorName = monitorName
         }
@@ -318,6 +323,7 @@ extension InternetMonitor {
         /// 			commas.
         public let values: [String]?
 
+        @inlinable
         public init(field: String? = nil, operator: Operator? = nil, values: [String]? = nil) {
             self.field = field
             self.`operator` = `operator`
@@ -343,6 +349,7 @@ extension InternetMonitor {
         /// The name of the monitor.
         public let monitorName: String
 
+        @inlinable
         public init(eventId: String, linkedAccountId: String? = nil, monitorName: String) {
             self.eventId = eventId
             self.linkedAccountId = linkedAccountId
@@ -398,6 +405,7 @@ extension InternetMonitor {
         /// The status of a health event.
         public let status: HealthEventStatus
 
+        @inlinable
         public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, healthScoreThreshold: Double? = nil, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
             self.createdAt = createdAt
             self.endedAt = endedAt
@@ -431,6 +439,7 @@ extension InternetMonitor {
         /// The EventId of the internet event to return information for.
         public let eventId: String
 
+        @inlinable
         public init(eventId: String) {
             self.eventId = eventId
         }
@@ -466,6 +475,7 @@ extension InternetMonitor {
         /// The time when the internet event started.
         public let startedAt: Date
 
+        @inlinable
         public init(clientLocation: ClientLocation, endedAt: Date? = nil, eventArn: String, eventId: String, eventStatus: InternetEventStatus, eventType: InternetEventType, startedAt: Date) {
             self.clientLocation = clientLocation
             self.endedAt = endedAt
@@ -496,6 +506,7 @@ extension InternetMonitor {
         /// The name of the monitor.
         public let monitorName: String
 
+        @inlinable
         public init(linkedAccountId: String? = nil, monitorName: String) {
             self.linkedAccountId = linkedAccountId
             self.monitorName = monitorName
@@ -554,6 +565,7 @@ extension InternetMonitor {
         /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let trafficPercentageToMonitor: Int?
 
+        @inlinable
         public init(createdAt: Date, healthEventsConfig: HealthEventsConfig? = nil, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, modifiedAt: Date, monitorArn: String, monitorName: String, processingStatus: MonitorProcessingStatusCode? = nil, processingStatusInfo: String? = nil, resources: [String], status: MonitorConfigState, tags: [String: String]? = nil, trafficPercentageToMonitor: Int? = nil) {
             self.createdAt = createdAt
             self.healthEventsConfig = healthEventsConfig
@@ -598,6 +610,7 @@ extension InternetMonitor {
         /// 			internally-generated identifier for a specific query.
         public let queryId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, monitorName: String, nextToken: String? = nil, queryId: String) {
             self.maxResults = maxResults
             self.monitorName = monitorName
@@ -636,6 +649,7 @@ extension InternetMonitor {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(data: [[String]], fields: [QueryField], nextToken: String? = nil) {
             self.data = data
             self.fields = fields
@@ -656,6 +670,7 @@ extension InternetMonitor {
         /// 			dentifier for a specific query.
         public let queryId: String
 
+        @inlinable
         public init(monitorName: String, queryId: String) {
             self.monitorName = monitorName
             self.queryId = queryId
@@ -681,6 +696,7 @@ extension InternetMonitor {
         /// The current status for a query.
         public let status: QueryStatus
 
+        @inlinable
         public init(status: QueryStatus) {
             self.status = status
         }
@@ -716,6 +732,7 @@ extension InternetMonitor {
         /// The status of a health event.
         public let status: HealthEventStatus
 
+        @inlinable
         public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, healthScoreThreshold: Double? = nil, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
             self.createdAt = createdAt
             self.endedAt = endedAt
@@ -755,6 +772,7 @@ extension InternetMonitor {
         /// The health event threshold percentage set for performance scores.
         public let performanceScoreThreshold: Double?
 
+        @inlinable
         public init(availabilityLocalHealthEventsConfig: LocalHealthEventsConfig? = nil, availabilityScoreThreshold: Double? = nil, performanceLocalHealthEventsConfig: LocalHealthEventsConfig? = nil, performanceScoreThreshold: Double? = nil) {
             self.availabilityLocalHealthEventsConfig = availabilityLocalHealthEventsConfig
             self.availabilityScoreThreshold = availabilityScoreThreshold
@@ -814,6 +832,7 @@ extension InternetMonitor {
         /// 			country subdivisions is provided, when available.
         public let subdivisionCode: String?
 
+        @inlinable
         public init(asName: String, asNumber: Int64, causedBy: NetworkImpairment? = nil, city: String? = nil, country: String, countryCode: String? = nil, internetHealth: InternetHealth? = nil, ipv4Prefixes: [String]? = nil, latitude: Double? = nil, longitude: Double? = nil, metro: String? = nil, serviceLocation: String? = nil, status: HealthEventStatus, subdivision: String? = nil, subdivisionCode: String? = nil) {
             self.asName = asName
             self.asNumber = asNumber
@@ -868,6 +887,7 @@ extension InternetMonitor {
         /// The time when an internet event started.
         public let startedAt: Date
 
+        @inlinable
         public init(clientLocation: ClientLocation, endedAt: Date? = nil, eventArn: String, eventId: String, eventStatus: InternetEventStatus, eventType: InternetEventType, startedAt: Date) {
             self.clientLocation = clientLocation
             self.endedAt = endedAt
@@ -899,6 +919,7 @@ extension InternetMonitor {
         /// 			scores in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let performance: PerformanceMeasurement?
 
+        @inlinable
         public init(availability: AvailabilityMeasurement? = nil, performance: PerformanceMeasurement? = nil) {
             self.availability = availability
             self.performance = performance
@@ -916,6 +937,7 @@ extension InternetMonitor {
         /// 			whether you choose to deliver internet measurements to S3 logs.
         public let s3Config: S3Config?
 
+        @inlinable
         public init(s3Config: S3Config? = nil) {
             self.s3Config = s3Config
         }
@@ -944,6 +966,7 @@ extension InternetMonitor {
         /// The time when a health event started.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, eventStatus: HealthEventStatus? = nil, linkedAccountId: String? = nil, maxResults: Int? = nil, monitorName: String, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventStatus = eventStatus
@@ -985,6 +1008,7 @@ extension InternetMonitor {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(healthEvents: [HealthEvent], nextToken: String? = nil) {
             self.healthEvents = healthEvents
             self.nextToken = nextToken
@@ -1010,6 +1034,7 @@ extension InternetMonitor {
         /// The start time of the time window that you want to get a list of internet events for.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, eventStatus: String? = nil, eventType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventStatus = eventStatus
@@ -1044,6 +1069,7 @@ extension InternetMonitor {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(internetEvents: [InternetEventSummary], nextToken: String? = nil) {
             self.internetEvents = internetEvents
             self.nextToken = nextToken
@@ -1070,6 +1096,7 @@ extension InternetMonitor {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(includeLinkedAccounts: Bool? = nil, maxResults: Int? = nil, monitorStatus: String? = nil, nextToken: String? = nil) {
             self.includeLinkedAccounts = includeLinkedAccounts
             self.maxResults = maxResults
@@ -1100,6 +1127,7 @@ extension InternetMonitor {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(monitors: [Monitor], nextToken: String? = nil) {
             self.monitors = monitors
             self.nextToken = nextToken
@@ -1115,6 +1143,7 @@ extension InternetMonitor {
         /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1138,6 +1167,7 @@ extension InternetMonitor {
         /// Tags for a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1157,6 +1187,7 @@ extension InternetMonitor {
         /// 		or DISABLED.
         public let status: LocalHealthEventsConfigStatus?
 
+        @inlinable
         public init(healthScoreThreshold: Double? = nil, minTrafficImpact: Double? = nil, status: LocalHealthEventsConfigStatus? = nil) {
             self.healthScoreThreshold = healthScoreThreshold
             self.minTrafficImpact = minTrafficImpact
@@ -1187,6 +1218,7 @@ extension InternetMonitor {
         /// The status of a monitor.
         public let status: MonitorConfigState
 
+        @inlinable
         public init(monitorArn: String, monitorName: String, processingStatus: MonitorProcessingStatusCode? = nil, status: MonitorConfigState) {
             self.monitorArn = monitorArn
             self.monitorName = monitorName
@@ -1208,6 +1240,7 @@ extension InternetMonitor {
         /// The Autonomous System Number (ASN) of the internet provider or network.
         public let asNumber: Int64
 
+        @inlinable
         public init(asName: String, asNumber: Int64) {
             self.asName = asName
             self.asNumber = asNumber
@@ -1227,6 +1260,7 @@ extension InternetMonitor {
         /// The networks that could be impacted by a network impairment event.
         public let networks: [Network]
 
+        @inlinable
         public init(asPath: [Network], networkEventType: TriangulationEventType, networks: [Network]) {
             self.asPath = asPath
             self.networkEventType = networkEventType
@@ -1260,6 +1294,7 @@ extension InternetMonitor {
         /// 			events in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let roundTripTime: RoundTripTime?
 
+        @inlinable
         public init(experienceScore: Double? = nil, percentOfClientLocationImpacted: Double? = nil, percentOfTotalTrafficImpacted: Double? = nil, roundTripTime: RoundTripTime? = nil) {
             self.experienceScore = experienceScore
             self.percentOfClientLocationImpacted = percentOfClientLocationImpacted
@@ -1282,6 +1317,7 @@ extension InternetMonitor {
         /// 			field name is availability_score, the data type is float.
         public let type: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil) {
             self.name = name
             self.type = type
@@ -1301,6 +1337,7 @@ extension InternetMonitor {
         /// RTT at the 95th percentile (p95).
         public let p95: Double?
 
+        @inlinable
         public init(p50: Double? = nil, p90: Double? = nil, p95: Double? = nil) {
             self.p50 = p50
             self.p90 = p90
@@ -1322,6 +1359,7 @@ extension InternetMonitor {
         /// The status of publishing Internet Monitor internet measurements to an Amazon S3 bucket.
         public let logDeliveryStatus: LogDeliveryStatus?
 
+        @inlinable
         public init(bucketName: String? = nil, bucketPrefix: String? = nil, logDeliveryStatus: LogDeliveryStatus? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -1363,6 +1401,7 @@ extension InternetMonitor {
         /// The timestamp that is the beginning of the period that you want to retrieve data for with your query.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, filterParameters: [FilterParameter]? = nil, linkedAccountId: String? = nil, monitorName: String, queryType: QueryType, startTime: Date) {
             self.endTime = endTime
             self.filterParameters = filterParameters
@@ -1404,6 +1443,7 @@ extension InternetMonitor {
         /// The internally-generated identifier of a specific query.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -1419,6 +1459,7 @@ extension InternetMonitor {
         /// The ID of the query that you want to stop. A QueryId is an internally-generated identifier for a specific query.
         public let queryId: String
 
+        @inlinable
         public init(monitorName: String, queryId: String) {
             self.monitorName = monitorName
             self.queryId = queryId
@@ -1450,6 +1491,7 @@ extension InternetMonitor {
         /// Tags that you add to a resource. You can add a maximum of 50 tags in Internet Monitor.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1489,6 +1531,7 @@ extension InternetMonitor {
         /// Tag keys that you remove from a resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1550,6 +1593,7 @@ extension InternetMonitor {
         /// 		 in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public let trafficPercentageToMonitor: Int?
 
+        @inlinable
         public init(clientToken: String? = UpdateMonitorInput.idempotencyToken(), healthEventsConfig: HealthEventsConfig? = nil, internetMeasurementsLogDelivery: InternetMeasurementsLogDelivery? = nil, maxCityNetworksToMonitor: Int? = nil, monitorName: String, resourcesToAdd: [String]? = nil, resourcesToRemove: [String]? = nil, status: MonitorConfigState? = nil, trafficPercentageToMonitor: Int? = nil) {
             self.clientToken = clientToken
             self.healthEventsConfig = healthEventsConfig
@@ -1615,6 +1659,7 @@ extension InternetMonitor {
         /// The status of a monitor.
         public let status: MonitorConfigState
 
+        @inlinable
         public init(monitorArn: String, status: MonitorConfigState) {
             self.monitorArn = monitorArn
             self.status = status

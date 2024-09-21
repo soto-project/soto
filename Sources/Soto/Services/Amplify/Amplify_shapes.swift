@@ -159,6 +159,7 @@ extension Amplify {
         /// Updates the date and time for the Amplify app.
         public let updateTime: Date
 
+        @inlinable
         public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.appArn = appArn
             self.appId = appId
@@ -222,6 +223,7 @@ extension Amplify {
         /// The unique ID for the artifact.
         public let artifactId: String
 
+        @inlinable
         public init(artifactFileName: String, artifactId: String) {
             self.artifactFileName = artifactFileName
             self.artifactId = artifactId
@@ -255,6 +257,7 @@ extension Amplify {
         /// Describes the current stage for the autocreated branch.
         public let stage: Stage?
 
+        @inlinable
         public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil) {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
@@ -304,6 +307,7 @@ extension Amplify {
         /// The Amazon Resource Name (ARN) for the CloudFormation stack.
         public let stackArn: String?
 
+        @inlinable
         public init(stackArn: String? = nil) {
             self.stackArn = stackArn
         }
@@ -333,6 +337,7 @@ extension Amplify {
         /// The last updated date and time for a backend environment that is part of an Amplify app.
         public let updateTime: Date
 
+        @inlinable
         public init(backendEnvironmentArn: String, createTime: Date, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil, updateTime: Date) {
             self.backendEnvironmentArn = backendEnvironmentArn
             self.createTime = createTime
@@ -409,6 +414,7 @@ extension Amplify {
         ///  The last updated date and time for a branch that is part of an Amplify app.
         public let updateTime: Date
 
+        @inlinable
         public init(activeJobId: String, associatedResources: [String]? = nil, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: Date, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: Date) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
@@ -476,6 +482,7 @@ extension Amplify {
         /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. This is the default setting. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key.
         public let type: CacheConfigType
 
+        @inlinable
         public init(type: CacheConfigType) {
             self.type = type
         }
@@ -493,6 +500,7 @@ extension Amplify {
         /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide.
         public let type: CertificateType
 
+        @inlinable
         public init(certificateVerificationDNSRecord: String? = nil, customCertificateArn: String? = nil, type: CertificateType) {
             self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
             self.customCertificateArn = customCertificateArn
@@ -512,6 +520,7 @@ extension Amplify {
         /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide.
         public let type: CertificateType
 
+        @inlinable
         public init(customCertificateArn: String? = nil, type: CertificateType) {
             self.customCertificateArn = customCertificateArn
             self.type = type
@@ -570,6 +579,7 @@ extension Amplify {
         /// The tag for an Amplify app.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -667,6 +677,7 @@ extension Amplify {
     public struct CreateAppResult: AWSDecodableShape {
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -686,6 +697,7 @@ extension Amplify {
         /// The AWS CloudFormation stack name of a backend environment.
         public let stackName: String?
 
+        @inlinable
         public init(appId: String, deploymentArtifacts: String? = nil, environmentName: String, stackName: String? = nil) {
             self.appId = appId
             self.deploymentArtifacts = deploymentArtifacts
@@ -728,6 +740,7 @@ extension Amplify {
         /// Describes the backend environment for an Amplify app.
         public let backendEnvironment: BackendEnvironment
 
+        @inlinable
         public init(backendEnvironment: BackendEnvironment) {
             self.backendEnvironment = backendEnvironment
         }
@@ -777,6 +790,7 @@ extension Amplify {
         ///  The content Time To Live (TTL) for the website in seconds.
         public let ttl: String?
 
+        @inlinable
         public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backend = backend
@@ -890,6 +904,7 @@ extension Amplify {
         ///  Describes the branch for an Amplify app, which maps to a third-party repository branch.
         public let branch: Branch
 
+        @inlinable
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -907,6 +922,7 @@ extension Amplify {
         ///  An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files.
         public let fileMap: [String: String]?
 
+        @inlinable
         public init(appId: String, branchName: String, fileMap: [String: String]? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -949,6 +965,7 @@ extension Amplify {
         ///  When the fileMap argument is not provided in the request, this zipUploadUrl is returned.
         public let zipUploadUrl: String
 
+        @inlinable
         public init(fileUploadUrls: [String: String], jobId: String? = nil, zipUploadUrl: String) {
             self.fileUploadUrls = fileUploadUrls
             self.jobId = jobId
@@ -978,6 +995,7 @@ extension Amplify {
         ///  The setting for the subdomain.
         public let subDomainSettings: [SubDomainSetting]
 
+        @inlinable
         public init(appId: String, autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, certificateSettings: CertificateSettings? = nil, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
             self.appId = appId
             self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
@@ -1034,6 +1052,7 @@ extension Amplify {
         ///  Describes the structure of a domain association, which associates a custom domain with an Amplify app.
         public let domainAssociation: DomainAssociation
 
+        @inlinable
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -1051,6 +1070,7 @@ extension Amplify {
         /// The description for a webhook.
         public let description: String?
 
+        @inlinable
         public init(appId: String, branchName: String, description: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -1086,6 +1106,7 @@ extension Amplify {
         /// Describes a webhook that connects repository events to an Amplify app.
         public let webhook: Webhook
 
+        @inlinable
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -1105,6 +1126,7 @@ extension Amplify {
         /// The target pattern for a URL rewrite or redirect rule.
         public let target: String
 
+        @inlinable
         public init(condition: String? = nil, source: String, status: String? = nil, target: String) {
             self.condition = condition
             self.source = source
@@ -1138,6 +1160,7 @@ extension Amplify {
         /// The unique ID for an Amplify app.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -1160,6 +1183,7 @@ extension Amplify {
     public struct DeleteAppResult: AWSDecodableShape {
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -1175,6 +1199,7 @@ extension Amplify {
         /// The name of a backend environment of an Amplify app.
         public let environmentName: String
 
+        @inlinable
         public init(appId: String, environmentName: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1203,6 +1228,7 @@ extension Amplify {
         /// Describes the backend environment for an Amplify app.
         public let backendEnvironment: BackendEnvironment
 
+        @inlinable
         public init(backendEnvironment: BackendEnvironment) {
             self.backendEnvironment = backendEnvironment
         }
@@ -1218,6 +1244,7 @@ extension Amplify {
         /// The name of the branch.
         public let branchName: String
 
+        @inlinable
         public init(appId: String, branchName: String) {
             self.appId = appId
             self.branchName = branchName
@@ -1246,6 +1273,7 @@ extension Amplify {
         /// The branch for an Amplify app, which maps to a third-party repository branch.
         public let branch: Branch
 
+        @inlinable
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -1261,6 +1289,7 @@ extension Amplify {
         ///  The name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(appId: String, domainName: String) {
             self.appId = appId
             self.domainName = domainName
@@ -1287,6 +1316,7 @@ extension Amplify {
     public struct DeleteDomainAssociationResult: AWSDecodableShape {
         public let domainAssociation: DomainAssociation
 
+        @inlinable
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -1304,6 +1334,7 @@ extension Amplify {
         ///  The unique ID for the job.
         public let jobId: String
 
+        @inlinable
         public init(appId: String, branchName: String, jobId: String) {
             self.appId = appId
             self.branchName = branchName
@@ -1335,6 +1366,7 @@ extension Amplify {
     public struct DeleteJobResult: AWSDecodableShape {
         public let jobSummary: JobSummary
 
+        @inlinable
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -1348,6 +1380,7 @@ extension Amplify {
         /// The unique ID for a webhook.
         public let webhookId: String
 
+        @inlinable
         public init(webhookId: String) {
             self.webhookId = webhookId
         }
@@ -1370,6 +1403,7 @@ extension Amplify {
         /// Describes a webhook that connects repository events to an Amplify app.
         public let webhook: Webhook
 
+        @inlinable
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -1403,6 +1437,7 @@ extension Amplify {
         /// The status of the domain update operation that is currently in progress. The following list describes the valid update states.  REQUESTING_CERTIFICATE  The certificate is in the process of being updated.  PENDING_VERIFICATION  Indicates that an Amplify managed certificate is in the process of being verified. This occurs during the creation of a custom domain or when a custom domain is updated to use a managed certificate.  IMPORTING_CUSTOM_CERTIFICATE  Indicates that an Amplify custom certificate is in the process of being imported. This occurs during the creation of a custom domain or when a custom domain is updated to use a custom certificate.  PENDING_DEPLOYMENT  Indicates that the subdomain or certificate changes are being propagated.  AWAITING_APP_CNAME  Amplify is waiting for CNAME records corresponding to subdomains to be propagated. If your custom domain is on Route 53, Amplify handles this for you automatically. For more information about custom domains, see Setting up custom domains in the Amplify Hosting User Guide.   UPDATE_COMPLETE  The certificate has been associated with a domain.  UPDATE_FAILED  The certificate has failed to be provisioned or associated, and there is no existing active certificate to roll back to.
         public let updateStatus: UpdateStatus?
 
+        @inlinable
         public init(autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, certificate: Certificate? = nil, certificateVerificationDNSRecord: String? = nil, domainAssociationArn: String, domainName: String, domainStatus: DomainStatus, enableAutoSubDomain: Bool, statusReason: String, subDomains: [SubDomain], updateStatus: UpdateStatus? = nil) {
             self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
             self.autoSubDomainIAMRole = autoSubDomainIAMRole
@@ -1442,6 +1477,7 @@ extension Amplify {
         /// The time at which the logs should start. The time range specified is inclusive of the start time.
         public let startTime: Date?
 
+        @inlinable
         public init(appId: String, domainName: String, endTime: Date? = nil, startTime: Date? = nil) {
             self.appId = appId
             self.domainName = domainName
@@ -1477,6 +1513,7 @@ extension Amplify {
         /// The pre-signed URL for the requested access logs.
         public let logUrl: String?
 
+        @inlinable
         public init(logUrl: String? = nil) {
             self.logUrl = logUrl
         }
@@ -1490,6 +1527,7 @@ extension Amplify {
         /// The unique ID for an Amplify app.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -1512,6 +1550,7 @@ extension Amplify {
     public struct GetAppResult: AWSDecodableShape {
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -1525,6 +1564,7 @@ extension Amplify {
         /// The unique ID for an artifact.
         public let artifactId: String
 
+        @inlinable
         public init(artifactId: String) {
             self.artifactId = artifactId
         }
@@ -1549,6 +1589,7 @@ extension Amplify {
         /// The presigned URL for the artifact.
         public let artifactUrl: String
 
+        @inlinable
         public init(artifactId: String, artifactUrl: String) {
             self.artifactId = artifactId
             self.artifactUrl = artifactUrl
@@ -1566,6 +1607,7 @@ extension Amplify {
         /// The name for the backend environment.
         public let environmentName: String
 
+        @inlinable
         public init(appId: String, environmentName: String) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1594,6 +1636,7 @@ extension Amplify {
         /// Describes the backend environment for an Amplify app.
         public let backendEnvironment: BackendEnvironment
 
+        @inlinable
         public init(backendEnvironment: BackendEnvironment) {
             self.backendEnvironment = backendEnvironment
         }
@@ -1609,6 +1652,7 @@ extension Amplify {
         /// The name of the branch.
         public let branchName: String
 
+        @inlinable
         public init(appId: String, branchName: String) {
             self.appId = appId
             self.branchName = branchName
@@ -1636,6 +1680,7 @@ extension Amplify {
     public struct GetBranchResult: AWSDecodableShape {
         public let branch: Branch
 
+        @inlinable
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -1651,6 +1696,7 @@ extension Amplify {
         ///  The name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(appId: String, domainName: String) {
             self.appId = appId
             self.domainName = domainName
@@ -1678,6 +1724,7 @@ extension Amplify {
         ///  Describes the structure of a domain association, which associates a custom domain with an Amplify app.
         public let domainAssociation: DomainAssociation
 
+        @inlinable
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -1695,6 +1742,7 @@ extension Amplify {
         /// The unique ID for the job.
         public let jobId: String
 
+        @inlinable
         public init(appId: String, branchName: String, jobId: String) {
             self.appId = appId
             self.branchName = branchName
@@ -1726,6 +1774,7 @@ extension Amplify {
     public struct GetJobResult: AWSDecodableShape {
         public let job: Job
 
+        @inlinable
         public init(job: Job) {
             self.job = job
         }
@@ -1739,6 +1788,7 @@ extension Amplify {
         /// The unique ID for a webhook.
         public let webhookId: String
 
+        @inlinable
         public init(webhookId: String) {
             self.webhookId = webhookId
         }
@@ -1761,6 +1811,7 @@ extension Amplify {
         /// Describes the structure of a webhook.
         public let webhook: Webhook
 
+        @inlinable
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -1776,6 +1827,7 @@ extension Amplify {
         ///  Describes the summary for an execution job for an Amplify app.
         public let summary: JobSummary
 
+        @inlinable
         public init(steps: [Step], summary: JobSummary) {
             self.steps = steps
             self.summary = summary
@@ -1807,6 +1859,7 @@ extension Amplify {
         ///  The current status for the job.
         public let status: JobStatus
 
+        @inlinable
         public init(commitId: String, commitMessage: String, commitTime: Date, endTime: Date? = nil, jobArn: String, jobId: String, jobType: JobType, startTime: Date, status: JobStatus) {
             self.commitId = commitId
             self.commitMessage = commitMessage
@@ -1838,6 +1891,7 @@ extension Amplify {
         /// A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1866,6 +1920,7 @@ extension Amplify {
         /// A pagination token. Set to null to start listing apps from start. If non-null, the pagination token is returned in a result. Pass its value in here to list more projects.
         public let nextToken: String?
 
+        @inlinable
         public init(apps: [App], nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -1889,6 +1944,7 @@ extension Amplify {
         /// A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, branchName: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -1931,6 +1987,7 @@ extension Amplify {
         /// A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries.
         public let nextToken: String?
 
+        @inlinable
         public init(artifacts: [Artifact], nextToken: String? = nil) {
             self.artifacts = artifacts
             self.nextToken = nextToken
@@ -1952,6 +2009,7 @@ extension Amplify {
         /// A pagination token. Set to null to start listing backend environments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
@@ -1990,6 +2048,7 @@ extension Amplify {
         /// A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries.
         public let nextToken: String?
 
+        @inlinable
         public init(backendEnvironments: [BackendEnvironment], nextToken: String? = nil) {
             self.backendEnvironments = backendEnvironments
             self.nextToken = nextToken
@@ -2009,6 +2068,7 @@ extension Amplify {
         /// A pagination token. Set to null to start listing branches from the start. If a non-null pagination token is returned in a result, pass its value in here to list more branches.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
@@ -2042,6 +2102,7 @@ extension Amplify {
         ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries.
         public let nextToken: String?
 
+        @inlinable
         public init(branches: [Branch], nextToken: String? = nil) {
             self.branches = branches
             self.nextToken = nextToken
@@ -2061,6 +2122,7 @@ extension Amplify {
         ///  A pagination token. Set to null to start listing apps from the start. If non-null, a pagination token is returned in a result. Pass its value in here to list more projects.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
@@ -2094,6 +2156,7 @@ extension Amplify {
         ///  A pagination token. If non-null, a pagination token is returned in a result. Pass its value in another request to retrieve more entries.
         public let nextToken: String?
 
+        @inlinable
         public init(domainAssociations: [DomainAssociation], nextToken: String? = nil) {
             self.domainAssociations = domainAssociations
             self.nextToken = nextToken
@@ -2115,6 +2178,7 @@ extension Amplify {
         /// A pagination token. Set to null to start listing steps from the start. If a non-null pagination token is returned in a result, pass its value in here to list more steps.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, branchName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -2153,6 +2217,7 @@ extension Amplify {
         /// A pagination token. If non-null the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaries: [JobSummary], nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -2168,6 +2233,7 @@ extension Amplify {
         /// The Amazon Resource Name (ARN) to use to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2190,6 +2256,7 @@ extension Amplify {
         /// A list of tags for the specified The Amazon Resource Name (ARN).
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2207,6 +2274,7 @@ extension Amplify {
         /// A pagination token. Set to null to start listing webhooks from the start. If non-null,the pagination token is returned in a result. Pass its value in here to list more webhooks.
         public let nextToken: String?
 
+        @inlinable
         public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
@@ -2240,6 +2308,7 @@ extension Amplify {
         /// A list of webhooks.
         public let webhooks: [Webhook]
 
+        @inlinable
         public init(nextToken: String? = nil, webhooks: [Webhook]) {
             self.nextToken = nextToken
             self.webhooks = webhooks
@@ -2261,6 +2330,7 @@ extension Amplify {
         /// The thumbnail URL for the production branch.
         public let thumbnailUrl: String?
 
+        @inlinable
         public init(branchName: String? = nil, lastDeployTime: Date? = nil, status: String? = nil, thumbnailUrl: String? = nil) {
             self.branchName = branchName
             self.lastDeployTime = lastDeployTime
@@ -2286,6 +2356,7 @@ extension Amplify {
         /// The source URL for this deployment, used when calling start deployment without create deployment. The source URL can be any HTTP GET URL that is publicly accessible and downloads a single .zip file.
         public let sourceUrl: String?
 
+        @inlinable
         public init(appId: String, branchName: String, jobId: String? = nil, sourceUrl: String? = nil) {
             self.appId = appId
             self.branchName = branchName
@@ -2325,6 +2396,7 @@ extension Amplify {
         /// The summary for the job.
         public let jobSummary: JobSummary
 
+        @inlinable
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -2352,6 +2424,7 @@ extension Amplify {
         /// Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository.  The job type RETRY retries an existing job. If the job type value is RETRY, the jobId is also required.
         public let jobType: JobType
 
+        @inlinable
         public init(appId: String, branchName: String, commitId: String? = nil, commitMessage: String? = nil, commitTime: Date? = nil, jobId: String? = nil, jobReason: String? = nil, jobType: JobType) {
             self.appId = appId
             self.branchName = branchName
@@ -2407,6 +2480,7 @@ extension Amplify {
         ///  The summary for the job.
         public let jobSummary: JobSummary
 
+        @inlinable
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -2440,6 +2514,7 @@ extension Amplify {
         ///  The URL to the test configuration for the execution step.
         public let testConfigUrl: String?
 
+        @inlinable
         public init(artifactsUrl: String? = nil, context: String? = nil, endTime: Date, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: Date, status: JobStatus, statusReason: String? = nil, stepName: String, testArtifactsUrl: String? = nil, testConfigUrl: String? = nil) {
             self.artifactsUrl = artifactsUrl
             self.context = context
@@ -2477,6 +2552,7 @@ extension Amplify {
         ///  The unique id for the job.
         public let jobId: String
 
+        @inlinable
         public init(appId: String, branchName: String, jobId: String) {
             self.appId = appId
             self.branchName = branchName
@@ -2509,6 +2585,7 @@ extension Amplify {
         ///  The summary for the job.
         public let jobSummary: JobSummary
 
+        @inlinable
         public init(jobSummary: JobSummary) {
             self.jobSummary = jobSummary
         }
@@ -2526,6 +2603,7 @@ extension Amplify {
         ///  The verified status of the subdomain
         public let verified: Bool
 
+        @inlinable
         public init(dnsRecord: String, subDomainSetting: SubDomainSetting, verified: Bool) {
             self.dnsRecord = dnsRecord
             self.subDomainSetting = subDomainSetting
@@ -2545,6 +2623,7 @@ extension Amplify {
         ///  The prefix setting for the subdomain.
         public let prefix: String
 
+        @inlinable
         public init(branchName: String, prefix: String) {
             self.branchName = branchName
             self.prefix = prefix
@@ -2570,6 +2649,7 @@ extension Amplify {
         /// The tags used to tag the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2610,6 +2690,7 @@ extension Amplify {
         /// The tag keys to use to untag a resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2683,6 +2764,7 @@ extension Amplify {
         /// The name of the Git repository for an Amplify app.
         public let repository: String?
 
+        @inlinable
         public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
             self.accessToken = accessToken
             self.appId = appId
@@ -2800,6 +2882,7 @@ extension Amplify {
         /// Represents the updated Amplify app.
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -2847,6 +2930,7 @@ extension Amplify {
         ///  The content Time to Live (TTL) for the website in seconds.
         public let ttl: String?
 
+        @inlinable
         public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backend = backend
@@ -2948,6 +3032,7 @@ extension Amplify {
         ///  The branch for an Amplify app, which maps to a third-party repository branch.
         public let branch: Branch
 
+        @inlinable
         public init(branch: Branch) {
             self.branch = branch
         }
@@ -2973,6 +3058,7 @@ extension Amplify {
         ///  Describes the settings for the subdomain.
         public let subDomainSettings: [SubDomainSetting]?
 
+        @inlinable
         public init(appId: String, autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, certificateSettings: CertificateSettings? = nil, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]? = nil) {
             self.appId = appId
             self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
@@ -3028,6 +3114,7 @@ extension Amplify {
         ///  Describes a domain association, which associates a custom domain with an Amplify app.
         public let domainAssociation: DomainAssociation
 
+        @inlinable
         public init(domainAssociation: DomainAssociation) {
             self.domainAssociation = domainAssociation
         }
@@ -3045,6 +3132,7 @@ extension Amplify {
         /// The unique ID for a webhook.
         public let webhookId: String
 
+        @inlinable
         public init(branchName: String? = nil, description: String? = nil, webhookId: String) {
             self.branchName = branchName
             self.description = description
@@ -3079,6 +3167,7 @@ extension Amplify {
         /// Describes a webhook that connects repository events to an Amplify app.
         public let webhook: Webhook
 
+        @inlinable
         public init(webhook: Webhook) {
             self.webhook = webhook
         }
@@ -3104,6 +3193,7 @@ extension Amplify {
         /// The URL of the webhook.
         public let webhookUrl: String
 
+        @inlinable
         public init(branchName: String, createTime: Date, description: String, updateTime: Date, webhookArn: String, webhookId: String, webhookUrl: String) {
             self.branchName = branchName
             self.createTime = createTime

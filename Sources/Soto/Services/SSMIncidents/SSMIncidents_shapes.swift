@@ -439,6 +439,7 @@ extension SSMIncidents {
         /// The KMS key ID to use to encrypt your replication set.
         public let sseKmsKeyId: String?
 
+        @inlinable
         public init(regionName: String, sseKmsKeyId: String? = nil) {
             self.regionName = regionName
             self.sseKmsKeyId = sseKmsKeyId
@@ -463,6 +464,7 @@ extension SSMIncidents {
         /// The description for an error that was returned for a BatchGetIncidentFindings operation.
         public let message: String
 
+        @inlinable
         public init(code: String, findingId: String, message: String) {
             self.code = code
             self.findingId = findingId
@@ -482,6 +484,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident for which you want to view finding details.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(findingIds: [String], incidentRecordArn: String) {
             self.findingIds = findingIds
             self.incidentRecordArn = incidentRecordArn
@@ -508,6 +511,7 @@ extension SSMIncidents {
         /// Information about the requested findings.
         public let findings: [Finding]
 
+        @inlinable
         public init(errors: [BatchGetIncidentFindingsError], findings: [Finding]) {
             self.errors = errors
             self.findings = findings
@@ -527,6 +531,7 @@ extension SSMIncidents {
         /// The timestamp for when the CloudFormation stack creation or update began.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date? = nil, stackArn: String, startTime: Date) {
             self.endTime = endTime
             self.stackArn = stackArn
@@ -550,6 +555,7 @@ extension SSMIncidents {
         /// The timestamp for when the CodeDeploy deployment began.
         public let startTime: Date
 
+        @inlinable
         public init(deploymentGroupArn: String, deploymentId: String, endTime: Date? = nil, startTime: Date) {
             self.deploymentGroupArn = deploymentGroupArn
             self.deploymentId = deploymentId
@@ -573,6 +579,7 @@ extension SSMIncidents {
         /// A list of tags to add to the replication set.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateReplicationSetInput.idempotencyToken(), regions: [String: RegionMapInputValue], tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.regions = regions
@@ -609,6 +616,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the replication set.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -638,6 +646,7 @@ extension SSMIncidents {
         /// A list of tags that you are adding to the response plan.
         public let tags: [String: String]?
 
+        @inlinable
         public init(actions: [Action]? = nil, chatChannel: ChatChannel? = nil, clientToken: String? = CreateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, integrations: [Integration]? = nil, name: String, tags: [String: String]? = nil) {
             self.actions = actions
             self.chatChannel = chatChannel
@@ -696,6 +705,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the response plan.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -719,6 +729,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident record that the action adds the incident to.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, incidentRecordArn: String) {
             self.clientToken = clientToken
             self.eventData = eventData
@@ -756,6 +767,7 @@ extension SSMIncidents {
         /// The ARN of the incident record that you added the event to.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(eventId: String, incidentRecordArn: String) {
             self.eventId = eventId
             self.incidentRecordArn = incidentRecordArn
@@ -771,6 +783,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident record you are deleting.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -793,6 +806,7 @@ extension SSMIncidents {
         /// The name of the Amazon Web Services Region you're deleting from the replication set.
         public let regionName: String
 
+        @inlinable
         public init(regionName: String) {
             self.regionName = regionName
         }
@@ -810,6 +824,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the replication set you're deleting.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -838,6 +853,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the resource you're deleting the policy from.
         public let resourceArn: String
 
+        @inlinable
         public init(policyId: String, resourceArn: String) {
             self.policyId = policyId
             self.resourceArn = resourceArn
@@ -863,6 +879,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the response plan.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -887,6 +904,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(eventId: String, incidentRecordArn: String) {
             self.eventId = eventId
             self.incidentRecordArn = incidentRecordArn
@@ -926,6 +944,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that the event happened during.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(eventId: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, eventUpdatedTime: Date, incidentRecordArn: String) {
             self.eventId = eventId
             self.eventReferences = eventReferences
@@ -951,6 +970,7 @@ extension SSMIncidents {
         /// The key that you're filtering on.
         public let key: String
 
+        @inlinable
         public init(condition: Condition, key: String) {
             self.condition = condition
             self.key = key
@@ -976,6 +996,7 @@ extension SSMIncidents {
         /// The timestamp for when the finding was most recently updated with additional information.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(creationTime: Date, details: FindingDetails? = nil, id: String, lastModifiedTime: Date) {
             self.creationTime = creationTime
             self.details = details
@@ -997,6 +1018,7 @@ extension SSMIncidents {
         /// The timestamp for when the finding was last updated.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(id: String, lastModifiedTime: Date) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -1012,6 +1034,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident record.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1034,6 +1057,7 @@ extension SSMIncidents {
         /// Details the structure of the incident record.
         public let incidentRecord: IncidentRecord
 
+        @inlinable
         public init(incidentRecord: IncidentRecord) {
             self.incidentRecord = incidentRecord
         }
@@ -1047,6 +1071,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the replication set you want to retrieve.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1069,6 +1094,7 @@ extension SSMIncidents {
         /// Details of the replication set.
         public let replicationSet: ReplicationSet
 
+        @inlinable
         public init(replicationSet: ReplicationSet) {
             self.replicationSet = replicationSet
         }
@@ -1086,6 +1112,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the response plan with the attached resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1120,6 +1147,7 @@ extension SSMIncidents {
         /// Details about the resource policy attached to the response plan.
         public let resourcePolicies: [ResourcePolicy]
 
+        @inlinable
         public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]) {
             self.nextToken = nextToken
             self.resourcePolicies = resourcePolicies
@@ -1135,6 +1163,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the response plan.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1171,6 +1200,7 @@ extension SSMIncidents {
         /// The short format name of the response plan. The name can't contain spaces.
         public let name: String
 
+        @inlinable
         public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, displayName: String? = nil, engagements: [String]? = nil, incidentTemplate: IncidentTemplate, integrations: [Integration]? = nil, name: String) {
             self.actions = actions
             self.arn = arn
@@ -1200,6 +1230,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(eventId: String, incidentRecordArn: String) {
             self.eventId = eventId
             self.incidentRecordArn = incidentRecordArn
@@ -1225,6 +1256,7 @@ extension SSMIncidents {
         /// Details about the timeline event.
         public let event: TimelineEvent
 
+        @inlinable
         public init(event: TimelineEvent) {
             self.event = event
         }
@@ -1264,6 +1296,7 @@ extension SSMIncidents {
         /// The title of the incident.
         public let title: String
 
+        @inlinable
         public init(arn: String, automationExecutions: [AutomationExecution]? = nil, chatChannel: ChatChannel? = nil, creationTime: Date, dedupeString: String, impact: Int, incidentRecordSource: IncidentRecordSource, lastModifiedBy: String, lastModifiedTime: Date, notificationTargets: [NotificationTargetItem]? = nil, resolvedTime: Date? = nil, status: IncidentRecordStatus, summary: String? = nil, title: String) {
             self.arn = arn
             self.automationExecutions = automationExecutions
@@ -1309,6 +1342,7 @@ extension SSMIncidents {
         /// The service that started the incident. This can be manually created from Incident Manager, automatically created using an Amazon CloudWatch alarm, or Amazon EventBridge event.
         public let source: String
 
+        @inlinable
         public init(createdBy: String, invokedBy: String? = nil, resourceArn: String? = nil, source: String) {
             self.createdBy = createdBy
             self.invokedBy = invokedBy
@@ -1340,6 +1374,7 @@ extension SSMIncidents {
         /// The title of the incident. This value is either provided by the response plan or overwritten on creation.
         public let title: String
 
+        @inlinable
         public init(arn: String, creationTime: Date, impact: Int, incidentRecordSource: IncidentRecordSource, resolvedTime: Date? = nil, status: IncidentRecordStatus, title: String) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1375,6 +1410,7 @@ extension SSMIncidents {
         /// The title of the incident.
         public let title: String
 
+        @inlinable
         public init(dedupeString: String? = nil, impact: Int, incidentTags: [String: String]? = nil, notificationTargets: [NotificationTargetItem]? = nil, summary: String? = nil, title: String) {
             self.dedupeString = dedupeString
             self.impact = impact
@@ -1421,6 +1457,7 @@ extension SSMIncidents {
         /// Details about the related item.
         public let value: ItemValue
 
+        @inlinable
         public init(type: ItemType, value: ItemValue) {
             self.type = type
             self.value = value
@@ -1444,6 +1481,7 @@ extension SSMIncidents {
         /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
+        @inlinable
         public init(incidentRecordArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.incidentRecordArn = incidentRecordArn
             self.maxResults = maxResults
@@ -1469,6 +1507,7 @@ extension SSMIncidents {
         /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [FindingSummary], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -1488,6 +1527,7 @@ extension SSMIncidents {
         /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1517,6 +1557,7 @@ extension SSMIncidents {
         /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
 
+        @inlinable
         public init(incidentRecordSummaries: [IncidentRecordSummary], nextToken: String? = nil) {
             self.incidentRecordSummaries = incidentRecordSummaries
             self.nextToken = nextToken
@@ -1536,6 +1577,7 @@ extension SSMIncidents {
         /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
+        @inlinable
         public init(incidentRecordArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.incidentRecordArn = incidentRecordArn
             self.maxResults = maxResults
@@ -1563,6 +1605,7 @@ extension SSMIncidents {
         /// Details about each related item.
         public let relatedItems: [RelatedItem]
 
+        @inlinable
         public init(nextToken: String? = nil, relatedItems: [RelatedItem]) {
             self.nextToken = nextToken
             self.relatedItems = relatedItems
@@ -1580,6 +1623,7 @@ extension SSMIncidents {
         /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1603,6 +1647,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the list replication set.
         public let replicationSetArns: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, replicationSetArns: [String]) {
             self.nextToken = nextToken
             self.replicationSetArns = replicationSetArns
@@ -1620,6 +1665,7 @@ extension SSMIncidents {
         /// The pagination token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1643,6 +1689,7 @@ extension SSMIncidents {
         /// Details of each response plan.
         public let responsePlanSummaries: [ResponsePlanSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, responsePlanSummaries: [ResponsePlanSummary]) {
             self.nextToken = nextToken
             self.responsePlanSummaries = responsePlanSummaries
@@ -1658,6 +1705,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the response plan or incident.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1675,6 +1723,7 @@ extension SSMIncidents {
         /// A list of tags for the response plan or incident.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1698,6 +1747,7 @@ extension SSMIncidents {
         /// Sorts the order of timeline events by the value specified in the sortBy field.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(filters: [Filter]? = nil, incidentRecordArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: TimelineEventSort? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.incidentRecordArn = incidentRecordArn
@@ -1735,6 +1785,7 @@ extension SSMIncidents {
         /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
         public let nextToken: String?
 
+        @inlinable
         public init(eventSummaries: [EventSummary], nextToken: String? = nil) {
             self.eventSummaries = eventSummaries
             self.nextToken = nextToken
@@ -1754,6 +1805,7 @@ extension SSMIncidents {
         /// The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials.
         public let secretId: String
 
+        @inlinable
         public init(name: String, pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration, secretId: String) {
             self.name = name
             self.pagerDutyIncidentConfiguration = pagerDutyIncidentConfiguration
@@ -1771,6 +1823,7 @@ extension SSMIncidents {
         /// The ID of the PagerDuty service that the response plan associates with an incident when it launches.
         public let serviceId: String
 
+        @inlinable
         public init(serviceId: String) {
             self.serviceId = serviceId
         }
@@ -1788,6 +1841,7 @@ extension SSMIncidents {
         /// The ID of the Amazon Web Services Secrets Manager secret that stores your PagerDuty key, either a General Access REST API Key or User Token REST API Key, and other user credentials.
         public let secretId: String?
 
+        @inlinable
         public init(autoResolve: Bool? = nil, id: String, secretId: String? = nil) {
             self.autoResolve = autoResolve
             self.id = id
@@ -1807,6 +1861,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the response plan to add the resource policy to.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -1828,6 +1883,7 @@ extension SSMIncidents {
         /// The ID of the resource policy.
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -1847,6 +1903,7 @@ extension SSMIncidents {
         /// The timestamp for when Incident Manager updated the status of the Amazon Web Services Region.
         public let statusUpdateDateTime: Date
 
+        @inlinable
         public init(sseKmsKeyId: String? = nil, status: RegionStatus, statusMessage: String? = nil, statusUpdateDateTime: Date) {
             self.sseKmsKeyId = sseKmsKeyId
             self.status = status
@@ -1866,6 +1923,7 @@ extension SSMIncidents {
         /// The KMS key used to encrypt the data in your replication set.
         public let sseKmsKeyId: String?
 
+        @inlinable
         public init(sseKmsKeyId: String? = nil) {
             self.sseKmsKeyId = sseKmsKeyId
         }
@@ -1887,6 +1945,7 @@ extension SSMIncidents {
         /// The title of the related item.
         public let title: String?
 
+        @inlinable
         public init(generatedId: String? = nil, identifier: ItemIdentifier, title: String? = nil) {
             self.generatedId = generatedId
             self.identifier = identifier
@@ -1924,6 +1983,7 @@ extension SSMIncidents {
         /// The status of the replication set. If the replication set is still pending, you can't use Incident Manager functionality.
         public let status: ReplicationSetStatus
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String, createdTime: Date, deletionProtected: Bool, lastModifiedBy: String, lastModifiedTime: Date, regionMap: [String: RegionInfo], status: ReplicationSetStatus) {
             self.arn = arn
             self.createdBy = createdBy
@@ -1955,6 +2015,7 @@ extension SSMIncidents {
         /// The Amazon Web Services Region that policy allows resources to be used in.
         public let ramResourceShareRegion: String
 
+        @inlinable
         public init(policyDocument: String, policyId: String, ramResourceShareRegion: String) {
             self.policyDocument = policyDocument
             self.policyId = policyId
@@ -1976,6 +2037,7 @@ extension SSMIncidents {
         /// The name of the response plan. This can't include spaces.
         public let name: String
 
+        @inlinable
         public init(arn: String, displayName: String? = nil, name: String) {
             self.arn = arn
             self.displayName = displayName
@@ -2003,6 +2065,7 @@ extension SSMIncidents {
         /// The account that the automation document will be run in. This can be in either the management account or an application account.
         public let targetAccount: SsmTargetAccount?
 
+        @inlinable
         public init(documentName: String, documentVersion: String? = nil, dynamicParameters: [String: DynamicSsmParameterValue]? = nil, parameters: [String: [String]]? = nil, roleArn: String, targetAccount: SsmTargetAccount? = nil) {
             self.documentName = documentName
             self.documentVersion = documentVersion
@@ -2048,6 +2111,7 @@ extension SSMIncidents {
         /// Details of what created the incident record in Incident Manager.
         public let triggerDetails: TriggerDetails?
 
+        @inlinable
         public init(clientToken: String? = StartIncidentInput.idempotencyToken(), impact: Int? = nil, relatedItems: [RelatedItem]? = nil, responsePlanArn: String, title: String? = nil, triggerDetails: TriggerDetails? = nil) {
             self.clientToken = clientToken
             self.impact = impact
@@ -2085,6 +2149,7 @@ extension SSMIncidents {
         /// The ARN of the newly created incident record.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(incidentRecordArn: String) {
             self.incidentRecordArn = incidentRecordArn
         }
@@ -2100,6 +2165,7 @@ extension SSMIncidents {
         /// A list of tags to add to the response plan.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2149,6 +2215,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that the event occurred during.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(eventData: String, eventId: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, eventUpdatedTime: Date, incidentRecordArn: String) {
             self.eventData = eventData
             self.eventId = eventId
@@ -2180,6 +2247,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the source that detected the incident.
         public let triggerArn: String?
 
+        @inlinable
         public init(rawData: String? = nil, source: String, timestamp: Date, triggerArn: String? = nil) {
             self.rawData = rawData
             self.source = source
@@ -2208,6 +2276,7 @@ extension SSMIncidents {
         /// The name of the tag to remove from the response plan.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2245,6 +2314,7 @@ extension SSMIncidents {
         /// Specifies if deletion protection is turned on or off in your account.
         public let deletionProtected: Bool
 
+        @inlinable
         public init(arn: String, clientToken: String? = UpdateDeletionProtectionInput.idempotencyToken(), deletionProtected: Bool) {
             self.arn = arn
             self.clientToken = clientToken
@@ -2286,6 +2356,7 @@ extension SSMIncidents {
         /// A brief description of the incident.
         public let title: String?
 
+        @inlinable
         public init(arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateIncidentRecordInput.idempotencyToken(), impact: Int? = nil, notificationTargets: [NotificationTargetItem]? = nil, status: IncidentRecordStatus? = nil, summary: String? = nil, title: String? = nil) {
             self.arn = arn
             self.chatChannel = chatChannel
@@ -2336,6 +2407,7 @@ extension SSMIncidents {
         /// Details about the item that you are add to, or delete from, an incident.
         public let relatedItemsUpdate: RelatedItemsUpdate
 
+        @inlinable
         public init(clientToken: String? = UpdateRelatedItemsInput.idempotencyToken(), incidentRecordArn: String, relatedItemsUpdate: RelatedItemsUpdate) {
             self.clientToken = clientToken
             self.incidentRecordArn = incidentRecordArn
@@ -2368,6 +2440,7 @@ extension SSMIncidents {
         /// A token that ensures that the operation is called only once with the specified details.
         public let clientToken: String?
 
+        @inlinable
         public init(actions: [UpdateReplicationSetAction], arn: String, clientToken: String? = UpdateReplicationSetInput.idempotencyToken()) {
             self.actions = actions
             self.arn = arn
@@ -2422,6 +2495,7 @@ extension SSMIncidents {
         /// Information about third-party services integrated into the response plan.
         public let integrations: [Integration]?
 
+        @inlinable
         public init(actions: [Action]? = nil, arn: String, chatChannel: ChatChannel? = nil, clientToken: String? = UpdateResponsePlanInput.idempotencyToken(), displayName: String? = nil, engagements: [String]? = nil, incidentTemplateDedupeString: String? = nil, incidentTemplateImpact: Int? = nil, incidentTemplateNotificationTargets: [NotificationTargetItem]? = nil, incidentTemplateSummary: String? = nil, incidentTemplateTags: [String: String]? = nil, incidentTemplateTitle: String? = nil, integrations: [Integration]? = nil) {
             self.actions = actions
             self.arn = arn
@@ -2510,6 +2584,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
 
+        @inlinable
         public init(clientToken: String? = UpdateTimelineEventInput.idempotencyToken(), eventData: String? = nil, eventId: String, eventReferences: [EventReference]? = nil, eventTime: Date? = nil, eventType: String? = nil, incidentRecordArn: String) {
             self.clientToken = clientToken
             self.eventData = eventData
@@ -2552,6 +2627,7 @@ extension SSMIncidents {
         /// The Systems Manager automation document to start as the runbook at the beginning of the incident.
         public let ssmAutomation: SsmAutomation?
 
+        @inlinable
         public init(ssmAutomation: SsmAutomation? = nil) {
             self.ssmAutomation = ssmAutomation
         }
@@ -2569,6 +2645,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the automation process.
         public let ssmExecutionArn: String?
 
+        @inlinable
         public init(ssmExecutionArn: String? = nil) {
             self.ssmExecutionArn = ssmExecutionArn
         }
@@ -2582,6 +2659,7 @@ extension SSMIncidents {
         /// Variable dynamic parameters. A parameter value is determined when an incident is created.
         public let variable: VariableType?
 
+        @inlinable
         public init(variable: VariableType? = nil) {
             self.variable = variable
         }
@@ -2595,6 +2673,7 @@ extension SSMIncidents {
         /// Information about the PagerDuty service where the response plan creates an incident.
         public let pagerDutyConfiguration: PagerDutyConfiguration?
 
+        @inlinable
         public init(pagerDutyConfiguration: PagerDutyConfiguration? = nil) {
             self.pagerDutyConfiguration = pagerDutyConfiguration
         }
@@ -2608,6 +2687,7 @@ extension SSMIncidents {
         /// The Amazon Resource Name (ARN) of the SNS topic.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(snsTopicArn: String? = nil) {
             self.snsTopicArn = snsTopicArn
         }

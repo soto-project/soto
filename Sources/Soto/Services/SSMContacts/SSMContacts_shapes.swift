@@ -100,6 +100,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the engagement to a contact channel.
         public let pageId: String
 
+        @inlinable
         public init(acceptCode: String, acceptCodeValidation: AcceptCodeValidation? = nil, acceptType: AcceptType, contactChannelId: String? = nil, note: String? = nil, pageId: String) {
             self.acceptCode = acceptCode
             self.acceptCodeValidation = acceptCodeValidation
@@ -144,6 +145,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact channel.
         public let contactChannelId: String
 
+        @inlinable
         public init(activationCode: String, contactChannelId: String) {
             self.activationCode = activationCode
             self.contactChannelId = contactChannelId
@@ -174,6 +176,7 @@ extension SSMContacts {
         /// The number of minutes to wait to retry sending engagement in the case the engagement initially fails.
         public let retryIntervalInMinutes: Int?
 
+        @inlinable
         public init(contactChannelId: String, retryIntervalInMinutes: Int? = nil) {
             self.contactChannelId = contactChannelId
             self.retryIntervalInMinutes = retryIntervalInMinutes
@@ -203,6 +206,7 @@ extension SSMContacts {
         /// Refers to the type of contact. A single contact is type PERSONAL and an escalation plan is type ESCALATION.
         public let type: ContactType
 
+        @inlinable
         public init(alias: String, contactArn: String, displayName: String? = nil, type: ContactType) {
             self.alias = alias
             self.contactArn = contactArn
@@ -232,6 +236,7 @@ extension SSMContacts {
         /// The type of the contact channel. Incident Manager supports three contact methods:   SMS   VOICE   EMAIL
         public let type: ChannelType?
 
+        @inlinable
         public init(activationStatus: ActivationStatus, contactArn: String, contactChannelArn: String, deliveryAddress: ContactChannelAddress, name: String, type: ChannelType? = nil) {
             self.activationStatus = activationStatus
             self.contactArn = contactArn
@@ -255,6 +260,7 @@ extension SSMContacts {
         /// The format is dependent on the type of the contact channel. The following are the expected formats:   SMS - '+' followed by the country code and phone number   VOICE - '+' followed by the country code and phone number   EMAIL - any standard email format
         public let simpleAddress: String?
 
+        @inlinable
         public init(simpleAddress: String? = nil) {
             self.simpleAddress = simpleAddress
         }
@@ -275,6 +281,7 @@ extension SSMContacts {
         /// A Boolean value determining if the contact's acknowledgement stops the progress of stages in the plan.
         public let isEssential: Bool
 
+        @inlinable
         public init(contactId: String? = nil, isEssential: Bool) {
             self.contactId = contactId
             self.isEssential = isEssential
@@ -298,6 +305,7 @@ extension SSMContacts {
         /// Information about when the on-call rotation shift begins.
         public let start: HandOffTime?
 
+        @inlinable
         public init(end: HandOffTime? = nil, start: HandOffTime? = nil) {
             self.end = end
             self.start = start
@@ -328,6 +336,7 @@ extension SSMContacts {
         /// Incident Manager supports three types of contact channels:    SMS     VOICE     EMAIL
         public let type: ChannelType
 
+        @inlinable
         public init(contactId: String, deferActivation: Bool? = nil, deliveryAddress: ContactChannelAddress, idempotencyToken: String? = CreateContactChannelRequest.idempotencyToken(), name: String, type: ChannelType) {
             self.contactId = contactId
             self.deferActivation = deferActivation
@@ -363,6 +372,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact channel.
         public let contactChannelArn: String
 
+        @inlinable
         public init(contactChannelArn: String) {
             self.contactChannelArn = contactChannelArn
         }
@@ -386,6 +396,7 @@ extension SSMContacts {
         /// To create an escalation plan use ESCALATION. To create a contact use PERSONAL.
         public let type: ContactType
 
+        @inlinable
         public init(alias: String, displayName: String? = nil, idempotencyToken: String? = CreateContactRequest.idempotencyToken(), plan: Plan, tags: [Tag]? = nil, type: ContactType) {
             self.alias = alias
             self.displayName = displayName
@@ -424,6 +435,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the created contact or escalation plan.
         public let contactArn: String
 
+        @inlinable
         public init(contactArn: String) {
             self.contactArn = contactArn
         }
@@ -445,6 +457,7 @@ extension SSMContacts {
         /// The date and time when the override goes into effect.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, idempotencyToken: String? = nil, newContactIds: [String], rotationId: String, startTime: Date) {
             self.endTime = endTime
             self.idempotencyToken = idempotencyToken
@@ -480,6 +493,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the created rotation override.
         public let rotationOverrideId: String
 
+        @inlinable
         public init(rotationOverrideId: String) {
             self.rotationOverrideId = rotationOverrideId
         }
@@ -505,6 +519,7 @@ extension SSMContacts {
         /// The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
         public let timeZoneId: String
 
+        @inlinable
         public init(contactIds: [String], idempotencyToken: String? = nil, name: String, recurrence: RecurrenceSettings, startTime: Date? = nil, tags: [Tag]? = nil, timeZoneId: String) {
             self.contactIds = contactIds
             self.idempotencyToken = idempotencyToken
@@ -553,6 +568,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the created rotation.
         public let rotationArn: String
 
+        @inlinable
         public init(rotationArn: String) {
             self.rotationArn = rotationArn
         }
@@ -566,6 +582,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact channel you're deactivating.
         public let contactChannelId: String
 
+        @inlinable
         public init(contactChannelId: String) {
             self.contactChannelId = contactChannelId
         }
@@ -589,6 +606,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact channel.
         public let contactChannelId: String
 
+        @inlinable
         public init(contactChannelId: String) {
             self.contactChannelId = contactChannelId
         }
@@ -612,6 +630,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact that you're deleting.
         public let contactId: String
 
+        @inlinable
         public init(contactId: String) {
             self.contactId = contactId
         }
@@ -637,6 +656,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the on-call rotation override to delete.
         public let rotationOverrideId: String
 
+        @inlinable
         public init(rotationId: String, rotationOverrideId: String) {
             self.rotationId = rotationId
             self.rotationOverrideId = rotationOverrideId
@@ -665,6 +685,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the on-call rotation to delete.
         public let rotationId: String
 
+        @inlinable
         public init(rotationId: String) {
             self.rotationId = rotationId
         }
@@ -688,6 +709,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the engagement you want the details of.
         public let engagementId: String
 
+        @inlinable
         public init(engagementId: String) {
             self.engagementId = engagementId
         }
@@ -725,6 +747,7 @@ extension SSMContacts {
         /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE and EMAIL.
         public let subject: String
 
+        @inlinable
         public init(contactArn: String, content: String, engagementArn: String, incidentId: String? = nil, publicContent: String? = nil, publicSubject: String? = nil, sender: String, startTime: Date? = nil, stopTime: Date? = nil, subject: String) {
             self.contactArn = contactArn
             self.content = content
@@ -756,6 +779,7 @@ extension SSMContacts {
         /// The ID of the engagement to a contact channel.
         public let pageId: String
 
+        @inlinable
         public init(pageId: String) {
             self.pageId = pageId
         }
@@ -797,6 +821,7 @@ extension SSMContacts {
         /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE and EMAIL.
         public let subject: String
 
+        @inlinable
         public init(contactArn: String, content: String, deliveryTime: Date? = nil, engagementArn: String, incidentId: String? = nil, pageArn: String, publicContent: String? = nil, publicSubject: String? = nil, readTime: Date? = nil, sender: String, sentTime: Date? = nil, subject: String) {
             self.contactArn = contactArn
             self.content = content
@@ -842,6 +867,7 @@ extension SSMContacts {
         /// The time that the engagement ended.
         public let stopTime: Date?
 
+        @inlinable
         public init(contactArn: String, engagementArn: String, incidentId: String? = nil, sender: String, startTime: Date? = nil, stopTime: Date? = nil) {
             self.contactArn = contactArn
             self.engagementArn = engagementArn
@@ -865,6 +891,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact channel you want information about.
         public let contactChannelId: String
 
+        @inlinable
         public init(contactChannelId: String) {
             self.contactChannelId = contactChannelId
         }
@@ -894,6 +921,7 @@ extension SSMContacts {
         /// The type of contact channel. The type is SMS, VOICE, or EMAIL.
         public let type: ChannelType
 
+        @inlinable
         public init(activationStatus: ActivationStatus? = nil, contactArn: String, contactChannelArn: String, deliveryAddress: ContactChannelAddress, name: String, type: ChannelType) {
             self.activationStatus = activationStatus
             self.contactArn = contactArn
@@ -917,6 +945,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact or escalation plan.
         public let contactArn: String
 
+        @inlinable
         public init(contactArn: String) {
             self.contactArn = contactArn
         }
@@ -938,6 +967,7 @@ extension SSMContacts {
         /// Details about the resource policy attached to the contact or escalation plan.
         public let policy: String?
 
+        @inlinable
         public init(contactArn: String? = nil, policy: String? = nil) {
             self.contactArn = contactArn
             self.policy = policy
@@ -953,6 +983,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact or escalation plan.
         public let contactId: String
 
+        @inlinable
         public init(contactId: String) {
             self.contactId = contactId
         }
@@ -980,6 +1011,7 @@ extension SSMContacts {
         /// The type of contact, either PERSONAL or ESCALATION.
         public let type: ContactType
 
+        @inlinable
         public init(alias: String, contactArn: String, displayName: String? = nil, plan: Plan, type: ContactType) {
             self.alias = alias
             self.contactArn = contactArn
@@ -1003,6 +1035,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the on-call rotation override to retrieve information about.
         public let rotationOverrideId: String
 
+        @inlinable
         public init(rotationId: String, rotationOverrideId: String) {
             self.rotationId = rotationId
             self.rotationOverrideId = rotationOverrideId
@@ -1037,6 +1070,7 @@ extension SSMContacts {
         /// The date and time when the override goes into effect.
         public let startTime: Date?
 
+        @inlinable
         public init(createTime: Date? = nil, endTime: Date? = nil, newContactIds: [String]? = nil, rotationArn: String? = nil, rotationOverrideId: String? = nil, startTime: Date? = nil) {
             self.createTime = createTime
             self.endTime = endTime
@@ -1060,6 +1094,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the on-call rotation to retrieve information about.
         public let rotationId: String
 
+        @inlinable
         public init(rotationId: String) {
             self.rotationId = rotationId
         }
@@ -1089,6 +1124,7 @@ extension SSMContacts {
         /// The time zone that the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format.
         public let timeZoneId: String
 
+        @inlinable
         public init(contactIds: [String], name: String, recurrence: RecurrenceSettings, rotationArn: String, startTime: Date, timeZoneId: String) {
             self.contactIds = contactIds
             self.name = name
@@ -1114,6 +1150,7 @@ extension SSMContacts {
         /// The minute when an on-call rotation shift begins or ends.
         public let minuteOfHour: Int
 
+        @inlinable
         public init(hourOfDay: Int, minuteOfHour: Int) {
             self.hourOfDay = hourOfDay
             self.minuteOfHour = minuteOfHour
@@ -1140,6 +1177,7 @@ extension SSMContacts {
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactId = contactId
             self.maxResults = maxResults
@@ -1169,6 +1207,7 @@ extension SSMContacts {
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactChannels: [ContactChannel], nextToken: String? = nil) {
             self.contactChannels = contactChannels
             self.nextToken = nextToken
@@ -1190,6 +1229,7 @@ extension SSMContacts {
         /// The type of contact. A contact is type PERSONAL and an escalation plan is type ESCALATION.
         public let type: ContactType?
 
+        @inlinable
         public init(aliasPrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: ContactType? = nil) {
             self.aliasPrefix = aliasPrefix
             self.maxResults = maxResults
@@ -1221,6 +1261,7 @@ extension SSMContacts {
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contacts: [Contact]? = nil, nextToken: String? = nil) {
             self.contacts = contacts
             self.nextToken = nextToken
@@ -1242,6 +1283,7 @@ extension SSMContacts {
         /// The time range to lists engagements for an incident.
         public let timeRangeValue: TimeRange?
 
+        @inlinable
         public init(incidentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, timeRangeValue: TimeRange? = nil) {
             self.incidentId = incidentId
             self.maxResults = maxResults
@@ -1272,6 +1314,7 @@ extension SSMContacts {
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(engagements: [Engagement], nextToken: String? = nil) {
             self.engagements = engagements
             self.nextToken = nextToken
@@ -1291,6 +1334,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the engagement to a specific contact channel.
         public let pageId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, pageId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1320,6 +1364,7 @@ extension SSMContacts {
         /// A list of each acknowledgement.
         public let receipts: [Receipt]?
 
+        @inlinable
         public init(nextToken: String? = nil, receipts: [Receipt]? = nil) {
             self.nextToken = nextToken
             self.receipts = receipts
@@ -1337,6 +1382,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact engaged for the incident.
         public let pageId: String
 
+        @inlinable
         public init(nextToken: String? = nil, pageId: String) {
             self.nextToken = nextToken
             self.pageId = pageId
@@ -1362,6 +1408,7 @@ extension SSMContacts {
         /// Information about the resolution for an engagement.
         public let pageResolutions: [ResolutionContact]
 
+        @inlinable
         public init(nextToken: String? = nil, pageResolutions: [ResolutionContact]) {
             self.nextToken = nextToken
             self.pageResolutions = pageResolutions
@@ -1381,6 +1428,7 @@ extension SSMContacts {
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactId = contactId
             self.maxResults = maxResults
@@ -1410,6 +1458,7 @@ extension SSMContacts {
         /// The list of engagements to a contact's contact channel.
         public let pages: [Page]
 
+        @inlinable
         public init(nextToken: String? = nil, pages: [Page]) {
             self.nextToken = nextToken
             self.pages = pages
@@ -1429,6 +1478,7 @@ extension SSMContacts {
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(engagementId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.engagementId = engagementId
             self.maxResults = maxResults
@@ -1458,6 +1508,7 @@ extension SSMContacts {
         /// The list of engagements to contact channels.
         public let pages: [Page]
 
+        @inlinable
         public init(nextToken: String? = nil, pages: [Page]) {
             self.nextToken = nextToken
             self.pages = pages
@@ -1489,6 +1540,7 @@ extension SSMContacts {
         /// The time zone the rotation’s activity would be based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
         public let timeZoneId: String
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, members: [String], nextToken: String? = nil, overrides: [PreviewOverride]? = nil, recurrence: RecurrenceSettings, rotationStartTime: Date? = nil, startTime: Date? = nil, timeZoneId: String) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1541,6 +1593,7 @@ extension SSMContacts {
         /// Details about a rotation shift, including times, types, and contacts.
         public let rotationShifts: [RotationShift]?
 
+        @inlinable
         public init(nextToken: String? = nil, rotationShifts: [RotationShift]? = nil) {
             self.nextToken = nextToken
             self.rotationShifts = rotationShifts
@@ -1564,6 +1617,7 @@ extension SSMContacts {
         /// The date and time for the beginning of a time range for listing overrides.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, rotationId: String, startTime: Date) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1597,6 +1651,7 @@ extension SSMContacts {
         /// A list of rotation overrides in the specified time range.
         public let rotationOverrides: [RotationOverride]?
 
+        @inlinable
         public init(nextToken: String? = nil, rotationOverrides: [RotationOverride]? = nil) {
             self.nextToken = nextToken
             self.rotationOverrides = rotationOverrides
@@ -1620,6 +1675,7 @@ extension SSMContacts {
         /// The date and time for the beginning of the time range to list shifts for.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, rotationId: String, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1653,6 +1709,7 @@ extension SSMContacts {
         /// Information about shifts that meet the filter criteria.
         public let rotationShifts: [RotationShift]?
 
+        @inlinable
         public init(nextToken: String? = nil, rotationShifts: [RotationShift]? = nil) {
             self.nextToken = nextToken
             self.rotationShifts = rotationShifts
@@ -1672,6 +1729,7 @@ extension SSMContacts {
         /// A filter to include rotations in list results based on their common prefix. For example, entering prod returns a list of all rotation names that begin with prod, such as production and prod-1.
         public let rotationNamePrefix: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, rotationNamePrefix: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1701,6 +1759,7 @@ extension SSMContacts {
         /// Information about rotations that meet the filter criteria.
         public let rotations: [Rotation]
 
+        @inlinable
         public init(nextToken: String? = nil, rotations: [Rotation]) {
             self.nextToken = nextToken
             self.rotations = rotations
@@ -1716,6 +1775,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact or escalation plan.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1734,6 +1794,7 @@ extension SSMContacts {
         /// The tags related to the contact or escalation plan.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1749,6 +1810,7 @@ extension SSMContacts {
         /// The time of day when a monthly recurring on-call shift rotation begins.
         public let handOffTime: HandOffTime
 
+        @inlinable
         public init(dayOfMonth: Int, handOffTime: HandOffTime) {
             self.dayOfMonth = dayOfMonth
             self.handOffTime = handOffTime
@@ -1784,6 +1846,7 @@ extension SSMContacts {
         /// The time that Incident Manager engaged the contact channel.
         public let sentTime: Date?
 
+        @inlinable
         public init(contactArn: String, deliveryTime: Date? = nil, engagementArn: String, incidentId: String? = nil, pageArn: String, readTime: Date? = nil, sender: String, sentTime: Date? = nil) {
             self.contactArn = contactArn
             self.deliveryTime = deliveryTime
@@ -1813,6 +1876,7 @@ extension SSMContacts {
         /// A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods.
         public let stages: [Stage]?
 
+        @inlinable
         public init(rotationIds: [String]? = nil, stages: [Stage]? = nil) {
             self.rotationIds = rotationIds
             self.stages = stages
@@ -1844,6 +1908,7 @@ extension SSMContacts {
         /// Information about the time a rotation override would begin.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, newMembers: [String]? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.newMembers = newMembers
@@ -1872,6 +1937,7 @@ extension SSMContacts {
         /// Details of the resource policy.
         public let policy: String
 
+        @inlinable
         public init(contactArn: String, policy: String) {
             self.contactArn = contactArn
             self.policy = policy
@@ -1906,6 +1972,7 @@ extension SSMContacts {
         /// The type follows the engagement cycle, SENT, DELIVERED, and READ.
         public let receiptType: ReceiptType
 
+        @inlinable
         public init(contactChannelArn: String? = nil, receiptInfo: String? = nil, receiptTime: Date, receiptType: ReceiptType) {
             self.contactChannelArn = contactChannelArn
             self.receiptInfo = receiptInfo
@@ -1935,6 +2002,7 @@ extension SSMContacts {
         /// Information about on-call rotations that recur weekly.
         public let weeklySettings: [WeeklySetting]?
 
+        @inlinable
         public init(dailySettings: [HandOffTime]? = nil, monthlySettings: [MonthlySetting]? = nil, numberOfOnCalls: Int, recurrenceMultiplier: Int, shiftCoverages: [DayOfWeek: [CoverageTime]]? = nil, weeklySettings: [WeeklySetting]? = nil) {
             self.dailySettings = dailySettings
             self.monthlySettings = monthlySettings
@@ -1977,6 +2045,7 @@ extension SSMContacts {
         /// The type of contact for a resolution step.
         public let type: ContactType
 
+        @inlinable
         public init(contactArn: String, stageIndex: Int? = nil, type: ContactType) {
             self.contactArn = contactArn
             self.stageIndex = stageIndex
@@ -2004,6 +2073,7 @@ extension SSMContacts {
         /// The time zone the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
         public let timeZoneId: String?
 
+        @inlinable
         public init(contactIds: [String]? = nil, name: String, recurrence: RecurrenceSettings? = nil, rotationArn: String, startTime: Date? = nil, timeZoneId: String? = nil) {
             self.contactIds = contactIds
             self.name = name
@@ -2035,6 +2105,7 @@ extension SSMContacts {
         /// The time a rotation override begins.
         public let startTime: Date
 
+        @inlinable
         public init(createTime: Date, endTime: Date, newContactIds: [String], rotationOverrideId: String, startTime: Date) {
             self.createTime = createTime
             self.endTime = endTime
@@ -2064,6 +2135,7 @@ extension SSMContacts {
         /// The type of shift rotation.
         public let type: ShiftType?
 
+        @inlinable
         public init(contactIds: [String]? = nil, endTime: Date, shiftDetails: ShiftDetails? = nil, startTime: Date, type: ShiftType? = nil) {
             self.contactIds = contactIds
             self.endTime = endTime
@@ -2085,6 +2157,7 @@ extension SSMContacts {
         /// The Amazon Resource Name (ARN) of the contact channel.
         public let contactChannelId: String
 
+        @inlinable
         public init(contactChannelId: String) {
             self.contactChannelId = contactChannelId
         }
@@ -2108,6 +2181,7 @@ extension SSMContacts {
         /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a shift when an override was created. If the override is deleted, these contacts are restored to the shift.
         public let overriddenContactIds: [String]
 
+        @inlinable
         public init(overriddenContactIds: [String]) {
             self.overriddenContactIds = overriddenContactIds
         }
@@ -2123,6 +2197,7 @@ extension SSMContacts {
         /// The contacts or contact methods that the escalation plan or engagement plan is engaging.
         public let targets: [Target]
 
+        @inlinable
         public init(durationInMinutes: Int, targets: [Target]) {
             self.durationInMinutes = durationInMinutes
             self.targets = targets
@@ -2160,6 +2235,7 @@ extension SSMContacts {
         /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL.
         public let subject: String
 
+        @inlinable
         public init(contactId: String, content: String, idempotencyToken: String? = StartEngagementRequest.idempotencyToken(), incidentId: String? = nil, publicContent: String? = nil, publicSubject: String? = nil, sender: String, subject: String) {
             self.contactId = contactId
             self.content = content
@@ -2211,6 +2287,7 @@ extension SSMContacts {
         /// The ARN of the engagement.
         public let engagementArn: String
 
+        @inlinable
         public init(engagementArn: String) {
             self.engagementArn = engagementArn
         }
@@ -2226,6 +2303,7 @@ extension SSMContacts {
         /// The reason that you're stopping the engagement.
         public let reason: String?
 
+        @inlinable
         public init(engagementId: String, reason: String? = nil) {
             self.engagementId = engagementId
             self.reason = reason
@@ -2255,6 +2333,7 @@ extension SSMContacts {
         /// Value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2281,6 +2360,7 @@ extension SSMContacts {
         /// A list of tags that you are adding to the contact or escalation plan.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -2311,6 +2391,7 @@ extension SSMContacts {
         /// Information about the contact that Incident Manager is engaging.
         public let contactTargetInfo: ContactTargetInfo?
 
+        @inlinable
         public init(channelTargetInfo: ChannelTargetInfo? = nil, contactTargetInfo: ContactTargetInfo? = nil) {
             self.channelTargetInfo = channelTargetInfo
             self.contactTargetInfo = contactTargetInfo
@@ -2333,6 +2414,7 @@ extension SSMContacts {
         /// The start of the time range.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -2350,6 +2432,7 @@ extension SSMContacts {
         /// The key of the tag that you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -2384,6 +2467,7 @@ extension SSMContacts {
         /// The name of the contact channel.
         public let name: String?
 
+        @inlinable
         public init(contactChannelId: String, deliveryAddress: ContactChannelAddress? = nil, name: String? = nil) {
             self.contactChannelId = contactChannelId
             self.deliveryAddress = deliveryAddress
@@ -2419,6 +2503,7 @@ extension SSMContacts {
         /// A list of stages. A contact has an engagement plan with stages for specified contact channels. An escalation plan uses these stages to contact specified contacts.
         public let plan: Plan?
 
+        @inlinable
         public init(contactId: String, displayName: String? = nil, plan: Plan? = nil) {
             self.contactId = contactId
             self.displayName = displayName
@@ -2457,6 +2542,7 @@ extension SSMContacts {
         /// The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
         public let timeZoneId: String?
 
+        @inlinable
         public init(contactIds: [String]? = nil, recurrence: RecurrenceSettings, rotationId: String, startTime: Date? = nil, timeZoneId: String? = nil) {
             self.contactIds = contactIds
             self.recurrence = recurrence
@@ -2501,6 +2587,7 @@ extension SSMContacts {
         /// The time of day when a weekly recurring on-call shift rotation begins.
         public let handOffTime: HandOffTime
 
+        @inlinable
         public init(dayOfWeek: DayOfWeek, handOffTime: HandOffTime) {
             self.dayOfWeek = dayOfWeek
             self.handOffTime = handOffTime

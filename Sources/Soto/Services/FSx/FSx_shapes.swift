@@ -487,6 +487,7 @@ extension FSx {
         public let domainName: String?
         public let resourceARN: String?
 
+        @inlinable
         public init(activeDirectoryId: String? = nil, domainName: String? = nil, resourceARN: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.domainName = domainName
@@ -518,6 +519,7 @@ extension FSx {
         /// The number of bytes that have transferred for the FSx for OpenZFS snapshot that you're copying.
         public let totalTransferBytes: Int64?
 
+        @inlinable
         public init(administrativeActionType: AdministrativeActionType? = nil, failureDetails: AdministrativeActionFailureDetails? = nil, progressPercent: Int? = nil, remainingTransferBytes: Int64? = nil, requestTime: Date? = nil, status: Status? = nil, targetFileSystemValues: FileSystem? = nil, targetSnapshotValues: Snapshot? = nil, targetVolumeValues: Volume? = nil, totalTransferBytes: Int64? = nil) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
@@ -549,6 +551,7 @@ extension FSx {
         /// Error message providing details about the failed administrative action.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -564,6 +567,7 @@ extension FSx {
         /// The total number of constituents this FlexGroup volume has. Not applicable for FlexVols.
         public let totalConstituents: Int?
 
+        @inlinable
         public init(aggregates: [String]? = nil, totalConstituents: Int? = nil) {
             self.aggregates = aggregates
             self.totalConstituents = totalConstituents
@@ -581,6 +585,7 @@ extension FSx {
         /// The name of the DNS alias. The alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them:  as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
         public let name: String?
 
+        @inlinable
         public init(lifecycle: AliasLifecycle? = nil, name: String? = nil) {
             self.lifecycle = lifecycle
             self.name = name
@@ -599,6 +604,7 @@ extension FSx {
         /// Specifies the file system with which you want to associate one or more DNS aliases.
         public let fileSystemId: String?
 
+        @inlinable
         public init(aliases: [String]? = nil, clientRequestToken: String? = AssociateFileSystemAliasesRequest.idempotencyToken(), fileSystemId: String? = nil) {
             self.aliases = aliases
             self.clientRequestToken = clientRequestToken
@@ -631,6 +637,7 @@ extension FSx {
         /// An array of the DNS aliases that Amazon FSx is associating with the file system.
         public let aliases: [Alias]?
 
+        @inlinable
         public init(aliases: [Alias]? = nil) {
             self.aliases = aliases
         }
@@ -644,6 +651,7 @@ extension FSx {
         /// The AutoExportPolicy can have the following event values:    NEW - New files and directories are automatically exported to the data repository as they are added to the file system.    CHANGED - Changes to files and directories on the file system are automatically exported to the data repository.    DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system.   You can define any combination of event types for your AutoExportPolicy.
         public let events: [EventType]?
 
+        @inlinable
         public init(events: [EventType]? = nil) {
             self.events = events
         }
@@ -661,6 +669,7 @@ extension FSx {
         /// The AutoImportPolicy can have the following event values:    NEW - Amazon FSx automatically imports metadata of files added to the linked S3 bucket that do not currently exist in the FSx file system.    CHANGED - Amazon FSx automatically updates file metadata and invalidates existing file content on the file system as files change in the data repository.    DELETED - Amazon FSx automatically deletes files on the file system as corresponding files are deleted in the data repository.   You can define any combination of event types for your AutoImportPolicy.
         public let events: [EventType]?
 
+        @inlinable
         public init(events: [EventType]? = nil) {
             self.events = events
         }
@@ -680,6 +689,7 @@ extension FSx {
         /// Defines the amount of time for the autocommit period of a file in an FSx for ONTAP SnapLock volume.  The following ranges are valid:     Minutes: 5 - 65,535    Hours: 1 - 65,535    Days: 1 - 3,650    Months: 1 - 120    Years: 1 - 10
         public let value: Int?
 
+        @inlinable
         public init(type: AutocommitPeriodType? = nil, value: Int? = nil) {
             self.type = type
             self.value = value
@@ -726,6 +736,7 @@ extension FSx {
         public let type: BackupType?
         public let volume: Volume?
 
+        @inlinable
         public init(backupId: String? = nil, creationTime: Date? = nil, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem? = nil, kmsKeyId: String? = nil, lifecycle: BackupLifecycle? = nil, ownerId: String? = nil, progressPercent: Int? = nil, resourceARN: String? = nil, resourceType: ResourceType? = nil, sourceBackupId: String? = nil, sourceBackupRegion: String? = nil, tags: [Tag]? = nil, type: BackupType? = nil, volume: Volume? = nil) {
             self.backupId = backupId
             self.creationTime = creationTime
@@ -769,6 +780,7 @@ extension FSx {
         /// A message describing the backup-creation failure.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -782,6 +794,7 @@ extension FSx {
         /// Specifies the data repository task to cancel.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -803,6 +816,7 @@ extension FSx {
         /// The ID of the task being canceled.
         public let taskId: String?
 
+        @inlinable
         public init(lifecycle: DataRepositoryTaskLifecycle? = nil, taskId: String? = nil) {
             self.lifecycle = lifecycle
             self.taskId = taskId
@@ -824,6 +838,7 @@ extension FSx {
         /// Required if Enabled is set to true. Specifies the scope of the CompletionReport; FAILED_FILES_ONLY is the only scope currently supported.  When Scope is set to FAILED_FILES_ONLY, the CompletionReport only contains information about files that the data repository task failed to process.
         public let scope: ReportScope?
 
+        @inlinable
         public init(enabled: Bool? = nil, format: ReportFormat? = nil, path: String? = nil, scope: ReportScope? = nil) {
             self.enabled = enabled
             self.format = format
@@ -856,6 +871,7 @@ extension FSx {
         public let sourceRegion: String?
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CopyBackupRequest.idempotencyToken(), copyTags: Bool? = nil, kmsKeyId: String? = nil, sourceBackupId: String? = nil, sourceRegion: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.copyTags = copyTags
@@ -898,6 +914,7 @@ extension FSx {
     public struct CopyBackupResponse: AWSDecodableShape {
         public let backup: Backup?
 
+        @inlinable
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -917,6 +934,7 @@ extension FSx {
         /// Specifies the ID of the volume that you are copying the snapshot to.
         public let volumeId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = CopySnapshotAndUpdateVolumeRequest.idempotencyToken(), copyStrategy: OpenZFSCopyStrategy? = nil, options: [UpdateOpenZFSVolumeOption]? = nil, sourceSnapshotARN: String? = nil, volumeId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.copyStrategy = copyStrategy
@@ -954,6 +972,7 @@ extension FSx {
         /// The ID of the volume that you copied the snapshot to.
         public let volumeId: String?
 
+        @inlinable
         public init(administrativeActions: [AdministrativeAction]? = nil, lifecycle: VolumeLifecycle? = nil, volumeId: String? = nil) {
             self.administrativeActions = administrativeActions
             self.lifecycle = lifecycle
@@ -973,6 +992,7 @@ extension FSx {
         /// Used to explicitly set the number of constituents within the FlexGroup per storage aggregate. This field is optional when creating a FlexGroup volume. If unspecified, the default value will be 8. This field cannot be provided when creating a FlexVol volume.
         public let constituentsPerAggregate: Int?
 
+        @inlinable
         public init(aggregates: [String]? = nil, constituentsPerAggregate: Int? = nil) {
             self.aggregates = aggregates
             self.constituentsPerAggregate = constituentsPerAggregate
@@ -1005,6 +1025,7 @@ extension FSx {
         /// (Optional) The ID of the FSx for ONTAP volume to back up.
         public let volumeId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateBackupRequest.idempotencyToken(), fileSystemId: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -1041,6 +1062,7 @@ extension FSx {
         /// A description of the backup.
         public let backup: Backup?
 
+        @inlinable
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -1065,6 +1087,7 @@ extension FSx {
         public let s3: S3DataRepositoryConfiguration?
         public let tags: [Tag]?
 
+        @inlinable
         public init(batchImportMetaDataOnCreate: Bool? = nil, clientRequestToken: String? = CreateDataRepositoryAssociationRequest.idempotencyToken(), dataRepositoryPath: String? = nil, fileSystemId: String? = nil, fileSystemPath: String? = nil, importedFileChunkSize: Int? = nil, s3: S3DataRepositoryConfiguration? = nil, tags: [Tag]? = nil) {
             self.batchImportMetaDataOnCreate = batchImportMetaDataOnCreate
             self.clientRequestToken = clientRequestToken
@@ -1115,6 +1138,7 @@ extension FSx {
         /// The response object returned after the data repository association is created.
         public let association: DataRepositoryAssociation?
 
+        @inlinable
         public init(association: DataRepositoryAssociation? = nil) {
             self.association = association
         }
@@ -1139,6 +1163,7 @@ extension FSx {
         /// Specifies the type of data repository task to create.    EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.    IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.    RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and that meet your specified release criteria.    AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
         public let type: DataRepositoryTaskType?
 
+        @inlinable
         public init(capacityToRelease: Int64? = nil, clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String? = nil, paths: [String]? = nil, releaseConfiguration: ReleaseConfiguration? = nil, report: CompletionReport? = nil, tags: [Tag]? = nil, type: DataRepositoryTaskType? = nil) {
             self.capacityToRelease = capacityToRelease
             self.clientRequestToken = clientRequestToken
@@ -1189,6 +1214,7 @@ extension FSx {
         /// The description of the data repository task that you just created.
         public let dataRepositoryTask: DataRepositoryTask?
 
+        @inlinable
         public init(dataRepositoryTask: DataRepositoryTask? = nil) {
             self.dataRepositoryTask = dataRepositoryTask
         }
@@ -1207,6 +1233,7 @@ extension FSx {
         public let perUnitStorageThroughput: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(deploymentType: FileCacheLustreDeploymentType? = nil, metadataConfiguration: FileCacheLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.deploymentType = deploymentType
             self.metadataConfiguration = metadataConfiguration
@@ -1253,6 +1280,7 @@ extension FSx {
         public let subnetIds: [String]?
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateFileCacheRequest.idempotencyToken(), copyTagsToDataRepositoryAssociations: Bool? = nil, dataRepositoryAssociations: [FileCacheDataRepositoryAssociation]? = nil, fileCacheType: FileCacheType? = nil, fileCacheTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileCacheLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.copyTagsToDataRepositoryAssociations = copyTagsToDataRepositoryAssociations
@@ -1322,6 +1350,7 @@ extension FSx {
         /// A description of the cache that was created.
         public let fileCache: FileCacheCreating?
 
+        @inlinable
         public init(fileCache: FileCacheCreating? = nil) {
             self.fileCache = fileCache
         }
@@ -1354,6 +1383,7 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
+        @inlinable
         public init(backupId: String? = nil, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
@@ -1426,6 +1456,7 @@ extension FSx {
         /// A description of the file system.
         public let fileSystem: FileSystem?
 
+        @inlinable
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -1466,6 +1497,7 @@ extension FSx {
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: CreateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -1533,6 +1565,7 @@ extension FSx {
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.   In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.   In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
         public let mode: MetadataConfigurationMode?
 
+        @inlinable
         public init(iops: Int? = nil, mode: MetadataConfigurationMode? = nil) {
             self.iops = iops
             self.mode = mode
@@ -1572,6 +1605,7 @@ extension FSx {
         public let throughputCapacityPerHAPair: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -1658,6 +1692,7 @@ extension FSx {
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
@@ -1741,6 +1776,7 @@ extension FSx {
         /// The Microsoft Windows configuration for the file system that's being created.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateFileSystemRequest.idempotencyToken(), fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, ontapConfiguration: CreateFileSystemOntapConfiguration? = nil, openZFSConfiguration: CreateFileSystemOpenZFSConfiguration? = nil, securityGroupIds: [String]? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemType = fileSystemType
@@ -1813,6 +1849,7 @@ extension FSx {
         /// The configuration of the file system that was created.
         public let fileSystem: FileSystem?
 
+        @inlinable
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -1847,6 +1884,7 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
@@ -1933,6 +1971,7 @@ extension FSx {
         /// Use to specify the style of an ONTAP volume. FSx for ONTAP offers two styles of volumes that you can use for different purposes,  FlexVol and FlexGroup volumes. For more information, see  Volume styles in the Amazon FSx for NetApp ONTAP User Guide.
         public let volumeStyle: VolumeStyle?
 
+        @inlinable
         public init(aggregateConfiguration: CreateAggregateConfiguration? = nil, copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, ontapVolumeType: InputOntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInBytes: Int64? = nil, snaplockConfiguration: CreateSnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String? = nil, tieringPolicy: TieringPolicy? = nil, volumeStyle: VolumeStyle? = nil) {
             self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
@@ -1950,6 +1989,7 @@ extension FSx {
         }
 
         @available(*, deprecated, message: "Members sizeInMegabytes have been deprecated")
+        @inlinable
         public init(aggregateConfiguration: CreateAggregateConfiguration? = nil, copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, ontapVolumeType: InputOntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInBytes: Int64? = nil, sizeInMegabytes: Int? = nil, snaplockConfiguration: CreateSnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String? = nil, tieringPolicy: TieringPolicy? = nil, volumeStyle: VolumeStyle? = nil) {
             self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
@@ -2006,6 +2046,7 @@ extension FSx {
         public let copyStrategy: OpenZFSCopyStrategy?
         public let snapshotARN: String?
 
+        @inlinable
         public init(copyStrategy: OpenZFSCopyStrategy? = nil, snapshotARN: String? = nil) {
             self.copyStrategy = copyStrategy
             self.snapshotARN = snapshotARN
@@ -2045,6 +2086,7 @@ extension FSx {
         /// Configures how much storage users and groups can use on the volume.
         public let userAndGroupQuotas: [OpenZFSUserOrGroupQuota]?
 
+        @inlinable
         public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, originSnapshot: CreateOpenZFSOriginSnapshotConfiguration? = nil, parentVolumeId: String? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
@@ -2107,6 +2149,7 @@ extension FSx {
         /// Enables or disables volume-append mode  on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to  create WORM-appendable files and write data to them incrementally. The default value is false.  For more information, see Volume-append mode.
         public let volumeAppendModeEnabled: Bool?
 
+        @inlinable
         public init(auditLogVolume: Bool? = nil, autocommitPeriod: AutocommitPeriod? = nil, privilegedDelete: PrivilegedDelete? = nil, retentionPeriod: SnaplockRetentionPeriod? = nil, snaplockType: SnaplockType? = nil, volumeAppendModeEnabled: Bool? = nil) {
             self.auditLogVolume = auditLogVolume
             self.autocommitPeriod = autocommitPeriod
@@ -2139,6 +2182,7 @@ extension FSx {
         /// The ID of the volume that you are taking a snapshot of.
         public let volumeId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateSnapshotRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -2175,6 +2219,7 @@ extension FSx {
         /// A description of the snapshot.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -2197,6 +2242,7 @@ extension FSx {
         public let svmAdminPassword: String?
         public let tags: [Tag]?
 
+        @inlinable
         public init(activeDirectoryConfiguration: CreateSvmActiveDirectoryConfiguration? = nil, clientRequestToken: String? = CreateStorageVirtualMachineRequest.idempotencyToken(), fileSystemId: String? = nil, name: String? = nil, rootVolumeSecurityStyle: StorageVirtualMachineRootVolumeSecurityStyle? = nil, svmAdminPassword: String? = nil, tags: [Tag]? = nil) {
             self.activeDirectoryConfiguration = activeDirectoryConfiguration
             self.clientRequestToken = clientRequestToken
@@ -2243,6 +2289,7 @@ extension FSx {
         /// Returned after a successful CreateStorageVirtualMachine operation; describes the SVM just created.
         public let storageVirtualMachine: StorageVirtualMachine?
 
+        @inlinable
         public init(storageVirtualMachine: StorageVirtualMachine? = nil) {
             self.storageVirtualMachine = storageVirtualMachine
         }
@@ -2257,6 +2304,7 @@ extension FSx {
         public let netBiosName: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration?
 
+        @inlinable
         public init(netBiosName: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil) {
             self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
@@ -2284,6 +2332,7 @@ extension FSx {
         public let ontapConfiguration: CreateOntapVolumeConfiguration?
         public let tags: [Tag]?
 
+        @inlinable
         public init(backupId: String? = nil, clientRequestToken: String? = CreateVolumeFromBackupRequest.idempotencyToken(), name: String? = nil, ontapConfiguration: CreateOntapVolumeConfiguration? = nil, tags: [Tag]? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
@@ -2323,6 +2372,7 @@ extension FSx {
         /// Returned after a successful CreateVolumeFromBackup API operation, describing the volume just created.
         public let volume: Volume?
 
+        @inlinable
         public init(volume: Volume? = nil) {
             self.volume = volume
         }
@@ -2344,6 +2394,7 @@ extension FSx {
         /// Specifies the type of volume to create; ONTAP and OPENZFS are the only valid volume types.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateVolumeRequest.idempotencyToken(), name: String? = nil, ontapConfiguration: CreateOntapVolumeConfiguration? = nil, openZFSConfiguration: CreateOpenZFSVolumeConfiguration? = nil, tags: [Tag]? = nil, volumeType: VolumeType? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -2383,6 +2434,7 @@ extension FSx {
         /// Returned after a successful CreateVolume API operation, describing the volume just created.
         public let volume: Volume?
 
+        @inlinable
         public init(volume: Volume? = nil) {
             self.volume = volume
         }
@@ -2421,6 +2473,7 @@ extension FSx {
         public let s3: S3DataRepositoryConfiguration?
         public let tags: [Tag]?
 
+        @inlinable
         public init(associationId: String? = nil, batchImportMetaDataOnCreate: Bool? = nil, creationTime: Date? = nil, dataRepositoryPath: String? = nil, dataRepositorySubdirectories: [String]? = nil, failureDetails: DataRepositoryFailureDetails? = nil, fileCacheId: String? = nil, fileCachePath: String? = nil, fileSystemId: String? = nil, fileSystemPath: String? = nil, importedFileChunkSize: Int? = nil, lifecycle: DataRepositoryLifecycle? = nil, nfs: NFSDataRepositoryConfiguration? = nil, resourceARN: String? = nil, s3: S3DataRepositoryConfiguration? = nil, tags: [Tag]? = nil) {
             self.associationId = associationId
             self.batchImportMetaDataOnCreate = batchImportMetaDataOnCreate
@@ -2473,6 +2526,7 @@ extension FSx {
         /// Describes the state of the file system's S3 durable data repository, if it is configured with an S3 repository.  The lifecycle can have the following values:    CREATING - The data repository configuration between  the FSx file system and the linked S3 data repository is being created.  The data repository is unavailable.    AVAILABLE - The data repository is available for use.    MISCONFIGURED - Amazon FSx cannot automatically import updates from the S3 bucket  until the data repository configuration is corrected. For more information, see  Troubleshooting a Misconfigured linked S3 bucket.     UPDATING - The data repository is undergoing a customer initiated update and availability may be impacted.    FAILED - The data repository is in a terminal state that cannot be recovered.
         public let lifecycle: DataRepositoryLifecycle?
 
+        @inlinable
         public init(autoImportPolicy: AutoImportPolicyType? = nil, exportPath: String? = nil, failureDetails: DataRepositoryFailureDetails? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, lifecycle: DataRepositoryLifecycle? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.exportPath = exportPath
@@ -2495,6 +2549,7 @@ extension FSx {
     public struct DataRepositoryFailureDetails: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -2534,6 +2589,7 @@ extension FSx {
         /// The type of data repository task.    EXPORT_TO_REPOSITORY tasks export from your Amazon FSx for Lustre file system to a linked data repository.    IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.    RELEASE_DATA_FROM_FILESYSTEM tasks release files in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and that meet your specified release criteria.    AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
         public let type: DataRepositoryTaskType?
 
+        @inlinable
         public init(capacityToRelease: Int64? = nil, creationTime: Date? = nil, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileCacheId: String? = nil, fileSystemId: String? = nil, lifecycle: DataRepositoryTaskLifecycle? = nil, paths: [String]? = nil, releaseConfiguration: ReleaseConfiguration? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String? = nil, type: DataRepositoryTaskType? = nil) {
             self.capacityToRelease = capacityToRelease
             self.creationTime = creationTime
@@ -2576,6 +2632,7 @@ extension FSx {
     public struct DataRepositoryTaskFailureDetails: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -2591,6 +2648,7 @@ extension FSx {
         /// Use Values to include the specific file system IDs and task  lifecycle states for the filters you are using.
         public let values: [String]?
 
+        @inlinable
         public init(name: DataRepositoryTaskFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -2623,6 +2681,7 @@ extension FSx {
         /// The total number of files that the task will process. While a task is executing, the sum of  SucceededCount plus FailedCount may not equal TotalCount. When the task is complete,  TotalCount equals the sum of SucceededCount plus FailedCount.
         public let totalCount: Int64?
 
+        @inlinable
         public init(failedCount: Int64? = nil, lastUpdatedTime: Date? = nil, releasedCapacity: Int64? = nil, succeededCount: Int64? = nil, totalCount: Int64? = nil) {
             self.failedCount = failedCount
             self.lastUpdatedTime = lastUpdatedTime
@@ -2646,6 +2705,7 @@ extension FSx {
         /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This parameter is automatically filled on your behalf when using the CLI or SDK.
         public let clientRequestToken: String?
 
+        @inlinable
         public init(backupId: String? = nil, clientRequestToken: String? = DeleteBackupRequest.idempotencyToken()) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
@@ -2672,6 +2732,7 @@ extension FSx {
         /// The lifecycle status of the backup. If the DeleteBackup operation is successful, the status is DELETED.
         public let lifecycle: BackupLifecycle?
 
+        @inlinable
         public init(backupId: String? = nil, lifecycle: BackupLifecycle? = nil) {
             self.backupId = backupId
             self.lifecycle = lifecycle
@@ -2690,6 +2751,7 @@ extension FSx {
         /// Set to true to delete the data in the file system that corresponds to the data repository association.
         public let deleteDataInFileSystem: Bool?
 
+        @inlinable
         public init(associationId: String? = nil, clientRequestToken: String? = DeleteDataRepositoryAssociationRequest.idempotencyToken(), deleteDataInFileSystem: Bool? = nil) {
             self.associationId = associationId
             self.clientRequestToken = clientRequestToken
@@ -2720,6 +2782,7 @@ extension FSx {
         /// Describes the lifecycle state of the data repository association being deleted.
         public let lifecycle: DataRepositoryLifecycle?
 
+        @inlinable
         public init(associationId: String? = nil, deleteDataInFileSystem: Bool? = nil, lifecycle: DataRepositoryLifecycle? = nil) {
             self.associationId = associationId
             self.deleteDataInFileSystem = deleteDataInFileSystem
@@ -2738,6 +2801,7 @@ extension FSx {
         /// The ID of the cache that's being deleted.
         public let fileCacheId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = DeleteFileCacheRequest.idempotencyToken(), fileCacheId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileCacheId = fileCacheId
@@ -2764,6 +2828,7 @@ extension FSx {
         /// The cache lifecycle for the deletion request. If the DeleteFileCache operation is successful, this status is DELETING.
         public let lifecycle: FileCacheLifecycle?
 
+        @inlinable
         public init(fileCacheId: String? = nil, lifecycle: FileCacheLifecycle? = nil) {
             self.fileCacheId = fileCacheId
             self.lifecycle = lifecycle
@@ -2781,6 +2846,7 @@ extension FSx {
         /// Set SkipFinalBackup to false if you want to take a final backup of the file  system you are deleting. By default, Amazon FSx will not take a final backup on your behalf when the DeleteFileSystem operation is invoked. (Default = true)  The fsx:CreateBackup permission is required if you set SkipFinalBackup to false in order to delete the file system and take a final backup.
         public let skipFinalBackup: Bool?
 
+        @inlinable
         public init(finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
@@ -2806,6 +2872,7 @@ extension FSx {
         /// The set of tags applied to the final backup.
         public let finalBackupTags: [Tag]?
 
+        @inlinable
         public init(finalBackupId: String? = nil, finalBackupTags: [Tag]? = nil) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
@@ -2825,6 +2892,7 @@ extension FSx {
         /// By default, Amazon FSx for OpenZFS takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip taking a final backup, set this value to true.
         public let skipFinalBackup: Bool?
 
+        @inlinable
         public init(finalBackupTags: [Tag]? = nil, options: [DeleteFileSystemOpenZFSOption]? = nil, skipFinalBackup: Bool? = nil) {
             self.finalBackupTags = finalBackupTags
             self.options = options
@@ -2851,6 +2919,7 @@ extension FSx {
         public let finalBackupId: String?
         public let finalBackupTags: [Tag]?
 
+        @inlinable
         public init(finalBackupId: String? = nil, finalBackupTags: [Tag]? = nil) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
@@ -2872,6 +2941,7 @@ extension FSx {
         public let openZFSConfiguration: DeleteFileSystemOpenZFSConfiguration?
         public let windowsConfiguration: DeleteFileSystemWindowsConfiguration?
 
+        @inlinable
         public init(clientRequestToken: String? = DeleteFileSystemRequest.idempotencyToken(), fileSystemId: String? = nil, lustreConfiguration: DeleteFileSystemLustreConfiguration? = nil, openZFSConfiguration: DeleteFileSystemOpenZFSConfiguration? = nil, windowsConfiguration: DeleteFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -2911,6 +2981,7 @@ extension FSx {
         public let openZFSResponse: DeleteFileSystemOpenZFSResponse?
         public let windowsResponse: DeleteFileSystemWindowsResponse?
 
+        @inlinable
         public init(fileSystemId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreResponse: DeleteFileSystemLustreResponse? = nil, openZFSResponse: DeleteFileSystemOpenZFSResponse? = nil, windowsResponse: DeleteFileSystemWindowsResponse? = nil) {
             self.fileSystemId = fileSystemId
             self.lifecycle = lifecycle
@@ -2934,6 +3005,7 @@ extension FSx {
         /// By default, Amazon FSx for Windows takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip this backup, use this flag to do so.
         public let skipFinalBackup: Bool?
 
+        @inlinable
         public init(finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
@@ -2959,6 +3031,7 @@ extension FSx {
         /// The set of tags applied to the final backup.
         public let finalBackupTags: [Tag]?
 
+        @inlinable
         public init(finalBackupId: String? = nil, finalBackupTags: [Tag]? = nil) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
@@ -2975,6 +3048,7 @@ extension FSx {
         /// The ID of the snapshot that you want to delete.
         public let snapshotId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = DeleteSnapshotRequest.idempotencyToken(), snapshotId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.snapshotId = snapshotId
@@ -3001,6 +3075,7 @@ extension FSx {
         /// The ID of the deleted snapshot.
         public let snapshotId: String?
 
+        @inlinable
         public init(lifecycle: SnapshotLifecycle? = nil, snapshotId: String? = nil) {
             self.lifecycle = lifecycle
             self.snapshotId = snapshotId
@@ -3017,6 +3092,7 @@ extension FSx {
         /// The ID of the SVM that you want to delete.
         public let storageVirtualMachineId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = DeleteStorageVirtualMachineRequest.idempotencyToken(), storageVirtualMachineId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.storageVirtualMachineId = storageVirtualMachineId
@@ -3043,6 +3119,7 @@ extension FSx {
         /// The ID of the SVM Amazon FSx is deleting.
         public let storageVirtualMachineId: String?
 
+        @inlinable
         public init(lifecycle: StorageVirtualMachineLifecycle? = nil, storageVirtualMachineId: String? = nil) {
             self.lifecycle = lifecycle
             self.storageVirtualMachineId = storageVirtualMachineId
@@ -3061,6 +3138,7 @@ extension FSx {
         /// Set to true if you want to skip taking a final backup of the volume  you are deleting.
         public let skipFinalBackup: Bool?
 
+        @inlinable
         public init(bypassSnaplockEnterpriseRetention: Bool? = nil, finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
             self.bypassSnaplockEnterpriseRetention = bypassSnaplockEnterpriseRetention
             self.finalBackupTags = finalBackupTags
@@ -3086,6 +3164,7 @@ extension FSx {
         public let finalBackupId: String?
         public let finalBackupTags: [Tag]?
 
+        @inlinable
         public init(finalBackupId: String? = nil, finalBackupTags: [Tag]? = nil) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
@@ -3101,6 +3180,7 @@ extension FSx {
         /// To delete the volume's child volumes, snapshots, and clones, use the string DELETE_CHILD_VOLUMES_AND_SNAPSHOTS.
         public let options: [DeleteOpenZFSVolumeOption]?
 
+        @inlinable
         public init(options: [DeleteOpenZFSVolumeOption]? = nil) {
             self.options = options
         }
@@ -3123,6 +3203,7 @@ extension FSx {
         /// The ID of the volume that you are deleting.
         public let volumeId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = DeleteVolumeRequest.idempotencyToken(), ontapConfiguration: DeleteVolumeOntapConfiguration? = nil, openZFSConfiguration: DeleteVolumeOpenZFSConfiguration? = nil, volumeId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.ontapConfiguration = ontapConfiguration
@@ -3157,6 +3238,7 @@ extension FSx {
         /// The ID of the volume that's being deleted.
         public let volumeId: String?
 
+        @inlinable
         public init(lifecycle: VolumeLifecycle? = nil, ontapResponse: DeleteVolumeOntapResponse? = nil, volumeId: String? = nil) {
             self.lifecycle = lifecycle
             self.ontapResponse = ontapResponse
@@ -3180,6 +3262,7 @@ extension FSx {
         /// An opaque pagination token returned from a previous DescribeBackups operation. If a token is present, the operation continues the list from where the returning call left off.
         public let nextToken: String?
 
+        @inlinable
         public init(backupIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupIds = backupIds
             self.filters = filters
@@ -3219,6 +3302,7 @@ extension FSx {
         /// A NextToken value is present if there are more backups than returned in the response. You can use the NextToken value in the subsequent request to fetch the backups.
         public let nextToken: String?
 
+        @inlinable
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
@@ -3238,6 +3322,7 @@ extension FSx {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(associationIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationIds = associationIds
             self.filters = filters
@@ -3276,6 +3361,7 @@ extension FSx {
         public let associations: [DataRepositoryAssociation]?
         public let nextToken: String?
 
+        @inlinable
         public init(associations: [DataRepositoryAssociation]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -3295,6 +3381,7 @@ extension FSx {
         /// (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
         public let taskIds: [String]?
 
+        @inlinable
         public init(filters: [DataRepositoryTaskFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, taskIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3333,6 +3420,7 @@ extension FSx {
         public let dataRepositoryTasks: [DataRepositoryTask]?
         public let nextToken: String?
 
+        @inlinable
         public init(dataRepositoryTasks: [DataRepositoryTask]? = nil, nextToken: String? = nil) {
             self.dataRepositoryTasks = dataRepositoryTasks
             self.nextToken = nextToken
@@ -3350,6 +3438,7 @@ extension FSx {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(fileCacheIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fileCacheIds = fileCacheIds
             self.maxResults = maxResults
@@ -3382,6 +3471,7 @@ extension FSx {
         public let fileCaches: [FileCache]?
         public let nextToken: String?
 
+        @inlinable
         public init(fileCaches: [FileCache]? = nil, nextToken: String? = nil) {
             self.fileCaches = fileCaches
             self.nextToken = nextToken
@@ -3402,6 +3492,7 @@ extension FSx {
         /// Opaque pagination token returned from a previous DescribeFileSystemAliases operation (String). If a token is included in the request, the action continues the list from where the previous returning call left off.
         public let nextToken: String?
 
+        @inlinable
         public init(clientRequestToken: String? = DescribeFileSystemAliasesRequest.idempotencyToken(), fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -3437,6 +3528,7 @@ extension FSx {
         /// Present if there are more DNS aliases than returned in the response (String). You can use the NextToken value in a later request to fetch additional descriptions.
         public let nextToken: String?
 
+        @inlinable
         public init(aliases: [Alias]? = nil, nextToken: String? = nil) {
             self.aliases = aliases
             self.nextToken = nextToken
@@ -3456,6 +3548,7 @@ extension FSx {
         /// Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the operation continues the list from where the returning call left off.
         public let nextToken: String?
 
+        @inlinable
         public init(fileSystemIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fileSystemIds = fileSystemIds
             self.maxResults = maxResults
@@ -3489,6 +3582,7 @@ extension FSx {
         /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions.
         public let nextToken: String?
 
+        @inlinable
         public init(fileSystems: [FileSystem]? = nil, nextToken: String? = nil) {
             self.fileSystems = fileSystems
             self.nextToken = nextToken
@@ -3508,6 +3602,7 @@ extension FSx {
         /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
         public let enableFsxRouteTableUpdatesFromParticipantAccounts: String?
 
+        @inlinable
         public init(enableFsxRouteTableUpdatesFromParticipantAccounts: String? = nil) {
             self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
         }
@@ -3527,6 +3622,7 @@ extension FSx {
         /// The IDs of the snapshots that you want to retrieve. This parameter value overrides any filters. If any IDs aren't found, a SnapshotNotFound error occurs.
         public let snapshotIds: [String]?
 
+        @inlinable
         public init(filters: [SnapshotFilter]? = nil, includeShared: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
             self.filters = filters
             self.includeShared = includeShared
@@ -3567,6 +3663,7 @@ extension FSx {
         /// An array of snapshots.
         public let snapshots: [Snapshot]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -3586,6 +3683,7 @@ extension FSx {
         /// Enter the ID of one or more SVMs that you want to view.
         public let storageVirtualMachineIds: [String]?
 
+        @inlinable
         public init(filters: [StorageVirtualMachineFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, storageVirtualMachineIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3624,6 +3722,7 @@ extension FSx {
         /// Returned after a successful DescribeStorageVirtualMachines operation, describing each SVM.
         public let storageVirtualMachines: [StorageVirtualMachine]?
 
+        @inlinable
         public init(nextToken: String? = nil, storageVirtualMachines: [StorageVirtualMachine]? = nil) {
             self.nextToken = nextToken
             self.storageVirtualMachines = storageVirtualMachines
@@ -3643,6 +3742,7 @@ extension FSx {
         /// The IDs of the volumes whose descriptions you want to retrieve.
         public let volumeIds: [String]?
 
+        @inlinable
         public init(filters: [VolumeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, volumeIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3681,6 +3781,7 @@ extension FSx {
         /// Returned after a successful DescribeVolumes operation, describing each volume.
         public let volumes: [Volume]?
 
+        @inlinable
         public init(nextToken: String? = nil, volumes: [Volume]? = nil) {
             self.nextToken = nextToken
             self.volumes = volumes
@@ -3699,6 +3800,7 @@ extension FSx {
         /// Specifies the file system from which to disassociate the DNS aliases.
         public let fileSystemId: String?
 
+        @inlinable
         public init(aliases: [String]? = nil, clientRequestToken: String? = DisassociateFileSystemAliasesRequest.idempotencyToken(), fileSystemId: String? = nil) {
             self.aliases = aliases
             self.clientRequestToken = clientRequestToken
@@ -3731,6 +3833,7 @@ extension FSx {
         /// An array of one or more DNS aliases that Amazon FSx is attempting to disassociate from the file system.
         public let aliases: [Alias]?
 
+        @inlinable
         public init(aliases: [Alias]? = nil) {
             self.aliases = aliases
         }
@@ -3746,6 +3849,7 @@ extension FSx {
         /// Specifies whether the file system is  using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, or  if it using a USER_PROVISIONED value.
         public let mode: DiskIopsConfigurationMode?
 
+        @inlinable
         public init(iops: Int64? = nil, mode: DiskIopsConfigurationMode? = nil) {
             self.iops = iops
             self.mode = mode
@@ -3768,6 +3872,7 @@ extension FSx {
         /// An integer that represents the minimum amount of time (in days) since a file was last accessed in the file system. Only exported files with a MAX(atime, ctime, mtime) timestamp that is more than this amount of time in the past (relative to the task create time) will be released. The default of Value is 0. This is a required parameter.  If an exported file meets the last accessed time criteria, its file or directory path must also be specified in the Paths parameter of the  operation in order for the file to be released.
         public let value: Int64?
 
+        @inlinable
         public init(unit: Unit? = nil, value: Int64? = nil) {
             self.unit = unit
             self.value = value
@@ -3811,6 +3916,7 @@ extension FSx {
         public let subnetIds: [String]?
         public let vpcId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataRepositoryAssociationIds: [String]? = nil, dnsName: String? = nil, failureDetails: FileCacheFailureDetails? = nil, fileCacheId: String? = nil, fileCacheType: FileCacheType? = nil, fileCacheTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileCacheLifecycle? = nil, lustreConfiguration: FileCacheLustreConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.creationTime = creationTime
             self.dataRepositoryAssociationIds = dataRepositoryAssociationIds
@@ -3881,6 +3987,7 @@ extension FSx {
         public let tags: [Tag]?
         public let vpcId: String?
 
+        @inlinable
         public init(copyTagsToDataRepositoryAssociations: Bool? = nil, creationTime: Date? = nil, dataRepositoryAssociationIds: [String]? = nil, dnsName: String? = nil, failureDetails: FileCacheFailureDetails? = nil, fileCacheId: String? = nil, fileCacheType: FileCacheType? = nil, fileCacheTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileCacheLifecycle? = nil, lustreConfiguration: FileCacheLustreConfiguration? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.copyTagsToDataRepositoryAssociations = copyTagsToDataRepositoryAssociations
             self.creationTime = creationTime
@@ -3934,6 +4041,7 @@ extension FSx {
         /// The configuration for a data repository association that links an Amazon File Cache resource to an NFS data repository.
         public let nfs: FileCacheNFSConfiguration?
 
+        @inlinable
         public init(dataRepositoryPath: String? = nil, dataRepositorySubdirectories: [String]? = nil, fileCachePath: String? = nil, nfs: FileCacheNFSConfiguration? = nil) {
             self.dataRepositoryPath = dataRepositoryPath
             self.dataRepositorySubdirectories = dataRepositorySubdirectories
@@ -3969,6 +4077,7 @@ extension FSx {
         /// A message describing any failures that occurred.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -3991,6 +4100,7 @@ extension FSx {
         public let perUnitStorageThroughput: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(deploymentType: FileCacheLustreDeploymentType? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileCacheLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.deploymentType = deploymentType
             self.logConfiguration = logConfiguration
@@ -4014,6 +4124,7 @@ extension FSx {
         /// The storage capacity of the Lustre MDT (Metadata Target) storage volume in gibibytes (GiB). The only supported value is 2400 GiB.
         public let storageCapacity: Int?
 
+        @inlinable
         public init(storageCapacity: Int? = nil) {
             self.storageCapacity = storageCapacity
         }
@@ -4034,6 +4145,7 @@ extension FSx {
         /// The version of the NFS (Network File System) protocol of the NFS data repository. The only supported value is NFS3, which indicates that the data repository must support the NFSv3 protocol.
         public let version: NfsVersion?
 
+        @inlinable
         public init(dnsIps: [String]? = nil, version: NfsVersion? = nil) {
             self.dnsIps = dnsIps
             self.version = version
@@ -4096,6 +4208,7 @@ extension FSx {
         /// The configuration for this Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
+        @inlinable
         public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dnsName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, openZFSConfiguration: OpenZFSFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
@@ -4150,6 +4263,7 @@ extension FSx {
         /// IP addresses of the file system endpoint.
         public let ipAddresses: [String]?
 
+        @inlinable
         public init(dnsName: String? = nil, ipAddresses: [String]? = nil) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
@@ -4167,6 +4281,7 @@ extension FSx {
         /// An endpoint for managing your file system using the NetApp ONTAP CLI and NetApp ONTAP API.
         public let management: FileSystemEndpoint?
 
+        @inlinable
         public init(intercluster: FileSystemEndpoint? = nil, management: FileSystemEndpoint? = nil) {
             self.intercluster = intercluster
             self.management = management
@@ -4182,6 +4297,7 @@ extension FSx {
         /// A message describing any failures that occurred.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -4197,6 +4313,7 @@ extension FSx {
         /// The metadata configuration mode for provisioning Metadata IOPS for the file system.   In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.   In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
         public let mode: MetadataConfigurationMode?
 
+        @inlinable
         public init(iops: Int? = nil, mode: MetadataConfigurationMode? = nil) {
             self.iops = iops
             self.mode = mode
@@ -4214,6 +4331,7 @@ extension FSx {
         /// The values of the filter. These are all the values for any of the applied filters.
         public let values: [String]?
 
+        @inlinable
         public init(name: FilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -4237,6 +4355,7 @@ extension FSx {
     public struct LifecycleTransitionReason: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -4254,6 +4373,7 @@ extension FSx {
         /// The ARN of the Amazon FSx resource that will have its tags listed.
         public let resourceARN: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4284,6 +4404,7 @@ extension FSx {
         /// A list of tags on the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -4320,6 +4441,7 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Here, d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileSystemLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
@@ -4359,6 +4481,7 @@ extension FSx {
         /// The data repository events that are logged by Amazon FSx.    WARN_ONLY - only warning events are logged.    ERROR_ONLY - only error events are logged.    WARN_ERROR - both warning events and error events are logged.    DISABLED - logging of data repository events is turned off.   Note that Amazon File Cache uses a default setting of WARN_ERROR, which can't be changed.
         public let level: LustreAccessAuditLogLevel?
 
+        @inlinable
         public init(destination: String? = nil, level: LustreAccessAuditLogLevel? = nil) {
             self.destination = destination
             self.level = level
@@ -4376,6 +4499,7 @@ extension FSx {
         /// Sets which data repository events are logged by Amazon FSx.    WARN_ONLY - only warning events are logged.    ERROR_ONLY - only error events are logged.    WARN_ERROR - both warning events and error events are logged.    DISABLED - logging of data repository events is turned off.
         public let level: LustreAccessAuditLogLevel?
 
+        @inlinable
         public init(destination: String? = nil, level: LustreAccessAuditLogLevel? = nil) {
             self.destination = destination
             self.level = level
@@ -4399,6 +4523,7 @@ extension FSx {
         /// You enable root squash by setting a user ID (UID) and group ID (GID) for the file system in the format UID:GID (for example, 365534:65534). The UID and GID values can range from 0 to 4294967294:   A non-zero value for UID and GID enables root squash. The UID and GID values can be different, but each must be a non-zero value.   A value of 0 (zero) for UID and GID indicates root, and therefore disables root squash.   When root squash is enabled, the user ID and group ID of a root user accessing the file system are re-mapped to the UID and GID you provide.
         public let rootSquash: String?
 
+        @inlinable
         public init(noSquashNids: [String]? = nil, rootSquash: String? = nil) {
             self.noSquashNids = noSquashNids
             self.rootSquash = rootSquash
@@ -4430,6 +4555,7 @@ extension FSx {
         /// The version of the NFS (Network File System) protocol of the NFS data repository. Currently, the only supported value is NFS3, which indicates that the data repository must support the NFSv3 protocol.
         public let version: NfsVersion?
 
+        @inlinable
         public init(autoExportPolicy: AutoExportPolicy? = nil, dnsIps: [String]? = nil, version: NfsVersion? = nil) {
             self.autoExportPolicy = autoExportPolicy
             self.dnsIps = dnsIps
@@ -4466,6 +4592,7 @@ extension FSx {
         public let throughputCapacityPerHAPair: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpoints: FileSystemEndpoints? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -4533,6 +4660,7 @@ extension FSx {
         /// Use to specify the style of an ONTAP volume. For more information about FlexVols and FlexGroups, see Volume types in Amazon FSx for NetApp ONTAP User Guide.
         public let volumeStyle: VolumeStyle?
 
+        @inlinable
         public init(aggregateConfiguration: AggregateConfiguration? = nil, copyTagsToBackups: Bool? = nil, flexCacheEndpointType: FlexCacheEndpointType? = nil, junctionPath: String? = nil, ontapVolumeType: OntapVolumeType? = nil, securityStyle: SecurityStyle? = nil, sizeInBytes: Int64? = nil, sizeInMegabytes: Int? = nil, snaplockConfiguration: SnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, storageVirtualMachineId: String? = nil, storageVirtualMachineRoot: Bool? = nil, tieringPolicy: TieringPolicy? = nil, uuid: String? = nil, volumeStyle: VolumeStyle? = nil) {
             self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
@@ -4578,6 +4706,7 @@ extension FSx {
         /// The options to use when mounting the file system. For a list of options that you can use with Network File System (NFS), see the exports(5) - Linux man page. When choosing your options, consider the following:    crossmnt is used by default. If you don't specify crossmnt when changing the client configuration, you won't be able to see or access snapshots in your file system's snapshot directory.    sync is used by default. If you instead specify async, the system acknowledges writes before writing to disk. If the system crashes before the writes are finished, you lose the unwritten data.
         public let options: [String]?
 
+        @inlinable
         public init(clients: String? = nil, options: [String]? = nil) {
             self.clients = clients
             self.options = options
@@ -4616,6 +4745,7 @@ extension FSx {
         /// An object specifying how much storage users or groups can use on the volume.
         public let userAndGroupQuotas: [OpenZFSUserOrGroupQuota]?
 
+        @inlinable
         public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
@@ -4672,6 +4802,7 @@ extension FSx {
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddress: String? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, rootVolumeId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
@@ -4709,6 +4840,7 @@ extension FSx {
         /// A list of configuration objects that contain the client and options for mounting the OpenZFS file system.
         public let clientConfigurations: [OpenZFSClientConfiguration]?
 
+        @inlinable
         public init(clientConfigurations: [OpenZFSClientConfiguration]? = nil) {
             self.clientConfigurations = clientConfigurations
         }
@@ -4730,6 +4862,7 @@ extension FSx {
         public let copyStrategy: OpenZFSCopyStrategy?
         public let snapshotARN: String?
 
+        @inlinable
         public init(copyStrategy: OpenZFSCopyStrategy? = nil, snapshotARN: String? = nil) {
             self.copyStrategy = copyStrategy
             self.snapshotARN = snapshotARN
@@ -4749,6 +4882,7 @@ extension FSx {
         /// Specifies whether the quota applies to a user or group.
         public let type: OpenZFSQuotaType?
 
+        @inlinable
         public init(id: Int? = nil, storageCapacityQuotaGiB: Int? = nil, type: OpenZFSQuotaType? = nil) {
             self.id = id
             self.storageCapacityQuotaGiB = storageCapacityQuotaGiB
@@ -4806,6 +4940,7 @@ extension FSx {
         /// The path to the volume from the root volume. For example, fsx/parentVolume/volume1.
         public let volumePath: String?
 
+        @inlinable
         public init(copyStrategy: OpenZFSCopyStrategy? = nil, copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, deleteClonedVolumes: Bool? = nil, deleteIntermediateData: Bool? = nil, deleteIntermediateSnaphots: Bool? = nil, destinationSnapshot: String? = nil, nfsExports: [OpenZFSNfsExport]? = nil, originSnapshot: OpenZFSOriginSnapshotConfiguration? = nil, parentVolumeId: String? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, restoreToSnapshot: String? = nil, sourceSnapshotARN: String? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil, volumePath: String? = nil) {
             self.copyStrategy = copyStrategy
             self.copyTagsToSnapshots = copyTagsToSnapshots
@@ -4853,6 +4988,7 @@ extension FSx {
         /// Defines the point-in-time since an exported file was last accessed, in order for that file to be eligible for release. Only files that were last accessed before this point-in-time are eligible to be released from the file system.
         public let durationSinceLastAccess: DurationSinceLastAccess?
 
+        @inlinable
         public init(durationSinceLastAccess: DurationSinceLastAccess? = nil) {
             self.durationSinceLastAccess = durationSinceLastAccess
         }
@@ -4870,6 +5006,7 @@ extension FSx {
         public let clientRequestToken: String?
         public let fileSystemId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = ReleaseFileSystemNfsV3LocksRequest.idempotencyToken(), fileSystemId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -4893,6 +5030,7 @@ extension FSx {
     public struct ReleaseFileSystemNfsV3LocksResponse: AWSDecodableShape {
         public let fileSystem: FileSystem?
 
+        @inlinable
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -4911,6 +5049,7 @@ extension FSx {
         /// The ID of the volume that you are restoring.
         public let volumeId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = RestoreVolumeFromSnapshotRequest.idempotencyToken(), options: [RestoreOpenZFSVolumeOption]? = nil, snapshotId: String? = nil, volumeId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.options = options
@@ -4947,6 +5086,7 @@ extension FSx {
         /// The ID of the volume that you restored.
         public let volumeId: String?
 
+        @inlinable
         public init(administrativeActions: [AdministrativeAction]? = nil, lifecycle: VolumeLifecycle? = nil, volumeId: String? = nil) {
             self.administrativeActions = administrativeActions
             self.lifecycle = lifecycle
@@ -4966,6 +5106,7 @@ extension FSx {
         /// Defines the amount of time for the retention period of an FSx for ONTAP SnapLock volume.  You can't set a value for INFINITE or UNSPECIFIED. For all other options, the  following ranges are valid:     Seconds: 0 - 65,535    Minutes: 0 - 65,535    Hours: 0 - 24    Days: 0 - 365    Months: 0 - 12    Years: 0 - 100
         public let value: Int?
 
+        @inlinable
         public init(type: RetentionPeriodType? = nil, value: Int? = nil) {
             self.type = type
             self.value = value
@@ -4988,6 +5129,7 @@ extension FSx {
         /// Specifies the type of updated objects (new, changed, deleted) that will be automatically imported from the linked S3 bucket to your file system.
         public let autoImportPolicy: AutoImportPolicy?
 
+        @inlinable
         public init(autoExportPolicy: AutoExportPolicy? = nil, autoImportPolicy: AutoImportPolicy? = nil) {
             self.autoExportPolicy = autoExportPolicy
             self.autoImportPolicy = autoImportPolicy
@@ -5016,6 +5158,7 @@ extension FSx {
         /// The user name for the service account on your self-managed AD domain that FSx uses to join to your AD domain.
         public let userName: String?
 
+        @inlinable
         public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
             self.domainName = domainName
@@ -5047,6 +5190,7 @@ extension FSx {
         /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName, or in the default location of your AD domain.
         public let userName: String?
 
+        @inlinable
         public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
             self.domainName = domainName
@@ -5105,6 +5249,7 @@ extension FSx {
         /// Specifies the updated user name for the service account on your self-managed Active Directory domain. Amazon FSx uses this account to join to your self-managed Active Directory domain. This account must have the permissions required to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
         public let userName: String?
 
+        @inlinable
         public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
             self.domainName = domainName
@@ -5163,6 +5308,7 @@ extension FSx {
         /// Enables or disables volume-append mode  on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to  create WORM-appendable files and write data to them incrementally.  The default value is false.  For more information, see Volume-append mode.
         public let volumeAppendModeEnabled: Bool?
 
+        @inlinable
         public init(auditLogVolume: Bool? = nil, autocommitPeriod: AutocommitPeriod? = nil, privilegedDelete: PrivilegedDelete? = nil, retentionPeriod: SnaplockRetentionPeriod? = nil, snaplockType: SnaplockType? = nil, volumeAppendModeEnabled: Bool? = nil) {
             self.auditLogVolume = auditLogVolume
             self.autocommitPeriod = autocommitPeriod
@@ -5190,6 +5336,7 @@ extension FSx {
         /// The shortest retention period that can be assigned to a WORM file on an FSx for ONTAP SnapLock volume.
         public let minimumRetention: RetentionPeriod?
 
+        @inlinable
         public init(defaultRetention: RetentionPeriod? = nil, maximumRetention: RetentionPeriod? = nil, minimumRetention: RetentionPeriod? = nil) {
             self.defaultRetention = defaultRetention
             self.maximumRetention = maximumRetention
@@ -5225,6 +5372,7 @@ extension FSx {
         /// The ID of the volume that the snapshot is of.
         public let volumeId: String?
 
+        @inlinable
         public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, lifecycle: SnapshotLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, resourceARN: String? = nil, snapshotId: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
@@ -5256,6 +5404,7 @@ extension FSx {
         /// The file-system-id or volume-id that you are filtering for.
         public let values: [String]?
 
+        @inlinable
         public init(name: SnapshotFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -5280,6 +5429,7 @@ extension FSx {
         public let clientRequestToken: String?
         public let fileSystemId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = StartMisconfiguredStateRecoveryRequest.idempotencyToken(), fileSystemId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -5303,6 +5453,7 @@ extension FSx {
     public struct StartMisconfiguredStateRecoveryResponse: AWSDecodableShape {
         public let fileSystem: FileSystem?
 
+        @inlinable
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -5336,6 +5487,7 @@ extension FSx {
         /// The SVM's UUID (universally unique identifier).
         public let uuid: String?
 
+        @inlinable
         public init(activeDirectoryConfiguration: SvmActiveDirectoryConfiguration? = nil, creationTime: Date? = nil, endpoints: SvmEndpoints? = nil, fileSystemId: String? = nil, lifecycle: StorageVirtualMachineLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, resourceARN: String? = nil, rootVolumeSecurityStyle: StorageVirtualMachineRootVolumeSecurityStyle? = nil, storageVirtualMachineId: String? = nil, subtype: StorageVirtualMachineSubtype? = nil, tags: [Tag]? = nil, uuid: String? = nil) {
             self.activeDirectoryConfiguration = activeDirectoryConfiguration
             self.creationTime = creationTime
@@ -5375,6 +5527,7 @@ extension FSx {
         /// The values of the filter. These are all the values for any of the applied filters.
         public let values: [String]?
 
+        @inlinable
         public init(name: StorageVirtualMachineFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -5400,6 +5553,7 @@ extension FSx {
         public let netBiosName: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes?
 
+        @inlinable
         public init(netBiosName: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil) {
             self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
@@ -5416,6 +5570,7 @@ extension FSx {
         /// The SVM endpoint's IP addresses.
         public let ipAddresses: [String]?
 
+        @inlinable
         public init(dnsName: String? = nil, ipAddresses: [String]? = nil) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
@@ -5437,6 +5592,7 @@ extension FSx {
         /// An endpoint for connecting using the Server Message Block (SMB) protocol.
         public let smb: SvmEndpoint?
 
+        @inlinable
         public init(iscsi: SvmEndpoint? = nil, management: SvmEndpoint? = nil, nfs: SvmEndpoint? = nil, smb: SvmEndpoint? = nil) {
             self.iscsi = iscsi
             self.management = management
@@ -5458,6 +5614,7 @@ extension FSx {
         /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5483,6 +5640,7 @@ extension FSx {
         /// A list of tags for the resource. If a tag with a given key already exists, the value is replaced by the one specified in this parameter.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tags: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -5515,6 +5673,7 @@ extension FSx {
         /// Specifies the tiering policy used to transition data. Default value is SNAPSHOT_ONLY.    SNAPSHOT_ONLY - moves cold snapshots to the capacity pool storage tier.    AUTO - moves cold user data and snapshots to the capacity pool storage tier based on your access patterns.    ALL - moves all user data blocks in both the active file system and Snapshot copies to the storage pool tier.    NONE - keeps a volume's data in the primary storage tier, preventing it from being moved to the capacity pool tier.
         public let name: TieringPolicyName?
 
+        @inlinable
         public init(coolingPeriod: Int? = nil, name: TieringPolicyName? = nil) {
             self.coolingPeriod = coolingPeriod
             self.name = name
@@ -5537,6 +5696,7 @@ extension FSx {
         /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tagKeys: [String]? = nil) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -5574,6 +5734,7 @@ extension FSx {
         /// The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository.
         public let s3: S3DataRepositoryConfiguration?
 
+        @inlinable
         public init(associationId: String? = nil, clientRequestToken: String? = UpdateDataRepositoryAssociationRequest.idempotencyToken(), importedFileChunkSize: Int? = nil, s3: S3DataRepositoryConfiguration? = nil) {
             self.associationId = associationId
             self.clientRequestToken = clientRequestToken
@@ -5605,6 +5766,7 @@ extension FSx {
         /// The response object returned after the data repository association is updated.
         public let association: DataRepositoryAssociation?
 
+        @inlinable
         public init(association: DataRepositoryAssociation? = nil) {
             self.association = association
         }
@@ -5617,6 +5779,7 @@ extension FSx {
     public struct UpdateFileCacheLustreConfiguration: AWSEncodableShape {
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(weeklyMaintenanceStartTime: String? = nil) {
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
@@ -5639,6 +5802,7 @@ extension FSx {
         /// The configuration updates for an Amazon File Cache resource.
         public let lustreConfiguration: UpdateFileCacheLustreConfiguration?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateFileCacheRequest.idempotencyToken(), fileCacheId: String? = nil, lustreConfiguration: UpdateFileCacheLustreConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileCacheId = fileCacheId
@@ -5666,6 +5830,7 @@ extension FSx {
         /// A description of the cache that was updated.
         public let fileCache: FileCache?
 
+        @inlinable
         public init(fileCache: FileCache? = nil) {
             self.fileCache = fileCache
         }
@@ -5694,6 +5859,7 @@ extension FSx {
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: UpdateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -5741,6 +5907,7 @@ extension FSx {
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.   To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.   To switch from USER_PROVISIONED mode, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.  If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
         public let mode: MetadataConfigurationMode?
 
+        @inlinable
         public init(iops: Int? = nil, mode: MetadataConfigurationMode? = nil) {
             self.iops = iops
             self.mode = mode
@@ -5776,6 +5943,7 @@ extension FSx {
         public let throughputCapacityPerHAPair: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -5852,6 +6020,7 @@ extension FSx {
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -5918,6 +6087,7 @@ extension FSx {
         /// The configuration updates for an Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateFileSystemRequest.idempotencyToken(), fileSystemId: String? = nil, lustreConfiguration: UpdateFileSystemLustreConfiguration? = nil, ontapConfiguration: UpdateFileSystemOntapConfiguration? = nil, openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, windowsConfiguration: UpdateFileSystemWindowsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.fileSystemId = fileSystemId
@@ -5960,6 +6130,7 @@ extension FSx {
         /// A description of the file system that was updated.
         public let fileSystem: FileSystem?
 
+        @inlinable
         public init(fileSystem: FileSystem? = nil) {
             self.fileSystem = fileSystem
         }
@@ -5985,6 +6156,7 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Where d is the weekday number, from 1 through 7, with 1 = Monday and 7 = Sunday.
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
@@ -6042,6 +6214,7 @@ extension FSx {
         /// Update the volume's data tiering policy.
         public let tieringPolicy: TieringPolicy?
 
+        @inlinable
         public init(copyTagsToBackups: Bool? = nil, junctionPath: String? = nil, securityStyle: SecurityStyle? = nil, sizeInBytes: Int64? = nil, sizeInMegabytes: Int? = nil, snaplockConfiguration: UpdateSnaplockConfiguration? = nil, snapshotPolicy: String? = nil, storageEfficiencyEnabled: Bool? = nil, tieringPolicy: TieringPolicy? = nil) {
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
@@ -6097,6 +6270,7 @@ extension FSx {
         /// An object specifying how much storage users or groups can use on the volume.
         public let userAndGroupQuotas: [OpenZFSUserOrGroupQuota]?
 
+        @inlinable
         public init(dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
@@ -6140,6 +6314,7 @@ extension FSx {
         /// Specifies whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets. Set to true to enable or false to disable.
         public let enableFsxRouteTableUpdatesFromParticipantAccounts: String?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateSharedVpcConfigurationRequest.idempotencyToken(), enableFsxRouteTableUpdatesFromParticipantAccounts: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
@@ -6164,6 +6339,7 @@ extension FSx {
         /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
         public let enableFsxRouteTableUpdatesFromParticipantAccounts: String?
 
+        @inlinable
         public init(enableFsxRouteTableUpdatesFromParticipantAccounts: String? = nil) {
             self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
         }
@@ -6185,6 +6361,7 @@ extension FSx {
         /// Enables or disables volume-append mode  on an FSx for ONTAP SnapLock volume. Volume-append mode allows you to  create WORM-appendable files and write data to them incrementally. The default value is false.  For more information, see Volume-append mode.
         public let volumeAppendModeEnabled: Bool?
 
+        @inlinable
         public init(auditLogVolume: Bool? = nil, autocommitPeriod: AutocommitPeriod? = nil, privilegedDelete: PrivilegedDelete? = nil, retentionPeriod: SnaplockRetentionPeriod? = nil, volumeAppendModeEnabled: Bool? = nil) {
             self.auditLogVolume = auditLogVolume
             self.autocommitPeriod = autocommitPeriod
@@ -6214,6 +6391,7 @@ extension FSx {
         /// The ID of the snapshot that you want to update, in the format fsvolsnap-0123456789abcdef0.
         public let snapshotId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateSnapshotRequest.idempotencyToken(), name: String? = nil, snapshotId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -6243,6 +6421,7 @@ extension FSx {
         /// Returned after a successful UpdateSnapshot operation, describing the snapshot that you updated.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -6261,6 +6440,7 @@ extension FSx {
         /// Specifies a new SvmAdminPassword.
         public let svmAdminPassword: String?
 
+        @inlinable
         public init(activeDirectoryConfiguration: UpdateSvmActiveDirectoryConfiguration? = nil, clientRequestToken: String? = UpdateStorageVirtualMachineRequest.idempotencyToken(), storageVirtualMachineId: String? = nil, svmAdminPassword: String? = nil) {
             self.activeDirectoryConfiguration = activeDirectoryConfiguration
             self.clientRequestToken = clientRequestToken
@@ -6292,6 +6472,7 @@ extension FSx {
     public struct UpdateStorageVirtualMachineResponse: AWSDecodableShape {
         public let storageVirtualMachine: StorageVirtualMachine?
 
+        @inlinable
         public init(storageVirtualMachine: StorageVirtualMachine? = nil) {
             self.storageVirtualMachine = storageVirtualMachine
         }
@@ -6306,6 +6487,7 @@ extension FSx {
         public let netBiosName: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
 
+        @inlinable
         public init(netBiosName: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil) {
             self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
@@ -6335,6 +6517,7 @@ extension FSx {
         /// The ID of the volume that you want to update, in the format fsvol-0123456789abcdef0.
         public let volumeId: String?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateVolumeRequest.idempotencyToken(), name: String? = nil, ontapConfiguration: UpdateOntapVolumeConfiguration? = nil, openZFSConfiguration: UpdateOpenZFSVolumeConfiguration? = nil, volumeId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -6370,6 +6553,7 @@ extension FSx {
         /// A description of the volume just updated. Returned after a successful UpdateVolume API operation.
         public let volume: Volume?
 
+        @inlinable
         public init(volume: Volume? = nil) {
             self.volume = volume
         }
@@ -6400,6 +6584,7 @@ extension FSx {
         /// The type of the volume.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, fileSystemId: String? = nil, lifecycle: VolumeLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, ontapConfiguration: OntapVolumeConfiguration? = nil, openZFSConfiguration: OpenZFSVolumeConfiguration? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
@@ -6437,6 +6622,7 @@ extension FSx {
         /// The values of the filter. These are all the values for any of the applied filters.
         public let values: [String]?
 
+        @inlinable
         public init(name: VolumeFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -6465,6 +6651,7 @@ extension FSx {
         /// Sets which attempt type is logged by Amazon FSx for file share accesses.    SUCCESS_ONLY - only successful attempts to access file shares are logged.    FAILURE_ONLY - only failed attempts to access file shares are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access file shares are logged.    DISABLED - access auditing of file shares is turned off.
         public let fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel?
 
+        @inlinable
         public init(auditLogDestination: String? = nil, fileAccessAuditLogLevel: WindowsAccessAuditLogLevel? = nil, fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel? = nil) {
             self.auditLogDestination = auditLogDestination
             self.fileAccessAuditLogLevel = fileAccessAuditLogLevel
@@ -6486,6 +6673,7 @@ extension FSx {
         /// Sets which attempt type is logged by Amazon FSx for file share accesses.    SUCCESS_ONLY - only successful attempts to access file shares are logged.    FAILURE_ONLY - only failed attempts to access file shares are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access file shares are logged.    DISABLED - access auditing of file shares is turned off.
         public let fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel?
 
+        @inlinable
         public init(auditLogDestination: String? = nil, fileAccessAuditLogLevel: WindowsAccessAuditLogLevel? = nil, fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel? = nil) {
             self.auditLogDestination = auditLogDestination
             self.fileAccessAuditLogLevel = fileAccessAuditLogLevel
@@ -6535,6 +6723,7 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
+        @inlinable
         public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases

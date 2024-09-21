@@ -107,6 +107,7 @@ extension MQ {
         /// Information about the action required to resolve your broker issue.
         public let actionRequiredInfo: String?
 
+        @inlinable
         public init(actionRequiredCode: String? = nil, actionRequiredInfo: String? = nil) {
             self.actionRequiredCode = actionRequiredCode
             self.actionRequiredInfo = actionRequiredInfo
@@ -122,6 +123,7 @@ extension MQ {
         /// Id for the availability zone.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -137,6 +139,7 @@ extension MQ {
         /// The list of engine versions.
         public let engineVersions: [EngineVersion]?
 
+        @inlinable
         public init(engineType: EngineType? = nil, engineVersions: [EngineVersion]? = nil) {
             self.engineType = engineType
             self.engineVersions = engineVersions
@@ -156,6 +159,7 @@ extension MQ {
         /// The IP address of the Elastic Network Interface (ENI) attached to the broker. Does not apply to RabbitMQ brokers.
         public let ipAddress: String?
 
+        @inlinable
         public init(consoleURL: String? = nil, endpoints: [String]? = nil, ipAddress: String? = nil) {
             self.consoleURL = consoleURL
             self.endpoints = endpoints
@@ -183,6 +187,7 @@ extension MQ {
         /// The list of supported engine versions.
         public let supportedEngineVersions: [String]?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil, storageType: BrokerStorageType? = nil, supportedDeploymentModes: [DeploymentMode]? = nil, supportedEngineVersions: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.engineType = engineType
@@ -221,6 +226,7 @@ extension MQ {
         /// The broker's instance type.
         public let hostInstanceType: String?
 
+        @inlinable
         public init(brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -267,6 +273,7 @@ extension MQ {
         /// The list of all tags associated with this configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
@@ -300,6 +307,7 @@ extension MQ {
         /// The revision number of the configuration.
         public let revision: Int?
 
+        @inlinable
         public init(id: String? = nil, revision: Int? = nil) {
             self.id = id
             self.revision = revision
@@ -320,6 +328,7 @@ extension MQ {
         /// Required. The revision number of the configuration.
         public let revision: Int?
 
+        @inlinable
         public init(created: Date? = nil, description: String? = nil, revision: Int? = nil) {
             self.created = created
             self.description = description
@@ -341,6 +350,7 @@ extension MQ {
         /// The broker's pending configuration.
         public let pending: ConfigurationId?
 
+        @inlinable
         public init(current: ConfigurationId? = nil, history: [ConfigurationId]? = nil, pending: ConfigurationId? = nil) {
             self.current = current
             self.history = history
@@ -398,6 +408,7 @@ extension MQ {
         /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
         public let users: [User]?
 
+        @inlinable
         public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), dataReplicationMode: DataReplicationMode? = nil, dataReplicationPrimaryBrokerArn: String? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -453,6 +464,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
 
+        @inlinable
         public init(brokerArn: String? = nil, brokerId: String? = nil) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -476,6 +488,7 @@ extension MQ {
         /// Create tags when creating the configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(authenticationStrategy: AuthenticationStrategy? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.engineType = engineType
@@ -508,6 +521,7 @@ extension MQ {
         /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
@@ -533,6 +547,7 @@ extension MQ {
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -564,6 +579,7 @@ extension MQ {
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String
 
+        @inlinable
         public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, replicationUser: Bool? = nil, username: String) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -602,6 +618,7 @@ extension MQ {
         /// Required. The region of the broker.
         public let region: String?
 
+        @inlinable
         public init(brokerId: String? = nil, region: String? = nil) {
             self.brokerId = brokerId
             self.region = region
@@ -619,6 +636,7 @@ extension MQ {
         /// Defines the role of this broker in a data replication pair. When a replica broker is promoted to primary, this role is interchanged.
         public let dataReplicationRole: String?
 
+        @inlinable
         public init(dataReplicationCounterpart: DataReplicationCounterpart? = nil, dataReplicationRole: String? = nil) {
             self.dataReplicationCounterpart = dataReplicationCounterpart
             self.dataReplicationRole = dataReplicationRole
@@ -634,6 +652,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
 
+        @inlinable
         public init(brokerId: String) {
             self.brokerId = brokerId
         }
@@ -651,6 +670,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
 
+        @inlinable
         public init(brokerId: String? = nil) {
             self.brokerId = brokerId
         }
@@ -666,6 +686,7 @@ extension MQ {
         /// An array of tag keys to delete
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -687,6 +708,7 @@ extension MQ {
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String
 
+        @inlinable
         public init(brokerId: String, username: String) {
             self.brokerId = brokerId
             self.username = username
@@ -714,6 +736,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(engineType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.maxResults = maxResults
@@ -744,6 +767,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.brokerEngineTypes = brokerEngineTypes
             self.maxResults = maxResults
@@ -769,6 +793,7 @@ extension MQ {
         /// Filter response by storage type.
         public let storageType: String?
 
+        @inlinable
         public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, storageType: String? = nil) {
             self.engineType = engineType
             self.hostInstanceType = hostInstanceType
@@ -803,6 +828,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.brokerInstanceOptions = brokerInstanceOptions
             self.maxResults = maxResults
@@ -820,6 +846,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
 
+        @inlinable
         public init(brokerId: String) {
             self.brokerId = brokerId
         }
@@ -902,6 +929,7 @@ extension MQ {
         /// The list of all broker usernames for the specified broker.
         public let users: [UserSummary]?
 
+        @inlinable
         public init(actionsRequired: [ActionRequired]? = nil, authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.actionsRequired = actionsRequired
             self.authenticationStrategy = authenticationStrategy
@@ -979,6 +1007,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the configuration.
         public let configurationId: String
 
+        @inlinable
         public init(configurationId: String) {
             self.configurationId = configurationId
         }
@@ -1015,6 +1044,7 @@ extension MQ {
         /// The list of all tags associated with this configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, authenticationStrategy: AuthenticationStrategy? = nil, created: Date? = nil, description: String? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
@@ -1048,6 +1078,7 @@ extension MQ {
         /// The revision of the configuration.
         public let configurationRevision: String
 
+        @inlinable
         public init(configurationId: String, configurationRevision: String) {
             self.configurationId = configurationId
             self.configurationRevision = configurationRevision
@@ -1074,6 +1105,7 @@ extension MQ {
         /// The description of the configuration.
         public let description: String?
 
+        @inlinable
         public init(configurationId: String? = nil, created: Date? = nil, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.created = created
@@ -1095,6 +1127,7 @@ extension MQ {
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String
 
+        @inlinable
         public init(brokerId: String, username: String) {
             self.brokerId = brokerId
             self.username = username
@@ -1124,6 +1157,7 @@ extension MQ {
         /// Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
 
+        @inlinable
         public init(brokerId: String? = nil, consoleAccess: Bool? = nil, groups: [String]? = nil, pending: UserPendingChanges? = nil, replicationUser: Bool? = nil, username: String? = nil) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -1149,6 +1183,7 @@ extension MQ {
         /// Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to true by default, if no value is provided, for example, for RabbitMQ brokers.
         public let useAwsOwnedKey: Bool?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, useAwsOwnedKey: Bool? = nil) {
             self.kmsKeyId = kmsKeyId
             self.useAwsOwnedKey = useAwsOwnedKey
@@ -1164,6 +1199,7 @@ extension MQ {
         /// Id for the version.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1197,6 +1233,7 @@ extension MQ {
         /// The directory search scope for the user. If set to true, scope is to search the entire subtree.
         public let userSearchSubtree: Bool?
 
+        @inlinable
         public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountPassword: String? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
             self.hosts = hosts
             self.roleBase = roleBase
@@ -1248,6 +1285,7 @@ extension MQ {
         /// The directory search scope for the user. If set to true, scope is to search the entire subtree.
         public let userSearchSubtree: Bool?
 
+        @inlinable
         public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
             self.hosts = hosts
             self.roleBase = roleBase
@@ -1281,6 +1319,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1307,6 +1346,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(brokerSummaries: [BrokerSummary]? = nil, nextToken: String? = nil) {
             self.brokerSummaries = brokerSummaries
             self.nextToken = nextToken
@@ -1326,6 +1366,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
@@ -1358,6 +1399,7 @@ extension MQ {
         /// The list of all revisions for the specified configuration.
         public let revisions: [ConfigurationRevision]?
 
+        @inlinable
         public init(configurationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
@@ -1379,6 +1421,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1407,6 +1450,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(configurations: [Configuration]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.maxResults = maxResults
@@ -1424,6 +1468,7 @@ extension MQ {
         /// The Amazon Resource Name (ARN) of the resource tag.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1441,6 +1486,7 @@ extension MQ {
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1458,6 +1504,7 @@ extension MQ {
         /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
         public let nextToken: String?
 
+        @inlinable
         public init(brokerId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
@@ -1490,6 +1537,7 @@ extension MQ {
         /// Required. The list of all ActiveMQ usernames for the specified broker. Does not apply to RabbitMQ brokers.
         public let users: [UserSummary]?
 
+        @inlinable
         public init(brokerId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
@@ -1511,6 +1559,7 @@ extension MQ {
         /// Enables general logging.
         public let general: Bool?
 
+        @inlinable
         public init(audit: Bool? = nil, general: Bool? = nil) {
             self.audit = audit
             self.general = general
@@ -1534,6 +1583,7 @@ extension MQ {
         /// The list of information about logs pending to be deployed for the specified broker.
         public let pending: PendingLogs?
 
+        @inlinable
         public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool? = nil, generalLogGroup: String? = nil, pending: PendingLogs? = nil) {
             self.audit = audit
             self.auditLogGroup = auditLogGroup
@@ -1557,6 +1607,7 @@ extension MQ {
         /// Enables general logging.
         public let general: Bool?
 
+        @inlinable
         public init(audit: Bool? = nil, general: Bool? = nil) {
             self.audit = audit
             self.general = general
@@ -1574,6 +1625,7 @@ extension MQ {
         /// The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER.
         public let mode: PromoteMode?
 
+        @inlinable
         public init(brokerId: String, mode: PromoteMode? = nil) {
             self.brokerId = brokerId
             self.mode = mode
@@ -1595,6 +1647,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String?
 
+        @inlinable
         public init(brokerId: String? = nil) {
             self.brokerId = brokerId
         }
@@ -1608,6 +1661,7 @@ extension MQ {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
 
+        @inlinable
         public init(brokerId: String) {
             self.brokerId = brokerId
         }
@@ -1633,6 +1687,7 @@ extension MQ {
         /// The reason for which the configuration elements or attributes were sanitized.
         public let reason: SanitizationWarningReason?
 
+        @inlinable
         public init(attributeName: String? = nil, elementName: String? = nil, reason: SanitizationWarningReason? = nil) {
             self.attributeName = attributeName
             self.elementName = elementName
@@ -1670,6 +1725,7 @@ extension MQ {
         /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
         public let securityGroups: [String]?
 
+        @inlinable
         public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, securityGroups: [String]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1744,6 +1800,7 @@ extension MQ {
         /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
         public let securityGroups: [String]?
 
+        @inlinable
         public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, securityGroups: [String]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1787,6 +1844,7 @@ extension MQ {
         /// The description of the configuration.
         public let description: String?
 
+        @inlinable
         public init(configurationId: String, data: String? = nil, description: String? = nil) {
             self.configurationId = configurationId
             self.data = data
@@ -1822,6 +1880,7 @@ extension MQ {
         /// The list of the first 20 warnings about the configuration elements or attributes that were sanitized.
         public let warnings: [SanitizationWarning]?
 
+        @inlinable
         public init(arn: String? = nil, created: Date? = nil, id: String? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, warnings: [SanitizationWarning]? = nil) {
             self.arn = arn
             self.created = created
@@ -1855,6 +1914,7 @@ extension MQ {
         /// The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String
 
+        @inlinable
         public init(brokerId: String, consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, replicationUser: Bool? = nil, username: String) {
             self.brokerId = brokerId
             self.consoleAccess = consoleAccess
@@ -1899,6 +1959,7 @@ extension MQ {
         /// The username of the broker user. The following restrictions apply to broker usernames: For Amazon MQ for ActiveMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long. para>For Amazon MQ for RabbitMQ brokers, this value can contain only alphanumeric characters, dashes, periods, underscores (- . _). This value must not contain a tilde (~) character. Amazon MQ prohibts using guest as a valid usename. This value must be 2-100 characters long. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
         public let username: String?
 
+        @inlinable
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, password: String? = nil, replicationUser: Bool? = nil, username: String? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
@@ -1924,6 +1985,7 @@ extension MQ {
         /// Required. The type of change pending for the ActiveMQ user.
         public let pendingChange: ChangeType?
 
+        @inlinable
         public init(consoleAccess: Bool? = nil, groups: [String]? = nil, pendingChange: ChangeType? = nil) {
             self.consoleAccess = consoleAccess
             self.groups = groups
@@ -1943,6 +2005,7 @@ extension MQ {
         /// Required. The username of the broker user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
         public let username: String?
 
+        @inlinable
         public init(pendingChange: ChangeType? = nil, username: String? = nil) {
             self.pendingChange = pendingChange
             self.username = username
@@ -1962,6 +2025,7 @@ extension MQ {
         /// The time zone, UTC by default, in either the Country/City format, or the UTC offset format.
         public let timeZone: String?
 
+        @inlinable
         public init(dayOfWeek: DayOfWeek? = nil, timeOfDay: String? = nil, timeZone: String? = nil) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay

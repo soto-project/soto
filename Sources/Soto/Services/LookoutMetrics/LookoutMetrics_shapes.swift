@@ -143,6 +143,7 @@ extension LookoutMetrics {
         /// A configuration for an Amazon SNS channel.
         public let snsConfiguration: SNSConfiguration?
 
+        @inlinable
         public init(lambdaConfiguration: LambdaConfiguration? = nil, snsConfiguration: SNSConfiguration? = nil) {
             self.lambdaConfiguration = lambdaConfiguration
             self.snsConfiguration = snsConfiguration
@@ -163,6 +164,7 @@ extension LookoutMetrics {
         /// The ARN of the anomaly detector.
         public let anomalyDetectorArn: String
 
+        @inlinable
         public init(anomalyDetectorArn: String) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -205,6 +207,7 @@ extension LookoutMetrics {
         /// The time at which the alert was last modified.
         public let lastModificationTime: Date?
 
+        @inlinable
         public init(action: Action? = nil, alertArn: String? = nil, alertDescription: String? = nil, alertFilters: AlertFilters? = nil, alertName: String? = nil, alertSensitivityThreshold: Int? = nil, alertStatus: AlertStatus? = nil, alertType: AlertType? = nil, anomalyDetectorArn: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil) {
             self.action = action
             self.alertArn = alertArn
@@ -240,6 +243,7 @@ extension LookoutMetrics {
         /// The list of measures that you want to get alerts for.
         public let metricList: [String]?
 
+        @inlinable
         public init(dimensionFilterList: [DimensionFilter]? = nil, metricList: [String]? = nil) {
             self.dimensionFilterList = dimensionFilterList
             self.metricList = metricList
@@ -285,6 +289,7 @@ extension LookoutMetrics {
         /// The alert's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(alertArn: String? = nil, alertName: String? = nil, alertSensitivityThreshold: Int? = nil, alertStatus: AlertStatus? = nil, alertType: AlertType? = nil, anomalyDetectorArn: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil, tags: [String: String]? = nil) {
             self.alertArn = alertArn
             self.alertName = alertName
@@ -314,6 +319,7 @@ extension LookoutMetrics {
         /// The frequency at which the detector analyzes its source data.
         public let anomalyDetectorFrequency: Frequency?
 
+        @inlinable
         public init(anomalyDetectorFrequency: Frequency? = nil) {
             self.anomalyDetectorFrequency = anomalyDetectorFrequency
         }
@@ -327,6 +333,7 @@ extension LookoutMetrics {
         /// The interval at which the detector analyzes its source data.
         public let anomalyDetectorFrequency: Frequency?
 
+        @inlinable
         public init(anomalyDetectorFrequency: Frequency? = nil) {
             self.anomalyDetectorFrequency = anomalyDetectorFrequency
         }
@@ -342,6 +349,7 @@ extension LookoutMetrics {
         /// The start time for the data quality metrics collection.
         public let startTimestamp: Date?
 
+        @inlinable
         public init(metricSetDataQualityMetricList: [MetricSetDataQualityMetric]? = nil, startTimestamp: Date? = nil) {
             self.metricSetDataQualityMetricList = metricSetDataQualityMetricList
             self.startTimestamp = startTimestamp
@@ -369,6 +377,7 @@ extension LookoutMetrics {
         /// The detector's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil, status: AnomalyDetectorStatus? = nil, tags: [String: String]? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorDescription = anomalyDetectorDescription
@@ -404,6 +413,7 @@ extension LookoutMetrics {
         /// The start time for the group.
         public let startTime: String?
 
+        @inlinable
         public init(anomalyGroupId: String? = nil, anomalyGroupScore: Double? = nil, endTime: String? = nil, metricLevelImpactList: [MetricLevelImpact]? = nil, primaryMetricName: String? = nil, startTime: String? = nil) {
             self.anomalyGroupId = anomalyGroupId
             self.anomalyGroupScore = anomalyGroupScore
@@ -431,6 +441,7 @@ extension LookoutMetrics {
         /// The number of groups found.
         public let totalCount: Int?
 
+        @inlinable
         public init(evaluationStartDate: String? = nil, itemizedMetricStatsList: [ItemizedMetricStats]? = nil, totalCount: Int? = nil) {
             self.evaluationStartDate = evaluationStartDate
             self.itemizedMetricStatsList = itemizedMetricStatsList
@@ -456,6 +467,7 @@ extension LookoutMetrics {
         /// The start time for the group.
         public let startTime: String?
 
+        @inlinable
         public init(anomalyGroupId: String? = nil, anomalyGroupScore: Double? = nil, endTime: String? = nil, primaryMetricName: String? = nil, startTime: String? = nil) {
             self.anomalyGroupId = anomalyGroupId
             self.anomalyGroupScore = anomalyGroupScore
@@ -479,6 +491,7 @@ extension LookoutMetrics {
         /// The ID of the metric.
         public let timeSeriesId: String?
 
+        @inlinable
         public init(anomalyGroupId: String, timeSeriesId: String? = nil) {
             self.anomalyGroupId = anomalyGroupId
             self.timeSeriesId = timeSeriesId
@@ -505,6 +518,7 @@ extension LookoutMetrics {
         /// The ID of the metric.
         public let timeSeriesId: String
 
+        @inlinable
         public init(anomalyGroupId: String, isAnomaly: Bool, timeSeriesId: String) {
             self.anomalyGroupId = anomalyGroupId
             self.isAnomaly = isAnomaly
@@ -531,6 +545,7 @@ extension LookoutMetrics {
         /// An IAM role that gives Amazon Lookout for Metrics permission to access the flow.
         public let roleArn: String?
 
+        @inlinable
         public init(flowName: String? = nil, roleArn: String? = nil) {
             self.flowName = flowName
             self.roleArn = roleArn
@@ -565,6 +580,7 @@ extension LookoutMetrics {
         /// The database's work group name.
         public let workGroupName: String?
 
+        @inlinable
         public init(backTestConfiguration: BackTestConfiguration? = nil, databaseName: String? = nil, dataCatalog: String? = nil, roleArn: String? = nil, s3ResultsPath: String? = nil, tableName: String? = nil, workGroupName: String? = nil) {
             self.backTestConfiguration = backTestConfiguration
             self.databaseName = databaseName
@@ -619,6 +635,7 @@ extension LookoutMetrics {
         /// A list of strings.
         public let ss: [String]?
 
+        @inlinable
         public init(b: String? = nil, bs: [String]? = nil, n: String? = nil, ns: [String]? = nil, s: String? = nil, ss: [String]? = nil) {
             self.b = b
             self.bs = bs
@@ -642,6 +659,7 @@ extension LookoutMetrics {
         /// The source's source config.
         public let s3SourceConfig: AutoDetectionS3SourceConfig?
 
+        @inlinable
         public init(s3SourceConfig: AutoDetectionS3SourceConfig? = nil) {
             self.s3SourceConfig = s3SourceConfig
         }
@@ -661,6 +679,7 @@ extension LookoutMetrics {
         /// The config's templated path list.
         public let templatedPathList: [String]?
 
+        @inlinable
         public init(historicalDataPathList: [String]? = nil, templatedPathList: [String]? = nil) {
             self.historicalDataPathList = historicalDataPathList
             self.templatedPathList = templatedPathList
@@ -691,6 +710,7 @@ extension LookoutMetrics {
         /// The Amazon Resource Name (ARN) of the anomaly detector.
         public let anomalyDetectorArn: String
 
+        @inlinable
         public init(anomalyDetectorArn: String) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -713,6 +733,7 @@ extension LookoutMetrics {
         /// Run a backtest instead of monitoring new data.
         public let runBackTestMode: Bool
 
+        @inlinable
         public init(runBackTestMode: Bool) {
             self.runBackTestMode = runBackTestMode
         }
@@ -728,6 +749,7 @@ extension LookoutMetrics {
         /// An IAM role that gives Amazon Lookout for Metrics permission to access data in Amazon CloudWatch.
         public let roleArn: String?
 
+        @inlinable
         public init(backTestConfiguration: BackTestConfiguration? = nil, roleArn: String? = nil) {
             self.backTestConfiguration = backTestConfiguration
             self.roleArn = roleArn
@@ -748,6 +770,7 @@ extension LookoutMetrics {
         /// A list of contributing dimensions.
         public let dimensionContributionList: [DimensionContribution]?
 
+        @inlinable
         public init(dimensionContributionList: [DimensionContribution]? = nil) {
             self.dimensionContributionList = dimensionContributionList
         }
@@ -773,6 +796,7 @@ extension LookoutMetrics {
         /// A list of tags to apply to the alert.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: Action, alertDescription: String? = nil, alertFilters: AlertFilters? = nil, alertName: String, alertSensitivityThreshold: Int? = nil, anomalyDetectorArn: String, tags: [String: String]? = nil) {
             self.action = action
             self.alertDescription = alertDescription
@@ -819,6 +843,7 @@ extension LookoutMetrics {
         /// The ARN of the alert.
         public let alertArn: String?
 
+        @inlinable
         public init(alertArn: String? = nil) {
             self.alertArn = alertArn
         }
@@ -840,6 +865,7 @@ extension LookoutMetrics {
         /// A list of tags to apply to the anomaly detector.
         public let tags: [String: String]?
 
+        @inlinable
         public init(anomalyDetectorConfig: AnomalyDetectorConfig, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
             self.anomalyDetectorConfig = anomalyDetectorConfig
             self.anomalyDetectorDescription = anomalyDetectorDescription
@@ -880,6 +906,7 @@ extension LookoutMetrics {
         /// The ARN of the detector.
         public let anomalyDetectorArn: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -915,6 +942,7 @@ extension LookoutMetrics {
         /// The time zone in which your source data was recorded.
         public let timezone: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String, dimensionFilterList: [MetricSetDimensionFilter]? = nil, dimensionList: [String]? = nil, metricList: [Metric], metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSetName: String, metricSource: MetricSource, offset: Int? = nil, tags: [String: String]? = nil, timestampColumn: TimestampColumn? = nil, timezone: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.dimensionFilterList = dimensionFilterList
@@ -987,6 +1015,7 @@ extension LookoutMetrics {
         /// The ARN of the dataset.
         public let metricSetArn: String?
 
+        @inlinable
         public init(metricSetArn: String? = nil) {
             self.metricSetArn = metricSetArn
         }
@@ -1010,6 +1039,7 @@ extension LookoutMetrics {
         /// The character used as a quote character.
         public let quoteSymbol: String?
 
+        @inlinable
         public init(charset: String? = nil, containsHeader: Bool? = nil, delimiter: String? = nil, fileCompression: CSVFileCompression? = nil, headerList: [String]? = nil, quoteSymbol: String? = nil) {
             self.charset = charset
             self.containsHeader = containsHeader
@@ -1053,6 +1083,7 @@ extension LookoutMetrics {
         /// The column that is being monitored.
         public let relatedColumnName: String?
 
+        @inlinable
         public init(metricDescription: String? = nil, metricType: DataQualityMetricType? = nil, metricValue: Double? = nil, relatedColumnName: String? = nil) {
             self.metricDescription = metricDescription
             self.metricType = metricType
@@ -1072,6 +1103,7 @@ extension LookoutMetrics {
         /// The Amazon Resource Name (ARN) of the anomaly detector.
         public let anomalyDetectorArn: String
 
+        @inlinable
         public init(anomalyDetectorArn: String) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -1094,6 +1126,7 @@ extension LookoutMetrics {
         /// The ARN of the alert to delete.
         public let alertArn: String
 
+        @inlinable
         public init(alertArn: String) {
             self.alertArn = alertArn
         }
@@ -1116,6 +1149,7 @@ extension LookoutMetrics {
         /// The ARN of the detector to delete.
         public let anomalyDetectorArn: String
 
+        @inlinable
         public init(anomalyDetectorArn: String) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -1138,6 +1172,7 @@ extension LookoutMetrics {
         /// The ARN of the alert to describe.
         public let alertArn: String
 
+        @inlinable
         public init(alertArn: String) {
             self.alertArn = alertArn
         }
@@ -1156,6 +1191,7 @@ extension LookoutMetrics {
         /// Contains information about an alert.
         public let alert: Alert?
 
+        @inlinable
         public init(alert: Alert? = nil) {
             self.alert = alert
         }
@@ -1175,6 +1211,7 @@ extension LookoutMetrics {
         /// The timestamp of the anomaly detection job.
         public let timestamp: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String, maxResults: Int? = nil, nextToken: String? = nil, timestamp: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.maxResults = maxResults
@@ -1208,6 +1245,7 @@ extension LookoutMetrics {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(executionList: [ExecutionStatus]? = nil, nextToken: String? = nil) {
             self.executionList = executionList
             self.nextToken = nextToken
@@ -1223,6 +1261,7 @@ extension LookoutMetrics {
         /// The ARN of the detector to describe.
         public let anomalyDetectorArn: String
 
+        @inlinable
         public init(anomalyDetectorArn: String) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -1259,6 +1298,7 @@ extension LookoutMetrics {
         /// The status of the detector.
         public let status: AnomalyDetectorStatus?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil, anomalyDetectorConfig: AnomalyDetectorConfigSummary? = nil, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, failureType: AnomalyDetectorFailureType? = nil, kmsKeyArn: String? = nil, lastModificationTime: Date? = nil, status: AnomalyDetectorStatus? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorConfig = anomalyDetectorConfig
@@ -1290,6 +1330,7 @@ extension LookoutMetrics {
         /// The ARN of the dataset.
         public let metricSetArn: String
 
+        @inlinable
         public init(metricSetArn: String) {
             self.metricSetArn = metricSetArn
         }
@@ -1334,6 +1375,7 @@ extension LookoutMetrics {
         /// The time zone in which the dataset's data was recorded.
         public let timezone: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil, creationTime: Date? = nil, dimensionFilterList: [MetricSetDimensionFilter]? = nil, dimensionList: [String]? = nil, lastModificationTime: Date? = nil, metricList: [Metric]? = nil, metricSetArn: String? = nil, metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSetName: String? = nil, metricSource: MetricSource? = nil, offset: Int? = nil, timestampColumn: TimestampColumn? = nil, timezone: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.creationTime = creationTime
@@ -1375,6 +1417,7 @@ extension LookoutMetrics {
         /// A data source.
         public let autoDetectionMetricSource: AutoDetectionMetricSource
 
+        @inlinable
         public init(anomalyDetectorArn: String, autoDetectionMetricSource: AutoDetectionMetricSource) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.autoDetectionMetricSource = autoDetectionMetricSource
@@ -1396,6 +1439,7 @@ extension LookoutMetrics {
         /// The inferred dataset configuration for the datasource.
         public let detectedMetricSetConfig: DetectedMetricSetConfig?
 
+        @inlinable
         public init(detectedMetricSetConfig: DetectedMetricSetConfig? = nil) {
             self.detectedMetricSetConfig = detectedMetricSetConfig
         }
@@ -1419,6 +1463,7 @@ extension LookoutMetrics {
         /// The format's quote symbol.
         public let quoteSymbol: DetectedField?
 
+        @inlinable
         public init(charset: DetectedField? = nil, containsHeader: DetectedField? = nil, delimiter: DetectedField? = nil, fileCompression: DetectedField? = nil, headerList: DetectedField? = nil, quoteSymbol: DetectedField? = nil) {
             self.charset = charset
             self.containsHeader = containsHeader
@@ -1446,6 +1491,7 @@ extension LookoutMetrics {
         /// The field's value.
         public let value: AttributeValue?
 
+        @inlinable
         public init(confidence: Confidence? = nil, message: String? = nil, value: AttributeValue? = nil) {
             self.confidence = confidence
             self.message = message
@@ -1465,6 +1511,7 @@ extension LookoutMetrics {
         /// Details about a JSON format.
         public let jsonFormatDescriptor: DetectedJsonFormatDescriptor?
 
+        @inlinable
         public init(csvFormatDescriptor: DetectedCsvFormatDescriptor? = nil, jsonFormatDescriptor: DetectedJsonFormatDescriptor? = nil) {
             self.csvFormatDescriptor = csvFormatDescriptor
             self.jsonFormatDescriptor = jsonFormatDescriptor
@@ -1482,6 +1529,7 @@ extension LookoutMetrics {
         /// The format's file compression.
         public let fileCompression: DetectedField?
 
+        @inlinable
         public init(charset: DetectedField? = nil, fileCompression: DetectedField? = nil) {
             self.charset = charset
             self.fileCompression = fileCompression
@@ -1501,6 +1549,7 @@ extension LookoutMetrics {
         /// The dataset's offset.
         public let offset: DetectedField?
 
+        @inlinable
         public init(metricSetFrequency: DetectedField? = nil, metricSource: DetectedMetricSource? = nil, offset: DetectedField? = nil) {
             self.metricSetFrequency = metricSetFrequency
             self.metricSource = metricSource
@@ -1518,6 +1567,7 @@ extension LookoutMetrics {
         /// The data source's source configuration.
         public let s3SourceConfig: DetectedS3SourceConfig?
 
+        @inlinable
         public init(s3SourceConfig: DetectedS3SourceConfig? = nil) {
             self.s3SourceConfig = s3SourceConfig
         }
@@ -1531,6 +1581,7 @@ extension LookoutMetrics {
         /// The source's file format descriptor.
         public let fileFormatDescriptor: DetectedFileFormatDescriptor?
 
+        @inlinable
         public init(fileFormatDescriptor: DetectedFileFormatDescriptor? = nil) {
             self.fileFormatDescriptor = fileFormatDescriptor
         }
@@ -1546,6 +1597,7 @@ extension LookoutMetrics {
         /// A list of dimension values that contributed to the anomaly.
         public let dimensionValueContributionList: [DimensionValueContribution]?
 
+        @inlinable
         public init(dimensionName: String? = nil, dimensionValueContributionList: [DimensionValueContribution]? = nil) {
             self.dimensionName = dimensionName
             self.dimensionValueContributionList = dimensionValueContributionList
@@ -1563,6 +1615,7 @@ extension LookoutMetrics {
         /// The list of values for the dimension specified in DimensionName that you want to filter on.
         public let dimensionValueList: [String]?
 
+        @inlinable
         public init(dimensionName: String? = nil, dimensionValueList: [String]? = nil) {
             self.dimensionName = dimensionName
             self.dimensionValueList = dimensionValueList
@@ -1588,6 +1641,7 @@ extension LookoutMetrics {
         /// The value of the dimension.
         public let dimensionValue: String
 
+        @inlinable
         public init(dimensionName: String, dimensionValue: String) {
             self.dimensionName = dimensionName
             self.dimensionValue = dimensionValue
@@ -1605,6 +1659,7 @@ extension LookoutMetrics {
         /// The value of the dimension.
         public let dimensionValue: String?
 
+        @inlinable
         public init(contributionScore: Double? = nil, dimensionValue: String? = nil) {
             self.contributionScore = contributionScore
             self.dimensionValue = dimensionValue
@@ -1624,6 +1679,7 @@ extension LookoutMetrics {
         /// The run's timestamp.
         public let timestamp: String?
 
+        @inlinable
         public init(failureReason: String? = nil, status: AnomalyDetectionTaskStatus? = nil, timestamp: String? = nil) {
             self.failureReason = failureReason
             self.status = status
@@ -1643,6 +1699,7 @@ extension LookoutMetrics {
         /// Contains information about how a source JSON data file should be analyzed.
         public let jsonFormatDescriptor: JsonFormatDescriptor?
 
+        @inlinable
         public init(csvFormatDescriptor: CsvFormatDescriptor? = nil, jsonFormatDescriptor: JsonFormatDescriptor? = nil) {
             self.csvFormatDescriptor = csvFormatDescriptor
             self.jsonFormatDescriptor = jsonFormatDescriptor
@@ -1665,6 +1722,7 @@ extension LookoutMetrics {
         /// The condition to apply.
         public let filterOperation: FilterOperation?
 
+        @inlinable
         public init(dimensionValue: String? = nil, filterOperation: FilterOperation? = nil) {
             self.dimensionValue = dimensionValue
             self.filterOperation = filterOperation
@@ -1682,6 +1740,7 @@ extension LookoutMetrics {
         /// The ID of the anomaly group.
         public let anomalyGroupId: String
 
+        @inlinable
         public init(anomalyDetectorArn: String, anomalyGroupId: String) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyGroupId = anomalyGroupId
@@ -1704,6 +1763,7 @@ extension LookoutMetrics {
         /// Details about the anomaly group.
         public let anomalyGroup: AnomalyGroup?
 
+        @inlinable
         public init(anomalyGroup: AnomalyGroup? = nil) {
             self.anomalyGroup = anomalyGroup
         }
@@ -1719,6 +1779,7 @@ extension LookoutMetrics {
         /// The Amazon Resource Name (ARN) of a specific data quality metric set.
         public let metricSetArn: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String, metricSetArn: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.metricSetArn = metricSetArn
@@ -1741,6 +1802,7 @@ extension LookoutMetrics {
         /// A list of the data quality metrics for the AnomalyDetectorArn that you requested.
         public let anomalyDetectorDataQualityMetricList: [AnomalyDetectorDataQualityMetric]?
 
+        @inlinable
         public init(anomalyDetectorDataQualityMetricList: [AnomalyDetectorDataQualityMetric]? = nil) {
             self.anomalyDetectorDataQualityMetricList = anomalyDetectorDataQualityMetricList
         }
@@ -1760,6 +1822,7 @@ extension LookoutMetrics {
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String, anomalyGroupTimeSeriesFeedback: AnomalyGroupTimeSeries, maxResults: Int? = nil, nextToken: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyGroupTimeSeriesFeedback = anomalyGroupTimeSeriesFeedback
@@ -1792,6 +1855,7 @@ extension LookoutMetrics {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyGroupTimeSeriesFeedback: [TimeSeriesFeedback]? = nil, nextToken: String? = nil) {
             self.anomalyGroupTimeSeriesFeedback = anomalyGroupTimeSeriesFeedback
             self.nextToken = nextToken
@@ -1807,6 +1871,7 @@ extension LookoutMetrics {
         /// A datasource bucket in Amazon S3.
         public let s3SourceConfig: SampleDataS3SourceConfig?
 
+        @inlinable
         public init(s3SourceConfig: SampleDataS3SourceConfig? = nil) {
             self.s3SourceConfig = s3SourceConfig
         }
@@ -1826,6 +1891,7 @@ extension LookoutMetrics {
         /// A list of records.
         public let sampleRows: [[String]]?
 
+        @inlinable
         public init(headerValues: [String]? = nil, sampleRows: [[String]]? = nil) {
             self.headerValues = headerValues
             self.sampleRows = sampleRows
@@ -1847,6 +1913,7 @@ extension LookoutMetrics {
         /// Whether a measure is a potential cause of the anomaly group (CAUSE_OF_INPUT_ANOMALY_GROUP), or whether the measure is impacted by the anomaly group (EFFECT_OF_INPUT_ANOMALY_GROUP).
         public let relationshipType: RelationshipType?
 
+        @inlinable
         public init(anomalyGroupId: String? = nil, contributionPercentage: Double? = nil, metricName: String? = nil, relationshipType: RelationshipType? = nil) {
             self.anomalyGroupId = anomalyGroupId
             self.contributionPercentage = contributionPercentage
@@ -1868,6 +1935,7 @@ extension LookoutMetrics {
         /// The number of times that the measure appears.
         public let occurrenceCount: Int?
 
+        @inlinable
         public init(metricName: String? = nil, occurrenceCount: Int? = nil) {
             self.metricName = metricName
             self.occurrenceCount = occurrenceCount
@@ -1885,6 +1953,7 @@ extension LookoutMetrics {
         /// The level of compression of the source CSV file.
         public let fileCompression: JsonFileCompression?
 
+        @inlinable
         public init(charset: String? = nil, fileCompression: JsonFileCompression? = nil) {
             self.charset = charset
             self.fileCompression = fileCompression
@@ -1907,6 +1976,7 @@ extension LookoutMetrics {
         /// The ARN of an IAM role that has permission to invoke the Lambda function.
         public let roleArn: String
 
+        @inlinable
         public init(lambdaArn: String, roleArn: String) {
             self.lambdaArn = lambdaArn
             self.roleArn = roleArn
@@ -1933,6 +2003,7 @@ extension LookoutMetrics {
         /// If the result of the previous request is truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.maxResults = maxResults
@@ -1962,6 +2033,7 @@ extension LookoutMetrics {
         /// If the response is truncated, the service returns this token. To retrieve the next set of results, use this token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(alertSummaryList: [AlertSummary]? = nil, nextToken: String? = nil) {
             self.alertSummaryList = alertSummaryList
             self.nextToken = nextToken
@@ -1979,6 +2051,7 @@ extension LookoutMetrics {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2004,6 +2077,7 @@ extension LookoutMetrics {
         /// If the response is truncated, the service returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectorSummaryList: [AnomalyDetectorSummary]? = nil, nextToken: String? = nil) {
             self.anomalyDetectorSummaryList = anomalyDetectorSummaryList
             self.nextToken = nextToken
@@ -2027,6 +2101,7 @@ extension LookoutMetrics {
         /// Filter for potential causes (CAUSE_OF_INPUT_ANOMALY_GROUP) or downstream effects (EFFECT_OF_INPUT_ANOMALY_GROUP) of the anomaly group.
         public let relationshipTypeFilter: RelationshipType?
 
+        @inlinable
         public init(anomalyDetectorArn: String, anomalyGroupId: String, maxResults: Int? = nil, nextToken: String? = nil, relationshipTypeFilter: RelationshipType? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyGroupId = anomalyGroupId
@@ -2062,6 +2137,7 @@ extension LookoutMetrics {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(interMetricImpactList: [InterMetricImpactDetails]? = nil, nextToken: String? = nil) {
             self.interMetricImpactList = interMetricImpactList
             self.nextToken = nextToken
@@ -2083,6 +2159,7 @@ extension LookoutMetrics {
         /// The minimum severity score for inclusion in the output.
         public let sensitivityThreshold: Int
 
+        @inlinable
         public init(anomalyDetectorArn: String, maxResults: Int? = nil, nextToken: String? = nil, sensitivityThreshold: Int = 0) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.maxResults = maxResults
@@ -2118,6 +2195,7 @@ extension LookoutMetrics {
         /// The pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyGroupStatistics: AnomalyGroupStatistics? = nil, anomalyGroupSummaryList: [AnomalyGroupSummary]? = nil, nextToken: String? = nil) {
             self.anomalyGroupStatistics = anomalyGroupStatistics
             self.anomalyGroupSummaryList = anomalyGroupSummaryList
@@ -2143,6 +2221,7 @@ extension LookoutMetrics {
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String, anomalyGroupId: String, maxResults: Int? = nil, metricName: String, nextToken: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyGroupId = anomalyGroupId
@@ -2186,6 +2265,7 @@ extension LookoutMetrics {
         /// Timestamps for the anomalous metrics.
         public let timestampList: [String]?
 
+        @inlinable
         public init(anomalyGroupId: String? = nil, metricName: String? = nil, nextToken: String? = nil, timeSeriesList: [TimeSeries]? = nil, timestampList: [String]? = nil) {
             self.anomalyGroupId = anomalyGroupId
             self.metricName = metricName
@@ -2211,6 +2291,7 @@ extension LookoutMetrics {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.maxResults = maxResults
@@ -2240,6 +2321,7 @@ extension LookoutMetrics {
         /// If the response is truncated, the list call returns this token. To retrieve the next set of results, use the token in the next list request.
         public let nextToken: String?
 
+        @inlinable
         public init(metricSetSummaryList: [MetricSetSummary]? = nil, nextToken: String? = nil) {
             self.metricSetSummaryList = metricSetSummaryList
             self.nextToken = nextToken
@@ -2255,6 +2337,7 @@ extension LookoutMetrics {
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2277,6 +2360,7 @@ extension LookoutMetrics {
         /// The resource's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2294,6 +2378,7 @@ extension LookoutMetrics {
         /// The namespace for the metric.
         public let namespace: String?
 
+        @inlinable
         public init(aggregationFunction: AggregationFunction, metricName: String, namespace: String? = nil) {
             self.aggregationFunction = aggregationFunction
             self.metricName = metricName
@@ -2324,6 +2409,7 @@ extension LookoutMetrics {
         /// The number of anomalous metrics for the measure.
         public let numTimeSeries: Int?
 
+        @inlinable
         public init(contributionMatrix: ContributionMatrix? = nil, metricName: String? = nil, numTimeSeries: Int? = nil) {
             self.contributionMatrix = contributionMatrix
             self.metricName = metricName
@@ -2343,6 +2429,7 @@ extension LookoutMetrics {
         /// The Amazon Resource Name (ARN) of the data quality metric array.
         public let metricSetArn: String?
 
+        @inlinable
         public init(dataQualityMetricList: [DataQualityMetric]? = nil, metricSetArn: String? = nil) {
             self.dataQualityMetricList = dataQualityMetricList
             self.metricSetArn = metricSetArn
@@ -2360,6 +2447,7 @@ extension LookoutMetrics {
         /// The dimension that you want to filter on.
         public let name: String?
 
+        @inlinable
         public init(filterList: [Filter]? = nil, name: String? = nil) {
             self.filterList = filterList
             self.name = name
@@ -2394,6 +2482,7 @@ extension LookoutMetrics {
         /// The dataset's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil, metricSetArn: String? = nil, metricSetDescription: String? = nil, metricSetName: String? = nil, tags: [String: String]? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.creationTime = creationTime
@@ -2428,6 +2517,7 @@ extension LookoutMetrics {
         public let redshiftSourceConfig: RedshiftSourceConfig?
         public let s3SourceConfig: S3SourceConfig?
 
+        @inlinable
         public init(appFlowConfig: AppFlowConfig? = nil, athenaSourceConfig: AthenaSourceConfig? = nil, cloudWatchConfig: CloudWatchConfig? = nil, rdsSourceConfig: RDSSourceConfig? = nil, redshiftSourceConfig: RedshiftSourceConfig? = nil, s3SourceConfig: S3SourceConfig? = nil) {
             self.appFlowConfig = appFlowConfig
             self.athenaSourceConfig = athenaSourceConfig
@@ -2462,6 +2552,7 @@ extension LookoutMetrics {
         /// Feedback for an anomalous metric.
         public let anomalyGroupTimeSeriesFeedback: AnomalyGroupTimeSeriesFeedback
 
+        @inlinable
         public init(anomalyDetectorArn: String, anomalyGroupTimeSeriesFeedback: AnomalyGroupTimeSeriesFeedback) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyGroupTimeSeriesFeedback = anomalyGroupTimeSeriesFeedback
@@ -2501,6 +2592,7 @@ extension LookoutMetrics {
         /// An object containing information about the Amazon Virtual Private Cloud (VPC) configuration.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(databaseHost: String? = nil, databaseName: String? = nil, databasePort: Int? = nil, dbInstanceIdentifier: String? = nil, roleArn: String? = nil, secretManagerArn: String? = nil, tableName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
@@ -2564,6 +2656,7 @@ extension LookoutMetrics {
         /// Contains information about the Amazon Virtual Private Cloud (VPC) configuration.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, databaseHost: String? = nil, databaseName: String? = nil, databasePort: Int? = nil, roleArn: String? = nil, secretManagerArn: String? = nil, tableName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseHost = databaseHost
@@ -2619,6 +2712,7 @@ extension LookoutMetrics {
         /// A list of templated paths to the source files.
         public let templatedPathList: [String]?
 
+        @inlinable
         public init(fileFormatDescriptor: FileFormatDescriptor? = nil, historicalDataPathList: [String]? = nil, roleArn: String? = nil, templatedPathList: [String]? = nil) {
             self.fileFormatDescriptor = fileFormatDescriptor
             self.historicalDataPathList = historicalDataPathList
@@ -2660,6 +2754,7 @@ extension LookoutMetrics {
         /// The ARN of the target SNS topic.
         public let snsTopicArn: String
 
+        @inlinable
         public init(roleArn: String, snsFormat: SnsFormat? = nil, snsTopicArn: String) {
             self.roleArn = roleArn
             self.snsFormat = snsFormat
@@ -2689,6 +2784,7 @@ extension LookoutMetrics {
         /// An array of strings containing the list of templated paths.
         public let templatedPathList: [String]?
 
+        @inlinable
         public init(fileFormatDescriptor: FileFormatDescriptor, historicalDataPathList: [String]? = nil, roleArn: String, templatedPathList: [String]? = nil) {
             self.fileFormatDescriptor = fileFormatDescriptor
             self.historicalDataPathList = historicalDataPathList
@@ -2728,6 +2824,7 @@ extension LookoutMetrics {
         /// Tags to apply to the resource. Tag keys and values can contain letters, numbers, spaces, and the following symbols: _.:/=+@-
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2769,6 +2866,7 @@ extension LookoutMetrics {
         /// The ID of the metric.
         public let timeSeriesId: String
 
+        @inlinable
         public init(dimensionList: [DimensionNameValue], metricValueList: [Double], timeSeriesId: String) {
             self.dimensionList = dimensionList
             self.metricValueList = metricValueList
@@ -2788,6 +2886,7 @@ extension LookoutMetrics {
         /// The ID of the metric.
         public let timeSeriesId: String?
 
+        @inlinable
         public init(isAnomaly: Bool? = nil, timeSeriesId: String? = nil) {
             self.isAnomaly = isAnomaly
             self.timeSeriesId = timeSeriesId
@@ -2805,6 +2904,7 @@ extension LookoutMetrics {
         /// The name of the timestamp column.
         public let columnName: String?
 
+        @inlinable
         public init(columnFormat: String? = nil, columnName: String? = nil) {
             self.columnFormat = columnFormat
             self.columnName = columnName
@@ -2830,6 +2930,7 @@ extension LookoutMetrics {
         /// Keys to remove from the resource's tags.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2872,6 +2973,7 @@ extension LookoutMetrics {
         /// An integer from 0 to 100 specifying the alert sensitivity threshold.
         public let alertSensitivityThreshold: Int?
 
+        @inlinable
         public init(action: Action? = nil, alertArn: String, alertDescription: String? = nil, alertFilters: AlertFilters? = nil, alertSensitivityThreshold: Int? = nil) {
             self.action = action
             self.alertArn = alertArn
@@ -2904,6 +3006,7 @@ extension LookoutMetrics {
         /// The ARN of the updated alert.
         public let alertArn: String?
 
+        @inlinable
         public init(alertArn: String? = nil) {
             self.alertArn = alertArn
         }
@@ -2923,6 +3026,7 @@ extension LookoutMetrics {
         /// The Amazon Resource Name (ARN) of an AWS KMS encryption key.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String, anomalyDetectorConfig: AnomalyDetectorConfig? = nil, anomalyDetectorDescription: String? = nil, kmsKeyArn: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorConfig = anomalyDetectorConfig
@@ -2953,6 +3057,7 @@ extension LookoutMetrics {
         /// The ARN of the updated detector.
         public let anomalyDetectorArn: String?
 
+        @inlinable
         public init(anomalyDetectorArn: String? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
         }
@@ -2981,6 +3086,7 @@ extension LookoutMetrics {
         /// The timestamp column.
         public let timestampColumn: TimestampColumn?
 
+        @inlinable
         public init(dimensionFilterList: [MetricSetDimensionFilter]? = nil, dimensionList: [String]? = nil, metricList: [Metric]? = nil, metricSetArn: String, metricSetDescription: String? = nil, metricSetFrequency: Frequency? = nil, metricSource: MetricSource? = nil, offset: Int? = nil, timestampColumn: TimestampColumn? = nil) {
             self.dimensionFilterList = dimensionFilterList
             self.dimensionList = dimensionList
@@ -3035,6 +3141,7 @@ extension LookoutMetrics {
         /// The ARN of the dataset.
         public let metricSetArn: String?
 
+        @inlinable
         public init(metricSetArn: String? = nil) {
             self.metricSetArn = metricSetArn
         }
@@ -3050,6 +3157,7 @@ extension LookoutMetrics {
         /// An array of strings containing the Amazon VPC subnet IDs (e.g., subnet-0bb1c79de3EXAMPLE.
         public let subnetIdList: [String]
 
+        @inlinable
         public init(securityGroupIdList: [String], subnetIdList: [String]) {
             self.securityGroupIdList = securityGroupIdList
             self.subnetIdList = subnetIdList

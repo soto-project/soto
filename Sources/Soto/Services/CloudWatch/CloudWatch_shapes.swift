@@ -164,6 +164,7 @@ extension CloudWatch {
         /// The time stamp for the alarm history item.
         public let timestamp: Date?
 
+        @inlinable
         public init(alarmName: String? = nil, alarmType: AlarmType? = nil, historyData: String? = nil, historyItemType: HistoryItemType? = nil, historySummary: String? = nil, timestamp: Date? = nil) {
             self.alarmName = alarmName
             self.alarmType = alarmType
@@ -209,6 +210,7 @@ extension CloudWatch {
         /// The current status of the anomaly detector's training.
         public let stateValue: AnomalyDetectorStateValue?
 
+        @inlinable
         public init(configuration: AnomalyDetectorConfiguration? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = nil
@@ -222,6 +224,7 @@ extension CloudWatch {
         }
 
         @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
+        @inlinable
         public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
@@ -259,6 +262,7 @@ extension CloudWatch {
         /// 			see tz database.
         public let metricTimezone: String?
 
+        @inlinable
         public init(excludedTimeRanges: [Range]? = nil, metricTimezone: String? = nil) {
             self.excludedTimeRanges = excludedTimeRanges
             self.metricTimezone = metricTimezone
@@ -375,6 +379,7 @@ extension CloudWatch {
         /// The state value for the alarm.
         public let stateValue: StateValue?
 
+        @inlinable
         public init(actionsEnabled: Bool? = nil, actionsSuppressedBy: ActionsSuppressedBy? = nil, actionsSuppressedReason: String? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
             self.actionsEnabled = actionsEnabled
             self.actionsSuppressedBy = actionsSuppressedBy
@@ -431,6 +436,7 @@ extension CloudWatch {
         /// The size of the dashboard, in bytes.
         public let size: Int64?
 
+        @inlinable
         public init(dashboardArn: String? = nil, dashboardName: String? = nil, lastModified: Date? = nil, size: Int64? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardName = dashboardName
@@ -452,6 +458,7 @@ extension CloudWatch {
         /// A message describing the error or warning.
         public let message: String?
 
+        @inlinable
         public init(dataPath: String? = nil, message: String? = nil) {
             self.dataPath = dataPath
             self.message = message
@@ -483,6 +490,7 @@ extension CloudWatch {
         /// The standard unit for the data point.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(average: Double? = nil, extendedStatistics: [String: Double]? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: Date? = nil, unit: StandardUnit? = nil) {
             self.average = average
             self.extendedStatistics = extendedStatistics
@@ -511,6 +519,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]?
 
+        @inlinable
         public init(alarmNames: [String]? = nil) {
             self.alarmNames = alarmNames
         }
@@ -546,6 +555,7 @@ extension CloudWatch {
         /// The statistic associated with the anomaly detection model to delete.
         public let stat: String?
 
+        @inlinable
         public init(metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil) {
             self.dimensions = nil
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
@@ -556,6 +566,7 @@ extension CloudWatch {
         }
 
         @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
+        @inlinable
         public init(dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.dimensions = dimensions
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
@@ -600,6 +611,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var dashboardNames: [String]?
 
+        @inlinable
         public init(dashboardNames: [String]? = nil) {
             self.dashboardNames = dashboardNames
         }
@@ -618,6 +630,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]?
 
+        @inlinable
         public init(ruleNames: [String]? = nil) {
             self.ruleNames = ruleNames
         }
@@ -640,6 +653,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
+        @inlinable
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
         }
@@ -653,6 +667,7 @@ extension CloudWatch {
         /// The name of the metric stream to delete.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -693,6 +708,7 @@ extension CloudWatch {
         /// The starting date to retrieve alarm history.
         public let startDate: Date?
 
+        @inlinable
         public init(alarmName: String? = nil, alarmTypes: [AlarmType]? = nil, endDate: Date? = nil, historyItemType: HistoryItemType? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startDate: Date? = nil) {
             self.alarmName = alarmName
             self.alarmTypes = alarmTypes
@@ -730,6 +746,7 @@ extension CloudWatch {
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmHistoryItems: [AlarmHistoryItem]? = nil, nextToken: String? = nil) {
             self.alarmHistoryItems = alarmHistoryItems
             self.nextToken = nextToken
@@ -761,6 +778,7 @@ extension CloudWatch {
         /// The unit for the metric.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, extendedStatistic: String? = nil, metricName: String? = nil, namespace: String? = nil, period: Int? = nil, statistic: Statistic? = nil, unit: StandardUnit? = nil) {
             self.dimensions = dimensions
             self.extendedStatistic = extendedStatistic
@@ -800,6 +818,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<MetricAlarm>>
         public var metricAlarms: [MetricAlarm]?
 
+        @inlinable
         public init(metricAlarms: [MetricAlarm]? = nil) {
             self.metricAlarms = metricAlarms
         }
@@ -861,6 +880,7 @@ extension CloudWatch {
         /// Specify this parameter to receive information only about alarms that are currently in the state that you specify.
         public let stateValue: StateValue?
 
+        @inlinable
         public init(actionPrefix: String? = nil, alarmNamePrefix: String? = nil, alarmNames: [String]? = nil, alarmTypes: [AlarmType]? = nil, childrenOfAlarmName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, parentsOfAlarmName: String? = nil, stateValue: StateValue? = nil) {
             self.actionPrefix = actionPrefix
             self.alarmNamePrefix = alarmNamePrefix
@@ -914,6 +934,7 @@ extension CloudWatch {
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
+        @inlinable
         public init(compositeAlarms: [CompositeAlarm]? = nil, metricAlarms: [MetricAlarm]? = nil, nextToken: String? = nil) {
             self.compositeAlarms = compositeAlarms
             self.metricAlarms = metricAlarms
@@ -951,6 +972,7 @@ extension CloudWatch {
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectorTypes: [AnomalyDetectorType]? = nil, dimensions: [Dimension]? = nil, maxResults: Int? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil) {
             self.anomalyDetectorTypes = anomalyDetectorTypes
             self.dimensions = dimensions
@@ -992,6 +1014,7 @@ extension CloudWatch {
         /// 		retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalyDetectors: [AnomalyDetector]? = nil, nextToken: String? = nil) {
             self.anomalyDetectors = anomalyDetectors
             self.nextToken = nextToken
@@ -1010,6 +1033,7 @@ extension CloudWatch {
         /// Include this value, if it was returned by the previous operation, to get the next set of rules.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1033,6 +1057,7 @@ extension CloudWatch {
         /// If this parameter is present, it is a token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
+        @inlinable
         public init(insightRules: [InsightRule]? = nil, nextToken: String? = nil) {
             self.insightRules = insightRules
             self.nextToken = nextToken
@@ -1055,6 +1080,7 @@ extension CloudWatch {
         /// 			control characters are not supported as part of dimension values.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1079,6 +1105,7 @@ extension CloudWatch {
         /// The value of the dimension to be matched.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1102,6 +1129,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]?
 
+        @inlinable
         public init(alarmNames: [String]? = nil) {
             self.alarmNames = alarmNames
         }
@@ -1124,6 +1152,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]?
 
+        @inlinable
         public init(ruleNames: [String]? = nil) {
             self.ruleNames = ruleNames
         }
@@ -1146,6 +1175,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
+        @inlinable
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
         }
@@ -1160,6 +1190,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]?
 
+        @inlinable
         public init(alarmNames: [String]? = nil) {
             self.alarmNames = alarmNames
         }
@@ -1182,6 +1213,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]?
 
+        @inlinable
         public init(ruleNames: [String]? = nil) {
             self.ruleNames = ruleNames
         }
@@ -1204,6 +1236,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
+        @inlinable
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
         }
@@ -1217,6 +1250,7 @@ extension CloudWatch {
         /// The name of the dashboard to be described.
         public let dashboardName: String?
 
+        @inlinable
         public init(dashboardName: String? = nil) {
             self.dashboardName = dashboardName
         }
@@ -1236,6 +1270,7 @@ extension CloudWatch {
         /// The name of the dashboard.
         public let dashboardName: String?
 
+        @inlinable
         public init(dashboardArn: String? = nil, dashboardBody: String? = nil, dashboardName: String? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardBody = dashboardBody
@@ -1274,6 +1309,7 @@ extension CloudWatch {
         /// 			2019-07-01T23:59:59.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, maxContributorCount: Int? = nil, metrics: [String]? = nil, orderBy: String? = nil, period: Int? = nil, ruleName: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxContributorCount = maxContributorCount
@@ -1329,6 +1365,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<InsightRuleMetricDatapoint>>
         public var metricDatapoints: [InsightRuleMetricDatapoint]?
 
+        @inlinable
         public init(aggregateValue: Double? = nil, aggregationStatistic: String? = nil, approximateUniqueCount: Int64? = nil, contributors: [InsightRuleContributor]? = nil, keyLabels: [String]? = nil, metricDatapoints: [InsightRuleMetricDatapoint]? = nil) {
             self.aggregateValue = aggregateValue
             self.aggregationStatistic = aggregationStatistic
@@ -1393,6 +1430,7 @@ extension CloudWatch {
         /// 			from CloudWatch than setting 12:07 or 12:29 as the StartTime.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, labelOptions: LabelOptions? = nil, maxDatapoints: Int? = nil, metricDataQueries: [MetricDataQuery]? = nil, nextToken: String? = nil, scanBy: ScanBy? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.labelOptions = labelOptions
@@ -1434,6 +1472,7 @@ extension CloudWatch {
         /// A token that marks the next batch of returned results.
         public let nextToken: String?
 
+        @inlinable
         public init(messages: [MessageData]? = nil, metricDataResults: [MetricDataResult]? = nil, nextToken: String? = nil) {
             self.messages = messages
             self.metricDataResults = metricDataResults
@@ -1499,6 +1538,7 @@ extension CloudWatch {
         /// 			If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, endTime: Date? = nil, extendedStatistics: [String]? = nil, metricName: String? = nil, namespace: String? = nil, period: Int? = nil, startTime: Date? = nil, statistics: [Statistic]? = nil, unit: StandardUnit? = nil) {
             self.dimensions = dimensions
             self.endTime = endTime
@@ -1548,6 +1588,7 @@ extension CloudWatch {
         /// A label for the specified metric.
         public let label: String?
 
+        @inlinable
         public init(datapoints: [Datapoint]? = nil, label: String? = nil) {
             self.datapoints = datapoints
             self.label = label
@@ -1563,6 +1604,7 @@ extension CloudWatch {
         /// The name of the metric stream to retrieve information about.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1619,6 +1661,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<MetricStreamStatisticsConfiguration>>
         public var statisticsConfigurations: [MetricStreamStatisticsConfiguration]?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, includeLinkedAccountsMetrics: Bool? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -1666,6 +1709,7 @@ extension CloudWatch {
         /// 			and the body of the response is a PNG image.
         public let outputFormat: String?
 
+        @inlinable
         public init(metricWidget: String? = nil, outputFormat: String? = nil) {
             self.metricWidget = metricWidget
             self.outputFormat = outputFormat
@@ -1681,6 +1725,7 @@ extension CloudWatch {
         /// The image of the graph, in the output format specified. The output is base64-encoded.
         public let metricWidgetImage: AWSBase64Data?
 
+        @inlinable
         public init(metricWidgetImage: AWSBase64Data? = nil) {
             self.metricWidgetImage = metricWidgetImage
         }
@@ -1707,6 +1752,7 @@ extension CloudWatch {
         /// Indicates whether the rule is enabled or disabled.
         public let state: String?
 
+        @inlinable
         public init(definition: String? = nil, managedRule: Bool? = nil, name: String? = nil, schema: String? = nil, state: String? = nil) {
             self.definition = definition
             self.managedRule = managedRule
@@ -1734,6 +1780,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var keys: [String]?
 
+        @inlinable
         public init(approximateAggregateValue: Double? = nil, datapoints: [InsightRuleContributorDatapoint]? = nil, keys: [String]? = nil) {
             self.approximateAggregateValue = approximateAggregateValue
             self.datapoints = datapoints
@@ -1753,6 +1800,7 @@ extension CloudWatch {
         /// The timestamp of the data point.
         public let timestamp: Date?
 
+        @inlinable
         public init(approximateValue: Double? = nil, timestamp: Date? = nil) {
             self.approximateValue = approximateValue
             self.timestamp = timestamp
@@ -1784,6 +1832,7 @@ extension CloudWatch {
         /// The number of unique contributors who published data during this timestamp. This statistic is returned only if you included it in the Metrics array in your request.
         public let uniqueContributors: Double?
 
+        @inlinable
         public init(average: Double? = nil, maxContributorValue: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil, timestamp: Date? = nil, uniqueContributors: Double? = nil) {
             self.average = average
             self.maxContributorValue = maxContributorValue
@@ -1815,6 +1864,7 @@ extension CloudWatch {
         /// 			and 30 minutes ahead of UTC. The default is +0000.
         public let timezone: String?
 
+        @inlinable
         public init(timezone: String? = nil) {
             self.timezone = timezone
         }
@@ -1834,6 +1884,7 @@ extension CloudWatch {
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
 
+        @inlinable
         public init(dashboardNamePrefix: String? = nil, nextToken: String? = nil) {
             self.dashboardNamePrefix = dashboardNamePrefix
             self.nextToken = nextToken
@@ -1852,6 +1903,7 @@ extension CloudWatch {
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
 
+        @inlinable
         public init(dashboardEntries: [DashboardEntry]? = nil, nextToken: String? = nil) {
             self.dashboardEntries = dashboardEntries
             self.nextToken = nextToken
@@ -1887,6 +1939,7 @@ extension CloudWatch {
         ///
         public let resourceARN: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1923,6 +1976,7 @@ extension CloudWatch {
         ///
         public let nextToken: String?
 
+        @inlinable
         public init(managedRules: [ManagedRuleDescription]? = nil, nextToken: String? = nil) {
             self.managedRules = managedRules
             self.nextToken = nextToken
@@ -1940,6 +1994,7 @@ extension CloudWatch {
         /// Include this value, if it was returned by the previous call, to get the next set of metric streams.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1964,6 +2019,7 @@ extension CloudWatch {
         /// 		token in a subsequent operation to get the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [MetricStreamEntry]? = nil, nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -2004,6 +2060,7 @@ extension CloudWatch {
         /// 		data as much as 40 minutes more than the specified time interval.
         public let recentlyActive: RecentlyActive?
 
+        @inlinable
         public init(dimensions: [DimensionFilter]? = nil, includeLinkedAccounts: Bool? = nil, metricName: String? = nil, namespace: String? = nil, nextToken: String? = nil, owningAccount: String? = nil, recentlyActive: RecentlyActive? = nil) {
             self.dimensions = dimensions
             self.includeLinkedAccounts = includeLinkedAccounts
@@ -2051,6 +2108,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var owningAccounts: [String]?
 
+        @inlinable
         public init(metrics: [Metric]? = nil, nextToken: String? = nil, owningAccounts: [String]? = nil) {
             self.metrics = metrics
             self.nextToken = nextToken
@@ -2072,6 +2130,7 @@ extension CloudWatch {
         /// 			Reference.
         public let resourceARN: String?
 
+        @inlinable
         public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
@@ -2091,6 +2150,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2141,6 +2201,7 @@ extension CloudWatch {
         ///
         public let templateName: String?
 
+        @inlinable
         public init(resourceARN: String? = nil, tags: [Tag]? = nil, templateName: String? = nil) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -2187,6 +2248,7 @@ extension CloudWatch {
         ///
         public let templateName: String?
 
+        @inlinable
         public init(resourceARN: String? = nil, ruleState: ManagedRuleState? = nil, templateName: String? = nil) {
             self.resourceARN = resourceARN
             self.ruleState = ruleState
@@ -2211,6 +2273,7 @@ extension CloudWatch {
         ///
         public let state: String?
 
+        @inlinable
         public init(ruleName: String? = nil, state: String? = nil) {
             self.ruleName = ruleName
             self.state = state
@@ -2228,6 +2291,7 @@ extension CloudWatch {
         /// The message text.
         public let value: String?
 
+        @inlinable
         public init(code: String? = nil, value: String? = nil) {
             self.code = code
             self.value = value
@@ -2248,6 +2312,7 @@ extension CloudWatch {
         /// The namespace of the metric.
         public let namespace: String?
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -2361,6 +2426,7 @@ extension CloudWatch {
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
@@ -2433,6 +2499,7 @@ extension CloudWatch {
         /// 			as anomalies.
         public let periodicSpikes: Bool?
 
+        @inlinable
         public init(periodicSpikes: Bool? = nil) {
             self.periodicSpikes = periodicSpikes
         }
@@ -2489,6 +2556,7 @@ extension CloudWatch {
         /// 		other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public let returnData: Bool?
 
+        @inlinable
         public init(accountId: String? = nil, expression: String? = nil, id: String? = nil, label: String? = nil, metricStat: MetricStat? = nil, period: Int? = nil, returnData: Bool? = nil) {
             self.accountId = accountId
             self.expression = expression
@@ -2546,6 +2614,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Double>>
         public var values: [Double]?
 
+        @inlinable
         public init(id: String? = nil, label: String? = nil, messages: [MessageData]? = nil, statusCode: StatusCode? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
             self.id = id
             self.label = label
@@ -2604,6 +2673,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Double>>
         public var values: [Double]?
 
+        @inlinable
         public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, statisticValues: StatisticSet? = nil, storageResolution: Int? = nil, timestamp: Date? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
             self.counts = counts
             self.dimensions = dimensions
@@ -2655,6 +2725,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metricDataQueries: [MetricDataQuery]?
 
+        @inlinable
         public init(metricDataQueries: [MetricDataQuery]? = nil) {
             self.metricDataQueries = metricDataQueries
         }
@@ -2686,6 +2757,7 @@ extension CloudWatch {
         /// 			If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(metric: Metric? = nil, period: Int? = nil, stat: String? = nil, unit: StandardUnit? = nil) {
             self.metric = metric
             self.period = period
@@ -2724,6 +2796,7 @@ extension CloudWatch {
         /// The current state of this stream. Valid values are running and stopped.
         public let state: String?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, firehoseArn: String? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, state: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -2755,6 +2828,7 @@ extension CloudWatch {
         /// 			contain at least one non-whitespace character.
         public let namespace: String?
 
+        @inlinable
         public init(metricNames: [String]? = nil, namespace: String? = nil) {
             self.metricNames = metricNames
             self.namespace = namespace
@@ -2793,6 +2867,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<MetricStreamStatisticsMetric>>
         public var includeMetrics: [MetricStreamStatisticsMetric]?
 
+        @inlinable
         public init(additionalStatistics: [String]? = nil, includeMetrics: [MetricStreamStatisticsMetric]? = nil) {
             self.additionalStatistics = additionalStatistics
             self.includeMetrics = includeMetrics
@@ -2816,6 +2891,7 @@ extension CloudWatch {
         /// The namespace of the metric.
         public let namespace: String?
 
+        @inlinable
         public init(metricName: String? = nil, namespace: String? = nil) {
             self.metricName = metricName
             self.namespace = namespace
@@ -2845,6 +2921,7 @@ extension CloudWatch {
         /// The specified rule that could not be deleted.
         public let failureResource: String?
 
+        @inlinable
         public init(exceptionType: String? = nil, failureCode: String? = nil, failureDescription: String? = nil, failureResource: String? = nil) {
             self.exceptionType = exceptionType
             self.failureCode = failureCode
@@ -2888,6 +2965,7 @@ extension CloudWatch {
         /// The statistic to use for the metric and the anomaly detection model.
         public let stat: String?
 
+        @inlinable
         public init(configuration: AnomalyDetectorConfiguration? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil) {
             self.configuration = configuration
             self.dimensions = nil
@@ -2900,6 +2978,7 @@ extension CloudWatch {
         }
 
         @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
+        @inlinable
         public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
@@ -3029,6 +3108,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(actionsEnabled: Bool? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
             self.actionsEnabled = actionsEnabled
             self.actionsSuppressor = actionsSuppressor
@@ -3096,6 +3176,7 @@ extension CloudWatch {
         /// 			A-Z, a-z, 0-9, "-", and "_".  This parameter is required.
         public let dashboardName: String?
 
+        @inlinable
         public init(dashboardBody: String? = nil, dashboardName: String? = nil) {
             self.dashboardBody = dashboardBody
             self.dashboardName = dashboardName
@@ -3114,6 +3195,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<DashboardValidationMessage>>
         public var dashboardValidationMessages: [DashboardValidationMessage]?
 
+        @inlinable
         public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil) {
             self.dashboardValidationMessages = dashboardValidationMessages
         }
@@ -3143,6 +3225,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(ruleDefinition: String? = nil, ruleName: String? = nil, ruleState: String? = nil, tags: [Tag]? = nil) {
             self.ruleDefinition = ruleDefinition
             self.ruleName = ruleName
@@ -3185,6 +3268,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<ManagedRule>>
         public var managedRules: [ManagedRule]?
 
+        @inlinable
         public init(managedRules: [ManagedRule]? = nil) {
             self.managedRules = managedRules
         }
@@ -3208,6 +3292,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
+        @inlinable
         public init(failures: [PartialFailure]? = nil) {
             self.failures = failures
         }
@@ -3348,6 +3433,7 @@ extension CloudWatch {
         /// 			causes the alarm to be stuck in the INSUFFICIENT DATA state.
         public let unit: StandardUnit?
 
+        @inlinable
         public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
@@ -3453,6 +3539,7 @@ extension CloudWatch {
         /// 			with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
         public let namespace: String?
 
+        @inlinable
         public init(metricData: [MetricDatum]? = nil, namespace: String? = nil) {
             self.metricData = metricData
             self.namespace = namespace
@@ -3527,6 +3614,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, includeLinkedAccountsMetrics: Bool? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil, tags: [Tag]? = nil) {
             self.excludeFilters = excludeFilters
             self.firehoseArn = firehoseArn
@@ -3577,6 +3665,7 @@ extension CloudWatch {
         /// The ARN of the metric stream.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -3594,6 +3683,7 @@ extension CloudWatch {
         /// 			2019-07-01T23:59:59.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -3616,6 +3706,7 @@ extension CloudWatch {
         /// The value of the state.
         public let stateValue: StateValue?
 
+        @inlinable
         public init(alarmName: String? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateValue: StateValue? = nil) {
             self.alarmName = alarmName
             self.stateReason = stateReason
@@ -3653,6 +3744,7 @@ extension CloudWatch {
         /// The statistic to use for the metric and anomaly detection model.
         public let stat: String?
 
+        @inlinable
         public init(accountId: String? = nil, dimensions: [Dimension]? = nil, metricName: String? = nil, namespace: String? = nil, stat: String? = nil) {
             self.accountId = accountId
             self.dimensions = dimensions
@@ -3693,6 +3785,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var names: [String]?
 
+        @inlinable
         public init(names: [String]? = nil) {
             self.names = names
         }
@@ -3723,6 +3816,7 @@ extension CloudWatch {
         /// The sum of values for the sample set.
         public let sum: Double?
 
+        @inlinable
         public init(maximum: Double? = nil, minimum: Double? = nil, sampleCount: Double? = nil, sum: Double? = nil) {
             self.maximum = maximum
             self.minimum = minimum
@@ -3745,6 +3839,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var names: [String]?
 
+        @inlinable
         public init(names: [String]? = nil) {
             self.names = names
         }
@@ -3772,6 +3867,7 @@ extension CloudWatch {
         /// The value for the specified tag key.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3800,6 +3896,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tags: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -3834,6 +3931,7 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tagKeys: [String]? = nil) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys

@@ -86,6 +86,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The Amazon Resource Name (ARN) of the subscription provider resource to deregister.
         public let subscriptionProviderArn: String
 
+        @inlinable
         public init(subscriptionProviderArn: String) {
             self.subscriptionProviderArn = subscriptionProviderArn
         }
@@ -111,6 +112,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// One or more values for the name to filter by.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, operator: Operator? = nil, values: [String]? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -133,6 +135,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The Amazon Resource Name (ARN) of the BYOL registration resource to get details for.
         public let subscriptionProviderArn: String
 
+        @inlinable
         public init(subscriptionProviderArn: String) {
             self.subscriptionProviderArn = subscriptionProviderArn
         }
@@ -164,6 +167,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The detailed message from your subscription provider token status.
         public let subscriptionProviderStatusMessage: String?
 
+        @inlinable
         public init(lastSuccessfulDataRetrievalTime: String? = nil, secretArn: String? = nil, subscriptionProviderArn: String? = nil, subscriptionProviderSource: SubscriptionProviderSource? = nil, subscriptionProviderStatus: SubscriptionProviderStatus? = nil, subscriptionProviderStatusMessage: String? = nil) {
             self.lastSuccessfulDataRetrievalTime = lastSuccessfulDataRetrievalTime
             self.secretArn = secretArn
@@ -199,6 +203,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// A message which details the Linux subscriptions service settings current status.
         public let statusMessage: [String: String]?
 
+        @inlinable
         public init(homeRegions: [String]? = nil, linuxSubscriptionsDiscovery: LinuxSubscriptionsDiscovery? = nil, linuxSubscriptionsDiscoverySettings: LinuxSubscriptionsDiscoverySettings? = nil, status: Status? = nil, statusMessage: [String: String]? = nil) {
             self.homeRegions = homeRegions
             self.linuxSubscriptionsDiscovery = linuxSubscriptionsDiscovery
@@ -252,6 +257,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The usage operation of the instance. For more information, see For more information, see Usage operation values in the License Manager User Guide.
         public let usageOperation: String?
 
+        @inlinable
         public init(accountID: String? = nil, amiId: String? = nil, dualSubscription: String? = nil, instanceID: String? = nil, instanceType: String? = nil, lastUpdatedTime: String? = nil, osVersion: String? = nil, productCode: [String]? = nil, region: String? = nil, registeredWithSubscriptionProvider: String? = nil, status: String? = nil, subscriptionName: String? = nil, subscriptionProviderCreateTime: String? = nil, subscriptionProviderUpdateTime: String? = nil, usageOperation: String? = nil) {
             self.accountID = accountID
             self.amiId = amiId
@@ -295,6 +301,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The Regions in which to discover data for Linux subscriptions.
         public let sourceRegions: [String]
 
+        @inlinable
         public init(organizationIntegration: OrganizationIntegration, sourceRegions: [String]) {
             self.organizationIntegration = organizationIntegration
             self.sourceRegions = sourceRegions
@@ -320,6 +327,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 	is the nextToken from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -348,6 +356,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 	additional objects.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [Instance]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -368,6 +377,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 	is the nextToken from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -396,6 +406,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// An array that contains subscription objects.
         public let subscriptions: [Subscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -417,6 +428,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			in the list.
         public let subscriptionProviderSources: [SubscriptionProviderSource]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, subscriptionProviderSources: [SubscriptionProviderSource]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -440,6 +452,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			you specified in the request.
         public let registeredSubscriptionProviders: [RegisteredSubscriptionProvider]?
 
+        @inlinable
         public init(nextToken: String? = nil, registeredSubscriptionProviders: [RegisteredSubscriptionProvider]? = nil) {
             self.nextToken = nextToken
             self.registeredSubscriptionProviders = registeredSubscriptionProviders
@@ -455,6 +468,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The Amazon Resource Name (ARN) of the resource for which to list metadata tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -476,6 +490,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The metadata tags for the requested resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -496,6 +511,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(secretArn: String, subscriptionProviderSource: SubscriptionProviderSource, tags: [String: String]? = nil) {
             self.secretArn = secretArn
             self.subscriptionProviderSource = subscriptionProviderSource
@@ -523,6 +539,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			that you requested.
         public let subscriptionProviderStatus: SubscriptionProviderStatus?
 
+        @inlinable
         public init(subscriptionProviderArn: String? = nil, subscriptionProviderSource: SubscriptionProviderSource? = nil, subscriptionProviderStatus: SubscriptionProviderStatus? = nil) {
             self.subscriptionProviderArn = subscriptionProviderArn
             self.subscriptionProviderSource = subscriptionProviderSource
@@ -556,6 +573,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			provider token status.
         public let subscriptionProviderStatusMessage: String?
 
+        @inlinable
         public init(lastSuccessfulDataRetrievalTime: String? = nil, secretArn: String? = nil, subscriptionProviderArn: String? = nil, subscriptionProviderSource: SubscriptionProviderSource? = nil, subscriptionProviderStatus: SubscriptionProviderStatus? = nil, subscriptionProviderStatusMessage: String? = nil) {
             self.lastSuccessfulDataRetrievalTime = lastSuccessfulDataRetrievalTime
             self.secretArn = secretArn
@@ -583,6 +601,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The type of subscription. The type can be subscription-included with Amazon EC2, Bring Your Own Subscription model (BYOS), or from the Amazon Web Services Marketplace. Certain subscriptions may use licensing from the Amazon Web Services Marketplace as well as OS licensing from Amazon EC2 or BYOS.
         public let type: String?
 
+        @inlinable
         public init(instanceCount: Int64? = nil, name: String? = nil, type: String? = nil) {
             self.instanceCount = instanceCount
             self.name = name
@@ -604,6 +623,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			formatted as key value pairs.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -637,6 +657,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// 			resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -669,6 +690,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Regions data will be aggregated from.
         public let linuxSubscriptionsDiscoverySettings: LinuxSubscriptionsDiscoverySettings
 
+        @inlinable
         public init(allowUpdate: Bool? = nil, linuxSubscriptionsDiscovery: LinuxSubscriptionsDiscovery, linuxSubscriptionsDiscoverySettings: LinuxSubscriptionsDiscoverySettings) {
             self.allowUpdate = allowUpdate
             self.linuxSubscriptionsDiscovery = linuxSubscriptionsDiscovery
@@ -698,6 +720,7 @@ extension LicenseManagerLinuxSubscriptions {
         /// A message which details the Linux subscriptions service settings current status.
         public let statusMessage: [String: String]?
 
+        @inlinable
         public init(homeRegions: [String]? = nil, linuxSubscriptionsDiscovery: LinuxSubscriptionsDiscovery? = nil, linuxSubscriptionsDiscoverySettings: LinuxSubscriptionsDiscoverySettings? = nil, status: Status? = nil, statusMessage: [String: String]? = nil) {
             self.homeRegions = homeRegions
             self.linuxSubscriptionsDiscovery = linuxSubscriptionsDiscovery

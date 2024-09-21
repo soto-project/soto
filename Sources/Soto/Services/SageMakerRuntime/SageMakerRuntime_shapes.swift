@@ -68,6 +68,7 @@ extension SageMakerRuntime {
     public struct InternalStreamFailure: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -95,6 +96,7 @@ extension SageMakerRuntime {
         /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
         public let requestTTLSeconds: Int?
 
+        @inlinable
         public init(accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, inputLocation: String? = nil, invocationTimeoutSeconds: Int? = nil, requestTTLSeconds: Int? = nil) {
             self.accept = accept
             self.contentType = contentType
@@ -151,6 +153,7 @@ extension SageMakerRuntime {
         /// The Amazon S3 URI where the inference response payload is stored.
         public let outputLocation: String?
 
+        @inlinable
         public init(failureLocation: String? = nil, inferenceId: String? = nil, outputLocation: String? = nil) {
             self.failureLocation = failureLocation
             self.inferenceId = inferenceId
@@ -196,6 +199,7 @@ extension SageMakerRuntime {
         /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production
         public let targetVariant: String?
 
+        @inlinable
         public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, customAttributes: String? = nil, enableExplanations: String? = nil, endpointName: String, inferenceComponentName: String? = nil, inferenceId: String? = nil, sessionId: String? = nil, targetContainerHostname: String? = nil, targetModel: String? = nil, targetVariant: String? = nil) {
             self.accept = accept
             self.body = body
@@ -275,6 +279,7 @@ extension SageMakerRuntime {
         /// If you created a stateful session with your request, the ID and expiration time that the model assigns to that session.
         public let newSessionId: String?
 
+        @inlinable
         public init(body: AWSHTTPBody? = nil, closedSessionId: String? = nil, contentType: String? = nil, customAttributes: String? = nil, invokedProductionVariant: String? = nil, newSessionId: String? = nil) {
             self.body = body
             self.closedSessionId = closedSessionId
@@ -320,6 +325,7 @@ extension SageMakerRuntime {
         /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production
         public let targetVariant: String?
 
+        @inlinable
         public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceComponentName: String? = nil, inferenceId: String? = nil, sessionId: String? = nil, targetContainerHostname: String? = nil, targetVariant: String? = nil) {
             self.accept = accept
             self.body = body
@@ -384,6 +390,7 @@ extension SageMakerRuntime {
         /// Identifies the production variant that was invoked.
         public let invokedProductionVariant: String?
 
+        @inlinable
         public init(body: AWSEventStream<ResponseStream>, contentType: String? = nil, customAttributes: String? = nil, invokedProductionVariant: String? = nil) {
             self.body = body
             self.contentType = contentType
@@ -408,6 +415,7 @@ extension SageMakerRuntime {
         public let errorCode: String?
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -423,6 +431,7 @@ extension SageMakerRuntime {
         /// A blob that contains part of the response for your streaming inference request.
         public let bytes: AWSEventPayload
 
+        @inlinable
         public init(bytes: AWSEventPayload) {
             self.bytes = bytes
         }

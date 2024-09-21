@@ -346,6 +346,7 @@ extension Mgn {
         /// Application wave ID.
         public let waveID: String?
 
+        @inlinable
         public init(applicationAggregatedStatus: ApplicationAggregatedStatus? = nil, applicationID: String? = nil, arn: String? = nil, creationDateTime: String? = nil, description: String? = nil, isArchived: Bool? = nil, lastModifiedDateTime: String? = nil, name: String? = nil, tags: [String: String]? = nil, waveID: String? = nil) {
             self.applicationAggregatedStatus = applicationAggregatedStatus
             self.applicationID = applicationID
@@ -383,6 +384,7 @@ extension Mgn {
         /// Application aggregated status total source servers amount.
         public let totalSourceServers: Int64?
 
+        @inlinable
         public init(healthStatus: ApplicationHealthStatus? = nil, lastUpdateDateTime: String? = nil, progressStatus: ApplicationProgressStatus? = nil, totalSourceServers: Int64? = nil) {
             self.healthStatus = healthStatus
             self.lastUpdateDateTime = lastUpdateDateTime
@@ -404,6 +406,7 @@ extension Mgn {
         /// Application ID.
         public let applicationID: String
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -430,6 +433,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
+        @inlinable
         public init(accountID: String? = nil, waveID: String) {
             self.accountID = accountID
             self.waveID = waveID
@@ -458,6 +462,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
+        @inlinable
         public init(accountID: String? = nil, applicationIDs: [String], waveID: String) {
             self.accountID = accountID
             self.applicationIDs = applicationIDs
@@ -499,6 +504,7 @@ extension Mgn {
         /// Source server IDs list.
         public let sourceServerIDs: [String]
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String, sourceServerIDs: [String]) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -538,6 +544,7 @@ extension Mgn {
         /// The source server's CPU model name.
         public let modelName: String?
 
+        @inlinable
         public init(cores: Int64? = nil, modelName: String? = nil) {
             self.cores = cores
             self.modelName = modelName
@@ -557,6 +564,7 @@ extension Mgn {
         /// The request to change the source server migration lifecycle state by source server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, lifeCycle: ChangeServerLifeCycleStateSourceServerLifecycle, sourceServerID: String) {
             self.accountID = accountID
             self.lifeCycle = lifeCycle
@@ -583,6 +591,7 @@ extension Mgn {
         /// The request to change the source server migration lifecycle state.
         public let state: ChangeServerLifeCycleStateSourceServerLifecycleState
 
+        @inlinable
         public init(state: ChangeServerLifeCycleStateSourceServerLifecycleState) {
             self.state = state
         }
@@ -606,6 +615,7 @@ extension Mgn {
         /// Connector tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, connectorID: String? = nil, name: String? = nil, ssmCommandConfig: ConnectorSsmCommandConfig? = nil, ssmInstanceID: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.connectorID = connectorID
@@ -635,6 +645,7 @@ extension Mgn {
         /// Connector SSM command config S3 output enabled.
         public let s3OutputEnabled: Bool
 
+        @inlinable
         public init(cloudWatchLogGroupName: String? = nil, cloudWatchOutputEnabled: Bool, outputS3BucketName: String? = nil, s3OutputEnabled: Bool) {
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.cloudWatchOutputEnabled = cloudWatchOutputEnabled
@@ -667,6 +678,7 @@ extension Mgn {
         /// Application tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountID: String? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.accountID = accountID
             self.description = description
@@ -708,6 +720,7 @@ extension Mgn {
         /// Create Connector request tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String, ssmCommandConfig: ConnectorSsmCommandConfig? = nil, ssmInstanceID: String, tags: [String: String]? = nil) {
             self.name = name
             self.ssmCommandConfig = ssmCommandConfig
@@ -767,6 +780,7 @@ extension Mgn {
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.bootMode = bootMode
@@ -845,6 +859,7 @@ extension Mgn {
         /// Request to use Fips Endpoint during Replication Settings template creation.
         public let useFipsEndpoint: Bool?
 
+        @inlinable
         public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -915,6 +930,7 @@ extension Mgn {
         /// Wave tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountID: String? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
             self.accountID = accountID
             self.description = description
@@ -952,6 +968,7 @@ extension Mgn {
         /// Error in data replication.
         public let rawError: String?
 
+        @inlinable
         public init(error: DataReplicationErrorString? = nil, rawError: String? = nil) {
             self.error = error
             self.rawError = rawError
@@ -979,6 +996,7 @@ extension Mgn {
         /// Request to query disks replicated.
         public let replicatedDisks: [DataReplicationInfoReplicatedDisk]?
 
+        @inlinable
         public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, lastSnapshotDateTime: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
@@ -1012,6 +1030,7 @@ extension Mgn {
         /// Request to query total amount of data replicated in bytes.
         public let totalStorageBytes: Int64?
 
+        @inlinable
         public init(backloggedStorageBytes: Int64? = nil, deviceName: String? = nil, replicatedStorageBytes: Int64? = nil, rescannedStorageBytes: Int64? = nil, totalStorageBytes: Int64? = nil) {
             self.backloggedStorageBytes = backloggedStorageBytes
             self.deviceName = deviceName
@@ -1037,6 +1056,7 @@ extension Mgn {
         /// Request to query data initiation steps.
         public let steps: [DataReplicationInitiationStep]?
 
+        @inlinable
         public init(nextAttemptDateTime: String? = nil, startDateTime: String? = nil, steps: [DataReplicationInitiationStep]? = nil) {
             self.nextAttemptDateTime = nextAttemptDateTime
             self.startDateTime = startDateTime
@@ -1056,6 +1076,7 @@ extension Mgn {
         /// Request to query data initiation status.
         public let status: DataReplicationInitiationStepStatus?
 
+        @inlinable
         public init(name: DataReplicationInitiationStepName? = nil, status: DataReplicationInitiationStepStatus? = nil) {
             self.name = name
             self.status = status
@@ -1073,6 +1094,7 @@ extension Mgn {
         /// Application ID.
         public let applicationID: String
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -1101,6 +1123,7 @@ extension Mgn {
         /// Delete Connector request connector ID.
         public let connectorID: String
 
+        @inlinable
         public init(connectorID: String) {
             self.connectorID = connectorID
         }
@@ -1122,6 +1145,7 @@ extension Mgn {
         /// Request to delete Job from service by Job ID.
         public let jobID: String
 
+        @inlinable
         public init(accountID: String? = nil, jobID: String) {
             self.accountID = accountID
             self.jobID = jobID
@@ -1150,6 +1174,7 @@ extension Mgn {
         /// ID of resource to be deleted.
         public let launchConfigurationTemplateID: String
 
+        @inlinable
         public init(launchConfigurationTemplateID: String) {
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
         }
@@ -1173,6 +1198,7 @@ extension Mgn {
         /// Request to delete Replication Configuration Template from service by Replication Configuration Template ID.
         public let replicationConfigurationTemplateID: String
 
+        @inlinable
         public init(replicationConfigurationTemplateID: String) {
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         }
@@ -1198,6 +1224,7 @@ extension Mgn {
         /// Request to delete Source Server from service by Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -1226,6 +1253,7 @@ extension Mgn {
         /// ID of resource to be deleted.
         public let vcenterClientID: String
 
+        @inlinable
         public init(vcenterClientID: String) {
             self.vcenterClientID = vcenterClientID
         }
@@ -1247,6 +1275,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
+        @inlinable
         public init(accountID: String? = nil, waveID: String) {
             self.accountID = accountID
             self.waveID = waveID
@@ -1281,6 +1310,7 @@ extension Mgn {
         /// Request to describe Job log next token.
         public let nextToken: String?
 
+        @inlinable
         public init(accountID: String? = nil, jobID: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountID = accountID
             self.jobID = jobID
@@ -1314,6 +1344,7 @@ extension Mgn {
         /// Request to describe Job log response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [JobLog]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1335,6 +1366,7 @@ extension Mgn {
         /// Request to describe job log items by next token.
         public let nextToken: String?
 
+        @inlinable
         public init(accountID: String? = nil, filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountID = accountID
             self.filters = filters
@@ -1368,6 +1400,7 @@ extension Mgn {
         /// Request to describe job log items by last date.
         public let toDate: String?
 
+        @inlinable
         public init(fromDate: String? = nil, jobIDs: [String]? = nil, toDate: String? = nil) {
             self.fromDate = fromDate
             self.jobIDs = jobIDs
@@ -1402,6 +1435,7 @@ extension Mgn {
         /// Request to describe Job response by next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Job]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1421,6 +1455,7 @@ extension Mgn {
         /// Next pagination token returned from DescribeLaunchConfigurationTemplates.
         public let nextToken: String?
 
+        @inlinable
         public init(launchConfigurationTemplateIDs: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.launchConfigurationTemplateIDs = launchConfigurationTemplateIDs
             self.maxResults = maxResults
@@ -1452,6 +1487,7 @@ extension Mgn {
         /// Next pagination token returned from DescribeLaunchConfigurationTemplates.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [LaunchConfigurationTemplate]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1471,6 +1507,7 @@ extension Mgn {
         /// Request to describe Replication Configuration template by template IDs.
         public let replicationConfigurationTemplateIDs: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1502,6 +1539,7 @@ extension Mgn {
         /// Request to describe Replication Configuration template by next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ReplicationConfigurationTemplate]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1523,6 +1561,7 @@ extension Mgn {
         /// Request to filter Source Servers list by next token.
         public let nextToken: String?
 
+        @inlinable
         public init(accountID: String? = nil, filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountID = accountID
             self.filters = filters
@@ -1560,6 +1599,7 @@ extension Mgn {
         /// Request to filter Source Servers list by Source Server ID.
         public let sourceServerIDs: [String]?
 
+        @inlinable
         public init(applicationIDs: [String]? = nil, isArchived: Bool? = nil, lifeCycleStates: [LifeCycleState]? = nil, replicationTypes: [ReplicationType]? = nil, sourceServerIDs: [String]? = nil) {
             self.applicationIDs = applicationIDs
             self.isArchived = isArchived
@@ -1600,6 +1640,7 @@ extension Mgn {
         /// Request to filter Source Servers next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SourceServer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1617,6 +1658,7 @@ extension Mgn {
         /// Next pagination token to be provided for DescribeVcenterClients.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1644,6 +1686,7 @@ extension Mgn {
         /// Next pagination token returned from DescribeVcenterClients.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [VcenterClient]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1663,6 +1706,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
+        @inlinable
         public init(accountID: String? = nil, applicationIDs: [String], waveID: String) {
             self.accountID = accountID
             self.applicationIDs = applicationIDs
@@ -1704,6 +1748,7 @@ extension Mgn {
         /// Source server IDs list.
         public let sourceServerIDs: [String]
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String, sourceServerIDs: [String]) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -1743,6 +1788,7 @@ extension Mgn {
         /// Request to disconnect Source Server from service by Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -1769,6 +1815,7 @@ extension Mgn {
         /// The disk or device name.
         public let deviceName: String?
 
+        @inlinable
         public init(bytes: Int64? = nil, deviceName: String? = nil) {
             self.bytes = bytes
             self.deviceName = deviceName
@@ -1784,6 +1831,7 @@ extension Mgn {
         /// Export errors data raw error.
         public let rawError: String?
 
+        @inlinable
         public init(rawError: String? = nil) {
             self.rawError = rawError
         }
@@ -1813,6 +1861,7 @@ extension Mgn {
         /// Export task summary.
         public let summary: ExportTaskSummary?
 
+        @inlinable
         public init(creationDateTime: String? = nil, endDateTime: String? = nil, exportID: String? = nil, progressPercentage: Float? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Key: String? = nil, status: ExportStatus? = nil, summary: ExportTaskSummary? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -1844,6 +1893,7 @@ extension Mgn {
         /// Export task error datetime.
         public let errorDateTime: String?
 
+        @inlinable
         public init(errorData: ExportErrorData? = nil, errorDateTime: String? = nil) {
             self.errorData = errorData
             self.errorDateTime = errorDateTime
@@ -1863,6 +1913,7 @@ extension Mgn {
         /// Export task summary waves count.
         public let wavesCount: Int64?
 
+        @inlinable
         public init(applicationsCount: Int64? = nil, serversCount: Int64? = nil, wavesCount: Int64? = nil) {
             self.applicationsCount = applicationsCount
             self.serversCount = serversCount
@@ -1882,6 +1933,7 @@ extension Mgn {
         /// Request to finalize Cutover by Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -1908,6 +1960,7 @@ extension Mgn {
         /// Request to get Launch Configuration information by Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -1934,6 +1987,7 @@ extension Mgn {
         /// Request to get Replication Configuration by Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -1966,6 +2020,7 @@ extension Mgn {
         /// vmWare UUID identification hint.
         public let vmWareUuid: String?
 
+        @inlinable
         public init(awsInstanceID: String? = nil, fqdn: String? = nil, hostname: String? = nil, vmPath: String? = nil, vmWareUuid: String? = nil) {
             self.awsInstanceID = awsInstanceID
             self.fqdn = fqdn
@@ -1999,6 +2054,7 @@ extension Mgn {
         /// Import error data wave id.
         public let waveID: String?
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String? = nil, ec2LaunchTemplateID: String? = nil, rawError: String? = nil, rowNumber: Int64? = nil, sourceServerID: String? = nil, waveID: String? = nil) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -2036,6 +2092,7 @@ extension Mgn {
         /// Import task summary.
         public let summary: ImportTaskSummary?
 
+        @inlinable
         public init(creationDateTime: String? = nil, endDateTime: String? = nil, importID: String? = nil, progressPercentage: Float? = nil, s3BucketSource: S3BucketSource? = nil, status: ImportStatus? = nil, summary: ImportTaskSummary? = nil) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -2065,6 +2122,7 @@ extension Mgn {
         /// Import task error type.
         public let errorType: ImportErrorType?
 
+        @inlinable
         public init(errorData: ImportErrorData? = nil, errorDateTime: String? = nil, errorType: ImportErrorType? = nil) {
             self.errorData = errorData
             self.errorDateTime = errorDateTime
@@ -2086,6 +2144,7 @@ extension Mgn {
         /// Import task summary waves.
         public let waves: ImportTaskSummaryWaves?
 
+        @inlinable
         public init(applications: ImportTaskSummaryApplications? = nil, servers: ImportTaskSummaryServers? = nil, waves: ImportTaskSummaryWaves? = nil) {
             self.applications = applications
             self.servers = servers
@@ -2105,6 +2164,7 @@ extension Mgn {
         /// Import task summary applications modified count.
         public let modifiedCount: Int64?
 
+        @inlinable
         public init(createdCount: Int64? = nil, modifiedCount: Int64? = nil) {
             self.createdCount = createdCount
             self.modifiedCount = modifiedCount
@@ -2122,6 +2182,7 @@ extension Mgn {
         /// Import task summary servers modified count.
         public let modifiedCount: Int64?
 
+        @inlinable
         public init(createdCount: Int64? = nil, modifiedCount: Int64? = nil) {
             self.createdCount = createdCount
             self.modifiedCount = modifiedCount
@@ -2139,6 +2200,7 @@ extension Mgn {
         /// Import task summery waves modified count.
         public let modifiedCount: Int64?
 
+        @inlinable
         public init(createdCount: Int64? = nil, modifiedCount: Int64? = nil) {
             self.createdCount = createdCount
             self.modifiedCount = modifiedCount
@@ -2178,6 +2240,7 @@ extension Mgn {
         /// Job type.
         public let type: JobType?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil, initiatedBy: InitiatedBy? = nil, jobID: String, participatingServers: [ParticipatingServer]? = nil, status: JobStatus? = nil, tags: [String: String]? = nil, type: JobType? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -2211,6 +2274,7 @@ extension Mgn {
         /// Job log event date and time.
         public let logDateTime: String?
 
+        @inlinable
         public init(event: JobLogEvent? = nil, eventData: JobLogEventData? = nil, logDateTime: String? = nil) {
             self.event = event
             self.eventData = eventData
@@ -2234,6 +2298,7 @@ extension Mgn {
         /// Job Event Target instance ID.
         public let targetInstanceID: String?
 
+        @inlinable
         public init(conversionServerID: String? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
             self.conversionServerID = conversionServerID
             self.rawError = rawError
@@ -2261,6 +2326,7 @@ extension Mgn {
         /// AWS Systems Manager Document type.
         public let ssmDocumentType: SsmDocumentType?
 
+        @inlinable
         public init(executionID: String? = nil, executionStatus: PostLaunchActionExecutionStatus? = nil, failureReason: String? = nil, ssmDocument: SsmDocument? = nil, ssmDocumentType: SsmDocumentType? = nil) {
             self.executionID = executionID
             self.executionStatus = executionStatus
@@ -2303,6 +2369,7 @@ extension Mgn {
         /// Launch configuration Target instance type right sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, enableMapAutoTagging: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
@@ -2369,6 +2436,7 @@ extension Mgn {
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(arn: String? = nil, associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
             self.associatePublicIpAddress = associatePublicIpAddress
@@ -2418,6 +2486,7 @@ extension Mgn {
         /// Launch template disk volume type configuration.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(iops: Int64? = nil, throughput: Int64? = nil, volumeType: VolumeType? = nil) {
             self.iops = iops
             self.throughput = throughput
@@ -2446,6 +2515,7 @@ extension Mgn {
         /// Launched instance Job ID.
         public let jobID: String?
 
+        @inlinable
         public init(ec2InstanceID: String? = nil, firstBoot: FirstBoot? = nil, jobID: String? = nil) {
             self.ec2InstanceID = ec2InstanceID
             self.firstBoot = firstBoot
@@ -2463,6 +2533,7 @@ extension Mgn {
         /// Configure BYOL OS licensing.
         public let osByol: Bool?
 
+        @inlinable
         public init(osByol: Bool? = nil) {
             self.osByol = osByol
         }
@@ -2488,6 +2559,7 @@ extension Mgn {
         /// Lifecycle state.
         public let state: LifeCycleState?
 
+        @inlinable
         public init(addedToServiceDateTime: String? = nil, elapsedReplicationDuration: String? = nil, firstByteDateTime: String? = nil, lastCutover: LifeCycleLastCutover? = nil, lastSeenByServiceDateTime: String? = nil, lastTest: LifeCycleLastTest? = nil, state: LifeCycleState? = nil) {
             self.addedToServiceDateTime = addedToServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
@@ -2517,6 +2589,7 @@ extension Mgn {
         /// Lifecycle last Cutover reverted.
         public let reverted: LifeCycleLastCutoverReverted?
 
+        @inlinable
         public init(finalized: LifeCycleLastCutoverFinalized? = nil, initiated: LifeCycleLastCutoverInitiated? = nil, reverted: LifeCycleLastCutoverReverted? = nil) {
             self.finalized = finalized
             self.initiated = initiated
@@ -2534,6 +2607,7 @@ extension Mgn {
         /// Lifecycle Cutover finalized date and time.
         public let apiCallDateTime: String?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil) {
             self.apiCallDateTime = apiCallDateTime
         }
@@ -2548,6 +2622,7 @@ extension Mgn {
         /// Lifecycle last Cutover initiated by Job ID.
         public let jobID: String?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil, jobID: String? = nil) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
@@ -2563,6 +2638,7 @@ extension Mgn {
         /// Lifecycle last Cutover reverted API call date time.
         public let apiCallDateTime: String?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil) {
             self.apiCallDateTime = apiCallDateTime
         }
@@ -2580,6 +2656,7 @@ extension Mgn {
         /// Lifecycle last Test reverted.
         public let reverted: LifeCycleLastTestReverted?
 
+        @inlinable
         public init(finalized: LifeCycleLastTestFinalized? = nil, initiated: LifeCycleLastTestInitiated? = nil, reverted: LifeCycleLastTestReverted? = nil) {
             self.finalized = finalized
             self.initiated = initiated
@@ -2597,6 +2674,7 @@ extension Mgn {
         /// Lifecycle Test failed API call date and time.
         public let apiCallDateTime: String?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil) {
             self.apiCallDateTime = apiCallDateTime
         }
@@ -2612,6 +2690,7 @@ extension Mgn {
         /// Lifecycle last Test initiated Job ID.
         public let jobID: String?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil, jobID: String? = nil) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
@@ -2627,6 +2706,7 @@ extension Mgn {
         /// Lifecycle last Test reverted API call date and time.
         public let apiCallDateTime: String?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil) {
             self.apiCallDateTime = apiCallDateTime
         }
@@ -2646,6 +2726,7 @@ extension Mgn {
         /// Request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(accountID: String? = nil, filters: ListApplicationsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountID = accountID
             self.filters = filters
@@ -2679,6 +2760,7 @@ extension Mgn {
         /// Filter applications list by wave ID.
         public let waveIDs: [String]?
 
+        @inlinable
         public init(applicationIDs: [String]? = nil, isArchived: Bool? = nil, waveIDs: [String]? = nil) {
             self.applicationIDs = applicationIDs
             self.isArchived = isArchived
@@ -2713,6 +2795,7 @@ extension Mgn {
         /// Response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Application]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2732,6 +2815,7 @@ extension Mgn {
         /// List Connectors Request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: ListConnectorsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2756,6 +2840,7 @@ extension Mgn {
         /// List Connectors Request Filters connector IDs.
         public let connectorIDs: [String]?
 
+        @inlinable
         public init(connectorIDs: [String]? = nil) {
             self.connectorIDs = connectorIDs
         }
@@ -2780,6 +2865,7 @@ extension Mgn {
         /// List connectors response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Connector]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2799,6 +2885,7 @@ extension Mgn {
         /// List export errors request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(exportID: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportID = exportID
             self.maxResults = maxResults
@@ -2827,6 +2914,7 @@ extension Mgn {
         /// List export errors response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ExportTaskError]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2845,6 +2933,7 @@ extension Mgn {
         /// List export request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: ListExportsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2869,6 +2958,7 @@ extension Mgn {
         /// List exports request filters export ids.
         public let exportIDs: [String]?
 
+        @inlinable
         public init(exportIDs: [String]? = nil) {
             self.exportIDs = exportIDs
         }
@@ -2893,6 +2983,7 @@ extension Mgn {
         /// List export response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ExportTask]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2912,6 +3003,7 @@ extension Mgn {
         /// List import errors request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(importID: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.importID = importID
             self.maxResults = maxResults
@@ -2940,6 +3032,7 @@ extension Mgn {
         /// List imports errors response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ImportTaskError]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2959,6 +3052,7 @@ extension Mgn {
         /// List imports request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: ListImportsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2983,6 +3077,7 @@ extension Mgn {
         /// List imports request filters import IDs.
         public let importIDs: [String]?
 
+        @inlinable
         public init(importIDs: [String]? = nil) {
             self.importIDs = importIDs
         }
@@ -3007,6 +3102,7 @@ extension Mgn {
         /// List import response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ImportTask]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3024,6 +3120,7 @@ extension Mgn {
         /// List managed accounts request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3047,6 +3144,7 @@ extension Mgn {
         /// List managed accounts response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ManagedAccount], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3070,6 +3168,7 @@ extension Mgn {
         /// Source server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, filters: SourceServerActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.filters = filters
@@ -3106,6 +3205,7 @@ extension Mgn {
         /// Next token returned when listing source server post migration custom actions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SourceServerActionDocument]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3121,6 +3221,7 @@ extension Mgn {
         /// List tags for resource request by ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3143,6 +3244,7 @@ extension Mgn {
         /// List tags for resource response.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3162,6 +3264,7 @@ extension Mgn {
         /// Next token to use when listing template post migration custom actions.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: TemplateActionsRequestFilters? = nil, launchConfigurationTemplateID: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
@@ -3193,6 +3296,7 @@ extension Mgn {
         /// Next token returned when listing template post migration custom actions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [TemplateActionDocument]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3214,6 +3318,7 @@ extension Mgn {
         /// Request next token.
         public let nextToken: String?
 
+        @inlinable
         public init(accountID: String? = nil, filters: ListWavesRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountID = accountID
             self.filters = filters
@@ -3245,6 +3350,7 @@ extension Mgn {
         /// Filter waves list by wave ID.
         public let waveIDs: [String]?
 
+        @inlinable
         public init(isArchived: Bool? = nil, waveIDs: [String]? = nil) {
             self.isArchived = isArchived
             self.waveIDs = waveIDs
@@ -3271,6 +3377,7 @@ extension Mgn {
         /// Response next token.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Wave]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3286,6 +3393,7 @@ extension Mgn {
         /// Managed account, account ID.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -3301,6 +3409,7 @@ extension Mgn {
         /// Mark as archived by Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -3329,6 +3438,7 @@ extension Mgn {
         /// Network interface Mac address.
         public let macAddress: String?
 
+        @inlinable
         public init(ips: [String]? = nil, isPrimary: Bool? = nil, macAddress: String? = nil) {
             self.ips = ips
             self.isPrimary = isPrimary
@@ -3346,6 +3456,7 @@ extension Mgn {
         /// OS full string.
         public let fullString: String?
 
+        @inlinable
         public init(fullString: String? = nil) {
             self.fullString = fullString
         }
@@ -3365,6 +3476,7 @@ extension Mgn {
         /// Participating server Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(launchedEc2InstanceID: String? = nil, launchStatus: LaunchStatus? = nil, postLaunchActionsStatus: PostLaunchActionsStatus? = nil, sourceServerID: String) {
             self.launchedEc2InstanceID = launchedEc2InstanceID
             self.launchStatus = launchStatus
@@ -3386,6 +3498,7 @@ extension Mgn {
         /// Pause Replication Request source server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -3418,6 +3531,7 @@ extension Mgn {
         /// AWS Systems Manager Documents.
         public let ssmDocuments: [SsmDocument]?
 
+        @inlinable
         public init(cloudWatchLogGroupName: String? = nil, deployment: PostLaunchActionsDeploymentType? = nil, s3LogBucket: String? = nil, s3OutputKeyPrefix: String? = nil, ssmDocuments: [SsmDocument]? = nil) {
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.deployment = deployment
@@ -3454,6 +3568,7 @@ extension Mgn {
         /// Time where the AWS Systems Manager was detected as running on the Test or Cutover instance.
         public let ssmAgentDiscoveryDatetime: String?
 
+        @inlinable
         public init(postLaunchActionsLaunchStatusList: [JobPostLaunchActionsLaunchStatus]? = nil, ssmAgentDiscoveryDatetime: String? = nil) {
             self.postLaunchActionsLaunchStatusList = postLaunchActionsLaunchStatusList
             self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
@@ -3495,6 +3610,7 @@ extension Mgn {
         /// Source server post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
+        @inlinable
         public init(accountID: String? = nil, actionID: String, actionName: String, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, order: Int, parameters: [String: [SsmParameterStoreParameter]]? = nil, sourceServerID: String, timeoutSeconds: Int? = nil) {
             self.accountID = accountID
             self.actionID = actionID
@@ -3596,6 +3712,7 @@ extension Mgn {
         /// Template post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
+        @inlinable
         public init(actionID: String, actionName: String, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, launchConfigurationTemplateID: String, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
@@ -3671,6 +3788,7 @@ extension Mgn {
         /// Source server ID of the post migration custom action to remove.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, actionID: String, sourceServerID: String) {
             self.accountID = accountID
             self.actionID = actionID
@@ -3706,6 +3824,7 @@ extension Mgn {
         /// Launch configuration template ID of the post migration custom action to remove.
         public let launchConfigurationTemplateID: String
 
+        @inlinable
         public init(actionID: String, launchConfigurationTemplateID: String) {
             self.actionID = actionID
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
@@ -3764,6 +3883,7 @@ extension Mgn {
         /// Replication Configuration use Fips Endpoint.
         public let useFipsEndpoint: Bool?
 
+        @inlinable
         public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -3815,6 +3935,7 @@ extension Mgn {
         /// Replication Configuration replicated disk throughput.
         public let throughput: Int64?
 
+        @inlinable
         public init(deviceName: String? = nil, iops: Int64? = nil, isBootDisk: Bool? = nil, stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, throughput: Int64? = nil) {
             self.deviceName = deviceName
             self.iops = iops
@@ -3872,6 +3993,7 @@ extension Mgn {
         /// Replication Configuration template use Fips Endpoint.
         public let useFipsEndpoint: Bool?
 
+        @inlinable
         public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -3917,6 +4039,7 @@ extension Mgn {
         /// Resume Replication Request source server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -3943,6 +4066,7 @@ extension Mgn {
         /// Retry data replication for Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -3971,6 +4095,7 @@ extension Mgn {
         /// S3 bucket source s3 key.
         public let s3Key: String
 
+        @inlinable
         public init(s3Bucket: String, s3BucketOwner: String? = nil, s3Key: String) {
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -4010,6 +4135,7 @@ extension Mgn {
         /// Source server recommended instance type.
         public let recommendedInstanceType: String?
 
+        @inlinable
         public init(cpus: [CPU]? = nil, disks: [Disk]? = nil, identificationHints: IdentificationHints? = nil, lastUpdatedDateTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, os: OS? = nil, ramBytes: Int64? = nil, recommendedInstanceType: String? = nil) {
             self.cpus = cpus
             self.disks = disks
@@ -4063,6 +4189,7 @@ extension Mgn {
         /// Source server vCenter client id.
         public let vcenterClientID: String?
 
+        @inlinable
         public init(applicationID: String? = nil, arn: String? = nil, connectorAction: SourceServerConnectorAction? = nil, dataReplicationInfo: DataReplicationInfo? = nil, fqdnForActionFramework: String? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, replicationType: ReplicationType? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil, userProvidedID: String? = nil, vcenterClientID: String? = nil) {
             self.applicationID = applicationID
             self.arn = arn
@@ -4124,6 +4251,7 @@ extension Mgn {
         /// Source server post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
+        @inlinable
         public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
@@ -4159,6 +4287,7 @@ extension Mgn {
         /// Action IDs to filter source server post migration custom actions by.
         public let actionIDs: [String]?
 
+        @inlinable
         public init(actionIDs: [String]? = nil) {
             self.actionIDs = actionIDs
         }
@@ -4183,6 +4312,7 @@ extension Mgn {
         /// Source Server connector action credentials secret arn.
         public let credentialsSecretArn: String?
 
+        @inlinable
         public init(connectorArn: String? = nil, credentialsSecretArn: String? = nil) {
             self.connectorArn = connectorArn
             self.credentialsSecretArn = credentialsSecretArn
@@ -4217,6 +4347,7 @@ extension Mgn {
         /// AWS Systems Manager Document timeout seconds.
         public let timeoutSeconds: Int?
 
+        @inlinable
         public init(actionName: String, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, ssmDocumentName: String, timeoutSeconds: Int? = nil) {
             self.actionName = actionName
             self.externalParameters = externalParameters
@@ -4264,6 +4395,7 @@ extension Mgn {
         /// AWS Systems Manager Parameter Store parameter type.
         public let parameterType: SsmParameterStoreParameterType
 
+        @inlinable
         public init(parameterName: String, parameterType: SsmParameterStoreParameterType) {
             self.parameterName = parameterName
             self.parameterType = parameterType
@@ -4289,6 +4421,7 @@ extension Mgn {
         /// Start Cutover by Tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerIDs: [String], tags: [String: String]? = nil) {
             self.accountID = accountID
             self.sourceServerIDs = sourceServerIDs
@@ -4324,6 +4457,7 @@ extension Mgn {
         /// Start Cutover Job response.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -4341,6 +4475,7 @@ extension Mgn {
         /// Start export request s3key.
         public let s3Key: String
 
+        @inlinable
         public init(s3Bucket: String, s3BucketOwner: String? = nil, s3Key: String) {
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -4366,6 +4501,7 @@ extension Mgn {
         /// Start export response export task.
         public let exportTask: ExportTask?
 
+        @inlinable
         public init(exportTask: ExportTask? = nil) {
             self.exportTask = exportTask
         }
@@ -4381,6 +4517,7 @@ extension Mgn {
         /// Start import request s3 bucket source.
         public let s3BucketSource: S3BucketSource
 
+        @inlinable
         public init(clientToken: String? = StartImportRequest.idempotencyToken(), s3BucketSource: S3BucketSource) {
             self.clientToken = clientToken
             self.s3BucketSource = s3BucketSource
@@ -4401,6 +4538,7 @@ extension Mgn {
         /// Start import response import task.
         public let importTask: ImportTask?
 
+        @inlinable
         public init(importTask: ImportTask? = nil) {
             self.importTask = importTask
         }
@@ -4416,6 +4554,7 @@ extension Mgn {
         /// ID of source server on which to start replication.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -4444,6 +4583,7 @@ extension Mgn {
         /// Start Test by Tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerIDs: [String], tags: [String: String]? = nil) {
             self.accountID = accountID
             self.sourceServerIDs = sourceServerIDs
@@ -4479,6 +4619,7 @@ extension Mgn {
         /// Start Test Job response.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -4494,6 +4635,7 @@ extension Mgn {
         /// Stop Replication Request source server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.sourceServerID = sourceServerID
@@ -4520,6 +4662,7 @@ extension Mgn {
         /// Tag resource by Tags.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4575,6 +4718,7 @@ extension Mgn {
         /// Template post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
+        @inlinable
         public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
@@ -4612,6 +4756,7 @@ extension Mgn {
         /// Action IDs to filter template post migration custom actions by.
         public let actionIDs: [String]?
 
+        @inlinable
         public init(actionIDs: [String]? = nil) {
             self.actionIDs = actionIDs
         }
@@ -4638,6 +4783,7 @@ extension Mgn {
         /// Terminate Target instance by Tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountID: String? = nil, sourceServerIDs: [String], tags: [String: String]? = nil) {
             self.accountID = accountID
             self.sourceServerIDs = sourceServerIDs
@@ -4673,6 +4819,7 @@ extension Mgn {
         /// Terminate Target instance Job response.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -4688,6 +4835,7 @@ extension Mgn {
         /// Application ID.
         public let applicationID: String
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -4714,6 +4862,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
+        @inlinable
         public init(accountID: String? = nil, waveID: String) {
             self.accountID = accountID
             self.waveID = waveID
@@ -4740,6 +4889,7 @@ extension Mgn {
         /// Untag resource by Keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4773,6 +4923,7 @@ extension Mgn {
         /// Application name.
         public let name: String?
 
+        @inlinable
         public init(accountID: String? = nil, applicationID: String, description: String? = nil, name: String? = nil) {
             self.accountID = accountID
             self.applicationID = applicationID
@@ -4810,6 +4961,7 @@ extension Mgn {
         /// Update Connector request SSM command config.
         public let ssmCommandConfig: ConnectorSsmCommandConfig?
 
+        @inlinable
         public init(connectorID: String, name: String? = nil, ssmCommandConfig: ConnectorSsmCommandConfig? = nil) {
             self.connectorID = connectorID
             self.name = name
@@ -4858,6 +5010,7 @@ extension Mgn {
         /// Update Launch configuration Target instance right sizing request.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(accountID: String? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.accountID = accountID
             self.bootMode = bootMode
@@ -4930,6 +5083,7 @@ extension Mgn {
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.bootMode = bootMode
@@ -5012,6 +5166,7 @@ extension Mgn {
         /// Update replication configuration use Fips Endpoint.
         public let useFipsEndpoint: Bool?
 
+        @inlinable
         public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.accountID = accountID
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -5116,6 +5271,7 @@ extension Mgn {
         /// Update replication configuration template use Fips Endpoint request.
         public let useFipsEndpoint: Bool?
 
+        @inlinable
         public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -5186,6 +5342,7 @@ extension Mgn {
         /// ID of source server on which to update replication type.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, replicationType: ReplicationType, sourceServerID: String) {
             self.accountID = accountID
             self.replicationType = replicationType
@@ -5216,6 +5373,7 @@ extension Mgn {
         /// Update Source Server request source server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(accountID: String? = nil, connectorAction: SourceServerConnectorAction? = nil, sourceServerID: String) {
             self.accountID = accountID
             self.connectorAction = connectorAction
@@ -5249,6 +5407,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String
 
+        @inlinable
         public init(accountID: String? = nil, description: String? = nil, name: String? = nil, waveID: String) {
             self.accountID = accountID
             self.description = description
@@ -5296,6 +5455,7 @@ extension Mgn {
         /// Vcenter UUID of vCenter client.
         public let vcenterUUID: String?
 
+        @inlinable
         public init(arn: String? = nil, datacenterName: String? = nil, hostname: String? = nil, lastSeenDatetime: String? = nil, sourceServerTags: [String: String]? = nil, tags: [String: String]? = nil, vcenterClientID: String? = nil, vcenterUUID: String? = nil) {
             self.arn = arn
             self.datacenterName = datacenterName
@@ -5339,6 +5499,7 @@ extension Mgn {
         /// Wave ID.
         public let waveID: String?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: String? = nil, description: String? = nil, isArchived: Bool? = nil, lastModifiedDateTime: String? = nil, name: String? = nil, tags: [String: String]? = nil, waveAggregatedStatus: WaveAggregatedStatus? = nil, waveID: String? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -5376,6 +5537,7 @@ extension Mgn {
         /// Wave aggregated status total applications amount.
         public let totalApplications: Int64?
 
+        @inlinable
         public init(healthStatus: WaveHealthStatus? = nil, lastUpdateDateTime: String? = nil, progressStatus: WaveProgressStatus? = nil, replicationStartedDateTime: String? = nil, totalApplications: Int64? = nil) {
             self.healthStatus = healthStatus
             self.lastUpdateDateTime = lastUpdateDateTime
@@ -5397,6 +5559,7 @@ extension Mgn {
         /// AWS Systems Manager Document external parameters dynamic path.
         public let dynamicPath: String?
 
+        @inlinable
         public init(dynamicPath: String? = nil) {
             self.dynamicPath = dynamicPath
         }

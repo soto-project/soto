@@ -391,6 +391,7 @@ extension S3Control {
         /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload to the Outposts bucket.
         public let daysAfterInitiation: Int?
 
+        @inlinable
         public init(daysAfterInitiation: Int? = nil) {
             self.daysAfterInitiation = daysAfterInitiation
         }
@@ -404,6 +405,7 @@ extension S3Control {
         /// Specifies the replica ownership.
         public let owner: OwnerOverride
 
+        @inlinable
         public init(owner: OwnerOverride) {
             self.owner = owner
         }
@@ -417,6 +419,7 @@ extension S3Control {
         /// The S3SubPrefix is appended to the location scope creating the grant scope. Use this field to narrow the scope of the grant to a subset of the location scope. This field is required if the location scope is the default location s3:// because you cannot create a grant for all of your S3 data in the Region and must narrow the scope. For example, if the location scope is the default location s3://, the S3SubPrefx can be a /*, so the full grant scope path would be s3:///*. Or the S3SubPrefx can be /*, so the full grant scope path would be or s3:///*. If the S3SubPrefix includes a prefix, append the wildcard character * after the prefix to indicate that you want to include all object key names in the bucket that start with that prefix.
         public let s3SubPrefix: String?
 
+        @inlinable
         public init(s3SubPrefix: String? = nil) {
             self.s3SubPrefix = s3SubPrefix
         }
@@ -448,6 +451,7 @@ extension S3Control {
         /// The virtual private cloud (VPC) configuration for this access point, if one exists.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Servicesservices.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String, bucketAccountId: String? = nil, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
@@ -483,6 +487,7 @@ extension S3Control {
         /// A container element for S3 Storage Lens groups metrics.
         public let storageLensGroupLevel: StorageLensGroupLevel?
 
+        @inlinable
         public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, bucketLevel: BucketLevel, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, storageLensGroupLevel: StorageLensGroupLevel? = nil) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
@@ -511,6 +516,7 @@ extension S3Control {
         /// A container that indicates whether activity metrics are enabled.
         public let isEnabled: Bool?
 
+        @inlinable
         public init(isEnabled: Bool? = nil) {
             self.isEnabled = isEnabled
         }
@@ -524,6 +530,7 @@ extension S3Control {
         /// A container that indicates whether advanced cost-optimization metrics are enabled.
         public let isEnabled: Bool?
 
+        @inlinable
         public init(isEnabled: Bool? = nil) {
             self.isEnabled = isEnabled
         }
@@ -537,6 +544,7 @@ extension S3Control {
         /// A container that indicates whether advanced data-protection metrics are enabled.
         public let isEnabled: Bool?
 
+        @inlinable
         public init(isEnabled: Bool? = nil) {
             self.isEnabled = isEnabled
         }
@@ -553,6 +561,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let identityCenterArn: String
 
+        @inlinable
         public init(accountId: String, identityCenterArn: String) {
             self.accountId = accountId
             self.identityCenterArn = identityCenterArn
@@ -589,6 +598,7 @@ extension S3Control {
         /// The identifier of the resource associated with the error.
         public let resource: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, requestId: String? = nil, resource: String? = nil) {
             self.code = code
             self.message = message
@@ -618,6 +628,7 @@ extension S3Control {
         /// The details of the response.
         public let responseDetails: AsyncResponseDetails?
 
+        @inlinable
         public init(creationTime: Date? = nil, operation: AsyncOperationName? = nil, requestParameters: AsyncRequestParameters? = nil, requestStatus: String? = nil, requestTokenARN: String? = nil, responseDetails: AsyncResponseDetails? = nil) {
             self.creationTime = creationTime
             self.operation = operation
@@ -645,6 +656,7 @@ extension S3Control {
         /// A container of the parameters for a PutMultiRegionAccessPoint request.
         public let putMultiRegionAccessPointPolicyRequest: PutMultiRegionAccessPointPolicyInput?
 
+        @inlinable
         public init(createMultiRegionAccessPointRequest: CreateMultiRegionAccessPointInput? = nil, deleteMultiRegionAccessPointRequest: DeleteMultiRegionAccessPointInput? = nil, putMultiRegionAccessPointPolicyRequest: PutMultiRegionAccessPointPolicyInput? = nil) {
             self.createMultiRegionAccessPointRequest = createMultiRegionAccessPointRequest
             self.deleteMultiRegionAccessPointRequest = deleteMultiRegionAccessPointRequest
@@ -664,6 +676,7 @@ extension S3Control {
         /// The details for the Multi-Region Access Point.
         public let multiRegionAccessPointDetails: MultiRegionAccessPointsAsyncResponse?
 
+        @inlinable
         public init(errorDetails: AsyncErrorDetails? = nil, multiRegionAccessPointDetails: MultiRegionAccessPointsAsyncResponse? = nil) {
             self.errorDetails = errorDetails
             self.multiRegionAccessPointDetails = multiRegionAccessPointDetails
@@ -681,6 +694,7 @@ extension S3Control {
         /// Additional JSON that provides supplemental data to the Lambda function used to transform objects.
         public let functionPayload: String?
 
+        @inlinable
         public init(functionArn: String, functionPayload: String? = nil) {
             self.functionArn = functionArn
             self.functionPayload = functionPayload
@@ -710,6 +724,7 @@ extension S3Control {
         /// A container for the prefix-level metrics for S3 Storage Lens.
         public let prefixLevel: PrefixLevel?
 
+        @inlinable
         public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, prefixLevel: PrefixLevel? = nil) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
@@ -735,6 +750,7 @@ extension S3Control {
         /// A container that indicates whether CloudWatch publishing for S3 Storage Lens metrics is enabled. A value of true indicates that CloudWatch publishing for S3 Storage Lens metrics is enabled.
         public let isEnabled: Bool
 
+        @inlinable
         public init(isEnabled: Bool) {
             self.isEnabled = isEnabled
         }
@@ -766,6 +782,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String, accountId: String, applicationArn: String? = nil, grantee: Grantee, permission: Permission, s3PrefixType: S3PrefixType? = nil, tags: [Tag]? = nil) {
             self.accessGrantsLocationConfiguration = accessGrantsLocationConfiguration
             self.accessGrantsLocationId = accessGrantsLocationId
@@ -838,6 +855,7 @@ extension S3Control {
         /// The type of access that you are granting to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
         public let permission: Permission?
 
+        @inlinable
         public init(accessGrantArn: String? = nil, accessGrantId: String? = nil, accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String? = nil, applicationArn: String? = nil, createdAt: Date? = nil, grantee: Grantee? = nil, grantScope: String? = nil, permission: Permission? = nil) {
             self.accessGrantArn = accessGrantArn
             self.accessGrantId = accessGrantId
@@ -875,6 +893,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(accountId: String, identityCenterArn: String? = nil, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.identityCenterArn = identityCenterArn
@@ -922,6 +941,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let identityCenterInstanceArn: String?
 
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -932,6 +952,7 @@ extension S3Control {
         }
 
         @available(*, deprecated, message: "Members identityCenterArn have been deprecated")
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -965,6 +986,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(accountId: String, iamRoleArn: String, locationScope: String, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.iamRoleArn = iamRoleArn
@@ -1016,6 +1038,7 @@ extension S3Control {
         /// The S3 URI path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket, or the S3 path to a bucket and prefix. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
         public let locationScope: String?
 
+        @inlinable
         public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
             self.accessGrantsLocationArn = accessGrantsLocationArn
             self.accessGrantsLocationId = accessGrantsLocationId
@@ -1041,6 +1064,7 @@ extension S3Control {
         /// The name you want to assign to this Object Lambda Access Point.
         public let name: String
 
+        @inlinable
         public init(accountId: String, configuration: ObjectLambdaConfiguration, name: String) {
             self.accountId = accountId
             self.configuration = configuration
@@ -1076,6 +1100,7 @@ extension S3Control {
         /// Specifies the ARN for the Object Lambda Access Point.
         public let objectLambdaAccessPointArn: String?
 
+        @inlinable
         public init(alias: ObjectLambdaAccessPointAlias? = nil, objectLambdaAccessPointArn: String? = nil) {
             self.alias = alias
             self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
@@ -1101,6 +1126,7 @@ extension S3Control {
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(accountId: String, bucket: String, bucketAccountId: String? = nil, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accountId = accountId
             self.bucket = bucket
@@ -1148,6 +1174,7 @@ extension S3Control {
         /// The name or alias of the access point.
         public let alias: String?
 
+        @inlinable
         public init(accessPointArn: String? = nil, alias: String? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
@@ -1163,6 +1190,7 @@ extension S3Control {
         /// Specifies the Region where the bucket will be created. If you are creating a bucket on the US East (N. Virginia) Region (us-east-1), you do not need to specify the location.   This is not supported by Amazon S3 on Outposts buckets.
         public let locationConstraint: BucketLocationConstraint?
 
+        @inlinable
         public init(locationConstraint: BucketLocationConstraint? = nil) {
             self.locationConstraint = locationConstraint
         }
@@ -1196,6 +1224,7 @@ extension S3Control {
         /// The ID of the Outposts where the bucket is being created.  This ID is required by Amazon S3 on Outposts buckets.
         public let outpostId: String?
 
+        @inlinable
         public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, outpostId: String? = nil) {
             self.acl = acl
             self.bucket = bucket
@@ -1240,6 +1269,7 @@ extension S3Control {
         /// The location of the bucket.
         public let location: String?
 
+        @inlinable
         public init(bucketArn: String? = nil, location: String? = nil) {
             self.bucketArn = bucketArn
             self.location = location
@@ -1282,6 +1312,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
+        @inlinable
         public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
@@ -1352,6 +1383,7 @@ extension S3Control {
         /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1371,6 +1403,7 @@ extension S3Control {
         @CustomCoding<ArrayCoder<_RegionsEncoding, Region>>
         public var regions: [Region]
 
+        @inlinable
         public init(name: String, publicAccessBlock: PublicAccessBlockConfiguration? = nil, regions: [Region]) {
             self.name = name
             self.publicAccessBlock = publicAccessBlock
@@ -1401,6 +1434,7 @@ extension S3Control {
         /// A container element containing details about the Multi-Region Access Point.
         public let details: CreateMultiRegionAccessPointInput
 
+        @inlinable
         public init(accountId: String, clientToken: String = CreateMultiRegionAccessPointRequest.idempotencyToken(), details: CreateMultiRegionAccessPointInput) {
             self.accountId = accountId
             self.clientToken = clientToken
@@ -1434,6 +1468,7 @@ extension S3Control {
         /// The request token associated with the request. You can use this token with DescribeMultiRegionAccessPointOperation to determine the status of asynchronous requests.
         public let requestTokenARN: String?
 
+        @inlinable
         public init(requestTokenARN: String? = nil) {
             self.requestTokenARN = requestTokenARN
         }
@@ -1454,6 +1489,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(accountId: String, storageLensGroup: StorageLensGroup, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.storageLensGroup = storageLensGroup
@@ -1495,6 +1531,7 @@ extension S3Control {
         /// The Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -1517,6 +1554,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accessGrantId: String, accountId: String) {
             self.accessGrantId = accessGrantId
             self.accountId = accountId
@@ -1546,6 +1584,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1570,6 +1609,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1596,6 +1636,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accessGrantsLocationId: String, accountId: String) {
             self.accessGrantsLocationId = accessGrantsLocationId
             self.accountId = accountId
@@ -1626,6 +1667,7 @@ extension S3Control {
         /// The name of the access point you want to delete.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -1656,6 +1698,7 @@ extension S3Control {
         /// The name of the Object Lambda Access Point you want to delete the policy for.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -1686,6 +1729,7 @@ extension S3Control {
         /// The name of the access point whose policy you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -1715,6 +1759,7 @@ extension S3Control {
         /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -1744,6 +1789,7 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -1773,6 +1819,7 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -1802,6 +1849,7 @@ extension S3Control {
         /// Specifies the S3 on Outposts bucket to delete the replication configuration for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -1831,6 +1879,7 @@ extension S3Control {
         /// Specifies the bucket being deleted. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -1860,6 +1909,7 @@ extension S3Control {
         /// The bucket ARN that has the tag set to be removed. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -1889,6 +1939,7 @@ extension S3Control {
         /// The ID for the S3 Batch Operations job whose tags you want to delete.
         public let jobId: String
 
+        @inlinable
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
@@ -1921,6 +1972,7 @@ extension S3Control {
         /// Indicates whether to replicate delete markers.
         public let status: DeleteMarkerReplicationStatus
 
+        @inlinable
         public init(status: DeleteMarkerReplicationStatus) {
             self.status = status
         }
@@ -1934,6 +1986,7 @@ extension S3Control {
         /// The name of the Multi-Region Access Point associated with this request.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1957,6 +2010,7 @@ extension S3Control {
         /// A container element containing details about the Multi-Region Access Point.
         public let details: DeleteMultiRegionAccessPointInput
 
+        @inlinable
         public init(accountId: String, clientToken: String = DeleteMultiRegionAccessPointRequest.idempotencyToken(), details: DeleteMultiRegionAccessPointInput) {
             self.accountId = accountId
             self.clientToken = clientToken
@@ -1990,6 +2044,7 @@ extension S3Control {
         /// The request token associated with the request. You can use this token with DescribeMultiRegionAccessPointOperation to determine the status of asynchronous requests.
         public let requestTokenARN: String?
 
+        @inlinable
         public init(requestTokenARN: String? = nil) {
             self.requestTokenARN = requestTokenARN
         }
@@ -2003,6 +2058,7 @@ extension S3Control {
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -2028,6 +2084,7 @@ extension S3Control {
         /// The ID of the S3 Storage Lens configuration.
         public let configId: String
 
+        @inlinable
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
@@ -2058,6 +2115,7 @@ extension S3Control {
         /// The ID of the S3 Storage Lens configuration.
         public let configId: String
 
+        @inlinable
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
@@ -2092,6 +2150,7 @@ extension S3Control {
         /// The name of the Storage Lens group that you're trying to delete.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2122,6 +2181,7 @@ extension S3Control {
         /// The ID for the job whose information you want to retrieve.
         public let jobId: String
 
+        @inlinable
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
@@ -2150,6 +2210,7 @@ extension S3Control {
         /// Contains the configuration parameters and status for the job specified in the Describe Job request.
         public let job: JobDescriptor?
 
+        @inlinable
         public init(job: JobDescriptor? = nil) {
             self.job = job
         }
@@ -2166,6 +2227,7 @@ extension S3Control {
         /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action.
         public let requestTokenARN: String
 
+        @inlinable
         public init(accountId: String, requestTokenARN: String) {
             self.accountId = accountId
             self.requestTokenARN = requestTokenARN
@@ -2194,6 +2256,7 @@ extension S3Control {
         /// A container element containing the details of the asynchronous operation.
         public let asyncOperation: AsyncOperation?
 
+        @inlinable
         public init(asyncOperation: AsyncOperation? = nil) {
             self.asyncOperation = asyncOperation
         }
@@ -2219,6 +2282,7 @@ extension S3Control {
         ///  The storage class to use when replicating objects. All objects stored on S3 on Outposts are stored in the OUTPOSTS storage class. S3 on Outposts uses the OUTPOSTS storage class to create the object replicas.   Values other than OUTPOSTS aren't supported by Amazon S3 on Outposts.
         public let storageClass: ReplicationStorageClass?
 
+        @inlinable
         public init(accessControlTranslation: AccessControlTranslation? = nil, account: String? = nil, bucket: String, encryptionConfiguration: EncryptionConfiguration? = nil, metrics: Metrics? = nil, replicationTime: ReplicationTime? = nil, storageClass: ReplicationStorageClass? = nil) {
             self.accessControlTranslation = accessControlTranslation
             self.account = account
@@ -2249,6 +2313,7 @@ extension S3Control {
         /// A container that indicates whether detailed status code metrics are enabled.
         public let isEnabled: Bool?
 
+        @inlinable
         public init(isEnabled: Bool? = nil) {
             self.isEnabled = isEnabled
         }
@@ -2263,6 +2328,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -2286,6 +2352,7 @@ extension S3Control {
         /// Specifies the ID of the customer managed KMS key that's stored in Key Management Service (KMS) for the destination bucket. This ID is either the Amazon Resource Name (ARN) for the KMS key or the alias ARN for the KMS key. Amazon S3 uses this KMS key to encrypt replica objects. Amazon S3 supports only symmetric encryption KMS keys. For more information, see Symmetric encryption KMS keys in the Amazon Web Services Key Management Service Developer Guide.
         public let replicaKmsKeyID: String?
 
+        @inlinable
         public init(replicaKmsKeyID: String? = nil) {
             self.replicaKmsKeyID = replicaKmsKeyID
         }
@@ -2299,6 +2366,7 @@ extension S3Control {
         /// The details of the last established policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2319,6 +2387,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, String>>
         public var regions: [String]?
 
+        @inlinable
         public init(buckets: [String]? = nil, regions: [String]? = nil) {
             self.buckets = buckets
             self.regions = regions
@@ -2347,6 +2416,7 @@ extension S3Control {
         /// Specifies whether Amazon S3 replicates existing source bucket objects.
         public let status: ExistingObjectReplicationStatus
 
+        @inlinable
         public init(status: ExistingObjectReplicationStatus) {
             self.status = status
         }
@@ -2362,6 +2432,7 @@ extension S3Control {
         /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
         public let sses3: SSES3Encryption?
 
+        @inlinable
         public init(ssekms: SSEKMSEncryption? = nil, sses3: SSES3Encryption? = nil) {
             self.ssekms = ssekms
             self.sses3 = sses3
@@ -2384,6 +2455,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accessGrantId: String, accountId: String) {
             self.accessGrantId = accessGrantId
             self.accountId = accountId
@@ -2428,6 +2500,7 @@ extension S3Control {
         /// The type of permission that was granted in the access grant. Can be one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
         public let permission: Permission?
 
+        @inlinable
         public init(accessGrantArn: String? = nil, accessGrantId: String? = nil, accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String? = nil, applicationArn: String? = nil, createdAt: Date? = nil, grantee: Grantee? = nil, grantScope: String? = nil, permission: Permission? = nil) {
             self.accessGrantArn = accessGrantArn
             self.accessGrantId = accessGrantId
@@ -2460,6 +2533,7 @@ extension S3Control {
         /// The S3 prefix of the access grants that you would like to retrieve.
         public let s3Prefix: String
 
+        @inlinable
         public init(accountId: String, s3Prefix: String) {
             self.accountId = accountId
             self.s3Prefix = s3Prefix
@@ -2490,6 +2564,7 @@ extension S3Control {
         /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
         public let accessGrantsInstanceId: String?
 
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -2506,6 +2581,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -2530,6 +2606,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -2557,6 +2634,7 @@ extension S3Control {
         /// The resource policy of the S3 Access Grants instance.
         public let policy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, organization: String? = nil, policy: String? = nil) {
             self.createdAt = createdAt
             self.organization = organization
@@ -2584,6 +2662,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let identityCenterInstanceArn: String?
 
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -2594,6 +2673,7 @@ extension S3Control {
         }
 
         @available(*, deprecated, message: "Members identityCenterArn have been deprecated")
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -2620,6 +2700,7 @@ extension S3Control {
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
+        @inlinable
         public init(accessGrantsLocationId: String, accountId: String) {
             self.accessGrantsLocationId = accessGrantsLocationId
             self.accountId = accountId
@@ -2656,6 +2737,7 @@ extension S3Control {
         /// The S3 URI path to the registered location. The location scope can be the default S3 location s3://, the S3 path to a bucket, or the S3 path to a bucket and prefix. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
         public let locationScope: String?
 
+        @inlinable
         public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
             self.accessGrantsLocationArn = accessGrantsLocationArn
             self.accessGrantsLocationId = accessGrantsLocationId
@@ -2679,6 +2761,7 @@ extension S3Control {
         /// The name of the Object Lambda Access Point you want to return the configuration for.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2707,6 +2790,7 @@ extension S3Control {
         /// Object Lambda Access Point configuration document.
         public let configuration: ObjectLambdaConfiguration?
 
+        @inlinable
         public init(configuration: ObjectLambdaConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -2722,6 +2806,7 @@ extension S3Control {
         /// The name of the Object Lambda Access Point.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2756,6 +2841,7 @@ extension S3Control {
         /// Configuration to block all public access. This setting is turned on and can not be edited.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
 
+        @inlinable
         public init(alias: ObjectLambdaAccessPointAlias? = nil, creationDate: Date? = nil, name: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
             self.alias = alias
             self.creationDate = creationDate
@@ -2777,6 +2863,7 @@ extension S3Control {
         /// The name of the Object Lambda Access Point.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2805,6 +2892,7 @@ extension S3Control {
         /// Object Lambda Access Point resource policy document.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2820,6 +2908,7 @@ extension S3Control {
         /// The name of the access point whose policy you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2847,6 +2936,7 @@ extension S3Control {
         /// The access point policy associated with the specified access point.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -2862,6 +2952,7 @@ extension S3Control {
         /// The name of the Object Lambda Access Point.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2889,6 +2980,7 @@ extension S3Control {
     public struct GetAccessPointPolicyStatusForObjectLambdaResult: AWSDecodableShape {
         public let policyStatus: PolicyStatus?
 
+        @inlinable
         public init(policyStatus: PolicyStatus? = nil) {
             self.policyStatus = policyStatus
         }
@@ -2904,6 +2996,7 @@ extension S3Control {
         /// The name of the access point whose policy status you want to retrieve.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2931,6 +3024,7 @@ extension S3Control {
         /// Indicates the current policy status of the specified access point.
         public let policyStatus: PolicyStatus?
 
+        @inlinable
         public init(policyStatus: PolicyStatus? = nil) {
             self.policyStatus = policyStatus
         }
@@ -2946,6 +3040,7 @@ extension S3Control {
         /// The name of the access point whose configuration information you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -2991,6 +3086,7 @@ extension S3Control {
         /// Contains the virtual private cloud (VPC) configuration for the specified access point.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Servicesservices.
         public let vpcConfiguration: VpcConfiguration?
 
+        @inlinable
         public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, bucketAccountId: String? = nil, creationDate: Date? = nil, endpoints: [String: String]? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
@@ -3024,6 +3120,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3054,6 +3151,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RulesEncoding, LifecycleRule>>
         public var rules: [LifecycleRule]?
 
+        @inlinable
         public init(rules: [LifecycleRule]? = nil) {
             self.rules = rules
         }
@@ -3069,6 +3167,7 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3096,6 +3195,7 @@ extension S3Control {
         /// The policy of the Outposts bucket.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -3111,6 +3211,7 @@ extension S3Control {
         /// Specifies the bucket to get the replication information for. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3138,6 +3239,7 @@ extension S3Control {
         /// A container for one or more replication rules. A replication configuration must have at least one rule and you can add up to 100 rules. The maximum size of a replication configuration is 128 KB.
         public let replicationConfiguration: ReplicationConfiguration?
 
+        @inlinable
         public init(replicationConfiguration: ReplicationConfiguration? = nil) {
             self.replicationConfiguration = replicationConfiguration
         }
@@ -3153,6 +3255,7 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3183,6 +3286,7 @@ extension S3Control {
         public let creationDate: Date?
         public let publicAccessBlockEnabled: Bool?
 
+        @inlinable
         public init(bucket: String? = nil, creationDate: Date? = nil, publicAccessBlockEnabled: Bool? = nil) {
             self.bucket = bucket
             self.creationDate = creationDate
@@ -3202,6 +3306,7 @@ extension S3Control {
         /// Specifies the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3230,6 +3335,7 @@ extension S3Control {
         @CustomCoding<StandardArrayCoder<S3Tag>>
         public var tagSet: [S3Tag]
 
+        @inlinable
         public init(tagSet: [S3Tag]) {
             self.tagSet = tagSet
         }
@@ -3245,6 +3351,7 @@ extension S3Control {
         /// The S3 on Outposts bucket to return the versioning state for.
         public let bucket: String
 
+        @inlinable
         public init(accountId: String, bucket: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -3274,6 +3381,7 @@ extension S3Control {
         /// The versioning state of the S3 on Outposts bucket.
         public let status: BucketVersioningStatus?
 
+        @inlinable
         public init(mfaDelete: MFADeleteStatus? = nil, status: BucketVersioningStatus? = nil) {
             self.mfaDelete = mfaDelete
             self.status = status
@@ -3300,6 +3408,7 @@ extension S3Control {
         /// The type of Target. The only possible value is Object. Pass this value if the target data that you would like to access is a path to an object. Do not pass this value if the target data is a bucket or a bucket and a prefix.
         public let targetType: S3PrefixType?
 
+        @inlinable
         public init(accountId: String, durationSeconds: Int? = nil, permission: Permission, privilege: Privilege? = nil, target: String, targetType: S3PrefixType? = nil) {
             self.accountId = accountId
             self.durationSeconds = durationSeconds
@@ -3340,6 +3449,7 @@ extension S3Control {
         /// The S3 URI path of the data to which you are being granted temporary access credentials.
         public let matchedGrantTarget: String?
 
+        @inlinable
         public init(credentials: Credentials? = nil, matchedGrantTarget: String? = nil) {
             self.credentials = credentials
             self.matchedGrantTarget = matchedGrantTarget
@@ -3357,6 +3467,7 @@ extension S3Control {
         /// The ID for the S3 Batch Operations job whose tags you want to retrieve.
         public let jobId: String
 
+        @inlinable
         public init(accountId: String, jobId: String) {
             self.accountId = accountId
             self.jobId = jobId
@@ -3386,6 +3497,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
+        @inlinable
         public init(tags: [S3Tag]? = nil) {
             self.tags = tags
         }
@@ -3402,6 +3514,7 @@ extension S3Control {
         /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Rules for naming Amazon S3 Multi-Region Access Points in the Amazon S3 User Guide.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -3429,6 +3542,7 @@ extension S3Control {
         /// The policy associated with the specified Multi-Region Access Point.
         public let policy: MultiRegionAccessPointPolicyDocument?
 
+        @inlinable
         public init(policy: MultiRegionAccessPointPolicyDocument? = nil) {
             self.policy = policy
         }
@@ -3445,6 +3559,7 @@ extension S3Control {
         /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Rules for naming Amazon S3 Multi-Region Access Points in the Amazon S3 User Guide.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -3471,6 +3586,7 @@ extension S3Control {
     public struct GetMultiRegionAccessPointPolicyStatusResult: AWSDecodableShape {
         public let established: PolicyStatus?
 
+        @inlinable
         public init(established: PolicyStatus? = nil) {
             self.established = established
         }
@@ -3487,6 +3603,7 @@ extension S3Control {
         /// The name of the Multi-Region Access Point whose configuration information you want to receive. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see Rules for naming Amazon S3 Multi-Region Access Points in the Amazon S3 User Guide.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -3514,6 +3631,7 @@ extension S3Control {
         /// A container element containing the details of the requested Multi-Region Access Point.
         public let accessPoint: MultiRegionAccessPointReport?
 
+        @inlinable
         public init(accessPoint: MultiRegionAccessPointReport? = nil) {
             self.accessPoint = accessPoint
         }
@@ -3530,6 +3648,7 @@ extension S3Control {
         /// The Multi-Region Access Point ARN.
         public let mrap: String
 
+        @inlinable
         public init(accountId: String, mrap: String) {
             self.accountId = accountId
             self.mrap = mrap
@@ -3562,6 +3681,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RoutesEncoding, MultiRegionAccessPointRoute>>
         public var routes: [MultiRegionAccessPointRoute]?
 
+        @inlinable
         public init(mrap: String? = nil, routes: [MultiRegionAccessPointRoute]? = nil) {
             self.mrap = mrap
             self.routes = routes
@@ -3577,6 +3697,7 @@ extension S3Control {
         /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
+        @inlinable
         public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
@@ -3593,6 +3714,7 @@ extension S3Control {
         /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -3618,6 +3740,7 @@ extension S3Control {
         /// The ID of the Amazon S3 Storage Lens configuration.
         public let configId: String
 
+        @inlinable
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
@@ -3646,6 +3769,7 @@ extension S3Control {
         /// The S3 Storage Lens configuration requested.
         public let storageLensConfiguration: StorageLensConfiguration
 
+        @inlinable
         public init(storageLensConfiguration: StorageLensConfiguration) {
             self.storageLensConfiguration = storageLensConfiguration
         }
@@ -3664,6 +3788,7 @@ extension S3Control {
         /// The ID of the Amazon S3 Storage Lens configuration.
         public let configId: String
 
+        @inlinable
         public init(accountId: String, configId: String) {
             self.accountId = accountId
             self.configId = configId
@@ -3695,6 +3820,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, StorageLensTag>>
         public var tags: [StorageLensTag]?
 
+        @inlinable
         public init(tags: [StorageLensTag]? = nil) {
             self.tags = tags
         }
@@ -3710,6 +3836,7 @@ extension S3Control {
         /// The name of the Storage Lens group that you're trying to retrieve the configuration details for.
         public let name: String
 
+        @inlinable
         public init(accountId: String, name: String) {
             self.accountId = accountId
             self.name = name
@@ -3738,6 +3865,7 @@ extension S3Control {
         /// The name of the Storage Lens group that you're trying to retrieve the configuration details for.
         public let storageLensGroup: StorageLensGroup
 
+        @inlinable
         public init(storageLensGroup: StorageLensGroup) {
             self.storageLensGroup = storageLensGroup
         }
@@ -3756,6 +3884,7 @@ extension S3Control {
         /// The type of the grantee to which access has been granted. It can be one of the following values:    IAM - An IAM user or role.    DIRECTORY_USER - Your corporate directory user. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance.    DIRECTORY_GROUP - Your corporate directory group. You can use this option if you have added your corporate identity directory to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access Grants instance.
         public let granteeType: GranteeType?
 
+        @inlinable
         public init(granteeIdentifier: String? = nil, granteeType: GranteeType? = nil) {
             self.granteeIdentifier = granteeIdentifier
             self.granteeType = granteeType
@@ -3778,6 +3907,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, String>>
         public var regions: [String]?
 
+        @inlinable
         public init(buckets: [String]? = nil, regions: [String]? = nil) {
             self.buckets = buckets
             self.regions = regions
@@ -3843,6 +3973,7 @@ extension S3Control {
         /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: Date?
 
+        @inlinable
         public init(confirmationRequired: Bool? = nil, creationTime: Date? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, generatedManifestDescriptor: S3GeneratedManifestDescriptor? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: Date? = nil, terminationDate: Date? = nil) {
             self.confirmationRequired = confirmationRequired
             self.creationTime = creationTime
@@ -3894,6 +4025,7 @@ extension S3Control {
         /// The failure reason, if any, for the specified job.
         public let failureReason: String?
 
+        @inlinable
         public init(failureCode: String? = nil, failureReason: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -3923,6 +4055,7 @@ extension S3Control {
         /// A timestamp indicating when the specified job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: Date? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -3952,6 +4085,7 @@ extension S3Control {
         /// Describes the format of the specified job's manifest. If the manifest is in CSV format, also describes the columns contained within the manifest.
         public let spec: JobManifestSpec
 
+        @inlinable
         public init(location: JobManifestLocation, spec: JobManifestSpec) {
             self.location = location
             self.spec = spec
@@ -3987,6 +4121,7 @@ extension S3Control {
         /// If provided, the generated manifest includes only source bucket objects whose file size is less than the specified number of bytes.
         public let objectSizeLessThanBytes: Int64?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, keyNameConstraint: KeyNameConstraint? = nil, matchAnyStorageClass: [S3StorageClass]? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil, objectSizeGreaterThanBytes: Int64? = nil, objectSizeLessThanBytes: Int64? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -4024,6 +4159,7 @@ extension S3Control {
         /// The optional version ID to identify a specific version of the manifest object.
         public let objectVersionId: String?
 
+        @inlinable
         public init(eTag: String, objectArn: String, objectVersionId: String? = nil) {
             self.eTag = eTag
             self.objectArn = objectArn
@@ -4054,6 +4190,7 @@ extension S3Control {
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
 
+        @inlinable
         public init(fields: [JobManifestFieldName]? = nil, format: JobManifestFormat) {
             self.fields = fields
             self.format = format
@@ -4083,6 +4220,7 @@ extension S3Control {
         /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest.  This functionality is not supported by directory buckets.
         public let s3ReplicateObject: S3ReplicateObjectOperation?
 
+        @inlinable
         public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
@@ -4123,6 +4261,7 @@ extension S3Control {
         public let timers: JobTimers?
         public let totalNumberOfTasks: Int64?
 
+        @inlinable
         public init(numberOfTasksFailed: Int64? = nil, numberOfTasksSucceeded: Int64? = nil, timers: JobTimers? = nil, totalNumberOfTasks: Int64? = nil) {
             self.numberOfTasksFailed = numberOfTasksFailed
             self.numberOfTasksSucceeded = numberOfTasksSucceeded
@@ -4150,6 +4289,7 @@ extension S3Control {
         /// Indicates whether the job-completion report will include details of all tasks or only failed tasks.
         public let reportScope: JobReportScope?
 
+        @inlinable
         public init(bucket: String? = nil, enabled: Bool, format: JobReportFormat? = nil, prefix: String? = nil, reportScope: JobReportScope? = nil) {
             self.bucket = bucket
             self.enabled = enabled
@@ -4179,6 +4319,7 @@ extension S3Control {
         /// Indicates the elapsed time in seconds the job has been in the Active job state.
         public let elapsedTimeInActiveSeconds: Int64?
 
+        @inlinable
         public init(elapsedTimeInActiveSeconds: Int64? = nil) {
             self.elapsedTimeInActiveSeconds = elapsedTimeInActiveSeconds
         }
@@ -4199,6 +4340,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var matchAnySuffix: [String]?
 
+        @inlinable
         public init(matchAnyPrefix: [String]? = nil, matchAnySubstring: [String]? = nil, matchAnySuffix: [String]? = nil) {
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySubstring = matchAnySubstring
@@ -4236,6 +4378,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var userArguments: [String: String]?
 
+        @inlinable
         public init(functionArn: String? = nil, invocationSchemaVersion: String? = nil, userArguments: [String: String]? = nil) {
             self.functionArn = functionArn
             self.invocationSchemaVersion = invocationSchemaVersion
@@ -4271,6 +4414,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RulesEncoding, LifecycleRule>>
         public var rules: [LifecycleRule]?
 
+        @inlinable
         public init(rules: [LifecycleRule]? = nil) {
             self.rules = rules
         }
@@ -4294,6 +4438,7 @@ extension S3Control {
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
         public let expiredObjectDeleteMarker: Bool?
 
+        @inlinable
         public init(date: Date? = nil, days: Int? = nil, expiredObjectDeleteMarker: Bool? = nil) {
             self.date = date
             self.days = days
@@ -4330,6 +4475,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TransitionsEncoding, Transition>>
         public var transitions: [Transition]?
 
+        @inlinable
         public init(abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, filter: LifecycleRuleFilter? = nil, id: String? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil, status: ExpirationStatus, transitions: [Transition]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
@@ -4368,6 +4514,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
+        @inlinable
         public init(objectSizeGreaterThan: Int64? = nil, objectSizeLessThan: Int64? = nil, prefix: String? = nil, tags: [S3Tag]? = nil) {
             self.objectSizeGreaterThan = objectSizeGreaterThan
             self.objectSizeLessThan = objectSizeLessThan
@@ -4402,6 +4549,7 @@ extension S3Control {
         public let prefix: String?
         public let tag: S3Tag?
 
+        @inlinable
         public init(and: LifecycleRuleAndOperator? = nil, objectSizeGreaterThan: Int64? = nil, objectSizeLessThan: Int64? = nil, prefix: String? = nil, tag: S3Tag? = nil) {
             self.and = and
             self.objectSizeGreaterThan = objectSizeGreaterThan
@@ -4444,6 +4592,7 @@ extension S3Control {
         /// The type of access granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
         public let permission: Permission?
 
+        @inlinable
         public init(accessGrantArn: String? = nil, accessGrantId: String? = nil, accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration? = nil, accessGrantsLocationId: String? = nil, applicationArn: String? = nil, createdAt: Date? = nil, grantee: Grantee? = nil, grantScope: String? = nil, permission: Permission? = nil) {
             self.accessGrantArn = accessGrantArn
             self.accessGrantId = accessGrantId
@@ -4483,6 +4632,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let identityCenterInstanceArn: String?
 
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -4493,6 +4643,7 @@ extension S3Control {
         }
 
         @available(*, deprecated, message: "Members identityCenterArn have been deprecated")
+        @inlinable
         public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
@@ -4521,6 +4672,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -4555,6 +4707,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accessGrantsInstancesList: [ListAccessGrantsInstanceEntry]? = nil, nextToken: String? = nil) {
             self.accessGrantsInstancesList = accessGrantsInstancesList
             self.nextToken = nextToken
@@ -4578,6 +4731,7 @@ extension S3Control {
         /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
         public let locationScope: String?
 
+        @inlinable
         public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
             self.accessGrantsLocationArn = accessGrantsLocationArn
             self.accessGrantsLocationId = accessGrantsLocationId
@@ -4606,6 +4760,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, locationScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.locationScope = locationScope
@@ -4645,6 +4800,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accessGrantsLocationsList: [ListAccessGrantsLocationsEntry]? = nil, nextToken: String? = nil) {
             self.accessGrantsLocationsList = accessGrantsLocationsList
             self.nextToken = nextToken
@@ -4675,6 +4831,7 @@ extension S3Control {
         /// The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
         public let permission: Permission?
 
+        @inlinable
         public init(accountId: String, applicationArn: String? = nil, granteeIdentifier: String? = nil, granteeType: GranteeType? = nil, grantScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, permission: Permission? = nil) {
             self.accountId = accountId
             self.applicationArn = applicationArn
@@ -4725,6 +4882,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accessGrantsList: [ListAccessGrantEntry]? = nil, nextToken: String? = nil) {
             self.accessGrantsList = accessGrantsList
             self.nextToken = nextToken
@@ -4744,6 +4902,7 @@ extension S3Control {
         /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -4780,6 +4939,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_ObjectLambdaAccessPointListEncoding, ObjectLambdaAccessPoint>>
         public var objectLambdaAccessPointList: [ObjectLambdaAccessPoint]?
 
+        @inlinable
         public init(nextToken: String? = nil, objectLambdaAccessPointList: [ObjectLambdaAccessPoint]? = nil) {
             self.nextToken = nextToken
             self.objectLambdaAccessPointList = objectLambdaAccessPointList
@@ -4801,6 +4961,7 @@ extension S3Control {
         /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, bucket: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.bucket = bucket
@@ -4841,6 +5002,7 @@ extension S3Control {
         /// If the specified bucket has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPointList: [AccessPoint]? = nil, nextToken: String? = nil) {
             self.accessPointList = accessPointList
             self.nextToken = nextToken
@@ -4860,6 +5022,7 @@ extension S3Control {
         /// The type of permission granted, which can be one of the following values:    READ - Grants read-only access to the S3 data.    WRITE - Grants write-only access to the S3 data.    READWRITE - Grants both read and write access to the S3 data.
         public let permission: Permission?
 
+        @inlinable
         public init(applicationArn: String? = nil, grantScope: String? = nil, permission: Permission? = nil) {
             self.applicationArn = applicationArn
             self.grantScope = grantScope
@@ -4886,6 +5049,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, allowedByApplication: Bool? = nil, grantScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.allowedByApplication = allowedByApplication
@@ -4927,6 +5091,7 @@ extension S3Control {
         /// A pagination token that you can use to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(callerAccessGrantsList: [ListCallerAccessGrantsEntry]? = nil, nextToken: String? = nil) {
             self.callerAccessGrantsList = callerAccessGrantsList
             self.nextToken = nextToken
@@ -4948,6 +5113,7 @@ extension S3Control {
         /// A pagination token to request the next page of results. Use the token that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List Jobs request.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, jobStatuses: [JobStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.jobStatuses = jobStatuses
@@ -4985,6 +5151,7 @@ extension S3Control {
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobListDescriptor]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -5005,6 +5172,7 @@ extension S3Control {
         /// Not currently used. Do not use this parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -5041,6 +5209,7 @@ extension S3Control {
         /// If the specified bucket has more Multi-Region Access Points than can be returned in one call to this action, this field contains a continuation token. You can use this token tin subsequent calls to this action to retrieve additional Multi-Region Access Points.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPoints: [MultiRegionAccessPointReport]? = nil, nextToken: String? = nil) {
             self.accessPoints = accessPoints
             self.nextToken = nextToken
@@ -5060,6 +5229,7 @@ extension S3Control {
         /// The ID of the Outposts resource.  This ID is required by Amazon S3 on Outposts buckets.
         public let outpostId: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, outpostId: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -5099,6 +5269,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RegionalBucketListEncoding, RegionalBucket>>
         public var regionalBucketList: [RegionalBucket]?
 
+        @inlinable
         public init(nextToken: String? = nil, regionalBucketList: [RegionalBucket]? = nil) {
             self.nextToken = nextToken
             self.regionalBucketList = regionalBucketList
@@ -5120,6 +5291,7 @@ extension S3Control {
         /// The ARN of the S3 Storage Lens configuration. This property is read-only.
         public let storageLensArn: String
 
+        @inlinable
         public init(homeRegion: String, id: String, isEnabled: Bool? = nil, storageLensArn: String) {
             self.homeRegion = homeRegion
             self.id = id
@@ -5141,6 +5313,7 @@ extension S3Control {
         /// A pagination token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, nextToken: String? = nil) {
             self.accountId = accountId
             self.nextToken = nextToken
@@ -5168,6 +5341,7 @@ extension S3Control {
         /// A list of S3 Storage Lens configurations.
         public let storageLensConfigurationList: [ListStorageLensConfigurationEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, storageLensConfigurationList: [ListStorageLensConfigurationEntry]? = nil) {
             self.nextToken = nextToken
             self.storageLensConfigurationList = storageLensConfigurationList
@@ -5187,6 +5361,7 @@ extension S3Control {
         /// Contains the Amazon Resource Name (ARN) of the Storage Lens group. This property is read-only.
         public let storageLensGroupArn: String
 
+        @inlinable
         public init(homeRegion: String, name: String, storageLensGroupArn: String) {
             self.homeRegion = homeRegion
             self.name = name
@@ -5206,6 +5381,7 @@ extension S3Control {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, nextToken: String? = nil) {
             self.accountId = accountId
             self.nextToken = nextToken
@@ -5233,6 +5409,7 @@ extension S3Control {
         /// The list of Storage Lens groups that exist in the specified home Region.
         public let storageLensGroupList: [ListStorageLensGroupEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, storageLensGroupList: [ListStorageLensGroupEntry]? = nil) {
             self.nextToken = nextToken
             self.storageLensGroupList = storageLensGroupList
@@ -5250,6 +5427,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the S3 resource that you want to list the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
 
+        @inlinable
         public init(accountId: String, resourceArn: String) {
             self.accountId = accountId
             self.resourceArn = resourceArn
@@ -5280,6 +5458,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -5295,6 +5474,7 @@ extension S3Control {
         /// Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647.
         public let daysLessThan: Int?
 
+        @inlinable
         public init(daysGreaterThan: Int? = nil, daysLessThan: Int? = nil) {
             self.daysGreaterThan = daysGreaterThan
             self.daysLessThan = daysLessThan
@@ -5312,6 +5492,7 @@ extension S3Control {
         /// Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 5 TB.
         public let bytesLessThan: Int64?
 
+        @inlinable
         public init(bytesGreaterThan: Int64? = nil, bytesLessThan: Int64? = nil) {
             self.bytesGreaterThan = bytesGreaterThan
             self.bytesLessThan = bytesLessThan
@@ -5329,6 +5510,7 @@ extension S3Control {
         /// Specifies whether replication metrics are enabled.
         public let status: MetricsStatus
 
+        @inlinable
         public init(eventThreshold: ReplicationTimeValue? = nil, status: MetricsStatus) {
             self.eventThreshold = eventThreshold
             self.status = status
@@ -5346,6 +5528,7 @@ extension S3Control {
         /// The proposed policy for the Multi-Region Access Point.
         public let proposed: ProposedMultiRegionAccessPointPolicy?
 
+        @inlinable
         public init(established: EstablishedMultiRegionAccessPointPolicy? = nil, proposed: ProposedMultiRegionAccessPointPolicy? = nil) {
             self.established = established
             self.proposed = proposed
@@ -5363,6 +5546,7 @@ extension S3Control {
         /// The current status of the Multi-Region Access Point in this Region.
         public let requestStatus: String?
 
+        @inlinable
         public init(name: String? = nil, requestStatus: String? = nil) {
             self.name = name
             self.requestStatus = requestStatus
@@ -5390,6 +5574,7 @@ extension S3Control {
         /// The current status of the Multi-Region Access Point.  CREATING and DELETING are temporary states that exist while the request is propagating and being completed. If a Multi-Region Access Point has a status of PARTIALLY_CREATED, you can retry creation or send a request to delete the Multi-Region Access Point. If a Multi-Region Access Point has a status of PARTIALLY_DELETED, you can retry a delete request to finish the deletion of the Multi-Region Access Point.
         public let status: MultiRegionAccessPointStatus?
 
+        @inlinable
         public init(alias: String? = nil, createdAt: Date? = nil, name: String? = nil, publicAccessBlock: PublicAccessBlockConfiguration? = nil, regions: [RegionReport]? = nil, status: MultiRegionAccessPointStatus? = nil) {
             self.alias = alias
             self.createdAt = createdAt
@@ -5417,6 +5602,7 @@ extension S3Control {
         /// The traffic state for the specified bucket or Amazon Web Services Region.  A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region.  A value of 100 indicates an active state, which means that traffic will be routed to the specified Region.  When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure status is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error.
         public let trafficDialPercentage: Int
 
+        @inlinable
         public init(bucket: String? = nil, region: String? = nil, trafficDialPercentage: Int) {
             self.bucket = bucket
             self.region = region
@@ -5446,6 +5632,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_RegionsEncoding, MultiRegionAccessPointRegionalResponse>>
         public var regions: [MultiRegionAccessPointRegionalResponse]?
 
+        @inlinable
         public init(regions: [MultiRegionAccessPointRegionalResponse]? = nil) {
             self.regions = regions
         }
@@ -5461,6 +5648,7 @@ extension S3Control {
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon S3 User Guide.
         public let noncurrentDays: Int?
 
+        @inlinable
         public init(newerNoncurrentVersions: Int? = nil, noncurrentDays: Int? = nil) {
             self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
@@ -5478,6 +5666,7 @@ extension S3Control {
         /// The class of storage used to store the object.
         public let storageClass: TransitionStorageClass?
 
+        @inlinable
         public init(noncurrentDays: Int? = nil, storageClass: TransitionStorageClass? = nil) {
             self.noncurrentDays = noncurrentDays
             self.storageClass = storageClass
@@ -5497,6 +5686,7 @@ extension S3Control {
         /// Specifies the ARN for the Object Lambda Access Point.
         public let objectLambdaAccessPointArn: String?
 
+        @inlinable
         public init(alias: ObjectLambdaAccessPointAlias? = nil, name: String, objectLambdaAccessPointArn: String? = nil) {
             self.alias = alias
             self.name = name
@@ -5516,6 +5706,7 @@ extension S3Control {
         /// The alias value of the Object Lambda Access Point.
         public let value: String?
 
+        @inlinable
         public init(status: ObjectLambdaAccessPointAliasStatus? = nil, value: String? = nil) {
             self.status = status
             self.value = value
@@ -5542,6 +5733,7 @@ extension S3Control {
         @CustomCoding<ArrayCoder<_TransformationConfigurationsEncoding, ObjectLambdaTransformationConfiguration>>
         public var transformationConfigurations: [ObjectLambdaTransformationConfiguration]
 
+        @inlinable
         public init(allowedFeatures: [ObjectLambdaAllowedFeature]? = nil, cloudWatchMetricsEnabled: Bool? = nil, supportingAccessPoint: String, transformationConfigurations: [ObjectLambdaTransformationConfiguration]) {
             self.allowedFeatures = allowedFeatures
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
@@ -5575,6 +5767,7 @@ extension S3Control {
         /// A container for the content transformation of an Object Lambda Access Point configuration.
         public let contentTransformation: ObjectLambdaContentTransformation
 
+        @inlinable
         public init(actions: [ObjectLambdaTransformationConfigurationAction], contentTransformation: ObjectLambdaContentTransformation) {
             self.actions = actions
             self.contentTransformation = contentTransformation
@@ -5593,6 +5786,7 @@ extension S3Control {
     public struct PolicyStatus: AWSDecodableShape {
         public let isPublic: Bool?
 
+        @inlinable
         public init(isPublic: Bool? = nil) {
             self.isPublic = isPublic
         }
@@ -5606,6 +5800,7 @@ extension S3Control {
         /// A container for the prefix-level storage metrics for S3 Storage Lens.
         public let storageMetrics: PrefixLevelStorageMetrics
 
+        @inlinable
         public init(storageMetrics: PrefixLevelStorageMetrics) {
             self.storageMetrics = storageMetrics
         }
@@ -5624,6 +5819,7 @@ extension S3Control {
         public let isEnabled: Bool?
         public let selectionCriteria: SelectionCriteria?
 
+        @inlinable
         public init(isEnabled: Bool? = nil, selectionCriteria: SelectionCriteria? = nil) {
             self.isEnabled = isEnabled
             self.selectionCriteria = selectionCriteria
@@ -5643,6 +5839,7 @@ extension S3Control {
         /// The details of the proposed policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -5662,6 +5859,7 @@ extension S3Control {
         /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Servicesservice principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
         public let restrictPublicBuckets: Bool?
 
+        @inlinable
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
@@ -5686,6 +5884,7 @@ extension S3Control {
         /// The resource policy of the S3 Access Grants instance that you are updating.
         public let policy: String
 
+        @inlinable
         public init(accountId: String, organization: String? = nil, policy: String) {
             self.accountId = accountId
             self.organization = organization
@@ -5725,6 +5924,7 @@ extension S3Control {
         /// The updated resource policy of the S3 Access Grants instance.
         public let policy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, organization: String? = nil, policy: String? = nil) {
             self.createdAt = createdAt
             self.organization = organization
@@ -5746,6 +5946,7 @@ extension S3Control {
         /// The name of the Object Lambda Access Point.
         public let name: String
 
+        @inlinable
         public init(accountId: String, configuration: ObjectLambdaConfiguration, name: String) {
             self.accountId = accountId
             self.configuration = configuration
@@ -5783,6 +5984,7 @@ extension S3Control {
         /// Object Lambda Access Point resource policy document.
         public let policy: String
 
+        @inlinable
         public init(accountId: String, name: String, policy: String) {
             self.accountId = accountId
             self.name = name
@@ -5819,6 +6021,7 @@ extension S3Control {
         /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide.
         public let policy: String
 
+        @inlinable
         public init(accountId: String, name: String, policy: String) {
             self.accountId = accountId
             self.name = name
@@ -5856,6 +6059,7 @@ extension S3Control {
         /// Container for lifecycle rules. You can add as many as 1,000 rules.
         public let lifecycleConfiguration: LifecycleConfiguration?
 
+        @inlinable
         public init(accountId: String, bucket: String, lifecycleConfiguration: LifecycleConfiguration? = nil) {
             self.accountId = accountId
             self.bucket = bucket
@@ -5893,6 +6097,7 @@ extension S3Control {
         /// The bucket policy as a JSON document.
         public let policy: String
 
+        @inlinable
         public init(accountId: String, bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, policy: String) {
             self.accountId = accountId
             self.bucket = bucket
@@ -5931,6 +6136,7 @@ extension S3Control {
         public let bucket: String
         public let replicationConfiguration: ReplicationConfiguration
 
+        @inlinable
         public init(accountId: String, bucket: String, replicationConfiguration: ReplicationConfiguration) {
             self.accountId = accountId
             self.bucket = bucket
@@ -5966,6 +6172,7 @@ extension S3Control {
         public let bucket: String
         public let tagging: Tagging
 
+        @inlinable
         public init(accountId: String, bucket: String, tagging: Tagging) {
             self.accountId = accountId
             self.bucket = bucket
@@ -6004,6 +6211,7 @@ extension S3Control {
         /// The root-level tag for the VersioningConfiguration parameters.
         public let versioningConfiguration: VersioningConfiguration
 
+        @inlinable
         public init(accountId: String, bucket: String, mfa: String? = nil, versioningConfiguration: VersioningConfiguration) {
             self.accountId = accountId
             self.bucket = bucket
@@ -6040,6 +6248,7 @@ extension S3Control {
         @CustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]
 
+        @inlinable
         public init(accountId: String, jobId: String, tags: [S3Tag]) {
             self.accountId = accountId
             self.jobId = jobId
@@ -6081,6 +6290,7 @@ extension S3Control {
         /// The policy details for the PutMultiRegionAccessPoint request.
         public let policy: String
 
+        @inlinable
         public init(name: String, policy: String) {
             self.name = name
             self.policy = policy
@@ -6106,6 +6316,7 @@ extension S3Control {
         /// A container element containing the details of the policy for the Multi-Region Access Point.
         public let details: PutMultiRegionAccessPointPolicyInput
 
+        @inlinable
         public init(accountId: String, clientToken: String = PutMultiRegionAccessPointPolicyRequest.idempotencyToken(), details: PutMultiRegionAccessPointPolicyInput) {
             self.accountId = accountId
             self.clientToken = clientToken
@@ -6139,6 +6350,7 @@ extension S3Control {
         /// The request token associated with the request. You can use this token with DescribeMultiRegionAccessPointOperation to determine the status of asynchronous requests.
         public let requestTokenARN: String?
 
+        @inlinable
         public init(requestTokenARN: String? = nil) {
             self.requestTokenARN = requestTokenARN
         }
@@ -6155,6 +6367,7 @@ extension S3Control {
         /// The PublicAccessBlock configuration that you want to apply to the specified Amazon Web Services account.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
+        @inlinable
         public init(accountId: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.accountId = accountId
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
@@ -6189,6 +6402,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, StorageLensTag>>
         public var tags: [StorageLensTag]?
 
+        @inlinable
         public init(accountId: String, configId: String, storageLensConfiguration: StorageLensConfiguration, tags: [StorageLensTag]? = nil) {
             self.accountId = accountId
             self.configId = configId
@@ -6235,6 +6449,7 @@ extension S3Control {
         @CustomCoding<ArrayCoder<_TagsEncoding, StorageLensTag>>
         public var tags: [StorageLensTag]
 
+        @inlinable
         public init(accountId: String, configId: String, tags: [StorageLensTag]) {
             self.accountId = accountId
             self.configId = configId
@@ -6276,6 +6491,7 @@ extension S3Control {
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's associated with this Multi-Region Access Point.
         public let bucketAccountId: String?
 
+        @inlinable
         public init(bucket: String, bucketAccountId: String? = nil) {
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
@@ -6302,6 +6518,7 @@ extension S3Control {
         /// The name of the Region.
         public let region: String?
 
+        @inlinable
         public init(bucket: String? = nil, bucketAccountId: String? = nil, region: String? = nil) {
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
@@ -6325,6 +6542,7 @@ extension S3Control {
         public let outpostId: String?
         public let publicAccessBlockEnabled: Bool
 
+        @inlinable
         public init(bucket: String, bucketArn: String? = nil, creationDate: Date, outpostId: String? = nil, publicAccessBlockEnabled: Bool) {
             self.bucket = bucket
             self.bucketArn = bucketArn
@@ -6346,6 +6564,7 @@ extension S3Control {
         /// Specifies whether S3 on Outposts replicates modifications to object metadata on replicas.
         public let status: ReplicaModificationsStatus
 
+        @inlinable
         public init(status: ReplicaModificationsStatus) {
             self.status = status
         }
@@ -6364,6 +6583,7 @@ extension S3Control {
         @CustomCoding<ArrayCoder<_RulesEncoding, ReplicationRule>>
         public var rules: [ReplicationRule]
 
+        @inlinable
         public init(role: String, rules: [ReplicationRule]) {
             self.role = role
             self.rules = rules
@@ -6405,6 +6625,7 @@ extension S3Control {
         /// Specifies whether the rule is enabled.
         public let status: ReplicationRuleStatus
 
+        @inlinable
         public init(bucket: String, deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, existingObjectReplication: ExistingObjectReplication? = nil, filter: ReplicationRuleFilter? = nil, id: String? = nil, priority: Int? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
             self.bucket = bucket
             self.deleteMarkerReplication = deleteMarkerReplication
@@ -6419,6 +6640,7 @@ extension S3Control {
         }
 
         @available(*, deprecated, message: "Members prefix have been deprecated")
+        @inlinable
         public init(bucket: String, deleteMarkerReplication: DeleteMarkerReplication? = nil, destination: Destination, existingObjectReplication: ExistingObjectReplication? = nil, filter: ReplicationRuleFilter? = nil, id: String? = nil, prefix: String? = nil, priority: Int? = nil, sourceSelectionCriteria: SourceSelectionCriteria? = nil, status: ReplicationRuleStatus) {
             self.bucket = bucket
             self.deleteMarkerReplication = deleteMarkerReplication
@@ -6458,6 +6680,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
+        @inlinable
         public init(prefix: String? = nil, tags: [S3Tag]? = nil) {
             self.prefix = prefix
             self.tags = tags
@@ -6484,6 +6707,7 @@ extension S3Control {
         public let prefix: String?
         public let tag: S3Tag?
 
+        @inlinable
         public init(and: ReplicationRuleAndOperator? = nil, prefix: String? = nil, tag: S3Tag? = nil) {
             self.and = and
             self.prefix = prefix
@@ -6508,6 +6732,7 @@ extension S3Control {
         /// A container that specifies the time by which replication should be complete for all objects and operations on objects.
         public let time: ReplicationTimeValue
 
+        @inlinable
         public init(status: ReplicationTimeStatus, time: ReplicationTimeValue) {
             self.status = status
             self.time = time
@@ -6523,6 +6748,7 @@ extension S3Control {
         /// Contains an integer that specifies the time period in minutes.  Valid value: 15
         public let minutes: Int?
 
+        @inlinable
         public init(minutes: Int? = nil) {
             self.minutes = minutes
         }
@@ -6537,6 +6763,7 @@ extension S3Control {
         public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
 
+        @inlinable
         public init(grants: [S3Grant]? = nil, owner: S3ObjectOwner) {
             self.grants = grants
             self.owner = owner
@@ -6559,6 +6786,7 @@ extension S3Control {
         public let accessControlList: S3AccessControlList?
         public let cannedAccessControlList: S3CannedAccessControlList?
 
+        @inlinable
         public init(accessControlList: S3AccessControlList? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil) {
             self.accessControlList = accessControlList
             self.cannedAccessControlList = cannedAccessControlList
@@ -6587,6 +6815,7 @@ extension S3Control {
         /// The prefix of the destination bucket where the metrics export will be delivered.
         public let prefix: String?
 
+        @inlinable
         public init(accountId: String, arn: String, encryption: StorageLensDataExportEncryption? = nil, format: Format, outputSchemaVersion: OutputSchemaVersion, prefix: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -6651,6 +6880,7 @@ extension S3Control {
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
+        @inlinable
         public init(accessControlGrants: [S3Grant]? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, checksumAlgorithm: S3ChecksumAlgorithm? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sseAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
             self.accessControlGrants = accessControlGrants
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -6722,6 +6952,7 @@ extension S3Control {
         public let format: GeneratedManifestFormat?
         public let location: JobManifestLocation?
 
+        @inlinable
         public init(format: GeneratedManifestFormat? = nil, location: JobManifestLocation? = nil) {
             self.format = format
             self.location = location
@@ -6737,6 +6968,7 @@ extension S3Control {
         public let grantee: S3Grantee?
         public let permission: S3Permission?
 
+        @inlinable
         public init(grantee: S3Grantee? = nil, permission: S3Permission? = nil) {
             self.grantee = grantee
             self.permission = permission
@@ -6757,6 +6989,7 @@ extension S3Control {
         public let identifier: String?
         public let typeIdentifier: S3GranteeTypeIdentifier?
 
+        @inlinable
         public init(displayName: String? = nil, identifier: String? = nil, typeIdentifier: S3GranteeTypeIdentifier? = nil) {
             self.displayName = displayName
             self.identifier = identifier
@@ -6783,6 +7016,7 @@ extension S3Control {
         /// S3 Batch Operations supports STANDARD and BULK retrieval tiers, but not the EXPEDITED retrieval tier.
         public let glacierJobTier: S3GlacierJobTier?
 
+        @inlinable
         public init(expirationInDays: Int? = nil, glacierJobTier: S3GlacierJobTier? = nil) {
             self.expirationInDays = expirationInDays
             self.glacierJobTier = glacierJobTier
@@ -6810,6 +7044,7 @@ extension S3Control {
         /// The ARN of the source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported  as the source buckets used by S3JobManifestGenerator to generate the job manifest.
         public let sourceBucket: String
 
+        @inlinable
         public init(enableManifestOutput: Bool, expectedBucketOwner: String? = nil, filter: JobManifestGeneratorFilter? = nil, manifestOutputLocation: S3ManifestOutputLocation? = nil, sourceBucket: String) {
             self.enableManifestOutput = enableManifestOutput
             self.expectedBucketOwner = expectedBucketOwner
@@ -6849,6 +7084,7 @@ extension S3Control {
         /// Prefix identifying one or more objects to which the manifest applies.
         public let manifestPrefix: String?
 
+        @inlinable
         public init(bucket: String, expectedManifestBucketOwner: String? = nil, manifestEncryption: GeneratedManifestEncryption? = nil, manifestFormat: GeneratedManifestFormat, manifestPrefix: String? = nil) {
             self.bucket = bucket
             self.expectedManifestBucketOwner = expectedManifestBucketOwner
@@ -6881,6 +7117,7 @@ extension S3Control {
         /// The Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         public let status: S3ObjectLockLegalHoldStatus
 
+        @inlinable
         public init(status: S3ObjectLockLegalHoldStatus) {
             self.status = status
         }
@@ -6908,6 +7145,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var userMetadata: [String: String]?
 
+        @inlinable
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: Date? = nil, requesterCharged: Bool? = nil, sseAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
@@ -6963,6 +7201,7 @@ extension S3Control {
         public let displayName: String?
         public let id: String?
 
+        @inlinable
         public init(displayName: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.id = id
@@ -6991,6 +7230,7 @@ extension S3Control {
         /// The date when the applied Object Lock retention will expire on all objects set by the Batch Operations job.
         public let retainUntilDate: Date?
 
+        @inlinable
         public init(mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
             self.mode = mode
             self.retainUntilDate = retainUntilDate
@@ -7005,6 +7245,7 @@ extension S3Control {
     public struct S3SetObjectAclOperation: AWSEncodableShape & AWSDecodableShape {
         public let accessControlPolicy: S3AccessControlPolicy?
 
+        @inlinable
         public init(accessControlPolicy: S3AccessControlPolicy? = nil) {
             self.accessControlPolicy = accessControlPolicy
         }
@@ -7022,6 +7263,7 @@ extension S3Control {
         /// Contains the Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         public let legalHold: S3ObjectLockLegalHold
 
+        @inlinable
         public init(legalHold: S3ObjectLockLegalHold) {
             self.legalHold = legalHold
         }
@@ -7037,6 +7279,7 @@ extension S3Control {
         /// Contains the Object Lock retention mode to be applied to all objects in the Batch Operations job. For more information, see Using S3 Object Lock retention with S3 Batch Operations in the Amazon S3 User Guide.
         public let retention: S3Retention
 
+        @inlinable
         public init(bypassGovernanceRetention: Bool? = nil, retention: S3Retention) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.retention = retention
@@ -7052,6 +7295,7 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tagSet: [S3Tag]?
 
+        @inlinable
         public init(tagSet: [S3Tag]? = nil) {
             self.tagSet = tagSet
         }
@@ -7073,6 +7317,7 @@ extension S3Control {
         /// Value of the tag
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -7096,6 +7341,7 @@ extension S3Control {
         /// A container for the ARN of the SSE-KMS encryption. This property is read-only and follows the following format:  arn:aws:kms:us-east-1:example-account-id:key/example-9a73-4afc-8d29-8f5900cef44e
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -7109,6 +7355,7 @@ extension S3Control {
         /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key to use for encrypting generated manifest objects.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -7139,6 +7386,7 @@ extension S3Control {
         /// The minimum number of storage bytes percentage whose metrics will be selected.  You must choose a value greater than or equal to 1.0.
         public let minStorageBytesPercentage: Double?
 
+        @inlinable
         public init(delimiter: String? = nil, maxDepth: Int? = nil, minStorageBytesPercentage: Double? = nil) {
             self.delimiter = delimiter
             self.maxDepth = maxDepth
@@ -7166,6 +7414,7 @@ extension S3Control {
         /// A filter that you can use to select Amazon S3 objects that are encrypted with server-side encryption by using Key Management Service (KMS) keys. If you include SourceSelectionCriteria in the replication configuration, this element is required.   This is not supported by Amazon S3 on Outposts buckets.
         public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
 
+        @inlinable
         public init(replicaModifications: ReplicaModifications? = nil, sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
             self.replicaModifications = replicaModifications
             self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
@@ -7181,6 +7430,7 @@ extension S3Control {
         /// Specifies whether Amazon S3 replicates objects that are created with server-side encryption by using an KMS key stored in Key Management Service.
         public let status: SseKmsEncryptedObjectsStatus
 
+        @inlinable
         public init(status: SseKmsEncryptedObjectsStatus) {
             self.status = status
         }
@@ -7194,6 +7444,7 @@ extension S3Control {
         /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services organization. This property is read-only and follows the following format:  arn:aws:organizations:us-east-1:example-account-id:organization/o-ex2l495dck
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -7227,6 +7478,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the S3 Storage Lens configuration. This property is read-only and follows the following format:  arn:aws:s3:us-east-1:example-account-id:storage-lens/your-dashboard-name
         public let storageLensArn: String?
 
+        @inlinable
         public init(accountLevel: AccountLevel, awsOrg: StorageLensAwsOrg? = nil, dataExport: StorageLensDataExport? = nil, exclude: Exclude? = nil, id: String, include: Include? = nil, isEnabled: Bool, storageLensArn: String? = nil) {
             self.accountLevel = accountLevel
             self.awsOrg = awsOrg
@@ -7270,6 +7522,7 @@ extension S3Control {
         /// A container for the bucket where the S3 Storage Lens metrics export will be located.  This bucket must be located in the same Region as the storage lens configuration.
         public let s3BucketDestination: S3BucketDestination?
 
+        @inlinable
         public init(cloudWatchMetrics: CloudWatchMetrics? = nil, s3BucketDestination: S3BucketDestination? = nil) {
             self.cloudWatchMetrics = cloudWatchMetrics
             self.s3BucketDestination = s3BucketDestination
@@ -7289,6 +7542,7 @@ extension S3Control {
         public let ssekms: SSEKMS?
         public let sses3: SSES3?
 
+        @inlinable
         public init(ssekms: SSEKMS? = nil, sses3: SSES3? = nil) {
             self.ssekms = ssekms
             self.sses3 = sses3
@@ -7308,6 +7562,7 @@ extension S3Control {
         ///  Contains the Amazon Resource Name (ARN) of the Storage Lens group. This property is read-only.
         public let storageLensGroupArn: String?
 
+        @inlinable
         public init(filter: StorageLensGroupFilter, name: String, storageLensGroupArn: String? = nil) {
             self.filter = filter
             self.name = name
@@ -7350,6 +7605,7 @@ extension S3Control {
         ///  Contains BytesGreaterThan and BytesLessThan to define the object size range (minimum and maximum number of Bytes).
         public let matchObjectSize: MatchObjectSize?
 
+        @inlinable
         public init(matchAnyPrefix: [String]? = nil, matchAnySuffix: [String]? = nil, matchAnyTag: [S3Tag]? = nil, matchObjectAge: MatchObjectAge? = nil, matchObjectSize: MatchObjectSize? = nil) {
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySuffix = matchAnySuffix
@@ -7396,6 +7652,7 @@ extension S3Control {
         /// A single logical operator that allows multiple filter conditions to be joined. Objects can match any of the listed filter conditions, which are joined by the Or logical operator. Only one of each filter condition is allowed.
         public let or: StorageLensGroupOrOperator?
 
+        @inlinable
         public init(and: StorageLensGroupAndOperator? = nil, matchAnyPrefix: [String]? = nil, matchAnySuffix: [String]? = nil, matchAnyTag: [S3Tag]? = nil, matchObjectAge: MatchObjectAge? = nil, matchObjectSize: MatchObjectSize? = nil, or: StorageLensGroupOrOperator? = nil) {
             self.and = and
             self.matchAnyPrefix = matchAnyPrefix
@@ -7429,6 +7686,7 @@ extension S3Control {
         ///  Indicates which Storage Lens group ARNs to include or exclude in the Storage Lens group aggregation. If this value is left null, then all Storage Lens groups are selected.
         public let selectionCriteria: StorageLensGroupLevelSelectionCriteria?
 
+        @inlinable
         public init(selectionCriteria: StorageLensGroupLevelSelectionCriteria? = nil) {
             self.selectionCriteria = selectionCriteria
         }
@@ -7453,6 +7711,7 @@ extension S3Control {
         @OptionalCustomCoding<ArrayCoder<_IncludeEncoding, String>>
         public var include: [String]?
 
+        @inlinable
         public init(exclude: [String]? = nil, include: [String]? = nil) {
             self.exclude = exclude
             self.include = include
@@ -7496,6 +7755,7 @@ extension S3Control {
         /// Filters objects that match the specified object size range.
         public let matchObjectSize: MatchObjectSize?
 
+        @inlinable
         public init(matchAnyPrefix: [String]? = nil, matchAnySuffix: [String]? = nil, matchAnyTag: [S3Tag]? = nil, matchObjectAge: MatchObjectAge? = nil, matchObjectSize: MatchObjectSize? = nil) {
             self.matchAnyPrefix = matchAnyPrefix
             self.matchAnySuffix = matchAnySuffix
@@ -7523,6 +7783,7 @@ extension S3Control {
         public let key: String
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -7554,6 +7815,7 @@ extension S3Control {
         @CustomCoding<ArrayCoder<_RouteUpdatesEncoding, MultiRegionAccessPointRoute>>
         public var routeUpdates: [MultiRegionAccessPointRoute]
 
+        @inlinable
         public init(accountId: String, mrap: String, routeUpdates: [MultiRegionAccessPointRoute]) {
             self.accountId = accountId
             self.mrap = mrap
@@ -7594,6 +7856,7 @@ extension S3Control {
         ///  The value of the key-value pair of a tag added to your Amazon Web Services resource. A tag value can be up to 256 Unicode characters in length and is case-sensitive.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -7624,6 +7887,7 @@ extension S3Control {
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(accountId: String, resourceArn: String, tags: [Tag]) {
             self.accountId = accountId
             self.resourceArn = resourceArn
@@ -7664,6 +7928,7 @@ extension S3Control {
         @CustomCoding<StandardArrayCoder<S3Tag>>
         public var tagSet: [S3Tag]
 
+        @inlinable
         public init(tagSet: [S3Tag]) {
             self.tagSet = tagSet
         }
@@ -7687,6 +7952,7 @@ extension S3Control {
         /// The storage class to which you want the object to transition.
         public let storageClass: TransitionStorageClass?
 
+        @inlinable
         public init(date: Date? = nil, days: Int? = nil, storageClass: TransitionStorageClass? = nil) {
             self.date = date
             self.days = days
@@ -7708,6 +7974,7 @@ extension S3Control {
         ///  The array of tag key-value pairs that you're trying to remove from of the S3 resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(accountId: String, resourceArn: String, tagKeys: [String]) {
             self.accountId = accountId
             self.resourceArn = resourceArn
@@ -7752,6 +8019,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
         public let iamRoleArn: String
 
+        @inlinable
         public init(accessGrantsLocationId: String, accountId: String, iamRoleArn: String) {
             self.accessGrantsLocationId = accessGrantsLocationId
             self.accountId = accountId
@@ -7795,6 +8063,7 @@ extension S3Control {
         /// The S3 URI path of the location that you are updating. You cannot update the scope of the registered location. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///.
         public let locationScope: String?
 
+        @inlinable
         public init(accessGrantsLocationArn: String? = nil, accessGrantsLocationId: String? = nil, createdAt: Date? = nil, iamRoleArn: String? = nil, locationScope: String? = nil) {
             self.accessGrantsLocationArn = accessGrantsLocationArn
             self.accessGrantsLocationId = accessGrantsLocationId
@@ -7820,6 +8089,7 @@ extension S3Control {
         /// The priority you want to assign to this job.
         public let priority: Int
 
+        @inlinable
         public init(accountId: String, jobId: String, priority: Int = 0) {
             self.accountId = accountId
             self.jobId = jobId
@@ -7854,6 +8124,7 @@ extension S3Control {
         /// The new priority assigned to the specified job.
         public let priority: Int
 
+        @inlinable
         public init(jobId: String, priority: Int) {
             self.jobId = jobId
             self.priority = priority
@@ -7875,6 +8146,7 @@ extension S3Control {
         /// A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length.
         public let statusUpdateReason: String?
 
+        @inlinable
         public init(accountId: String, jobId: String, requestedJobStatus: RequestedJobStatus, statusUpdateReason: String? = nil) {
             self.accountId = accountId
             self.jobId = jobId
@@ -7913,6 +8185,7 @@ extension S3Control {
         /// The reason that the specified job's status was updated.
         public let statusUpdateReason: String?
 
+        @inlinable
         public init(jobId: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil) {
             self.jobId = jobId
             self.status = status
@@ -7934,6 +8207,7 @@ extension S3Control {
         /// The JSON file that contains the Storage Lens group configuration.
         public let storageLensGroup: StorageLensGroup
 
+        @inlinable
         public init(accountId: String, name: String, storageLensGroup: StorageLensGroup) {
             self.accountId = accountId
             self.name = name
@@ -7969,6 +8243,7 @@ extension S3Control {
         /// Sets the versioning state of the S3 on Outposts bucket.
         public let status: BucketVersioningStatus?
 
+        @inlinable
         public init(mfaDelete: MFADelete? = nil, status: BucketVersioningStatus? = nil) {
             self.mfaDelete = mfaDelete
             self.status = status
@@ -7984,6 +8259,7 @@ extension S3Control {
         /// If this field is specified, this access point will only allow connections from the specified VPC ID.
         public let vpcId: String
 
+        @inlinable
         public init(vpcId: String) {
             self.vpcId = vpcId
         }
@@ -8002,6 +8278,7 @@ extension S3Control {
         /// The S3 job ManifestGenerator's configuration details.
         public let s3JobManifestGenerator: S3JobManifestGenerator?
 
+        @inlinable
         public init(s3JobManifestGenerator: S3JobManifestGenerator? = nil) {
             self.s3JobManifestGenerator = s3JobManifestGenerator
         }
@@ -8019,6 +8296,7 @@ extension S3Control {
         /// A container for an Lambda function.
         public let awsLambda: AwsLambdaTransformation?
 
+        @inlinable
         public init(awsLambda: AwsLambdaTransformation? = nil) {
             self.awsLambda = awsLambda
         }

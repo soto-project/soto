@@ -107,6 +107,7 @@ extension MWAA {
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -132,6 +133,7 @@ extension MWAA {
         /// The Airflow web server hostname for the environment.
         public let webServerHostname: String?
 
+        @inlinable
         public init(cliToken: String? = nil, webServerHostname: String? = nil) {
             self.cliToken = cliToken
             self.webServerHostname = webServerHostname
@@ -195,6 +197,7 @@ extension MWAA {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
 
+        @inlinable
         public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
@@ -350,6 +353,7 @@ extension MWAA {
         /// The Amazon Resource Name (ARN) returned in the response for the environment.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -363,6 +367,7 @@ extension MWAA {
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -392,6 +397,7 @@ extension MWAA {
         /// An Airflow web server login token.
         public let webToken: String?
 
+        @inlinable
         public init(airflowIdentity: String? = nil, iamIdentity: String? = nil, webServerHostname: String? = nil, webToken: String? = nil) {
             self.airflowIdentity = airflowIdentity
             self.iamIdentity = iamIdentity
@@ -411,6 +417,7 @@ extension MWAA {
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -440,6 +447,7 @@ extension MWAA {
         ///  Internal only. The value of the dimension.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -521,6 +529,7 @@ extension MWAA {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
         public let weeklyMaintenanceWindowStart: String?
 
+        @inlinable
         public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, celeryExecutorQueue: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, databaseVpcEndpointService: String? = nil, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, webserverVpcEndpointService: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
@@ -600,6 +609,7 @@ extension MWAA {
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -623,6 +633,7 @@ extension MWAA {
         /// An object containing all available details about the environment.
         public let environment: Environment?
 
+        @inlinable
         public init(environment: Environment? = nil) {
             self.environment = environment
         }
@@ -642,6 +653,7 @@ extension MWAA {
         /// The status of the last update on the environment.
         public let status: UpdateStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, error: UpdateError? = nil, source: String? = nil, status: UpdateStatus? = nil) {
             self.createdAt = createdAt
             self.error = error
@@ -663,6 +675,7 @@ extension MWAA {
         /// Retrieves the next page of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -688,6 +701,7 @@ extension MWAA {
         /// Retrieves the next page of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [String], nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -703,6 +717,7 @@ extension MWAA {
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -726,6 +741,7 @@ extension MWAA {
         /// The key-value tag pairs associated to your environment. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -747,6 +763,7 @@ extension MWAA {
         /// The Airflow worker logs published to CloudWatch Logs and the log level.
         public let workerLogs: ModuleLoggingConfiguration?
 
+        @inlinable
         public init(dagProcessingLogs: ModuleLoggingConfiguration? = nil, schedulerLogs: ModuleLoggingConfiguration? = nil, taskLogs: ModuleLoggingConfiguration? = nil, webserverLogs: ModuleLoggingConfiguration? = nil, workerLogs: ModuleLoggingConfiguration? = nil) {
             self.dagProcessingLogs = dagProcessingLogs
             self.schedulerLogs = schedulerLogs
@@ -776,6 +793,7 @@ extension MWAA {
         /// Publishes Airflow worker logs to CloudWatch Logs.
         public let workerLogs: ModuleLoggingConfigurationInput?
 
+        @inlinable
         public init(dagProcessingLogs: ModuleLoggingConfigurationInput? = nil, schedulerLogs: ModuleLoggingConfigurationInput? = nil, taskLogs: ModuleLoggingConfigurationInput? = nil, webserverLogs: ModuleLoggingConfigurationInput? = nil, workerLogs: ModuleLoggingConfigurationInput? = nil) {
             self.dagProcessingLogs = dagProcessingLogs
             self.schedulerLogs = schedulerLogs
@@ -807,6 +825,7 @@ extension MWAA {
         ///  Internal only. The value for the metric.
         public let value: Double?
 
+        @inlinable
         public init(dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, timestamp: Date, unit: Unit? = nil, value: Double? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -834,6 +853,7 @@ extension MWAA {
         /// The Apache Airflow log level for the log type (e.g. DagProcessingLogs).
         public let logLevel: LoggingLevel?
 
+        @inlinable
         public init(cloudWatchLogGroupArn: String? = nil, enabled: Bool? = nil, logLevel: LoggingLevel? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.enabled = enabled
@@ -853,6 +873,7 @@ extension MWAA {
         /// Defines the Apache Airflow log level (e.g. INFO) to send to CloudWatch Logs.
         public let logLevel: LoggingLevel
 
+        @inlinable
         public init(enabled: Bool, logLevel: LoggingLevel) {
             self.enabled = enabled
             self.logLevel = logLevel
@@ -870,6 +891,7 @@ extension MWAA {
         /// A list of subnet IDs. For more information, see About networking on Amazon MWAA.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -904,6 +926,7 @@ extension MWAA {
         ///  Internal only. Publishes metrics to Amazon CloudWatch. To learn more about the metrics published to Amazon CloudWatch, see Amazon MWAA performance metrics in Amazon CloudWatch.
         public let metricData: [MetricDatum]
 
+        @inlinable
         public init(environmentName: String, metricData: [MetricDatum]) {
             self.environmentName = environmentName
             self.metricData = metricData
@@ -941,6 +964,7 @@ extension MWAA {
         ///  Internal only. The sum of values for the sample set.
         public let sum: Double?
 
+        @inlinable
         public init(maximum: Double? = nil, minimum: Double? = nil, sampleCount: Int? = nil, sum: Double? = nil) {
             self.maximum = maximum
             self.minimum = minimum
@@ -962,6 +986,7 @@ extension MWAA {
         /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1005,6 +1030,7 @@ extension MWAA {
         /// The key-value tag pair you want to remove. For example, "Environment": "Staging".
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1082,6 +1108,7 @@ extension MWAA {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
 
+        @inlinable
         public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
@@ -1215,6 +1242,7 @@ extension MWAA {
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1230,6 +1258,7 @@ extension MWAA {
         /// The error message that corresponds to the error code.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1245,6 +1274,7 @@ extension MWAA {
         /// A list of security group IDs. A security group must be attached to the same VPC as the subnets. For more information, see Security in your VPC on Amazon MWAA.
         public let securityGroupIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String]) {
             self.securityGroupIds = securityGroupIds
         }

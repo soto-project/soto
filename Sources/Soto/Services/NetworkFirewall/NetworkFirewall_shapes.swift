@@ -207,6 +207,7 @@ extension NetworkFirewall {
         /// Stateless inspection criteria that publishes the specified metrics to Amazon CloudWatch for the matching packet. This setting defines a CloudWatch dimension value to be published. You can pair this custom action with any of the standard stateless rule actions. For example, you could pair this in a rule action with the standard action that forwards the packet for stateful inspection. Then, when a packet matches the rule, Network Firewall publishes metrics for the packet and forwards it.
         public let publishMetricAction: PublishMetricAction?
 
+        @inlinable
         public init(publishMetricAction: PublishMetricAction? = nil) {
             self.publishMetricAction = publishMetricAction
         }
@@ -224,6 +225,7 @@ extension NetworkFirewall {
         /// Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addressDefinition: String
 
+        @inlinable
         public init(addressDefinition: String) {
             self.addressDefinition = addressDefinition
         }
@@ -247,6 +249,7 @@ extension NetworkFirewall {
         /// The types of rule configurations that Network Firewall analyzes your rule groups for. Network Firewall analyzes stateless rule groups for the following types of rule configurations:    STATELESS_RULE_FORWARDING_ASYMMETRICALLY  Cause: One or more stateless rules with the action pass or forward are forwarding traffic asymmetrically. Specifically, the rule's set of source IP addresses  or their associated port numbers, don't match the set of destination IP addresses or their associated port numbers. To mitigate: Make sure that there's an existing return path. For example, if the rule allows traffic from source 10.1.0.0/24 to destination 20.1.0.0/24, you should allow return traffic from source 20.1.0.0/24 to destination 10.1.0.0/24.    STATELESS_RULE_CONTAINS_TCP_FLAGS  Cause: At least one stateless rule with the action pass orforward contains TCP flags that are inconsistent in the forward and return directions. To mitigate: Prevent asymmetric routing issues caused by TCP flags by following these actions:   Remove unnecessary TCP flag inspections from the rules.   If you need to inspect TCP flags, check that the rules correctly account for changes in TCP flags throughout the TCP connection cycle, for example SYN and ACK flags used in a 3-way TCP handshake.
         public let identifiedType: IdentifiedType?
 
+        @inlinable
         public init(analysisDetail: String? = nil, identifiedRuleIds: [String]? = nil, identifiedType: IdentifiedType? = nil) {
             self.analysisDetail = analysisDetail
             self.identifiedRuleIds = identifiedRuleIds
@@ -270,6 +273,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, firewallPolicyArn: String, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -310,6 +314,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, firewallPolicyArn: String? = nil, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -335,6 +340,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, subnetMappings: [SubnetMapping], updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -372,6 +378,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, subnetMappings: [SubnetMapping]? = nil, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -397,6 +404,7 @@ extension NetworkFirewall {
         /// The unique identifier of the subnet that you've specified to be used for a firewall endpoint.
         public let subnetId: String?
 
+        @inlinable
         public init(endpointId: String? = nil, status: AttachmentStatus? = nil, statusMessage: String? = nil, subnetId: String? = nil) {
             self.endpointId = endpointId
             self.status = status
@@ -420,6 +428,7 @@ extension NetworkFirewall {
         /// The number of CIDR blocks used by the IP set references in a firewall.
         public let utilizedCIDRCount: Int?
 
+        @inlinable
         public init(availableCIDRCount: Int? = nil, ipSetReferences: [String: IPSetMetadata]? = nil, utilizedCIDRCount: Int? = nil) {
             self.availableCIDRCount = availableCIDRCount
             self.ipSetReferences = ipSetReferences
@@ -437,6 +446,7 @@ extension NetworkFirewall {
         /// Describes the capacity usage of the CIDR blocks used by the IP set references in a firewall.
         public let cidRs: CIDRSummary?
 
+        @inlinable
         public init(cidRs: CIDRSummary? = nil) {
             self.cidRs = cidRs
         }
@@ -452,6 +462,7 @@ extension NetworkFirewall {
         /// Configures how Network Firewall processes traffic when it determines that the certificate presented by the server in the SSL/TLS connection has an unknown status, or a status that cannot be determined for any other reason, including when the service is unable to connect to the OCSP and CRL endpoints for the certificate.    PASS - Allow the connection to continue, and pass subsequent packets to the stateful engine for inspection.    DROP - Network Firewall closes the connection and drops subsequent packets for that connection.    REJECT - Network Firewall sends a TCP reject packet back to your client. The service closes the connection and drops subsequent packets for that connection. REJECT is available only for TCP traffic.
         public let unknownStatusAction: RevocationCheckAction?
 
+        @inlinable
         public init(revokedStatusAction: RevocationCheckAction? = nil, unknownStatusAction: RevocationCheckAction? = nil) {
             self.revokedStatusAction = revokedStatusAction
             self.unknownStatusAction = unknownStatusAction
@@ -477,6 +488,7 @@ extension NetworkFirewall {
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicy: FirewallPolicy, firewallPolicyName: String, tags: [Tag]? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -517,6 +529,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(firewallPolicyResponse: FirewallPolicyResponse, updateToken: String) {
             self.firewallPolicyResponse = firewallPolicyResponse
             self.updateToken = updateToken
@@ -550,6 +563,7 @@ extension NetworkFirewall {
         /// The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
         public let vpcId: String
 
+        @inlinable
         public init(deleteProtection: Bool? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
             self.deleteProtection = deleteProtection
             self.description = description
@@ -603,6 +617,7 @@ extension NetworkFirewall {
         /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN.
         public let firewallStatus: FirewallStatus?
 
+        @inlinable
         public init(firewall: Firewall? = nil, firewallStatus: FirewallStatus? = nil) {
             self.firewall = firewall
             self.firewallStatus = firewallStatus
@@ -641,6 +656,7 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType
 
+        @inlinable
         public init(analyzeRuleGroup: Bool? = nil, capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.capacity = capacity
@@ -693,6 +709,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(ruleGroupResponse: RuleGroupResponse, updateToken: String) {
             self.ruleGroupResponse = ruleGroupResponse
             self.updateToken = updateToken
@@ -716,6 +733,7 @@ extension NetworkFirewall {
         /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
         public let tlsInspectionConfigurationName: String
 
+        @inlinable
         public init(description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, tags: [Tag]? = nil, tlsInspectionConfiguration: TLSInspectionConfiguration, tlsInspectionConfigurationName: String) {
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
@@ -754,6 +772,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse, updateToken: String) {
             self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
             self.updateToken = updateToken
@@ -771,6 +790,7 @@ extension NetworkFirewall {
         /// The descriptive name of the custom action. You can't change the name of a custom action after you create it.
         public let actionName: String
 
+        @inlinable
         public init(actionDefinition: ActionDefinition, actionName: String) {
             self.actionDefinition = actionDefinition
             self.actionName = actionName
@@ -795,6 +815,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyName: String?
 
+        @inlinable
         public init(firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil) {
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyName = firewallPolicyName
@@ -819,6 +840,7 @@ extension NetworkFirewall {
         /// The object containing the definition of the FirewallPolicyResponse that you asked to delete.
         public let firewallPolicyResponse: FirewallPolicyResponse
 
+        @inlinable
         public init(firewallPolicyResponse: FirewallPolicyResponse) {
             self.firewallPolicyResponse = firewallPolicyResponse
         }
@@ -834,6 +856,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -858,6 +881,7 @@ extension NetworkFirewall {
         public let firewall: Firewall?
         public let firewallStatus: FirewallStatus?
 
+        @inlinable
         public init(firewall: Firewall? = nil, firewallStatus: FirewallStatus? = nil) {
             self.firewall = firewall
             self.firewallStatus = firewallStatus
@@ -873,6 +897,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -901,6 +926,7 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
+        @inlinable
         public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
@@ -927,6 +953,7 @@ extension NetworkFirewall {
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
         public let ruleGroupResponse: RuleGroupResponse
 
+        @inlinable
         public init(ruleGroupResponse: RuleGroupResponse) {
             self.ruleGroupResponse = ruleGroupResponse
         }
@@ -942,6 +969,7 @@ extension NetworkFirewall {
         /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it. You must specify the ARN or the name, and you can specify both.
         public let tlsInspectionConfigurationName: String?
 
+        @inlinable
         public init(tlsInspectionConfigurationArn: String? = nil, tlsInspectionConfigurationName: String? = nil) {
             self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
             self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
@@ -966,6 +994,7 @@ extension NetworkFirewall {
         /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
         public let tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse
 
+        @inlinable
         public init(tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse) {
             self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
         }
@@ -981,6 +1010,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyName: String?
 
+        @inlinable
         public init(firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil) {
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyName = firewallPolicyName
@@ -1009,6 +1039,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(firewallPolicy: FirewallPolicy? = nil, firewallPolicyResponse: FirewallPolicyResponse, updateToken: String) {
             self.firewallPolicy = firewallPolicy
             self.firewallPolicyResponse = firewallPolicyResponse
@@ -1028,6 +1059,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -1056,6 +1088,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewall: Firewall? = nil, firewallStatus: FirewallStatus? = nil, updateToken: String? = nil) {
             self.firewall = firewall
             self.firewallStatus = firewallStatus
@@ -1075,6 +1108,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -1100,6 +1134,7 @@ extension NetworkFirewall {
         public let firewallArn: String?
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(firewallArn: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
             self.firewallArn = firewallArn
             self.loggingConfiguration = loggingConfiguration
@@ -1115,6 +1150,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to retrieve.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1134,6 +1170,7 @@ extension NetworkFirewall {
         /// The IAM policy for the resource.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1152,6 +1189,7 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
+        @inlinable
         public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
@@ -1190,6 +1228,7 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
+        @inlinable
         public init(capacity: Int? = nil, description: String? = nil, lastModifiedTime: Date? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil) {
             self.capacity = capacity
             self.description = description
@@ -1222,6 +1261,7 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
+        @inlinable
         public init(analyzeRuleGroup: Bool? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.ruleGroupArn = ruleGroupArn
@@ -1254,6 +1294,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(ruleGroup: RuleGroup? = nil, ruleGroupResponse: RuleGroupResponse, updateToken: String) {
             self.ruleGroup = ruleGroup
             self.ruleGroupResponse = ruleGroupResponse
@@ -1273,6 +1314,7 @@ extension NetworkFirewall {
         /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it. You must specify the ARN or the name, and you can specify both.
         public let tlsInspectionConfigurationName: String?
 
+        @inlinable
         public init(tlsInspectionConfigurationArn: String? = nil, tlsInspectionConfigurationName: String? = nil) {
             self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
             self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
@@ -1302,6 +1344,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(tlsInspectionConfiguration: TLSInspectionConfiguration? = nil, tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse, updateToken: String) {
             self.tlsInspectionConfiguration = tlsInspectionConfiguration
             self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
@@ -1319,6 +1362,7 @@ extension NetworkFirewall {
         /// The value to use in the custom metric dimension.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -1344,6 +1388,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, subnetIds: [String], updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -1386,6 +1431,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, subnetMappings: [SubnetMapping]? = nil, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -1407,6 +1453,7 @@ extension NetworkFirewall {
         /// The type of Amazon Web Services KMS key to use for encryption of your Network Firewall resources.
         public let type: EncryptionType
 
+        @inlinable
         public init(keyId: String? = nil, type: EncryptionType) {
             self.keyId = keyId
             self.type = type
@@ -1449,6 +1496,7 @@ extension NetworkFirewall {
         /// The unique identifier of the VPC where the firewall is in use.
         public let vpcId: String
 
+        @inlinable
         public init(deleteProtection: Bool? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
             self.deleteProtection = deleteProtection
             self.description = description
@@ -1486,6 +1534,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
         public let firewallName: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -1517,6 +1566,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
         public let tlsInspectionConfigurationArn: String?
 
+        @inlinable
         public init(policyVariables: PolicyVariables? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
             self.policyVariables = policyVariables
             self.statefulDefaultActions = statefulDefaultActions
@@ -1564,6 +1614,7 @@ extension NetworkFirewall {
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1599,6 +1650,7 @@ extension NetworkFirewall {
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
@@ -1638,6 +1690,7 @@ extension NetworkFirewall {
         /// The subnets that you've configured for use by the Network Firewall firewall. This contains one array element per Availability Zone where you've configured a subnet. These objects provide details of the information that is summarized in the ConfigurationSyncStateSummary and Status, broken down by zone and configuration object.
         public let syncStates: [String: SyncState]?
 
+        @inlinable
         public init(capacityUsageSummary: CapacityUsageSummary? = nil, configurationSyncStateSummary: ConfigurationSyncState, status: FirewallStatusValue, syncStates: [String: SyncState]? = nil) {
             self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
@@ -1667,6 +1720,7 @@ extension NetworkFirewall {
         /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
         public let sourcePort: String
 
+        @inlinable
         public init(destination: String, destinationPort: String, direction: StatefulRuleDirection, protocol: StatefulRuleProtocol, source: String, sourcePort: String) {
             self.destination = destination
             self.destinationPort = destinationPort
@@ -1705,6 +1759,7 @@ extension NetworkFirewall {
         /// The list of IP addresses and address ranges, in CIDR notation.
         public let definition: [String]
 
+        @inlinable
         public init(definition: [String]) {
             self.definition = definition
         }
@@ -1725,6 +1780,7 @@ extension NetworkFirewall {
         /// Describes the total number of CIDR blocks currently in use by the IP set references in a firewall. To determine how many CIDR blocks are available for you to use in a firewall, you can call AvailableCIDRCount.
         public let resolvedCIDRCount: Int?
 
+        @inlinable
         public init(resolvedCIDRCount: Int? = nil) {
             self.resolvedCIDRCount = resolvedCIDRCount
         }
@@ -1738,6 +1794,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the resource that you are referencing in your rule group.
         public let referenceArn: String?
 
+        @inlinable
         public init(referenceArn: String? = nil) {
             self.referenceArn = referenceArn
         }
@@ -1759,6 +1816,7 @@ extension NetworkFirewall {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1784,6 +1842,7 @@ extension NetworkFirewall {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallPolicies: [FirewallPolicyMetadata]? = nil, nextToken: String? = nil) {
             self.firewallPolicies = firewallPolicies
             self.nextToken = nextToken
@@ -1803,6 +1862,7 @@ extension NetworkFirewall {
         /// The unique identifiers of the VPCs that you want Network Firewall to retrieve the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
         public let vpcIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, vpcIds: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1835,6 +1895,7 @@ extension NetworkFirewall {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewalls: [FirewallMetadata]? = nil, nextToken: String? = nil) {
             self.firewalls = firewalls
             self.nextToken = nextToken
@@ -1858,6 +1919,7 @@ extension NetworkFirewall {
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType?
 
+        @inlinable
         public init(managedType: ResourceManagedType? = nil, maxResults: Int? = nil, nextToken: String? = nil, scope: ResourceManagedStatus? = nil, type: RuleGroupType? = nil) {
             self.managedType = managedType
             self.maxResults = maxResults
@@ -1889,6 +1951,7 @@ extension NetworkFirewall {
         /// The rule group metadata objects that you've defined. Depending on your setting for max results and the number of rule groups, this might not be the full list.
         public let ruleGroups: [RuleGroupMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, ruleGroups: [RuleGroupMetadata]? = nil) {
             self.nextToken = nextToken
             self.ruleGroups = ruleGroups
@@ -1906,6 +1969,7 @@ extension NetworkFirewall {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1931,6 +1995,7 @@ extension NetworkFirewall {
         /// The TLS inspection configuration metadata objects that you've defined. Depending on your setting for max results and the number of TLS inspection configurations, this might not be the full list.
         public let tlsInspectionConfigurations: [TLSInspectionConfigurationMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, tlsInspectionConfigurations: [TLSInspectionConfigurationMetadata]? = nil) {
             self.nextToken = nextToken
             self.tlsInspectionConfigurations = tlsInspectionConfigurations
@@ -1950,6 +2015,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1980,6 +2046,7 @@ extension NetworkFirewall {
         /// The tags that are associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1999,6 +2066,7 @@ extension NetworkFirewall {
         /// The type of log to record. You can record the following types of logs from your Network Firewall stateful engine.    ALERT - Logs for traffic that matches your stateful rules and that have an action that sends an alert. A stateful rule sends alerts for the rule actions DROP, ALERT, and REJECT. For more information, see StatefulRule.    FLOW - Standard network traffic flow logs. The stateful rules engine records flow logs for all network traffic that it receives. Each flow log record captures the network flow for a specific standard stateless rule group.    TLS - Logs for events that are related to TLS inspection. For more information, see   Inspecting SSL/TLS traffic with TLS inspection configurations  in the Network Firewall Developer Guide.
         public let logType: LogType
 
+        @inlinable
         public init(logDestination: [String: String], logDestinationType: LogDestinationType, logType: LogType) {
             self.logDestination = logDestination
             self.logDestinationType = logDestinationType
@@ -2027,6 +2095,7 @@ extension NetworkFirewall {
         /// Defines the logging destinations for the logs for a firewall. Network Firewall generates logs for stateful rule groups.
         public let logDestinationConfigs: [LogDestinationConfig]
 
+        @inlinable
         public init(logDestinationConfigs: [LogDestinationConfig]) {
             self.logDestinationConfigs = logDestinationConfigs
         }
@@ -2056,6 +2125,7 @@ extension NetworkFirewall {
         /// The TCP flags and masks to inspect for. If not specified, this matches with any settings. This setting is only used for protocol 6 (TCP).
         public let tcpFlags: [TCPFlagField]?
 
+        @inlinable
         public init(destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil, tcpFlags: [TCPFlagField]? = nil) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
@@ -2100,6 +2170,7 @@ extension NetworkFirewall {
         /// The current version of the object that is either in sync or pending synchronization.
         public let updateToken: String?
 
+        @inlinable
         public init(syncStatus: PerObjectSyncStatus? = nil, updateToken: String? = nil) {
             self.syncStatus = syncStatus
             self.updateToken = updateToken
@@ -2115,6 +2186,7 @@ extension NetworkFirewall {
         /// The IPv4 or IPv6 addresses in CIDR notation to use for the Suricata HOME_NET variable. If your firewall uses an inspection VPC, you might want to override the HOME_NET variable with the CIDRs of your home networks. If you don't override HOME_NET with your own CIDRs, Network Firewall by default uses the CIDR of your inspection VPC.
         public let ruleVariables: [String: IPSet]?
 
+        @inlinable
         public init(ruleVariables: [String: IPSet]? = nil) {
             self.ruleVariables = ruleVariables
         }
@@ -2139,6 +2211,7 @@ extension NetworkFirewall {
         /// The upper limit of the port range. This must be greater than or equal to the FromPort specification.
         public let toPort: Int
 
+        @inlinable
         public init(fromPort: Int, toPort: Int) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -2161,6 +2234,7 @@ extension NetworkFirewall {
         /// The set of port ranges.
         public let definition: [String]?
 
+        @inlinable
         public init(definition: [String]? = nil) {
             self.definition = definition
         }
@@ -2180,6 +2254,7 @@ extension NetworkFirewall {
     public struct PublishMetricAction: AWSEncodableShape & AWSDecodableShape {
         public let dimensions: [Dimension]
 
+        @inlinable
         public init(dimensions: [Dimension]) {
             self.dimensions = dimensions
         }
@@ -2203,6 +2278,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -2231,6 +2307,7 @@ extension NetworkFirewall {
         /// The list of IP set references.
         public let ipSetReferences: [String: IPSetReference]?
 
+        @inlinable
         public init(ipSetReferences: [String: IPSetReference]? = nil) {
             self.ipSetReferences = ipSetReferences
         }
@@ -2255,6 +2332,7 @@ extension NetworkFirewall {
         /// Criteria for Network Firewall to use to inspect an individual packet in stateless rule inspection. Each match attributes set can include one or more items such as IP address, CIDR range, port number, protocol, and TCP flags.
         public let matchAttributes: MatchAttributes
 
+        @inlinable
         public init(actions: [String], matchAttributes: MatchAttributes) {
             self.actions = actions
             self.matchAttributes = matchAttributes
@@ -2280,6 +2358,7 @@ extension NetworkFirewall {
         /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings. Some limitations apply; for more information, see Strict evaluation order in the Network Firewall Developer Guide.
         public let statefulRuleOptions: StatefulRuleOptions?
 
+        @inlinable
         public init(referenceSets: ReferenceSets? = nil, rulesSource: RulesSource, ruleVariables: RuleVariables? = nil, statefulRuleOptions: StatefulRuleOptions? = nil) {
             self.referenceSets = referenceSets
             self.rulesSource = rulesSource
@@ -2307,6 +2386,7 @@ extension NetworkFirewall {
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -2354,6 +2434,7 @@ extension NetworkFirewall {
         /// stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType?
 
+        @inlinable
         public init(analysisResults: [AnalysisResult]? = nil, capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, snsTopic: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
             self.analysisResults = analysisResults
             self.capacity = capacity
@@ -2397,6 +2478,7 @@ extension NetworkFirewall {
         /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see Rule options.
         public let settings: [String]?
 
+        @inlinable
         public init(keyword: String, settings: [String]? = nil) {
             self.keyword = keyword
             self.settings = settings
@@ -2425,6 +2507,7 @@ extension NetworkFirewall {
         /// A list of port ranges.
         public let portSets: [String: PortSet]?
 
+        @inlinable
         public init(ipSets: [String: IPSet]? = nil, portSets: [String: PortSet]? = nil) {
             self.ipSets = ipSets
             self.portSets = portSets
@@ -2461,6 +2544,7 @@ extension NetworkFirewall {
         /// Stateless inspection criteria to be used in a stateless rule group.
         public let statelessRulesAndCustomActions: StatelessRulesAndCustomActions?
 
+        @inlinable
         public init(rulesSourceList: RulesSourceList? = nil, rulesString: String? = nil, statefulRules: [StatefulRule]? = nil, statelessRulesAndCustomActions: StatelessRulesAndCustomActions? = nil) {
             self.rulesSourceList = rulesSourceList
             self.rulesString = rulesString
@@ -2492,6 +2576,7 @@ extension NetworkFirewall {
         /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
         public let targetTypes: [TargetType]
 
+        @inlinable
         public init(generatedRulesType: GeneratedRulesType, targets: [String], targetTypes: [TargetType]) {
             self.generatedRulesType = generatedRulesType
             self.targets = targets
@@ -2509,6 +2594,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate that's used for inbound SSL/TLS inspection.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -2534,6 +2620,7 @@ extension NetworkFirewall {
         /// The list of server certificates to use for inbound SSL/TLS inspection.
         public let serverCertificates: [ServerCertificate]?
 
+        @inlinable
         public init(certificateAuthorityArn: String? = nil, checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions? = nil, scopes: [ServerCertificateScope]? = nil, serverCertificates: [ServerCertificate]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.checkCertificateRevocationStatus = checkCertificateRevocationStatus
@@ -2576,6 +2663,7 @@ extension NetworkFirewall {
         /// matches with any source address.
         public let sources: [Address]?
 
+        @inlinable
         public init(destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
@@ -2618,6 +2706,7 @@ extension NetworkFirewall {
         /// The update token of the Amazon Web Services managed rule group that your own rule group is copied from. To determine the update token for the managed rule group, call DescribeRuleGroup.
         public let sourceUpdateToken: String?
 
+        @inlinable
         public init(sourceArn: String? = nil, sourceUpdateToken: String? = nil) {
             self.sourceArn = sourceArn
             self.sourceUpdateToken = sourceUpdateToken
@@ -2644,6 +2733,7 @@ extension NetworkFirewall {
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.    DROP - Network Firewall fails closed and drops all subsequent traffic going to the firewall. This is the default behavior.    CONTINUE - Network Firewall continues to apply rules to the subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on this context. For example, if you have a stateful rule to drop http traffic, Network Firewall won't match the traffic for this rule because the service won't have the context from session initialization defining the application layer protocol as HTTP. However, this behavior is rule dependent—a TCP-layer rule using a flow:stateless rule would still match, as would the aws:drop_strict default action.    REJECT - Network Firewall fails closed and drops all subsequent traffic going to the firewall. Network Firewall also sends a TCP reject packet back to your client so that the client can immediately establish a new session. Network Firewall will have context about the new session and will apply rules to the subsequent traffic.
         public let streamExceptionPolicy: StreamExceptionPolicy?
 
+        @inlinable
         public init(ruleOrder: RuleOrder? = nil, streamExceptionPolicy: StreamExceptionPolicy? = nil) {
             self.ruleOrder = ruleOrder
             self.streamExceptionPolicy = streamExceptionPolicy
@@ -2663,6 +2753,7 @@ extension NetworkFirewall {
         /// Additional options for the rule. These are the Suricata RuleOptions settings.
         public let ruleOptions: [RuleOption]
 
+        @inlinable
         public init(action: StatefulAction, header: Header, ruleOptions: [RuleOption]) {
             self.action = action
             self.header = header
@@ -2687,6 +2778,7 @@ extension NetworkFirewall {
         /// The action that changes the rule group from DROP to ALERT. This only applies to managed rule groups.
         public let action: OverrideAction?
 
+        @inlinable
         public init(action: OverrideAction? = nil) {
             self.action = action
         }
@@ -2704,6 +2796,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the stateful rule group.
         public let resourceArn: String
 
+        @inlinable
         public init(override: StatefulRuleGroupOverride? = nil, priority: Int? = nil, resourceArn: String) {
             self.override = override
             self.priority = priority
@@ -2729,6 +2822,7 @@ extension NetworkFirewall {
         /// Indicates how to manage the order of the rule evaluation for the rule group. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
 
+        @inlinable
         public init(ruleOrder: RuleOrder? = nil) {
             self.ruleOrder = ruleOrder
         }
@@ -2744,6 +2838,7 @@ extension NetworkFirewall {
         /// Defines the stateless 5-tuple packet inspection criteria and the action to take on a packet that matches the criteria.
         public let ruleDefinition: RuleDefinition
 
+        @inlinable
         public init(priority: Int, ruleDefinition: RuleDefinition) {
             self.priority = priority
             self.ruleDefinition = ruleDefinition
@@ -2767,6 +2862,7 @@ extension NetworkFirewall {
         /// The Amazon Resource Name (ARN) of the stateless rule group.
         public let resourceArn: String
 
+        @inlinable
         public init(priority: Int, resourceArn: String) {
             self.priority = priority
             self.resourceArn = resourceArn
@@ -2792,6 +2888,7 @@ extension NetworkFirewall {
         /// Defines the set of stateless rules for use in a stateless rule group.
         public let statelessRules: [StatelessRule]
 
+        @inlinable
         public init(customActions: [CustomAction]? = nil, statelessRules: [StatelessRule]) {
             self.customActions = customActions
             self.statelessRules = statelessRules
@@ -2818,6 +2915,7 @@ extension NetworkFirewall {
         /// The unique identifier for the subnet.
         public let subnetId: String
 
+        @inlinable
         public init(ipAddressType: IPAddressType? = nil, subnetId: String) {
             self.ipAddressType = ipAddressType
             self.subnetId = subnetId
@@ -2835,6 +2933,7 @@ extension NetworkFirewall {
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic. This is part of the FirewallStatus.
         public let config: [String: PerObjectStatus]?
 
+        @inlinable
         public init(attachment: Attachment? = nil, config: [String: PerObjectStatus]? = nil) {
             self.attachment = attachment
             self.config = config
@@ -2852,6 +2951,7 @@ extension NetworkFirewall {
         /// The set of flags to consider in the inspection. To inspect all flags in the valid values list, leave this with no setting.
         public let masks: [TCPFlag]?
 
+        @inlinable
         public init(flags: [TCPFlag], masks: [TCPFlag]? = nil) {
             self.flags = flags
             self.masks = masks
@@ -2867,6 +2967,7 @@ extension NetworkFirewall {
         /// Lists the server certificate configurations that are associated with the TLS configuration.
         public let serverCertificateConfigurations: [ServerCertificateConfiguration]?
 
+        @inlinable
         public init(serverCertificateConfigurations: [ServerCertificateConfiguration]? = nil) {
             self.serverCertificateConfigurations = serverCertificateConfigurations
         }
@@ -2888,6 +2989,7 @@ extension NetworkFirewall {
         /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -2922,6 +3024,7 @@ extension NetworkFirewall {
         /// Detailed information about the current status of a TLSInspectionConfiguration. You can retrieve this for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration and providing the TLS inspection configuration name and ARN.
         public let tlsInspectionConfigurationStatus: ResourceStatus?
 
+        @inlinable
         public init(certificateAuthority: TlsCertificateData? = nil, certificates: [TlsCertificateData]? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil, tlsInspectionConfigurationArn: String, tlsInspectionConfigurationId: String, tlsInspectionConfigurationName: String, tlsInspectionConfigurationStatus: ResourceStatus? = nil) {
             self.certificateAuthority = certificateAuthority
             self.certificates = certificates
@@ -2957,6 +3060,7 @@ extension NetworkFirewall {
         /// The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2981,6 +3085,7 @@ extension NetworkFirewall {
         public let resourceArn: String
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3017,6 +3122,7 @@ extension NetworkFirewall {
         /// Contains details about the certificate status, including information about certificate errors.
         public let statusMessage: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateSerial: String? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateSerial = certificateSerial
@@ -3037,6 +3143,7 @@ extension NetworkFirewall {
         public let resourceArn: String
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3075,6 +3182,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(deleteProtection: Bool = false, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.deleteProtection = deleteProtection
             self.firewallArn = firewallArn
@@ -3112,6 +3220,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(deleteProtection: Bool? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.deleteProtection = deleteProtection
             self.firewallArn = firewallArn
@@ -3137,6 +3246,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(description: String? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.description = description
             self.firewallArn = firewallArn
@@ -3176,6 +3286,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(description: String? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.description = description
             self.firewallArn = firewallArn
@@ -3200,6 +3311,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.firewallArn = firewallArn
@@ -3237,6 +3349,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.firewallArn = firewallArn
@@ -3262,6 +3375,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, firewallPolicyChangeProtection: Bool = false, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -3299,6 +3413,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, firewallPolicyChangeProtection: Bool? = nil, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -3330,6 +3445,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicy: FirewallPolicy, firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil, updateToken: String) {
             self.description = description
             self.dryRun = dryRun
@@ -3373,6 +3489,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(firewallPolicyResponse: FirewallPolicyResponse, updateToken: String) {
             self.firewallPolicyResponse = firewallPolicyResponse
             self.updateToken = updateToken
@@ -3392,6 +3509,7 @@ extension NetworkFirewall {
         /// Defines how Network Firewall performs logging for a firewall. If you omit this setting, Network Firewall disables logging for the firewall.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -3422,6 +3540,7 @@ extension NetworkFirewall {
         public let firewallName: String?
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, loggingConfiguration: LoggingConfiguration? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -3462,6 +3581,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(analyzeRuleGroup: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, type: RuleGroupType? = nil, updateToken: String) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.description = description
@@ -3515,6 +3635,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(ruleGroupResponse: RuleGroupResponse, updateToken: String) {
             self.ruleGroupResponse = ruleGroupResponse
             self.updateToken = updateToken
@@ -3536,6 +3657,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, subnetChangeProtection: Bool = false, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -3573,6 +3695,7 @@ extension NetworkFirewall {
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
+        @inlinable
         public init(firewallArn: String? = nil, firewallName: String? = nil, subnetChangeProtection: Bool? = nil, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -3603,6 +3726,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, tlsInspectionConfiguration: TLSInspectionConfiguration, tlsInspectionConfigurationArn: String? = nil, tlsInspectionConfigurationName: String? = nil, updateToken: String) {
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
@@ -3644,6 +3768,7 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
+        @inlinable
         public init(tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse, updateToken: String) {
             self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
             self.updateToken = updateToken

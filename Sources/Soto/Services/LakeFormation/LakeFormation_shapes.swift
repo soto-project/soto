@@ -158,6 +158,7 @@ extension LakeFormation {
         /// The database, table, or column resource to which to attach an LF-tag.
         public let resource: Resource
 
+        @inlinable
         public init(catalogId: String? = nil, lfTags: [LFTagPair], resource: Resource) {
             self.catalogId = catalogId
             self.lfTags = lfTags
@@ -187,6 +188,7 @@ extension LakeFormation {
         /// A list of failures to tag the resource.
         public let failures: [LFTagError]?
 
+        @inlinable
         public init(failures: [LFTagError]? = nil) {
             self.failures = failures
         }
@@ -206,6 +208,7 @@ extension LakeFormation {
         /// The Amazon S3 location of the object.
         public let uri: String
 
+        @inlinable
         public init(eTag: String, partitionValues: [String]? = nil, size: Int64 = 0, uri: String) {
             self.eTag = eTag
             self.partitionValues = partitionValues
@@ -249,6 +252,7 @@ extension LakeFormation {
         /// A SAML assertion consisting of an assertion statement for the user who needs temporary credentials. This must match the SAML assertion that was issued to IAM. This must be Base64 encoded.
         public let samlAssertion: String
 
+        @inlinable
         public init(durationSeconds: Int? = nil, principalArn: String, roleArn: String, samlAssertion: String) {
             self.durationSeconds = durationSeconds
             self.principalArn = principalArn
@@ -283,6 +287,7 @@ extension LakeFormation {
         /// The session token for the temporary credentials.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -302,6 +307,7 @@ extension LakeFormation {
         /// The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account.
         public let additionalAuditContext: String?
 
+        @inlinable
         public init(additionalAuditContext: String? = nil) {
             self.additionalAuditContext = additionalAuditContext
         }
@@ -322,6 +328,7 @@ extension LakeFormation {
         /// A list of up to 20 entries for resource permissions to be granted by batch operation to the principal.
         public let entries: [BatchPermissionsRequestEntry]
 
+        @inlinable
         public init(catalogId: String? = nil, entries: [BatchPermissionsRequestEntry]) {
             self.catalogId = catalogId
             self.entries = entries
@@ -346,6 +353,7 @@ extension LakeFormation {
         /// A list of failures to grant permissions to the resources.
         public let failures: [BatchPermissionsFailureEntry]?
 
+        @inlinable
         public init(failures: [BatchPermissionsFailureEntry]? = nil) {
             self.failures = failures
         }
@@ -361,6 +369,7 @@ extension LakeFormation {
         /// An identifier for an entry of the batch request.
         public let requestEntry: BatchPermissionsRequestEntry?
 
+        @inlinable
         public init(error: ErrorDetail? = nil, requestEntry: BatchPermissionsRequestEntry? = nil) {
             self.error = error
             self.requestEntry = requestEntry
@@ -384,6 +393,7 @@ extension LakeFormation {
         /// The resource to which the principal is to be granted a permission.
         public let resource: Resource?
 
+        @inlinable
         public init(id: String, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
             self.id = id
             self.permissions = permissions
@@ -414,6 +424,7 @@ extension LakeFormation {
         /// A list of up to 20 entries for resource permissions to be revoked by batch operation to the principal.
         public let entries: [BatchPermissionsRequestEntry]
 
+        @inlinable
         public init(catalogId: String? = nil, entries: [BatchPermissionsRequestEntry]) {
             self.catalogId = catalogId
             self.entries = entries
@@ -438,6 +449,7 @@ extension LakeFormation {
         /// A list of failures to revoke permissions to the resources.
         public let failures: [BatchPermissionsFailureEntry]?
 
+        @inlinable
         public init(failures: [BatchPermissionsFailureEntry]? = nil) {
             self.failures = failures
         }
@@ -451,6 +463,7 @@ extension LakeFormation {
         /// The transaction to cancel.
         public let transactionId: String
 
+        @inlinable
         public init(transactionId: String) {
             self.transactionId = transactionId
         }
@@ -480,6 +493,7 @@ extension LakeFormation {
         /// The name of a column resource.
         public let name: String?
 
+        @inlinable
         public init(lfTags: [LFTagPair]? = nil, name: String? = nil) {
             self.lfTags = lfTags
             self.name = name
@@ -495,6 +509,7 @@ extension LakeFormation {
         /// Excludes column names. Any column with this name will be excluded.
         public let excludedColumnNames: [String]?
 
+        @inlinable
         public init(excludedColumnNames: [String]? = nil) {
             self.excludedColumnNames = excludedColumnNames
         }
@@ -516,6 +531,7 @@ extension LakeFormation {
         /// The transaction to commit.
         public let transactionId: String
 
+        @inlinable
         public init(transactionId: String) {
             self.transactionId = transactionId
         }
@@ -535,6 +551,7 @@ extension LakeFormation {
         /// The status of the transaction.
         public let transactionStatus: TransactionStatus?
 
+        @inlinable
         public init(transactionStatus: TransactionStatus? = nil) {
             self.transactionStatus = transactionStatus
         }
@@ -548,6 +565,7 @@ extension LakeFormation {
         /// A DataCellsFilter structure containing information about the data cells filter.
         public let tableData: DataCellsFilter
 
+        @inlinable
         public init(tableData: DataCellsFilter) {
             self.tableData = tableData
         }
@@ -573,6 +591,7 @@ extension LakeFormation {
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String, tagValues: [String]) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -615,6 +634,7 @@ extension LakeFormation {
         /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
         public let shareRecipients: [DataLakePrincipal]?
 
+        @inlinable
         public init(catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
@@ -644,6 +664,7 @@ extension LakeFormation {
         /// The Amazon Resource Name (ARN) of the Lake Formation application integrated with IAM Identity Center.
         public let applicationArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil) {
             self.applicationArn = applicationArn
         }
@@ -657,6 +678,7 @@ extension LakeFormation {
         public let principal: DataLakePrincipal
         public let resource: Resource
 
+        @inlinable
         public init(principal: DataLakePrincipal, resource: Resource) {
             self.principal = principal
             self.resource = resource
@@ -695,6 +717,7 @@ extension LakeFormation {
         /// The ID of the data cells filter version.
         public let versionId: String?
 
+        @inlinable
         public init(columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String, name: String, rowFilter: RowFilter? = nil, tableCatalogId: String, tableName: String, versionId: String? = nil) {
             self.columnNames = columnNames
             self.columnWildcard = columnWildcard
@@ -753,6 +776,7 @@ extension LakeFormation {
         /// The name of the table.
         public let tableName: String?
 
+        @inlinable
         public init(databaseName: String? = nil, name: String? = nil, tableCatalogId: String? = nil, tableName: String? = nil) {
             self.databaseName = databaseName
             self.name = name
@@ -787,6 +811,7 @@ extension LakeFormation {
         /// An identifier for the Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
 
+        @inlinable
         public init(dataLakePrincipalIdentifier: String? = nil) {
             self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
         }
@@ -823,6 +848,7 @@ extension LakeFormation {
         /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public let trustedResourceOwners: [String]?
 
+        @inlinable
         public init(allowExternalDataFiltering: Bool? = nil, allowFullTableExternalDataAccess: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, parameters: [String: String]? = nil, readOnlyAdmins: [DataLakePrincipal]? = nil, trustedResourceOwners: [String]? = nil) {
             self.allowExternalDataFiltering = allowExternalDataFiltering
             self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
@@ -893,6 +919,7 @@ extension LakeFormation {
         /// The Amazon Resource Name (ARN) that uniquely identifies the data location resource.
         public let resourceArn: String
 
+        @inlinable
         public init(catalogId: String? = nil, resourceArn: String) {
             self.catalogId = catalogId
             self.resourceArn = resourceArn
@@ -916,6 +943,7 @@ extension LakeFormation {
         /// The name of the database resource. Unique to the Data Catalog.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, name: String) {
             self.catalogId = catalogId
             self.name = name
@@ -946,6 +974,7 @@ extension LakeFormation {
         /// A table in the database.
         public let tableName: String?
 
+        @inlinable
         public init(databaseName: String? = nil, name: String? = nil, tableCatalogId: String? = nil, tableName: String? = nil) {
             self.databaseName = databaseName
             self.name = name
@@ -986,6 +1015,7 @@ extension LakeFormation {
         /// The key-name for the LF-tag to delete.
         public let tagKey: String
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -1014,6 +1044,7 @@ extension LakeFormation {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definition, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
 
+        @inlinable
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -1037,6 +1068,7 @@ extension LakeFormation {
         public let principal: DataLakePrincipal
         public let resource: Resource
 
+        @inlinable
         public init(principal: DataLakePrincipal, resource: Resource) {
             self.principal = principal
             self.resource = resource
@@ -1065,6 +1097,7 @@ extension LakeFormation {
         /// The Amazon S3 location of the object to delete.
         public let uri: String
 
+        @inlinable
         public init(eTag: String? = nil, partitionValues: [String]? = nil, uri: String) {
             self.eTag = eTag
             self.partitionValues = partitionValues
@@ -1104,6 +1137,7 @@ extension LakeFormation {
         /// ID of the transaction that the writes occur in.
         public let transactionId: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, objects: [VirtualObject], tableName: String, transactionId: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1149,6 +1183,7 @@ extension LakeFormation {
         /// The Amazon Resource Name (ARN) of the resource that you want to deregister.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1166,6 +1201,7 @@ extension LakeFormation {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
 
+        @inlinable
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -1195,6 +1231,7 @@ extension LakeFormation {
         /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources as the ShareRecipients. If the ShareRecipients value is null or the list is empty, no resource share is created.
         public let shareRecipients: [DataLakePrincipal]?
 
+        @inlinable
         public init(applicationArn: String? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, resourceShare: String? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.applicationArn = applicationArn
             self.catalogId = catalogId
@@ -1218,6 +1255,7 @@ extension LakeFormation {
         /// The resource ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1231,6 +1269,7 @@ extension LakeFormation {
         /// A structure containing information about an Lake Formation resource.
         public let resourceInfo: ResourceInfo?
 
+        @inlinable
         public init(resourceInfo: ResourceInfo? = nil) {
             self.resourceInfo = resourceInfo
         }
@@ -1244,6 +1283,7 @@ extension LakeFormation {
         /// The transaction for which to return status.
         public let transactionId: String
 
+        @inlinable
         public init(transactionId: String) {
             self.transactionId = transactionId
         }
@@ -1263,6 +1303,7 @@ extension LakeFormation {
         /// Returns a TransactionDescription object containing information about the transaction.
         public let transactionDescription: TransactionDescription?
 
+        @inlinable
         public init(transactionDescription: TransactionDescription? = nil) {
             self.transactionDescription = transactionDescription
         }
@@ -1276,6 +1317,7 @@ extension LakeFormation {
         /// A resource share ARN for a catalog resource shared through RAM.
         public let resourceShare: [String]?
 
+        @inlinable
         public init(resourceShare: [String]? = nil) {
             self.resourceShare = resourceShare
         }
@@ -1291,6 +1333,7 @@ extension LakeFormation {
         /// A message describing the error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1310,6 +1353,7 @@ extension LakeFormation {
         /// The number of work units executed.
         public let workUnitsExecutedCount: Int64?
 
+        @inlinable
         public init(averageExecutionTimeMillis: Int64? = nil, dataScannedBytes: Int64? = nil, workUnitsExecutedCount: Int64? = nil) {
             self.averageExecutionTimeMillis = averageExecutionTimeMillis
             self.dataScannedBytes = dataScannedBytes
@@ -1327,6 +1371,7 @@ extension LakeFormation {
         /// The transaction to extend.
         public let transactionId: String?
 
+        @inlinable
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -1352,6 +1397,7 @@ extension LakeFormation {
         /// Allows to enable or disable the third-party applications that are allowed to access data managed by Lake Formation.
         public let status: EnableStatus
 
+        @inlinable
         public init(authorizedTargets: [String], status: EnableStatus) {
             self.authorizedTargets = authorizedTargets
             self.status = status
@@ -1371,6 +1417,7 @@ extension LakeFormation {
         /// A string with values used in evaluating the filter condition.
         public let stringValueList: [String]?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator? = nil, field: FieldNameString? = nil, stringValueList: [String]? = nil) {
             self.comparisonOperator = comparisonOperator
             self.field = field
@@ -1394,6 +1441,7 @@ extension LakeFormation {
         /// A table in the database.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, name: String, tableCatalogId: String, tableName: String) {
             self.databaseName = databaseName
             self.name = name
@@ -1428,6 +1476,7 @@ extension LakeFormation {
         /// A structure that describes certain columns on certain rows.
         public let dataCellsFilter: DataCellsFilter?
 
+        @inlinable
         public init(dataCellsFilter: DataCellsFilter? = nil) {
             self.dataCellsFilter = dataCellsFilter
         }
@@ -1445,6 +1494,7 @@ extension LakeFormation {
         /// A unique identifier of the invoking principal.
         public let identity: String?
 
+        @inlinable
         public init(identity: String? = nil) {
             self.identity = identity
         }
@@ -1458,6 +1508,7 @@ extension LakeFormation {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
 
+        @inlinable
         public init(catalogId: String? = nil) {
             self.catalogId = catalogId
         }
@@ -1477,6 +1528,7 @@ extension LakeFormation {
         /// A structure representing a list of Lake Formation principals designated as data lake administrators.
         public let dataLakeSettings: DataLakeSettings?
 
+        @inlinable
         public init(dataLakeSettings: DataLakeSettings? = nil) {
             self.dataLakeSettings = dataLakeSettings
         }
@@ -1496,6 +1548,7 @@ extension LakeFormation {
         /// The Amazon Resource Name (ARN) of the resource for which you want to get permissions.
         public let resourceArn: String
 
+        @inlinable
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.catalogId = catalogId
             self.maxResults = maxResults
@@ -1525,6 +1578,7 @@ extension LakeFormation {
         /// A list of the permissions for the specified table or database resource located at the path in Amazon S3.
         public let permissions: [PrincipalResourcePermissions]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [PrincipalResourcePermissions]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1542,6 +1596,7 @@ extension LakeFormation {
         /// The key-name for the LF-tag.
         public let tagKey: String
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -1570,6 +1625,7 @@ extension LakeFormation {
         /// A list of possible values an attribute can take.
         public let tagValues: [String]?
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String? = nil, tagValues: [String]? = nil) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -1587,6 +1643,7 @@ extension LakeFormation {
         /// The ID of the plan query operation.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -1607,6 +1664,7 @@ extension LakeFormation {
         /// The state of a query previously submitted. The possible states are:   PENDING: the query is pending.   WORKUNITS_AVAILABLE: some work units are ready for retrieval and execution.   FINISHED: the query planning finished successfully, and all work units are ready for retrieval and execution.   ERROR: an error occurred with the query, such as an invalid query ID or a backend error.
         public let state: QueryStateString
 
+        @inlinable
         public init(error: String? = nil, state: QueryStateString) {
             self.error = error
             self.state = state
@@ -1622,6 +1680,7 @@ extension LakeFormation {
         /// The ID of the plan query operation.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -1645,6 +1704,7 @@ extension LakeFormation {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var querySubmissionTime: Date?
 
+        @inlinable
         public init(executionStatistics: ExecutionStatistics? = nil, planningStatistics: PlanningStatistics? = nil, querySubmissionTime: Date? = nil) {
             self.executionStatistics = executionStatistics
             self.planningStatistics = planningStatistics
@@ -1666,6 +1726,7 @@ extension LakeFormation {
         /// Indicates whether to show the assigned LF-tags.
         public let showAssignedLFTags: Bool?
 
+        @inlinable
         public init(catalogId: String? = nil, resource: Resource, showAssignedLFTags: Bool? = nil) {
             self.catalogId = catalogId
             self.resource = resource
@@ -1694,6 +1755,7 @@ extension LakeFormation {
         /// A list of LF-tags applied to a table resource.
         public let lfTagsOnTable: [LFTagPair]?
 
+        @inlinable
         public init(lfTagOnDatabase: [LFTagPair]? = nil, lfTagsOnColumns: [ColumnLFTag]? = nil, lfTagsOnTable: [LFTagPair]? = nil) {
             self.lfTagOnDatabase = lfTagOnDatabase
             self.lfTagsOnColumns = lfTagsOnColumns
@@ -1725,6 +1787,7 @@ extension LakeFormation {
         /// The transaction ID at which to read the governed table contents. If this transaction has aborted, an error is returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, partitionPredicate: String? = nil, queryAsOfTime: Date? = nil, tableName: String, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1774,6 +1837,7 @@ extension LakeFormation {
         /// A list of objects organized by partition keys.
         public let objects: [PartitionObjects]?
 
+        @inlinable
         public init(nextToken: String? = nil, objects: [PartitionObjects]? = nil) {
             self.nextToken = nextToken
             self.objects = objects
@@ -1799,6 +1863,7 @@ extension LakeFormation {
         /// The ARN of the partitions' table.
         public let tableArn: String
 
+        @inlinable
         public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, partition: PartitionValueList, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType]? = nil, tableArn: String) {
             self.auditContext = auditContext
             self.durationSeconds = durationSeconds
@@ -1837,6 +1902,7 @@ extension LakeFormation {
         /// The session token for the temporary credentials.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -1868,6 +1934,7 @@ extension LakeFormation {
         /// The ARN identifying a table in the Data Catalog for the temporary credentials request.
         public let tableArn: String
 
+        @inlinable
         public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, permissions: [Permission]? = nil, querySessionContext: QuerySessionContext? = nil, s3Path: String? = nil, supportedPermissionTypes: [PermissionType]? = nil, tableArn: String) {
             self.auditContext = auditContext
             self.durationSeconds = durationSeconds
@@ -1910,6 +1977,7 @@ extension LakeFormation {
         /// The Amazon S3 path for the temporary credentials.
         public let vendedS3Path: [String]?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, vendedS3Path: [String]? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -1935,6 +2003,7 @@ extension LakeFormation {
         /// A work token used to query the execution service. Token output from GetWorkUnits.
         public let workUnitToken: String
 
+        @inlinable
         public init(queryId: String, workUnitId: Int64 = 0, workUnitToken: String) {
             self.queryId = queryId
             self.workUnitId = workUnitId
@@ -1960,6 +2029,7 @@ extension LakeFormation {
         /// Rows returned from the GetWorkUnitResults operation as a stream of Apache Arrow v1.0 messages.
         public let resultStream: AWSHTTPBody
 
+        @inlinable
         public init(resultStream: AWSHTTPBody) {
             self.resultStream = resultStream
         }
@@ -1980,6 +2050,7 @@ extension LakeFormation {
         /// The ID of the plan query operation.
         public let queryId: String
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil, queryId: String) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2006,6 +2077,7 @@ extension LakeFormation {
         /// A WorkUnitRangeList object that specifies the valid range of work unit IDs for querying the execution service.
         public let workUnitRanges: [WorkUnitRange]
 
+        @inlinable
         public init(nextToken: String? = nil, queryId: String, workUnitRanges: [WorkUnitRange]) {
             self.nextToken = nextToken
             self.queryId = queryId
@@ -2031,6 +2103,7 @@ extension LakeFormation {
         /// The resource to which permissions are to be granted. Resources in Lake Formation are the Data Catalog, databases, and tables.
         public let resource: Resource
 
+        @inlinable
         public init(catalogId: String? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
             self.catalogId = catalogId
             self.permissions = permissions
@@ -2066,6 +2139,7 @@ extension LakeFormation {
         /// A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values.
         public let tagValues: [String]
 
+        @inlinable
         public init(tagKey: String, tagValues: [String]) {
             self.tagKey = tagKey
             self.tagValues = tagValues
@@ -2095,6 +2169,7 @@ extension LakeFormation {
         /// The key-name of the LF-tag.
         public let lfTag: LFTagPair?
 
+        @inlinable
         public init(error: ErrorDetail? = nil, lfTag: LFTagPair? = nil) {
             self.error = error
             self.lfTag = lfTag
@@ -2114,6 +2189,7 @@ extension LakeFormation {
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String, tagValues: [String]) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -2150,6 +2226,7 @@ extension LakeFormation {
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String, tagValues: [String]) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -2186,6 +2263,7 @@ extension LakeFormation {
         /// The resource type for which the LF-tag policy applies.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(catalogId: String? = nil, expression: [LFTag], resourceType: ResourceType) {
             self.catalogId = catalogId
             self.expression = expression
@@ -2216,6 +2294,7 @@ extension LakeFormation {
         public let principal: DataLakePrincipal?
         public let resource: Resource?
 
+        @inlinable
         public init(lastModified: Date? = nil, lastUpdatedBy: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
             self.lastModified = lastModified
             self.lastUpdatedBy = lastUpdatedBy
@@ -2239,6 +2318,7 @@ extension LakeFormation {
         /// A table in the Glue Data Catalog.
         public let table: TableResource?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, table: TableResource? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2264,6 +2344,7 @@ extension LakeFormation {
         /// A continuation token, if not all requested data cell filters have been returned.
         public let nextToken: String?
 
+        @inlinable
         public init(dataCellsFilters: [DataCellsFilter]? = nil, nextToken: String? = nil) {
             self.dataCellsFilters = dataCellsFilters
             self.nextToken = nextToken
@@ -2285,6 +2366,7 @@ extension LakeFormation {
         /// If resource share type is ALL, returns both in-account LF-tags and shared LF-tags that the requester has permission to view. If resource share type is FOREIGN, returns all share LF-tags that the requester can view. If no resource share type is passed, lists LF-tags in the given catalog ID that the requester has permission to view.
         public let resourceShareType: ResourceShareType?
 
+        @inlinable
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
             self.catalogId = catalogId
             self.maxResults = maxResults
@@ -2314,6 +2396,7 @@ extension LakeFormation {
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
 
+        @inlinable
         public init(lfTags: [LFTagPair]? = nil, nextToken: String? = nil) {
             self.lfTags = lfTags
             self.nextToken = nextToken
@@ -2334,6 +2417,7 @@ extension LakeFormation {
         /// A structure for the resource.
         public let resource: Resource?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2362,6 +2446,7 @@ extension LakeFormation {
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
 
+        @inlinable
         public init(lakeFormationOptInsInfoList: [LakeFormationOptInsInfo]? = nil, nextToken: String? = nil) {
             self.lakeFormationOptInsInfoList = lakeFormationOptInsInfoList
             self.nextToken = nextToken
@@ -2389,6 +2474,7 @@ extension LakeFormation {
         /// Specifies a resource type to filter the permissions returned.
         public let resourceType: DataLakeResourceType?
 
+        @inlinable
         public init(catalogId: String? = nil, includeRelated: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil, resourceType: DataLakeResourceType? = nil) {
             self.catalogId = catalogId
             self.includeRelated = includeRelated
@@ -2429,6 +2515,7 @@ extension LakeFormation {
         /// A list of principals and their permissions on the resource for the specified principal and resource types.
         public let principalResourcePermissions: [PrincipalResourcePermissions]?
 
+        @inlinable
         public init(nextToken: String? = nil, principalResourcePermissions: [PrincipalResourcePermissions]? = nil) {
             self.nextToken = nextToken
             self.principalResourcePermissions = principalResourcePermissions
@@ -2448,6 +2535,7 @@ extension LakeFormation {
         /// A continuation token, if this is not the first call to retrieve these resources.
         public let nextToken: String?
 
+        @inlinable
         public init(filterConditionList: [FilterCondition]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterConditionList = filterConditionList
             self.maxResults = maxResults
@@ -2474,6 +2562,7 @@ extension LakeFormation {
         /// A summary of the data lake resources.
         public let resourceInfoList: [ResourceInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceInfoList: [ResourceInfo]? = nil) {
             self.nextToken = nextToken
             self.resourceInfoList = resourceInfoList
@@ -2499,6 +2588,7 @@ extension LakeFormation {
         /// Name of the table.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, storageOptimizerType: OptimizerType? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2538,6 +2628,7 @@ extension LakeFormation {
         /// A list of the storage optimizers associated with a table.
         public let storageOptimizerList: [StorageOptimizer]?
 
+        @inlinable
         public init(nextToken: String? = nil, storageOptimizerList: [StorageOptimizer]? = nil) {
             self.nextToken = nextToken
             self.storageOptimizerList = storageOptimizerList
@@ -2559,6 +2650,7 @@ extension LakeFormation {
         ///  A filter indicating the status of transactions to return. Options are ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL.
         public let statusFilter: TransactionStatusFilter?
 
+        @inlinable
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, statusFilter: TransactionStatusFilter? = nil) {
             self.catalogId = catalogId
             self.maxResults = maxResults
@@ -2589,6 +2681,7 @@ extension LakeFormation {
         /// A list of transactions. The record for each transaction is a TransactionDescription object.
         public let transactions: [TransactionDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, transactions: [TransactionDescription]? = nil) {
             self.nextToken = nextToken
             self.transactions = transactions
@@ -2606,6 +2699,7 @@ extension LakeFormation {
         /// A list of partition values.
         public let partitionValues: [String]?
 
+        @inlinable
         public init(objects: [TableObject]? = nil, partitionValues: [String]? = nil) {
             self.objects = objects
             self.partitionValues = partitionValues
@@ -2621,6 +2715,7 @@ extension LakeFormation {
         /// The list of partition values.
         public let values: [String]
 
+        @inlinable
         public init(values: [String]) {
             self.values = values
         }
@@ -2644,6 +2739,7 @@ extension LakeFormation {
         /// The number of work units generated.
         public let workUnitsGeneratedCount: Int64?
 
+        @inlinable
         public init(estimatedDataToScanBytes: Int64? = nil, planningTimeMillis: Int64? = nil, queueTimeMillis: Int64? = nil, workUnitsGeneratedCount: Int64? = nil) {
             self.estimatedDataToScanBytes = estimatedDataToScanBytes
             self.planningTimeMillis = planningTimeMillis
@@ -2665,6 +2761,7 @@ extension LakeFormation {
         /// The principal who is granted permissions.
         public let principal: DataLakePrincipal?
 
+        @inlinable
         public init(permissions: [Permission]? = nil, principal: DataLakePrincipal? = nil) {
             self.permissions = permissions
             self.principal = principal
@@ -2696,6 +2793,7 @@ extension LakeFormation {
         /// The resource where permissions are to be granted or revoked.
         public let resource: Resource?
 
+        @inlinable
         public init(additionalDetails: DetailsMap? = nil, lastUpdated: Date? = nil, lastUpdatedBy: String? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
             self.additionalDetails = additionalDetails
             self.lastUpdated = lastUpdated
@@ -2723,6 +2821,7 @@ extension LakeFormation {
         /// A structure representing a list of Lake Formation principals designated as data lake administrators.
         public let dataLakeSettings: DataLakeSettings
 
+        @inlinable
         public init(catalogId: String? = nil, dataLakeSettings: DataLakeSettings) {
             self.catalogId = catalogId
             self.dataLakeSettings = dataLakeSettings
@@ -2757,6 +2856,7 @@ extension LakeFormation {
         /// The transaction ID at which to read the table contents. If this transaction is not committed, the read will be treated as part of that transaction and will see its writes. If this transaction has aborted, an error will be returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime.
         public let transactionId: String?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, queryAsOfTime: Date? = nil, queryParameters: [String: String]? = nil, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -2797,6 +2897,7 @@ extension LakeFormation {
         /// A timestamp provided by the query engine for when the query started.
         public let queryStartTime: Date?
 
+        @inlinable
         public init(additionalContext: [String: String]? = nil, clusterId: String? = nil, queryAuthorizationId: String? = nil, queryId: String? = nil, queryStartTime: Date? = nil) {
             self.additionalContext = additionalContext
             self.clusterId = clusterId
@@ -2840,6 +2941,7 @@ extension LakeFormation {
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
 
+        @inlinable
         public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
@@ -2873,6 +2975,7 @@ extension LakeFormation {
         /// The database, table, or column resource where you want to remove an LF-tag.
         public let resource: Resource
 
+        @inlinable
         public init(catalogId: String? = nil, lfTags: [LFTagPair], resource: Resource) {
             self.catalogId = catalogId
             self.lfTags = lfTags
@@ -2902,6 +3005,7 @@ extension LakeFormation {
         /// A list of failures to untag a resource.
         public let failures: [LFTagError]?
 
+        @inlinable
         public init(failures: [LFTagError]? = nil) {
             self.failures = failures
         }
@@ -2929,6 +3033,7 @@ extension LakeFormation {
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
         public let tableWithColumns: TableWithColumnsResource?
 
+        @inlinable
         public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataCellsFilter: DataCellsFilterResource? = nil, dataLocation: DataLocationResource? = nil, lfTag: LFTagKeyResource? = nil, lfTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
             self.catalog = catalog
             self.database = database
@@ -2974,6 +3079,7 @@ extension LakeFormation {
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
 
+        @inlinable
         public init(hybridAccessEnabled: Bool? = nil, lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
@@ -3003,6 +3109,7 @@ extension LakeFormation {
         /// The resource to which permissions are to be revoked.
         public let resource: Resource
 
+        @inlinable
         public init(catalogId: String? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
             self.catalogId = catalogId
             self.permissions = permissions
@@ -3038,6 +3145,7 @@ extension LakeFormation {
         /// A filter expression.
         public let filterExpression: String?
 
+        @inlinable
         public init(allRowsWildcard: AllRowsWildcard? = nil, filterExpression: String? = nil) {
             self.allRowsWildcard = allRowsWildcard
             self.filterExpression = filterExpression
@@ -3064,6 +3172,7 @@ extension LakeFormation {
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
 
+        @inlinable
         public init(catalogId: String? = nil, expression: [LFTag], maxResults: Int? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.expression = expression
@@ -3096,6 +3205,7 @@ extension LakeFormation {
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
 
+        @inlinable
         public init(databaseList: [TaggedDatabase]? = nil, nextToken: String? = nil) {
             self.databaseList = databaseList
             self.nextToken = nextToken
@@ -3117,6 +3227,7 @@ extension LakeFormation {
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
 
+        @inlinable
         public init(catalogId: String? = nil, expression: [LFTag], maxResults: Int? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.expression = expression
@@ -3149,6 +3260,7 @@ extension LakeFormation {
         /// A list of tables that meet the LF-tag conditions.
         public let tableList: [TaggedTable]?
 
+        @inlinable
         public init(nextToken: String? = nil, tableList: [TaggedTable]? = nil) {
             self.nextToken = nextToken
             self.tableList = tableList
@@ -3166,6 +3278,7 @@ extension LakeFormation {
         /// A PartiQL query statement used as an input to the planner service.
         public let queryString: String
 
+        @inlinable
         public init(queryPlanningContext: QueryPlanningContext, queryString: String) {
             self.queryPlanningContext = queryPlanningContext
             self.queryString = queryString
@@ -3186,6 +3299,7 @@ extension LakeFormation {
         /// The ID of the plan query operation can be used to fetch the actual work unit descriptors that are produced as the result of the operation. The ID is also used to get the query state and as an input to the Execute operation.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -3199,6 +3313,7 @@ extension LakeFormation {
         /// Indicates whether this transaction should be read only or read and write. Writes made using a read-only transaction ID will be rejected. Read-only transactions do not need to be committed.
         public let transactionType: TransactionType?
 
+        @inlinable
         public init(transactionType: TransactionType? = nil) {
             self.transactionType = transactionType
         }
@@ -3212,6 +3327,7 @@ extension LakeFormation {
         /// An opaque identifier for the transaction.
         public let transactionId: String?
 
+        @inlinable
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -3233,6 +3349,7 @@ extension LakeFormation {
         /// A message that contains information about any warnings (if present).
         public let warnings: String?
 
+        @inlinable
         public init(config: [String: String]? = nil, errorMessage: String? = nil, lastRunDetails: String? = nil, storageOptimizerType: OptimizerType? = nil, warnings: String? = nil) {
             self.config = config
             self.errorMessage = errorMessage
@@ -3258,6 +3375,7 @@ extension LakeFormation {
         /// The Amazon S3 location of the object.
         public let uri: String?
 
+        @inlinable
         public init(eTag: String? = nil, size: Int64? = nil, uri: String? = nil) {
             self.eTag = eTag
             self.size = size
@@ -3281,6 +3399,7 @@ extension LakeFormation {
         /// A wildcard object representing every table under a database. At least one of TableResource$Name or TableResource$TableWildcard is required.
         public let tableWildcard: TableWildcard?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, name: String? = nil, tableWildcard: TableWildcard? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3324,6 +3443,7 @@ extension LakeFormation {
         /// The name of the table resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal.
         public let name: String
 
+        @inlinable
         public init(catalogId: String? = nil, columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String, name: String) {
             self.catalogId = catalogId
             self.columnNames = columnNames
@@ -3365,6 +3485,7 @@ extension LakeFormation {
         /// A list of LF-tags attached to the database.
         public let lfTags: [LFTagPair]?
 
+        @inlinable
         public init(database: DatabaseResource? = nil, lfTags: [LFTagPair]? = nil) {
             self.database = database
             self.lfTags = lfTags
@@ -3386,6 +3507,7 @@ extension LakeFormation {
         /// A table that has LF-tags attached to it.
         public let table: TableResource?
 
+        @inlinable
         public init(lfTagOnDatabase: [LFTagPair]? = nil, lfTagsOnColumns: [ColumnLFTag]? = nil, lfTagsOnTable: [LFTagPair]? = nil, table: TableResource? = nil) {
             self.lfTagOnDatabase = lfTagOnDatabase
             self.lfTagsOnColumns = lfTagsOnColumns
@@ -3411,6 +3533,7 @@ extension LakeFormation {
         /// A status of ACTIVE, COMMITTED, or ABORTED.
         public let transactionStatus: TransactionStatus?
 
+        @inlinable
         public init(transactionEndTime: Date? = nil, transactionId: String? = nil, transactionStartTime: Date? = nil, transactionStatus: TransactionStatus? = nil) {
             self.transactionEndTime = transactionEndTime
             self.transactionId = transactionId
@@ -3430,6 +3553,7 @@ extension LakeFormation {
         /// A DataCellsFilter structure containing information about the data cells filter.
         public let tableData: DataCellsFilter
 
+        @inlinable
         public init(tableData: DataCellsFilter) {
             self.tableData = tableData
         }
@@ -3457,6 +3581,7 @@ extension LakeFormation {
         /// A list of LF-tag values to delete from the LF-tag.
         public let tagValuesToDelete: [String]?
 
+        @inlinable
         public init(catalogId: String? = nil, tagKey: String, tagValuesToAdd: [String]? = nil, tagValuesToDelete: [String]? = nil) {
             self.catalogId = catalogId
             self.tagKey = tagKey
@@ -3507,6 +3632,7 @@ extension LakeFormation {
         /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
         public let shareRecipients: [DataLakePrincipal]?
 
+        @inlinable
         public init(applicationStatus: ApplicationStatus? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.applicationStatus = applicationStatus
             self.catalogId = catalogId
@@ -3546,6 +3672,7 @@ extension LakeFormation {
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
 
+        @inlinable
         public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String, withFederation: Bool? = nil) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
@@ -3581,6 +3708,7 @@ extension LakeFormation {
         /// A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table.
         public let writeOperations: [WriteOperation]
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String, transactionId: String? = nil, writeOperations: [WriteOperation]) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3632,6 +3760,7 @@ extension LakeFormation {
         /// Name of the table for which to enable the storage optimizer.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, storageOptimizerConfig: [OptimizerType: [String: String]], tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -3663,6 +3792,7 @@ extension LakeFormation {
         /// A response indicating the success of failure of the operation.
         public let result: String?
 
+        @inlinable
         public init(result: String? = nil) {
             self.result = result
         }
@@ -3678,6 +3808,7 @@ extension LakeFormation {
         /// The path to the Amazon S3 object. Must start with s3://
         public let uri: String
 
+        @inlinable
         public init(eTag: String? = nil, uri: String) {
             self.eTag = eTag
             self.uri = uri
@@ -3706,6 +3837,7 @@ extension LakeFormation {
         /// A work token used to query the execution service.
         public let workUnitToken: String
 
+        @inlinable
         public init(workUnitIdMax: Int64, workUnitIdMin: Int64, workUnitToken: String) {
             self.workUnitIdMax = workUnitIdMax
             self.workUnitIdMin = workUnitIdMin
@@ -3725,6 +3857,7 @@ extension LakeFormation {
         /// An object to delete from the governed table.
         public let deleteObject: DeleteObjectInput?
 
+        @inlinable
         public init(addObject: AddObjectInput? = nil, deleteObject: DeleteObjectInput? = nil) {
             self.addObject = addObject
             self.deleteObject = deleteObject

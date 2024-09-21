@@ -72,6 +72,7 @@ extension Health {
         /// The number of affected entities aggregated by the entity status codes.
         public let statuses: [EntityStatusCode: Int]?
 
+        @inlinable
         public init(accountId: String? = nil, count: Int? = nil, statuses: [EntityStatusCode: Int]? = nil) {
             self.accountId = accountId
             self.count = count
@@ -105,6 +106,7 @@ extension Health {
         /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
         public let tags: [String: String]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: Date? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
             self.awsAccountId = awsAccountId
             self.entityArn = entityArn
@@ -134,6 +136,7 @@ extension Health {
         /// The ending date and time of a time range.
         public let to: Date?
 
+        @inlinable
         public init(from: Date? = nil, to: Date? = nil) {
             self.from = from
             self.to = to
@@ -158,6 +161,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(eventArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.eventArn = eventArn
             self.maxResults = maxResults
@@ -192,6 +196,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(affectedAccounts: [String]? = nil, eventScopeCode: EventScopeCode? = nil, nextToken: String? = nil) {
             self.affectedAccounts = affectedAccounts
             self.eventScopeCode = eventScopeCode
@@ -220,6 +225,7 @@ extension Health {
         /// A JSON set of elements including the awsAccountId and the eventArn.
         public let organizationEntityFilters: [EventAccountFilter]?
 
+        @inlinable
         public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationEntityAccountFilters: [EntityAccountFilter]? = nil) {
             self.locale = locale
             self.maxResults = maxResults
@@ -229,6 +235,7 @@ extension Health {
         }
 
         @available(*, deprecated, message: "Members organizationEntityFilters have been deprecated")
+        @inlinable
         public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationEntityAccountFilters: [EntityAccountFilter]? = nil, organizationEntityFilters: [EventAccountFilter]? = nil) {
             self.locale = locale
             self.maxResults = maxResults
@@ -278,6 +285,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [AffectedEntity]? = nil, failedSet: [OrganizationAffectedEntitiesErrorItem]? = nil, nextToken: String? = nil) {
             self.entities = entities
             self.failedSet = failedSet
@@ -304,6 +312,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EntityFilter, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
@@ -340,6 +349,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(entities: [AffectedEntity]? = nil, nextToken: String? = nil) {
             self.entities = entities
             self.nextToken = nextToken
@@ -357,6 +367,7 @@ extension Health {
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
         public let eventArns: [String]
 
+        @inlinable
         public init(awsAccountIds: [String]? = nil, eventArns: [String]) {
             self.awsAccountIds = awsAccountIds
             self.eventArns = eventArns
@@ -387,6 +398,7 @@ extension Health {
         /// The list of entity aggregates for each of the specified accounts that are affected by each of the specified events.
         public let organizationEntityAggregates: [OrganizationEntityAggregate]?
 
+        @inlinable
         public init(organizationEntityAggregates: [OrganizationEntityAggregate]? = nil) {
             self.organizationEntityAggregates = organizationEntityAggregates
         }
@@ -400,6 +412,7 @@ extension Health {
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
         public let eventArns: [String]?
 
+        @inlinable
         public init(eventArns: [String]? = nil) {
             self.eventArns = eventArns
         }
@@ -422,6 +435,7 @@ extension Health {
         /// The number of entities that are affected by each of the specified events.
         public let entityAggregates: [EntityAggregate]?
 
+        @inlinable
         public init(entityAggregates: [EntityAggregate]? = nil) {
             self.entityAggregates = entityAggregates
         }
@@ -444,6 +458,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregateField: EventAggregateField, filter: EventFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.aggregateField = aggregateField
             self.filter = filter
@@ -477,6 +492,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(eventAggregates: [EventAggregate]? = nil, nextToken: String? = nil) {
             self.eventAggregates = eventAggregates
             self.nextToken = nextToken
@@ -494,6 +510,7 @@ extension Health {
         /// A set of JSON elements that includes the awsAccountId and the eventArn.
         public let organizationEventDetailFilters: [EventAccountFilter]
 
+        @inlinable
         public init(locale: String? = nil, organizationEventDetailFilters: [EventAccountFilter]) {
             self.locale = locale
             self.organizationEventDetailFilters = organizationEventDetailFilters
@@ -522,6 +539,7 @@ extension Health {
         /// Information about the events that could be retrieved.
         public let successfulSet: [OrganizationEventDetails]?
 
+        @inlinable
         public init(failedSet: [OrganizationEventDetailsErrorItem]? = nil, successfulSet: [OrganizationEventDetails]? = nil) {
             self.failedSet = failedSet
             self.successfulSet = successfulSet
@@ -539,6 +557,7 @@ extension Health {
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
 
+        @inlinable
         public init(eventArns: [String], locale: String? = nil) {
             self.eventArns = eventArns
             self.locale = locale
@@ -568,6 +587,7 @@ extension Health {
         /// Information about the events that could be retrieved.
         public let successfulSet: [EventDetails]?
 
+        @inlinable
         public init(failedSet: [EventDetailsErrorItem]? = nil, successfulSet: [EventDetails]? = nil) {
             self.failedSet = failedSet
             self.successfulSet = successfulSet
@@ -592,6 +612,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EventTypeFilter? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
@@ -628,6 +649,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(eventTypes: [EventType]? = nil, nextToken: String? = nil) {
             self.eventTypes = eventTypes
             self.nextToken = nextToken
@@ -652,6 +674,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: OrganizationEventFilter? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
@@ -688,6 +711,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [OrganizationEvent]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -712,6 +736,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: EventFilter? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.locale = locale
@@ -748,6 +773,7 @@ extension Health {
         /// When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -763,6 +789,7 @@ extension Health {
         /// Information about the status of enabling or disabling the Health organizational view feature in your organization. Valid values are ENABLED | DISABLED | PENDING.
         public let healthServiceAccessStatusForOrganization: String?
 
+        @inlinable
         public init(healthServiceAccessStatusForOrganization: String? = nil) {
             self.healthServiceAccessStatusForOrganization = healthServiceAccessStatusForOrganization
         }
@@ -782,6 +809,7 @@ extension Health {
         /// A list of entity status codes.
         public let statusCodes: [EntityStatusCode]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, eventArn: String, statusCodes: [EntityStatusCode]? = nil) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
@@ -814,6 +842,7 @@ extension Health {
         /// The number of affected entities aggregated by the entity status codes.
         public let statuses: [EntityStatusCode: Int]?
 
+        @inlinable
         public init(count: Int? = nil, eventArn: String? = nil, statuses: [EntityStatusCode: Int]? = nil) {
             self.count = count
             self.eventArn = eventArn
@@ -841,6 +870,7 @@ extension Health {
         /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
         public let tags: [[String: String]]?
 
+        @inlinable
         public init(entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [EntityStatusCode]? = nil, tags: [[String: String]]? = nil) {
             self.entityArns = entityArns
             self.entityValues = entityValues
@@ -917,6 +947,7 @@ extension Health {
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
+        @inlinable
         public init(arn: String? = nil, availabilityZone: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -954,6 +985,7 @@ extension Health {
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String
 
+        @inlinable
         public init(awsAccountId: String? = nil, eventArn: String) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
@@ -978,6 +1010,7 @@ extension Health {
         /// The number of events of the associated issue type.
         public let count: Int?
 
+        @inlinable
         public init(aggregateValue: String? = nil, count: Int? = nil) {
             self.aggregateValue = aggregateValue
             self.count = count
@@ -993,6 +1026,7 @@ extension Health {
         /// The most recent description of the event.
         public let latestDescription: String?
 
+        @inlinable
         public init(latestDescription: String? = nil) {
             self.latestDescription = latestDescription
         }
@@ -1010,6 +1044,7 @@ extension Health {
         /// Additional metadata about the event.
         public let eventMetadata: [String: String]?
 
+        @inlinable
         public init(event: Event? = nil, eventDescription: EventDescription? = nil, eventMetadata: [String: String]? = nil) {
             self.event = event
             self.eventDescription = eventDescription
@@ -1033,6 +1068,7 @@ extension Health {
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
             self.errorMessage = errorMessage
             self.errorName = errorName
@@ -1076,6 +1112,7 @@ extension Health {
         /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
         public let tags: [[String: String]]?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, endTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, regions: [String]? = nil, services: [String]? = nil, startTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil) {
             self.availabilityZones = availabilityZones
             self.endTimes = endTimes
@@ -1180,6 +1217,7 @@ extension Health {
         /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
         public let service: String?
 
+        @inlinable
         public init(category: EventTypeCategory? = nil, code: String? = nil, service: String? = nil) {
             self.category = category
             self.code = code
@@ -1203,6 +1241,7 @@ extension Health {
         /// The Amazon Web Services associated with the event. For example, EC2, RDS.
         public let services: [String]?
 
+        @inlinable
         public init(eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, services: [String]? = nil) {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
@@ -1247,6 +1286,7 @@ extension Health {
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
+        @inlinable
         public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
             self.awsAccountId = awsAccountId
             self.errorMessage = errorMessage
@@ -1272,6 +1312,7 @@ extension Health {
         /// The number of affected entities aggregated by the entitiy status codes.
         public let statuses: [EntityStatusCode: Int]?
 
+        @inlinable
         public init(accounts: [AccountEntityAggregate]? = nil, count: Int? = nil, eventArn: String? = nil, statuses: [EntityStatusCode: Int]? = nil) {
             self.accounts = accounts
             self.count = count
@@ -1313,6 +1354,7 @@ extension Health {
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
 
+        @inlinable
         public init(arn: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
             self.arn = arn
             self.endTime = endTime
@@ -1348,6 +1390,7 @@ extension Health {
         /// Additional metadata about the event.
         public let eventMetadata: [String: String]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, event: Event? = nil, eventDescription: EventDescription? = nil, eventMetadata: [String: String]? = nil) {
             self.awsAccountId = awsAccountId
             self.event = event
@@ -1376,6 +1419,7 @@ extension Health {
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
+        @inlinable
         public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
             self.awsAccountId = awsAccountId
             self.errorMessage = errorMessage
@@ -1414,6 +1458,7 @@ extension Health {
         public let services: [String]?
         public let startTime: DateTimeRange?
 
+        @inlinable
         public init(awsAccountIds: [String]? = nil, endTime: DateTimeRange? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTime: DateTimeRange? = nil, regions: [String]? = nil, services: [String]? = nil, startTime: DateTimeRange? = nil) {
             self.awsAccountIds = awsAccountIds
             self.endTime = endTime

@@ -260,6 +260,7 @@ extension Proton {
         /// The ID of the environment account connection.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -277,6 +278,7 @@ extension Proton {
         /// The environment account connection data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
+        @inlinable
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
             self.environmentAccountConnection = environmentAccountConnection
         }
@@ -294,6 +296,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
         public let pipelineServiceRoleArn: String?
 
+        @inlinable
         public init(pipelineCodebuildRoleArn: String? = nil, pipelineProvisioningRepository: RepositoryBranch? = nil, pipelineServiceRoleArn: String? = nil) {
             self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
             self.pipelineProvisioningRepository = pipelineProvisioningRepository
@@ -311,6 +314,7 @@ extension Proton {
         /// The name of the component with the deployment to cancel.
         public let componentName: String
 
+        @inlinable
         public init(componentName: String) {
             self.componentName = componentName
         }
@@ -330,6 +334,7 @@ extension Proton {
         /// The detailed data of the component with the deployment that is being canceled.
         public let component: Component
 
+        @inlinable
         public init(component: Component) {
             self.component = component
         }
@@ -343,6 +348,7 @@ extension Proton {
         /// The name of the environment with the deployment to cancel.
         public let environmentName: String
 
+        @inlinable
         public init(environmentName: String) {
             self.environmentName = environmentName
         }
@@ -362,6 +368,7 @@ extension Proton {
         /// The environment summary data that's returned by Proton.
         public let environment: Environment
 
+        @inlinable
         public init(environment: Environment) {
             self.environment = environment
         }
@@ -377,6 +384,7 @@ extension Proton {
         /// The name of the service with the service instance deployment to cancel.
         public let serviceName: String
 
+        @inlinable
         public init(serviceInstanceName: String, serviceName: String) {
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -401,6 +409,7 @@ extension Proton {
         /// The service instance summary data that's returned by Proton.
         public let serviceInstance: ServiceInstance
 
+        @inlinable
         public init(serviceInstance: ServiceInstance) {
             self.serviceInstance = serviceInstance
         }
@@ -414,6 +423,7 @@ extension Proton {
         /// The name of the service with the service pipeline deployment to cancel.
         public let serviceName: String
 
+        @inlinable
         public init(serviceName: String) {
             self.serviceName = serviceName
         }
@@ -433,6 +443,7 @@ extension Proton {
         /// The service pipeline detail data that's returned by Proton.
         public let pipeline: ServicePipeline
 
+        @inlinable
         public init(pipeline: ServicePipeline) {
             self.pipeline = pipeline
         }
@@ -448,6 +459,7 @@ extension Proton {
         /// The compatible environment template name.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.templateName = templateName
@@ -465,6 +477,7 @@ extension Proton {
         /// The compatible environment template name.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.templateName = templateName
@@ -519,6 +532,7 @@ extension Proton {
         /// The service spec that the component uses to access service inputs. Provided when a component is attached to a service instance.
         public let serviceSpec: String?
 
+        @inlinable
         public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -568,6 +582,7 @@ extension Proton {
         /// The template file used.
         public let templateFile: String?
 
+        @inlinable
         public init(serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, templateFile: String? = nil) {
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -611,6 +626,7 @@ extension Proton {
         /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
         public let serviceName: String?
 
+        @inlinable
         public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -660,6 +676,7 @@ extension Proton {
         /// The total number of service templates in the Amazon Web Services account. The serviceTemplates object will only contain total members.
         public let serviceTemplates: ResourceCountsSummary?
 
+        @inlinable
         public init(components: ResourceCountsSummary? = nil, environments: ResourceCountsSummary? = nil, environmentTemplates: ResourceCountsSummary? = nil, pipelines: ResourceCountsSummary? = nil, serviceInstances: ResourceCountsSummary? = nil, services: ResourceCountsSummary? = nil, serviceTemplates: ResourceCountsSummary? = nil) {
             self.components = components
             self.environments = environments
@@ -703,6 +720,7 @@ extension Proton {
         /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
         public let templateFile: String
 
+        @inlinable
         public init(clientToken: String? = CreateComponentInput.idempotencyToken(), description: String? = nil, environmentName: String? = nil, manifest: String, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, tags: [Tag]? = nil, templateFile: String) {
             self.clientToken = clientToken
             self.description = description
@@ -762,6 +780,7 @@ extension Proton {
         /// The detailed data of the created component.
         public let component: Component
 
+        @inlinable
         public init(component: Component) {
             self.component = component
         }
@@ -787,6 +806,7 @@ extension Proton {
         /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.codebuildRoleArn = codebuildRoleArn
@@ -834,6 +854,7 @@ extension Proton {
         /// The environment account connection detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
+        @inlinable
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
             self.environmentAccountConnection = environmentAccountConnection
         }
@@ -869,6 +890,7 @@ extension Proton {
         /// The name of the environment template. For more information, see Environment Templates in the Proton User Guide.
         public let templateName: String
 
+        @inlinable
         public init(codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
@@ -937,6 +959,7 @@ extension Proton {
         /// The environment detail data that's returned by Proton.
         public let environment: Environment
 
+        @inlinable
         public init(environment: Environment) {
             self.environment = environment
         }
@@ -960,6 +983,7 @@ extension Proton {
         /// An optional list of metadata items that you can associate with the Proton environment template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, provisioning: Provisioning? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.displayName = displayName
@@ -999,6 +1023,7 @@ extension Proton {
         /// The environment template detail data that's returned by Proton.
         public let environmentTemplate: EnvironmentTemplate
 
+        @inlinable
         public init(environmentTemplate: EnvironmentTemplate) {
             self.environmentTemplate = environmentTemplate
         }
@@ -1022,6 +1047,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(clientToken: String? = CreateEnvironmentTemplateVersionInput.idempotencyToken(), description: String? = nil, majorVersion: String? = nil, source: TemplateVersionSourceInput, tags: [Tag]? = nil, templateName: String) {
             self.clientToken = clientToken
             self.description = description
@@ -1062,6 +1088,7 @@ extension Proton {
         /// The environment template detail data that's returned by Proton.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
+        @inlinable
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
             self.environmentTemplateVersion = environmentTemplateVersion
         }
@@ -1083,6 +1110,7 @@ extension Proton {
         /// An optional list of metadata items that you can associate with the Proton repository. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider, tags: [Tag]? = nil) {
             self.connectionArn = connectionArn
             self.encryptionKey = encryptionKey
@@ -1120,6 +1148,7 @@ extension Proton {
         /// The repository link's detail data that's returned by Proton.
         public let repository: Repository
 
+        @inlinable
         public init(repository: Repository) {
             self.repository = repository
         }
@@ -1151,6 +1180,7 @@ extension Proton {
         /// The name of the service template that's used to create the service.
         public let templateName: String
 
+        @inlinable
         public init(branchName: String? = nil, description: String? = nil, name: String, repositoryConnectionArn: String? = nil, repositoryId: String? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
             self.branchName = branchName
             self.description = description
@@ -1223,6 +1253,7 @@ extension Proton {
         /// To create a new minor version of the service template, include a major Version.
         public let templateMinorVersion: String?
 
+        @inlinable
         public init(clientToken: String? = CreateServiceInstanceInput.idempotencyToken(), name: String, serviceName: String, spec: String, tags: [Tag]? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
             self.clientToken = clientToken
             self.name = name
@@ -1271,6 +1302,7 @@ extension Proton {
         /// The detailed data of the service instance being created.
         public let serviceInstance: ServiceInstance
 
+        @inlinable
         public init(serviceInstance: ServiceInstance) {
             self.serviceInstance = serviceInstance
         }
@@ -1284,6 +1316,7 @@ extension Proton {
         /// The service detail data that's returned by Proton.
         public let service: Service
 
+        @inlinable
         public init(service: Service) {
             self.service = service
         }
@@ -1305,6 +1338,7 @@ extension Proton {
         /// The name of the service the Proton Ops file is for.
         public let serviceName: String
 
+        @inlinable
         public init(branch: String, filePath: String, repositoryName: String, repositoryProvider: RepositoryProvider, serviceName: String) {
             self.branch = branch
             self.filePath = filePath
@@ -1339,6 +1373,7 @@ extension Proton {
         /// The detailed data of the Proton Ops file.
         public let serviceSyncConfig: ServiceSyncConfig?
 
+        @inlinable
         public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
             self.serviceSyncConfig = serviceSyncConfig
         }
@@ -1362,6 +1397,7 @@ extension Proton {
         /// An optional list of metadata items that you can associate with the Proton service template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, pipelineProvisioning: Provisioning? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.displayName = displayName
@@ -1401,6 +1437,7 @@ extension Proton {
         /// The service template detail data that's returned by Proton.
         public let serviceTemplate: ServiceTemplate
 
+        @inlinable
         public init(serviceTemplate: ServiceTemplate) {
             self.serviceTemplate = serviceTemplate
         }
@@ -1428,6 +1465,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(clientToken: String? = CreateServiceTemplateVersionInput.idempotencyToken(), compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput], description: String? = nil, majorVersion: String? = nil, source: TemplateVersionSourceInput, supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]? = nil, tags: [Tag]? = nil, templateName: String) {
             self.clientToken = clientToken
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
@@ -1477,6 +1515,7 @@ extension Proton {
         /// The service template version summary of detail data that's returned by Proton.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
+        @inlinable
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
             self.serviceTemplateVersion = serviceTemplateVersion
         }
@@ -1500,6 +1539,7 @@ extension Proton {
         /// The type of the registered template.
         public let templateType: TemplateType
 
+        @inlinable
         public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, subdirectory: String? = nil, templateName: String, templateType: TemplateType) {
             self.branch = branch
             self.repositoryName = repositoryName
@@ -1536,6 +1576,7 @@ extension Proton {
         /// The template sync configuration detail data that's returned by Proton.
         public let templateSyncConfig: TemplateSyncConfig?
 
+        @inlinable
         public init(templateSyncConfig: TemplateSyncConfig? = nil) {
             self.templateSyncConfig = templateSyncConfig
         }
@@ -1549,6 +1590,7 @@ extension Proton {
         /// The name of the component to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1568,6 +1610,7 @@ extension Proton {
         /// The detailed data of the component being deleted.
         public let component: Component?
 
+        @inlinable
         public init(component: Component? = nil) {
             self.component = component
         }
@@ -1581,6 +1624,7 @@ extension Proton {
         /// The ID of the deployment to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1598,6 +1642,7 @@ extension Proton {
         /// The detailed data of the deployment being deleted.
         public let deployment: Deployment?
 
+        @inlinable
         public init(deployment: Deployment? = nil) {
             self.deployment = deployment
         }
@@ -1611,6 +1656,7 @@ extension Proton {
         /// The ID of the environment account connection to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1628,6 +1674,7 @@ extension Proton {
         /// The detailed data of the environment account connection being deleted.
         public let environmentAccountConnection: EnvironmentAccountConnection?
 
+        @inlinable
         public init(environmentAccountConnection: EnvironmentAccountConnection? = nil) {
             self.environmentAccountConnection = environmentAccountConnection
         }
@@ -1641,6 +1688,7 @@ extension Proton {
         /// The name of the environment to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1660,6 +1708,7 @@ extension Proton {
         /// The detailed data of the environment being deleted.
         public let environment: Environment?
 
+        @inlinable
         public init(environment: Environment? = nil) {
             self.environment = environment
         }
@@ -1673,6 +1722,7 @@ extension Proton {
         /// The name of the environment template to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1692,6 +1742,7 @@ extension Proton {
         /// The detailed data of the environment template being deleted.
         public let environmentTemplate: EnvironmentTemplate?
 
+        @inlinable
         public init(environmentTemplate: EnvironmentTemplate? = nil) {
             self.environmentTemplate = environmentTemplate
         }
@@ -1709,6 +1760,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, minorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.minorVersion = minorVersion
@@ -1738,6 +1790,7 @@ extension Proton {
         /// The detailed data of the environment template version being deleted.
         public let environmentTemplateVersion: EnvironmentTemplateVersion?
 
+        @inlinable
         public init(environmentTemplateVersion: EnvironmentTemplateVersion? = nil) {
             self.environmentTemplateVersion = environmentTemplateVersion
         }
@@ -1753,6 +1806,7 @@ extension Proton {
         /// The repository provider.
         public let provider: RepositoryProvider
 
+        @inlinable
         public init(name: String, provider: RepositoryProvider) {
             self.name = name
             self.provider = provider
@@ -1774,6 +1828,7 @@ extension Proton {
         /// The deleted repository link's detail data that's returned by Proton.
         public let repository: Repository?
 
+        @inlinable
         public init(repository: Repository? = nil) {
             self.repository = repository
         }
@@ -1787,6 +1842,7 @@ extension Proton {
         /// The name of the service to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1806,6 +1862,7 @@ extension Proton {
         /// The detailed data of the service being deleted.
         public let service: Service?
 
+        @inlinable
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -1819,6 +1876,7 @@ extension Proton {
         /// The name of the service that you want to delete the service sync configuration for.
         public let serviceName: String
 
+        @inlinable
         public init(serviceName: String) {
             self.serviceName = serviceName
         }
@@ -1838,6 +1896,7 @@ extension Proton {
         /// The detailed data for the service sync config.
         public let serviceSyncConfig: ServiceSyncConfig?
 
+        @inlinable
         public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
             self.serviceSyncConfig = serviceSyncConfig
         }
@@ -1851,6 +1910,7 @@ extension Proton {
         /// The name of the service template to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1870,6 +1930,7 @@ extension Proton {
         /// The detailed data of the service template being deleted.
         public let serviceTemplate: ServiceTemplate?
 
+        @inlinable
         public init(serviceTemplate: ServiceTemplate? = nil) {
             self.serviceTemplate = serviceTemplate
         }
@@ -1887,6 +1948,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, minorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.minorVersion = minorVersion
@@ -1916,6 +1978,7 @@ extension Proton {
         /// The detailed data of the service template version being deleted.
         public let serviceTemplateVersion: ServiceTemplateVersion?
 
+        @inlinable
         public init(serviceTemplateVersion: ServiceTemplateVersion? = nil) {
             self.serviceTemplateVersion = serviceTemplateVersion
         }
@@ -1931,6 +1994,7 @@ extension Proton {
         /// The template type.
         public let templateType: TemplateType
 
+        @inlinable
         public init(templateName: String, templateType: TemplateType) {
             self.templateName = templateName
             self.templateType = templateType
@@ -1952,6 +2016,7 @@ extension Proton {
         /// The template sync configuration detail data that's returned by Proton.
         public let templateSyncConfig: TemplateSyncConfig?
 
+        @inlinable
         public init(templateSyncConfig: TemplateSyncConfig? = nil) {
             self.templateSyncConfig = templateSyncConfig
         }
@@ -1999,6 +2064,7 @@ extension Proton {
         /// The target state of the target resource at the time of the deployment.
         public let targetState: DeploymentState?
 
+        @inlinable
         public init(arn: String, completedAt: Date? = nil, componentName: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, id: String, initialState: DeploymentState? = nil, lastAttemptedDeploymentId: String? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil, targetArn: String, targetResourceCreatedAt: Date, targetResourceType: DeploymentTargetResourceType, targetState: DeploymentState? = nil) {
             self.arn = arn
             self.completedAt = completedAt
@@ -2074,6 +2140,7 @@ extension Proton {
         /// The resource type of the deployment target. It can be an environment, service, service instance, or component.
         public let targetResourceType: DeploymentTargetResourceType
 
+        @inlinable
         public init(arn: String, completedAt: Date? = nil, componentName: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, environmentName: String, id: String, lastAttemptedDeploymentId: String? = nil, lastModifiedAt: Date, lastSucceededDeploymentId: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil, targetArn: String, targetResourceCreatedAt: Date, targetResourceType: DeploymentTargetResourceType) {
             self.arn = arn
             self.completedAt = completedAt
@@ -2155,6 +2222,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.codebuildRoleArn = codebuildRoleArn
@@ -2228,6 +2296,7 @@ extension Proton {
         /// The status of the environment account connection.
         public let status: EnvironmentAccountConnectionStatus
 
+        @inlinable
         public init(arn: String, codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
             self.arn = arn
             self.codebuildRoleArn = codebuildRoleArn
@@ -2279,6 +2348,7 @@ extension Proton {
         /// The status of the environment account connection.
         public let status: EnvironmentAccountConnectionStatus
 
+        @inlinable
         public init(arn: String, componentRoleArn: String? = nil, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
             self.arn = arn
             self.componentRoleArn = componentRoleArn
@@ -2316,6 +2386,7 @@ extension Proton {
         /// The name of the environment template that was used to create the environment.
         public let templateName: String
 
+        @inlinable
         public init(spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
@@ -2369,6 +2440,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.componentRoleArn = componentRoleArn
@@ -2432,6 +2504,7 @@ extension Proton {
         /// The ID of the recommended version of the environment template.
         public let recommendedVersion: String?
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, lastModifiedAt: Date, name: String, provisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2463,6 +2536,7 @@ extension Proton {
         /// Include templateName to filter search for a template name.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.templateName = templateName
@@ -2501,6 +2575,7 @@ extension Proton {
         /// The recommended version of the environment template.
         public let recommendedVersion: String?
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, lastModifiedAt: Date, name: String, provisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2548,6 +2623,7 @@ extension Proton {
         /// The name of the version of an environment template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, schema: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2599,6 +2675,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2634,6 +2711,7 @@ extension Proton {
         /// The Proton pipeline service role detail data that's returned by Proton.
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -2647,6 +2725,7 @@ extension Proton {
         /// The name of the component that you want to get the detailed data for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2666,6 +2745,7 @@ extension Proton {
         /// The detailed data of the requested component.
         public let component: Component?
 
+        @inlinable
         public init(component: Component? = nil) {
             self.component = component
         }
@@ -2687,6 +2767,7 @@ extension Proton {
         /// The name of the service associated with the given deployment ID.
         public let serviceName: String?
 
+        @inlinable
         public init(componentName: String? = nil, environmentName: String? = nil, id: String, serviceInstanceName: String? = nil, serviceName: String? = nil) {
             self.componentName = componentName
             self.environmentName = environmentName
@@ -2724,6 +2805,7 @@ extension Proton {
         /// The detailed data of the requested deployment.
         public let deployment: Deployment?
 
+        @inlinable
         public init(deployment: Deployment? = nil) {
             self.deployment = deployment
         }
@@ -2737,6 +2819,7 @@ extension Proton {
         /// The ID of the environment account connection that you want to get the detailed data for.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2754,6 +2837,7 @@ extension Proton {
         /// The detailed data of the requested environment account connection.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
+        @inlinable
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
             self.environmentAccountConnection = environmentAccountConnection
         }
@@ -2767,6 +2851,7 @@ extension Proton {
         /// The name of the environment that you want to get the detailed data for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2786,6 +2871,7 @@ extension Proton {
         /// The detailed data of the requested environment.
         public let environment: Environment
 
+        @inlinable
         public init(environment: Environment) {
             self.environment = environment
         }
@@ -2799,6 +2885,7 @@ extension Proton {
         /// The name of the environment template that you want to get the detailed data for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2818,6 +2905,7 @@ extension Proton {
         /// The detailed data of the requested environment template.
         public let environmentTemplate: EnvironmentTemplate
 
+        @inlinable
         public init(environmentTemplate: EnvironmentTemplate) {
             self.environmentTemplate = environmentTemplate
         }
@@ -2835,6 +2923,7 @@ extension Proton {
         /// The name of the environment template a version of which you want to get detailed data for.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, minorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.minorVersion = minorVersion
@@ -2864,6 +2953,7 @@ extension Proton {
         /// The detailed data of the requested environment template version.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
+        @inlinable
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
             self.environmentTemplateVersion = environmentTemplateVersion
         }
@@ -2879,6 +2969,7 @@ extension Proton {
         /// The repository provider.
         public let provider: RepositoryProvider
 
+        @inlinable
         public init(name: String, provider: RepositoryProvider) {
             self.name = name
             self.provider = provider
@@ -2900,6 +2991,7 @@ extension Proton {
         /// The repository link's detail data that's returned by Proton.
         public let repository: Repository
 
+        @inlinable
         public init(repository: Repository) {
             self.repository = repository
         }
@@ -2919,6 +3011,7 @@ extension Proton {
         /// The repository sync type.
         public let syncType: SyncType
 
+        @inlinable
         public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, syncType: SyncType) {
             self.branch = branch
             self.repositoryName = repositoryName
@@ -2946,6 +3039,7 @@ extension Proton {
         /// The repository sync status detail data that's returned by Proton.
         public let latestSync: RepositorySyncAttempt?
 
+        @inlinable
         public init(latestSync: RepositorySyncAttempt? = nil) {
             self.latestSync = latestSync
         }
@@ -2963,6 +3057,7 @@ extension Proton {
         /// Summary counts of each Proton resource type.
         public let counts: CountsSummary
 
+        @inlinable
         public init(counts: CountsSummary) {
             self.counts = counts
         }
@@ -2976,6 +3071,7 @@ extension Proton {
         /// The name of the service that you want to get the detailed data for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2997,6 +3093,7 @@ extension Proton {
         /// The name of the service that you want the service instance input for.
         public let serviceName: String
 
+        @inlinable
         public init(name: String, serviceName: String) {
             self.name = name
             self.serviceName = serviceName
@@ -3021,6 +3118,7 @@ extension Proton {
         /// The detailed data of the requested service instance.
         public let serviceInstance: ServiceInstance
 
+        @inlinable
         public init(serviceInstance: ServiceInstance) {
             self.serviceInstance = serviceInstance
         }
@@ -3036,6 +3134,7 @@ extension Proton {
         /// The name of the service that the service instance belongs to.
         public let serviceName: String
 
+        @inlinable
         public init(serviceInstanceName: String, serviceName: String) {
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -3064,6 +3163,7 @@ extension Proton {
         /// The detailed data of the latest sync with the service instance.
         public let latestSync: ResourceSyncAttempt?
 
+        @inlinable
         public init(desiredState: Revision? = nil, latestSuccessfulSync: ResourceSyncAttempt? = nil, latestSync: ResourceSyncAttempt? = nil) {
             self.desiredState = desiredState
             self.latestSuccessfulSync = latestSuccessfulSync
@@ -3081,6 +3181,7 @@ extension Proton {
         /// The detailed data of the requested service.
         public let service: Service?
 
+        @inlinable
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -3096,6 +3197,7 @@ extension Proton {
         /// The name of the service that you want to get the service sync blocker summary for. If given only the service name, all instances are blocked.
         public let serviceName: String
 
+        @inlinable
         public init(serviceInstanceName: String? = nil, serviceName: String) {
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -3120,6 +3222,7 @@ extension Proton {
         /// The detailed data of the requested service sync blocker summary.
         public let serviceSyncBlockerSummary: ServiceSyncBlockerSummary?
 
+        @inlinable
         public init(serviceSyncBlockerSummary: ServiceSyncBlockerSummary? = nil) {
             self.serviceSyncBlockerSummary = serviceSyncBlockerSummary
         }
@@ -3133,6 +3236,7 @@ extension Proton {
         /// The name of the service that you want to get the service sync configuration for.
         public let serviceName: String
 
+        @inlinable
         public init(serviceName: String) {
             self.serviceName = serviceName
         }
@@ -3152,6 +3256,7 @@ extension Proton {
         /// The detailed data of the requested service sync configuration.
         public let serviceSyncConfig: ServiceSyncConfig?
 
+        @inlinable
         public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
             self.serviceSyncConfig = serviceSyncConfig
         }
@@ -3165,6 +3270,7 @@ extension Proton {
         /// The name of the service template that you want to get detailed data for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3184,6 +3290,7 @@ extension Proton {
         /// The detailed data of the requested service template.
         public let serviceTemplate: ServiceTemplate
 
+        @inlinable
         public init(serviceTemplate: ServiceTemplate) {
             self.serviceTemplate = serviceTemplate
         }
@@ -3201,6 +3308,7 @@ extension Proton {
         /// The name of the service template a version of which you want to get detailed data for.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String, minorVersion: String, templateName: String) {
             self.majorVersion = majorVersion
             self.minorVersion = minorVersion
@@ -3230,6 +3338,7 @@ extension Proton {
         /// The detailed data of the requested service template version.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
+        @inlinable
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
             self.serviceTemplateVersion = serviceTemplateVersion
         }
@@ -3245,6 +3354,7 @@ extension Proton {
         /// The template type.
         public let templateType: TemplateType
 
+        @inlinable
         public init(templateName: String, templateType: TemplateType) {
             self.templateName = templateName
             self.templateType = templateType
@@ -3266,6 +3376,7 @@ extension Proton {
         /// The template sync configuration detail data that's returned by Proton.
         public let templateSyncConfig: TemplateSyncConfig?
 
+        @inlinable
         public init(templateSyncConfig: TemplateSyncConfig? = nil) {
             self.templateSyncConfig = templateSyncConfig
         }
@@ -3283,6 +3394,7 @@ extension Proton {
         /// The template major version.
         public let templateVersion: String
 
+        @inlinable
         public init(templateName: String, templateType: TemplateType, templateVersion: String) {
             self.templateName = templateName
             self.templateType = templateType
@@ -3313,6 +3425,7 @@ extension Proton {
         /// The details of the last sync that's returned by Proton.
         public let latestSync: ResourceSyncAttempt?
 
+        @inlinable
         public init(desiredState: Revision? = nil, latestSuccessfulSync: ResourceSyncAttempt? = nil, latestSync: ResourceSyncAttempt? = nil) {
             self.desiredState = desiredState
             self.latestSuccessfulSync = latestSuccessfulSync
@@ -3334,6 +3447,7 @@ extension Proton {
         /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(componentName: String, deploymentId: String? = nil, nextToken: String? = nil) {
             self.componentName = componentName
             self.deploymentId = deploymentId
@@ -3361,6 +3475,7 @@ extension Proton {
         /// An array of component Infrastructure as Code (IaC) outputs.
         public let outputs: [Output]
 
+        @inlinable
         public init(nextToken: String? = nil, outputs: [Output]) {
             self.nextToken = nextToken
             self.outputs = outputs
@@ -3378,6 +3493,7 @@ extension Proton {
         /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(componentName: String, nextToken: String? = nil) {
             self.componentName = componentName
             self.nextToken = nextToken
@@ -3402,6 +3518,7 @@ extension Proton {
         /// An array of provisioned resources for a component.
         public let provisionedResources: [ProvisionedResource]
 
+        @inlinable
         public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
             self.nextToken = nextToken
             self.provisionedResources = provisionedResources
@@ -3425,6 +3542,7 @@ extension Proton {
         /// The name of a service for result list filtering. Proton returns components attached to service instances of the service.
         public let serviceName: String?
 
+        @inlinable
         public init(environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil) {
             self.environmentName = environmentName
             self.maxResults = maxResults
@@ -3463,6 +3581,7 @@ extension Proton {
         /// A token that indicates the location of the next component in the array of components, after the current requested list of components.
         public let nextToken: String?
 
+        @inlinable
         public init(components: [ComponentSummary], nextToken: String? = nil) {
             self.components = components
             self.nextToken = nextToken
@@ -3488,6 +3607,7 @@ extension Proton {
         /// The name of a service for result list filtering. Proton returns deployments associated with service instances of the service.
         public let serviceName: String?
 
+        @inlinable
         public init(componentName: String? = nil, environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil) {
             self.componentName = componentName
             self.environmentName = environmentName
@@ -3531,6 +3651,7 @@ extension Proton {
         /// A token that indicates the location of the next deployment in the array of deployment, after the current requested list of deployment.
         public let nextToken: String?
 
+        @inlinable
         public init(deployments: [DeploymentSummary], nextToken: String? = nil) {
             self.deployments = deployments
             self.nextToken = nextToken
@@ -3554,6 +3675,7 @@ extension Proton {
         /// The status details for each listed environment account connection.
         public let statuses: [EnvironmentAccountConnectionStatus]?
 
+        @inlinable
         public init(environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, requestedBy: EnvironmentAccountConnectionRequesterAccountType, statuses: [EnvironmentAccountConnectionStatus]? = nil) {
             self.environmentName = environmentName
             self.maxResults = maxResults
@@ -3586,6 +3708,7 @@ extension Proton {
         /// A token that indicates the location of the next environment account connection in the array of environment account connections, after the current requested list of environment account connections.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentAccountConnections: [EnvironmentAccountConnectionSummary], nextToken: String? = nil) {
             self.environmentAccountConnections = environmentAccountConnections
             self.nextToken = nextToken
@@ -3605,6 +3728,7 @@ extension Proton {
         /// A token that indicates the location of the next environment output in the array of environment outputs, after the list of environment outputs that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(deploymentId: String? = nil, environmentName: String, nextToken: String? = nil) {
             self.deploymentId = deploymentId
             self.environmentName = environmentName
@@ -3632,6 +3756,7 @@ extension Proton {
         /// An array of environment outputs with detail data.
         public let outputs: [Output]
 
+        @inlinable
         public init(nextToken: String? = nil, outputs: [Output]) {
             self.nextToken = nextToken
             self.outputs = outputs
@@ -3649,6 +3774,7 @@ extension Proton {
         /// A token that indicates the location of the next environment provisioned resource in the array of environment provisioned resources, after the list of environment provisioned resources that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentName: String, nextToken: String? = nil) {
             self.environmentName = environmentName
             self.nextToken = nextToken
@@ -3673,6 +3799,7 @@ extension Proton {
         /// An array of environment provisioned resources.
         public let provisionedResources: [ProvisionedResource]
 
+        @inlinable
         public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
             self.nextToken = nextToken
             self.provisionedResources = provisionedResources
@@ -3694,6 +3821,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, templateName: String) {
             self.majorVersion = majorVersion
             self.maxResults = maxResults
@@ -3727,6 +3855,7 @@ extension Proton {
         /// An array of major or minor versions of an environment template detail data.
         public let templateVersions: [EnvironmentTemplateVersionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templateVersions: [EnvironmentTemplateVersionSummary]) {
             self.nextToken = nextToken
             self.templateVersions = templateVersions
@@ -3744,6 +3873,7 @@ extension Proton {
         /// A token that indicates the location of the next environment template in the array of environment templates, after the list of environment templates that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3767,6 +3897,7 @@ extension Proton {
         /// An array of environment templates with detail data.
         public let templates: [EnvironmentTemplateSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templates: [EnvironmentTemplateSummary]) {
             self.nextToken = nextToken
             self.templates = templates
@@ -3786,6 +3917,7 @@ extension Proton {
         /// A token that indicates the location of the next environment in the array of environments, after the list of environments that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentTemplates: [EnvironmentTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.environmentTemplates = environmentTemplates
             self.maxResults = maxResults
@@ -3814,6 +3946,7 @@ extension Proton {
         /// A token that indicates the location of the next environment in the array of environments, after the current requested list of environments.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [EnvironmentSummary], nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -3831,6 +3964,7 @@ extension Proton {
         /// A token that indicates the location of the next repository in the array of repositories, after the list of repositories previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3854,6 +3988,7 @@ extension Proton {
         /// An array of repository links.
         public let repositories: [RepositorySummary]
 
+        @inlinable
         public init(nextToken: String? = nil, repositories: [RepositorySummary]) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -3875,6 +4010,7 @@ extension Proton {
         /// The sync type. The only supported value is TEMPLATE_SYNC.
         public let syncType: SyncType
 
+        @inlinable
         public init(nextToken: String? = nil, repositoryName: String, repositoryProvider: RepositoryProvider, syncType: SyncType) {
             self.nextToken = nextToken
             self.repositoryName = repositoryName
@@ -3903,6 +4039,7 @@ extension Proton {
         /// An array of repository sync definitions.
         public let syncDefinitions: [RepositorySyncDefinition]
 
+        @inlinable
         public init(nextToken: String? = nil, syncDefinitions: [RepositorySyncDefinition]) {
             self.nextToken = nextToken
             self.syncDefinitions = syncDefinitions
@@ -3924,6 +4061,7 @@ extension Proton {
         /// The name of the service that serviceInstanceName is associated to.
         public let serviceName: String
 
+        @inlinable
         public init(deploymentId: String? = nil, nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
             self.deploymentId = deploymentId
             self.nextToken = nextToken
@@ -3956,6 +4094,7 @@ extension Proton {
         /// An array of service instance Infrastructure as Code (IaC) outputs.
         public let outputs: [Output]
 
+        @inlinable
         public init(nextToken: String? = nil, outputs: [Output]) {
             self.nextToken = nextToken
             self.outputs = outputs
@@ -3975,6 +4114,7 @@ extension Proton {
         /// The name of the service that serviceInstanceName is associated to.
         public let serviceName: String
 
+        @inlinable
         public init(nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
             self.nextToken = nextToken
             self.serviceInstanceName = serviceInstanceName
@@ -4004,6 +4144,7 @@ extension Proton {
         /// An array of provisioned resources for a service instance.
         public let provisionedResources: [ProvisionedResource]
 
+        @inlinable
         public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
             self.nextToken = nextToken
             self.provisionedResources = provisionedResources
@@ -4021,6 +4162,7 @@ extension Proton {
         /// A value to filter by. With the date/time keys (*At{Before,After}), the value is a valid RFC 3339 string with no UTC offset and with an optional fractional precision (for example, 1985-04-12T23:20:50.52Z).
         public let value: String?
 
+        @inlinable
         public init(key: ListServiceInstancesFilterBy? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4046,6 +4188,7 @@ extension Proton {
         /// Result list sort order. Default: ASCENDING
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(filters: [ListServiceInstancesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: String? = nil, sortBy: ListServiceInstancesSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -4080,6 +4223,7 @@ extension Proton {
         /// An array of service instances with summary data.
         public let serviceInstances: [ServiceInstanceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, serviceInstances: [ServiceInstanceSummary]) {
             self.nextToken = nextToken
             self.serviceInstances = serviceInstances
@@ -4099,6 +4243,7 @@ extension Proton {
         /// The name of the service whose pipeline's outputs you want.
         public let serviceName: String
 
+        @inlinable
         public init(deploymentId: String? = nil, nextToken: String? = nil, serviceName: String) {
             self.deploymentId = deploymentId
             self.nextToken = nextToken
@@ -4126,6 +4271,7 @@ extension Proton {
         /// An array of service pipeline Infrastructure as Code (IaC) outputs.
         public let outputs: [Output]
 
+        @inlinable
         public init(nextToken: String? = nil, outputs: [Output]) {
             self.nextToken = nextToken
             self.outputs = outputs
@@ -4143,6 +4289,7 @@ extension Proton {
         /// The name of the service whose pipeline's provisioned resources you want.
         public let serviceName: String
 
+        @inlinable
         public init(nextToken: String? = nil, serviceName: String) {
             self.nextToken = nextToken
             self.serviceName = serviceName
@@ -4167,6 +4314,7 @@ extension Proton {
         /// An array of provisioned resources for a service and pipeline.
         public let provisionedResources: [ProvisionedResource]
 
+        @inlinable
         public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
             self.nextToken = nextToken
             self.provisionedResources = provisionedResources
@@ -4188,6 +4336,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(majorVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, templateName: String) {
             self.majorVersion = majorVersion
             self.maxResults = maxResults
@@ -4221,6 +4370,7 @@ extension Proton {
         /// An array of major or minor versions of a service template with detail data.
         public let templateVersions: [ServiceTemplateVersionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templateVersions: [ServiceTemplateVersionSummary]) {
             self.nextToken = nextToken
             self.templateVersions = templateVersions
@@ -4238,6 +4388,7 @@ extension Proton {
         /// A token that indicates the location of the next service template in the array of service templates, after the list of service templates previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4261,6 +4412,7 @@ extension Proton {
         /// An array of service templates with detail data.
         public let templates: [ServiceTemplateSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templates: [ServiceTemplateSummary]) {
             self.nextToken = nextToken
             self.templates = templates
@@ -4278,6 +4430,7 @@ extension Proton {
         /// A token that indicates the location of the next service in the array of services, after the list of services that was previously requested.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4301,6 +4454,7 @@ extension Proton {
         /// An array of services with summaries of detail data.
         public let services: [ServiceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, services: [ServiceSummary]) {
             self.nextToken = nextToken
             self.services = services
@@ -4320,6 +4474,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the resource for the listed tags.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4351,6 +4506,7 @@ extension Proton {
         /// A list of resource tags with detail data.
         public let tags: [Tag]
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]) {
             self.nextToken = nextToken
             self.tags = tags
@@ -4374,6 +4530,7 @@ extension Proton {
         /// The deployment status message for your provisioned resource.
         public let statusMessage: String?
 
+        @inlinable
         public init(deploymentId: String? = nil, outputs: [Output]? = nil, resourceArn: String, status: ResourceDeploymentStatus? = nil, statusMessage: String? = nil) {
             self.deploymentId = deploymentId
             self.outputs = outputs
@@ -4411,6 +4568,7 @@ extension Proton {
         /// The output value.
         public let valueString: String?
 
+        @inlinable
         public init(key: String? = nil, valueString: String? = nil) {
             self.key = key
             self.valueString = valueString
@@ -4437,6 +4595,7 @@ extension Proton {
         /// The resource provisioning engine. At this time, CLOUDFORMATION can be used for Amazon Web Services-managed provisioning, and TERRAFORM can be used for self-managed provisioning. For more information, see Self-managed provisioning in the Proton User Guide.
         public let provisioningEngine: ProvisionedResourceEngine?
 
+        @inlinable
         public init(identifier: String? = nil, name: String? = nil, provisioningEngine: ProvisionedResourceEngine? = nil) {
             self.identifier = identifier
             self.name = name
@@ -4454,6 +4613,7 @@ extension Proton {
         /// The ID of the environment account connection to reject.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4471,6 +4631,7 @@ extension Proton {
         /// The environment connection account detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
+        @inlinable
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
             self.environmentAccountConnection = environmentAccountConnection
         }
@@ -4492,6 +4653,7 @@ extension Proton {
         /// The repository provider.
         public let provider: RepositoryProvider
 
+        @inlinable
         public init(arn: String, connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider) {
             self.arn = arn
             self.connectionArn = connectionArn
@@ -4519,6 +4681,7 @@ extension Proton {
         /// The repository provider.
         public let provider: RepositoryProvider
 
+        @inlinable
         public init(arn: String, branch: String, name: String, provider: RepositoryProvider) {
             self.arn = arn
             self.branch = branch
@@ -4542,6 +4705,7 @@ extension Proton {
         /// The repository provider.
         public let provider: RepositoryProvider
 
+        @inlinable
         public init(branch: String, name: String, provider: RepositoryProvider) {
             self.branch = branch
             self.name = name
@@ -4573,6 +4737,7 @@ extension Proton {
         /// The repository provider.
         public let provider: RepositoryProvider
 
+        @inlinable
         public init(arn: String, connectionArn: String, name: String, provider: RepositoryProvider) {
             self.arn = arn
             self.connectionArn = connectionArn
@@ -4596,6 +4761,7 @@ extension Proton {
         /// The sync attempt status.
         public let status: RepositorySyncStatus
 
+        @inlinable
         public init(events: [RepositorySyncEvent], startedAt: Date, status: RepositorySyncStatus) {
             self.events = events
             self.startedAt = startedAt
@@ -4619,6 +4785,7 @@ extension Proton {
         /// The resource that is synced to.
         public let target: String
 
+        @inlinable
         public init(branch: String, directory: String, parent: String, target: String) {
             self.branch = branch
             self.directory = directory
@@ -4644,6 +4811,7 @@ extension Proton {
         /// The type of event.
         public let type: String
 
+        @inlinable
         public init(event: String, externalId: String? = nil, time: Date, type: String) {
             self.event = event
             self.externalId = externalId
@@ -4671,6 +4839,7 @@ extension Proton {
         /// The number of resources of this type in the Amazon Web Services account that are up-to-date with their template.
         public let upToDate: Int?
 
+        @inlinable
         public init(behindMajor: Int? = nil, behindMinor: Int? = nil, failed: Int? = nil, total: Int, upToDate: Int? = nil) {
             self.behindMajor = behindMajor
             self.behindMinor = behindMinor
@@ -4702,6 +4871,7 @@ extension Proton {
         /// Detail data for the target revision.
         public let targetRevision: Revision
 
+        @inlinable
         public init(events: [ResourceSyncEvent], initialRevision: Revision, startedAt: Date, status: ResourceSyncStatus, target: String, targetRevision: Revision) {
             self.events = events
             self.initialRevision = initialRevision
@@ -4731,6 +4901,7 @@ extension Proton {
         /// The type of event.
         public let type: String
 
+        @inlinable
         public init(event: String, externalId: String? = nil, time: Date, type: String) {
             self.event = event
             self.externalId = externalId
@@ -4758,6 +4929,7 @@ extension Proton {
         /// The secure hash algorithm (SHA) hash for the revision.
         public let sha: String
 
+        @inlinable
         public init(branch: String, directory: String, repositoryName: String, repositoryProvider: RepositoryProvider, sha: String) {
             self.branch = branch
             self.directory = directory
@@ -4781,6 +4953,7 @@ extension Proton {
         /// The path to the S3 bucket that contains a template bundle.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -4828,6 +5001,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, branchName: String? = nil, createdAt: Date, description: String? = nil, lastModifiedAt: Date, name: String, pipeline: ServicePipeline? = nil, repositoryConnectionArn: String? = nil, repositoryId: String? = nil, spec: String, status: ServiceStatus, statusMessage: String? = nil, templateName: String) {
             self.arn = arn
             self.branchName = branchName
@@ -4895,6 +5069,7 @@ extension Proton {
         /// The name of the service template that was used to create the service instance.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -4950,6 +5125,7 @@ extension Proton {
         /// The name of the service template that was used to create the service instance.
         public let templateName: String
 
+        @inlinable
         public init(lastSuccessfulComponentDeploymentIds: [String]? = nil, lastSuccessfulEnvironmentDeploymentId: String? = nil, lastSuccessfulServicePipelineDeploymentId: String? = nil, spec: String, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.lastSuccessfulComponentDeploymentIds = lastSuccessfulComponentDeploymentIds
             self.lastSuccessfulEnvironmentDeploymentId = lastSuccessfulEnvironmentDeploymentId
@@ -5001,6 +5177,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, name: String, serviceName: String, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5062,6 +5239,7 @@ extension Proton {
         /// The name of the service template that was used to create the service pipeline.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, lastAttemptedDeploymentId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, lastSucceededDeploymentId: String? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5103,6 +5281,7 @@ extension Proton {
         /// The name of the service template that was used to create the service pipeline.
         public let templateName: String
 
+        @inlinable
         public init(spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
@@ -5136,6 +5315,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, lastModifiedAt: Date, name: String, status: ServiceStatus, statusMessage: String? = nil, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5167,6 +5347,7 @@ extension Proton {
         /// The name of the service that you want to get the sync blocker summary for. If given a service instance name and a service name, it will return the blockers only applying to the instance that is blocked. If given only a service name, it will return the blockers that apply to all of the instances. In order to get the blockers for a single instance, you will need to make two distinct calls, one to get the sync blocker summary for the service and the other to get the sync blocker for the service instance.
         public let serviceName: String
 
+        @inlinable
         public init(latestBlockers: [SyncBlocker]? = nil, serviceInstanceName: String? = nil, serviceName: String) {
             self.latestBlockers = latestBlockers
             self.serviceInstanceName = serviceInstanceName
@@ -5192,6 +5373,7 @@ extension Proton {
         /// The name of the service that the service instance is added to.
         public let serviceName: String
 
+        @inlinable
         public init(branch: String, filePath: String, repositoryName: String, repositoryProvider: RepositoryProvider, serviceName: String) {
             self.branch = branch
             self.filePath = filePath
@@ -5229,6 +5411,7 @@ extension Proton {
         /// The recommended version of the service template.
         public let recommendedVersion: String?
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, lastModifiedAt: Date, name: String, pipelineProvisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5272,6 +5455,7 @@ extension Proton {
         /// The recommended version of the service template.
         public let recommendedVersion: String?
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, lastModifiedAt: Date, name: String, pipelineProvisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5323,6 +5507,7 @@ extension Proton {
         /// The name of the version of a service template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplate], createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, schema: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]? = nil, templateName: String) {
             self.arn = arn
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
@@ -5378,6 +5563,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5423,6 +5609,7 @@ extension Proton {
         /// The type of the sync blocker.
         public let type: BlockerType
 
+        @inlinable
         public init(contexts: [SyncBlockerContext]? = nil, createdAt: Date, createdReason: String, id: String, resolvedAt: Date? = nil, resolvedReason: String? = nil, status: BlockerStatus, type: BlockerType) {
             self.contexts = contexts
             self.createdAt = createdAt
@@ -5452,6 +5639,7 @@ extension Proton {
         /// The value of the sync blocker context.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5469,6 +5657,7 @@ extension Proton {
         /// The value of the resource tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5492,6 +5681,7 @@ extension Proton {
         /// A list of customer tags to apply to the Proton resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5537,6 +5727,7 @@ extension Proton {
         /// The template type.
         public let templateType: TemplateType
 
+        @inlinable
         public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, subdirectory: String? = nil, templateName: String, templateType: TemplateType) {
             self.branch = branch
             self.repositoryName = repositoryName
@@ -5562,6 +5753,7 @@ extension Proton {
         /// A list of customer tag keys that indicate the customer tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5604,6 +5796,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning. To remove a previously configured ARN, specify an empty string.
         public let pipelineServiceRoleArn: String?
 
+        @inlinable
         public init(deletePipelineProvisioningRepository: Bool? = nil, pipelineCodebuildRoleArn: String? = nil, pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
             self.deletePipelineProvisioningRepository = deletePipelineProvisioningRepository
             self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
@@ -5631,6 +5824,7 @@ extension Proton {
         /// The Proton pipeline service role and repository data shared across the Amazon Web Services account.
         public let accountSettings: AccountSettings
 
+        @inlinable
         public init(accountSettings: AccountSettings) {
             self.accountSettings = accountSettings
         }
@@ -5658,6 +5852,7 @@ extension Proton {
         /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
         public let templateFile: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateComponentInput.idempotencyToken(), deploymentType: ComponentDeploymentUpdateType, description: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, templateFile: String? = nil) {
             self.clientToken = clientToken
             self.deploymentType = deploymentType
@@ -5702,6 +5897,7 @@ extension Proton {
         /// The detailed data of the updated component.
         public let component: Component
 
+        @inlinable
         public init(component: Component) {
             self.component = component
         }
@@ -5721,6 +5917,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the IAM service role that's associated with the environment account connection to update.
         public let roleArn: String?
 
+        @inlinable
         public init(codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, id: String, roleArn: String? = nil) {
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
@@ -5753,6 +5950,7 @@ extension Proton {
         /// The environment account connection detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
+        @inlinable
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
             self.environmentAccountConnection = environmentAccountConnection
         }
@@ -5786,6 +5984,7 @@ extension Proton {
         /// The minor version of the environment to update.
         public let templateMinorVersion: String?
 
+        @inlinable
         public init(codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
@@ -5845,6 +6044,7 @@ extension Proton {
         /// The environment detail data that's returned by Proton.
         public let environment: Environment
 
+        @inlinable
         public init(environment: Environment) {
             self.environment = environment
         }
@@ -5862,6 +6062,7 @@ extension Proton {
         /// The name of the environment template to update.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String) {
             self.description = description
             self.displayName = displayName
@@ -5888,6 +6089,7 @@ extension Proton {
         /// The environment template detail data that's returned by Proton.
         public let environmentTemplate: EnvironmentTemplate
 
+        @inlinable
         public init(environmentTemplate: EnvironmentTemplate) {
             self.environmentTemplate = environmentTemplate
         }
@@ -5909,6 +6111,7 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
+        @inlinable
         public init(description: String? = nil, majorVersion: String, minorVersion: String, status: TemplateVersionStatus? = nil, templateName: String) {
             self.description = description
             self.majorVersion = majorVersion
@@ -5943,6 +6146,7 @@ extension Proton {
         /// The environment template version detail data that's returned by Proton.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
+        @inlinable
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
             self.environmentTemplateVersion = environmentTemplateVersion
         }
@@ -5960,6 +6164,7 @@ extension Proton {
         /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the Proton User Guide.
         public let spec: String?
 
+        @inlinable
         public init(description: String? = nil, name: String, spec: String? = nil) {
             self.description = description
             self.name = name
@@ -5998,6 +6203,7 @@ extension Proton {
         /// The minor version of the service template to update.
         public let templateMinorVersion: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateServiceInstanceInput.idempotencyToken(), deploymentType: DeploymentUpdateType, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
             self.clientToken = clientToken
             self.deploymentType = deploymentType
@@ -6042,6 +6248,7 @@ extension Proton {
         /// The service instance summary data that's returned by Proton.
         public let serviceInstance: ServiceInstance
 
+        @inlinable
         public init(serviceInstance: ServiceInstance) {
             self.serviceInstance = serviceInstance
         }
@@ -6055,6 +6262,7 @@ extension Proton {
         /// The service detail data that's returned by Proton.
         public let service: Service
 
+        @inlinable
         public init(service: Service) {
             self.service = service
         }
@@ -6076,6 +6284,7 @@ extension Proton {
         /// The minor version of the service template that was used to create the service that the pipeline is associated with.
         public let templateMinorVersion: String?
 
+        @inlinable
         public init(deploymentType: DeploymentUpdateType, serviceName: String, spec: String, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
             self.deploymentType = deploymentType
             self.serviceName = serviceName
@@ -6111,6 +6320,7 @@ extension Proton {
         /// The pipeline details that are returned by Proton.
         public let pipeline: ServicePipeline
 
+        @inlinable
         public init(pipeline: ServicePipeline) {
             self.pipeline = pipeline
         }
@@ -6126,6 +6336,7 @@ extension Proton {
         /// The reason the service sync blocker was resolved.
         public let resolvedReason: String
 
+        @inlinable
         public init(id: String, resolvedReason: String) {
             self.id = id
             self.resolvedReason = resolvedReason
@@ -6145,6 +6356,7 @@ extension Proton {
         /// The detailed data on the service sync blocker that was updated.
         public let serviceSyncBlocker: SyncBlocker
 
+        @inlinable
         public init(serviceInstanceName: String? = nil, serviceName: String, serviceSyncBlocker: SyncBlocker) {
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -6170,6 +6382,7 @@ extension Proton {
         /// The name of the service the Proton Ops file is for.
         public let serviceName: String
 
+        @inlinable
         public init(branch: String, filePath: String, repositoryName: String, repositoryProvider: RepositoryProvider, serviceName: String) {
             self.branch = branch
             self.filePath = filePath
@@ -6204,6 +6417,7 @@ extension Proton {
         /// The detailed data of the Proton Ops file.
         public let serviceSyncConfig: ServiceSyncConfig?
 
+        @inlinable
         public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
             self.serviceSyncConfig = serviceSyncConfig
         }
@@ -6221,6 +6435,7 @@ extension Proton {
         /// The name of the service template to update.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String) {
             self.description = description
             self.displayName = displayName
@@ -6247,6 +6462,7 @@ extension Proton {
         /// The service template detail data that's returned by Proton.
         public let serviceTemplate: ServiceTemplate
 
+        @inlinable
         public init(serviceTemplate: ServiceTemplate) {
             self.serviceTemplate = serviceTemplate
         }
@@ -6272,6 +6488,7 @@ extension Proton {
         /// The name of the service template.
         public let templateName: String
 
+        @inlinable
         public init(compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]? = nil, description: String? = nil, majorVersion: String, minorVersion: String, status: TemplateVersionStatus? = nil, supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]? = nil, templateName: String) {
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
             self.description = description
@@ -6315,6 +6532,7 @@ extension Proton {
         /// The service template version detail data that's returned by Proton.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
+        @inlinable
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
             self.serviceTemplateVersion = serviceTemplateVersion
         }
@@ -6338,6 +6556,7 @@ extension Proton {
         /// The synced template type.
         public let templateType: TemplateType
 
+        @inlinable
         public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, subdirectory: String? = nil, templateName: String, templateType: TemplateType) {
             self.branch = branch
             self.repositoryName = repositoryName
@@ -6374,6 +6593,7 @@ extension Proton {
         /// The template sync configuration detail data that's returned by Proton.
         public let templateSyncConfig: TemplateSyncConfig?
 
+        @inlinable
         public init(templateSyncConfig: TemplateSyncConfig? = nil) {
             self.templateSyncConfig = templateSyncConfig
         }
@@ -6387,6 +6607,7 @@ extension Proton {
         /// An S3 source object that includes the template bundle S3 path and name for a template minor version.
         public let s3: S3ObjectSource?
 
+        @inlinable
         public init(s3: S3ObjectSource? = nil) {
             self.s3 = s3
         }

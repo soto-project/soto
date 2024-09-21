@@ -55,6 +55,7 @@ extension Route53Profiles {
         ///  A list of the tag keys and values that you want to identify the Profile association.
         public let tags: [Tag]?
 
+        @inlinable
         public init(name: String, profileId: String, resourceId: String, tags: [Tag]? = nil) {
             self.name = name
             self.profileId = profileId
@@ -87,6 +88,7 @@ extension Route53Profiles {
         ///  The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.
         public let profileAssociation: ProfileAssociation?
 
+        @inlinable
         public init(profileAssociation: ProfileAssociation? = nil) {
             self.profileAssociation = profileAssociation
         }
@@ -107,6 +109,7 @@ extension Route53Profiles {
         ///  The allowed values for priority are between 100 and 9900.
         public let resourceProperties: String?
 
+        @inlinable
         public init(name: String, profileId: String, resourceArn: String, resourceProperties: String? = nil) {
             self.name = name
             self.profileId = profileId
@@ -135,6 +138,7 @@ extension Route53Profiles {
         ///  Infromation about the AssociateResourceToProfile, including a status message.
         public let profileResourceAssociation: ProfileResourceAssociation?
 
+        @inlinable
         public init(profileResourceAssociation: ProfileResourceAssociation? = nil) {
             self.profileResourceAssociation = profileResourceAssociation
         }
@@ -152,6 +156,7 @@ extension Route53Profiles {
         ///  A list of the tag keys and values that you want to associate with the Route 53 Profile.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = CreateProfileRequest.idempotencyToken(), name: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.name = name
@@ -180,6 +185,7 @@ extension Route53Profiles {
         ///  The Profile that you just created.
         public let profile: Profile?
 
+        @inlinable
         public init(profile: Profile? = nil) {
             self.profile = profile
         }
@@ -193,6 +199,7 @@ extension Route53Profiles {
         ///  The ID of the Profile that you want to delete.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -215,6 +222,7 @@ extension Route53Profiles {
         ///  Information about the DeleteProfile request, including the status of the request.
         public let profile: Profile?
 
+        @inlinable
         public init(profile: Profile? = nil) {
             self.profile = profile
         }
@@ -230,6 +238,7 @@ extension Route53Profiles {
         ///  The ID of the VPC.
         public let resourceId: String
 
+        @inlinable
         public init(profileId: String, resourceId: String) {
             self.profileId = profileId
             self.resourceId = resourceId
@@ -256,6 +265,7 @@ extension Route53Profiles {
         ///  Information about the DisassociateProfile request.
         public let profileAssociation: ProfileAssociation?
 
+        @inlinable
         public init(profileAssociation: ProfileAssociation? = nil) {
             self.profileAssociation = profileAssociation
         }
@@ -271,6 +281,7 @@ extension Route53Profiles {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(profileId: String, resourceArn: String) {
             self.profileId = profileId
             self.resourceArn = resourceArn
@@ -297,6 +308,7 @@ extension Route53Profiles {
         ///  Information about the DisassociateResourceFromProfile request, including the status of the request.
         public let profileResourceAssociation: ProfileResourceAssociation?
 
+        @inlinable
         public init(profileResourceAssociation: ProfileResourceAssociation? = nil) {
             self.profileResourceAssociation = profileResourceAssociation
         }
@@ -310,6 +322,7 @@ extension Route53Profiles {
         ///  The identifier of the association you want to get information about.
         public let profileAssociationId: String
 
+        @inlinable
         public init(profileAssociationId: String) {
             self.profileAssociationId = profileAssociationId
         }
@@ -332,6 +345,7 @@ extension Route53Profiles {
         ///  Information about the Profile association that you specified in a GetProfileAssociation request.
         public let profileAssociation: ProfileAssociation?
 
+        @inlinable
         public init(profileAssociation: ProfileAssociation? = nil) {
             self.profileAssociation = profileAssociation
         }
@@ -345,6 +359,7 @@ extension Route53Profiles {
         ///  ID of the Profile.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -367,6 +382,7 @@ extension Route53Profiles {
         ///   The ID of the profile resource association that you want to get information about.
         public let profileResourceAssociationId: String
 
+        @inlinable
         public init(profileResourceAssociationId: String) {
             self.profileResourceAssociationId = profileResourceAssociationId
         }
@@ -389,6 +405,7 @@ extension Route53Profiles {
         ///  Information about the Profile resource association that you specified in a GetProfileResourceAssociation request.
         public let profileResourceAssociation: ProfileResourceAssociation?
 
+        @inlinable
         public init(profileResourceAssociation: ProfileResourceAssociation? = nil) {
             self.profileResourceAssociation = profileResourceAssociation
         }
@@ -402,6 +419,7 @@ extension Route53Profiles {
         ///  Information about the Profile, including the status of the Profile.
         public let profile: Profile?
 
+        @inlinable
         public init(profile: Profile? = nil) {
             self.profile = profile
         }
@@ -422,6 +440,7 @@ extension Route53Profiles {
         ///  ID of the VPC.
         public let resourceId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String? = nil, resourceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -456,6 +475,7 @@ extension Route53Profiles {
         ///  A complex type that containts settings information about the profile's VPC associations.
         public let profileAssociations: [ProfileAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, profileAssociations: [ProfileAssociation]? = nil) {
             self.nextToken = nextToken
             self.profileAssociations = profileAssociations
@@ -477,6 +497,7 @@ extension Route53Profiles {
         ///  ID of a resource if you want information on only one type.
         public let resourceType: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -509,6 +530,7 @@ extension Route53Profiles {
         ///  Information about the profile resource association that you specified in a GetProfileResourceAssociation request.
         public let profileResourceAssociations: [ProfileResourceAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, profileResourceAssociations: [ProfileResourceAssociation]? = nil) {
             self.nextToken = nextToken
             self.profileResourceAssociations = profileResourceAssociations
@@ -526,6 +548,7 @@ extension Route53Profiles {
         ///  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned.  If more objects are available for retrieval, a NextToken value is returned in the response.  To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -552,6 +575,7 @@ extension Route53Profiles {
         ///  Summary information about the Profiles.
         public let profileSummaries: [ProfileSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, profileSummaries: [ProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.profileSummaries = profileSummaries
@@ -567,6 +591,7 @@ extension Route53Profiles {
         ///  The Amazon Resource Name (ARN) for the resource that you want to list the tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -589,6 +614,7 @@ extension Route53Profiles {
         ///  The tags that are associated with the resource that you specified in the ListTagsForResource request.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -620,6 +646,7 @@ extension Route53Profiles {
         ///  Status message that includes additiona information about the Profile.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, clientToken: String? = nil, creationTime: Date? = nil, id: String? = nil, modificationTime: Date? = nil, name: String? = nil, ownerId: String? = nil, shareStatus: ShareStatus? = nil, status: ProfileStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.clientToken = clientToken
@@ -667,6 +694,7 @@ extension Route53Profiles {
         ///  Additional information about the Profile association.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, id: String? = nil, modificationTime: Date? = nil, name: String? = nil, ownerId: String? = nil, profileId: String? = nil, resourceId: String? = nil, status: ProfileStatus? = nil, statusMessage: String? = nil) {
             self.creationTime = creationTime
             self.id = id
@@ -716,6 +744,7 @@ extension Route53Profiles {
         ///  Additional information about the Profile resource association.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, id: String? = nil, modificationTime: Date? = nil, name: String? = nil, ownerId: String? = nil, profileId: String? = nil, resourceArn: String? = nil, resourceProperties: String? = nil, resourceType: String? = nil, status: ProfileStatus? = nil, statusMessage: String? = nil) {
             self.creationTime = creationTime
             self.id = id
@@ -755,6 +784,7 @@ extension Route53Profiles {
         ///  Share status of the Profile.
         public let shareStatus: ShareStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, shareStatus: ShareStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -776,6 +806,7 @@ extension Route53Profiles {
         /// Value for the Tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -799,6 +830,7 @@ extension Route53Profiles {
         ///  The tags that you want to add to the specified resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -837,6 +869,7 @@ extension Route53Profiles {
         ///  The tags that you want to remove to the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -874,6 +907,7 @@ extension Route53Profiles {
         ///  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.  The allowed values for priority are between 100 and 9900.
         public let resourceProperties: String?
 
+        @inlinable
         public init(name: String? = nil, profileResourceAssociationId: String, resourceProperties: String? = nil) {
             self.name = name
             self.profileResourceAssociationId = profileResourceAssociationId
@@ -905,6 +939,7 @@ extension Route53Profiles {
         ///  Information about the UpdateProfileResourceAssociation request, including a status message.
         public let profileResourceAssociation: ProfileResourceAssociation?
 
+        @inlinable
         public init(profileResourceAssociation: ProfileResourceAssociation? = nil) {
             self.profileResourceAssociation = profileResourceAssociation
         }

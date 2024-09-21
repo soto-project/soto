@@ -302,6 +302,7 @@ extension WellArchitected {
         /// Account-level: Jira project key to sync workloads to.
         public let jiraProjectKey: String?
 
+        @inlinable
         public init(integrationStatus: IntegrationStatusInput? = nil, issueManagementStatus: AccountJiraIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil) {
             self.integrationStatus = integrationStatus
             self.issueManagementStatus = issueManagementStatus
@@ -337,6 +338,7 @@ extension WellArchitected {
         /// Account-level: Jira subdomain URL.
         public let subdomain: String?
 
+        @inlinable
         public init(integrationStatus: IntegrationStatus? = nil, issueManagementStatus: AccountJiraIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil, statusMessage: String? = nil, subdomain: String? = nil) {
             self.integrationStatus = integrationStatus
             self.issueManagementStatus = issueManagementStatus
@@ -362,6 +364,7 @@ extension WellArchitected {
         /// Type of additional resource for a custom lens.
         public let type: AdditionalResourceType?
 
+        @inlinable
         public init(content: [ChoiceContent]? = nil, type: AdditionalResourceType? = nil) {
             self.content = content
             self.type = type
@@ -394,6 +397,7 @@ extension WellArchitected {
         public let risk: Risk?
         public let selectedChoices: [String]?
 
+        @inlinable
         public init(choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceDisplayText: String? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, jiraConfiguration: JiraConfiguration? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswers = choiceAnswers
             self.choices = choices
@@ -448,6 +452,7 @@ extension WellArchitected {
         public let risk: Risk?
         public let selectedChoices: [String]?
 
+        @inlinable
         public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, jiraConfiguration: JiraConfiguration? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
@@ -481,6 +486,7 @@ extension WellArchitected {
         public let lensAliases: [String]?
         public let workloadId: String
 
+        @inlinable
         public init(lensAliases: [String]? = nil, workloadId: String) {
             self.lensAliases = lensAliases
             self.workloadId = workloadId
@@ -514,6 +520,7 @@ extension WellArchitected {
         public let profileArns: [String]?
         public let workloadId: String
 
+        @inlinable
         public init(profileArns: [String]? = nil, workloadId: String) {
             self.profileArns = profileArns
             self.workloadId = workloadId
@@ -546,6 +553,7 @@ extension WellArchitected {
         public let choiceId: String?
         public let choiceTitle: String?
 
+        @inlinable
         public init(choiceId: String? = nil, choiceTitle: String? = nil) {
             self.choiceId = choiceId
             self.choiceTitle = choiceTitle
@@ -580,6 +588,7 @@ extension WellArchitected {
         public let status: CheckStatus?
         public let updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, choiceId: String? = nil, description: String? = nil, flaggedResources: Int? = nil, id: String? = nil, lensArn: String? = nil, name: String? = nil, pillarId: String? = nil, provider: CheckProvider? = nil, questionId: String? = nil, reason: CheckFailureReason? = nil, status: CheckStatus? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.choiceId = choiceId
@@ -633,6 +642,7 @@ extension WellArchitected {
         public let status: CheckStatus?
         public let updatedAt: Date?
 
+        @inlinable
         public init(accountSummary: [CheckStatus: Int]? = nil, choiceId: String? = nil, description: String? = nil, id: String? = nil, lensArn: String? = nil, name: String? = nil, pillarId: String? = nil, provider: CheckProvider? = nil, questionId: String? = nil, status: CheckStatus? = nil, updatedAt: Date? = nil) {
             self.accountSummary = accountSummary
             self.choiceId = choiceId
@@ -673,6 +683,7 @@ extension WellArchitected {
         public let improvementPlan: ChoiceContent?
         public let title: String?
 
+        @inlinable
         public init(additionalResources: [AdditionalResources]? = nil, choiceId: String? = nil, description: String? = nil, helpfulResource: ChoiceContent? = nil, improvementPlan: ChoiceContent? = nil, title: String? = nil) {
             self.additionalResources = additionalResources
             self.choiceId = choiceId
@@ -701,6 +712,7 @@ extension WellArchitected {
         /// The status of a choice.
         public let status: ChoiceStatus?
 
+        @inlinable
         public init(choiceId: String? = nil, notes: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus? = nil) {
             self.choiceId = choiceId
             self.notes = notes
@@ -723,6 +735,7 @@ extension WellArchitected {
         /// The status of a choice.
         public let status: ChoiceStatus?
 
+        @inlinable
         public init(choiceId: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus? = nil) {
             self.choiceId = choiceId
             self.reason = reason
@@ -742,6 +755,7 @@ extension WellArchitected {
         /// The URL for the choice content.
         public let url: String?
 
+        @inlinable
         public init(displayText: String? = nil, url: String? = nil) {
             self.displayText = displayText
             self.url = url
@@ -759,6 +773,7 @@ extension WellArchitected {
         public let displayText: String?
         public let improvementPlanUrl: String?
 
+        @inlinable
         public init(choiceId: String? = nil, displayText: String? = nil, improvementPlanUrl: String? = nil) {
             self.choiceId = choiceId
             self.displayText = displayText
@@ -780,6 +795,7 @@ extension WellArchitected {
         /// The status of a choice.
         public let status: ChoiceStatus?
 
+        @inlinable
         public init(notes: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus? = nil) {
             self.notes = notes
             self.reason = reason
@@ -810,6 +826,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(lenses: [LensMetric]? = nil, lensesAppliedCount: Int? = nil, metricType: MetricType? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.lenses = lenses
             self.lensesAppliedCount = lensesAppliedCount
@@ -838,6 +855,7 @@ extension WellArchitected {
         public let lensAlias: String
         public let sharedWith: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, lensAlias: String, sharedWith: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
@@ -870,6 +888,7 @@ extension WellArchitected {
     public struct CreateLensShareOutput: AWSDecodableShape {
         public let shareId: String?
 
+        @inlinable
         public init(shareId: String? = nil) {
             self.shareId = shareId
         }
@@ -887,6 +906,7 @@ extension WellArchitected {
         /// The version of the lens being created.
         public let lensVersion: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, isMajorVersion: Bool? = nil, lensAlias: String, lensVersion: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.isMajorVersion = isMajorVersion
@@ -925,6 +945,7 @@ extension WellArchitected {
         /// The version of the lens.
         public let lensVersion: String?
 
+        @inlinable
         public init(lensArn: String? = nil, lensVersion: String? = nil) {
             self.lensArn = lensArn
             self.lensVersion = lensVersion
@@ -941,6 +962,7 @@ extension WellArchitected {
         public let milestoneName: String?
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, milestoneName: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.milestoneName = milestoneName
@@ -975,6 +997,7 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let workloadId: String?
 
+        @inlinable
         public init(milestoneNumber: Int? = nil, workloadId: String? = nil) {
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
@@ -997,6 +1020,7 @@ extension WellArchitected {
         /// The tags assigned to the profile.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileQuestions: [ProfileQuestionUpdate]? = nil, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.profileDescription = profileDescription
@@ -1039,6 +1063,7 @@ extension WellArchitected {
         /// Version of the profile.
         public let profileVersion: String?
 
+        @inlinable
         public init(profileArn: String? = nil, profileVersion: String? = nil) {
             self.profileArn = profileArn
             self.profileVersion = profileVersion
@@ -1056,6 +1081,7 @@ extension WellArchitected {
         public let profileArn: String
         public let sharedWith: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, profileArn: String, sharedWith: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.profileArn = profileArn
@@ -1090,6 +1116,7 @@ extension WellArchitected {
         public let profileArn: String?
         public let shareId: String?
 
+        @inlinable
         public init(profileArn: String? = nil, shareId: String? = nil) {
             self.profileArn = profileArn
             self.shareId = shareId
@@ -1113,6 +1140,7 @@ extension WellArchitected {
         /// Name of the review template.
         public let templateName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, description: String? = nil, lenses: [String]? = nil, notes: String? = nil, tags: [String: String]? = nil, templateName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1159,6 +1187,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String?
 
+        @inlinable
         public init(templateArn: String? = nil) {
             self.templateArn = templateArn
         }
@@ -1174,6 +1203,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, sharedWith: String? = nil, templateArn: String) {
             self.clientRequestToken = clientRequestToken
             self.sharedWith = sharedWith
@@ -1209,6 +1239,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String?
 
+        @inlinable
         public init(shareId: String? = nil, templateArn: String? = nil) {
             self.shareId = shareId
             self.templateArn = templateArn
@@ -1248,6 +1279,7 @@ extension WellArchitected {
         public let tags: [String: String]?
         public let workloadName: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, industry: String? = nil, industryType: String? = nil, jiraConfiguration: WorkloadJiraConfigurationInput? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, profileArns: [String]? = nil, reviewOwner: String? = nil, reviewTemplateArns: [String]? = nil, tags: [String: String]? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
@@ -1362,6 +1394,7 @@ extension WellArchitected {
         public let workloadArn: String?
         public let workloadId: String?
 
+        @inlinable
         public init(workloadArn: String? = nil, workloadId: String? = nil) {
             self.workloadArn = workloadArn
             self.workloadId = workloadId
@@ -1379,6 +1412,7 @@ extension WellArchitected {
         public let sharedWith: String?
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, permissionType: PermissionType? = nil, sharedWith: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.permissionType = permissionType
@@ -1416,6 +1450,7 @@ extension WellArchitected {
         public let shareId: String?
         public let workloadId: String?
 
+        @inlinable
         public init(shareId: String? = nil, workloadId: String? = nil) {
             self.shareId = shareId
             self.workloadId = workloadId
@@ -1433,6 +1468,7 @@ extension WellArchitected {
         /// The status of the lens to be deleted.
         public let lensStatus: LensStatusType?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, lensAlias: String, lensStatus: LensStatusType? = nil) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
@@ -1462,6 +1498,7 @@ extension WellArchitected {
         public let lensAlias: String
         public let shareId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, lensAlias: String, shareId: String) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
@@ -1492,6 +1529,7 @@ extension WellArchitected {
         /// The profile ARN.
         public let profileArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, profileArn: String) {
             self.clientRequestToken = clientRequestToken
             self.profileArn = profileArn
@@ -1520,6 +1558,7 @@ extension WellArchitected {
         public let profileArn: String
         public let shareId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, profileArn: String, shareId: String) {
             self.clientRequestToken = clientRequestToken
             self.profileArn = profileArn
@@ -1550,6 +1589,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, templateArn: String) {
             self.clientRequestToken = clientRequestToken
             self.templateArn = templateArn
@@ -1579,6 +1619,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, shareId: String, templateArn: String) {
             self.clientRequestToken = clientRequestToken
             self.shareId = shareId
@@ -1609,6 +1650,7 @@ extension WellArchitected {
         public let clientRequestToken: String?
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.workloadId = workloadId
@@ -1637,6 +1679,7 @@ extension WellArchitected {
         public let shareId: String
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, shareId: String, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.shareId = shareId
@@ -1667,6 +1710,7 @@ extension WellArchitected {
         public let lensAliases: [String]?
         public let workloadId: String
 
+        @inlinable
         public init(lensAliases: [String]? = nil, workloadId: String) {
             self.lensAliases = lensAliases
             self.workloadId = workloadId
@@ -1700,6 +1744,7 @@ extension WellArchitected {
         public let profileArns: [String]?
         public let workloadId: String
 
+        @inlinable
         public init(profileArns: [String]? = nil, workloadId: String) {
             self.profileArns = profileArns
             self.workloadId = workloadId
@@ -1733,6 +1778,7 @@ extension WellArchitected {
         /// The lens version to be exported.
         public let lensVersion: String?
 
+        @inlinable
         public init(lensAlias: String, lensVersion: String? = nil) {
             self.lensAlias = lensAlias
             self.lensVersion = lensVersion
@@ -1759,6 +1805,7 @@ extension WellArchitected {
         /// The JSON representation of a lens.
         public let lensJSON: String?
 
+        @inlinable
         public init(lensJSON: String? = nil) {
             self.lensJSON = lensJSON
         }
@@ -1774,6 +1821,7 @@ extension WellArchitected {
         public let questionId: String
         public let workloadId: String
 
+        @inlinable
         public init(lensAlias: String, milestoneNumber: Int? = nil, questionId: String, workloadId: String) {
             self.lensAlias = lensAlias
             self.milestoneNumber = milestoneNumber
@@ -1813,6 +1861,7 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let workloadId: String?
 
+        @inlinable
         public init(answer: Answer? = nil, lensAlias: String? = nil, lensArn: String? = nil, milestoneNumber: Int? = nil, workloadId: String? = nil) {
             self.answer = answer
             self.lensAlias = lensAlias
@@ -1839,6 +1888,7 @@ extension WellArchitected {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(format: ReportFormat? = nil, includeSharedResources: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.format = format
             self.includeSharedResources = includeSharedResources
@@ -1869,6 +1919,7 @@ extension WellArchitected {
         public let metrics: [ConsolidatedReportMetric]?
         public let nextToken: String?
 
+        @inlinable
         public init(base64String: String? = nil, metrics: [ConsolidatedReportMetric]? = nil, nextToken: String? = nil) {
             self.base64String = base64String
             self.metrics = metrics
@@ -1890,6 +1941,7 @@ extension WellArchitected {
         /// Amazon Web Services Organizations sharing status.
         public let organizationSharingStatus: OrganizationSharingStatus?
 
+        @inlinable
         public init(discoveryIntegrationStatus: DiscoveryIntegrationStatus? = nil, jiraConfiguration: AccountJiraConfigurationOutput? = nil, organizationSharingStatus: OrganizationSharingStatus? = nil) {
             self.discoveryIntegrationStatus = discoveryIntegrationStatus
             self.jiraConfiguration = jiraConfiguration
@@ -1908,6 +1960,7 @@ extension WellArchitected {
         /// The lens version to be retrieved.
         public let lensVersion: String?
 
+        @inlinable
         public init(lensAlias: String, lensVersion: String? = nil) {
             self.lensAlias = lensAlias
             self.lensVersion = lensVersion
@@ -1934,6 +1987,7 @@ extension WellArchitected {
         /// A lens return object.
         public let lens: Lens?
 
+        @inlinable
         public init(lens: Lens? = nil) {
             self.lens = lens
         }
@@ -1948,6 +2002,7 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let workloadId: String
 
+        @inlinable
         public init(lensAlias: String, milestoneNumber: Int? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.milestoneNumber = milestoneNumber
@@ -1980,6 +2035,7 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let workloadId: String?
 
+        @inlinable
         public init(lensReview: LensReview? = nil, milestoneNumber: Int? = nil, workloadId: String? = nil) {
             self.lensReview = lensReview
             self.milestoneNumber = milestoneNumber
@@ -1998,6 +2054,7 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let workloadId: String
 
+        @inlinable
         public init(lensAlias: String, milestoneNumber: Int? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.milestoneNumber = milestoneNumber
@@ -2030,6 +2087,7 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let workloadId: String?
 
+        @inlinable
         public init(lensReviewReport: LensReviewReport? = nil, milestoneNumber: Int? = nil, workloadId: String? = nil) {
             self.lensReviewReport = lensReviewReport
             self.milestoneNumber = milestoneNumber
@@ -2050,6 +2108,7 @@ extension WellArchitected {
         /// The lens version to target a difference for.
         public let targetLensVersion: String?
 
+        @inlinable
         public init(baseLensVersion: String? = nil, lensAlias: String, targetLensVersion: String? = nil) {
             self.baseLensVersion = baseLensVersion
             self.lensAlias = lensAlias
@@ -2088,6 +2147,7 @@ extension WellArchitected {
         public let targetLensVersion: String?
         public let versionDifferences: VersionDifferences?
 
+        @inlinable
         public init(baseLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, targetLensVersion: String? = nil, versionDifferences: VersionDifferences? = nil) {
             self.baseLensVersion = baseLensVersion
             self.latestLensVersion = latestLensVersion
@@ -2111,6 +2171,7 @@ extension WellArchitected {
         public let milestoneNumber: Int
         public let workloadId: String
 
+        @inlinable
         public init(milestoneNumber: Int, workloadId: String) {
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
@@ -2138,6 +2199,7 @@ extension WellArchitected {
         public let milestone: Milestone?
         public let workloadId: String?
 
+        @inlinable
         public init(milestone: Milestone? = nil, workloadId: String? = nil) {
             self.milestone = milestone
             self.workloadId = workloadId
@@ -2155,6 +2217,7 @@ extension WellArchitected {
         /// The profile version.
         public let profileVersion: String?
 
+        @inlinable
         public init(profileArn: String, profileVersion: String? = nil) {
             self.profileArn = profileArn
             self.profileVersion = profileVersion
@@ -2182,6 +2245,7 @@ extension WellArchitected {
         /// The profile.
         public let profile: Profile?
 
+        @inlinable
         public init(profile: Profile? = nil) {
             self.profile = profile
         }
@@ -2199,6 +2263,7 @@ extension WellArchitected {
         /// The profile template.
         public let profileTemplate: ProfileTemplate?
 
+        @inlinable
         public init(profileTemplate: ProfileTemplate? = nil) {
             self.profileTemplate = profileTemplate
         }
@@ -2214,6 +2279,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(lensAlias: String, questionId: String, templateArn: String) {
             self.lensAlias = lensAlias
             self.questionId = questionId
@@ -2248,6 +2314,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String?
 
+        @inlinable
         public init(answer: ReviewTemplateAnswer? = nil, lensAlias: String? = nil, templateArn: String? = nil) {
             self.answer = answer
             self.lensAlias = lensAlias
@@ -2265,6 +2332,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(templateArn: String) {
             self.templateArn = templateArn
         }
@@ -2289,6 +2357,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(lensAlias: String, templateArn: String) {
             self.lensAlias = lensAlias
             self.templateArn = templateArn
@@ -2318,6 +2387,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String?
 
+        @inlinable
         public init(lensReview: ReviewTemplateLensReview? = nil, templateArn: String? = nil) {
             self.lensReview = lensReview
             self.templateArn = templateArn
@@ -2333,6 +2403,7 @@ extension WellArchitected {
         /// The review template.
         public let reviewTemplate: ReviewTemplate?
 
+        @inlinable
         public init(reviewTemplate: ReviewTemplate? = nil) {
             self.reviewTemplate = reviewTemplate
         }
@@ -2345,6 +2416,7 @@ extension WellArchitected {
     public struct GetWorkloadInput: AWSEncodableShape {
         public let workloadId: String
 
+        @inlinable
         public init(workloadId: String) {
             self.workloadId = workloadId
         }
@@ -2367,6 +2439,7 @@ extension WellArchitected {
     public struct GetWorkloadOutput: AWSDecodableShape {
         public let workload: Workload?
 
+        @inlinable
         public init(workload: Workload? = nil) {
             self.workload = workload
         }
@@ -2384,6 +2457,7 @@ extension WellArchitected {
         /// Tags to associate to a lens.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, jsonString: String? = nil, lensAlias: String? = nil, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.jsonString = jsonString
@@ -2421,6 +2495,7 @@ extension WellArchitected {
         /// The status of the imported lens.
         public let status: ImportLensStatus?
 
+        @inlinable
         public init(lensArn: String? = nil, status: ImportLensStatus? = nil) {
             self.lensArn = lensArn
             self.status = status
@@ -2443,6 +2518,7 @@ extension WellArchitected {
         public let questionTitle: String?
         public let risk: Risk?
 
+        @inlinable
         public init(improvementPlans: [ChoiceImprovementPlan]? = nil, improvementPlanUrl: String? = nil, jiraConfiguration: JiraConfiguration? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil) {
             self.improvementPlans = improvementPlans
             self.improvementPlanUrl = improvementPlanUrl
@@ -2469,6 +2545,7 @@ extension WellArchitected {
         public let jiraIssueUrl: String?
         public let lastSyncedTime: Date?
 
+        @inlinable
         public init(jiraIssueUrl: String? = nil, lastSyncedTime: Date? = nil) {
             self.jiraIssueUrl = jiraIssueUrl
             self.lastSyncedTime = lastSyncedTime
@@ -2484,6 +2561,7 @@ extension WellArchitected {
         /// Selected pillars in the workload.
         public let selectedPillars: [SelectedPillar]?
 
+        @inlinable
         public init(selectedPillars: [SelectedPillar]? = nil) {
             self.selectedPillars = selectedPillars
         }
@@ -2513,6 +2591,7 @@ extension WellArchitected {
         /// The tags assigned to the lens.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, lensArn: String? = nil, lensVersion: String? = nil, name: String? = nil, owner: String? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.lensArn = lensArn
@@ -2541,6 +2620,7 @@ extension WellArchitected {
         public let pillars: [PillarMetric]?
         public let riskCounts: [Risk: Int]?
 
+        @inlinable
         public init(lensArn: String? = nil, pillars: [PillarMetric]? = nil, riskCounts: [Risk: Int]? = nil) {
             self.lensArn = lensArn
             self.pillars = pillars
@@ -2574,6 +2654,7 @@ extension WellArchitected {
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
+        @inlinable
         public init(jiraConfiguration: JiraSelectedQuestionConfiguration? = nil, lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.jiraConfiguration = jiraConfiguration
             self.lensAlias = lensAlias
@@ -2613,6 +2694,7 @@ extension WellArchitected {
         /// The ARN for the lens.
         public let lensArn: String?
 
+        @inlinable
         public init(base64String: String? = nil, lensAlias: String? = nil, lensArn: String? = nil) {
             self.base64String = base64String
             self.lensAlias = lensAlias
@@ -2641,6 +2723,7 @@ extension WellArchitected {
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
+        @inlinable
         public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
@@ -2673,6 +2756,7 @@ extension WellArchitected {
         /// Optional message to compliment the Status field.
         public let statusMessage: String?
 
+        @inlinable
         public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
             self.sharedWith = sharedWith
             self.shareId = shareId
@@ -2704,6 +2788,7 @@ extension WellArchitected {
         public let owner: String?
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensType: LensType? = nil, lensVersion: String? = nil, owner: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -2745,6 +2830,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(currentLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.currentLensVersion = currentLensVersion
             self.latestLensVersion = latestLensVersion
@@ -2779,6 +2865,7 @@ extension WellArchitected {
         public let questionPriority: QuestionPriority?
         public let workloadId: String
 
+        @inlinable
         public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionPriority: QuestionPriority? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
@@ -2827,6 +2914,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String?
 
+        @inlinable
         public init(answerSummaries: [AnswerSummary]? = nil, lensAlias: String? = nil, lensArn: String? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.answerSummaries = answerSummaries
             self.lensAlias = lensAlias
@@ -2856,6 +2944,7 @@ extension WellArchitected {
         public let questionId: String?
         public let workloadId: String
 
+        @inlinable
         public init(choiceId: String? = nil, lensArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionId: String? = nil, workloadId: String) {
             self.choiceId = choiceId
             self.lensArn = lensArn
@@ -2907,6 +2996,7 @@ extension WellArchitected {
         public let checkDetails: [CheckDetail]?
         public let nextToken: String?
 
+        @inlinable
         public init(checkDetails: [CheckDetail]? = nil, nextToken: String? = nil) {
             self.checkDetails = checkDetails
             self.nextToken = nextToken
@@ -2928,6 +3018,7 @@ extension WellArchitected {
         public let questionId: String?
         public let workloadId: String
 
+        @inlinable
         public init(choiceId: String? = nil, lensArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionId: String? = nil, workloadId: String) {
             self.choiceId = choiceId
             self.lensArn = lensArn
@@ -2979,6 +3070,7 @@ extension WellArchitected {
         public let checkSummaries: [CheckSummary]?
         public let nextToken: String?
 
+        @inlinable
         public init(checkSummaries: [CheckSummary]? = nil, nextToken: String? = nil) {
             self.checkSummaries = checkSummaries
             self.nextToken = nextToken
@@ -3001,6 +3093,7 @@ extension WellArchitected {
         public let questionPriority: QuestionPriority?
         public let workloadId: String
 
+        @inlinable
         public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionPriority: QuestionPriority? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
@@ -3049,6 +3142,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String?
 
+        @inlinable
         public init(improvementSummaries: [ImprovementSummary]? = nil, lensAlias: String? = nil, lensArn: String? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.improvementSummaries = improvementSummaries
             self.lensAlias = lensAlias
@@ -3074,6 +3168,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String) {
             self.maxResults = maxResults
             self.milestoneNumber = milestoneNumber
@@ -3109,6 +3204,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String?
 
+        @inlinable
         public init(lensReviewSummaries: [LensReviewSummary]? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.lensReviewSummaries = lensReviewSummaries
             self.milestoneNumber = milestoneNumber
@@ -3133,6 +3229,7 @@ extension WellArchitected {
         public let sharedWithPrefix: String?
         public let status: ShareStatus?
 
+        @inlinable
         public init(lensAlias: String, maxResults: Int? = nil, nextToken: String? = nil, sharedWithPrefix: String? = nil, status: ShareStatus? = nil) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
@@ -3167,6 +3264,7 @@ extension WellArchitected {
         public let lensShareSummaries: [LensShareSummary]?
         public let nextToken: String?
 
+        @inlinable
         public init(lensShareSummaries: [LensShareSummary]? = nil, nextToken: String? = nil) {
             self.lensShareSummaries = lensShareSummaries
             self.nextToken = nextToken
@@ -3187,6 +3285,7 @@ extension WellArchitected {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(lensName: String? = nil, lensStatus: LensStatusType? = nil, lensType: LensType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.lensName = lensName
             self.lensStatus = lensStatus
@@ -3219,6 +3318,7 @@ extension WellArchitected {
         public let lensSummaries: [LensSummary]?
         public let nextToken: String?
 
+        @inlinable
         public init(lensSummaries: [LensSummary]? = nil, nextToken: String? = nil) {
             self.lensSummaries = lensSummaries
             self.nextToken = nextToken
@@ -3235,6 +3335,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workloadId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3268,6 +3369,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String?
 
+        @inlinable
         public init(milestoneSummaries: [MilestoneSummary]? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.milestoneSummaries = milestoneSummaries
             self.nextToken = nextToken
@@ -3289,6 +3391,7 @@ extension WellArchitected {
         public let resourceArn: String?
         public let workloadId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil, workloadId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3320,6 +3423,7 @@ extension WellArchitected {
         /// List of lens notification summaries in a workload.
         public let notificationSummaries: [NotificationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, notificationSummaries: [NotificationSummary]? = nil) {
             self.nextToken = nextToken
             self.notificationSummaries = notificationSummaries
@@ -3336,6 +3440,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3366,6 +3471,7 @@ extension WellArchitected {
         /// Notification summaries.
         public let notificationSummaries: [ProfileNotificationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, notificationSummaries: [ProfileNotificationSummary]? = nil) {
             self.nextToken = nextToken
             self.notificationSummaries = notificationSummaries
@@ -3387,6 +3493,7 @@ extension WellArchitected {
         public let sharedWithPrefix: String?
         public let status: ShareStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileArn: String, sharedWithPrefix: String? = nil, status: ShareStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3421,6 +3528,7 @@ extension WellArchitected {
         /// Profile share summaries.
         public let profileShareSummaries: [ProfileShareSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, profileShareSummaries: [ProfileShareSummary]? = nil) {
             self.nextToken = nextToken
             self.profileShareSummaries = profileShareSummaries
@@ -3440,6 +3548,7 @@ extension WellArchitected {
         /// Profile owner type.
         public let profileOwnerType: ProfileOwnerType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileNamePrefix: String? = nil, profileOwnerType: ProfileOwnerType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3470,6 +3579,7 @@ extension WellArchitected {
         /// Profile summaries.
         public let profileSummaries: [ProfileSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, profileSummaries: [ProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.profileSummaries = profileSummaries
@@ -3490,6 +3600,7 @@ extension WellArchitected {
         /// The ARN of the review template.
         public let templateArn: String
 
+        @inlinable
         public init(lensAlias: String, maxResults: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, templateArn: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
@@ -3531,6 +3642,7 @@ extension WellArchitected {
         /// The ARN of the review template.
         public let templateArn: String?
 
+        @inlinable
         public init(answerSummaries: [ReviewTemplateAnswerSummary]? = nil, lensAlias: String? = nil, nextToken: String? = nil, templateArn: String? = nil) {
             self.answerSummaries = answerSummaries
             self.lensAlias = lensAlias
@@ -3550,6 +3662,7 @@ extension WellArchitected {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3575,6 +3688,7 @@ extension WellArchitected {
         /// List of review templates.
         public let reviewTemplates: [ReviewTemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, reviewTemplates: [ReviewTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.reviewTemplates = reviewTemplates
@@ -3600,6 +3714,7 @@ extension WellArchitected {
         public let templateNamePrefix: String?
         public let workloadNamePrefix: String?
 
+        @inlinable
         public init(lensNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, profileNamePrefix: String? = nil, shareResourceType: ShareResourceType? = nil, templateNamePrefix: String? = nil, workloadNamePrefix: String? = nil) {
             self.lensNamePrefix = lensNamePrefix
             self.maxResults = maxResults
@@ -3640,6 +3755,7 @@ extension WellArchitected {
         /// List of share invitation summaries in a workload.
         public let shareInvitationSummaries: [ShareInvitationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, shareInvitationSummaries: [ShareInvitationSummary]? = nil) {
             self.nextToken = nextToken
             self.shareInvitationSummaries = shareInvitationSummaries
@@ -3654,6 +3770,7 @@ extension WellArchitected {
     public struct ListTagsForResourceInput: AWSEncodableShape {
         public let workloadArn: String
 
+        @inlinable
         public init(workloadArn: String) {
             self.workloadArn = workloadArn
         }
@@ -3671,6 +3788,7 @@ extension WellArchitected {
         /// The tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3690,6 +3808,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sharedWithPrefix: String? = nil, status: ShareStatus? = nil, templateArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3727,6 +3846,7 @@ extension WellArchitected {
         /// A review template share summary return object.
         public let templateShareSummaries: [TemplateShareSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, templateArn: String? = nil, templateShareSummaries: [TemplateShareSummary]? = nil) {
             self.nextToken = nextToken
             self.templateArn = templateArn
@@ -3749,6 +3869,7 @@ extension WellArchitected {
         public let status: ShareStatus?
         public let workloadId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sharedWithPrefix: String? = nil, status: ShareStatus? = nil, workloadId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3784,6 +3905,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadShareSummaries: [WorkloadShareSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workloadId: String? = nil, workloadShareSummaries: [WorkloadShareSummary]? = nil) {
             self.nextToken = nextToken
             self.workloadId = workloadId
@@ -3803,6 +3925,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadNamePrefix: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workloadNamePrefix: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3826,6 +3949,7 @@ extension WellArchitected {
         public let nextToken: String?
         public let workloadSummaries: [WorkloadSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workloadSummaries: [WorkloadSummary]? = nil) {
             self.nextToken = nextToken
             self.workloadSummaries = workloadSummaries
@@ -3843,6 +3967,7 @@ extension WellArchitected {
         public let recordedAt: Date?
         public let workload: Workload?
 
+        @inlinable
         public init(milestoneName: String? = nil, milestoneNumber: Int? = nil, recordedAt: Date? = nil, workload: Workload? = nil) {
             self.milestoneName = milestoneName
             self.milestoneNumber = milestoneNumber
@@ -3864,6 +3989,7 @@ extension WellArchitected {
         public let recordedAt: Date?
         public let workloadSummary: WorkloadSummary?
 
+        @inlinable
         public init(milestoneName: String? = nil, milestoneNumber: Int? = nil, recordedAt: Date? = nil, workloadSummary: WorkloadSummary? = nil) {
             self.milestoneName = milestoneName
             self.milestoneNumber = milestoneNumber
@@ -3885,6 +4011,7 @@ extension WellArchitected {
         /// The type of notification.
         public let type: NotificationType?
 
+        @inlinable
         public init(lensUpgradeSummary: LensUpgradeSummary? = nil, type: NotificationType? = nil) {
             self.lensUpgradeSummary = lensUpgradeSummary
             self.type = type
@@ -3904,6 +4031,7 @@ extension WellArchitected {
         /// List of question differences.
         public let questionDifferences: [QuestionDifference]?
 
+        @inlinable
         public init(differenceStatus: DifferenceStatus? = nil, pillarId: String? = nil, pillarName: String? = nil, questionDifferences: [QuestionDifference]? = nil) {
             self.differenceStatus = differenceStatus
             self.pillarId = pillarId
@@ -3925,6 +4053,7 @@ extension WellArchitected {
         public let questions: [QuestionMetric]?
         public let riskCounts: [Risk: Int]?
 
+        @inlinable
         public init(pillarId: String? = nil, questions: [QuestionMetric]? = nil, riskCounts: [Risk: Int]? = nil) {
             self.pillarId = pillarId
             self.questions = questions
@@ -3945,6 +4074,7 @@ extension WellArchitected {
         public let prioritizedRiskCounts: [Risk: Int]?
         public let riskCounts: [Risk: Int]?
 
+        @inlinable
         public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, riskCounts: [Risk: Int]? = nil) {
             self.notes = notes
             self.pillarId = pillarId
@@ -3981,6 +4111,7 @@ extension WellArchitected {
         public let tags: [String: String]?
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, owner: String? = nil, profileArn: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileQuestions: [ProfileQuestion]? = nil, profileVersion: String? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.owner = owner
@@ -4013,6 +4144,7 @@ extension WellArchitected {
         public let choiceId: String?
         public let choiceTitle: String?
 
+        @inlinable
         public init(choiceDescription: String? = nil, choiceId: String? = nil, choiceTitle: String? = nil) {
             self.choiceDescription = choiceDescription
             self.choiceId = choiceId
@@ -4040,6 +4172,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(currentProfileVersion: String? = nil, latestProfileVersion: String? = nil, profileArn: String? = nil, profileName: String? = nil, type: ProfileNotificationType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.currentProfileVersion = currentProfileVersion
             self.latestProfileVersion = latestProfileVersion
@@ -4074,6 +4207,7 @@ extension WellArchitected {
         /// The selected choices.
         public let selectedChoiceIds: [String]?
 
+        @inlinable
         public init(maxSelectedChoices: Int? = nil, minSelectedChoices: Int? = nil, questionChoices: [ProfileChoice]? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, selectedChoiceIds: [String]? = nil) {
             self.maxSelectedChoices = maxSelectedChoices
             self.minSelectedChoices = minSelectedChoices
@@ -4100,6 +4234,7 @@ extension WellArchitected {
         /// The selected choices.
         public let selectedChoiceIds: [String]?
 
+        @inlinable
         public init(questionId: String? = nil, selectedChoiceIds: [String]? = nil) {
             self.questionId = questionId
             self.selectedChoiceIds = selectedChoiceIds
@@ -4127,6 +4262,7 @@ extension WellArchitected {
         /// Profile share invitation status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
             self.sharedWith = sharedWith
             self.shareId = shareId
@@ -4155,6 +4291,7 @@ extension WellArchitected {
         public let profileVersion: String?
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, owner: String? = nil, profileArn: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileVersion: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.owner = owner
@@ -4184,6 +4321,7 @@ extension WellArchitected {
         public let templateQuestions: [ProfileTemplateQuestion]?
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, templateName: String? = nil, templateQuestions: [ProfileTemplateQuestion]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.templateName = templateName
@@ -4204,6 +4342,7 @@ extension WellArchitected {
         public let choiceId: String?
         public let choiceTitle: String?
 
+        @inlinable
         public init(choiceDescription: String? = nil, choiceId: String? = nil, choiceTitle: String? = nil) {
             self.choiceDescription = choiceDescription
             self.choiceId = choiceId
@@ -4228,6 +4367,7 @@ extension WellArchitected {
         public let questionId: String?
         public let questionTitle: String?
 
+        @inlinable
         public init(maxSelectedChoices: Int? = nil, minSelectedChoices: Int? = nil, questionChoices: [ProfileTemplateChoice]? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil) {
             self.maxSelectedChoices = maxSelectedChoices
             self.minSelectedChoices = minSelectedChoices
@@ -4253,6 +4393,7 @@ extension WellArchitected {
         public let questionId: String?
         public let questionTitle: String?
 
+        @inlinable
         public init(differenceStatus: DifferenceStatus? = nil, questionId: String? = nil, questionTitle: String? = nil) {
             self.differenceStatus = differenceStatus
             self.questionId = questionId
@@ -4272,6 +4413,7 @@ extension WellArchitected {
         public let questionId: String?
         public let risk: Risk?
 
+        @inlinable
         public init(bestPractices: [BestPractice]? = nil, questionId: String? = nil, risk: Risk? = nil) {
             self.bestPractices = bestPractices
             self.questionId = questionId
@@ -4306,6 +4448,7 @@ extension WellArchitected {
         /// The latest status of a review template.
         public let updateStatus: ReviewTemplateUpdateStatus?
 
+        @inlinable
         public init(description: String? = nil, lenses: [String]? = nil, notes: String? = nil, owner: String? = nil, questionCounts: [Question: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, templateArn: String? = nil, templateName: String? = nil, updatedAt: Date? = nil, updateStatus: ReviewTemplateUpdateStatus? = nil) {
             self.description = description
             self.lenses = lenses
@@ -4355,6 +4498,7 @@ extension WellArchitected {
         public let reason: AnswerReason?
         public let selectedChoices: [String]?
 
+        @inlinable
         public init(answerStatus: ReviewTemplateAnswerStatus? = nil, choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceDisplayText: String? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, selectedChoices: [String]? = nil) {
             self.answerStatus = answerStatus
             self.choiceAnswers = choiceAnswers
@@ -4406,6 +4550,7 @@ extension WellArchitected {
         public let reason: AnswerReason?
         public let selectedChoices: [String]?
 
+        @inlinable
         public init(answerStatus: ReviewTemplateAnswerStatus? = nil, choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, selectedChoices: [String]? = nil) {
             self.answerStatus = answerStatus
             self.choiceAnswerSummaries = choiceAnswerSummaries
@@ -4450,6 +4595,7 @@ extension WellArchitected {
         public let questionCounts: [Question: Int]?
         public let updatedAt: Date?
 
+        @inlinable
         public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [ReviewTemplatePillarReviewSummary]? = nil, questionCounts: [Question: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
@@ -4484,6 +4630,7 @@ extension WellArchitected {
         /// A count of how many questions are answered and unanswered in the requested pillar of the lens review.
         public let questionCounts: [Question: Int]?
 
+        @inlinable
         public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, questionCounts: [Question: Int]? = nil) {
             self.notes = notes
             self.pillarId = pillarId
@@ -4513,6 +4660,7 @@ extension WellArchitected {
         /// The latest status of a review template.
         public let updateStatus: ReviewTemplateUpdateStatus?
 
+        @inlinable
         public init(description: String? = nil, lenses: [String]? = nil, owner: String? = nil, templateArn: String? = nil, templateName: String? = nil, updatedAt: Date? = nil, updateStatus: ReviewTemplateUpdateStatus? = nil) {
             self.description = description
             self.lenses = lenses
@@ -4539,6 +4687,7 @@ extension WellArchitected {
         /// Selected question IDs in the selected pillar.
         public let selectedQuestionIds: [String]?
 
+        @inlinable
         public init(pillarId: String? = nil, selectedQuestionIds: [String]? = nil) {
             self.pillarId = pillarId
             self.selectedQuestionIds = selectedQuestionIds
@@ -4569,6 +4718,7 @@ extension WellArchitected {
         public let templateArn: String?
         public let workloadId: String?
 
+        @inlinable
         public init(lensAlias: String? = nil, lensArn: String? = nil, profileArn: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, templateArn: String? = nil, workloadId: String? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
@@ -4612,6 +4762,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(lensArn: String? = nil, lensName: String? = nil, permissionType: PermissionType? = nil, profileArn: String? = nil, profileName: String? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, templateArn: String? = nil, templateName: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.lensArn = lensArn
             self.lensName = lensName
@@ -4650,6 +4801,7 @@ extension WellArchitected {
         public let tags: [String: String]?
         public let workloadArn: String
 
+        @inlinable
         public init(tags: [String: String]? = nil, workloadArn: String) {
             self.tags = tags
             self.workloadArn = workloadArn
@@ -4688,6 +4840,7 @@ extension WellArchitected {
         /// Review template share invitation status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
             self.sharedWith = sharedWith
             self.shareId = shareId
@@ -4708,6 +4861,7 @@ extension WellArchitected {
         public let tagKeys: [String]?
         public let workloadArn: String
 
+        @inlinable
         public init(tagKeys: [String]? = nil, workloadArn: String) {
             self.tagKeys = tagKeys
             self.workloadArn = workloadArn
@@ -4748,6 +4902,7 @@ extension WellArchitected {
         public let selectedChoices: [String]?
         public let workloadId: String
 
+        @inlinable
         public init(choiceUpdates: [String: ChoiceUpdate]? = nil, isApplicable: Bool? = nil, lensAlias: String, notes: String? = nil, questionId: String, reason: AnswerReason? = nil, selectedChoices: [String]? = nil, workloadId: String) {
             self.choiceUpdates = choiceUpdates
             self.isApplicable = isApplicable
@@ -4808,6 +4963,7 @@ extension WellArchitected {
         public let lensArn: String?
         public let workloadId: String?
 
+        @inlinable
         public init(answer: Answer? = nil, lensAlias: String? = nil, lensArn: String? = nil, workloadId: String? = nil) {
             self.answer = answer
             self.lensAlias = lensAlias
@@ -4831,6 +4987,7 @@ extension WellArchitected {
         /// The status of organization sharing settings.
         public let organizationSharingStatus: OrganizationSharingStatus?
 
+        @inlinable
         public init(discoveryIntegrationStatus: DiscoveryIntegrationStatus? = nil, jiraConfiguration: AccountJiraConfigurationInput? = nil, organizationSharingStatus: OrganizationSharingStatus? = nil) {
             self.discoveryIntegrationStatus = discoveryIntegrationStatus
             self.jiraConfiguration = jiraConfiguration
@@ -4854,6 +5011,7 @@ extension WellArchitected {
         public let integratingService: IntegratingService?
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, integratingService: IntegratingService? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.integratingService = integratingService
@@ -4890,6 +5048,7 @@ extension WellArchitected {
         public let pillarNotes: [String: String]?
         public let workloadId: String
 
+        @inlinable
         public init(jiraConfiguration: JiraSelectedQuestionConfiguration? = nil, lensAlias: String, lensNotes: String? = nil, pillarNotes: [String: String]? = nil, workloadId: String) {
             self.jiraConfiguration = jiraConfiguration
             self.lensAlias = lensAlias
@@ -4934,6 +5093,7 @@ extension WellArchitected {
         public let lensReview: LensReview?
         public let workloadId: String?
 
+        @inlinable
         public init(lensReview: LensReview? = nil, workloadId: String? = nil) {
             self.lensReview = lensReview
             self.workloadId = workloadId
@@ -4953,6 +5113,7 @@ extension WellArchitected {
         /// Profile questions.
         public let profileQuestions: [ProfileQuestionUpdate]?
 
+        @inlinable
         public init(profileArn: String, profileDescription: String? = nil, profileQuestions: [ProfileQuestionUpdate]? = nil) {
             self.profileArn = profileArn
             self.profileDescription = profileDescription
@@ -4987,6 +5148,7 @@ extension WellArchitected {
         /// The profile.
         public let profile: Profile?
 
+        @inlinable
         public init(profile: Profile? = nil) {
             self.profile = profile
         }
@@ -5009,6 +5171,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(choiceUpdates: [String: ChoiceUpdate]? = nil, isApplicable: Bool? = nil, lensAlias: String, notes: String? = nil, questionId: String, reason: AnswerReason? = nil, selectedChoices: [String]? = nil, templateArn: String) {
             self.choiceUpdates = choiceUpdates
             self.isApplicable = isApplicable
@@ -5069,6 +5232,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String?
 
+        @inlinable
         public init(answer: ReviewTemplateAnswer? = nil, lensAlias: String? = nil, templateArn: String? = nil) {
             self.answer = answer
             self.lensAlias = lensAlias
@@ -5095,6 +5259,7 @@ extension WellArchitected {
         /// The review template name.
         public let templateName: String?
 
+        @inlinable
         public init(description: String? = nil, lensesToAssociate: [String]? = nil, lensesToDisassociate: [String]? = nil, notes: String? = nil, templateArn: String, templateName: String? = nil) {
             self.description = description
             self.lensesToAssociate = lensesToAssociate
@@ -5156,6 +5321,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String
 
+        @inlinable
         public init(lensAlias: String, lensNotes: String? = nil, pillarNotes: [String: String]? = nil, templateArn: String) {
             self.lensAlias = lensAlias
             self.lensNotes = lensNotes
@@ -5198,6 +5364,7 @@ extension WellArchitected {
         /// The review template ARN.
         public let templateArn: String?
 
+        @inlinable
         public init(lensReview: ReviewTemplateLensReview? = nil, templateArn: String? = nil) {
             self.lensReview = lensReview
             self.templateArn = templateArn
@@ -5213,6 +5380,7 @@ extension WellArchitected {
         /// A review template.
         public let reviewTemplate: ReviewTemplate?
 
+        @inlinable
         public init(reviewTemplate: ReviewTemplate? = nil) {
             self.reviewTemplate = reviewTemplate
         }
@@ -5227,6 +5395,7 @@ extension WellArchitected {
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String
 
+        @inlinable
         public init(shareInvitationAction: ShareInvitationAction? = nil, shareInvitationId: String) {
             self.shareInvitationAction = shareInvitationAction
             self.shareInvitationId = shareInvitationId
@@ -5252,6 +5421,7 @@ extension WellArchitected {
         /// The updated workload or custom lens share invitation.
         public let shareInvitation: ShareInvitation?
 
+        @inlinable
         public init(shareInvitation: ShareInvitation? = nil) {
             self.shareInvitation = shareInvitation
         }
@@ -5285,6 +5455,7 @@ extension WellArchitected {
         public let workloadId: String
         public let workloadName: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, jiraConfiguration: WorkloadJiraConfigurationInput? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, workloadId: String, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
@@ -5395,6 +5566,7 @@ extension WellArchitected {
     public struct UpdateWorkloadOutput: AWSDecodableShape {
         public let workload: Workload?
 
+        @inlinable
         public init(workload: Workload? = nil) {
             self.workload = workload
         }
@@ -5409,6 +5581,7 @@ extension WellArchitected {
         public let shareId: String
         public let workloadId: String
 
+        @inlinable
         public init(permissionType: PermissionType? = nil, shareId: String, workloadId: String) {
             self.permissionType = permissionType
             self.shareId = shareId
@@ -5439,6 +5612,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadShare: WorkloadShare?
 
+        @inlinable
         public init(workloadId: String? = nil, workloadShare: WorkloadShare? = nil) {
             self.workloadId = workloadId
             self.workloadShare = workloadShare
@@ -5456,6 +5630,7 @@ extension WellArchitected {
         public let milestoneName: String?
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, lensAlias: String, milestoneName: String? = nil, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
@@ -5497,6 +5672,7 @@ extension WellArchitected {
         public let profileArn: String
         public let workloadId: String
 
+        @inlinable
         public init(clientRequestToken: String? = UpgradeProfileVersionInput.idempotencyToken(), milestoneName: String? = nil, profileArn: String, workloadId: String) {
             self.clientRequestToken = clientRequestToken
             self.milestoneName = milestoneName
@@ -5537,6 +5713,7 @@ extension WellArchitected {
         /// The ARN of the review template.
         public let templateArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, lensAlias: String, templateArn: String) {
             self.clientRequestToken = clientRequestToken
             self.lensAlias = lensAlias
@@ -5570,6 +5747,7 @@ extension WellArchitected {
         /// The differences between the base and latest versions of the lens.
         public let pillarDifferences: [PillarDifference]?
 
+        @inlinable
         public init(pillarDifferences: [PillarDifference]? = nil) {
             self.pillarDifferences = pillarDifferences
         }
@@ -5616,6 +5794,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, jiraConfiguration: WorkloadJiraConfigurationOutput? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
@@ -5685,6 +5864,7 @@ extension WellArchitected {
         /// The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA, APP_REGISTRY, or both.
         public let workloadResourceDefinition: [DefinitionType]?
 
+        @inlinable
         public init(trustedAdvisorIntegrationStatus: TrustedAdvisorIntegrationStatus? = nil, workloadResourceDefinition: [DefinitionType]? = nil) {
             self.trustedAdvisorIntegrationStatus = trustedAdvisorIntegrationStatus
             self.workloadResourceDefinition = workloadResourceDefinition
@@ -5704,6 +5884,7 @@ extension WellArchitected {
         /// Workload-level: Jira project key to sync workloads to.
         public let jiraProjectKey: String?
 
+        @inlinable
         public init(issueManagementStatus: WorkloadIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil) {
             self.issueManagementStatus = issueManagementStatus
             self.issueManagementType = issueManagementType
@@ -5733,6 +5914,7 @@ extension WellArchitected {
         /// Workload-level: Status message on configuration of the Jira integration.
         public let statusMessage: String?
 
+        @inlinable
         public init(issueManagementStatus: WorkloadIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil, statusMessage: String? = nil) {
             self.issueManagementStatus = issueManagementStatus
             self.issueManagementType = issueManagementType
@@ -5754,6 +5936,7 @@ extension WellArchitected {
         /// The profile version.
         public let profileVersion: String?
 
+        @inlinable
         public init(profileArn: String? = nil, profileVersion: String? = nil) {
             self.profileArn = profileArn
             self.profileVersion = profileVersion
@@ -5774,6 +5957,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(permissionType: PermissionType? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.permissionType = permissionType
             self.sharedBy = sharedBy
@@ -5803,6 +5987,7 @@ extension WellArchitected {
         /// Optional message to compliment the Status field.
         public let statusMessage: String?
 
+        @inlinable
         public init(permissionType: PermissionType? = nil, sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
             self.permissionType = permissionType
             self.sharedWith = sharedWith
@@ -5833,6 +6018,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
+        @inlinable
         public init(improvementStatus: WorkloadImprovementStatus? = nil, lenses: [String]? = nil, owner: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.improvementStatus = improvementStatus
             self.lenses = lenses

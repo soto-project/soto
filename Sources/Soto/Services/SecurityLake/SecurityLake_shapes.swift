@@ -162,6 +162,7 @@ extension SecurityLake {
         /// The AWS identity principal.
         public let principal: String
 
+        @inlinable
         public init(externalId: String, principal: String) {
             self.externalId = externalId
             self.principal = principal
@@ -190,6 +191,7 @@ extension SecurityLake {
         /// The version for a Amazon Web Services source. This must be a Regionally unique value.
         public let sourceVersion: String?
 
+        @inlinable
         public init(accounts: [String]? = nil, regions: [String], sourceName: AwsLogSourceName, sourceVersion: String? = nil) {
             self.accounts = accounts
             self.regions = regions
@@ -223,6 +225,7 @@ extension SecurityLake {
         /// The version for a Amazon Web Services source. This must be a Regionally unique value.
         public let sourceVersion: String?
 
+        @inlinable
         public init(sourceName: AwsLogSourceName? = nil, sourceVersion: String? = nil) {
             self.sourceName = sourceName
             self.sourceVersion = sourceVersion
@@ -242,6 +245,7 @@ extension SecurityLake {
         /// Specify the natively-supported Amazon Web Services service to add as a source in Security Lake.
         public let sources: [AwsLogSourceConfiguration]
 
+        @inlinable
         public init(sources: [AwsLogSourceConfiguration]) {
             self.sources = sources
         }
@@ -263,6 +267,7 @@ extension SecurityLake {
         /// Lists all accounts in which enabling a natively supported Amazon Web Service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
         public let failed: [String]?
 
+        @inlinable
         public init(failed: [String]? = nil) {
             self.failed = failed
         }
@@ -282,6 +287,7 @@ extension SecurityLake {
         /// Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source.
         public let sourceVersion: String?
 
+        @inlinable
         public init(configuration: CustomLogSourceConfiguration, eventClasses: [String]? = nil, sourceName: String, sourceVersion: String? = nil) {
             self.configuration = configuration
             self.eventClasses = eventClasses
@@ -314,6 +320,7 @@ extension SecurityLake {
         /// The created third-party custom source.
         public let source: CustomLogSourceResource?
 
+        @inlinable
         public init(source: CustomLogSourceResource? = nil) {
             self.source = source
         }
@@ -331,6 +338,7 @@ extension SecurityLake {
         /// The subscription protocol to which exception notifications are posted.
         public let subscriptionProtocol: String
 
+        @inlinable
         public init(exceptionTimeToLive: Int64? = nil, notificationEndpoint: String, subscriptionProtocol: String) {
             self.exceptionTimeToLive = exceptionTimeToLive
             self.notificationEndpoint = notificationEndpoint
@@ -357,6 +365,7 @@ extension SecurityLake {
         /// Enable Security Lake with the specified configuration settings, to begin collecting security data for new accounts in your organization.
         public let autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]?
 
+        @inlinable
         public init(autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]? = nil) {
             self.autoEnableNewAccount = autoEnableNewAccount
         }
@@ -385,6 +394,7 @@ extension SecurityLake {
         /// An array of objects, one for each tag to associate with the data lake configuration. For each tag, you must specify both a tag key and a tag value. A tag  value cannot be null, but it can be an empty string.
         public let tags: [Tag]?
 
+        @inlinable
         public init(configurations: [DataLakeConfiguration], metaStoreManagerRoleArn: String, tags: [Tag]? = nil) {
             self.configurations = configurations
             self.metaStoreManagerRoleArn = metaStoreManagerRoleArn
@@ -414,6 +424,7 @@ extension SecurityLake {
         /// The created Security Lake configuration object.
         public let dataLakes: [DataLakeResource]?
 
+        @inlinable
         public init(dataLakes: [DataLakeResource]? = nil) {
             self.dataLakes = dataLakes
         }
@@ -429,6 +440,7 @@ extension SecurityLake {
         /// The subscriber ID for the notification subscription.
         public let subscriberId: String
 
+        @inlinable
         public init(configuration: NotificationConfiguration, subscriberId: String) {
             self.configuration = configuration
             self.subscriberId = subscriberId
@@ -455,6 +467,7 @@ extension SecurityLake {
         /// The subscriber endpoint to which exception messages are posted.
         public let subscriberEndpoint: String?
 
+        @inlinable
         public init(subscriberEndpoint: String? = nil) {
             self.subscriberEndpoint = subscriberEndpoint
         }
@@ -478,6 +491,7 @@ extension SecurityLake {
         /// An array of objects, one for each tag to associate with the subscriber. For each tag, you must specify both a tag key and a tag value. A tag  value cannot be null, but it can be an empty string.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accessTypes: [AccessType]? = nil, sources: [LogSourceResource], subscriberDescription: String? = nil, subscriberIdentity: AwsIdentity, subscriberName: String, tags: [Tag]? = nil) {
             self.accessTypes = accessTypes
             self.sources = sources
@@ -513,6 +527,7 @@ extension SecurityLake {
         /// Retrieve information about the subscriber created using the CreateSubscriber API.
         public let subscriber: SubscriberResource?
 
+        @inlinable
         public init(subscriber: SubscriberResource? = nil) {
             self.subscriber = subscriber
         }
@@ -530,6 +545,7 @@ extension SecurityLake {
         /// The ARN of the Glue table.
         public let tableArn: String?
 
+        @inlinable
         public init(crawlerArn: String? = nil, databaseArn: String? = nil, tableArn: String? = nil) {
             self.crawlerArn = crawlerArn
             self.databaseArn = databaseArn
@@ -561,6 +577,7 @@ extension SecurityLake {
         /// The identity of the log provider for the third-party custom source.
         public let providerIdentity: AwsIdentity
 
+        @inlinable
         public init(crawlerConfiguration: CustomLogSourceCrawlerConfiguration, providerIdentity: AwsIdentity) {
             self.crawlerConfiguration = crawlerConfiguration
             self.providerIdentity = providerIdentity
@@ -581,6 +598,7 @@ extension SecurityLake {
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are:   The managed policy AWSGlueServiceRole    A custom policy granting access to your Amazon S3 Data Lake
         public let roleArn: String
 
+        @inlinable
         public init(roleArn: String) {
             self.roleArn = roleArn
         }
@@ -600,6 +618,7 @@ extension SecurityLake {
         /// The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Security Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role.
         public let roleArn: String?
 
+        @inlinable
         public init(location: String? = nil, roleArn: String? = nil) {
             self.location = location
             self.roleArn = roleArn
@@ -627,6 +646,7 @@ extension SecurityLake {
         /// The version for a third-party custom source. This must be a Regionally unique value.
         public let sourceVersion: String?
 
+        @inlinable
         public init(attributes: CustomLogSourceAttributes? = nil, provider: CustomLogSourceProvider? = nil, sourceName: String? = nil, sourceVersion: String? = nil) {
             self.attributes = attributes
             self.provider = provider
@@ -659,6 +679,7 @@ extension SecurityLake {
         /// The Amazon Web Services sources that are automatically enabled in Security Lake.
         public let sources: [AwsLogSourceResource]
 
+        @inlinable
         public init(region: String, sources: [AwsLogSourceResource]) {
             self.region = region
             self.sources = sources
@@ -688,6 +709,7 @@ extension SecurityLake {
         /// Provides replication details of Amazon Security Lake object.
         public let replicationConfiguration: DataLakeReplicationConfiguration?
 
+        @inlinable
         public init(encryptionConfiguration: DataLakeEncryptionConfiguration? = nil, lifecycleConfiguration: DataLakeLifecycleConfiguration? = nil, region: String, replicationConfiguration: DataLakeReplicationConfiguration? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.lifecycleConfiguration = lifecycleConfiguration
@@ -712,6 +734,7 @@ extension SecurityLake {
         /// The id of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -731,6 +754,7 @@ extension SecurityLake {
         /// This error can occur if you configure the wrong timestamp format, or if the subset of entries used for validation had errors or missing values.
         public let timestamp: Date?
 
+        @inlinable
         public init(exception: String? = nil, region: String? = nil, remediation: String? = nil, timestamp: Date? = nil) {
             self.exception = exception
             self.region = region
@@ -752,6 +776,7 @@ extension SecurityLake {
         /// Provides data storage transition details of Amazon Security Lake object.
         public let transitions: [DataLakeLifecycleTransition]?
 
+        @inlinable
         public init(expiration: DataLakeLifecycleExpiration? = nil, transitions: [DataLakeLifecycleTransition]? = nil) {
             self.expiration = expiration
             self.transitions = transitions
@@ -767,6 +792,7 @@ extension SecurityLake {
         /// Number of days before data expires in the Amazon Security Lake object.
         public let days: Int?
 
+        @inlinable
         public init(days: Int? = nil) {
             self.days = days
         }
@@ -782,6 +808,7 @@ extension SecurityLake {
         /// The range of storage classes that you can choose from based on the data access, resiliency, and cost requirements of your workloads.
         public let storageClass: String?
 
+        @inlinable
         public init(days: Int? = nil, storageClass: String? = nil) {
             self.days = days
             self.storageClass = storageClass
@@ -799,6 +826,7 @@ extension SecurityLake {
         /// Replication settings for the Amazon S3 buckets. This parameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to ensure the replication setting is correct.
         public let roleArn: String?
 
+        @inlinable
         public init(regions: [String]? = nil, roleArn: String? = nil) {
             self.regions = regions
             self.roleArn = roleArn
@@ -835,6 +863,7 @@ extension SecurityLake {
         /// The status of the last UpdateDataLake or DeleteDataLake API request.
         public let updateStatus: DataLakeUpdateStatus?
 
+        @inlinable
         public init(createStatus: DataLakeStatus? = nil, dataLakeArn: String, encryptionConfiguration: DataLakeEncryptionConfiguration? = nil, lifecycleConfiguration: DataLakeLifecycleConfiguration? = nil, region: String, replicationConfiguration: DataLakeReplicationConfiguration? = nil, s3BucketArn: String? = nil, updateStatus: DataLakeUpdateStatus? = nil) {
             self.createStatus = createStatus
             self.dataLakeArn = dataLakeArn
@@ -868,6 +897,7 @@ extension SecurityLake {
         /// The log status for the Security Lake account.
         public let sourceStatuses: [DataLakeSourceStatus]?
 
+        @inlinable
         public init(account: String? = nil, eventClasses: [String]? = nil, sourceName: String? = nil, sourceStatuses: [DataLakeSourceStatus]? = nil) {
             self.account = account
             self.eventClasses = eventClasses
@@ -889,6 +919,7 @@ extension SecurityLake {
         /// The health status of services, including error codes and patterns.
         public let status: SourceCollectionStatus?
 
+        @inlinable
         public init(resource: String? = nil, status: SourceCollectionStatus? = nil) {
             self.resource = resource
             self.status = status
@@ -906,6 +937,7 @@ extension SecurityLake {
         /// The reason for the exception of the last UpdateDataLakeor DeleteDataLake API request.
         public let reason: String?
 
+        @inlinable
         public init(code: String? = nil, reason: String? = nil) {
             self.code = code
             self.reason = reason
@@ -925,6 +957,7 @@ extension SecurityLake {
         /// The status of the last UpdateDataLake or DeleteDataLake API request that was requested.
         public let status: DataLakeStatus?
 
+        @inlinable
         public init(exception: DataLakeUpdateException? = nil, requestId: String? = nil, status: DataLakeStatus? = nil) {
             self.exception = exception
             self.requestId = requestId
@@ -942,6 +975,7 @@ extension SecurityLake {
         /// Specify the natively-supported Amazon Web Services service to remove as a source in Security Lake.
         public let sources: [AwsLogSourceConfiguration]
 
+        @inlinable
         public init(sources: [AwsLogSourceConfiguration]) {
             self.sources = sources
         }
@@ -963,6 +997,7 @@ extension SecurityLake {
         /// Deletion of the Amazon Web Services sources failed as the account is not a part of the organization.
         public let failed: [String]?
 
+        @inlinable
         public init(failed: [String]? = nil) {
             self.failed = failed
         }
@@ -978,6 +1013,7 @@ extension SecurityLake {
         /// The source version for the third-party custom source. You can limit the custom source removal to the specified source version.
         public let sourceVersion: String?
 
+        @inlinable
         public init(sourceName: String, sourceVersion: String? = nil) {
             self.sourceName = sourceName
             self.sourceVersion = sourceVersion
@@ -1018,6 +1054,7 @@ extension SecurityLake {
         /// Turns off automatic enablement of Security Lake for member accounts that are added to an organization.
         public let autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]?
 
+        @inlinable
         public init(autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]? = nil) {
             self.autoEnableNewAccount = autoEnableNewAccount
         }
@@ -1042,6 +1079,7 @@ extension SecurityLake {
         /// The list of Regions where Security Lake is enabled.
         public let regions: [String]
 
+        @inlinable
         public init(regions: [String]) {
             self.regions = regions
         }
@@ -1065,6 +1103,7 @@ extension SecurityLake {
         /// The ID of the Security Lake subscriber account.
         public let subscriberId: String
 
+        @inlinable
         public init(subscriberId: String) {
             self.subscriberId = subscriberId
         }
@@ -1090,6 +1129,7 @@ extension SecurityLake {
         /// A value created by Security Lake that uniquely identifies your DeleteSubscriber API request.
         public let subscriberId: String
 
+        @inlinable
         public init(subscriberId: String) {
             self.subscriberId = subscriberId
         }
@@ -1131,6 +1171,7 @@ extension SecurityLake {
         /// The subscription protocol to which exception notifications are posted.
         public let subscriptionProtocol: String?
 
+        @inlinable
         public init(exceptionTimeToLive: Int64? = nil, notificationEndpoint: String? = nil, subscriptionProtocol: String? = nil) {
             self.exceptionTimeToLive = exceptionTimeToLive
             self.notificationEndpoint = notificationEndpoint
@@ -1152,6 +1193,7 @@ extension SecurityLake {
         /// The configuration for new accounts.
         public let autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]?
 
+        @inlinable
         public init(autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]? = nil) {
             self.autoEnableNewAccount = autoEnableNewAccount
         }
@@ -1169,6 +1211,7 @@ extension SecurityLake {
         /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(accounts: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.maxResults = maxResults
@@ -1201,6 +1244,7 @@ extension SecurityLake {
         /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(dataLakeArn: String? = nil, dataLakeSources: [DataLakeSource]? = nil, nextToken: String? = nil) {
             self.dataLakeArn = dataLakeArn
             self.dataLakeSources = dataLakeSources
@@ -1218,6 +1262,7 @@ extension SecurityLake {
         /// A value created by Amazon Security Lake that uniquely identifies your GetSubscriber API request.
         public let subscriberId: String
 
+        @inlinable
         public init(subscriberId: String) {
             self.subscriberId = subscriberId
         }
@@ -1239,6 +1284,7 @@ extension SecurityLake {
         /// The subscriber information for the specified subscriber ID.
         public let subscriber: SubscriberResource?
 
+        @inlinable
         public init(subscriber: SubscriberResource? = nil) {
             self.subscriber = subscriber
         }
@@ -1260,6 +1306,7 @@ extension SecurityLake {
         /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created. For more information about ARNs and how to use them in policies, see Managing data access and Amazon Web Services Managed Policies in the Amazon Security Lake User Guide.
         public let targetRoleArn: String
 
+        @inlinable
         public init(authorizationApiKeyName: String? = nil, authorizationApiKeyValue: String? = nil, endpoint: String, httpMethod: HttpMethod? = nil, targetRoleArn: String) {
             self.authorizationApiKeyName = authorizationApiKeyName
             self.authorizationApiKeyValue = authorizationApiKeyValue
@@ -1289,6 +1336,7 @@ extension SecurityLake {
         /// The Amazon Web Services Regions from which exceptions are retrieved.
         public let regions: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, regions: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1317,6 +1365,7 @@ extension SecurityLake {
         /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(exceptions: [DataLakeException]? = nil, nextToken: String? = nil) {
             self.exceptions = exceptions
             self.nextToken = nextToken
@@ -1332,6 +1381,7 @@ extension SecurityLake {
         /// The list of Regions where Security Lake is enabled.
         public let regions: [String]?
 
+        @inlinable
         public init(regions: [String]? = nil) {
             self.regions = regions
         }
@@ -1355,6 +1405,7 @@ extension SecurityLake {
         /// Retrieves the Security Lake configuration object.
         public let dataLakes: [DataLakeResource]?
 
+        @inlinable
         public init(dataLakes: [DataLakeResource]? = nil) {
             self.dataLakes = dataLakes
         }
@@ -1376,6 +1427,7 @@ extension SecurityLake {
         /// The list of sources for which log sources are displayed.
         public let sources: [LogSourceResource]?
 
+        @inlinable
         public init(accounts: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regions: [String]? = nil, sources: [LogSourceResource]? = nil) {
             self.accounts = accounts
             self.maxResults = maxResults
@@ -1416,6 +1468,7 @@ extension SecurityLake {
         /// The list of log sources in your organization that send data to the data lake.
         public let sources: [LogSource]?
 
+        @inlinable
         public init(nextToken: String? = nil, sources: [LogSource]? = nil) {
             self.nextToken = nextToken
             self.sources = sources
@@ -1433,6 +1486,7 @@ extension SecurityLake {
         /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1460,6 +1514,7 @@ extension SecurityLake {
         /// The subscribers available for the specified Security Lake account ID.
         public let subscribers: [SubscriberResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscribers: [SubscriberResource]? = nil) {
             self.nextToken = nextToken
             self.subscribers = subscribers
@@ -1475,6 +1530,7 @@ extension SecurityLake {
         /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource for which you want to retrieve the tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1498,6 +1554,7 @@ extension SecurityLake {
         /// An array of objects, one for each tag (key and value) that’s associated with the Amazon Security Lake resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1515,6 +1572,7 @@ extension SecurityLake {
         /// Specify the sources from which you want to collect logs.
         public let sources: [LogSourceResource]?
 
+        @inlinable
         public init(account: String? = nil, region: String? = nil, sources: [LogSourceResource]? = nil) {
             self.account = account
             self.region = region
@@ -1532,6 +1590,7 @@ extension SecurityLake {
         /// The Amazon Web Services account ID of the Security Lake delegated administrator.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1585,6 +1644,7 @@ extension SecurityLake {
         /// The date and time when the subscriber was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(accessTypes: [AccessType]? = nil, createdAt: Date? = nil, resourceShareArn: String? = nil, resourceShareName: String? = nil, roleArn: String? = nil, s3BucketArn: String? = nil, sources: [LogSourceResource], subscriberArn: String, subscriberDescription: String? = nil, subscriberEndpoint: String? = nil, subscriberId: String, subscriberIdentity: AwsIdentity, subscriberName: String, subscriberStatus: SubscriberStatus? = nil, updatedAt: Date? = nil) {
             self.accessTypes = accessTypes
             self.createdAt = createdAt
@@ -1628,6 +1688,7 @@ extension SecurityLake {
         /// The value that’s associated with the specified tag key (key). This value acts as a descriptor for the tag key. A tag value cannot be  null, but it can be an empty string.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1651,6 +1712,7 @@ extension SecurityLake {
         /// An array of objects, one for each tag (key and value) to associate with the Amazon Security Lake resource. For each tag, you must  specify both a tag key and a tag value. A tag value cannot be null, but it can be an empty string.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1688,6 +1750,7 @@ extension SecurityLake {
         /// A list of one or more tag keys. For each value in the list, specify the tag key for a tag to remove from the Amazon Security Lake resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1726,6 +1789,7 @@ extension SecurityLake {
         /// The subscription protocol to which exception messages are posted.
         public let subscriptionProtocol: String
 
+        @inlinable
         public init(exceptionTimeToLive: Int64? = nil, notificationEndpoint: String, subscriptionProtocol: String) {
             self.exceptionTimeToLive = exceptionTimeToLive
             self.notificationEndpoint = notificationEndpoint
@@ -1754,6 +1818,7 @@ extension SecurityLake {
         /// The Amazon Resource Name (ARN) used to create and update the Glue table. This table contains partitions generated by the ingestion and normalization of Amazon Web Services log sources and custom sources.
         public let metaStoreManagerRoleArn: String?
 
+        @inlinable
         public init(configurations: [DataLakeConfiguration], metaStoreManagerRoleArn: String? = nil) {
             self.configurations = configurations
             self.metaStoreManagerRoleArn = metaStoreManagerRoleArn
@@ -1777,6 +1842,7 @@ extension SecurityLake {
         /// The created Security Lake configuration object.
         public let dataLakes: [DataLakeResource]?
 
+        @inlinable
         public init(dataLakes: [DataLakeResource]? = nil) {
             self.dataLakes = dataLakes
         }
@@ -1792,6 +1858,7 @@ extension SecurityLake {
         /// The subscription ID for which the subscription notification is specified.
         public let subscriberId: String
 
+        @inlinable
         public init(configuration: NotificationConfiguration, subscriberId: String) {
             self.configuration = configuration
             self.subscriberId = subscriberId
@@ -1818,6 +1885,7 @@ extension SecurityLake {
         /// The subscriber endpoint to which exception messages are posted.
         public let subscriberEndpoint: String?
 
+        @inlinable
         public init(subscriberEndpoint: String? = nil) {
             self.subscriberEndpoint = subscriberEndpoint
         }
@@ -1839,6 +1907,7 @@ extension SecurityLake {
         /// The name of the Security Lake account subscriber.
         public let subscriberName: String?
 
+        @inlinable
         public init(sources: [LogSourceResource]? = nil, subscriberDescription: String? = nil, subscriberId: String, subscriberIdentity: AwsIdentity? = nil, subscriberName: String? = nil) {
             self.sources = sources
             self.subscriberDescription = subscriberDescription
@@ -1879,6 +1948,7 @@ extension SecurityLake {
         /// The updated subscriber information.
         public let subscriber: SubscriberResource?
 
+        @inlinable
         public init(subscriber: SubscriberResource? = nil) {
             self.subscriber = subscriber
         }

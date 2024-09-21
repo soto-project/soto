@@ -126,6 +126,7 @@ extension KinesisVideoArchivedMedia {
         /// The range of timestamps to return.
         public let timestampRange: ClipTimestampRange
 
+        @inlinable
         public init(fragmentSelectorType: ClipFragmentSelectorType, timestampRange: ClipTimestampRange) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -143,6 +144,7 @@ extension KinesisVideoArchivedMedia {
         /// The starting timestamp in the range of timestamps for which to return fragments.  Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date
 
+        @inlinable
         public init(endTimestamp: Date, startTimestamp: Date) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -160,6 +162,7 @@ extension KinesisVideoArchivedMedia {
         /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
         public let timestampRange: DASHTimestampRange?
 
+        @inlinable
         public init(fragmentSelectorType: DASHFragmentSelectorType? = nil, timestampRange: DASHTimestampRange? = nil) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -177,6 +180,7 @@ extension KinesisVideoArchivedMedia {
         /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date?
 
+        @inlinable
         public init(endTimestamp: Date? = nil, startTimestamp: Date? = nil) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -200,6 +204,7 @@ extension KinesisVideoArchivedMedia {
         /// The timestamp from the Amazon Web Services server corresponding to the fragment.
         public let serverTimestamp: Date?
 
+        @inlinable
         public init(fragmentLengthInMilliseconds: Int64? = nil, fragmentNumber: String? = nil, fragmentSizeInBytes: Int64? = nil, producerTimestamp: Date? = nil, serverTimestamp: Date? = nil) {
             self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
             self.fragmentNumber = fragmentNumber
@@ -223,6 +228,7 @@ extension KinesisVideoArchivedMedia {
         /// The range of timestamps to return.
         public let timestampRange: TimestampRange
 
+        @inlinable
         public init(fragmentSelectorType: FragmentSelectorType, timestampRange: TimestampRange) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -242,6 +248,7 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(clipFragmentSelector: ClipFragmentSelector, streamARN: String? = nil, streamName: String? = nil) {
             self.clipFragmentSelector = clipFragmentSelector
             self.streamARN = streamARN
@@ -271,6 +278,7 @@ extension KinesisVideoArchivedMedia {
         /// Traditional MP4 file that contains the media clip from the specified video stream. The output will contain the first 100 MB or the first 200 fragments from the specified start timestamp. For more information, see Kinesis Video Streams Limits.
         public let payload: AWSHTTPBody
 
+        @inlinable
         public init(contentType: String? = nil, payload: AWSHTTPBody) {
             self.contentType = contentType
             self.payload = payload
@@ -304,6 +312,7 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream for which to retrieve the MPEG-DASH manifest URL. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(dashFragmentSelector: DASHFragmentSelector? = nil, displayFragmentNumber: DASHDisplayFragmentNumber? = nil, displayFragmentTimestamp: DASHDisplayFragmentTimestamp? = nil, expires: Int? = nil, maxManifestFragmentResults: Int64? = nil, playbackMode: DASHPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.dashFragmentSelector = dashFragmentSelector
             self.displayFragmentNumber = displayFragmentNumber
@@ -344,6 +353,7 @@ extension KinesisVideoArchivedMedia {
         /// The URL (containing the session token) that a media player can use to retrieve the MPEG-DASH manifest.
         public let dashStreamingSessionURL: String?
 
+        @inlinable
         public init(dashStreamingSessionURL: String? = nil) {
             self.dashStreamingSessionURL = dashStreamingSessionURL
         }
@@ -373,6 +383,7 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
+        @inlinable
         public init(containerFormat: ContainerFormat? = nil, discontinuityMode: HLSDiscontinuityMode? = nil, displayFragmentTimestamp: HLSDisplayFragmentTimestamp? = nil, expires: Int? = nil, hlsFragmentSelector: HLSFragmentSelector? = nil, maxMediaPlaylistFragmentResults: Int64? = nil, playbackMode: HLSPlaybackMode? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.containerFormat = containerFormat
             self.discontinuityMode = discontinuityMode
@@ -415,6 +426,7 @@ extension KinesisVideoArchivedMedia {
         /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
         public let hlsStreamingSessionURL: String?
 
+        @inlinable
         public init(hlsStreamingSessionURL: String? = nil) {
             self.hlsStreamingSessionURL = hlsStreamingSessionURL
         }
@@ -450,6 +462,7 @@ extension KinesisVideoArchivedMedia {
         /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and HeightPixels parameters are provided,  the image will be stretched to fit the specified aspect ratio. If only the WidthPixels parameter is provided or if only the HeightPixels is provided, a ValidationException will be thrown.  If neither parameter is provided, the original image size from the stream will be returned.
         public let widthPixels: Int?
 
+        @inlinable
         public init(endTimestamp: Date, format: Format, formatConfig: [FormatConfigKey: String]? = nil, heightPixels: Int? = nil, imageSelectorType: ImageSelectorType, maxResults: Int64? = nil, nextToken: String? = nil, samplingInterval: Int? = nil, startTimestamp: Date, streamARN: String? = nil, streamName: String? = nil, widthPixels: Int? = nil) {
             self.endTimestamp = endTimestamp
             self.format = format
@@ -511,6 +524,7 @@ extension KinesisVideoArchivedMedia {
         /// The encrypted token that was  used in the request to get more images.
         public let nextToken: String?
 
+        @inlinable
         public init(images: [Image]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -530,6 +544,7 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream from which to retrieve fragment media. Specify either this parameter or the StreamARN parameter.
         public let streamName: String?
 
+        @inlinable
         public init(fragments: [String], streamARN: String? = nil, streamName: String? = nil) {
             self.fragments = fragments
             self.streamARN = streamARN
@@ -566,6 +581,7 @@ extension KinesisVideoArchivedMedia {
         /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception    AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the    AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
         public let payload: AWSHTTPBody
 
+        @inlinable
         public init(contentType: String? = nil, payload: AWSHTTPBody) {
             self.contentType = contentType
             self.payload = payload
@@ -587,6 +603,7 @@ extension KinesisVideoArchivedMedia {
         /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
         public let timestampRange: HLSTimestampRange?
 
+        @inlinable
         public init(fragmentSelectorType: HLSFragmentSelectorType? = nil, timestampRange: HLSTimestampRange? = nil) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -604,6 +621,7 @@ extension KinesisVideoArchivedMedia {
         /// The start of the timestamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date?
 
+        @inlinable
         public init(endTimestamp: Date? = nil, startTimestamp: Date? = nil) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -623,6 +641,7 @@ extension KinesisVideoArchivedMedia {
         /// An attribute of the Image object that is used to extract an image from the video stream. This field is used to manage gaps on images or to better understand the pagination window.
         public let timeStamp: Date?
 
+        @inlinable
         public init(error: ImageError? = nil, imageContent: String? = nil, timeStamp: Date? = nil) {
             self.error = error
             self.imageContent = imageContent
@@ -648,6 +667,7 @@ extension KinesisVideoArchivedMedia {
         /// The name of the stream from which to retrieve a fragment list. Specify either this parameter or the StreamARN parameter.
         public let streamName: String?
 
+        @inlinable
         public init(fragmentSelector: FragmentSelector? = nil, maxResults: Int64? = nil, nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
             self.fragmentSelector = fragmentSelector
             self.maxResults = maxResults
@@ -685,6 +705,7 @@ extension KinesisVideoArchivedMedia {
         /// If the returned list is truncated, the operation returns this token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(fragments: [Fragment]? = nil, nextToken: String? = nil) {
             self.fragments = fragments
             self.nextToken = nextToken
@@ -702,6 +723,7 @@ extension KinesisVideoArchivedMedia {
         /// The starting timestamp in the range of timestamps for which to return fragments.
         public let startTimestamp: Date
 
+        @inlinable
         public init(endTimestamp: Date, startTimestamp: Date) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp

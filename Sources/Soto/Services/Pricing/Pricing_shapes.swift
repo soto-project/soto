@@ -37,6 +37,7 @@ extension Pricing {
         /// The specific value of an attributeName.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -56,6 +57,7 @@ extension Pricing {
         /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use  the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
         public let serviceCode: String?
 
+        @inlinable
         public init(formatVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.formatVersion = formatVersion
             self.maxResults = maxResults
@@ -84,6 +86,7 @@ extension Pricing {
         /// The service metadata for the service or services in the response.
         public let services: [Service]?
 
+        @inlinable
         public init(formatVersion: String? = nil, nextToken: String? = nil, services: [Service]? = nil) {
             self.formatVersion = formatVersion
             self.nextToken = nextToken
@@ -105,6 +108,7 @@ extension Pricing {
         /// The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2. If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
         public let value: String
 
+        @inlinable
         public init(field: String, type: FilterType, value: String) {
             self.field = field
             self.type = type
@@ -128,6 +132,7 @@ extension Pricing {
         /// The service code for the service whose attributes you want to retrieve. For example, if you want  the retrieve an EC2 attribute, use AmazonEC2.
         public let serviceCode: String
 
+        @inlinable
         public init(attributeName: String, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.attributeName = attributeName
             self.maxResults = maxResults
@@ -154,6 +159,7 @@ extension Pricing {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(attributeValues: [AttributeValue]? = nil, nextToken: String? = nil) {
             self.attributeValues = attributeValues
             self.nextToken = nextToken
@@ -171,6 +177,7 @@ extension Pricing {
         /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the ListPriceLists response.
         public let priceListArn: String
 
+        @inlinable
         public init(fileFormat: String, priceListArn: String) {
             self.fileFormat = fileFormat
             self.priceListArn = priceListArn
@@ -194,6 +201,7 @@ extension Pricing {
         /// The URL to download your Price List file from.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -215,6 +223,7 @@ extension Pricing {
         /// The code for the service whose products you want to retrieve.
         public let serviceCode: String
 
+        @inlinable
         public init(filters: [Filter]? = nil, formatVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.filters = filters
             self.formatVersion = formatVersion
@@ -245,6 +254,7 @@ extension Pricing {
         /// The list of products that match your filters. The list contains both the product metadata and  the price information.
         public let priceList: [String]?
 
+        @inlinable
         public init(formatVersion: String? = nil, nextToken: String? = nil, priceList: [String]? = nil) {
             self.formatVersion = formatVersion
             self.nextToken = nextToken
@@ -272,6 +282,7 @@ extension Pricing {
         /// The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plan price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
         public let serviceCode: String
 
+        @inlinable
         public init(currencyCode: String, effectiveDate: Date, maxResults: Int? = nil, nextToken: String? = nil, regionCode: String? = nil, serviceCode: String) {
             self.currencyCode = currencyCode
             self.effectiveDate = effectiveDate
@@ -307,6 +318,7 @@ extension Pricing {
         /// The type of price list references that match your request.
         public let priceLists: [PriceList]?
 
+        @inlinable
         public init(nextToken: String? = nil, priceLists: [PriceList]? = nil) {
             self.nextToken = nextToken
             self.priceLists = priceLists
@@ -328,6 +340,7 @@ extension Pricing {
         /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from  GetAttributeValues API.
         public let regionCode: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, fileFormats: [String]? = nil, priceListArn: String? = nil, regionCode: String? = nil) {
             self.currencyCode = currencyCode
             self.fileFormats = fileFormats
@@ -349,6 +362,7 @@ extension Pricing {
         /// The code for the Amazon Web Services service.
         public let serviceCode: String
 
+        @inlinable
         public init(attributeNames: [String]? = nil, serviceCode: String) {
             self.attributeNames = attributeNames
             self.serviceCode = serviceCode

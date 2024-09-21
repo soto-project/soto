@@ -130,6 +130,7 @@ extension ApiGatewayV2 {
         /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
         public let format: String?
 
+        @inlinable
         public init(destinationArn: String? = nil, format: String? = nil) {
             self.destinationArn = destinationArn
             self.format = format
@@ -176,6 +177,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
@@ -225,6 +227,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
+        @inlinable
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -264,6 +267,7 @@ extension ApiGatewayV2 {
         /// The name of the authorizer.
         public let name: String?
 
+        @inlinable
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -307,6 +311,7 @@ extension ApiGatewayV2 {
         /// The number of seconds that the browser should cache preflight request results. Supported only for HTTP APIs.
         public let maxAge: Int?
 
+        @inlinable
         public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
             self.allowCredentials = allowCredentials
             self.allowHeaders = allowHeaders
@@ -341,6 +346,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
+        @inlinable
         public init(apiId: String? = nil, apiMappingKey: String? = nil, domainName: String, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingKey = apiMappingKey
@@ -374,6 +380,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
+        @inlinable
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -417,6 +424,7 @@ extension ApiGatewayV2 {
         /// A version identifier for the API.
         public let version: String?
 
+        @inlinable
         public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
@@ -489,6 +497,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
@@ -552,6 +561,7 @@ extension ApiGatewayV2 {
         /// The name of the authorizer.
         public let name: String?
 
+        @inlinable
         public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
@@ -625,6 +635,7 @@ extension ApiGatewayV2 {
         /// The name of the authorizer.
         public let name: String?
 
+        @inlinable
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -662,6 +673,7 @@ extension ApiGatewayV2 {
         /// The name of the Stage resource for the Deployment resource to create.
         public let stageName: String?
 
+        @inlinable
         public init(apiId: String, description: String? = nil, stageName: String? = nil) {
             self.apiId = apiId
             self.description = description
@@ -697,6 +709,7 @@ extension ApiGatewayV2 {
         /// The description for the deployment.
         public let description: String?
 
+        @inlinable
         public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
@@ -726,6 +739,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
+        @inlinable
         public init(domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -753,6 +767,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
+        @inlinable
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -808,6 +823,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfigInput?
 
+        @inlinable
         public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
@@ -894,6 +910,7 @@ extension ApiGatewayV2 {
         /// The template selection expression for the integration response. Supported only for WebSocket APIs.
         public let templateSelectionExpression: String?
 
+        @inlinable
         public init(apiId: String, contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationId: String, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.apiId = apiId
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -939,6 +956,7 @@ extension ApiGatewayV2 {
         /// The template selection expressions for the integration response.
         public let templateSelectionExpression: String?
 
+        @inlinable
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -1000,6 +1018,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfig?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
@@ -1059,6 +1078,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
+        @inlinable
         public init(apiId: String, contentType: String? = nil, description: String? = nil, name: String? = nil, schema: String? = nil) {
             self.apiId = apiId
             self.contentType = contentType
@@ -1097,6 +1117,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
+        @inlinable
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -1140,6 +1161,7 @@ extension ApiGatewayV2 {
         /// The target for the route.
         public let target: String?
 
+        @inlinable
         public init(apiId: String, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiId = apiId
             self.apiKeyRequired = apiKeyRequired
@@ -1201,6 +1223,7 @@ extension ApiGatewayV2 {
         /// The route response key.
         public let routeResponseKey: String?
 
+        @inlinable
         public init(apiId: String, modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeId: String, routeResponseKey: String? = nil) {
             self.apiId = apiId
             self.modelSelectionExpression = modelSelectionExpression
@@ -1241,6 +1264,7 @@ extension ApiGatewayV2 {
         /// Represents the route response key of a route response.
         public let routeResponseKey: String?
 
+        @inlinable
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -1286,6 +1310,7 @@ extension ApiGatewayV2 {
         /// The target for the route.
         public let target: String?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.apiKeyRequired = apiKeyRequired
@@ -1343,6 +1368,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiId = apiId
@@ -1419,6 +1445,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
@@ -1464,6 +1491,7 @@ extension ApiGatewayV2 {
         /// A list of tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -1500,6 +1528,7 @@ extension ApiGatewayV2 {
         /// The version of the VPC link.
         public let vpcLinkVersion: VpcLinkVersion?
 
+        @inlinable
         public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
@@ -1531,6 +1560,7 @@ extension ApiGatewayV2 {
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String
 
+        @inlinable
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
@@ -1552,6 +1582,7 @@ extension ApiGatewayV2 {
         /// The domain name.
         public let domainName: String
 
+        @inlinable
         public init(apiMappingId: String, domainName: String) {
             self.apiMappingId = apiMappingId
             self.domainName = domainName
@@ -1571,6 +1602,7 @@ extension ApiGatewayV2 {
         /// The API identifier.
         public let apiId: String
 
+        @inlinable
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -1590,6 +1622,7 @@ extension ApiGatewayV2 {
         /// The authorizer identifier.
         public let authorizerId: String
 
+        @inlinable
         public init(apiId: String, authorizerId: String) {
             self.apiId = apiId
             self.authorizerId = authorizerId
@@ -1609,6 +1642,7 @@ extension ApiGatewayV2 {
         /// The API identifier.
         public let apiId: String
 
+        @inlinable
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -1628,6 +1662,7 @@ extension ApiGatewayV2 {
         /// The deployment ID.
         public let deploymentId: String
 
+        @inlinable
         public init(apiId: String, deploymentId: String) {
             self.apiId = apiId
             self.deploymentId = deploymentId
@@ -1647,6 +1682,7 @@ extension ApiGatewayV2 {
         /// The domain name.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1666,6 +1702,7 @@ extension ApiGatewayV2 {
         /// The integration ID.
         public let integrationId: String
 
+        @inlinable
         public init(apiId: String, integrationId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -1689,6 +1726,7 @@ extension ApiGatewayV2 {
         /// The integration response ID.
         public let integrationResponseId: String
 
+        @inlinable
         public init(apiId: String, integrationId: String, integrationResponseId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -1712,6 +1750,7 @@ extension ApiGatewayV2 {
         /// The model ID.
         public let modelId: String
 
+        @inlinable
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
@@ -1733,6 +1772,7 @@ extension ApiGatewayV2 {
         /// The route ID.
         public let routeId: String
 
+        @inlinable
         public init(apiId: String, routeId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -1756,6 +1796,7 @@ extension ApiGatewayV2 {
         /// The route ID.
         public let routeId: String
 
+        @inlinable
         public init(apiId: String, requestParameterKey: String, routeId: String) {
             self.apiId = apiId
             self.requestParameterKey = requestParameterKey
@@ -1781,6 +1822,7 @@ extension ApiGatewayV2 {
         /// The route response ID.
         public let routeResponseId: String
 
+        @inlinable
         public init(apiId: String, routeId: String, routeResponseId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -1806,6 +1848,7 @@ extension ApiGatewayV2 {
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String
 
+        @inlinable
         public init(apiId: String, routeKey: String, stageName: String) {
             self.apiId = apiId
             self.routeKey = routeKey
@@ -1829,6 +1872,7 @@ extension ApiGatewayV2 {
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String
 
+        @inlinable
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
@@ -1848,6 +1892,7 @@ extension ApiGatewayV2 {
         /// The ID of the VPC link.
         public let vpcLinkId: String
 
+        @inlinable
         public init(vpcLinkId: String) {
             self.vpcLinkId = vpcLinkId
         }
@@ -1880,6 +1925,7 @@ extension ApiGatewayV2 {
         /// The description for the deployment.
         public let description: String?
 
+        @inlinable
         public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
@@ -1911,6 +1957,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
+        @inlinable
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -1951,6 +1998,7 @@ extension ApiGatewayV2 {
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
 
+        @inlinable
         public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, ownershipVerificationCertificateArn: String? = nil, securityPolicy: SecurityPolicy? = nil) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
@@ -1992,6 +2040,7 @@ extension ApiGatewayV2 {
         /// The name of the API stage to export. If you don't specify this property, a representation of the latest API configuration is exported.
         public let stageName: String?
 
+        @inlinable
         public init(apiId: String, exportVersion: String? = nil, includeExtensions: Bool? = nil, outputType: String? = nil, specification: String, stageName: String? = nil) {
             self.apiId = apiId
             self.exportVersion = exportVersion
@@ -2019,6 +2068,7 @@ extension ApiGatewayV2 {
         public static let _options: AWSShapeOptions = [.rawPayload]
         public let body: AWSHTTPBody
 
+        @inlinable
         public init(body: AWSHTTPBody) {
             self.body = body
         }
@@ -2037,6 +2087,7 @@ extension ApiGatewayV2 {
         /// The domain name.
         public let domainName: String
 
+        @inlinable
         public init(apiMappingId: String, domainName: String) {
             self.apiMappingId = apiMappingId
             self.domainName = domainName
@@ -2062,6 +2113,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
+        @inlinable
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -2085,6 +2137,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -2108,6 +2161,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ApiMapping]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2123,6 +2177,7 @@ extension ApiGatewayV2 {
         /// The API identifier.
         public let apiId: String
 
+        @inlinable
         public init(apiId: String) {
             self.apiId = apiId
         }
@@ -2171,6 +2226,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
@@ -2216,6 +2272,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2237,6 +2294,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Api]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2254,6 +2312,7 @@ extension ApiGatewayV2 {
         /// The authorizer identifier.
         public let authorizerId: String
 
+        @inlinable
         public init(apiId: String, authorizerId: String) {
             self.apiId = apiId
             self.authorizerId = authorizerId
@@ -2293,6 +2352,7 @@ extension ApiGatewayV2 {
         /// The name of the authorizer.
         public let name: String?
 
+        @inlinable
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -2330,6 +2390,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2353,6 +2414,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Authorizer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2370,6 +2432,7 @@ extension ApiGatewayV2 {
         /// The deployment ID.
         public let deploymentId: String
 
+        @inlinable
         public init(apiId: String, deploymentId: String) {
             self.apiId = apiId
             self.deploymentId = deploymentId
@@ -2400,6 +2463,7 @@ extension ApiGatewayV2 {
         /// The description for the deployment.
         public let description: String?
 
+        @inlinable
         public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
@@ -2427,6 +2491,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2450,6 +2515,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Deployment]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2465,6 +2531,7 @@ extension ApiGatewayV2 {
         /// The domain name.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2490,6 +2557,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
+        @inlinable
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -2513,6 +2581,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2534,6 +2603,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DomainName]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2551,6 +2621,7 @@ extension ApiGatewayV2 {
         /// The integration ID.
         public let integrationId: String
 
+        @inlinable
         public init(apiId: String, integrationId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -2574,6 +2645,7 @@ extension ApiGatewayV2 {
         /// The integration response ID.
         public let integrationResponseId: String
 
+        @inlinable
         public init(apiId: String, integrationId: String, integrationResponseId: String) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -2605,6 +2677,7 @@ extension ApiGatewayV2 {
         /// The template selection expressions for the integration response.
         public let templateSelectionExpression: String?
 
+        @inlinable
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -2634,6 +2707,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, integrationId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.integrationId = integrationId
@@ -2659,6 +2733,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [IntegrationResponse]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2712,6 +2787,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfig?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
@@ -2767,6 +2843,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2790,6 +2867,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Integration]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2807,6 +2885,7 @@ extension ApiGatewayV2 {
         /// The model ID.
         public let modelId: String
 
+        @inlinable
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
@@ -2834,6 +2913,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
+        @inlinable
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -2857,6 +2937,7 @@ extension ApiGatewayV2 {
         /// The model ID.
         public let modelId: String
 
+        @inlinable
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
@@ -2876,6 +2957,7 @@ extension ApiGatewayV2 {
         /// The template value.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -2893,6 +2975,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -2916,6 +2999,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Model]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2933,6 +3017,7 @@ extension ApiGatewayV2 {
         /// The route ID.
         public let routeId: String
 
+        @inlinable
         public init(apiId: String, routeId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -2956,6 +3041,7 @@ extension ApiGatewayV2 {
         /// The route response ID.
         public let routeResponseId: String
 
+        @inlinable
         public init(apiId: String, routeId: String, routeResponseId: String) {
             self.apiId = apiId
             self.routeId = routeId
@@ -2985,6 +3071,7 @@ extension ApiGatewayV2 {
         /// Represents the route response key of a route response.
         public let routeResponseKey: String?
 
+        @inlinable
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -3012,6 +3099,7 @@ extension ApiGatewayV2 {
         /// The route ID.
         public let routeId: String
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil, routeId: String) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3037,6 +3125,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [RouteResponse]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3076,6 +3165,7 @@ extension ApiGatewayV2 {
         /// The target for the route.
         public let target: String?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.apiKeyRequired = apiKeyRequired
@@ -3117,6 +3207,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3140,6 +3231,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Route]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3157,6 +3249,7 @@ extension ApiGatewayV2 {
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String
 
+        @inlinable
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
@@ -3204,6 +3297,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
@@ -3247,6 +3341,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(apiId: String, maxResults: String? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
@@ -3270,6 +3365,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Stage]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3285,6 +3381,7 @@ extension ApiGatewayV2 {
         /// The resource ARN for the tag.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3301,6 +3398,7 @@ extension ApiGatewayV2 {
     public struct GetTagsResponse: AWSDecodableShape {
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3314,6 +3412,7 @@ extension ApiGatewayV2 {
         /// The ID of the VPC link.
         public let vpcLinkId: String
 
+        @inlinable
         public init(vpcLinkId: String) {
             self.vpcLinkId = vpcLinkId
         }
@@ -3348,6 +3447,7 @@ extension ApiGatewayV2 {
         /// The version of the VPC link.
         public let vpcLinkVersion: VpcLinkVersion?
 
+        @inlinable
         public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
@@ -3379,6 +3479,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3400,6 +3501,7 @@ extension ApiGatewayV2 {
         /// The next page of elements from this collection. Not valid for the last element of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [VpcLink]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3419,6 +3521,7 @@ extension ApiGatewayV2 {
         /// Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
         public let failOnWarnings: Bool?
 
+        @inlinable
         public init(basepath: String? = nil, body: String? = nil, failOnWarnings: Bool? = nil) {
             self.basepath = basepath
             self.body = body
@@ -3473,6 +3576,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
@@ -3554,6 +3658,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfig?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
@@ -3615,6 +3720,7 @@ extension ApiGatewayV2 {
         /// The template selection expressions for the integration response.
         public let templateSelectionExpression: String?
 
+        @inlinable
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -3640,6 +3746,7 @@ extension ApiGatewayV2 {
         /// The base domain of the identity provider that issues JSON Web Tokens. For example, an Amazon Cognito user pool has the following format: https://cognito-idp.{region}.amazonaws.com/{userPoolId} . Required for the JWT authorizer type. Supported only for HTTP APIs.
         public let issuer: String?
 
+        @inlinable
         public init(audience: [String]? = nil, issuer: String? = nil) {
             self.audience = audience
             self.issuer = issuer
@@ -3663,6 +3770,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
+        @inlinable
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -3688,6 +3796,7 @@ extension ApiGatewayV2 {
         /// A list of warnings that API Gateway returns while processing your truststore. Invalid certificates produce warnings. Mutual TLS is still enabled, but some clients might not be able to access your API. To resolve warnings, upload a new truststore to S3, and then update you domain name to use the new version.
         public let truststoreWarnings: [String]?
 
+        @inlinable
         public init(truststoreUri: String? = nil, truststoreVersion: String? = nil, truststoreWarnings: [String]? = nil) {
             self.truststoreUri = truststoreUri
             self.truststoreVersion = truststoreVersion
@@ -3707,6 +3816,7 @@ extension ApiGatewayV2 {
         /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
         public let truststoreVersion: String?
 
+        @inlinable
         public init(truststoreUri: String? = nil, truststoreVersion: String? = nil) {
             self.truststoreUri = truststoreUri
             self.truststoreVersion = truststoreVersion
@@ -3722,6 +3832,7 @@ extension ApiGatewayV2 {
         /// Whether or not the parameter is required.
         public let required: Bool?
 
+        @inlinable
         public init(required: Bool? = nil) {
             self.required = required
         }
@@ -3741,6 +3852,7 @@ extension ApiGatewayV2 {
         /// Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
         public let failOnWarnings: Bool?
 
+        @inlinable
         public init(apiId: String, basepath: String? = nil, body: String? = nil, failOnWarnings: Bool? = nil) {
             self.apiId = apiId
             self.basepath = basepath
@@ -3797,6 +3909,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
@@ -3842,6 +3955,7 @@ extension ApiGatewayV2 {
         /// The stage name. Stage names can contain only alphanumeric characters, hyphens, and underscores, or be $default. Maximum length is 128 characters.
         public let stageName: String
 
+        @inlinable
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
@@ -3885,6 +3999,7 @@ extension ApiGatewayV2 {
         /// The target for the route.
         public let target: String?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.apiKeyRequired = apiKeyRequired
@@ -3930,6 +4045,7 @@ extension ApiGatewayV2 {
         /// Represents the route response key of a route response.
         public let routeResponseKey: String?
 
+        @inlinable
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -3959,6 +4075,7 @@ extension ApiGatewayV2 {
         /// Specifies the throttling rate limit.
         public let throttlingRateLimit: Double?
 
+        @inlinable
         public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: LoggingLevel? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
             self.detailedMetricsEnabled = detailedMetricsEnabled
@@ -4008,6 +4125,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
@@ -4049,6 +4167,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4074,6 +4193,7 @@ extension ApiGatewayV2 {
         /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
         public let serverNameToVerify: String?
 
+        @inlinable
         public init(serverNameToVerify: String? = nil) {
             self.serverNameToVerify = serverNameToVerify
         }
@@ -4087,6 +4207,7 @@ extension ApiGatewayV2 {
         /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
         public let serverNameToVerify: String?
 
+        @inlinable
         public init(serverNameToVerify: String? = nil) {
             self.serverNameToVerify = serverNameToVerify
         }
@@ -4102,6 +4223,7 @@ extension ApiGatewayV2 {
         /// The Tag keys to delete
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4129,6 +4251,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
+        @inlinable
         public init(apiId: String? = nil, apiMappingId: String, apiMappingKey: String? = nil, domainName: String, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -4164,6 +4287,7 @@ extension ApiGatewayV2 {
         /// The API stage.
         public let stage: String?
 
+        @inlinable
         public init(apiId: String? = nil, apiMappingId: String? = nil, apiMappingKey: String? = nil, stage: String? = nil) {
             self.apiId = apiId
             self.apiMappingId = apiMappingId
@@ -4205,6 +4329,7 @@ extension ApiGatewayV2 {
         /// A version identifier for the API.
         public let version: String?
 
+        @inlinable
         public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
@@ -4291,6 +4416,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
@@ -4356,6 +4482,7 @@ extension ApiGatewayV2 {
         /// The name of the authorizer.
         public let name: String?
 
+        @inlinable
         public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerId: String, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
@@ -4431,6 +4558,7 @@ extension ApiGatewayV2 {
         /// The name of the authorizer.
         public let name: String?
 
+        @inlinable
         public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerPayloadFormatVersion: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, enableSimpleResponses: Bool? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, jwtConfiguration: JWTConfiguration? = nil, name: String? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -4468,6 +4596,7 @@ extension ApiGatewayV2 {
         /// The description for the deployment resource.
         public let description: String?
 
+        @inlinable
         public init(apiId: String, deploymentId: String, description: String? = nil) {
             self.apiId = apiId
             self.deploymentId = deploymentId
@@ -4502,6 +4631,7 @@ extension ApiGatewayV2 {
         /// The description for the deployment.
         public let description: String?
 
+        @inlinable
         public init(autoDeployed: Bool? = nil, createdDate: Date? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentStatusMessage: String? = nil, description: String? = nil) {
             self.autoDeployed = autoDeployed
             self.createdDate = createdDate
@@ -4529,6 +4659,7 @@ extension ApiGatewayV2 {
         /// The mutual TLS authentication configuration for a custom domain name.
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
 
+        @inlinable
         public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
@@ -4561,6 +4692,7 @@ extension ApiGatewayV2 {
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
+        @inlinable
         public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
@@ -4618,6 +4750,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfigInput?
 
+        @inlinable
         public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfigInput? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
@@ -4708,6 +4841,7 @@ extension ApiGatewayV2 {
         /// The template selection expression for the integration response. Supported only for WebSocket APIs.
         public let templateSelectionExpression: String?
 
+        @inlinable
         public init(apiId: String, contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationId: String, integrationResponseId: String, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.apiId = apiId
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -4755,6 +4889,7 @@ extension ApiGatewayV2 {
         /// The template selection expressions for the integration response.
         public let templateSelectionExpression: String?
 
+        @inlinable
         public init(contentHandlingStrategy: ContentHandlingStrategy? = nil, integrationResponseId: String? = nil, integrationResponseKey: String? = nil, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil) {
             self.contentHandlingStrategy = contentHandlingStrategy
             self.integrationResponseId = integrationResponseId
@@ -4816,6 +4951,7 @@ extension ApiGatewayV2 {
         /// The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
         public let tlsConfig: TlsConfig?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationSubtype: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, payloadFormatVersion: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseParameters: [String: [String: String]]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.connectionId = connectionId
@@ -4877,6 +5013,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
+        @inlinable
         public init(apiId: String, contentType: String? = nil, description: String? = nil, modelId: String, name: String? = nil, schema: String? = nil) {
             self.apiId = apiId
             self.contentType = contentType
@@ -4917,6 +5054,7 @@ extension ApiGatewayV2 {
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
 
+        @inlinable
         public init(contentType: String? = nil, description: String? = nil, modelId: String? = nil, name: String? = nil, schema: String? = nil) {
             self.contentType = contentType
             self.description = description
@@ -4962,6 +5100,7 @@ extension ApiGatewayV2 {
         /// The target for the route.
         public let target: String?
 
+        @inlinable
         public init(apiId: String, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiId = apiId
             self.apiKeyRequired = apiKeyRequired
@@ -5027,6 +5166,7 @@ extension ApiGatewayV2 {
         /// The route response key.
         public let routeResponseKey: String?
 
+        @inlinable
         public init(apiId: String, modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeId: String, routeResponseId: String, routeResponseKey: String? = nil) {
             self.apiId = apiId
             self.modelSelectionExpression = modelSelectionExpression
@@ -5069,6 +5209,7 @@ extension ApiGatewayV2 {
         /// Represents the route response key of a route response.
         public let routeResponseKey: String?
 
+        @inlinable
         public init(modelSelectionExpression: String? = nil, responseModels: [String: String]? = nil, responseParameters: [String: ParameterConstraints]? = nil, routeResponseId: String? = nil, routeResponseKey: String? = nil) {
             self.modelSelectionExpression = modelSelectionExpression
             self.responseModels = responseModels
@@ -5114,6 +5255,7 @@ extension ApiGatewayV2 {
         /// The target for the route.
         public let target: String?
 
+        @inlinable
         public init(apiGatewayManaged: Bool? = nil, apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: AuthorizationType? = nil, authorizerId: String? = nil, modelSelectionExpression: String? = nil, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: ParameterConstraints]? = nil, routeId: String? = nil, routeKey: String? = nil, routeResponseSelectionExpression: String? = nil, target: String? = nil) {
             self.apiGatewayManaged = apiGatewayManaged
             self.apiKeyRequired = apiKeyRequired
@@ -5169,6 +5311,7 @@ extension ApiGatewayV2 {
         /// A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let stageVariables: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AccessLogSettings? = nil, apiId: String, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String, stageVariables: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiId = apiId
@@ -5241,6 +5384,7 @@ extension ApiGatewayV2 {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: Date? = nil, defaultRouteSettings: RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: Date? = nil, routeSettings: [String: RouteSettings]? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil, tags: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
@@ -5282,6 +5426,7 @@ extension ApiGatewayV2 {
         /// The ID of the VPC link.
         public let vpcLinkId: String
 
+        @inlinable
         public init(name: String? = nil, vpcLinkId: String) {
             self.name = name
             self.vpcLinkId = vpcLinkId
@@ -5320,6 +5465,7 @@ extension ApiGatewayV2 {
         /// The version of the VPC link.
         public let vpcLinkVersion: VpcLinkVersion?
 
+        @inlinable
         public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name
@@ -5366,6 +5512,7 @@ extension ApiGatewayV2 {
         /// The version of the VPC link.
         public let vpcLinkVersion: VpcLinkVersion?
 
+        @inlinable
         public init(createdDate: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcLinkId: String? = nil, vpcLinkStatus: VpcLinkStatus? = nil, vpcLinkStatusMessage: String? = nil, vpcLinkVersion: VpcLinkVersion? = nil) {
             self.createdDate = createdDate
             self.name = name

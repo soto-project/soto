@@ -333,6 +333,7 @@ extension CognitoIdentityProvider {
         /// The list of RecoveryOptionTypes.
         public let recoveryMechanisms: [RecoveryOptionType]?
 
+        @inlinable
         public init(recoveryMechanisms: [RecoveryOptionType]? = nil) {
             self.recoveryMechanisms = recoveryMechanisms
         }
@@ -356,6 +357,7 @@ extension CognitoIdentityProvider {
         /// Flag specifying whether to send a notification.
         public let notify: Bool
 
+        @inlinable
         public init(eventAction: AccountTakeoverEventActionType, notify: Bool) {
             self.eventAction = eventAction
             self.notify = notify
@@ -375,6 +377,7 @@ extension CognitoIdentityProvider {
         /// Action to take for a medium risk.
         public let mediumAction: AccountTakeoverActionType?
 
+        @inlinable
         public init(highAction: AccountTakeoverActionType? = nil, lowAction: AccountTakeoverActionType? = nil, mediumAction: AccountTakeoverActionType? = nil) {
             self.highAction = highAction
             self.lowAction = lowAction
@@ -394,6 +397,7 @@ extension CognitoIdentityProvider {
         /// The notify configuration used to construct email notifications.
         public let notifyConfiguration: NotifyConfigurationType?
 
+        @inlinable
         public init(actions: AccountTakeoverActionsType, notifyConfiguration: NotifyConfigurationType? = nil) {
             self.actions = actions
             self.notifyConfiguration = notifyConfiguration
@@ -415,6 +419,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to add custom attributes.
         public let userPoolId: String
 
+        @inlinable
         public init(customAttributes: [SchemaAttributeType], userPoolId: String) {
             self.customAttributes = customAttributes
             self.userPoolId = userPoolId
@@ -449,6 +454,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(groupName: String, username: String, userPoolId: String) {
             self.groupName = groupName
             self.username = username
@@ -483,6 +489,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for which you want to confirm user registration.
         public let userPoolId: String
 
+        @inlinable
         public init(clientMetadata: [String: String]? = nil, username: String, userPoolId: String) {
             self.clientMetadata = clientMetadata
             self.username = username
@@ -521,6 +528,7 @@ extension CognitoIdentityProvider {
         /// The user account expiration limit, in days, after which a new account that hasn't signed in is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this parameter is 7.  If you set a value for TemporaryPasswordValidityDays in PasswordPolicy, that value will be used, and UnusedAccountValidityDays will be no longer be an available parameter for that user pool.
         public let unusedAccountValidityDays: Int?
 
+        @inlinable
         public init(allowAdminCreateUserOnly: Bool? = nil, inviteMessageTemplate: MessageTemplateType? = nil, unusedAccountValidityDays: Int? = nil) {
             self.allowAdminCreateUserOnly = allowAdminCreateUserOnly
             self.inviteMessageTemplate = inviteMessageTemplate
@@ -561,6 +569,7 @@ extension CognitoIdentityProvider {
         /// Temporary user attributes that contribute to the outcomes of your pre sign-up Lambda trigger. This set of key-value pairs are for custom validation of information that you  collect from your users but don't need to retain. Your Lambda function can analyze this additional data and act on it. Your function might perform external API operations like logging user attributes and validation data to Amazon CloudWatch Logs. Validation data might also affect the response that your function returns to Amazon Cognito, like automatically confirming the user if they sign up from within your network. For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
         public let validationData: [AttributeType]?
 
+        @inlinable
         public init(clientMetadata: [String: String]? = nil, desiredDeliveryMediums: [DeliveryMediumType]? = nil, forceAliasCreation: Bool? = nil, messageAction: MessageActionType? = nil, temporaryPassword: String? = nil, userAttributes: [AttributeType]? = nil, username: String, userPoolId: String, validationData: [AttributeType]? = nil) {
             self.clientMetadata = clientMetadata
             self.desiredDeliveryMediums = desiredDeliveryMediums
@@ -611,6 +620,7 @@ extension CognitoIdentityProvider {
         /// The newly created user.
         public let user: UserType?
 
+        @inlinable
         public init(user: UserType? = nil) {
             self.user = user
         }
@@ -628,6 +638,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to delete user attributes.
         public let userPoolId: String
 
+        @inlinable
         public init(userAttributeNames: [String], username: String, userPoolId: String) {
             self.userAttributeNames = userAttributeNames
             self.username = username
@@ -665,6 +676,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to delete the user.
         public let userPoolId: String
 
+        @inlinable
         public init(username: String, userPoolId: String) {
             self.username = username
             self.userPoolId = userPoolId
@@ -691,6 +703,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(user: ProviderUserIdentifierType, userPoolId: String) {
             self.user = user
             self.userPoolId = userPoolId
@@ -717,6 +730,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to disable the user.
         public let userPoolId: String
 
+        @inlinable
         public init(username: String, userPoolId: String) {
             self.username = username
             self.userPoolId = userPoolId
@@ -747,6 +761,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to enable the user.
         public let userPoolId: String
 
+        @inlinable
         public init(username: String, userPoolId: String) {
             self.username = username
             self.userPoolId = userPoolId
@@ -779,6 +794,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(deviceKey: String, username: String, userPoolId: String) {
             self.deviceKey = deviceKey
             self.username = username
@@ -812,6 +828,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(deviceKey: String, username: String, userPoolId: String) {
             self.deviceKey = deviceKey
             self.username = username
@@ -841,6 +858,7 @@ extension CognitoIdentityProvider {
         /// The device.
         public let device: DeviceType
 
+        @inlinable
         public init(device: DeviceType) {
             self.device = device
         }
@@ -856,6 +874,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to get information about the user.
         public let userPoolId: String
 
+        @inlinable
         public init(username: String, userPoolId: String) {
             self.username = username
             self.userPoolId = userPoolId
@@ -897,6 +916,7 @@ extension CognitoIdentityProvider {
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   UNKNOWN - User status isn't known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset their password before they can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else.
         public let userStatus: UserStatusType?
 
+        @inlinable
         public init(enabled: Bool? = nil, mfaOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType]? = nil, userCreateDate: Date? = nil, userLastModifiedDate: Date? = nil, userMFASettingList: [String]? = nil, username: String, userStatus: UserStatusType? = nil) {
             self.enabled = enabled
             self.mfaOptions = mfaOptions
@@ -941,6 +961,7 @@ extension CognitoIdentityProvider {
         /// The ID of the Amazon Cognito user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, authFlow: AuthFlowType, authParameters: [String: String]? = nil, clientId: String, clientMetadata: [String: String]? = nil, contextData: ContextDataType? = nil, userPoolId: String) {
             self.analyticsMetadata = analyticsMetadata
             self.authFlow = authFlow
@@ -993,6 +1014,7 @@ extension CognitoIdentityProvider {
         /// The session that should be passed both ways in challenge-response calls to the service. If AdminInitiateAuth or AdminRespondToAuthChallenge API call determines that the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next AdminRespondToAuthChallenge API call.
         public let session: String?
 
+        @inlinable
         public init(authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
             self.authenticationResult = authenticationResult
             self.challengeName = challengeName
@@ -1016,6 +1038,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(destinationUser: ProviderUserIdentifierType, sourceUser: ProviderUserIdentifierType, userPoolId: String) {
             self.destinationUser = destinationUser
             self.sourceUser = sourceUser
@@ -1053,6 +1076,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(limit: Int? = nil, paginationToken: String? = nil, username: String, userPoolId: String) {
             self.limit = limit
             self.paginationToken = paginationToken
@@ -1089,6 +1113,7 @@ extension CognitoIdentityProvider {
         /// the list. By use of this token, you can paginate through the full list of items.
         public let paginationToken: String?
 
+        @inlinable
         public init(devices: [DeviceType]? = nil, paginationToken: String? = nil) {
             self.devices = devices
             self.paginationToken = paginationToken
@@ -1110,6 +1135,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, username: String, userPoolId: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1145,6 +1171,7 @@ extension CognitoIdentityProvider {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [GroupType]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -1166,6 +1193,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, username: String, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1201,6 +1229,7 @@ extension CognitoIdentityProvider {
         /// A pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(authEvents: [AuthEventType]? = nil, nextToken: String? = nil) {
             self.authEvents = authEvents
             self.nextToken = nextToken
@@ -1220,6 +1249,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(groupName: String, username: String, userPoolId: String) {
             self.groupName = groupName
             self.username = username
@@ -1254,6 +1284,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to reset the user's password.
         public let userPoolId: String
 
+        @inlinable
         public init(clientMetadata: [String: String]? = nil, username: String, userPoolId: String) {
             self.clientMetadata = clientMetadata
             self.username = username
@@ -1307,6 +1338,7 @@ extension CognitoIdentityProvider {
         /// The ID of the Amazon Cognito user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, challengeName: ChallengeNameType, challengeResponses: [String: String]? = nil, clientId: String, clientMetadata: [String: String]? = nil, contextData: ContextDataType? = nil, session: String? = nil, userPoolId: String) {
             self.analyticsMetadata = analyticsMetadata
             self.challengeName = challengeName
@@ -1361,6 +1393,7 @@ extension CognitoIdentityProvider {
         /// The session that should be passed both ways in challenge-response calls to the service. If the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
         public let session: String?
 
+        @inlinable
         public init(authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
             self.authenticationResult = authenticationResult
             self.challengeName = challengeName
@@ -1388,6 +1421,7 @@ extension CognitoIdentityProvider {
         /// The ID of the user pool where you want to set a user's MFA preferences.
         public let userPoolId: String
 
+        @inlinable
         public init(emailMfaSettings: EmailMfaSettingsType? = nil, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, username: String, userPoolId: String) {
             self.emailMfaSettings = emailMfaSettings
             self.smsMfaSettings = smsMfaSettings
@@ -1428,6 +1462,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to set the user's password.
         public let userPoolId: String
 
+        @inlinable
         public init(password: String, permanent: Bool? = nil, username: String, userPoolId: String) {
             self.password = password
             self.permanent = permanent
@@ -1466,6 +1501,7 @@ extension CognitoIdentityProvider {
         /// The ID of the user pool that contains the user whose options you're setting.
         public let userPoolId: String
 
+        @inlinable
         public init(mfaOptions: [MFAOptionType], username: String, userPoolId: String) {
             self.mfaOptions = mfaOptions
             self.username = username
@@ -1509,6 +1545,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(eventId: String, feedbackValue: FeedbackValueType, username: String, userPoolId: String) {
             self.eventId = eventId
             self.feedbackValue = feedbackValue
@@ -1550,6 +1587,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(deviceKey: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil, username: String, userPoolId: String) {
             self.deviceKey = deviceKey
             self.deviceRememberedStatus = deviceRememberedStatus
@@ -1592,6 +1630,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to update user attributes.
         public let userPoolId: String
 
+        @inlinable
         public init(clientMetadata: [String: String]? = nil, userAttributes: [AttributeType], username: String, userPoolId: String) {
             self.clientMetadata = clientMetadata
             self.userAttributes = userAttributes
@@ -1633,6 +1672,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(username: String, userPoolId: String) {
             self.username = username
             self.userPoolId = userPoolId
@@ -1661,6 +1701,7 @@ extension CognitoIdentityProvider {
         /// The operating mode of advanced security features in custom authentication with   Custom authentication challenge Lambda triggers.
         public let customAuthMode: AdvancedSecurityEnabledModeType?
 
+        @inlinable
         public init(customAuthMode: AdvancedSecurityEnabledModeType? = nil) {
             self.customAuthMode = customAuthMode
         }
@@ -1682,6 +1723,7 @@ extension CognitoIdentityProvider {
         /// If UserDataShared is true, Amazon Cognito includes user data in the events that it publishes to Amazon Pinpoint analytics.
         public let userDataShared: Bool?
 
+        @inlinable
         public init(applicationArn: String? = nil, applicationId: String? = nil, externalId: String? = nil, roleArn: String? = nil, userDataShared: Bool? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -1714,6 +1756,7 @@ extension CognitoIdentityProvider {
         /// The endpoint ID.
         public let analyticsEndpointId: String?
 
+        @inlinable
         public init(analyticsEndpointId: String? = nil) {
             self.analyticsEndpointId = analyticsEndpointId
         }
@@ -1733,6 +1776,7 @@ extension CognitoIdentityProvider {
         /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
         public let session: String?
 
+        @inlinable
         public init(accessToken: String? = nil, session: String? = nil) {
             self.accessToken = accessToken
             self.session = session
@@ -1756,6 +1800,7 @@ extension CognitoIdentityProvider {
         /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
         public let session: String?
 
+        @inlinable
         public init(secretCode: String? = nil, session: String? = nil) {
             self.secretCode = secretCode
             self.session = session
@@ -1773,6 +1818,7 @@ extension CognitoIdentityProvider {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(name: String, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1810,6 +1856,7 @@ extension CognitoIdentityProvider {
         /// The event type.
         public let eventType: EventType?
 
+        @inlinable
         public init(challengeResponses: [ChallengeResponseType]? = nil, creationDate: Date? = nil, eventContextData: EventContextDataType? = nil, eventFeedback: EventFeedbackType? = nil, eventId: String? = nil, eventResponse: EventResponseType? = nil, eventRisk: EventRiskType? = nil, eventType: EventType? = nil) {
             self.challengeResponses = challengeResponses
             self.creationDate = creationDate
@@ -1847,6 +1894,7 @@ extension CognitoIdentityProvider {
         /// The token type.
         public let tokenType: String?
 
+        @inlinable
         public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, newDeviceMetadata: NewDeviceMetadataType? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
@@ -1872,6 +1920,7 @@ extension CognitoIdentityProvider {
         /// The challenge response.
         public let challengeResponse: ChallengeResponse?
 
+        @inlinable
         public init(challengeName: ChallengeName? = nil, challengeResponse: ChallengeResponse? = nil) {
             self.challengeName = challengeName
             self.challengeResponse = challengeResponse
@@ -1891,6 +1940,7 @@ extension CognitoIdentityProvider {
         /// The new password.
         public let proposedPassword: String
 
+        @inlinable
         public init(accessToken: String, previousPassword: String, proposedPassword: String) {
             self.accessToken = accessToken
             self.previousPassword = previousPassword
@@ -1920,6 +1970,7 @@ extension CognitoIdentityProvider {
         /// The Amazon Resource Name (arn) of a CloudWatch Logs log group where your user pool sends logs. The log group must not be encrypted with Key Management Service and must be in the same Amazon Web Services account as your user pool. To send logs to log groups with a resource policy of a size greater than 5120 characters, configure a log group with a path that starts with /aws/vendedlogs. For more information, see Enabling logging from certain Amazon Web Services services.
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -1943,6 +1994,7 @@ extension CognitoIdentityProvider {
         /// The email address or phone number destination where Amazon Cognito sent the code.
         public let destination: String?
 
+        @inlinable
         public init(attributeName: String? = nil, deliveryMedium: DeliveryMediumType? = nil, destination: String? = nil) {
             self.attributeName = attributeName
             self.deliveryMedium = deliveryMedium
@@ -1960,6 +2012,7 @@ extension CognitoIdentityProvider {
         /// The event action.
         public let eventAction: CompromisedCredentialsEventActionType
 
+        @inlinable
         public init(eventAction: CompromisedCredentialsEventActionType) {
             self.eventAction = eventAction
         }
@@ -1975,6 +2028,7 @@ extension CognitoIdentityProvider {
         /// Perform the action for these events. The default is to perform all events if no event filter is specified.
         public let eventFilter: [EventFilterType]?
 
+        @inlinable
         public init(actions: CompromisedCredentialsActionsType, eventFilter: [EventFilterType]? = nil) {
             self.actions = actions
             self.eventFilter = eventFilter
@@ -1996,6 +2050,7 @@ extension CognitoIdentityProvider {
         /// The configuration of the device secret verifier.
         public let deviceSecretVerifierConfig: DeviceSecretVerifierConfigType?
 
+        @inlinable
         public init(accessToken: String, deviceKey: String, deviceName: String? = nil, deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil) {
             self.accessToken = accessToken
             self.deviceKey = deviceKey
@@ -2025,6 +2080,7 @@ extension CognitoIdentityProvider {
         /// Indicates whether the user confirmation must confirm the device response.
         public let userConfirmationNecessary: Bool?
 
+        @inlinable
         public init(userConfirmationNecessary: Bool? = nil) {
             self.userConfirmationNecessary = userConfirmationNecessary
         }
@@ -2055,6 +2111,7 @@ extension CognitoIdentityProvider {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, confirmationCode: String, password: String, secretHash: String? = nil, userContextData: UserContextDataType? = nil, username: String) {
             self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
@@ -2126,6 +2183,7 @@ extension CognitoIdentityProvider {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, confirmationCode: String, forceAliasCreation: Bool? = nil, secretHash: String? = nil, userContextData: UserContextDataType? = nil, username: String) {
             self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
@@ -2186,6 +2244,7 @@ extension CognitoIdentityProvider {
         /// Your server path where this API is invoked.
         public let serverPath: String
 
+        @inlinable
         public init(encodedData: String? = nil, httpHeaders: [HttpHeader], ipAddress: String, serverName: String, serverPath: String) {
             self.encodedData = encodedData
             self.httpHeaders = httpHeaders
@@ -2225,6 +2284,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(description: String? = nil, groupName: String, precedence: Int? = nil, roleArn: String? = nil, userPoolId: String) {
             self.description = description
             self.groupName = groupName
@@ -2260,6 +2320,7 @@ extension CognitoIdentityProvider {
         /// The group object for the group.
         public let group: GroupType?
 
+        @inlinable
         public init(group: GroupType? = nil) {
             self.group = group
         }
@@ -2286,6 +2347,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(attributeMapping: [String: String]? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String], providerName: String, providerType: IdentityProviderTypeType, userPoolId: String) {
             self.attributeMapping = attributeMapping
             self.idpIdentifiers = idpIdentifiers
@@ -2333,6 +2395,7 @@ extension CognitoIdentityProvider {
         /// The newly created IdP object.
         public let identityProvider: IdentityProviderType
 
+        @inlinable
         public init(identityProvider: IdentityProviderType) {
             self.identityProvider = identityProvider
         }
@@ -2352,6 +2415,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(identifier: String, name: String, scopes: [ResourceServerScopeType]? = nil, userPoolId: String) {
             self.identifier = identifier
             self.name = name
@@ -2387,6 +2451,7 @@ extension CognitoIdentityProvider {
         /// The newly created resource server.
         public let resourceServer: ResourceServerType
 
+        @inlinable
         public init(resourceServer: ResourceServerType) {
             self.resourceServer = resourceServer
         }
@@ -2404,6 +2469,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
+        @inlinable
         public init(cloudWatchLogsRoleArn: String, jobName: String, userPoolId: String) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.jobName = jobName
@@ -2433,6 +2499,7 @@ extension CognitoIdentityProvider {
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
 
+        @inlinable
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
@@ -2521,6 +2588,7 @@ extension CognitoIdentityProvider {
         /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an UpdateUserAttributes API request and sets family_name to the new value.  When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
 
+        @inlinable
         public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
@@ -2629,6 +2697,7 @@ extension CognitoIdentityProvider {
         /// The user pool client that was just created.
         public let userPoolClient: UserPoolClientType?
 
+        @inlinable
         public init(userPoolClient: UserPoolClientType? = nil) {
             self.userPoolClient = userPoolClient
         }
@@ -2646,6 +2715,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(customDomainConfig: CustomDomainConfigType? = nil, domain: String, userPoolId: String) {
             self.customDomainConfig = customDomainConfig
             self.domain = domain
@@ -2673,6 +2743,7 @@ extension CognitoIdentityProvider {
         /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider. Amazon Cognito returns this value if you set a custom domain with CustomDomainConfig. If you set an Amazon Cognito prefix domain, this operation returns a blank response.
         public let cloudFrontDomain: String?
 
+        @inlinable
         public init(cloudFrontDomain: String? = nil) {
             self.cloudFrontDomain = cloudFrontDomain
         }
@@ -2738,6 +2809,7 @@ extension CognitoIdentityProvider {
         /// The template for the verification message that the user sees when the app requests permission to access the user's information.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
+        @inlinable
         public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
@@ -2830,6 +2902,7 @@ extension CognitoIdentityProvider {
         /// A container for the user pool details.
         public let userPool: UserPoolType?
 
+        @inlinable
         public init(userPool: UserPoolType? = nil) {
             self.userPool = userPool
         }
@@ -2843,6 +2916,7 @@ extension CognitoIdentityProvider {
         /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -2864,6 +2938,7 @@ extension CognitoIdentityProvider {
         /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features. You must use a LambdaVersion of V1_0 with a custom sender function.
         public let lambdaVersion: CustomEmailSenderLambdaVersionType
 
+        @inlinable
         public init(lambdaArn: String, lambdaVersion: CustomEmailSenderLambdaVersionType) {
             self.lambdaArn = lambdaArn
             self.lambdaVersion = lambdaVersion
@@ -2887,6 +2962,7 @@ extension CognitoIdentityProvider {
         /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features. You must use a LambdaVersion of V1_0 with a custom sender function.
         public let lambdaVersion: CustomSMSSenderLambdaVersionType
 
+        @inlinable
         public init(lambdaArn: String, lambdaVersion: CustomSMSSenderLambdaVersionType) {
             self.lambdaArn = lambdaArn
             self.lambdaVersion = lambdaVersion
@@ -2910,6 +2986,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(groupName: String, userPoolId: String) {
             self.groupName = groupName
             self.userPoolId = userPoolId
@@ -2936,6 +3013,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(providerName: String, userPoolId: String) {
             self.providerName = providerName
             self.userPoolId = userPoolId
@@ -2962,6 +3040,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that hosts the resource server.
         public let userPoolId: String
 
+        @inlinable
         public init(identifier: String, userPoolId: String) {
             self.identifier = identifier
             self.userPoolId = userPoolId
@@ -2988,6 +3067,7 @@ extension CognitoIdentityProvider {
         /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prependattach the custom: prefix to the front of the attribute name.
         public let userAttributeNames: [String]
 
+        @inlinable
         public init(accessToken: String, userAttributeNames: [String]) {
             self.accessToken = accessToken
             self.userAttributeNames = userAttributeNames
@@ -3018,6 +3098,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to delete the client.
         public let userPoolId: String
 
+        @inlinable
         public init(clientId: String, userPoolId: String) {
             self.clientId = clientId
             self.userPoolId = userPoolId
@@ -3044,6 +3125,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(domain: String, userPoolId: String) {
             self.domain = domain
             self.userPoolId = userPoolId
@@ -3072,6 +3154,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool you want to delete.
         public let userPoolId: String
 
+        @inlinable
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
         }
@@ -3091,6 +3174,7 @@ extension CognitoIdentityProvider {
         /// A valid access token that Amazon Cognito issued to the user whose user profile you want to delete.
         public let accessToken: String
 
+        @inlinable
         public init(accessToken: String) {
             self.accessToken = accessToken
         }
@@ -3110,6 +3194,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(providerName: String, userPoolId: String) {
             self.providerName = providerName
             self.userPoolId = userPoolId
@@ -3134,6 +3219,7 @@ extension CognitoIdentityProvider {
         /// The identity provider details.
         public let identityProvider: IdentityProviderType
 
+        @inlinable
         public init(identityProvider: IdentityProviderType) {
             self.identityProvider = identityProvider
         }
@@ -3149,6 +3235,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that hosts the resource server.
         public let userPoolId: String
 
+        @inlinable
         public init(identifier: String, userPoolId: String) {
             self.identifier = identifier
             self.userPoolId = userPoolId
@@ -3173,6 +3260,7 @@ extension CognitoIdentityProvider {
         /// The resource server.
         public let resourceServer: ResourceServerType
 
+        @inlinable
         public init(resourceServer: ResourceServerType) {
             self.resourceServer = resourceServer
         }
@@ -3188,6 +3276,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(clientId: String? = nil, userPoolId: String) {
             self.clientId = clientId
             self.userPoolId = userPoolId
@@ -3212,6 +3301,7 @@ extension CognitoIdentityProvider {
         /// The risk configuration.
         public let riskConfiguration: RiskConfigurationType
 
+        @inlinable
         public init(riskConfiguration: RiskConfigurationType) {
             self.riskConfiguration = riskConfiguration
         }
@@ -3227,6 +3317,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
+        @inlinable
         public init(jobId: String, userPoolId: String) {
             self.jobId = jobId
             self.userPoolId = userPoolId
@@ -3251,6 +3342,7 @@ extension CognitoIdentityProvider {
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
 
+        @inlinable
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
@@ -3266,6 +3358,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool you want to describe.
         public let userPoolId: String
 
+        @inlinable
         public init(clientId: String, userPoolId: String) {
             self.clientId = clientId
             self.userPoolId = userPoolId
@@ -3290,6 +3383,7 @@ extension CognitoIdentityProvider {
         /// The user pool client from a server response to describe the user pool client.
         public let userPoolClient: UserPoolClientType?
 
+        @inlinable
         public init(userPoolClient: UserPoolClientType? = nil) {
             self.userPoolClient = userPoolClient
         }
@@ -3303,6 +3397,7 @@ extension CognitoIdentityProvider {
         /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
         public let domain: String
 
+        @inlinable
         public init(domain: String) {
             self.domain = domain
         }
@@ -3322,6 +3417,7 @@ extension CognitoIdentityProvider {
         /// A domain description object containing information about the domain.
         public let domainDescription: DomainDescriptionType?
 
+        @inlinable
         public init(domainDescription: DomainDescriptionType? = nil) {
             self.domainDescription = domainDescription
         }
@@ -3335,6 +3431,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool you want to describe.
         public let userPoolId: String
 
+        @inlinable
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
         }
@@ -3354,6 +3451,7 @@ extension CognitoIdentityProvider {
         /// The container of metadata returned by the server to describe the pool.
         public let userPool: UserPoolType?
 
+        @inlinable
         public init(userPool: UserPoolType? = nil) {
             self.userPool = userPool
         }
@@ -3369,6 +3467,7 @@ extension CognitoIdentityProvider {
         /// When true, Amazon Cognito doesn't automatically remember a user's device when your app sends a  ConfirmDevice API request. In your app, create a prompt for your user to choose whether they want to remember their device. Return the user's choice in an  UpdateDeviceStatus API request. When DeviceOnlyRememberedOnUserPrompt is false, Amazon Cognito immediately remembers devices that you register in a ConfirmDevice API request.
         public let deviceOnlyRememberedOnUserPrompt: Bool?
 
+        @inlinable
         public init(challengeRequiredOnNewDevice: Bool? = nil, deviceOnlyRememberedOnUserPrompt: Bool? = nil) {
             self.challengeRequiredOnNewDevice = challengeRequiredOnNewDevice
             self.deviceOnlyRememberedOnUserPrompt = deviceOnlyRememberedOnUserPrompt
@@ -3386,6 +3485,7 @@ extension CognitoIdentityProvider {
         /// The salt
         public let salt: String?
 
+        @inlinable
         public init(passwordVerifier: String? = nil, salt: String? = nil) {
             self.passwordVerifier = passwordVerifier
             self.salt = salt
@@ -3415,6 +3515,7 @@ extension CognitoIdentityProvider {
         /// human-readable format like ISO 8601 or a Java Date object.
         public let deviceLastModifiedDate: Date?
 
+        @inlinable
         public init(deviceAttributes: [AttributeType]? = nil, deviceCreateDate: Date? = nil, deviceKey: String? = nil, deviceLastAuthenticatedDate: Date? = nil, deviceLastModifiedDate: Date? = nil) {
             self.deviceAttributes = deviceAttributes
             self.deviceCreateDate = deviceCreateDate
@@ -3450,6 +3551,7 @@ extension CognitoIdentityProvider {
         /// The app version.
         public let version: String?
 
+        @inlinable
         public init(awsAccountId: String? = nil, cloudFrontDistribution: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, domain: String? = nil, s3Bucket: String? = nil, status: DomainStatusType? = nil, userPoolId: String? = nil, version: String? = nil) {
             self.awsAccountId = awsAccountId
             self.cloudFrontDistribution = cloudFrontDistribution
@@ -3485,6 +3587,7 @@ extension CognitoIdentityProvider {
         /// The ARN of a verified email address or an address from a verified domain in Amazon SES. You can set a SourceArn email from a verified domain only with an API request. You can set a verified email address, but not an address in a verified domain, in the Amazon Cognito console. Amazon Cognito uses the email address that you provide in one of the following ways, depending on the value that you specify for the EmailSendingAccount parameter:   If you specify COGNITO_DEFAULT, Amazon Cognito uses this address as the custom FROM address when it emails your users using its built-in email account.   If you specify DEVELOPER, Amazon Cognito emails your users with this address by calling Amazon SES on your behalf.   The Region value of the SourceArn parameter must indicate a supported Amazon Web Services Region of your user pool. Typically, the Region in the SourceArn and the user pool Region are the same. For more information, see Amazon SES email configuration regions in the Amazon Cognito Developer Guide.
         public let sourceArn: String?
 
+        @inlinable
         public init(configurationSet: String? = nil, emailSendingAccount: EmailSendingAccountType? = nil, from: String? = nil, replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
             self.configurationSet = configurationSet
             self.emailSendingAccount = emailSendingAccount
@@ -3519,6 +3622,7 @@ extension CognitoIdentityProvider {
         /// The subject of the email message that your user pool sends to users with an MFA code.
         public let subject: String?
 
+        @inlinable
         public init(message: String? = nil, subject: String? = nil) {
             self.message = message
             self.subject = subject
@@ -3543,6 +3647,7 @@ extension CognitoIdentityProvider {
         /// Specifies whether email message MFA is the user's preferred method.
         public let preferredMfa: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil, preferredMfa: Bool? = nil) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
@@ -3566,6 +3671,7 @@ extension CognitoIdentityProvider {
         /// The user's time zone.
         public let timezone: String?
 
+        @inlinable
         public init(city: String? = nil, country: String? = nil, deviceName: String? = nil, ipAddress: String? = nil, timezone: String? = nil) {
             self.city = city
             self.country = country
@@ -3595,6 +3701,7 @@ extension CognitoIdentityProvider {
         /// The provider.
         public let provider: String
 
+        @inlinable
         public init(feedbackDate: Date? = nil, feedbackValue: FeedbackValueType, provider: String) {
             self.feedbackDate = feedbackDate
             self.feedbackValue = feedbackValue
@@ -3616,6 +3723,7 @@ extension CognitoIdentityProvider {
         /// The risk level.
         public let riskLevel: RiskLevelType?
 
+        @inlinable
         public init(compromisedCredentialsDetected: Bool? = nil, riskDecision: RiskDecisionType? = nil, riskLevel: RiskLevelType? = nil) {
             self.compromisedCredentialsDetected = compromisedCredentialsDetected
             self.riskDecision = riskDecision
@@ -3633,6 +3741,7 @@ extension CognitoIdentityProvider {
         /// The ARN of an Amazon Data Firehose stream that's the destination for advanced security features log export.
         public let streamArn: String?
 
+        @inlinable
         public init(streamArn: String? = nil) {
             self.streamArn = streamArn
         }
@@ -3654,6 +3763,7 @@ extension CognitoIdentityProvider {
         /// The device key.
         public let deviceKey: String
 
+        @inlinable
         public init(accessToken: String? = nil, deviceKey: String) {
             self.accessToken = accessToken
             self.deviceKey = deviceKey
@@ -3689,6 +3799,7 @@ extension CognitoIdentityProvider {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, secretHash: String? = nil, userContextData: UserContextDataType? = nil, username: String) {
             self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
@@ -3730,6 +3841,7 @@ extension CognitoIdentityProvider {
         /// The code delivery details returned by the server in response to the request to reset a password.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
 
+        @inlinable
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
@@ -3743,6 +3855,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are to be imported into.
         public let userPoolId: String
 
+        @inlinable
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
         }
@@ -3764,6 +3877,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are to be imported into.
         public let userPoolId: String?
 
+        @inlinable
         public init(csvHeader: [String]? = nil, userPoolId: String? = nil) {
             self.csvHeader = csvHeader
             self.userPoolId = userPoolId
@@ -3781,6 +3895,7 @@ extension CognitoIdentityProvider {
         /// The device key.
         public let deviceKey: String
 
+        @inlinable
         public init(accessToken: String? = nil, deviceKey: String) {
             self.accessToken = accessToken
             self.deviceKey = deviceKey
@@ -3803,6 +3918,7 @@ extension CognitoIdentityProvider {
         /// The device.
         public let device: DeviceType
 
+        @inlinable
         public init(device: DeviceType) {
             self.device = device
         }
@@ -3818,6 +3934,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(groupName: String, userPoolId: String) {
             self.groupName = groupName
             self.userPoolId = userPoolId
@@ -3842,6 +3959,7 @@ extension CognitoIdentityProvider {
         /// The group object for the group.
         public let group: GroupType?
 
+        @inlinable
         public init(group: GroupType? = nil) {
             self.group = group
         }
@@ -3857,6 +3975,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(idpIdentifier: String, userPoolId: String) {
             self.idpIdentifier = idpIdentifier
             self.userPoolId = userPoolId
@@ -3881,6 +4000,7 @@ extension CognitoIdentityProvider {
         /// The identity provider details.
         public let identityProvider: IdentityProviderType
 
+        @inlinable
         public init(identityProvider: IdentityProviderType) {
             self.identityProvider = identityProvider
         }
@@ -3894,6 +4014,7 @@ extension CognitoIdentityProvider {
         /// The ID of the user pool that has the logging configuration that you want to view.
         public let userPoolId: String
 
+        @inlinable
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
         }
@@ -3913,6 +4034,7 @@ extension CognitoIdentityProvider {
         /// The logging configuration of the requested user pool.
         public let logDeliveryConfiguration: LogDeliveryConfigurationType?
 
+        @inlinable
         public init(logDeliveryConfiguration: LogDeliveryConfigurationType? = nil) {
             self.logDeliveryConfiguration = logDeliveryConfiguration
         }
@@ -3926,6 +4048,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
         }
@@ -3945,6 +4068,7 @@ extension CognitoIdentityProvider {
         /// The signing certificate.
         public let certificate: String?
 
+        @inlinable
         public init(certificate: String? = nil) {
             self.certificate = certificate
         }
@@ -3960,6 +4084,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(clientId: String? = nil, userPoolId: String) {
             self.clientId = clientId
             self.userPoolId = userPoolId
@@ -3984,6 +4109,7 @@ extension CognitoIdentityProvider {
         /// The UI customization information.
         public let uiCustomization: UICustomizationType
 
+        @inlinable
         public init(uiCustomization: UICustomizationType) {
             self.uiCustomization = uiCustomization
         }
@@ -4002,6 +4128,7 @@ extension CognitoIdentityProvider {
         /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
         public let clientMetadata: [String: String]?
 
+        @inlinable
         public init(accessToken: String, attributeName: String, clientMetadata: [String: String]? = nil) {
             self.accessToken = accessToken
             self.attributeName = attributeName
@@ -4030,6 +4157,7 @@ extension CognitoIdentityProvider {
         /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
 
+        @inlinable
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
@@ -4043,6 +4171,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
         }
@@ -4068,6 +4197,7 @@ extension CognitoIdentityProvider {
         /// Shows user pool configuration for time-based one-time password (TOTP) MFA. Includes TOTP enabled or disabled state.
         public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
 
+        @inlinable
         public init(emailMfaConfiguration: EmailMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil) {
             self.emailMfaConfiguration = emailMfaConfiguration
             self.mfaConfiguration = mfaConfiguration
@@ -4087,6 +4217,7 @@ extension CognitoIdentityProvider {
         /// A non-expired access token for the user whose information you want to query.
         public let accessToken: String
 
+        @inlinable
         public init(accessToken: String) {
             self.accessToken = accessToken
         }
@@ -4112,6 +4243,7 @@ extension CognitoIdentityProvider {
         /// The username of the user that you requested.
         public let username: String
 
+        @inlinable
         public init(mfaOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType], userMFASettingList: [String]? = nil, username: String) {
             self.mfaOptions = mfaOptions
             self.preferredMfaSetting = preferredMfaSetting
@@ -4133,6 +4265,7 @@ extension CognitoIdentityProvider {
         /// A valid access token that Amazon Cognito issued to the user who you want to sign out.
         public let accessToken: String
 
+        @inlinable
         public init(accessToken: String) {
             self.accessToken = accessToken
         }
@@ -4168,6 +4301,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, groupName: String? = nil, lastModifiedDate: Date? = nil, precedence: Int? = nil, roleArn: String? = nil, userPoolId: String? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -4195,6 +4329,7 @@ extension CognitoIdentityProvider {
         /// The header value.
         public let headerValue: String?
 
+        @inlinable
         public init(headerName: String? = nil, headerValue: String? = nil) {
             self.headerName = headerName
             self.headerValue = headerValue
@@ -4234,6 +4369,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String?
 
+        @inlinable
         public init(attributeMapping: [String: String]? = nil, creationDate: Date? = nil, idpIdentifiers: [String]? = nil, lastModifiedDate: Date? = nil, providerDetails: [String: String]? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil, userPoolId: String? = nil) {
             self.attributeMapping = attributeMapping
             self.creationDate = creationDate
@@ -4274,6 +4410,7 @@ extension CognitoIdentityProvider {
         /// when it makes API requests.
         public let userContextData: UserContextDataType?
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, authFlow: AuthFlowType, authParameters: [String: String]? = nil, clientId: String, clientMetadata: [String: String]? = nil, userContextData: UserContextDataType? = nil) {
             self.analyticsMetadata = analyticsMetadata
             self.authFlow = authFlow
@@ -4321,6 +4458,7 @@ extension CognitoIdentityProvider {
         /// The session that should pass both ways in challenge-response calls to the service. If the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
         public let session: String?
 
+        @inlinable
         public init(authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
             self.authenticationResult = authenticationResult
             self.challengeName = challengeName
@@ -4366,6 +4504,7 @@ extension CognitoIdentityProvider {
         /// Verifies the authentication challenge response.
         public let verifyAuthChallengeResponse: String?
 
+        @inlinable
         public init(createAuthChallenge: String? = nil, customEmailSender: CustomEmailLambdaVersionConfigType? = nil, customMessage: String? = nil, customSMSSender: CustomSMSLambdaVersionConfigType? = nil, defineAuthChallenge: String? = nil, kmsKeyID: String? = nil, postAuthentication: String? = nil, postConfirmation: String? = nil, preAuthentication: String? = nil, preSignUp: String? = nil, preTokenGeneration: String? = nil, preTokenGenerationConfig: PreTokenGenerationVersionConfigType? = nil, userMigration: String? = nil, verifyAuthChallengeResponse: String? = nil) {
             self.createAuthChallenge = createAuthChallenge
             self.customEmailSender = customEmailSender
@@ -4452,6 +4591,7 @@ extension CognitoIdentityProvider {
         /// through the full list of items.
         public let paginationToken: String?
 
+        @inlinable
         public init(accessToken: String, limit: Int? = nil, paginationToken: String? = nil) {
             self.accessToken = accessToken
             self.limit = limit
@@ -4481,6 +4621,7 @@ extension CognitoIdentityProvider {
         /// the list. By use of this token, you can paginate through the full list of items.
         public let paginationToken: String?
 
+        @inlinable
         public init(devices: [DeviceType]? = nil, paginationToken: String? = nil) {
             self.devices = devices
             self.paginationToken = paginationToken
@@ -4500,6 +4641,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -4530,6 +4672,7 @@ extension CognitoIdentityProvider {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [GroupType]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -4549,6 +4692,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4578,6 +4722,7 @@ extension CognitoIdentityProvider {
         /// A list of IdP objects.
         public let providers: [ProviderDescription]
 
+        @inlinable
         public init(nextToken: String? = nil, providers: [ProviderDescription]) {
             self.nextToken = nextToken
             self.providers = providers
@@ -4597,6 +4742,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4626,6 +4772,7 @@ extension CognitoIdentityProvider {
         /// The resource servers.
         public let resourceServers: [ResourceServerType]
 
+        @inlinable
         public init(nextToken: String? = nil, resourceServers: [ResourceServerType]) {
             self.nextToken = nextToken
             self.resourceServers = resourceServers
@@ -4641,6 +4788,7 @@ extension CognitoIdentityProvider {
         /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4660,6 +4808,7 @@ extension CognitoIdentityProvider {
         /// The tags that are assigned to the user pool.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4681,6 +4830,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
+        @inlinable
         public init(maxResults: Int, paginationToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.paginationToken = paginationToken
@@ -4712,6 +4862,7 @@ extension CognitoIdentityProvider {
         /// The user import jobs.
         public let userImportJobs: [UserImportJobType]?
 
+        @inlinable
         public init(paginationToken: String? = nil, userImportJobs: [UserImportJobType]? = nil) {
             self.paginationToken = paginationToken
             self.userImportJobs = userImportJobs
@@ -4731,6 +4882,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to list user pool clients.
         public let userPoolId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4761,6 +4913,7 @@ extension CognitoIdentityProvider {
         /// The user pool clients in the response that lists user pool clients.
         public let userPoolClients: [UserPoolClientDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, userPoolClients: [UserPoolClientDescription]? = nil) {
             self.nextToken = nextToken
             self.userPoolClients = userPoolClients
@@ -4778,6 +4931,7 @@ extension CognitoIdentityProvider {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4802,6 +4956,7 @@ extension CognitoIdentityProvider {
         /// The user pools from the response to list users.
         public let userPools: [UserPoolDescriptionType]?
 
+        @inlinable
         public init(nextToken: String? = nil, userPools: [UserPoolDescriptionType]? = nil) {
             self.nextToken = nextToken
             self.userPools = userPools
@@ -4823,6 +4978,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(groupName: String, limit: Int? = nil, nextToken: String? = nil, userPoolId: String) {
             self.groupName = groupName
             self.limit = limit
@@ -4858,6 +5014,7 @@ extension CognitoIdentityProvider {
         /// A list of users in the group, and their attributes.
         public let users: [UserType]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [UserType]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -4885,6 +5042,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool on which the search should be performed.
         public let userPoolId: String
 
+        @inlinable
         public init(attributesToGet: [String]? = nil, filter: String? = nil, limit: Int? = nil, paginationToken: String? = nil, userPoolId: String) {
             self.attributesToGet = attributesToGet
             self.filter = filter
@@ -4926,6 +5084,7 @@ extension CognitoIdentityProvider {
         /// A list of the user pool users, and their attributes, that match your query.  Amazon Cognito creates a profile in your user pool for each native user in your user pool, and each unique user ID from your third-party identity providers (IdPs). When you link users with the AdminLinkProviderForUser API operation, the output of ListUsers displays both the IdP user and the native user that you linked. You can identify IdP users in the Users object of this API response by the IdP prefix that Amazon Cognito appends to Username.
         public let users: [UserType]?
 
+        @inlinable
         public init(paginationToken: String? = nil, users: [UserType]? = nil) {
             self.paginationToken = paginationToken
             self.users = users
@@ -4949,6 +5108,7 @@ extension CognitoIdentityProvider {
         /// The Amazon S3 bucket destination of user activity log export with advanced security features. To activate this setting,  advanced security features must be active in your user pool.
         public let s3Configuration: S3ConfigurationType?
 
+        @inlinable
         public init(cloudWatchLogsConfiguration: CloudWatchLogsConfigurationType? = nil, eventSource: EventSourceName, firehoseConfiguration: FirehoseConfigurationType? = nil, logLevel: LogLevel, s3Configuration: S3ConfigurationType? = nil) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.eventSource = eventSource
@@ -4978,6 +5138,7 @@ extension CognitoIdentityProvider {
         /// The ID of the user pool where you configured logging.
         public let userPoolId: String
 
+        @inlinable
         public init(logConfigurations: [LogConfigurationType], userPoolId: String) {
             self.logConfigurations = logConfigurations
             self.userPoolId = userPoolId
@@ -4995,6 +5156,7 @@ extension CognitoIdentityProvider {
         /// The delivery medium to send the MFA code. You can use this parameter to set only the SMS delivery medium value.
         public let deliveryMedium: DeliveryMediumType?
 
+        @inlinable
         public init(attributeName: String? = nil, deliveryMedium: DeliveryMediumType? = nil) {
             self.attributeName = attributeName
             self.deliveryMedium = deliveryMedium
@@ -5020,6 +5182,7 @@ extension CognitoIdentityProvider {
         /// The message template for SMS messages.
         public let smsMessage: String?
 
+        @inlinable
         public init(emailMessage: String? = nil, emailSubject: String? = nil, smsMessage: String? = nil) {
             self.emailMessage = emailMessage
             self.emailSubject = emailSubject
@@ -5051,6 +5214,7 @@ extension CognitoIdentityProvider {
         /// The device key.
         public let deviceKey: String?
 
+        @inlinable
         public init(deviceGroupKey: String? = nil, deviceKey: String? = nil) {
             self.deviceGroupKey = deviceGroupKey
             self.deviceKey = deviceKey
@@ -5076,6 +5240,7 @@ extension CognitoIdentityProvider {
         /// The Amazon Resource Name (ARN) of the identity that is associated with the sending authorization policy. This identity permits Amazon Cognito to send for the email address specified in the From parameter.
         public let sourceArn: String
 
+        @inlinable
         public init(blockEmail: NotifyEmailType? = nil, from: String? = nil, mfaEmail: NotifyEmailType? = nil, noActionEmail: NotifyEmailType? = nil, replyTo: String? = nil, sourceArn: String) {
             self.blockEmail = blockEmail
             self.from = from
@@ -5114,6 +5279,7 @@ extension CognitoIdentityProvider {
         /// The email text body.
         public let textBody: String?
 
+        @inlinable
         public init(htmlBody: String? = nil, subject: String, textBody: String? = nil) {
             self.htmlBody = htmlBody
             self.subject = subject
@@ -5145,6 +5311,7 @@ extension CognitoIdentityProvider {
         /// The minimum value of an attribute that is of the number data type.
         public let minValue: String?
 
+        @inlinable
         public init(maxValue: String? = nil, minValue: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -5177,6 +5344,7 @@ extension CognitoIdentityProvider {
         /// The number of days a temporary password is valid in the password policy. If the user doesn't sign in during this time, an administrator must reset their password. Defaults to 7. If you submit a value of 0, Amazon Cognito treats it as a null value and sets TemporaryPasswordValidityDays to its default value.  When you set TemporaryPasswordValidityDays for a user pool, you can no longer set a value for the legacy UnusedAccountValidityDays parameter in that user pool.
         public let temporaryPasswordValidityDays: Int?
 
+        @inlinable
         public init(minimumLength: Int? = nil, passwordHistorySize: Int? = nil, requireLowercase: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercase: Bool? = nil, temporaryPasswordValidityDays: Int? = nil) {
             self.minimumLength = minimumLength
             self.passwordHistorySize = passwordHistorySize
@@ -5213,6 +5381,7 @@ extension CognitoIdentityProvider {
         /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features.
         public let lambdaVersion: PreTokenGenerationLambdaVersionType
 
+        @inlinable
         public init(lambdaArn: String, lambdaVersion: PreTokenGenerationLambdaVersionType) {
             self.lambdaArn = lambdaArn
             self.lambdaVersion = lambdaVersion
@@ -5241,6 +5410,7 @@ extension CognitoIdentityProvider {
         /// The IdP type.
         public let providerType: IdentityProviderTypeType?
 
+        @inlinable
         public init(creationDate: Date? = nil, lastModifiedDate: Date? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil) {
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -5264,6 +5434,7 @@ extension CognitoIdentityProvider {
         /// The name of the provider, such as Facebook, Google, or Login with Amazon.
         public let providerName: String?
 
+        @inlinable
         public init(providerAttributeName: String? = nil, providerAttributeValue: String? = nil, providerName: String? = nil) {
             self.providerAttributeName = providerAttributeName
             self.providerAttributeValue = providerAttributeValue
@@ -5291,6 +5462,7 @@ extension CognitoIdentityProvider {
         /// A positive integer specifying priority of a method with 1 being the highest priority.
         public let priority: Int
 
+        @inlinable
         public init(name: RecoveryOptionNameType, priority: Int) {
             self.name = name
             self.priority = priority
@@ -5324,6 +5496,7 @@ extension CognitoIdentityProvider {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, secretHash: String? = nil, userContextData: UserContextDataType? = nil, username: String) {
             self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
@@ -5365,6 +5538,7 @@ extension CognitoIdentityProvider {
         /// The code delivery details returned by the server in response to the request to resend the confirmation code.
         public let codeDeliveryDetails: CodeDeliveryDetailsType?
 
+        @inlinable
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
@@ -5380,6 +5554,7 @@ extension CognitoIdentityProvider {
         /// The name of the scope.
         public let scopeName: String
 
+        @inlinable
         public init(scopeDescription: String, scopeName: String) {
             self.scopeDescription = scopeDescription
             self.scopeName = scopeName
@@ -5409,6 +5584,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that hosts the resource server.
         public let userPoolId: String?
 
+        @inlinable
         public init(identifier: String? = nil, name: String? = nil, scopes: [ResourceServerScopeType]? = nil, userPoolId: String? = nil) {
             self.identifier = identifier
             self.name = name
@@ -5445,6 +5621,7 @@ extension CognitoIdentityProvider {
         /// when it makes API requests.
         public let userContextData: UserContextDataType?
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, challengeName: ChallengeNameType, challengeResponses: [String: String]? = nil, clientId: String, clientMetadata: [String: String]? = nil, session: String? = nil, userContextData: UserContextDataType? = nil) {
             self.analyticsMetadata = analyticsMetadata
             self.challengeName = challengeName
@@ -5494,6 +5671,7 @@ extension CognitoIdentityProvider {
         /// The session that should be passed both ways in challenge-response calls to the service. If the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
         public let session: String?
 
+        @inlinable
         public init(authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
             self.authenticationResult = authenticationResult
             self.challengeName = challengeName
@@ -5517,6 +5695,7 @@ extension CognitoIdentityProvider {
         /// The refresh token that you want to revoke.
         public let token: String
 
+        @inlinable
         public init(clientId: String, clientSecret: String? = nil, token: String) {
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -5559,6 +5738,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String?
 
+        @inlinable
         public init(accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType? = nil, clientId: String? = nil, compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType? = nil, lastModifiedDate: Date? = nil, riskExceptionConfiguration: RiskExceptionConfigurationType? = nil, userPoolId: String? = nil) {
             self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
             self.clientId = clientId
@@ -5584,6 +5764,7 @@ extension CognitoIdentityProvider {
         /// Risk detection isn't performed on the IP addresses in this range list. The IP range is in CIDR notation.
         public let skippedIPRangeList: [String]?
 
+        @inlinable
         public init(blockedIPRangeList: [String]? = nil, skippedIPRangeList: [String]? = nil) {
             self.blockedIPRangeList = blockedIPRangeList
             self.skippedIPRangeList = skippedIPRangeList
@@ -5610,6 +5791,7 @@ extension CognitoIdentityProvider {
         /// The ARN of an Amazon S3 bucket that's the destination for advanced security features log export.
         public let bucketArn: String?
 
+        @inlinable
         public init(bucketArn: String? = nil) {
             self.bucketArn = bucketArn
         }
@@ -5631,6 +5813,7 @@ extension CognitoIdentityProvider {
         /// Specifies whether SMS is the preferred MFA method.
         public let preferredMfa: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil, preferredMfa: Bool? = nil) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
@@ -5658,6 +5841,7 @@ extension CognitoIdentityProvider {
         /// Specifies the constraints for an attribute of the string type.
         public let stringAttributeConstraints: StringAttributeConstraintsType?
 
+        @inlinable
         public init(attributeDataType: AttributeDataType? = nil, developerOnlyAttribute: Bool? = nil, mutable: Bool? = nil, name: String? = nil, numberAttributeConstraints: NumberAttributeConstraintsType? = nil, required: Bool? = nil, stringAttributeConstraints: StringAttributeConstraintsType? = nil) {
             self.attributeDataType = attributeDataType
             self.developerOnlyAttribute = developerOnlyAttribute
@@ -5693,6 +5877,7 @@ extension CognitoIdentityProvider {
         /// The ID of the user pool where you want to configure logging.
         public let userPoolId: String
 
+        @inlinable
         public init(logConfigurations: [LogConfigurationType], userPoolId: String) {
             self.logConfigurations = logConfigurations
             self.userPoolId = userPoolId
@@ -5718,6 +5903,7 @@ extension CognitoIdentityProvider {
         /// The detailed activity logging configuration that you applied to the requested user pool.
         public let logDeliveryConfiguration: LogDeliveryConfigurationType?
 
+        @inlinable
         public init(logDeliveryConfiguration: LogDeliveryConfigurationType? = nil) {
             self.logDeliveryConfiguration = logDeliveryConfiguration
         }
@@ -5739,6 +5925,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType? = nil, clientId: String? = nil, compromisedCredentialsRiskConfiguration: CompromisedCredentialsRiskConfigurationType? = nil, riskExceptionConfiguration: RiskExceptionConfigurationType? = nil, userPoolId: String) {
             self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
             self.clientId = clientId
@@ -5771,6 +5958,7 @@ extension CognitoIdentityProvider {
         /// The risk configuration.
         public let riskConfiguration: RiskConfigurationType
 
+        @inlinable
         public init(riskConfiguration: RiskConfigurationType) {
             self.riskConfiguration = riskConfiguration
         }
@@ -5790,6 +5978,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(clientId: String? = nil, css: String? = nil, imageFile: AWSBase64Data? = nil, userPoolId: String) {
             self.clientId = clientId
             self.css = css
@@ -5820,6 +6009,7 @@ extension CognitoIdentityProvider {
         /// The UI customization information.
         public let uiCustomization: UICustomizationType
 
+        @inlinable
         public init(uiCustomization: UICustomizationType) {
             self.uiCustomization = uiCustomization
         }
@@ -5839,6 +6029,7 @@ extension CognitoIdentityProvider {
         /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available.
         public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
 
+        @inlinable
         public init(accessToken: String, emailMfaSettings: EmailMfaSettingsType? = nil, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil) {
             self.accessToken = accessToken
             self.emailMfaSettings = emailMfaSettings
@@ -5874,6 +6065,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(emailMfaConfiguration: EmailMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil, userPoolId: String) {
             self.emailMfaConfiguration = emailMfaConfiguration
             self.mfaConfiguration = mfaConfiguration
@@ -5909,6 +6101,7 @@ extension CognitoIdentityProvider {
         /// Shows user pool configuration for time-based one-time password (TOTP) MFA. Includes TOTP enabled or disabled state.
         public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
 
+        @inlinable
         public init(emailMfaConfiguration: EmailMfaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, smsMfaConfiguration: SmsMfaConfigType? = nil, softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType? = nil) {
             self.emailMfaConfiguration = emailMfaConfiguration
             self.mfaConfiguration = mfaConfiguration
@@ -5930,6 +6123,7 @@ extension CognitoIdentityProvider {
         /// You can use this parameter only to set an SMS configuration that uses SMS for delivery.
         public let mfaOptions: [MFAOptionType]
 
+        @inlinable
         public init(accessToken: String, mfaOptions: [MFAOptionType]) {
             self.accessToken = accessToken
             self.mfaOptions = mfaOptions
@@ -5975,6 +6169,7 @@ extension CognitoIdentityProvider {
         /// Temporary user attributes that contribute to the outcomes of your pre sign-up Lambda trigger. This set of key-value pairs are for custom validation of information that you  collect from your users but don't need to retain. Your Lambda function can analyze this additional data and act on it. Your function might perform external API operations like logging user attributes and validation data to Amazon CloudWatch Logs. Validation data might also affect the response that your function returns to Amazon Cognito, like automatically confirming the user if they sign up from within your network. For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
         public let validationData: [AttributeType]?
 
+        @inlinable
         public init(analyticsMetadata: AnalyticsMetadataType? = nil, clientId: String, clientMetadata: [String: String]? = nil, password: String, secretHash: String? = nil, userAttributes: [AttributeType]? = nil, userContextData: UserContextDataType? = nil, username: String, validationData: [AttributeType]? = nil) {
             self.analyticsMetadata = analyticsMetadata
             self.clientId = clientId
@@ -6034,6 +6229,7 @@ extension CognitoIdentityProvider {
         /// The 128-bit ID of the authenticated user. This isn't the same as username.
         public let userSub: String
 
+        @inlinable
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil, userConfirmed: Bool, userSub: String) {
             self.codeDeliveryDetails = codeDeliveryDetails
             self.userConfirmed = userConfirmed
@@ -6055,6 +6251,7 @@ extension CognitoIdentityProvider {
         /// The Amazon Web Services Region to use with Amazon SNS integration. You can choose the same Region as your user pool, or a supported Legacy Amazon SNS alternate Region.   Amazon Cognito resources in the Asia Pacific (Seoul) Amazon Web Services Region must use your Amazon SNS configuration in the Asia Pacific (Tokyo) Region. For more information, see SMS message settings for Amazon Cognito user pools.
         public let snsRegion: String?
 
+        @inlinable
         public init(externalId: String? = nil, snsCallerArn: String, snsRegion: String? = nil) {
             self.externalId = externalId
             self.snsCallerArn = snsCallerArn
@@ -6083,6 +6280,7 @@ extension CognitoIdentityProvider {
         /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To request Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role that you provide for your Amazon Web Services account.
         public let smsConfiguration: SmsConfigurationType?
 
+        @inlinable
         public init(smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil) {
             self.smsAuthenticationMessage = smsAuthenticationMessage
             self.smsConfiguration = smsConfiguration
@@ -6105,6 +6303,7 @@ extension CognitoIdentityProvider {
         /// Specifies whether software token MFA is activated.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -6120,6 +6319,7 @@ extension CognitoIdentityProvider {
         /// Specifies whether software token MFA is the preferred MFA method.
         public let preferredMfa: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil, preferredMfa: Bool? = nil) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
@@ -6137,6 +6337,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
+        @inlinable
         public init(jobId: String, userPoolId: String) {
             self.jobId = jobId
             self.userPoolId = userPoolId
@@ -6161,6 +6362,7 @@ extension CognitoIdentityProvider {
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
 
+        @inlinable
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
@@ -6176,6 +6378,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String
 
+        @inlinable
         public init(jobId: String, userPoolId: String) {
             self.jobId = jobId
             self.userPoolId = userPoolId
@@ -6200,6 +6403,7 @@ extension CognitoIdentityProvider {
         /// The job object that represents the user import job.
         public let userImportJob: UserImportJobType?
 
+        @inlinable
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
@@ -6215,6 +6419,7 @@ extension CognitoIdentityProvider {
         /// The minimum length.
         public let minLength: String?
 
+        @inlinable
         public init(maxLength: String? = nil, minLength: String? = nil) {
             self.maxLength = maxLength
             self.minLength = minLength
@@ -6237,6 +6442,7 @@ extension CognitoIdentityProvider {
         /// The tags to assign to the user pool.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6271,6 +6477,7 @@ extension CognitoIdentityProvider {
         /// A time unit of seconds, minutes, hours, or days for the value that you set in the RefreshTokenValidity parameter. The default RefreshTokenValidity time unit is days. RefreshTokenValidity duration can range from 60 minutes to 10 years.
         public let refreshToken: TimeUnitsType?
 
+        @inlinable
         public init(accessToken: TimeUnitsType? = nil, idToken: TimeUnitsType? = nil, refreshToken: TimeUnitsType? = nil) {
             self.accessToken = accessToken
             self.idToken = idToken
@@ -6302,6 +6509,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String?
 
+        @inlinable
         public init(clientId: String? = nil, creationDate: Date? = nil, css: String? = nil, cssVersion: String? = nil, imageUrl: String? = nil, lastModifiedDate: Date? = nil, userPoolId: String? = nil) {
             self.clientId = clientId
             self.creationDate = creationDate
@@ -6329,6 +6537,7 @@ extension CognitoIdentityProvider {
         /// The keys of the tags to remove from the user pool.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -6370,6 +6579,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(eventId: String, feedbackToken: String, feedbackValue: FeedbackValueType, username: String, userPoolId: String) {
             self.eventId = eventId
             self.feedbackToken = feedbackToken
@@ -6412,6 +6622,7 @@ extension CognitoIdentityProvider {
         /// The status of whether a device is remembered.
         public let deviceRememberedStatus: DeviceRememberedStatusType?
 
+        @inlinable
         public init(accessToken: String, deviceKey: String, deviceRememberedStatus: DeviceRememberedStatusType? = nil) {
             self.accessToken = accessToken
             self.deviceKey = deviceKey
@@ -6448,6 +6659,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(description: String? = nil, groupName: String, precedence: Int? = nil, roleArn: String? = nil, userPoolId: String) {
             self.description = description
             self.groupName = groupName
@@ -6483,6 +6695,7 @@ extension CognitoIdentityProvider {
         /// The group object for the group.
         public let group: GroupType?
 
+        @inlinable
         public init(group: GroupType? = nil) {
             self.group = group
         }
@@ -6507,6 +6720,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
+        @inlinable
         public init(attributeMapping: [String: String]? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String]? = nil, providerName: String, userPoolId: String) {
             self.attributeMapping = attributeMapping
             self.idpIdentifiers = idpIdentifiers
@@ -6552,6 +6766,7 @@ extension CognitoIdentityProvider {
         /// The identity provider details.
         public let identityProvider: IdentityProviderType
 
+        @inlinable
         public init(identityProvider: IdentityProviderType) {
             self.identityProvider = identityProvider
         }
@@ -6571,6 +6786,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
+        @inlinable
         public init(identifier: String, name: String, scopes: [ResourceServerScopeType]? = nil, userPoolId: String) {
             self.identifier = identifier
             self.name = name
@@ -6606,6 +6822,7 @@ extension CognitoIdentityProvider {
         /// The resource server.
         public let resourceServer: ResourceServerType
 
+        @inlinable
         public init(resourceServer: ResourceServerType) {
             self.resourceServer = resourceServer
         }
@@ -6624,6 +6841,7 @@ extension CognitoIdentityProvider {
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If you have set an attribute to require verification before Amazon Cognito updates its value, this request doesn’t immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value.
         public let userAttributes: [AttributeType]
 
+        @inlinable
         public init(accessToken: String, clientMetadata: [String: String]? = nil, userAttributes: [AttributeType]) {
             self.accessToken = accessToken
             self.clientMetadata = clientMetadata
@@ -6652,6 +6870,7 @@ extension CognitoIdentityProvider {
         /// The code delivery details list from the server for the request to update user attributes.
         public let codeDeliveryDetailsList: [CodeDeliveryDetailsType]?
 
+        @inlinable
         public init(codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil) {
             self.codeDeliveryDetailsList = codeDeliveryDetailsList
         }
@@ -6740,6 +6959,7 @@ extension CognitoIdentityProvider {
         /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an UpdateUserAttributes API request and sets family_name to the new value.  When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
 
+        @inlinable
         public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
@@ -6851,6 +7071,7 @@ extension CognitoIdentityProvider {
         /// The user pool client value from the response from the server when you request to update the user pool client.
         public let userPoolClient: UserPoolClientType?
 
+        @inlinable
         public init(userPoolClient: UserPoolClientType? = nil) {
             self.userPoolClient = userPoolClient
         }
@@ -6868,6 +7089,7 @@ extension CognitoIdentityProvider {
         /// The ID of the user pool that is associated with the custom domain whose certificate you're updating.
         public let userPoolId: String
 
+        @inlinable
         public init(customDomainConfig: CustomDomainConfigType, domain: String, userPoolId: String) {
             self.customDomainConfig = customDomainConfig
             self.domain = domain
@@ -6895,6 +7117,7 @@ extension CognitoIdentityProvider {
         /// The Amazon CloudFront endpoint that Amazon Cognito set up when you added the custom domain to your user pool.
         public let cloudFrontDomain: String?
 
+        @inlinable
         public init(cloudFrontDomain: String? = nil) {
             self.cloudFrontDomain = cloudFrontDomain
         }
@@ -6952,6 +7175,7 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
+        @inlinable
         public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
@@ -7035,6 +7259,7 @@ extension CognitoIdentityProvider {
         /// Requires that your user verifies their email address, phone number, or both before Amazon Cognito updates the value of that attribute. When you update a user attribute that has this option activated, Amazon Cognito sends a verification message to the new phone number or email address. Amazon Cognito doesn’t change the value of the attribute until your user responds to the verification message and confirms the new value. You can verify an updated email address or phone number with a VerifyUserAttribute API request. You can also call the AdminUpdateUserAttributes API and set email_verified or phone_number_verified to true. When AttributesRequireVerificationBeforeUpdate is false, your user pool doesn't require that your users verify attribute changes before Amazon Cognito updates them. In a user pool where AttributesRequireVerificationBeforeUpdate is false, API operations that change attribute values can immediately update a user’s email or phone_number attribute.
         public let attributesRequireVerificationBeforeUpdate: [VerifiedAttributeType]?
 
+        @inlinable
         public init(attributesRequireVerificationBeforeUpdate: [VerifiedAttributeType]? = nil) {
             self.attributesRequireVerificationBeforeUpdate = attributesRequireVerificationBeforeUpdate
         }
@@ -7050,6 +7275,7 @@ extension CognitoIdentityProvider {
         /// The source IP address of your user's device.
         public let ipAddress: String?
 
+        @inlinable
         public init(encodedData: String? = nil, ipAddress: String? = nil) {
             self.encodedData = encodedData
             self.ipAddress = ipAddress
@@ -7095,6 +7321,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool that the users are being imported into.
         public let userPoolId: String?
 
+        @inlinable
         public init(cloudWatchLogsRoleArn: String? = nil, completionDate: Date? = nil, completionMessage: String? = nil, creationDate: Date? = nil, failedUsers: Int64? = nil, importedUsers: Int64? = nil, jobId: String? = nil, jobName: String? = nil, preSignedUrl: String? = nil, skippedUsers: Int64? = nil, startDate: Date? = nil, status: UserImportJobStatusType? = nil, userPoolId: String? = nil) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.completionDate = completionDate
@@ -7134,6 +7361,7 @@ extension CognitoIdentityProvider {
         /// The operating mode of advanced security features for standard authentication types in your user pool, including username-password and secure remote password (SRP) authentication.
         public let advancedSecurityMode: AdvancedSecurityModeType
 
+        @inlinable
         public init(advancedSecurityAdditionalFlows: AdvancedSecurityAdditionalFlowsType? = nil, advancedSecurityMode: AdvancedSecurityModeType) {
             self.advancedSecurityAdditionalFlows = advancedSecurityAdditionalFlows
             self.advancedSecurityMode = advancedSecurityMode
@@ -7153,6 +7381,7 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool where you want to describe the user pool client.
         public let userPoolId: String?
 
+        @inlinable
         public init(clientId: String? = nil, clientName: String? = nil, userPoolId: String? = nil) {
             self.clientId = clientId
             self.clientName = clientName
@@ -7253,6 +7482,7 @@ extension CognitoIdentityProvider {
         /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an UpdateUserAttributes API request and sets family_name to the new value.  When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
 
+        @inlinable
         public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, authSessionValidity: Int? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, enablePropagateAdditionalUserContextData: Bool? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
@@ -7326,6 +7556,7 @@ extension CognitoIdentityProvider {
         /// The user pool status in a user pool description.
         public let status: StatusType?
 
+        @inlinable
         public init(creationDate: Date? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, name: String? = nil) {
             self.creationDate = creationDate
             self.id = id
@@ -7336,6 +7567,7 @@ extension CognitoIdentityProvider {
         }
 
         @available(*, deprecated, message: "Members status have been deprecated")
+        @inlinable
         public init(creationDate: Date? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, name: String? = nil, status: StatusType? = nil) {
             self.creationDate = creationDate
             self.id = id
@@ -7359,6 +7591,7 @@ extension CognitoIdentityProvider {
         /// The password policy.
         public let passwordPolicy: PasswordPolicyType?
 
+        @inlinable
         public init(passwordPolicy: PasswordPolicyType? = nil) {
             self.passwordPolicy = passwordPolicy
         }
@@ -7450,6 +7683,7 @@ extension CognitoIdentityProvider {
         /// The template for verification messages.
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
+        @inlinable
         public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
@@ -7487,6 +7721,7 @@ extension CognitoIdentityProvider {
         }
 
         @available(*, deprecated, message: "Members status have been deprecated")
+        @inlinable
         public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
@@ -7577,6 +7812,7 @@ extension CognitoIdentityProvider {
         /// The user status. This can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   EXTERNAL_PROVIDER - User signed in with a third-party IdP.   UNKNOWN - User status isn't known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset their password before they can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else.
         public let userStatus: UserStatusType?
 
+        @inlinable
         public init(attributes: [AttributeType]? = nil, enabled: Bool? = nil, mfaOptions: [MFAOptionType]? = nil, userCreateDate: Date? = nil, userLastModifiedDate: Date? = nil, username: String? = nil, userStatus: UserStatusType? = nil) {
             self.attributes = attributes
             self.enabled = enabled
@@ -7602,6 +7838,7 @@ extension CognitoIdentityProvider {
         /// Specifies whether user name case sensitivity will be applied for all users in the user pool through Amazon Cognito APIs. For most use cases, set case sensitivity to False (case insensitive) as a best practice. When usernames and email addresses are case insensitive, users can sign in as the same user when they enter a different capitalization of their user name. Valid values include:  True  Enables case sensitivity for all username input. When this option is set to True, users must sign in using the exact capitalization of their given username, such as “UserName”. This is the default value.  False  Enables case insensitivity for all username input. For example, when this option is set to False, users can sign in using username, USERNAME, or UserName. This option also enables both preferred_username and email alias to be case insensitive, in addition to the username attribute.
         public let caseSensitive: Bool
 
+        @inlinable
         public init(caseSensitive: Bool) {
             self.caseSensitive = caseSensitive
         }
@@ -7625,6 +7862,7 @@ extension CognitoIdentityProvider {
         /// The template for SMS messages that Amazon Cognito sends to your users.
         public let smsMessage: String?
 
+        @inlinable
         public init(defaultEmailOption: DefaultEmailOptionType? = nil, emailMessage: String? = nil, emailMessageByLink: String? = nil, emailSubject: String? = nil, emailSubjectByLink: String? = nil, smsMessage: String? = nil) {
             self.defaultEmailOption = defaultEmailOption
             self.emailMessage = emailMessage
@@ -7672,6 +7910,7 @@ extension CognitoIdentityProvider {
         /// The one- time password computed using the secret code returned by AssociateSoftwareToken.
         public let userCode: String
 
+        @inlinable
         public init(accessToken: String? = nil, friendlyDeviceName: String? = nil, session: String? = nil, userCode: String) {
             self.accessToken = accessToken
             self.friendlyDeviceName = friendlyDeviceName
@@ -7703,6 +7942,7 @@ extension CognitoIdentityProvider {
         /// The status of the verify software token.
         public let status: VerifySoftwareTokenResponseType?
 
+        @inlinable
         public init(session: String? = nil, status: VerifySoftwareTokenResponseType? = nil) {
             self.session = session
             self.status = status
@@ -7722,6 +7962,7 @@ extension CognitoIdentityProvider {
         /// The verification code in the request to verify user attributes.
         public let code: String
 
+        @inlinable
         public init(accessToken: String, attributeName: String, code: String) {
             self.accessToken = accessToken
             self.attributeName = attributeName

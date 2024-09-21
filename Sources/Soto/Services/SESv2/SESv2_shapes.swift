@@ -338,6 +338,7 @@ extension SESv2 {
         /// The URL of your website. This information helps us better understand the type of content that you plan to send.
         public let websiteURL: String?
 
+        @inlinable
         public init(additionalContactEmailAddresses: [String]? = nil, contactLanguage: ContactLanguage? = nil, mailType: MailType? = nil, reviewDetails: ReviewDetails? = nil, useCaseDescription: String? = nil, websiteURL: String? = nil) {
             self.additionalContactEmailAddresses = additionalContactEmailAddresses
             self.contactLanguage = contactLanguage
@@ -371,6 +372,7 @@ extension SESv2 {
         /// Represents the start date for the query interval.
         public let startDate: Date
 
+        @inlinable
         public init(dimensions: [MetricDimensionName: String]? = nil, endDate: Date, id: String, metric: Metric, namespace: MetricNamespace, startDate: Date) {
             self.dimensions = dimensions
             self.endDate = endDate
@@ -401,6 +403,7 @@ extension SESv2 {
         /// A list of queries for metrics to be retrieved.
         public let queries: [BatchGetMetricDataQuery]
 
+        @inlinable
         public init(queries: [BatchGetMetricDataQuery]) {
             self.queries = queries
         }
@@ -424,6 +427,7 @@ extension SESv2 {
         /// A list of successfully retrieved MetricDataResult.
         public let results: [MetricDataResult]?
 
+        @inlinable
         public init(errors: [MetricDataError]? = nil, results: [MetricDataResult]? = nil) {
             self.errors = errors
             self.results = results
@@ -443,6 +447,7 @@ extension SESv2 {
         /// The name of the blacklist that the IP address appears on.
         public let rblName: String?
 
+        @inlinable
         public init(description: String? = nil, listingTime: Date? = nil, rblName: String? = nil) {
             self.description = description
             self.listingTime = listingTime
@@ -462,6 +467,7 @@ extension SESv2 {
         /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
         public let text: Content?
 
+        @inlinable
         public init(html: Content? = nil, text: Content? = nil) {
             self.html = html
             self.text = text
@@ -481,6 +487,7 @@ extension SESv2 {
         /// The status code issued by the reporting Message Transfer Authority (MTA). This field only appears if a delivery status notification (DSN) was attached to the bounce and the Diagnostic-Code was provided in the DSN.
         public let diagnosticCode: String?
 
+        @inlinable
         public init(bounceSubType: String? = nil, bounceType: BounceType? = nil, diagnosticCode: String? = nil) {
             self.bounceSubType = bounceSubType
             self.bounceType = bounceType
@@ -498,6 +505,7 @@ extension SESv2 {
         /// The template to use for the bulk email message.
         public let template: Template?
 
+        @inlinable
         public init(template: Template? = nil) {
             self.template = template
         }
@@ -521,6 +529,7 @@ extension SESv2 {
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public let replacementTags: [MessageTag]?
 
+        @inlinable
         public init(destination: Destination, replacementEmailContent: ReplacementEmailContent? = nil, replacementHeaders: [MessageHeader]? = nil, replacementTags: [MessageTag]? = nil) {
             self.destination = destination
             self.replacementEmailContent = replacementEmailContent
@@ -552,6 +561,7 @@ extension SESv2 {
         /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:   SUCCESS: Amazon SES accepted the message, and will attempt to deliver it to the recipients.   MESSAGE_REJECTED: The message was rejected because it contained a virus.   MAIL_FROM_DOMAIN_NOT_VERIFIED: The sender's email address or domain was not verified.   CONFIGURATION_SET_DOES_NOT_EXIST: The configuration set you specified does not exist.   TEMPLATE_DOES_NOT_EXIST: The template you specified does not exist.   ACCOUNT_SUSPENDED: Your account has been shut down because of issues related to your email sending practices.   ACCOUNT_THROTTLED: The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.   ACCOUNT_DAILY_QUOTA_EXCEEDED: You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.   INVALID_SENDING_POOL_NAME: The configuration set you specified refers to an IP pool that does not exist.   ACCOUNT_SENDING_PAUSED: Email sending for the Amazon SES account was disabled using the UpdateAccountSendingEnabled operation.   CONFIGURATION_SET_SENDING_PAUSED: Email sending for this configuration set was disabled using the UpdateConfigurationSetSendingEnabled operation.   INVALID_PARAMETER_VALUE: One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.   TRANSIENT_FAILURE: Amazon SES was unable to process your request because of a temporary issue.   FAILED: Amazon SES was unable to process your request. See the error message for additional information.
         public let status: BulkEmailStatus?
 
+        @inlinable
         public init(error: String? = nil, messageId: String? = nil, status: BulkEmailStatus? = nil) {
             self.error = error
             self.messageId = messageId
@@ -569,6 +579,7 @@ extension SESv2 {
         /// The export job ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -594,6 +605,7 @@ extension SESv2 {
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
 
+        @inlinable
         public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
             self.dimensionConfigurations = dimensionConfigurations
         }
@@ -611,6 +623,7 @@ extension SESv2 {
         /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. To use your own email headers, choose emailHeader. To use link tags, choose linkTags.
         public let dimensionValueSource: DimensionValueSource
 
+        @inlinable
         public init(defaultDimensionValue: String, dimensionName: String, dimensionValueSource: DimensionValueSource) {
             self.defaultDimensionValue = defaultDimensionValue
             self.dimensionName = dimensionName
@@ -630,6 +643,7 @@ extension SESv2 {
         ///  Can either be null or OnAccountSuppressionList. If the value is OnAccountSuppressionList, SES accepted the message, but didn't attempt to send it because it was on the account-level suppression list.
         public let complaintSubType: String?
 
+        @inlinable
         public init(complaintFeedbackType: String? = nil, complaintSubType: String? = nil) {
             self.complaintFeedbackType = complaintFeedbackType
             self.complaintSubType = complaintSubType
@@ -653,6 +667,7 @@ extension SESv2 {
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
         public let unsubscribeAll: Bool?
 
+        @inlinable
         public init(emailAddress: String? = nil, lastUpdatedTimestamp: Date? = nil, topicDefaultPreferences: [TopicPreference]? = nil, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
             self.emailAddress = emailAddress
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -676,6 +691,7 @@ extension SESv2 {
         /// A timestamp noting the last time the contact list was updated.
         public let lastUpdatedTimestamp: Date?
 
+        @inlinable
         public init(contactListName: String? = nil, lastUpdatedTimestamp: Date? = nil) {
             self.contactListName = contactListName
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -693,6 +709,7 @@ extension SESv2 {
         /// The name of the contact list.
         public let contactListName: String
 
+        @inlinable
         public init(contactListImportAction: ContactListImportAction, contactListName: String) {
             self.contactListImportAction = contactListImportAction
             self.contactListName = contactListName
@@ -710,6 +727,7 @@ extension SESv2 {
         /// The content of the message itself.
         public let data: String
 
+        @inlinable
         public init(charset: String? = nil, data: String) {
             self.charset = charset
             self.data = data
@@ -729,6 +747,7 @@ extension SESv2 {
         /// A name that identifies the event destination within the configuration set.
         public let eventDestinationName: String
 
+        @inlinable
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -770,6 +789,7 @@ extension SESv2 {
         /// An object that defines the VDM options for emails that you send using the configuration set.
         public let vdmOptions: VdmOptions?
 
+        @inlinable
         public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
@@ -807,6 +827,7 @@ extension SESv2 {
         /// An interest group, theme, or label within a list. A contact list can have multiple topics.
         public let topics: [Topic]?
 
+        @inlinable
         public init(contactListName: String, description: String? = nil, tags: [Tag]? = nil, topics: [Topic]? = nil) {
             self.contactListName = contactListName
             self.description = description
@@ -838,6 +859,7 @@ extension SESv2 {
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
         public let unsubscribeAll: Bool?
 
+        @inlinable
         public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
             self.attributesData = attributesData
             self.contactListName = contactListName
@@ -882,6 +904,7 @@ extension SESv2 {
         /// The subject line of the custom verification email.
         public let templateSubject: String
 
+        @inlinable
         public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, templateContent: String, templateName: String, templateSubject: String) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -917,6 +940,7 @@ extension SESv2 {
         /// An object that defines the tags (keys and values) that you want to associate with the pool.
         public let tags: [Tag]?
 
+        @inlinable
         public init(poolName: String, scalingMode: ScalingMode? = nil, tags: [Tag]? = nil) {
             self.poolName = poolName
             self.scalingMode = scalingMode
@@ -944,6 +968,7 @@ extension SESv2 {
         /// An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test.
         public let tags: [Tag]?
 
+        @inlinable
         public init(content: EmailContent, fromEmailAddress: String, reportName: String? = nil, tags: [Tag]? = nil) {
             self.content = content
             self.fromEmailAddress = fromEmailAddress
@@ -969,6 +994,7 @@ extension SESv2 {
         /// A unique string that identifies the predictive inbox placement test.
         public let reportId: String
 
+        @inlinable
         public init(deliverabilityTestStatus: DeliverabilityTestStatus, reportId: String) {
             self.deliverabilityTestStatus = deliverabilityTestStatus
             self.reportId = reportId
@@ -988,6 +1014,7 @@ extension SESv2 {
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
+        @inlinable
         public init(emailIdentity: String, policy: String, policyName: String) {
             self.emailIdentity = emailIdentity
             self.policy = policy
@@ -1028,6 +1055,7 @@ extension SESv2 {
         /// An array of objects that define the tags (keys and values) to associate with the email identity.
         public let tags: [Tag]?
 
+        @inlinable
         public init(configurationSetName: String? = nil, dkimSigningAttributes: DkimSigningAttributes? = nil, emailIdentity: String, tags: [Tag]? = nil) {
             self.configurationSetName = configurationSetName
             self.dkimSigningAttributes = dkimSigningAttributes
@@ -1056,6 +1084,7 @@ extension SESv2 {
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
+        @inlinable
         public init(dkimAttributes: DkimAttributes? = nil, identityType: IdentityType? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.dkimAttributes = dkimAttributes
             self.identityType = identityType
@@ -1075,6 +1104,7 @@ extension SESv2 {
         /// The name of the template.
         public let templateName: String
 
+        @inlinable
         public init(templateContent: EmailTemplateContent, templateName: String) {
             self.templateContent = templateContent
             self.templateName = templateName
@@ -1100,6 +1130,7 @@ extension SESv2 {
         /// The destination for the export job.
         public let exportDestination: ExportDestination
 
+        @inlinable
         public init(exportDataSource: ExportDataSource, exportDestination: ExportDestination) {
             self.exportDataSource = exportDataSource
             self.exportDestination = exportDestination
@@ -1120,6 +1151,7 @@ extension SESv2 {
         /// A string that represents the export job ID.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1135,6 +1167,7 @@ extension SESv2 {
         /// The destination for the import job.
         public let importDestination: ImportDestination
 
+        @inlinable
         public init(importDataSource: ImportDataSource, importDestination: ImportDestination) {
             self.importDataSource = importDataSource
             self.importDestination = importDestination
@@ -1154,6 +1187,7 @@ extension SESv2 {
         /// A string that represents the import job ID.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1175,6 +1209,7 @@ extension SESv2 {
         /// The subject line of the custom verification email.
         public let templateSubject: String?
 
+        @inlinable
         public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -1200,6 +1235,7 @@ extension SESv2 {
         /// An object that contains inbox placement metrics for a specific day in the analysis period.
         public let volumeStatistics: VolumeStatistics?
 
+        @inlinable
         public init(domainIspPlacements: [DomainIspPlacement]? = nil, startDate: Date? = nil, volumeStatistics: VolumeStatistics? = nil) {
             self.domainIspPlacements = domainIspPlacements
             self.startDate = startDate
@@ -1217,6 +1253,7 @@ extension SESv2 {
         /// Specifies the status of your VDM engagement metrics collection. Can be one of the following:    ENABLED – Amazon SES enables engagement metrics for your account.    DISABLED – Amazon SES disables engagement metrics for your account.
         public let engagementMetrics: FeatureStatus?
 
+        @inlinable
         public init(engagementMetrics: FeatureStatus? = nil) {
             self.engagementMetrics = engagementMetrics
         }
@@ -1230,6 +1267,7 @@ extension SESv2 {
         /// Specifies the status of your VDM engagement metrics collection. Can be one of the following:    ENABLED – Amazon SES enables engagement metrics for the configuration set.    DISABLED – Amazon SES disables engagement metrics for the configuration set.
         public let engagementMetrics: FeatureStatus?
 
+        @inlinable
         public init(engagementMetrics: FeatureStatus? = nil) {
             self.engagementMetrics = engagementMetrics
         }
@@ -1249,6 +1287,7 @@ extension SESv2 {
         /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.
         public let warmupStatus: WarmupStatus
 
+        @inlinable
         public init(ip: String, poolName: String? = nil, warmupPercentage: Int, warmupStatus: WarmupStatus) {
             self.ip = ip
             self.poolName = poolName
@@ -1270,6 +1309,7 @@ extension SESv2 {
         /// The type of the dedicated IP pool.    STANDARD – A dedicated IP pool where you can control which IPs are part of the pool.    MANAGED – A dedicated IP pool where the reputation and number of IPs are automatically managed by Amazon SES.
         public let scalingMode: ScalingMode
 
+        @inlinable
         public init(poolName: String, scalingMode: ScalingMode) {
             self.poolName = poolName
             self.scalingMode = scalingMode
@@ -1287,6 +1327,7 @@ extension SESv2 {
         /// The name of the event destination to delete.
         public let eventDestinationName: String
 
+        @inlinable
         public init(configurationSetName: String, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
@@ -1310,6 +1351,7 @@ extension SESv2 {
         /// The name of the configuration set.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -1331,6 +1373,7 @@ extension SESv2 {
         /// The name of the contact list.
         public let contactListName: String
 
+        @inlinable
         public init(contactListName: String) {
             self.contactListName = contactListName
         }
@@ -1354,6 +1397,7 @@ extension SESv2 {
         /// The contact's email address.
         public let emailAddress: String
 
+        @inlinable
         public init(contactListName: String, emailAddress: String) {
             self.contactListName = contactListName
             self.emailAddress = emailAddress
@@ -1377,6 +1421,7 @@ extension SESv2 {
         /// The name of the custom verification email template that you want to delete.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -1402,6 +1447,7 @@ extension SESv2 {
         /// The name of the dedicated IP pool that you want to delete.
         public let poolName: String
 
+        @inlinable
         public init(poolName: String) {
             self.poolName = poolName
         }
@@ -1425,6 +1471,7 @@ extension SESv2 {
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
+        @inlinable
         public init(emailIdentity: String, policyName: String) {
             self.emailIdentity = emailIdentity
             self.policyName = policyName
@@ -1454,6 +1501,7 @@ extension SESv2 {
         /// The identity (that is, the email address or domain) to delete.
         public let emailIdentity: String
 
+        @inlinable
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
         }
@@ -1479,6 +1527,7 @@ extension SESv2 {
         /// The name of the template to be deleted.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -1504,6 +1553,7 @@ extension SESv2 {
         /// The suppressed email destination to remove from the account suppression list.
         public let emailAddress: String
 
+        @inlinable
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
         }
@@ -1535,6 +1585,7 @@ extension SESv2 {
         /// The subject line for an email that you submitted in a predictive inbox placement test.
         public let subject: String?
 
+        @inlinable
         public init(createDate: Date? = nil, deliverabilityTestStatus: DeliverabilityTestStatus? = nil, fromEmailAddress: String? = nil, reportId: String? = nil, reportName: String? = nil, subject: String? = nil) {
             self.createDate = createDate
             self.deliverabilityTestStatus = deliverabilityTestStatus
@@ -1560,6 +1611,7 @@ extension SESv2 {
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
+        @inlinable
         public init(sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.sendingPoolName = sendingPoolName
             self.tlsPolicy = tlsPolicy
@@ -1579,6 +1631,7 @@ extension SESv2 {
         /// An array that contains the email addresses of the "To" recipients for the email.
         public let toAddresses: [String]?
 
+        @inlinable
         public init(bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
             self.bccAddresses = bccAddresses
             self.ccAddresses = ccAddresses
@@ -1608,6 +1661,7 @@ extension SESv2 {
         /// If you used Easy DKIM to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector for the public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
         public let tokens: [String]?
 
+        @inlinable
         public init(currentSigningKeyLength: DkimSigningKeyLength? = nil, lastKeyGenerationTimestamp: Date? = nil, nextSigningKeyLength: DkimSigningKeyLength? = nil, signingAttributesOrigin: DkimSigningAttributesOrigin? = nil, signingEnabled: Bool? = nil, status: DkimStatus? = nil, tokens: [String]? = nil) {
             self.currentSigningKeyLength = currentSigningKeyLength
             self.lastKeyGenerationTimestamp = lastKeyGenerationTimestamp
@@ -1637,6 +1691,7 @@ extension SESv2 {
         /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
         public let nextSigningKeyLength: DkimSigningKeyLength?
 
+        @inlinable
         public init(domainSigningPrivateKey: String? = nil, domainSigningSelector: String? = nil, nextSigningKeyLength: DkimSigningKeyLength? = nil) {
             self.domainSigningPrivateKey = domainSigningPrivateKey
             self.domainSigningSelector = domainSigningSelector
@@ -1689,6 +1744,7 @@ extension SESv2 {
         /// The subject line, or title, of the email message.
         public let subject: String?
 
+        @inlinable
         public init(campaignId: String? = nil, deleteRate: Double? = nil, esps: [String]? = nil, firstSeenDateTime: Date? = nil, fromAddress: String? = nil, imageUrl: String? = nil, inboxCount: Int64? = nil, lastSeenDateTime: Date? = nil, projectedVolume: Int64? = nil, readDeleteRate: Double? = nil, readRate: Double? = nil, sendingIps: [String]? = nil, spamCount: Int64? = nil, subject: String? = nil) {
             self.campaignId = campaignId
             self.deleteRate = deleteRate
@@ -1732,6 +1788,7 @@ extension SESv2 {
         /// The date when you enabled the Deliverability dashboard for the domain.
         public let subscriptionStartDate: Date?
 
+        @inlinable
         public init(domain: String? = nil, inboxPlacementTrackingOption: InboxPlacementTrackingOption? = nil, subscriptionStartDate: Date? = nil) {
             self.domain = domain
             self.inboxPlacementTrackingOption = inboxPlacementTrackingOption
@@ -1757,6 +1814,7 @@ extension SESv2 {
         /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' spam or junk mail folders.
         public let spamRawCount: Int64?
 
+        @inlinable
         public init(inboxPercentage: Double? = nil, inboxRawCount: Int64? = nil, ispName: String? = nil, spamPercentage: Double? = nil, spamRawCount: Int64? = nil) {
             self.inboxPercentage = inboxPercentage
             self.inboxRawCount = inboxRawCount
@@ -1782,6 +1840,7 @@ extension SESv2 {
         /// The template to use for the email message.
         public let template: Template?
 
+        @inlinable
         public init(raw: RawMessage? = nil, simple: Message? = nil, template: Template? = nil) {
             self.raw = raw
             self.simple = simple
@@ -1808,6 +1867,7 @@ extension SESv2 {
         /// The recipient's ISP (e.g., Gmail, Yahoo, etc.).
         public let isp: String?
 
+        @inlinable
         public init(destination: String? = nil, events: [InsightsEvent]? = nil, isp: String? = nil) {
             self.destination = destination
             self.events = events
@@ -1829,6 +1889,7 @@ extension SESv2 {
         /// The email body that will be visible to recipients whose email clients do not display HTML.
         public let text: String?
 
+        @inlinable
         public init(html: String? = nil, subject: String? = nil, text: String? = nil) {
             self.html = html
             self.subject = subject
@@ -1848,6 +1909,7 @@ extension SESv2 {
         /// The name of the template.
         public let templateName: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, templateName: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.templateName = templateName
@@ -1863,6 +1925,7 @@ extension SESv2 {
         /// The Amazon Resource Name (ARN) of the Amazon EventBridge bus to publish email events to. Only the default bus is supported.
         public let eventBusArn: String
 
+        @inlinable
         public init(eventBusArn: String) {
             self.eventBusArn = eventBusArn
         }
@@ -1890,6 +1953,7 @@ extension SESv2 {
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
         public let snsDestination: SnsDestination?
 
+        @inlinable
         public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, eventBridgeDestination: EventBridgeDestination? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
@@ -1929,6 +1993,7 @@ extension SESv2 {
         /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
         public let snsDestination: SnsDestination?
 
+        @inlinable
         public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, eventBridgeDestination: EventBridgeDestination? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
@@ -1956,6 +2021,7 @@ extension SESv2 {
         /// Information about a Complaint event.
         public let complaint: Complaint?
 
+        @inlinable
         public init(bounce: Bounce? = nil, complaint: Complaint? = nil) {
             self.bounce = bounce
             self.complaint = complaint
@@ -1971,6 +2037,7 @@ extension SESv2 {
         public let messageInsightsDataSource: MessageInsightsDataSource?
         public let metricsDataSource: MetricsDataSource?
 
+        @inlinable
         public init(messageInsightsDataSource: MessageInsightsDataSource? = nil, metricsDataSource: MetricsDataSource? = nil) {
             self.messageInsightsDataSource = messageInsightsDataSource
             self.metricsDataSource = metricsDataSource
@@ -1993,6 +2060,7 @@ extension SESv2 {
         /// An Amazon S3 pre-signed URL that points to the generated export file.
         public let s3Url: String?
 
+        @inlinable
         public init(dataFormat: DataFormat, s3Url: String? = nil) {
             self.dataFormat = dataFormat
             self.s3Url = s3Url
@@ -2020,6 +2088,7 @@ extension SESv2 {
         /// The status of the export job.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(completedTimestamp: Date? = nil, createdTimestamp: Date? = nil, exportSourceType: ExportSourceType? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.completedTimestamp = completedTimestamp
             self.createdTimestamp = createdTimestamp
@@ -2041,6 +2110,7 @@ extension SESv2 {
         public let aggregation: MetricAggregation?
         public let name: Metric?
 
+        @inlinable
         public init(aggregation: MetricAggregation? = nil, name: Metric? = nil) {
             self.aggregation = aggregation
             self.name = name
@@ -2058,6 +2128,7 @@ extension SESv2 {
         /// The number of records that were processed to generate the final export file.
         public let processedRecordsCount: Int?
 
+        @inlinable
         public init(exportedRecordsCount: Int? = nil, processedRecordsCount: Int? = nil) {
             self.exportedRecordsCount = exportedRecordsCount
             self.processedRecordsCount = processedRecordsCount
@@ -2075,6 +2146,7 @@ extension SESv2 {
         /// An Amazon S3 pre-signed URL that contains all the failed records and related information.
         public let failedRecordsS3Url: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, failedRecordsS3Url: String? = nil) {
             self.errorMessage = errorMessage
             self.failedRecordsS3Url = failedRecordsS3Url
@@ -2108,6 +2180,7 @@ extension SESv2 {
         /// The VDM attributes that apply to your Amazon SES account.
         public let vdmAttributes: VdmAttributes?
 
+        @inlinable
         public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil, vdmAttributes: VdmAttributes? = nil) {
             self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
             self.details = details
@@ -2135,6 +2208,7 @@ extension SESv2 {
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
         public let blacklistItemNames: [String]
 
+        @inlinable
         public init(blacklistItemNames: [String]) {
             self.blacklistItemNames = blacklistItemNames
         }
@@ -2152,6 +2226,7 @@ extension SESv2 {
         /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
         public let blacklistReport: [String: [BlacklistEntry]]
 
+        @inlinable
         public init(blacklistReport: [String: [BlacklistEntry]]) {
             self.blacklistReport = blacklistReport
         }
@@ -2165,6 +2240,7 @@ extension SESv2 {
         /// The name of the configuration set that contains the event destination.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -2182,6 +2258,7 @@ extension SESv2 {
         /// An array that includes all of the events destinations that have been configured for the configuration set.
         public let eventDestinations: [EventDestination]?
 
+        @inlinable
         public init(eventDestinations: [EventDestination]? = nil) {
             self.eventDestinations = eventDestinations
         }
@@ -2195,6 +2272,7 @@ extension SESv2 {
         /// The name of the configuration set.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -2226,6 +2304,7 @@ extension SESv2 {
         /// An object that contains information about the VDM preferences for your configuration set.
         public let vdmOptions: VdmOptions?
 
+        @inlinable
         public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
@@ -2253,6 +2332,7 @@ extension SESv2 {
         /// The name of the contact list.
         public let contactListName: String
 
+        @inlinable
         public init(contactListName: String) {
             self.contactListName = contactListName
         }
@@ -2280,6 +2360,7 @@ extension SESv2 {
         /// An interest group, theme, or label within a list. A contact list can have multiple topics.
         public let topics: [Topic]?
 
+        @inlinable
         public init(contactListName: String? = nil, createdTimestamp: Date? = nil, description: String? = nil, lastUpdatedTimestamp: Date? = nil, tags: [Tag]? = nil, topics: [Topic]? = nil) {
             self.contactListName = contactListName
             self.createdTimestamp = createdTimestamp
@@ -2305,6 +2386,7 @@ extension SESv2 {
         /// The contact's email address.
         public let emailAddress: String
 
+        @inlinable
         public init(contactListName: String, emailAddress: String) {
             self.contactListName = contactListName
             self.emailAddress = emailAddress
@@ -2338,6 +2420,7 @@ extension SESv2 {
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
         public let unsubscribeAll: Bool?
 
+        @inlinable
         public init(attributesData: String? = nil, contactListName: String? = nil, createdTimestamp: Date? = nil, emailAddress: String? = nil, lastUpdatedTimestamp: Date? = nil, topicDefaultPreferences: [TopicPreference]? = nil, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
             self.attributesData = attributesData
             self.contactListName = contactListName
@@ -2365,6 +2448,7 @@ extension SESv2 {
         /// The name of the custom verification email template that you want to retrieve.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -2396,6 +2480,7 @@ extension SESv2 {
         /// The subject line of the custom verification email.
         public let templateSubject: String?
 
+        @inlinable
         public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateContent: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -2419,6 +2504,7 @@ extension SESv2 {
         /// The name of the dedicated IP pool to retrieve.
         public let poolName: String
 
+        @inlinable
         public init(poolName: String) {
             self.poolName = poolName
         }
@@ -2436,6 +2522,7 @@ extension SESv2 {
         /// An object that contains information about a dedicated IP pool.
         public let dedicatedIpPool: DedicatedIpPool?
 
+        @inlinable
         public init(dedicatedIpPool: DedicatedIpPool? = nil) {
             self.dedicatedIpPool = dedicatedIpPool
         }
@@ -2449,6 +2536,7 @@ extension SESv2 {
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Web Services account.
         public let ip: String
 
+        @inlinable
         public init(ip: String) {
             self.ip = ip
         }
@@ -2466,6 +2554,7 @@ extension SESv2 {
         /// An object that contains information about a dedicated IP address.
         public let dedicatedIp: DedicatedIp?
 
+        @inlinable
         public init(dedicatedIp: DedicatedIp? = nil) {
             self.dedicatedIp = dedicatedIp
         }
@@ -2483,6 +2572,7 @@ extension SESv2 {
         /// The name of the IP pool that the dedicated IP address is associated with.
         public let poolName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil, poolName: String? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -2506,6 +2596,7 @@ extension SESv2 {
         /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(dedicatedIps: [DedicatedIp]? = nil, nextToken: String? = nil) {
             self.dedicatedIps = dedicatedIps
             self.nextToken = nextToken
@@ -2533,6 +2624,7 @@ extension SESv2 {
         /// The date  when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.
         public let subscriptionExpiryDate: Date?
 
+        @inlinable
         public init(accountStatus: DeliverabilityDashboardAccountStatus? = nil, activeSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, dashboardEnabled: Bool, pendingExpirationSubscribedDomains: [DomainDeliverabilityTrackingOption]? = nil, subscriptionExpiryDate: Date? = nil) {
             self.accountStatus = accountStatus
             self.activeSubscribedDomains = activeSubscribedDomains
@@ -2554,6 +2646,7 @@ extension SESv2 {
         /// A unique string that identifies the predictive inbox placement test.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -2579,6 +2672,7 @@ extension SESv2 {
         /// An array of objects that define the tags (keys and values) that are associated with the predictive inbox placement test.
         public let tags: [Tag]?
 
+        @inlinable
         public init(deliverabilityTestReport: DeliverabilityTestReport, ispPlacements: [IspPlacement], message: String? = nil, overallPlacement: PlacementStatistics, tags: [Tag]? = nil) {
             self.deliverabilityTestReport = deliverabilityTestReport
             self.ispPlacements = ispPlacements
@@ -2600,6 +2694,7 @@ extension SESv2 {
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
         public let campaignId: String
 
+        @inlinable
         public init(campaignId: String) {
             self.campaignId = campaignId
         }
@@ -2617,6 +2712,7 @@ extension SESv2 {
         /// An object that contains the deliverability data for the campaign.
         public let domainDeliverabilityCampaign: DomainDeliverabilityCampaign
 
+        @inlinable
         public init(domainDeliverabilityCampaign: DomainDeliverabilityCampaign) {
             self.domainDeliverabilityCampaign = domainDeliverabilityCampaign
         }
@@ -2634,6 +2730,7 @@ extension SESv2 {
         /// The first day (in Unix time) that you want to obtain domain deliverability metrics for.
         public let startDate: Date
 
+        @inlinable
         public init(domain: String, endDate: Date, startDate: Date) {
             self.domain = domain
             self.endDate = endDate
@@ -2661,6 +2758,7 @@ extension SESv2 {
         /// An object that contains deliverability metrics for the domain that you specified. The data in this object is a summary of all of the data that was collected from the StartDate to the EndDate.
         public let overallVolume: OverallVolume
 
+        @inlinable
         public init(dailyVolumes: [DailyVolume], overallVolume: OverallVolume) {
             self.dailyVolumes = dailyVolumes
             self.overallVolume = overallVolume
@@ -2676,6 +2774,7 @@ extension SESv2 {
         /// The email identity.
         public let emailIdentity: String
 
+        @inlinable
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
         }
@@ -2697,6 +2796,7 @@ extension SESv2 {
         /// A map of policy names to policies.
         public let policies: [String: String]?
 
+        @inlinable
         public init(policies: [String: String]? = nil) {
             self.policies = policies
         }
@@ -2710,6 +2810,7 @@ extension SESv2 {
         /// The email identity.
         public let emailIdentity: String
 
+        @inlinable
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
         }
@@ -2749,6 +2850,7 @@ extension SESv2 {
         /// Specifies whether or not the identity is verified. You can only send email from verified email addresses or domains. For more information about verifying identities, see the Amazon Pinpoint User Guide.
         public let verifiedForSendingStatus: Bool?
 
+        @inlinable
         public init(configurationSetName: String? = nil, dkimAttributes: DkimAttributes? = nil, feedbackForwardingStatus: Bool? = nil, identityType: IdentityType? = nil, mailFromAttributes: MailFromAttributes? = nil, policies: [String: String]? = nil, tags: [Tag]? = nil, verificationInfo: VerificationInfo? = nil, verificationStatus: VerificationStatus? = nil, verifiedForSendingStatus: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.dkimAttributes = dkimAttributes
@@ -2780,6 +2882,7 @@ extension SESv2 {
         /// The name of the template.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -2803,6 +2906,7 @@ extension SESv2 {
         /// The name of the template.
         public let templateName: String
 
+        @inlinable
         public init(templateContent: EmailTemplateContent, templateName: String) {
             self.templateContent = templateContent
             self.templateName = templateName
@@ -2818,6 +2922,7 @@ extension SESv2 {
         /// The export job ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2855,6 +2960,7 @@ extension SESv2 {
         /// The statistics about the export job.
         public let statistics: ExportStatistics?
 
+        @inlinable
         public init(completedTimestamp: Date? = nil, createdTimestamp: Date? = nil, exportDataSource: ExportDataSource? = nil, exportDestination: ExportDestination? = nil, exportSourceType: ExportSourceType? = nil, failureInfo: FailureInfo? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, statistics: ExportStatistics? = nil) {
             self.completedTimestamp = completedTimestamp
             self.createdTimestamp = createdTimestamp
@@ -2884,6 +2990,7 @@ extension SESv2 {
         /// The ID of the import job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2921,6 +3028,7 @@ extension SESv2 {
         /// The current number of records processed.
         public let processedRecordsCount: Int?
 
+        @inlinable
         public init(completedTimestamp: Date? = nil, createdTimestamp: Date? = nil, failedRecordsCount: Int? = nil, failureInfo: FailureInfo? = nil, importDataSource: ImportDataSource? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, processedRecordsCount: Int? = nil) {
             self.completedTimestamp = completedTimestamp
             self.createdTimestamp = createdTimestamp
@@ -2950,6 +3058,7 @@ extension SESv2 {
         ///  A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.
         public let messageId: String
 
+        @inlinable
         public init(messageId: String) {
             self.messageId = messageId
         }
@@ -2975,6 +3084,7 @@ extension SESv2 {
         /// The subject line of the message.
         public let subject: String?
 
+        @inlinable
         public init(emailTags: [MessageTag]? = nil, fromEmailAddress: String? = nil, insights: [EmailInsights]? = nil, messageId: String? = nil, subject: String? = nil) {
             self.emailTags = emailTags
             self.fromEmailAddress = fromEmailAddress
@@ -2996,6 +3106,7 @@ extension SESv2 {
         /// The email address that's on the account suppression list.
         public let emailAddress: String
 
+        @inlinable
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
         }
@@ -3013,6 +3124,7 @@ extension SESv2 {
         /// An object containing information about the suppressed email address.
         public let suppressedDestination: SuppressedDestination
 
+        @inlinable
         public init(suppressedDestination: SuppressedDestination) {
             self.suppressedDestination = suppressedDestination
         }
@@ -3026,6 +3138,7 @@ extension SESv2 {
         /// Specifies the status of your VDM optimized shared delivery. Can be one of the following:    ENABLED – Amazon SES enables optimized shared delivery for your account.    DISABLED – Amazon SES disables optimized shared delivery for your account.
         public let optimizedSharedDelivery: FeatureStatus?
 
+        @inlinable
         public init(optimizedSharedDelivery: FeatureStatus? = nil) {
             self.optimizedSharedDelivery = optimizedSharedDelivery
         }
@@ -3039,6 +3152,7 @@ extension SESv2 {
         /// Specifies the status of your VDM optimized shared delivery. Can be one of the following:    ENABLED – Amazon SES enables optimized shared delivery for the configuration set.    DISABLED – Amazon SES disables optimized shared delivery for the configuration set.
         public let optimizedSharedDelivery: FeatureStatus?
 
+        @inlinable
         public init(optimizedSharedDelivery: FeatureStatus? = nil) {
             self.optimizedSharedDelivery = optimizedSharedDelivery
         }
@@ -3058,6 +3172,7 @@ extension SESv2 {
         /// The verification status of the identity. The status can be one of the following:    PENDING – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.    SUCCESS – The verification process completed successfully.    FAILED – The verification process failed.    TEMPORARY_FAILURE – A temporary issue is preventing Amazon SES from determining the verification status of the identity.    NOT_STARTED – The verification process hasn't been initiated for the identity.
         public let verificationStatus: VerificationStatus?
 
+        @inlinable
         public init(identityName: String? = nil, identityType: IdentityType? = nil, sendingEnabled: Bool? = nil, verificationStatus: VerificationStatus? = nil) {
             self.identityName = identityName
             self.identityType = identityType
@@ -3079,6 +3194,7 @@ extension SESv2 {
         /// An Amazon S3 URL in the format s3:///.
         public let s3Url: String
 
+        @inlinable
         public init(dataFormat: DataFormat, s3Url: String) {
             self.dataFormat = dataFormat
             self.s3Url = s3Url
@@ -3100,6 +3216,7 @@ extension SESv2 {
         /// An object that contains the action of the import job towards suppression list.
         public let suppressionListDestination: SuppressionListDestination?
 
+        @inlinable
         public init(contactListDestination: ContactListDestination? = nil, suppressionListDestination: SuppressionListDestination? = nil) {
             self.contactListDestination = contactListDestination
             self.suppressionListDestination = suppressionListDestination
@@ -3122,6 +3239,7 @@ extension SESv2 {
         /// The current number of records processed.
         public let processedRecordsCount: Int?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, failedRecordsCount: Int? = nil, importDestination: ImportDestination? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, processedRecordsCount: Int? = nil) {
             self.createdTimestamp = createdTimestamp
             self.failedRecordsCount = failedRecordsCount
@@ -3147,6 +3265,7 @@ extension SESv2 {
         /// An array of strings, one for each major email provider that the inbox placement data applies to.
         public let trackedIsps: [String]?
 
+        @inlinable
         public init(global: Bool? = nil, trackedIsps: [String]? = nil) {
             self.global = global
             self.trackedIsps = trackedIsps
@@ -3166,6 +3285,7 @@ extension SESv2 {
         /// The type of event:    SEND - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)     DELIVERY - SES successfully delivered the email to the recipient's mail server. Excludes deliveries to the mailbox simulator, and those from emails addressed to more than one recipient.     BOUNCE - Feedback received for delivery failures. Additional details about the bounce are provided in the Details object. Excludes bounces from the mailbox simulator, and those from emails addressed to more than one recipient.     COMPLAINT - Complaint received for the email. Additional details about the complaint are provided in the Details object. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those from emails addressed to more than one recipient.     OPEN - Open event for emails including open trackers. Excludes opens for emails addressed to more than one recipient.    CLICK - Click event for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.
         public let type: EventType?
 
+        @inlinable
         public init(details: EventDetails? = nil, timestamp: Date? = nil, type: EventType? = nil) {
             self.details = details
             self.timestamp = timestamp
@@ -3185,6 +3305,7 @@ extension SESv2 {
         /// An object that contains inbox placement metrics for a specific email provider.
         public let placementStatistics: PlacementStatistics?
 
+        @inlinable
         public init(ispName: String? = nil, placementStatistics: PlacementStatistics? = nil) {
             self.ispName = ispName
             self.placementStatistics = placementStatistics
@@ -3202,6 +3323,7 @@ extension SESv2 {
         /// The Amazon Resource Name (ARN) of the IAM role that the Amazon SES API v2 uses to send email events to the Amazon Kinesis Data Firehose stream.
         public let iamRoleArn: String
 
+        @inlinable
         public init(deliveryStreamArn: String, iamRoleArn: String) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
@@ -3219,6 +3341,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3240,6 +3363,7 @@ extension SESv2 {
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationSets: [String]? = nil, nextToken: String? = nil) {
             self.configurationSets = configurationSets
             self.nextToken = nextToken
@@ -3257,6 +3381,7 @@ extension SESv2 {
         /// Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3278,6 +3403,7 @@ extension SESv2 {
         /// A string token indicating that there might be additional contact lists available to be listed. Copy this token to a subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
         public let nextToken: String?
 
+        @inlinable
         public init(contactLists: [ContactList]? = nil, nextToken: String? = nil) {
             self.contactLists = contactLists
             self.nextToken = nextToken
@@ -3295,6 +3421,7 @@ extension SESv2 {
         /// Used for filtering by a specific topic preference.
         public let topicFilter: TopicFilter?
 
+        @inlinable
         public init(filteredStatus: SubscriptionStatus? = nil, topicFilter: TopicFilter? = nil) {
             self.filteredStatus = filteredStatus
             self.topicFilter = topicFilter
@@ -3316,6 +3443,7 @@ extension SESv2 {
         /// The number of contacts that may be returned at once, which is dependent on if there are more or less contacts than the value of the PageSize. Use this parameter to paginate results. If additional contacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
         public let pageSize: Int?
 
+        @inlinable
         public init(contactListName: String, filter: ListContactsFilter? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
             self.contactListName = contactListName
             self.filter = filter
@@ -3345,6 +3473,7 @@ extension SESv2 {
         /// A string token indicating that there might be additional contacts available to be listed. Copy this token to a subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
         public let nextToken: String?
 
+        @inlinable
         public init(contacts: [Contact]? = nil, nextToken: String? = nil) {
             self.contacts = contacts
             self.nextToken = nextToken
@@ -3362,6 +3491,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3383,6 +3513,7 @@ extension SESv2 {
         /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListCustomVerificationEmailTemplates to retrieve the next 50 custom verification email templates.
         public let nextToken: String?
 
+        @inlinable
         public init(customVerificationEmailTemplates: [CustomVerificationEmailTemplateMetadata]? = nil, nextToken: String? = nil) {
             self.customVerificationEmailTemplates = customVerificationEmailTemplates
             self.nextToken = nextToken
@@ -3400,6 +3531,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3421,6 +3553,7 @@ extension SESv2 {
         /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(dedicatedIpPools: [String]? = nil, nextToken: String? = nil) {
             self.dedicatedIpPools = dedicatedIpPools
             self.nextToken = nextToken
@@ -3438,6 +3571,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3459,6 +3593,7 @@ extension SESv2 {
         /// A token that indicates that there are additional predictive inbox placement tests to list. To view additional predictive inbox placement tests, issue another request to ListDeliverabilityTestReports, and pass this token in the NextToken parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(deliverabilityTestReports: [DeliverabilityTestReport], nextToken: String? = nil) {
             self.deliverabilityTestReports = deliverabilityTestReports
             self.nextToken = nextToken
@@ -3482,6 +3617,7 @@ extension SESv2 {
         /// The domain to obtain deliverability data for.
         public let subscribedDomain: String
 
+        @inlinable
         public init(endDate: Date, nextToken: String? = nil, pageSize: Int? = nil, startDate: Date, subscribedDomain: String) {
             self.endDate = endDate
             self.nextToken = nextToken
@@ -3509,6 +3645,7 @@ extension SESv2 {
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of the campaign in the list of campaigns.
         public let nextToken: String?
 
+        @inlinable
         public init(domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign], nextToken: String? = nil) {
             self.domainDeliverabilityCampaigns = domainDeliverabilityCampaigns
             self.nextToken = nextToken
@@ -3526,6 +3663,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3547,6 +3685,7 @@ extension SESv2 {
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
         public let nextToken: String?
 
+        @inlinable
         public init(emailIdentities: [IdentityInfo]? = nil, nextToken: String? = nil) {
             self.emailIdentities = emailIdentities
             self.nextToken = nextToken
@@ -3564,6 +3703,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -3585,6 +3725,7 @@ extension SESv2 {
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
         public let templatesMetadata: [EmailTemplateMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, templatesMetadata: [EmailTemplateMetadata]? = nil) {
             self.nextToken = nextToken
             self.templatesMetadata = templatesMetadata
@@ -3606,6 +3747,7 @@ extension SESv2 {
         /// Maximum number of export jobs to return at once. Use this parameter to paginate results. If additional export jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent calls to ListExportJobs to retrieve additional export jobs.
         public let pageSize: Int?
 
+        @inlinable
         public init(exportSourceType: ExportSourceType? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
             self.exportSourceType = exportSourceType
             self.jobStatus = jobStatus
@@ -3627,6 +3769,7 @@ extension SESv2 {
         /// A string token indicating that there might be additional export jobs available to be listed. Use this token to a subsequent call to ListExportJobs with the same parameters to retrieve the next page of export jobs.
         public let nextToken: String?
 
+        @inlinable
         public init(exportJobs: [ExportJobSummary]? = nil, nextToken: String? = nil) {
             self.exportJobs = exportJobs
             self.nextToken = nextToken
@@ -3646,6 +3789,7 @@ extension SESv2 {
         /// Maximum number of import jobs to return at once. Use this parameter to paginate results. If additional import jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional addresses.
         public let pageSize: Int?
 
+        @inlinable
         public init(importDestinationType: ImportDestinationType? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
             self.importDestinationType = importDestinationType
             self.nextToken = nextToken
@@ -3665,6 +3809,7 @@ extension SESv2 {
         /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
         public let nextToken: String?
 
+        @inlinable
         public init(importJobs: [ImportJobSummary]? = nil, nextToken: String? = nil) {
             self.importJobs = importJobs
             self.nextToken = nextToken
@@ -3682,6 +3827,7 @@ extension SESv2 {
         /// The name of the topic.
         public let topicName: String?
 
+        @inlinable
         public init(contactListName: String, topicName: String? = nil) {
             self.contactListName = contactListName
             self.topicName = topicName
@@ -3701,6 +3847,7 @@ extension SESv2 {
         /// The number of results to show in a single call to ListRecommendations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
         public let pageSize: Int?
 
+        @inlinable
         public init(filter: [ListRecommendationsFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
             self.filter = filter
             self.nextToken = nextToken
@@ -3729,6 +3876,7 @@ extension SESv2 {
         /// The recommendations applicable to your account.
         public let recommendations: [Recommendation]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendations: [Recommendation]? = nil) {
             self.nextToken = nextToken
             self.recommendations = recommendations
@@ -3752,6 +3900,7 @@ extension SESv2 {
         /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
         public let startDate: Date?
 
+        @inlinable
         public init(endDate: Date? = nil, nextToken: String? = nil, pageSize: Int? = nil, reasons: [SuppressionListReason]? = nil, startDate: Date? = nil) {
             self.endDate = endDate
             self.nextToken = nextToken
@@ -3779,6 +3928,7 @@ extension SESv2 {
         /// A list of summaries, each containing a summary for a suppressed email destination.
         public let suppressedDestinationSummaries: [SuppressedDestinationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, suppressedDestinationSummaries: [SuppressedDestinationSummary]? = nil) {
             self.nextToken = nextToken
             self.suppressedDestinationSummaries = suppressedDestinationSummaries
@@ -3794,6 +3944,7 @@ extension SESv2 {
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3811,6 +3962,7 @@ extension SESv2 {
         /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
         public let tags: [Tag]
 
+        @inlinable
         public init(tags: [Tag]) {
             self.tags = tags
         }
@@ -3828,6 +3980,7 @@ extension SESv2 {
         /// The status of the MAIL FROM domain. This status can have the following values:    PENDING – Amazon SES hasn't started searching for the MX record yet.    SUCCESS – Amazon SES detected the required MX record for the MAIL FROM domain.    FAILED – Amazon SES can't find the required MX record, or the record no longer exists.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon SES from determining the status of the MAIL FROM domain.
         public let mailFromDomainStatus: MailFromDomainStatus
 
+        @inlinable
         public init(behaviorOnMxFailure: BehaviorOnMxFailure, mailFromDomain: String, mailFromDomainStatus: MailFromDomainStatus) {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.mailFromDomain = mailFromDomain
@@ -3849,6 +4002,7 @@ extension SESv2 {
         /// The subject line of the email. The subject line can only contain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using encoded-word syntax, as described in RFC 2047.
         public let subject: Content
 
+        @inlinable
         public init(body: Body, headers: [MessageHeader]? = nil, subject: Content) {
             self.body = body
             self.headers = headers
@@ -3875,6 +4029,7 @@ extension SESv2 {
         /// The value of the message header. The message header value has to meet the following criteria:   Can contain any printable ASCII character.   Can contain no more than 870 characters.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -3907,6 +4062,7 @@ extension SESv2 {
         /// Represents the start date for the export interval as a timestamp. The start date is inclusive.
         public let startDate: Date
 
+        @inlinable
         public init(endDate: Date, exclude: MessageInsightsFilters? = nil, include: MessageInsightsFilters? = nil, maxResults: Int? = nil, startDate: Date) {
             self.endDate = endDate
             self.exclude = exclude
@@ -3945,6 +4101,7 @@ extension SESv2 {
         /// The subject line of the message.
         public let subject: [String]?
 
+        @inlinable
         public init(destination: [String]? = nil, fromEmailAddress: [String]? = nil, isp: [String]? = nil, lastDeliveryEvent: [DeliveryEventType]? = nil, lastEngagementEvent: [EngagementEventType]? = nil, subject: [String]? = nil) {
             self.destination = destination
             self.fromEmailAddress = fromEmailAddress
@@ -3991,6 +4148,7 @@ extension SESv2 {
         /// The value of the message tag. The message tag value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -4010,6 +4168,7 @@ extension SESv2 {
         /// The error message associated with the current query error.
         public let message: String?
 
+        @inlinable
         public init(code: QueryErrorCode? = nil, id: String? = nil, message: String? = nil) {
             self.code = code
             self.id = id
@@ -4031,6 +4190,7 @@ extension SESv2 {
         /// A list of values (cumulative / sum) for the metric data results.
         public let values: [Int64]?
 
+        @inlinable
         public init(id: String? = nil, timestamps: [Date]? = nil, values: [Int64]? = nil) {
             self.id = id
             self.timestamps = timestamps
@@ -4056,6 +4216,7 @@ extension SESv2 {
         /// Represents the start date for the export interval as a timestamp.
         public let startDate: Date
 
+        @inlinable
         public init(dimensions: [MetricDimensionName: [String]], endDate: Date, metrics: [ExportMetric], namespace: MetricNamespace, startDate: Date) {
             self.dimensions = dimensions
             self.endDate = endDate
@@ -4092,6 +4253,7 @@ extension SESv2 {
         /// An object that contains information about the numbers of messages that arrived in recipients' inboxes and junk mail folders.
         public let volumeStatistics: VolumeStatistics?
 
+        @inlinable
         public init(domainIspPlacements: [DomainIspPlacement]? = nil, readRatePercent: Double? = nil, volumeStatistics: VolumeStatistics? = nil) {
             self.domainIspPlacements = domainIspPlacements
             self.readRatePercent = readRatePercent
@@ -4109,6 +4271,7 @@ extension SESv2 {
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email events to.
         public let applicationArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil) {
             self.applicationArn = applicationArn
         }
@@ -4130,6 +4293,7 @@ extension SESv2 {
         /// The percentage of emails that were authenticated by using Sender Policy Framework (SPF) during the predictive inbox placement test.
         public let spfPercentage: Double?
 
+        @inlinable
         public init(dkimPercentage: Double? = nil, inboxPercentage: Double? = nil, missingPercentage: Double? = nil, spamPercentage: Double? = nil, spfPercentage: Double? = nil) {
             self.dkimPercentage = dkimPercentage
             self.inboxPercentage = inboxPercentage
@@ -4151,6 +4315,7 @@ extension SESv2 {
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
 
+        @inlinable
         public init(autoWarmupEnabled: Bool? = nil) {
             self.autoWarmupEnabled = autoWarmupEnabled
         }
@@ -4178,6 +4343,7 @@ extension SESv2 {
         /// The URL of your website. This information helps us better understand the type of content that you plan to send.
         public let websiteURL: String
 
+        @inlinable
         public init(additionalContactEmailAddresses: [String]? = nil, contactLanguage: ContactLanguage? = nil, mailType: MailType, productionAccessEnabled: Bool? = nil, useCaseDescription: String? = nil, websiteURL: String) {
             self.additionalContactEmailAddresses = additionalContactEmailAddresses
             self.contactLanguage = contactLanguage
@@ -4219,6 +4385,7 @@ extension SESv2 {
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
         public let sendingEnabled: Bool?
 
+        @inlinable
         public init(sendingEnabled: Bool? = nil) {
             self.sendingEnabled = sendingEnabled
         }
@@ -4236,6 +4403,7 @@ extension SESv2 {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
 
+        @inlinable
         public init(suppressedReasons: [SuppressionListReason]? = nil) {
             self.suppressedReasons = suppressedReasons
         }
@@ -4253,6 +4421,7 @@ extension SESv2 {
         /// The VDM attributes that you wish to apply to your Amazon SES account.
         public let vdmAttributes: VdmAttributes
 
+        @inlinable
         public init(vdmAttributes: VdmAttributes) {
             self.vdmAttributes = vdmAttributes
         }
@@ -4274,6 +4443,7 @@ extension SESv2 {
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
+        @inlinable
         public init(configurationSetName: String, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingPoolName = sendingPoolName
@@ -4304,6 +4474,7 @@ extension SESv2 {
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
 
+        @inlinable
         public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.reputationMetricsEnabled = reputationMetricsEnabled
@@ -4331,6 +4502,7 @@ extension SESv2 {
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
 
+        @inlinable
         public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingEnabled = sendingEnabled
@@ -4358,6 +4530,7 @@ extension SESv2 {
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
 
+        @inlinable
         public init(configurationSetName: String, suppressedReasons: [SuppressionListReason]? = nil) {
             self.configurationSetName = configurationSetName
             self.suppressedReasons = suppressedReasons
@@ -4385,6 +4558,7 @@ extension SESv2 {
         /// The domain to use to track open and click events.
         public let customRedirectDomain: String?
 
+        @inlinable
         public init(configurationSetName: String, customRedirectDomain: String? = nil) {
             self.configurationSetName = configurationSetName
             self.customRedirectDomain = customRedirectDomain
@@ -4412,6 +4586,7 @@ extension SESv2 {
         /// The VDM options to apply to the configuration set.
         public let vdmOptions: VdmOptions?
 
+        @inlinable
         public init(configurationSetName: String, vdmOptions: VdmOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.vdmOptions = vdmOptions
@@ -4439,6 +4614,7 @@ extension SESv2 {
         /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Web Services account.
         public let ip: String
 
+        @inlinable
         public init(destinationPoolName: String, ip: String) {
             self.destinationPoolName = destinationPoolName
             self.ip = ip
@@ -4466,6 +4642,7 @@ extension SESv2 {
         /// The scaling mode to apply to the dedicated IP pool.  Changing the scaling mode from MANAGED to STANDARD is not supported.
         public let scalingMode: ScalingMode
 
+        @inlinable
         public init(poolName: String, scalingMode: ScalingMode) {
             self.poolName = poolName
             self.scalingMode = scalingMode
@@ -4493,6 +4670,7 @@ extension SESv2 {
         /// The warm-up percentage that you want to associate with the dedicated IP address.
         public let warmupPercentage: Int
 
+        @inlinable
         public init(ip: String, warmupPercentage: Int) {
             self.ip = ip
             self.warmupPercentage = warmupPercentage
@@ -4520,6 +4698,7 @@ extension SESv2 {
         /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
         public let subscribedDomains: [DomainDeliverabilityTrackingOption]?
 
+        @inlinable
         public init(dashboardEnabled: Bool = false, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
             self.dashboardEnabled = dashboardEnabled
             self.subscribedDomains = subscribedDomains
@@ -4541,6 +4720,7 @@ extension SESv2 {
         /// The email address or domain to associate with a configuration set.
         public let emailIdentity: String
 
+        @inlinable
         public init(configurationSetName: String? = nil, emailIdentity: String) {
             self.configurationSetName = configurationSetName
             self.emailIdentity = emailIdentity
@@ -4572,6 +4752,7 @@ extension SESv2 {
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
         public let signingEnabled: Bool?
 
+        @inlinable
         public init(emailIdentity: String, signingEnabled: Bool? = nil) {
             self.emailIdentity = emailIdentity
             self.signingEnabled = signingEnabled
@@ -4605,6 +4786,7 @@ extension SESv2 {
         /// The method to use to configure DKIM for the identity. There are the following possible values:    AWS_SES – Configure DKIM for the identity by using Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).
         public let signingAttributesOrigin: DkimSigningAttributesOrigin
 
+        @inlinable
         public init(emailIdentity: String, signingAttributes: DkimSigningAttributes? = nil, signingAttributesOrigin: DkimSigningAttributesOrigin) {
             self.emailIdentity = emailIdentity
             self.signingAttributes = signingAttributes
@@ -4636,6 +4818,7 @@ extension SESv2 {
         /// If you used Easy DKIM to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector that's associated with your public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
         public let dkimTokens: [String]?
 
+        @inlinable
         public init(dkimStatus: DkimStatus? = nil, dkimTokens: [String]? = nil) {
             self.dkimStatus = dkimStatus
             self.dkimTokens = dkimTokens
@@ -4653,6 +4836,7 @@ extension SESv2 {
         /// The email identity.
         public let emailIdentity: String
 
+        @inlinable
         public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
             self.emailForwardingEnabled = emailForwardingEnabled
             self.emailIdentity = emailIdentity
@@ -4686,6 +4870,7 @@ extension SESv2 {
         ///  The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a "From" address if the MAIL FROM domain is a destination for feedback forwarding emails.
         public let mailFromDomain: String?
 
+        @inlinable
         public init(behaviorOnMxFailure: BehaviorOnMxFailure? = nil, emailIdentity: String, mailFromDomain: String? = nil) {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.emailIdentity = emailIdentity
@@ -4720,6 +4905,7 @@ extension SESv2 {
         /// The factors that should cause the email address to be added to the suppression list for your account.
         public let reason: SuppressionListReason
 
+        @inlinable
         public init(emailAddress: String, reason: SuppressionListReason) {
             self.emailAddress = emailAddress
             self.reason = reason
@@ -4739,6 +4925,7 @@ extension SESv2 {
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that the Amazon SES supports.   The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let data: AWSBase64Data
 
+        @inlinable
         public init(data: AWSBase64Data) {
             self.data = data
         }
@@ -4764,6 +4951,7 @@ extension SESv2 {
         /// The recommendation type, with values like DKIM, SPF, DMARC or BIMI.
         public let type: RecommendationType?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, description: String? = nil, impact: RecommendationImpact? = nil, lastUpdatedTimestamp: Date? = nil, resourceArn: String? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
             self.createdTimestamp = createdTimestamp
             self.description = description
@@ -4789,6 +4977,7 @@ extension SESv2 {
         /// The ReplacementTemplate associated with ReplacementEmailContent.
         public let replacementTemplate: ReplacementTemplate?
 
+        @inlinable
         public init(replacementTemplate: ReplacementTemplate? = nil) {
             self.replacementTemplate = replacementTemplate
         }
@@ -4806,6 +4995,7 @@ extension SESv2 {
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let replacementTemplateData: String?
 
+        @inlinable
         public init(replacementTemplateData: String? = nil) {
             self.replacementTemplateData = replacementTemplateData
         }
@@ -4825,6 +5015,7 @@ extension SESv2 {
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
         public let reputationMetricsEnabled: Bool?
 
+        @inlinable
         public init(lastFreshStart: Date? = nil, reputationMetricsEnabled: Bool? = nil) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
@@ -4842,6 +5033,7 @@ extension SESv2 {
         /// The status of the latest review of your account. The status can be one of the following:    PENDING – We have received your appeal and are in the process of reviewing it.    GRANTED – Your appeal has been reviewed and your production access has been granted.    DENIED – Your appeal has been reviewed and your production access has been denied.    FAILED – An internal error occurred and we didn't receive your appeal. You can submit your appeal again.
         public let status: ReviewStatus?
 
+        @inlinable
         public init(caseId: String? = nil, status: ReviewStatus? = nil) {
             self.caseId = caseId
             self.status = status
@@ -4861,6 +5053,7 @@ extension SESv2 {
         /// Serial number from the SOA record.
         public let serialNumber: Int64?
 
+        @inlinable
         public init(adminEmail: String? = nil, primaryNameServer: String? = nil, serialNumber: Int64? = nil) {
             self.adminEmail = adminEmail
             self.primaryNameServer = primaryNameServer
@@ -4894,6 +5087,7 @@ extension SESv2 {
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
 
+        @inlinable
         public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
             self.bulkEmailEntries = bulkEmailEntries
             self.configurationSetName = configurationSetName
@@ -4930,6 +5124,7 @@ extension SESv2 {
         /// One object per intended recipient. Check each response object and retry any messages with a failure status.
         public let bulkEmailEntryResults: [BulkEmailEntryResult]
 
+        @inlinable
         public init(bulkEmailEntryResults: [BulkEmailEntryResult]) {
             self.bulkEmailEntryResults = bulkEmailEntryResults
         }
@@ -4947,6 +5142,7 @@ extension SESv2 {
         /// The name of the custom verification email template to use when sending the verification email.
         public let templateName: String
 
+        @inlinable
         public init(configurationSetName: String? = nil, emailAddress: String, templateName: String) {
             self.configurationSetName = configurationSetName
             self.emailAddress = emailAddress
@@ -4968,6 +5164,7 @@ extension SESv2 {
         /// The unique message identifier returned from the SendCustomVerificationEmail operation.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -4999,6 +5196,7 @@ extension SESv2 {
         /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
         public let replyToAddresses: [String]?
 
+        @inlinable
         public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil) {
             self.configurationSetName = configurationSetName
             self.content = content
@@ -5034,6 +5232,7 @@ extension SESv2 {
         /// A unique identifier for the message that is generated when the message is accepted.  It's possible for Amazon SES to accept a message without sending it. For example, this can happen when the message that you're trying to send has an attachment that contains a virus, or when you send a templated email that contains invalid personalization content.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -5051,6 +5250,7 @@ extension SESv2 {
         /// The number of emails sent from your Amazon SES account in the current Amazon Web Services Region over the past 24 hours.
         public let sentLast24Hours: Double?
 
+        @inlinable
         public init(max24HourSend: Double? = nil, maxSendRate: Double? = nil, sentLast24Hours: Double? = nil) {
             self.max24HourSend = max24HourSend
             self.maxSendRate = maxSendRate
@@ -5068,6 +5268,7 @@ extension SESv2 {
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
 
+        @inlinable
         public init(sendingEnabled: Bool? = nil) {
             self.sendingEnabled = sendingEnabled
         }
@@ -5081,6 +5282,7 @@ extension SESv2 {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
 
+        @inlinable
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -5100,6 +5302,7 @@ extension SESv2 {
         /// The reason that the address was added to the suppression list for your account.
         public let reason: SuppressionListReason
 
+        @inlinable
         public init(attributes: SuppressedDestinationAttributes? = nil, emailAddress: String, lastUpdateTime: Date, reason: SuppressionListReason) {
             self.attributes = attributes
             self.emailAddress = emailAddress
@@ -5121,6 +5324,7 @@ extension SESv2 {
         /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account.
         public let messageId: String?
 
+        @inlinable
         public init(feedbackId: String? = nil, messageId: String? = nil) {
             self.feedbackId = feedbackId
             self.messageId = messageId
@@ -5140,6 +5344,7 @@ extension SESv2 {
         /// The reason that the address was added to the suppression list for your account.
         public let reason: SuppressionListReason
 
+        @inlinable
         public init(emailAddress: String, lastUpdateTime: Date, reason: SuppressionListReason) {
             self.emailAddress = emailAddress
             self.lastUpdateTime = lastUpdateTime
@@ -5157,6 +5362,7 @@ extension SESv2 {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
 
+        @inlinable
         public init(suppressedReasons: [SuppressionListReason]? = nil) {
             self.suppressedReasons = suppressedReasons
         }
@@ -5170,6 +5376,7 @@ extension SESv2 {
         /// The type of action to perform on the address. The following are possible values:   PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.   DELETE: remove the addresses from the suppression list.
         public let suppressionListImportAction: SuppressionListImportAction
 
+        @inlinable
         public init(suppressionListImportAction: SuppressionListImportAction) {
             self.suppressionListImportAction = suppressionListImportAction
         }
@@ -5183,6 +5390,7 @@ extension SESv2 {
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
 
+        @inlinable
         public init(suppressedReasons: [SuppressionListReason]? = nil) {
             self.suppressedReasons = suppressedReasons
         }
@@ -5198,6 +5406,7 @@ extension SESv2 {
         /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want a resource to have a specific tag value, don't specify a value for this parameter. If you don't specify a value, Amazon SES sets the value to an empty string.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5215,6 +5424,7 @@ extension SESv2 {
         /// A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5240,6 +5450,7 @@ extension SESv2 {
         /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
         public let templateName: String?
 
+        @inlinable
         public init(headers: [MessageHeader]? = nil, templateArn: String? = nil, templateData: String? = nil, templateName: String? = nil) {
             self.headers = headers
             self.templateArn = templateArn
@@ -5270,6 +5481,7 @@ extension SESv2 {
         /// The name of the template.
         public let templateName: String
 
+        @inlinable
         public init(templateData: String, templateName: String) {
             self.templateData = templateData
             self.templateName = templateName
@@ -5296,6 +5508,7 @@ extension SESv2 {
         /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
         public let renderedTemplate: String
 
+        @inlinable
         public init(renderedTemplate: String) {
             self.renderedTemplate = renderedTemplate
         }
@@ -5315,6 +5528,7 @@ extension SESv2 {
         /// The name of the topic.
         public let topicName: String
 
+        @inlinable
         public init(defaultSubscriptionStatus: SubscriptionStatus, description: String? = nil, displayName: String, topicName: String) {
             self.defaultSubscriptionStatus = defaultSubscriptionStatus
             self.description = description
@@ -5336,6 +5550,7 @@ extension SESv2 {
         /// Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic.
         public let useDefaultIfPreferenceUnavailable: Bool?
 
+        @inlinable
         public init(topicName: String? = nil, useDefaultIfPreferenceUnavailable: Bool? = nil) {
             self.topicName = topicName
             self.useDefaultIfPreferenceUnavailable = useDefaultIfPreferenceUnavailable
@@ -5353,6 +5568,7 @@ extension SESv2 {
         /// The name of the topic.
         public let topicName: String
 
+        @inlinable
         public init(subscriptionStatus: SubscriptionStatus, topicName: String) {
             self.subscriptionStatus = subscriptionStatus
             self.topicName = topicName
@@ -5368,6 +5584,7 @@ extension SESv2 {
         /// The domain to use for tracking open and click events.
         public let customRedirectDomain: String
 
+        @inlinable
         public init(customRedirectDomain: String) {
             self.customRedirectDomain = customRedirectDomain
         }
@@ -5383,6 +5600,7 @@ extension SESv2 {
         /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v2/email/tags?ResourceArn=ResourceArn&TagKeys=Key1&TagKeys=Key2
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5410,6 +5628,7 @@ extension SESv2 {
         /// The name of the event destination.
         public let eventDestinationName: String
 
+        @inlinable
         public init(configurationSetName: String, eventDestination: EventDestinationDefinition, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -5441,6 +5660,7 @@ extension SESv2 {
         /// An interest group, theme, or label within a list. A contact list can have multiple topics.
         public let topics: [Topic]?
 
+        @inlinable
         public init(contactListName: String, description: String? = nil, topics: [Topic]? = nil) {
             self.contactListName = contactListName
             self.description = description
@@ -5477,6 +5697,7 @@ extension SESv2 {
         /// A boolean value status noting if the contact is unsubscribed from all contact list topics.
         public let unsubscribeAll: Bool?
 
+        @inlinable
         public init(attributesData: String? = nil, contactListName: String, emailAddress: String, topicPreferences: [TopicPreference]? = nil, unsubscribeAll: Bool? = nil) {
             self.attributesData = attributesData
             self.contactListName = contactListName
@@ -5520,6 +5741,7 @@ extension SESv2 {
         /// The subject line of the custom verification email.
         public let templateSubject: String
 
+        @inlinable
         public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, templateContent: String, templateName: String, templateSubject: String) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -5565,6 +5787,7 @@ extension SESv2 {
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
+        @inlinable
         public init(emailIdentity: String, policy: String, policyName: String) {
             self.emailIdentity = emailIdentity
             self.policy = policy
@@ -5601,6 +5824,7 @@ extension SESv2 {
         /// The name of the template.
         public let templateName: String
 
+        @inlinable
         public init(templateContent: EmailTemplateContent, templateName: String) {
             self.templateContent = templateContent
             self.templateName = templateName
@@ -5634,6 +5858,7 @@ extension SESv2 {
         /// Specifies the status of your VDM configuration. Can be one of the following:    ENABLED – Amazon SES enables VDM for your account.    DISABLED – Amazon SES disables VDM for your account.
         public let vdmEnabled: FeatureStatus
 
+        @inlinable
         public init(dashboardAttributes: DashboardAttributes? = nil, guardianAttributes: GuardianAttributes? = nil, vdmEnabled: FeatureStatus) {
             self.dashboardAttributes = dashboardAttributes
             self.guardianAttributes = guardianAttributes
@@ -5653,6 +5878,7 @@ extension SESv2 {
         /// Specifies additional settings for your VDM configuration as applicable to the Guardian.
         public let guardianOptions: GuardianOptions?
 
+        @inlinable
         public init(dashboardOptions: DashboardOptions? = nil, guardianOptions: GuardianOptions? = nil) {
             self.dashboardOptions = dashboardOptions
             self.guardianOptions = guardianOptions
@@ -5674,6 +5900,7 @@ extension SESv2 {
         /// An object that contains information about the start of authority (SOA) record associated with the identity.
         public let soaRecord: SOARecord?
 
+        @inlinable
         public init(errorType: VerificationError? = nil, lastCheckedTimestamp: Date? = nil, lastSuccessTimestamp: Date? = nil, soaRecord: SOARecord? = nil) {
             self.errorType = errorType
             self.lastCheckedTimestamp = lastCheckedTimestamp
@@ -5699,6 +5926,7 @@ extension SESv2 {
         /// The total number of emails that arrived in recipients' spam or junk mail folders.
         public let spamRawCount: Int64?
 
+        @inlinable
         public init(inboxRawCount: Int64? = nil, projectedInbox: Int64? = nil, projectedSpam: Int64? = nil, spamRawCount: Int64? = nil) {
             self.inboxRawCount = inboxRawCount
             self.projectedInbox = projectedInbox

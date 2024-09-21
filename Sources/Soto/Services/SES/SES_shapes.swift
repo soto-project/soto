@@ -163,6 +163,7 @@ extension SES {
         /// The content to include in the header. This value can contain up to 2048 characters. It can't contain newline (\n) or carriage return (\r) characters.
         public let headerValue: String
 
+        @inlinable
         public init(headerName: String, headerValue: String) {
             self.headerName = headerName
             self.headerValue = headerValue
@@ -180,6 +181,7 @@ extension SES {
         /// The content of the message, in text format. Use this for text-based email clients, or clients on high-latency networks (such as mobile devices).
         public let text: Content?
 
+        @inlinable
         public init(html: Content? = nil, text: Content? = nil) {
             self.html = html
             self.text = text
@@ -203,6 +205,7 @@ extension SES {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
+        @inlinable
         public init(message: String, sender: String, smtpReplyCode: String, statusCode: String? = nil, topicArn: String? = nil) {
             self.message = message
             self.sender = sender
@@ -230,6 +233,7 @@ extension SES {
         /// Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType. You must provide either this parameter or BounceType.
         public let recipientDsnFields: RecipientDsnFields?
 
+        @inlinable
         public init(bounceType: BounceType? = nil, recipient: String, recipientArn: String? = nil, recipientDsnFields: RecipientDsnFields? = nil) {
             self.bounceType = bounceType
             self.recipient = recipient
@@ -253,6 +257,7 @@ extension SES {
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let replacementTemplateData: String?
 
+        @inlinable
         public init(destination: Destination, replacementTags: [MessageTag]? = nil, replacementTemplateData: String? = nil) {
             self.destination = destination
             self.replacementTags = replacementTags
@@ -278,6 +283,7 @@ extension SES {
         /// The status of a message sent using the SendBulkTemplatedEmail operation. Possible values for this parameter include:    Success: Amazon SES accepted the message, and attempts to deliver it to the recipients.    MessageRejected: The message was rejected because it contained a virus.    MailFromDomainNotVerified: The sender's email address or domain was not verified.    ConfigurationSetDoesNotExist: The configuration set you specified does not exist.    TemplateDoesNotExist: The template you specified does not exist.    AccountSuspended: Your account has been shut down because of issues related to your email sending practices.    AccountThrottled: The number of emails you can send has been reduced because your account has exceeded its allocated sending limit.    AccountDailyQuotaExceeded: You have reached or exceeded the maximum number of emails you can send from your account in a 24-hour period.    InvalidSendingPoolName: The configuration set you specified refers to an IP pool that does not exist.    AccountSendingPaused: Email sending for the Amazon SES account was disabled using the UpdateAccountSendingEnabled operation.    ConfigurationSetSendingPaused: Email sending for this configuration set was disabled using the UpdateConfigurationSetSendingEnabled operation.    InvalidParameterValue: One or more of the parameters you specified when calling this operation was invalid. See the error message for additional information.    TransientFailure: Amazon SES was unable to process your request because of a temporary issue.    Failed: Amazon SES was unable to process your request. See the error message for additional information.
         public let status: BulkEmailStatus?
 
+        @inlinable
         public init(error: String? = nil, messageId: String? = nil, status: BulkEmailStatus? = nil) {
             self.error = error
             self.messageId = messageId
@@ -297,6 +303,7 @@ extension SES {
         /// The name of the rule set to create. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let ruleSetName: String
 
+        @inlinable
         public init(originalRuleSetName: String, ruleSetName: String) {
             self.originalRuleSetName = originalRuleSetName
             self.ruleSetName = ruleSetName
@@ -317,6 +324,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<CloudWatchDimensionConfiguration>>
         public var dimensionConfigurations: [CloudWatchDimensionConfiguration]
 
+        @inlinable
         public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
             self.dimensionConfigurations = dimensionConfigurations
         }
@@ -334,6 +342,7 @@ extension SES {
         /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, specify messageTag. To use your own email headers, specify emailHeader. To put a custom tag on any link included in your email, specify linkTag.
         public let dimensionValueSource: DimensionValueSource
 
+        @inlinable
         public init(defaultDimensionValue: String, dimensionName: String, dimensionValueSource: DimensionValueSource) {
             self.defaultDimensionValue = defaultDimensionValue
             self.dimensionName = dimensionName
@@ -351,6 +360,7 @@ extension SES {
         /// The name of the configuration set. The name must meet the following requirements:   Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 64 characters or fewer.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -366,6 +376,7 @@ extension SES {
         /// The textual data of the content.
         public let data: String
 
+        @inlinable
         public init(charset: String? = nil, data: String) {
             self.charset = charset
             self.data = data
@@ -383,6 +394,7 @@ extension SES {
         /// An object that describes the Amazon Web Services service that email sending event where information is published.
         public let eventDestination: EventDestination
 
+        @inlinable
         public init(configurationSetName: String, eventDestination: EventDestination) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -402,6 +414,7 @@ extension SES {
         /// A data structure that contains the name of the configuration set.
         public let configurationSet: ConfigurationSet
 
+        @inlinable
         public init(configurationSet: ConfigurationSet) {
             self.configurationSet = configurationSet
         }
@@ -420,6 +433,7 @@ extension SES {
         public let configurationSetName: String
         public let trackingOptions: TrackingOptions
 
+        @inlinable
         public init(configurationSetName: String, trackingOptions: TrackingOptions) {
             self.configurationSetName = configurationSetName
             self.trackingOptions = trackingOptions
@@ -449,6 +463,7 @@ extension SES {
         /// The subject line of the custom verification email.
         public let templateSubject: String
 
+        @inlinable
         public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, templateContent: String, templateName: String, templateSubject: String) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -472,6 +487,7 @@ extension SES {
         /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
         public let filter: ReceiptFilter
 
+        @inlinable
         public init(filter: ReceiptFilter) {
             self.filter = filter
         }
@@ -493,6 +509,7 @@ extension SES {
         /// The name of the rule set where the receipt rule is added.
         public let ruleSetName: String
 
+        @inlinable
         public init(after: String? = nil, rule: ReceiptRule, ruleSetName: String) {
             self.after = after
             self.rule = rule
@@ -518,6 +535,7 @@ extension SES {
         /// The name of the rule set to create. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let ruleSetName: String
 
+        @inlinable
         public init(ruleSetName: String) {
             self.ruleSetName = ruleSetName
         }
@@ -535,6 +553,7 @@ extension SES {
         /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
         public let template: Template
 
+        @inlinable
         public init(template: Template) {
             self.template = template
         }
@@ -560,6 +579,7 @@ extension SES {
         /// The subject line of the custom verification email.
         public let templateSubject: String?
 
+        @inlinable
         public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -583,6 +603,7 @@ extension SES {
         /// The name of the event destination to delete.
         public let eventDestinationName: String
 
+        @inlinable
         public init(configurationSetName: String, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
@@ -602,6 +623,7 @@ extension SES {
         /// The name of the configuration set to delete.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -619,6 +641,7 @@ extension SES {
         /// The name of the configuration set.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
         }
@@ -636,6 +659,7 @@ extension SES {
         /// The name of the custom verification email template to delete.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -651,6 +675,7 @@ extension SES {
         /// The name of the policy to be deleted.
         public let policyName: String
 
+        @inlinable
         public init(identity: String, policyName: String) {
             self.identity = identity
             self.policyName = policyName
@@ -675,6 +700,7 @@ extension SES {
         /// The identity to be removed from the list of identities for the Amazon Web Services account.
         public let identity: String
 
+        @inlinable
         public init(identity: String) {
             self.identity = identity
         }
@@ -692,6 +718,7 @@ extension SES {
         /// The name of the IP address filter to delete.
         public let filterName: String
 
+        @inlinable
         public init(filterName: String) {
             self.filterName = filterName
         }
@@ -711,6 +738,7 @@ extension SES {
         /// The name of the receipt rule set that contains the receipt rule to delete.
         public let ruleSetName: String
 
+        @inlinable
         public init(ruleName: String, ruleSetName: String) {
             self.ruleName = ruleName
             self.ruleSetName = ruleSetName
@@ -730,6 +758,7 @@ extension SES {
         /// The name of the receipt rule set to delete.
         public let ruleSetName: String
 
+        @inlinable
         public init(ruleSetName: String) {
             self.ruleSetName = ruleSetName
         }
@@ -747,6 +776,7 @@ extension SES {
         /// The name of the template to be deleted.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -764,6 +794,7 @@ extension SES {
         /// An email address to be removed from the list of verified addresses.
         public let emailAddress: String
 
+        @inlinable
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
         }
@@ -777,6 +808,7 @@ extension SES {
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
+        @inlinable
         public init(tlsPolicy: TlsPolicy? = nil) {
             self.tlsPolicy = tlsPolicy
         }
@@ -797,6 +829,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<ReceiptRule>>
         public var rules: [ReceiptRule]?
 
+        @inlinable
         public init(metadata: ReceiptRuleSetMetadata? = nil, rules: [ReceiptRule]? = nil) {
             self.metadata = metadata
             self.rules = rules
@@ -815,6 +848,7 @@ extension SES {
         /// The name of the configuration set to describe.
         public let configurationSetName: String
 
+        @inlinable
         public init(configurationSetAttributeNames: [ConfigurationSetAttribute]? = nil, configurationSetName: String) {
             self.configurationSetAttributeNames = configurationSetAttributeNames
             self.configurationSetName = configurationSetName
@@ -838,6 +872,7 @@ extension SES {
         /// The name of the custom open and click tracking domain associated with the configuration set.
         public let trackingOptions: TrackingOptions?
 
+        @inlinable
         public init(configurationSet: ConfigurationSet? = nil, deliveryOptions: DeliveryOptions? = nil, eventDestinations: [EventDestination]? = nil, reputationOptions: ReputationOptions? = nil, trackingOptions: TrackingOptions? = nil) {
             self.configurationSet = configurationSet
             self.deliveryOptions = deliveryOptions
@@ -861,6 +896,7 @@ extension SES {
         /// The name of the receipt rule set that the receipt rule belongs to.
         public let ruleSetName: String
 
+        @inlinable
         public init(ruleName: String, ruleSetName: String) {
             self.ruleName = ruleName
             self.ruleSetName = ruleSetName
@@ -876,6 +912,7 @@ extension SES {
         /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
         public let rule: ReceiptRule?
 
+        @inlinable
         public init(rule: ReceiptRule? = nil) {
             self.rule = rule
         }
@@ -889,6 +926,7 @@ extension SES {
         /// The name of the receipt rule set to describe.
         public let ruleSetName: String
 
+        @inlinable
         public init(ruleSetName: String) {
             self.ruleSetName = ruleSetName
         }
@@ -905,6 +943,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<ReceiptRule>>
         public var rules: [ReceiptRule]?
 
+        @inlinable
         public init(metadata: ReceiptRuleSetMetadata? = nil, rules: [ReceiptRule]? = nil) {
             self.metadata = metadata
             self.rules = rules
@@ -927,6 +966,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var toAddresses: [String]?
 
+        @inlinable
         public init(bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
             self.bccAddresses = bccAddresses
             self.ccAddresses = ccAddresses
@@ -955,6 +995,7 @@ extension SES {
         /// An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
         public let snsDestination: SNSDestination?
 
+        @inlinable
         public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, snsDestination: SNSDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
@@ -980,6 +1021,7 @@ extension SES {
         /// The value of the header to add. Must contain 2048 characters or fewer, and must not contain newline characters ("\r" or "\n").
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -995,6 +1037,7 @@ extension SES {
         /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -1008,6 +1051,7 @@ extension SES {
         /// The name of the custom verification email template to retrieve.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -1031,6 +1075,7 @@ extension SES {
         /// The subject line of the custom verification email.
         public let templateSubject: String?
 
+        @inlinable
         public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateContent: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -1055,6 +1100,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var identities: [String]
 
+        @inlinable
         public init(identities: [String]) {
             self.identities = identities
         }
@@ -1069,6 +1115,7 @@ extension SES {
         @CustomCoding<StandardDictionaryCoder<String, IdentityDkimAttributes>>
         public var dkimAttributes: [String: IdentityDkimAttributes]
 
+        @inlinable
         public init(dkimAttributes: [String: IdentityDkimAttributes]) {
             self.dkimAttributes = dkimAttributes
         }
@@ -1083,6 +1130,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var identities: [String]
 
+        @inlinable
         public init(identities: [String]) {
             self.identities = identities
         }
@@ -1097,6 +1145,7 @@ extension SES {
         @CustomCoding<StandardDictionaryCoder<String, IdentityMailFromDomainAttributes>>
         public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
 
+        @inlinable
         public init(mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]) {
             self.mailFromDomainAttributes = mailFromDomainAttributes
         }
@@ -1111,6 +1160,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var identities: [String]
 
+        @inlinable
         public init(identities: [String]) {
             self.identities = identities
         }
@@ -1125,6 +1175,7 @@ extension SES {
         @CustomCoding<StandardDictionaryCoder<String, IdentityNotificationAttributes>>
         public var notificationAttributes: [String: IdentityNotificationAttributes]
 
+        @inlinable
         public init(notificationAttributes: [String: IdentityNotificationAttributes]) {
             self.notificationAttributes = notificationAttributes
         }
@@ -1141,6 +1192,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(identity: String, policyNames: [String]) {
             self.identity = identity
             self.policyNames = policyNames
@@ -1164,6 +1216,7 @@ extension SES {
         @CustomCoding<StandardDictionaryCoder<String, String>>
         public var policies: [String: String]
 
+        @inlinable
         public init(policies: [String: String]) {
             self.policies = policies
         }
@@ -1178,6 +1231,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var identities: [String]
 
+        @inlinable
         public init(identities: [String]) {
             self.identities = identities
         }
@@ -1192,6 +1246,7 @@ extension SES {
         @CustomCoding<StandardDictionaryCoder<String, IdentityVerificationAttributes>>
         public var verificationAttributes: [String: IdentityVerificationAttributes]
 
+        @inlinable
         public init(verificationAttributes: [String: IdentityVerificationAttributes]) {
             self.verificationAttributes = verificationAttributes
         }
@@ -1209,6 +1264,7 @@ extension SES {
         /// The number of emails sent during the previous 24 hours.
         public let sentLast24Hours: Double?
 
+        @inlinable
         public init(max24HourSend: Double? = nil, maxSendRate: Double? = nil, sentLast24Hours: Double? = nil) {
             self.max24HourSend = max24HourSend
             self.maxSendRate = maxSendRate
@@ -1227,6 +1283,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<SendDataPoint>>
         public var sendDataPoints: [SendDataPoint]?
 
+        @inlinable
         public init(sendDataPoints: [SendDataPoint]? = nil) {
             self.sendDataPoints = sendDataPoints
         }
@@ -1240,6 +1297,7 @@ extension SES {
         /// The name of the template to retrieve.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -1252,6 +1310,7 @@ extension SES {
     public struct GetTemplateResponse: AWSDecodableShape {
         public let template: Template?
 
+        @inlinable
         public init(template: Template? = nil) {
             self.template = template
         }
@@ -1270,6 +1329,7 @@ extension SES {
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
         public let dkimVerificationStatus: VerificationStatus
 
+        @inlinable
         public init(dkimEnabled: Bool, dkimTokens: [String]? = nil, dkimVerificationStatus: VerificationStatus) {
             self.dkimEnabled = dkimEnabled
             self.dkimTokens = dkimTokens
@@ -1291,6 +1351,7 @@ extension SES {
         /// The state that indicates whether Amazon SES has successfully read the MX record required for custom MAIL FROM domain setup. If the state is Success, Amazon SES uses the specified custom MAIL FROM domain when the verified identity sends an email. All other states indicate that Amazon SES takes the action described by BehaviorOnMXFailure.
         public let mailFromDomainStatus: CustomMailFromStatus
 
+        @inlinable
         public init(behaviorOnMXFailure: BehaviorOnMXFailure, mailFromDomain: String, mailFromDomainStatus: CustomMailFromStatus) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
             self.mailFromDomain = mailFromDomain
@@ -1320,6 +1381,7 @@ extension SES {
         /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Delivery. A value of true specifies that Amazon SES includes headers in delivery notifications, and a value of false specifies that Amazon SES does not include headers in delivery notifications.
         public let headersInDeliveryNotificationsEnabled: Bool?
 
+        @inlinable
         public init(bounceTopic: String, complaintTopic: String, deliveryTopic: String, forwardingEnabled: Bool, headersInBounceNotificationsEnabled: Bool? = nil, headersInComplaintNotificationsEnabled: Bool? = nil, headersInDeliveryNotificationsEnabled: Bool? = nil) {
             self.bounceTopic = bounceTopic
             self.complaintTopic = complaintTopic
@@ -1347,6 +1409,7 @@ extension SES {
         /// The verification token for a domain identity. Null for email address identities.
         public let verificationToken: String?
 
+        @inlinable
         public init(verificationStatus: VerificationStatus, verificationToken: String? = nil) {
             self.verificationStatus = verificationStatus
             self.verificationToken = verificationToken
@@ -1364,6 +1427,7 @@ extension SES {
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
         public let iamRoleARN: String
 
+        @inlinable
         public init(deliveryStreamARN: String, iamRoleARN: String) {
             self.deliveryStreamARN = deliveryStreamARN
             self.iamRoleARN = iamRoleARN
@@ -1383,6 +1447,7 @@ extension SES {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is executed. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
+        @inlinable
         public init(functionArn: String, invocationType: InvocationType? = nil, topicArn: String? = nil) {
             self.functionArn = functionArn
             self.invocationType = invocationType
@@ -1402,6 +1467,7 @@ extension SES {
         /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -1420,6 +1486,7 @@ extension SES {
         /// A token indicating that there are additional configuration sets available to be listed. Pass this token to successive calls of ListConfigurationSets.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationSets: [ConfigurationSet]? = nil, nextToken: String? = nil) {
             self.configurationSets = configurationSets
             self.nextToken = nextToken
@@ -1437,6 +1504,7 @@ extension SES {
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1460,6 +1528,7 @@ extension SES {
         /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 custom verification email templates.
         public let nextToken: String?
 
+        @inlinable
         public init(customVerificationEmailTemplates: [CustomVerificationEmailTemplate]? = nil, nextToken: String? = nil) {
             self.customVerificationEmailTemplates = customVerificationEmailTemplates
             self.nextToken = nextToken
@@ -1479,6 +1548,7 @@ extension SES {
         /// The token to use for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(identityType: IdentityType? = nil, maxItems: Int? = nil, nextToken: String? = nil) {
             self.identityType = identityType
             self.maxItems = maxItems
@@ -1499,6 +1569,7 @@ extension SES {
         /// The token used for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(identities: [String], nextToken: String? = nil) {
             self.identities = identities
             self.nextToken = nextToken
@@ -1514,6 +1585,7 @@ extension SES {
         /// The identity that is associated with the policy for which the policies are listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
         public let identity: String
 
+        @inlinable
         public init(identity: String) {
             self.identity = identity
         }
@@ -1528,6 +1600,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(policyNames: [String]) {
             self.policyNames = policyNames
         }
@@ -1546,6 +1619,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<ReceiptFilter>>
         public var filters: [ReceiptFilter]?
 
+        @inlinable
         public init(filters: [ReceiptFilter]? = nil) {
             self.filters = filters
         }
@@ -1559,6 +1633,7 @@ extension SES {
         /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1575,6 +1650,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<ReceiptRuleSetMetadata>>
         public var ruleSets: [ReceiptRuleSetMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, ruleSets: [ReceiptRuleSetMetadata]? = nil) {
             self.nextToken = nextToken
             self.ruleSets = ruleSets
@@ -1592,6 +1668,7 @@ extension SES {
         /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
         public let nextToken: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -1610,6 +1687,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<TemplateMetadata>>
         public var templatesMetadata: [TemplateMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, templatesMetadata: [TemplateMetadata]? = nil) {
             self.nextToken = nextToken
             self.templatesMetadata = templatesMetadata
@@ -1626,6 +1704,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var verifiedEmailAddresses: [String]?
 
+        @inlinable
         public init(verifiedEmailAddresses: [String]? = nil) {
             self.verifiedEmailAddresses = verifiedEmailAddresses
         }
@@ -1641,6 +1720,7 @@ extension SES {
         /// The subject of the message: A short summary of the content, which appears in the recipient's inbox.
         public let subject: Content
 
+        @inlinable
         public init(body: Body, subject: Content) {
             self.body = body
             self.subject = subject
@@ -1661,6 +1741,7 @@ extension SES {
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
         public let reportingMta: String
 
+        @inlinable
         public init(arrivalDate: Date? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
             self.arrivalDate = arrivalDate
             self.extensionFields = extensionFields
@@ -1680,6 +1761,7 @@ extension SES {
         /// The value of the tag. The value must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 256 characters or fewer.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1697,6 +1779,7 @@ extension SES {
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
         public let deliveryOptions: DeliveryOptions?
 
+        @inlinable
         public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
@@ -1720,6 +1803,7 @@ extension SES {
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
+        @inlinable
         public init(identity: String, policy: String, policyName: String) {
             self.identity = identity
             self.policy = policy
@@ -1747,6 +1831,7 @@ extension SES {
         /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide.
         public let data: AWSBase64Data
 
+        @inlinable
         public init(data: AWSBase64Data) {
             self.data = data
         }
@@ -1772,6 +1857,7 @@ extension SES {
         /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon Amazon SNS.
         public let workmailAction: WorkmailAction?
 
+        @inlinable
         public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, snsAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
             self.addHeaderAction = addHeaderAction
             self.bounceAction = bounceAction
@@ -1803,6 +1889,7 @@ extension SES {
         /// The name of the IP address filter. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let name: String
 
+        @inlinable
         public init(ipFilter: ReceiptIpFilter, name: String) {
             self.ipFilter = ipFilter
             self.name = name
@@ -1820,6 +1907,7 @@ extension SES {
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
         public let policy: ReceiptFilterPolicy
 
+        @inlinable
         public init(cidr: String, policy: ReceiptFilterPolicy) {
             self.cidr = cidr
             self.policy = policy
@@ -1847,6 +1935,7 @@ extension SES {
         /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES bounces emails that are not received over TLS. The default is Optional.
         public let tlsPolicy: TlsPolicy?
 
+        @inlinable
         public init(actions: [ReceiptAction]? = nil, enabled: Bool? = nil, name: String, recipients: [String]? = nil, scanEnabled: Bool? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.actions = actions
             self.enabled = enabled
@@ -1878,6 +1967,7 @@ extension SES {
         /// The name of the receipt rule set. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
         public let name: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -1906,6 +1996,7 @@ extension SES {
         /// The status code that indicates what went wrong. This is required by RFC 3464.
         public let status: String
 
+        @inlinable
         public init(action: DsnAction, diagnosticCode: String? = nil, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, lastAttemptDate: Date? = nil, remoteMta: String? = nil, status: String) {
             self.action = action
             self.diagnosticCode = diagnosticCode
@@ -1934,6 +2025,7 @@ extension SES {
         /// The name of the receipt rule set to reorder.
         public let ruleSetName: String
 
+        @inlinable
         public init(ruleNames: [String], ruleSetName: String) {
             self.ruleNames = ruleNames
             self.ruleSetName = ruleSetName
@@ -1957,6 +2049,7 @@ extension SES {
         /// Describes whether email sending is enabled or disabled for the configuration set. If the value is true, then Amazon SES sends emails that use the configuration set. If the value is false, Amazon SES does not send emails that use the configuration set. The default value is true. You can change this setting using UpdateConfigurationSetSendingEnabled.
         public let sendingEnabled: Bool?
 
+        @inlinable
         public init(lastFreshStart: Date? = nil, reputationMetricsEnabled: Bool? = nil, sendingEnabled: Bool? = nil) {
             self.lastFreshStart = lastFreshStart
             self.reputationMetricsEnabled = reputationMetricsEnabled
@@ -1982,6 +2075,7 @@ extension SES {
         /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
+        @inlinable
         public init(bucketName: String, iamRoleArn: String? = nil, kmsKeyArn: String? = nil, objectKeyPrefix: String? = nil, topicArn: String? = nil) {
             self.bucketName = bucketName
             self.iamRoleArn = iamRoleArn
@@ -2011,6 +2105,7 @@ extension SES {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
 
+        @inlinable
         public init(encoding: SNSActionEncoding? = nil, topicArn: String) {
             self.encoding = encoding
             self.topicArn = topicArn
@@ -2026,6 +2121,7 @@ extension SES {
         /// The ARN of the Amazon SNS topic for email sending events. You can find the ARN of a topic by using the ListTopics Amazon SNS operation. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicARN: String
 
+        @inlinable
         public init(topicARN: String) {
             self.topicARN = topicARN
         }
@@ -2050,6 +2146,7 @@ extension SES {
         /// The message ID of the message to be bounced.
         public let originalMessageId: String
 
+        @inlinable
         public init(bouncedRecipientInfoList: [BouncedRecipientInfo], bounceSender: String, bounceSenderArn: String? = nil, explanation: String? = nil, messageDsn: MessageDsn? = nil, originalMessageId: String) {
             self.bouncedRecipientInfoList = bouncedRecipientInfoList
             self.bounceSender = bounceSender
@@ -2073,6 +2170,7 @@ extension SES {
         /// The message ID of the bounce message.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -2109,6 +2207,7 @@ extension SES {
         /// The ARN of the template to use when sending this email.
         public let templateArn: String?
 
+        @inlinable
         public init(configurationSetName: String? = nil, defaultTags: [MessageTag]? = nil, defaultTemplateData: String, destinations: [BulkEmailDestination], replyToAddresses: [String]? = nil, returnPath: String? = nil, returnPathArn: String? = nil, source: String, sourceArn: String? = nil, template: String, templateArn: String? = nil) {
             self.configurationSetName = configurationSetName
             self.defaultTags = defaultTags
@@ -2150,6 +2249,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<BulkEmailDestinationStatus>>
         public var status: [BulkEmailDestinationStatus]
 
+        @inlinable
         public init(status: [BulkEmailDestinationStatus]) {
             self.status = status
         }
@@ -2167,6 +2267,7 @@ extension SES {
         /// The name of the custom verification email template to use when sending the verification email.
         public let templateName: String
 
+        @inlinable
         public init(configurationSetName: String? = nil, emailAddress: String, templateName: String) {
             self.configurationSetName = configurationSetName
             self.emailAddress = emailAddress
@@ -2184,6 +2285,7 @@ extension SES {
         /// The unique message identifier returned from the SendCustomVerificationEmail operation.
         public let messageId: String?
 
+        @inlinable
         public init(messageId: String? = nil) {
             self.messageId = messageId
         }
@@ -2205,6 +2307,7 @@ extension SES {
         /// Time of the data point.
         public let timestamp: Date?
 
+        @inlinable
         public init(bounces: Int64? = nil, complaints: Int64? = nil, deliveryAttempts: Int64? = nil, rejects: Int64? = nil, timestamp: Date? = nil) {
             self.bounces = bounces
             self.complaints = complaints
@@ -2244,6 +2347,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<MessageTag>>
         public var tags: [MessageTag]?
 
+        @inlinable
         public init(configurationSetName: String? = nil, destination: Destination, message: Message, replyToAddresses: [String]? = nil, returnPath: String? = nil, returnPathArn: String? = nil, source: String, sourceArn: String? = nil, tags: [MessageTag]? = nil) {
             self.configurationSetName = configurationSetName
             self.destination = destination
@@ -2273,6 +2377,7 @@ extension SES {
         /// The unique message identifier returned from the SendEmail action.
         public let messageId: String
 
+        @inlinable
         public init(messageId: String) {
             self.messageId = messageId
         }
@@ -2302,6 +2407,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<MessageTag>>
         public var tags: [MessageTag]?
 
+        @inlinable
         public init(configurationSetName: String? = nil, destinations: [String]? = nil, fromArn: String? = nil, rawMessage: RawMessage, returnPathArn: String? = nil, source: String? = nil, sourceArn: String? = nil, tags: [MessageTag]? = nil) {
             self.configurationSetName = configurationSetName
             self.destinations = destinations
@@ -2329,6 +2435,7 @@ extension SES {
         /// The unique message identifier returned from the SendRawEmail action.
         public let messageId: String
 
+        @inlinable
         public init(messageId: String) {
             self.messageId = messageId
         }
@@ -2364,6 +2471,7 @@ extension SES {
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let templateData: String
 
+        @inlinable
         public init(configurationSetName: String? = nil, destination: Destination, replyToAddresses: [String]? = nil, returnPath: String? = nil, returnPathArn: String? = nil, source: String, sourceArn: String? = nil, tags: [MessageTag]? = nil, template: String, templateArn: String? = nil, templateData: String) {
             self.configurationSetName = configurationSetName
             self.destination = destination
@@ -2401,6 +2509,7 @@ extension SES {
         /// The unique message identifier returned from the SendTemplatedEmail action.
         public let messageId: String
 
+        @inlinable
         public init(messageId: String) {
             self.messageId = messageId
         }
@@ -2414,6 +2523,7 @@ extension SES {
         /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
         public let ruleSetName: String?
 
+        @inlinable
         public init(ruleSetName: String? = nil) {
             self.ruleSetName = ruleSetName
         }
@@ -2433,6 +2543,7 @@ extension SES {
         /// The identity for which DKIM signing should be enabled or disabled.
         public let identity: String
 
+        @inlinable
         public init(dkimEnabled: Bool = false, identity: String) {
             self.dkimEnabled = dkimEnabled
             self.identity = identity
@@ -2454,6 +2565,7 @@ extension SES {
         /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
         public let identity: String
 
+        @inlinable
         public init(forwardingEnabled: Bool = false, identity: String) {
             self.forwardingEnabled = forwardingEnabled
             self.identity = identity
@@ -2477,6 +2589,7 @@ extension SES {
         /// The notification type for which to enable or disable headers in notifications.
         public let notificationType: NotificationType
 
+        @inlinable
         public init(enabled: Bool = false, identity: String, notificationType: NotificationType) {
             self.enabled = enabled
             self.identity = identity
@@ -2502,6 +2615,7 @@ extension SES {
         /// The custom MAIL FROM domain for the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
         public let mailFromDomain: String?
 
+        @inlinable
         public init(behaviorOnMXFailure: BehaviorOnMXFailure? = nil, identity: String, mailFromDomain: String? = nil) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
             self.identity = identity
@@ -2527,6 +2641,7 @@ extension SES {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
         public let snsTopic: String?
 
+        @inlinable
         public init(identity: String, notificationType: NotificationType, snsTopic: String? = nil) {
             self.identity = identity
             self.notificationType = notificationType
@@ -2552,6 +2667,7 @@ extension SES {
         /// The name of the receipt rule set that contains the receipt rule to reposition.
         public let ruleSetName: String
 
+        @inlinable
         public init(after: String? = nil, ruleName: String, ruleSetName: String) {
             self.after = after
             self.ruleName = ruleName
@@ -2575,6 +2691,7 @@ extension SES {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. You can find the ARN of a topic by using the ListTopics Amazon SNS operation. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
+        @inlinable
         public init(scope: StopScope, topicArn: String? = nil) {
             self.scope = scope
             self.topicArn = topicArn
@@ -2596,6 +2713,7 @@ extension SES {
         /// The email body that is visible to recipients whose email clients do not display HTML content.
         public let textPart: String?
 
+        @inlinable
         public init(htmlPart: String? = nil, subjectPart: String? = nil, templateName: String, textPart: String? = nil) {
             self.htmlPart = htmlPart
             self.subjectPart = subjectPart
@@ -2617,6 +2735,7 @@ extension SES {
         /// The name of the template.
         public let name: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, name: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -2634,6 +2753,7 @@ extension SES {
         /// The name of the template to render.
         public let templateName: String
 
+        @inlinable
         public init(templateData: String, templateName: String) {
             self.templateData = templateData
             self.templateName = templateName
@@ -2653,6 +2773,7 @@ extension SES {
         /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
         public let renderedTemplate: String?
 
+        @inlinable
         public init(renderedTemplate: String? = nil) {
             self.renderedTemplate = renderedTemplate
         }
@@ -2666,6 +2787,7 @@ extension SES {
         /// The custom subdomain that is used to redirect email recipients to the Amazon SES event tracking domain.
         public let customRedirectDomain: String?
 
+        @inlinable
         public init(customRedirectDomain: String? = nil) {
             self.customRedirectDomain = customRedirectDomain
         }
@@ -2679,6 +2801,7 @@ extension SES {
         /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -2694,6 +2817,7 @@ extension SES {
         /// The event destination object.
         public let eventDestination: EventDestination
 
+        @inlinable
         public init(configurationSetName: String, eventDestination: EventDestination) {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
@@ -2715,6 +2839,7 @@ extension SES {
         /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
         public let enabled: Bool
 
+        @inlinable
         public init(configurationSetName: String, enabled: Bool = false) {
             self.configurationSetName = configurationSetName
             self.enabled = enabled
@@ -2732,6 +2857,7 @@ extension SES {
         /// Describes whether email sending is enabled or disabled for the configuration set.
         public let enabled: Bool
 
+        @inlinable
         public init(configurationSetName: String, enabled: Bool = false) {
             self.configurationSetName = configurationSetName
             self.enabled = enabled
@@ -2748,6 +2874,7 @@ extension SES {
         public let configurationSetName: String
         public let trackingOptions: TrackingOptions
 
+        @inlinable
         public init(configurationSetName: String, trackingOptions: TrackingOptions) {
             self.configurationSetName = configurationSetName
             self.trackingOptions = trackingOptions
@@ -2777,6 +2904,7 @@ extension SES {
         /// The subject line of the custom verification email.
         public let templateSubject: String?
 
+        @inlinable
         public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateContent: String? = nil, templateName: String, templateSubject: String? = nil) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
@@ -2802,6 +2930,7 @@ extension SES {
         /// The name of the receipt rule set that the receipt rule belongs to.
         public let ruleSetName: String
 
+        @inlinable
         public init(rule: ReceiptRule, ruleSetName: String) {
             self.rule = rule
             self.ruleSetName = ruleSetName
@@ -2824,6 +2953,7 @@ extension SES {
     public struct UpdateTemplateRequest: AWSEncodableShape {
         public let template: Template
 
+        @inlinable
         public init(template: Template) {
             self.template = template
         }
@@ -2841,6 +2971,7 @@ extension SES {
         /// The name of the domain to be verified for Easy DKIM signing.
         public let domain: String
 
+        @inlinable
         public init(domain: String) {
             self.domain = domain
         }
@@ -2855,6 +2986,7 @@ extension SES {
         @CustomCoding<StandardArrayCoder<String>>
         public var dkimTokens: [String]
 
+        @inlinable
         public init(dkimTokens: [String]) {
             self.dkimTokens = dkimTokens
         }
@@ -2868,6 +3000,7 @@ extension SES {
         /// The domain to be verified.
         public let domain: String
 
+        @inlinable
         public init(domain: String) {
             self.domain = domain
         }
@@ -2881,6 +3014,7 @@ extension SES {
         /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. The domain's verification status also changes to "Success" when it is DKIM verified.
         public let verificationToken: String
 
+        @inlinable
         public init(verificationToken: String) {
             self.verificationToken = verificationToken
         }
@@ -2894,6 +3028,7 @@ extension SES {
         /// The email address to be verified.
         public let emailAddress: String
 
+        @inlinable
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
         }
@@ -2907,6 +3042,7 @@ extension SES {
         /// The email address to be verified.
         public let emailAddress: String
 
+        @inlinable
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
         }
@@ -2926,6 +3062,7 @@ extension SES {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
+        @inlinable
         public init(organizationArn: String, topicArn: String? = nil) {
             self.organizationArn = organizationArn
             self.topicArn = topicArn

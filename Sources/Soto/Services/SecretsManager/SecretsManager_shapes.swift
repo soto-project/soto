@@ -60,6 +60,7 @@ extension SecretsManager {
         /// The ARN or name of the secret.
         public let secretId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil, secretId: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -83,6 +84,7 @@ extension SecretsManager {
         /// The ARN or names of the secrets to retrieve. You must include Filters or SecretIdList, but not both.
         public let secretIdList: [String]?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretIdList: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -123,6 +125,7 @@ extension SecretsManager {
         /// A list of secret values.
         public let secretValues: [SecretValueEntry]?
 
+        @inlinable
         public init(errors: [APIErrorType]? = nil, nextToken: String? = nil, secretValues: [SecretValueEntry]? = nil) {
             self.errors = errors
             self.nextToken = nextToken
@@ -140,6 +143,7 @@ extension SecretsManager {
         /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -162,6 +166,7 @@ extension SecretsManager {
         /// The unique identifier of the version of the secret created during the rotation. This version might not be complete, and should be evaluated for possible deletion. We recommend  that you remove the VersionStage value AWSPENDING from this version so that  Secrets Manager can delete it. Failing to clean up a cancelled rotation can block you from starting future rotations.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -195,6 +200,7 @@ extension SecretsManager {
         /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example:  [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]  Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see Control  access to secrets using tags and Limit access to identities with tags that match secrets' tags. For information about how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters. If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see Service quotas for Tagging in the Amazon Web Services General  Reference guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(addReplicaRegions: [ReplicaRegionType]? = nil, clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), description: String? = nil, forceOverwriteReplicaSecret: Bool? = nil, kmsKeyId: String? = nil, name: String, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, tags: [Tag]? = nil) {
             self.addReplicaRegions = addReplicaRegions
             self.clientRequestToken = clientRequestToken
@@ -250,6 +256,7 @@ extension SecretsManager {
         /// The unique identifier associated with the version of the new secret.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -269,6 +276,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to delete the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -289,6 +297,7 @@ extension SecretsManager {
         /// The name of the secret that the resource-based policy was deleted for.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -308,6 +317,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to delete. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil, secretId: String) {
             self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
             self.recoveryWindowInDays = recoveryWindowInDays
@@ -334,6 +344,7 @@ extension SecretsManager {
         /// The name of the secret.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, deletionDate: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.deletionDate = deletionDate
@@ -351,6 +362,7 @@ extension SecretsManager {
         /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -403,6 +415,7 @@ extension SecretsManager {
         /// A list of the versions of the secret that have staging labels attached. Versions that don't have staging labels are considered deprecated and Secrets Manager  can delete them. Secrets Manager uses staging labels to indicate the status of a secret version during rotation. The three  staging labels for rotation are:     AWSCURRENT, which indicates the current version of the secret.    AWSPENDING, which indicates the version of the secret that contains new  secret information that will become the next current version when rotation finishes. During   rotation, Secrets Manager creates an AWSPENDING version ID before creating the new secret version.  To check if a secret version exists, call GetSecretValue.    AWSPREVIOUS, which indicates the previous current version of the secret.  You can use this as the last known good version.   For more information about rotation and staging labels, see How rotation works.
         public let versionIdsToStages: [String: [String]]?
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, nextRotationDate: Date? = nil, owningService: String? = nil, primaryRegion: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -452,6 +465,7 @@ extension SecretsManager {
         /// The keyword to filter for. You can prefix your search value with an exclamation mark (!) in order to perform negation filters.
         public let values: [String]?
 
+        @inlinable
         public init(key: FilterNameStringType? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -490,6 +504,7 @@ extension SecretsManager {
         /// Specifies whether to include at least one upper and lowercase letter, one number, and one punctuation.  If you don't include this switch, the password contains at least one of every character type.
         public let requireEachIncludedType: Bool?
 
+        @inlinable
         public init(excludeCharacters: String? = nil, excludeLowercase: Bool? = nil, excludeNumbers: Bool? = nil, excludePunctuation: Bool? = nil, excludeUppercase: Bool? = nil, includeSpace: Bool? = nil, passwordLength: Int64? = nil, requireEachIncludedType: Bool? = nil) {
             self.excludeCharacters = excludeCharacters
             self.excludeLowercase = excludeLowercase
@@ -523,6 +538,7 @@ extension SecretsManager {
         /// A string with the password.
         public let randomPassword: String?
 
+        @inlinable
         public init(randomPassword: String? = nil) {
             self.randomPassword = randomPassword
         }
@@ -536,6 +552,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to retrieve the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -558,6 +575,7 @@ extension SecretsManager {
         /// A JSON-formatted string that contains the permissions policy  attached to the secret. For more information about permissions policies, see Authentication and access control for Secrets Manager.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, resourcePolicy: String? = nil) {
             self.arn = arn
             self.name = name
@@ -579,6 +597,7 @@ extension SecretsManager {
         /// The staging label of the version of the secret to retrieve.  Secrets Manager uses staging labels to keep track of different versions during the rotation process. If you include both this parameter and VersionId, the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId, Secrets Manager returns the AWSCURRENT version.
         public let versionStage: String?
 
+        @inlinable
         public init(secretId: String, versionId: String? = nil, versionStage: String? = nil) {
             self.secretId = secretId
             self.versionId = versionId
@@ -617,6 +636,7 @@ extension SecretsManager {
         /// A list of all of the staging labels currently attached to this version of the secret.
         public let versionStages: [String]?
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Date? = nil, name: String? = nil, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -648,6 +668,7 @@ extension SecretsManager {
         /// The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(includeDeprecated: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretId: String) {
             self.includeDeprecated = includeDeprecated
             self.maxResults = maxResults
@@ -682,6 +703,7 @@ extension SecretsManager {
         /// A list of the versions of the secret.
         public let versions: [SecretVersionsListEntry]?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, nextToken: String? = nil, versions: [SecretVersionsListEntry]? = nil) {
             self.arn = arn
             self.name = name
@@ -709,6 +731,7 @@ extension SecretsManager {
         /// Secrets are listed by CreatedDate.
         public let sortOrder: SortOrderType?
 
+        @inlinable
         public init(filters: [Filter]? = nil, includePlannedDeletion: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.filters = filters
             self.includePlannedDeletion = includePlannedDeletion
@@ -743,6 +766,7 @@ extension SecretsManager {
         /// A list of the secrets in the account.
         public let secretList: [SecretListEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, secretList: [SecretListEntry]? = nil) {
             self.nextToken = nextToken
             self.secretList = secretList
@@ -762,6 +786,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(blockPublicPolicy: Bool? = nil, resourcePolicy: String, secretId: String) {
             self.blockPublicPolicy = blockPublicPolicy
             self.resourcePolicy = resourcePolicy
@@ -788,6 +813,7 @@ extension SecretsManager {
         /// The name of the secret.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -813,6 +839,7 @@ extension SecretsManager {
         /// A list of staging labels to attach to this version of the secret. Secrets Manager uses staging labels to track versions of a secret through the rotation process. If you specify a staging label that's already associated with a different version of the same secret, then Secrets Manager   removes the label from the other version and attaches it to this version.  If you specify  AWSCURRENT, and it is already attached to another version, then Secrets Manager also   moves the staging label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you don't include VersionStages, then Secrets Manager automatically moves the staging label AWSCURRENT to this version.
         public let versionStages: [String]?
 
+        @inlinable
         public init(clientRequestToken: String? = PutSecretValueRequest.idempotencyToken(), rotationToken: String? = nil, secretBinary: AWSBase64Data? = nil, secretId: String, secretString: String? = nil, versionStages: [String]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.rotationToken = rotationToken
@@ -862,6 +889,7 @@ extension SecretsManager {
         /// The list of staging labels that are currently attached to this version of the secret. Secrets Manager uses staging labels to track a version as it progresses through the secret rotation process.
         public let versionStages: [String]?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.arn = arn
             self.name = name
@@ -883,6 +911,7 @@ extension SecretsManager {
         /// The ARN or name of the secret.
         public let secretId: String
 
+        @inlinable
         public init(removeReplicaRegions: [String], secretId: String) {
             self.removeReplicaRegions = removeReplicaRegions
             self.secretId = secretId
@@ -911,6 +940,7 @@ extension SecretsManager {
         /// The status of replicas for this secret after you remove Regions.
         public let replicationStatus: [ReplicationStatusType]?
 
+        @inlinable
         public init(arn: String? = nil, replicationStatus: [ReplicationStatusType]? = nil) {
             self.arn = arn
             self.replicationStatus = replicationStatus
@@ -928,6 +958,7 @@ extension SecretsManager {
         /// A Region code. For a list of Region codes, see Name and code of Regions.
         public let region: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, region: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.region = region
@@ -954,6 +985,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to replicate.
         public let secretId: String
 
+        @inlinable
         public init(addReplicaRegions: [ReplicaRegionType], forceOverwriteReplicaSecret: Bool? = nil, secretId: String) {
             self.addReplicaRegions = addReplicaRegions
             self.forceOverwriteReplicaSecret = forceOverwriteReplicaSecret
@@ -982,6 +1014,7 @@ extension SecretsManager {
         /// The status of replication.
         public let replicationStatus: [ReplicationStatusType]?
 
+        @inlinable
         public init(arn: String? = nil, replicationStatus: [ReplicationStatusType]? = nil) {
             self.arn = arn
             self.replicationStatus = replicationStatus
@@ -1005,6 +1038,7 @@ extension SecretsManager {
         /// Status message such as "Secret with this name already exists in this region".
         public let statusMessage: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, region: String? = nil, status: StatusType? = nil, statusMessage: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.lastAccessedDate = lastAccessedDate
@@ -1026,6 +1060,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to restore. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -1046,6 +1081,7 @@ extension SecretsManager {
         /// The name of the secret that was restored.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1069,6 +1105,7 @@ extension SecretsManager {
         /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
+        @inlinable
         public init(clientRequestToken: String? = RotateSecretRequest.idempotencyToken(), rotateImmediately: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretId: String) {
             self.clientRequestToken = clientRequestToken
             self.rotateImmediately = rotateImmediately
@@ -1103,6 +1140,7 @@ extension SecretsManager {
         /// The ID of the new version of the secret.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1124,6 +1162,7 @@ extension SecretsManager {
         /// A cron() or rate() expression that defines the schedule for  rotating your secret. Secrets Manager rotation schedules use UTC time zone. Secrets Manager rotates your secret any time during a rotation window. Secrets Manager rate() expressions represent the interval in hours or days that you  want to rotate your secret, for example rate(12 hours) or  rate(10 days). You can rotate a secret as often as every four hours. If you  use a rate() expression, the rotation  window starts at midnight. For a rate in hours, the default rotation window closes after one  hour. For a rate in days, the default rotation window closes at the end of the day. You can  set the Duration to change the rotation window. The rotation window must not  extend into the next UTC day or into the next rotation window. You can use a cron() expression to create a rotation schedule that is  more detailed than a rotation interval. For more information, including examples, see  Schedule expressions in  Secrets Manager rotation in the Secrets Manager Users Guide. For a cron expression  that represents a schedule in hours, the default rotation window closes after one hour. For  a cron expression that represents a schedule in days, the default rotation window closes at  the end of the day. You can set the Duration to change the rotation window. The  rotation window must not extend into the next UTC day or into the next rotation window.
         public let scheduleExpression: String?
 
+        @inlinable
         public init(automaticallyAfterDays: Int64? = nil, duration: String? = nil, scheduleExpression: String? = nil) {
             self.automaticallyAfterDays = automaticallyAfterDays
             self.duration = duration
@@ -1184,6 +1223,7 @@ extension SecretsManager {
         /// The list of user-defined tags associated with the secret. To add tags to a secret, use  TagResource .  To remove tags, use  UntagResource .
         public let tags: [Tag]?
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, nextRotationDate: Date? = nil, owningService: String? = nil, primaryRegion: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -1241,6 +1281,7 @@ extension SecretsManager {
         /// A list of all of the staging labels currently attached to this version of the secret.
         public let versionStages: [String]?
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Date? = nil, name: String? = nil, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
@@ -1274,6 +1315,7 @@ extension SecretsManager {
         /// An array of staging labels that are currently associated with this version of the secret.
         public let versionStages: [String]?
 
+        @inlinable
         public init(createdDate: Date? = nil, kmsKeyIds: [String]? = nil, lastAccessedDate: Date? = nil, versionId: String? = nil, versionStages: [String]? = nil) {
             self.createdDate = createdDate
             self.kmsKeyIds = kmsKeyIds
@@ -1295,6 +1337,7 @@ extension SecretsManager {
         /// The ARN of the primary secret.
         public let secretId: String
 
+        @inlinable
         public init(secretId: String) {
             self.secretId = secretId
         }
@@ -1313,6 +1356,7 @@ extension SecretsManager {
         /// The ARN of the promoted secret. The ARN is the same as the original primary secret except the Region is changed.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1328,6 +1372,7 @@ extension SecretsManager {
         /// The string value associated with the key of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1351,6 +1396,7 @@ extension SecretsManager {
         /// The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value. For storing multiple values, we recommend that you use a JSON text  string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
         public let tags: [Tag]
 
+        @inlinable
         public init(secretId: String, tags: [Tag]) {
             self.secretId = secretId
             self.tags = tags
@@ -1376,6 +1422,7 @@ extension SecretsManager {
         /// A list of tag key names to remove from the secret. You don't specify the value. Both the key and its associated value are removed. This parameter requires a JSON text string argument. For storing multiple values, we recommend that you use a JSON text  string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
         public let tagKeys: [String]
 
+        @inlinable
         public init(secretId: String, tagKeys: [String]) {
             self.secretId = secretId
             self.tagKeys = tagKeys
@@ -1410,6 +1457,7 @@ extension SecretsManager {
         /// The text data to encrypt and store in the new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value.  Either SecretBinary or SecretString must have a value, but not both.  Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
         public let secretString: String?
 
+        @inlinable
         public init(clientRequestToken: String? = UpdateSecretRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, secretBinary: AWSBase64Data? = nil, secretId: String, secretString: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1450,6 +1498,7 @@ extension SecretsManager {
         /// If Secrets Manager created a new version of the secret during this operation, then VersionId contains the unique identifier of the new version.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1473,6 +1522,7 @@ extension SecretsManager {
         /// The staging label to add to this version.
         public let versionStage: String
 
+        @inlinable
         public init(moveToVersionId: String? = nil, removeFromVersionId: String? = nil, secretId: String, versionStage: String) {
             self.moveToVersionId = moveToVersionId
             self.removeFromVersionId = removeFromVersionId
@@ -1505,6 +1555,7 @@ extension SecretsManager {
         /// The name of the secret that was updated.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1522,6 +1573,7 @@ extension SecretsManager {
         /// The ARN or name of the secret with the resource-based policy you want to validate.
         public let secretId: String?
 
+        @inlinable
         public init(resourcePolicy: String, secretId: String? = nil) {
             self.resourcePolicy = resourcePolicy
             self.secretId = secretId
@@ -1546,6 +1598,7 @@ extension SecretsManager {
         /// Validation errors if your policy didn't pass validation.
         public let validationErrors: [ValidationErrorsEntry]?
 
+        @inlinable
         public init(policyValidationPassed: Bool? = nil, validationErrors: [ValidationErrorsEntry]? = nil) {
             self.policyValidationPassed = policyValidationPassed
             self.validationErrors = validationErrors
@@ -1563,6 +1616,7 @@ extension SecretsManager {
         /// Displays error messages if validation encounters problems during validation of the resource policy.
         public let errorMessage: String?
 
+        @inlinable
         public init(checkName: String? = nil, errorMessage: String? = nil) {
             self.checkName = checkName
             self.errorMessage = errorMessage

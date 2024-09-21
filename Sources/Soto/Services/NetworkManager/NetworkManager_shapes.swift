@@ -319,6 +319,7 @@ extension NetworkManager {
         /// The Zone that the device is located in. Specify the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
         public let zone: String?
 
+        @inlinable
         public init(subnetArn: String? = nil, zone: String? = nil) {
             self.subnetArn = subnetArn
             self.zone = zone
@@ -341,6 +342,7 @@ extension NetworkManager {
         /// The ID of the attachment.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -363,6 +365,7 @@ extension NetworkManager {
         /// The response to the attachment request.
         public let attachment: Attachment?
 
+        @inlinable
         public init(attachment: Attachment? = nil) {
             self.attachment = attachment
         }
@@ -378,6 +381,7 @@ extension NetworkManager {
         /// The status of SLR deployment for the account.
         public let slrDeploymentStatus: String?
 
+        @inlinable
         public init(accountId: String? = nil, slrDeploymentStatus: String? = nil) {
             self.accountId = accountId
             self.slrDeploymentStatus = slrDeploymentStatus
@@ -399,6 +403,7 @@ extension NetworkManager {
         /// The ID of the link.
         public let linkId: String?
 
+        @inlinable
         public init(connectPeerId: String, deviceId: String, globalNetworkId: String, linkId: String? = nil) {
             self.connectPeerId = connectPeerId
             self.deviceId = deviceId
@@ -437,6 +442,7 @@ extension NetworkManager {
         /// The response to the Connect peer request.
         public let connectPeerAssociation: ConnectPeerAssociation?
 
+        @inlinable
         public init(connectPeerAssociation: ConnectPeerAssociation? = nil) {
             self.connectPeerAssociation = connectPeerAssociation
         }
@@ -456,6 +462,7 @@ extension NetworkManager {
         /// The ID of the link.
         public let linkId: String?
 
+        @inlinable
         public init(customerGatewayArn: String, deviceId: String, globalNetworkId: String, linkId: String? = nil) {
             self.customerGatewayArn = customerGatewayArn
             self.deviceId = deviceId
@@ -494,6 +501,7 @@ extension NetworkManager {
         /// The customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
 
+        @inlinable
         public init(customerGatewayAssociation: CustomerGatewayAssociation? = nil) {
             self.customerGatewayAssociation = customerGatewayAssociation
         }
@@ -511,6 +519,7 @@ extension NetworkManager {
         /// The ID of the link.
         public let linkId: String
 
+        @inlinable
         public init(deviceId: String, globalNetworkId: String, linkId: String) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -544,6 +553,7 @@ extension NetworkManager {
         /// The link association.
         public let linkAssociation: LinkAssociation?
 
+        @inlinable
         public init(linkAssociation: LinkAssociation? = nil) {
             self.linkAssociation = linkAssociation
         }
@@ -563,6 +573,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the Connect peer.
         public let transitGatewayConnectPeerArn: String
 
+        @inlinable
         public init(deviceId: String, globalNetworkId: String, linkId: String? = nil, transitGatewayConnectPeerArn: String) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -601,6 +612,7 @@ extension NetworkManager {
         /// The transit gateway Connect peer association.
         public let transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation?
 
+        @inlinable
         public init(transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation? = nil) {
             self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
         }
@@ -646,6 +658,7 @@ extension NetworkManager {
         /// The timestamp when the attachment was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [AttachmentError]? = nil, networkFunctionGroupName: String? = nil, ownerAccountId: String? = nil, proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
             self.attachmentId = attachmentId
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
@@ -697,6 +710,7 @@ extension NetworkManager {
         /// The ARN of the requested attachment resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(code: AttachmentErrorCode? = nil, message: String? = nil, requestId: String? = nil, resourceArn: String? = nil) {
             self.code = code
             self.message = message
@@ -718,6 +732,7 @@ extension NetworkManager {
         /// Upload speed in Mbps.
         public let uploadSpeed: Int?
 
+        @inlinable
         public init(downloadSpeed: Int? = nil, uploadSpeed: Int? = nil) {
             self.downloadSpeed = downloadSpeed
             self.uploadSpeed = uploadSpeed
@@ -733,6 +748,7 @@ extension NetworkManager {
         /// The Peer ASN of the BGP.
         public let peerAsn: Int64?
 
+        @inlinable
         public init(peerAsn: Int64? = nil) {
             self.peerAsn = peerAsn
         }
@@ -750,6 +766,7 @@ extension NetworkManager {
         /// The ID of the transport attachment.
         public let transportAttachmentId: String?
 
+        @inlinable
         public init(attachment: Attachment? = nil, options: ConnectAttachmentOptions? = nil, transportAttachmentId: String? = nil) {
             self.attachment = attachment
             self.options = options
@@ -767,6 +784,7 @@ extension NetworkManager {
         /// The protocol used for the attachment connection.
         public let `protocol`: TunnelProtocol?
 
+        @inlinable
         public init(protocol: TunnelProtocol? = nil) {
             self.`protocol` = `protocol`
         }
@@ -798,6 +816,7 @@ extension NetworkManager {
         /// The list of key-value tags associated with the Connect peer.
         public let tags: [Tag]?
 
+        @inlinable
         public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [ConnectPeerError]? = nil, state: ConnectPeerState? = nil, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.configuration = configuration
             self.connectAttachmentId = connectAttachmentId
@@ -837,6 +856,7 @@ extension NetworkManager {
         /// The state of the Connect peer association.
         public let state: ConnectPeerAssociationState?
 
+        @inlinable
         public init(connectPeerId: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: ConnectPeerAssociationState? = nil) {
             self.connectPeerId = connectPeerId
             self.deviceId = deviceId
@@ -864,6 +884,7 @@ extension NetworkManager {
         /// The ASN of the Connect peer.
         public let peerAsn: Int64?
 
+        @inlinable
         public init(coreNetworkAddress: String? = nil, coreNetworkAsn: Int64? = nil, peerAddress: String? = nil, peerAsn: Int64? = nil) {
             self.coreNetworkAddress = coreNetworkAddress
             self.coreNetworkAsn = coreNetworkAsn
@@ -891,6 +912,7 @@ extension NetworkManager {
         /// The protocol used for a Connect peer configuration.
         public let `protocol`: TunnelProtocol?
 
+        @inlinable
         public init(bgpConfigurations: [ConnectPeerBgpConfiguration]? = nil, coreNetworkAddress: String? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String? = nil, protocol: TunnelProtocol? = nil) {
             self.bgpConfigurations = bgpConfigurations
             self.coreNetworkAddress = coreNetworkAddress
@@ -918,6 +940,7 @@ extension NetworkManager {
         /// The ARN of the requested Connect peer resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(code: ConnectPeerErrorCode? = nil, message: String? = nil, requestId: String? = nil, resourceArn: String? = nil) {
             self.code = code
             self.message = message
@@ -951,6 +974,7 @@ extension NetworkManager {
         /// The list of key-value tags associated with the Connect peer summary.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectAttachmentId: String? = nil, connectPeerId: String? = nil, connectPeerState: ConnectPeerState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.connectAttachmentId = connectAttachmentId
             self.connectPeerId = connectPeerId
@@ -998,6 +1022,7 @@ extension NetworkManager {
         /// The tags for the connection.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectedDeviceId: String? = nil, connectedLinkId: String? = nil, connectionArn: String? = nil, connectionId: String? = nil, createdAt: Date? = nil, description: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: ConnectionState? = nil, tags: [Tag]? = nil) {
             self.connectedDeviceId = connectedDeviceId
             self.connectedLinkId = connectedLinkId
@@ -1035,6 +1060,7 @@ extension NetworkManager {
         /// The connection type.
         public let type: ConnectionType?
 
+        @inlinable
         public init(status: ConnectionStatus? = nil, timestamp: Date? = nil, type: ConnectionType? = nil) {
             self.status = status
             self.timestamp = timestamp
@@ -1070,6 +1096,7 @@ extension NetworkManager {
         /// The list of key-value tags associated with a core network.
         public let tags: [Tag]?
 
+        @inlinable
         public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, edges: [CoreNetworkEdge]? = nil, globalNetworkId: String? = nil, networkFunctionGroups: [CoreNetworkNetworkFunctionGroup]? = nil, segments: [CoreNetworkSegment]? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
@@ -1111,6 +1138,7 @@ extension NetworkManager {
         /// The type of change.
         public let type: ChangeType?
 
+        @inlinable
         public init(action: ChangeAction? = nil, identifier: String? = nil, identifierPath: String? = nil, newValues: CoreNetworkChangeValues? = nil, previousValues: CoreNetworkChangeValues? = nil, type: ChangeType? = nil) {
             self.action = action
             self.identifier = identifier
@@ -1144,6 +1172,7 @@ extension NetworkManager {
         /// Details of the change event.
         public let values: CoreNetworkChangeEventValues?
 
+        @inlinable
         public init(action: ChangeAction? = nil, eventTime: Date? = nil, identifierPath: String? = nil, status: ChangeStatus? = nil, type: ChangeType? = nil, values: CoreNetworkChangeEventValues? = nil) {
             self.action = action
             self.eventTime = eventTime
@@ -1175,6 +1204,7 @@ extension NetworkManager {
         /// The segment name if the change event is associated with a segment.
         public let segmentName: String?
 
+        @inlinable
         public init(attachmentId: String? = nil, cidr: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil, segmentName: String? = nil) {
             self.attachmentId = attachmentId
             self.cidr = cidr
@@ -1212,6 +1242,7 @@ extension NetworkManager {
         /// The shared segments for a core network change value.
         public let sharedSegments: [String]?
 
+        @inlinable
         public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, networkFunctionGroupName: String? = nil, segmentName: String? = nil, serviceInsertionActions: [ServiceInsertionAction]? = nil, sharedSegments: [String]? = nil) {
             self.asn = asn
             self.cidr = cidr
@@ -1245,6 +1276,7 @@ extension NetworkManager {
         /// The inside IP addresses used for core network edges.
         public let insideCidrBlocks: [String]?
 
+        @inlinable
         public init(asn: Int64? = nil, edgeLocation: String? = nil, insideCidrBlocks: [String]? = nil) {
             self.asn = asn
             self.edgeLocation = edgeLocation
@@ -1266,6 +1298,7 @@ extension NetworkManager {
         /// The segments associated with the network function group.
         public let segments: ServiceInsertionSegments?
 
+        @inlinable
         public init(edgeLocations: [String]? = nil, name: String? = nil, segments: ServiceInsertionSegments? = nil) {
             self.edgeLocations = edgeLocations
             self.name = name
@@ -1287,6 +1320,7 @@ extension NetworkManager {
         /// The network function group name.
         public let networkFunctionGroupName: String?
 
+        @inlinable
         public init(coreNetworkId: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil) {
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
@@ -1328,6 +1362,7 @@ extension NetworkManager {
         /// The ID of the policy version.
         public let policyVersionId: Int?
 
+        @inlinable
         public init(alias: CoreNetworkPolicyAlias? = nil, changeSetState: ChangeSetState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, policyDocument: String? = nil, policyErrors: [CoreNetworkPolicyError]? = nil, policyVersionId: Int? = nil) {
             self.alias = alias
             self.changeSetState = changeSetState
@@ -1359,6 +1394,7 @@ extension NetworkManager {
         /// The JSON path where the error was discovered in the policy document.
         public let path: String?
 
+        @inlinable
         public init(errorCode: String, message: String, path: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -1386,6 +1422,7 @@ extension NetworkManager {
         /// The ID of the policy version.
         public let policyVersionId: Int?
 
+        @inlinable
         public init(alias: CoreNetworkPolicyAlias? = nil, changeSetState: ChangeSetState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, policyVersionId: Int? = nil) {
             self.alias = alias
             self.changeSetState = changeSetState
@@ -1413,6 +1450,7 @@ extension NetworkManager {
         /// The shared segments of a core network.
         public let sharedSegments: [String]?
 
+        @inlinable
         public init(edgeLocations: [String]? = nil, name: String? = nil, sharedSegments: [String]? = nil) {
             self.edgeLocations = edgeLocations
             self.name = name
@@ -1434,6 +1472,7 @@ extension NetworkManager {
         /// The name of the segment edge.
         public let segmentName: String?
 
+        @inlinable
         public init(coreNetworkId: String? = nil, edgeLocation: String? = nil, segmentName: String? = nil) {
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
@@ -1473,6 +1512,7 @@ extension NetworkManager {
         /// The key-value tags associated with a core network summary.
         public let tags: [Tag]?
 
+        @inlinable
         public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, description: String? = nil, globalNetworkId: String? = nil, ownerAccountId: String? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
@@ -1508,6 +1548,7 @@ extension NetworkManager {
         /// The ID of the attachment between the two connections.
         public let transportAttachmentId: String
 
+        @inlinable
         public init(clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(), coreNetworkId: String, edgeLocation: String, options: ConnectAttachmentOptions, tags: [Tag]? = nil, transportAttachmentId: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
@@ -1546,6 +1587,7 @@ extension NetworkManager {
         /// The response to a Connect attachment request.
         public let connectAttachment: ConnectAttachment?
 
+        @inlinable
         public init(connectAttachment: ConnectAttachment? = nil) {
             self.connectAttachment = connectAttachment
         }
@@ -1573,6 +1615,7 @@ extension NetworkManager {
         /// The tags associated with the peer request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(bgpOptions: BgpOptions? = nil, clientToken: String? = CreateConnectPeerRequest.idempotencyToken(), connectAttachmentId: String, coreNetworkAddress: String? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.bgpOptions = bgpOptions
             self.clientToken = clientToken
@@ -1622,6 +1665,7 @@ extension NetworkManager {
         /// The response to the request.
         public let connectPeer: ConnectPeer?
 
+        @inlinable
         public init(connectPeer: ConnectPeer? = nil) {
             self.connectPeer = connectPeer
         }
@@ -1647,6 +1691,7 @@ extension NetworkManager {
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectedDeviceId: String, connectedLinkId: String? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, linkId: String? = nil, tags: [Tag]? = nil) {
             self.connectedDeviceId = connectedDeviceId
             self.connectedLinkId = connectedLinkId
@@ -1701,6 +1746,7 @@ extension NetworkManager {
         /// Information about the connection.
         public let connection: Connection?
 
+        @inlinable
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -1722,6 +1768,7 @@ extension NetworkManager {
         /// Key-value tags associated with a core network request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateCoreNetworkRequest.idempotencyToken(), description: String? = nil, globalNetworkId: String, policyDocument: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1757,6 +1804,7 @@ extension NetworkManager {
         /// Returns details about a core network.
         public let coreNetwork: CoreNetwork?
 
+        @inlinable
         public init(coreNetwork: CoreNetwork? = nil) {
             self.coreNetwork = coreNetwork
         }
@@ -1788,6 +1836,7 @@ extension NetworkManager {
         /// The vendor of the device. Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
+        @inlinable
         public init(awsLocation: AWSLocation? = nil, description: String? = nil, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
             self.awsLocation = awsLocation
             self.description = description
@@ -1855,6 +1904,7 @@ extension NetworkManager {
         /// Information about the device.
         public let device: Device?
 
+        @inlinable
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -1870,6 +1920,7 @@ extension NetworkManager {
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.tags = tags
@@ -1893,6 +1944,7 @@ extension NetworkManager {
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
 
+        @inlinable
         public init(globalNetwork: GlobalNetwork? = nil) {
             self.globalNetwork = globalNetwork
         }
@@ -1918,6 +1970,7 @@ extension NetworkManager {
         /// The type of the link. Constraints: Maximum length of 128 characters. Cannot include the following characters: | \ ^
         public let type: String?
 
+        @inlinable
         public init(bandwidth: Bandwidth, description: String? = nil, globalNetworkId: String, provider: String? = nil, siteId: String, tags: [Tag]? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
             self.description = description
@@ -1970,6 +2023,7 @@ extension NetworkManager {
         /// Information about the link.
         public let link: Link?
 
+        @inlinable
         public init(link: Link? = nil) {
             self.link = link
         }
@@ -1989,6 +2043,7 @@ extension NetworkManager {
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, globalNetworkId: String, location: Location? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.globalNetworkId = globalNetworkId
@@ -2027,6 +2082,7 @@ extension NetworkManager {
         /// Information about the site.
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }
@@ -2046,6 +2102,7 @@ extension NetworkManager {
         /// The ARN identifying the VPN attachment.
         public let vpnConnectionArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(), coreNetworkId: String, tags: [Tag]? = nil, vpnConnectionArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
@@ -2077,6 +2134,7 @@ extension NetworkManager {
         /// Details about a site-to-site VPN attachment.
         public let siteToSiteVpnAttachment: SiteToSiteVpnAttachment?
 
+        @inlinable
         public init(siteToSiteVpnAttachment: SiteToSiteVpnAttachment? = nil) {
             self.siteToSiteVpnAttachment = siteToSiteVpnAttachment
         }
@@ -2096,6 +2154,7 @@ extension NetworkManager {
         /// The ARN of the transit gateway for the peering request.
         public let transitGatewayArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateTransitGatewayPeeringRequest.idempotencyToken(), coreNetworkId: String, tags: [Tag]? = nil, transitGatewayArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
@@ -2127,6 +2186,7 @@ extension NetworkManager {
         /// Returns information about the transit gateway peering connection request.
         public let transitGatewayPeering: TransitGatewayPeering?
 
+        @inlinable
         public init(transitGatewayPeering: TransitGatewayPeering? = nil) {
             self.transitGatewayPeering = transitGatewayPeering
         }
@@ -2146,6 +2206,7 @@ extension NetworkManager {
         /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateTransitGatewayRouteTableAttachmentRequest.idempotencyToken(), peeringId: String, tags: [Tag]? = nil, transitGatewayRouteTableArn: String) {
             self.clientToken = clientToken
             self.peeringId = peeringId
@@ -2177,6 +2238,7 @@ extension NetworkManager {
         /// The route table associated with the create transit gateway route table attachment request.
         public let transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment?
 
+        @inlinable
         public init(transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment? = nil) {
             self.transitGatewayRouteTableAttachment = transitGatewayRouteTableAttachment
         }
@@ -2200,6 +2262,7 @@ extension NetworkManager {
         /// The ARN of the VPC.
         public let vpcArn: String
 
+        @inlinable
         public init(clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(), coreNetworkId: String, options: VpcOptions? = nil, subnetArns: [String], tags: [Tag]? = nil, vpcArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
@@ -2239,6 +2302,7 @@ extension NetworkManager {
         /// Provides details about the VPC attachment.
         public let vpcAttachment: VpcAttachment?
 
+        @inlinable
         public init(vpcAttachment: VpcAttachment? = nil) {
             self.vpcAttachment = vpcAttachment
         }
@@ -2260,6 +2324,7 @@ extension NetworkManager {
         /// The association state.
         public let state: CustomerGatewayAssociationState?
 
+        @inlinable
         public init(customerGatewayArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: CustomerGatewayAssociationState? = nil) {
             self.customerGatewayArn = customerGatewayArn
             self.deviceId = deviceId
@@ -2281,6 +2346,7 @@ extension NetworkManager {
         /// The ID of the attachment to delete.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -2303,6 +2369,7 @@ extension NetworkManager {
         /// Information about the deleted attachment.
         public let attachment: Attachment?
 
+        @inlinable
         public init(attachment: Attachment? = nil) {
             self.attachment = attachment
         }
@@ -2316,6 +2383,7 @@ extension NetworkManager {
         /// The ID of the deleted Connect peer.
         public let connectPeerId: String
 
+        @inlinable
         public init(connectPeerId: String) {
             self.connectPeerId = connectPeerId
         }
@@ -2338,6 +2406,7 @@ extension NetworkManager {
         /// Information about the deleted Connect peer.
         public let connectPeer: ConnectPeer?
 
+        @inlinable
         public init(connectPeer: ConnectPeer? = nil) {
             self.connectPeer = connectPeer
         }
@@ -2353,6 +2422,7 @@ extension NetworkManager {
         /// The ID of the global network.
         public let globalNetworkId: String
 
+        @inlinable
         public init(connectionId: String, globalNetworkId: String) {
             self.connectionId = connectionId
             self.globalNetworkId = globalNetworkId
@@ -2379,6 +2449,7 @@ extension NetworkManager {
         /// Information about the connection.
         public let connection: Connection?
 
+        @inlinable
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -2394,6 +2465,7 @@ extension NetworkManager {
         /// The version ID of the deleted policy.
         public let policyVersionId: Int
 
+        @inlinable
         public init(coreNetworkId: String, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
@@ -2418,6 +2490,7 @@ extension NetworkManager {
         /// Returns information about the deleted policy version.
         public let coreNetworkPolicy: CoreNetworkPolicy?
 
+        @inlinable
         public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
             self.coreNetworkPolicy = coreNetworkPolicy
         }
@@ -2431,6 +2504,7 @@ extension NetworkManager {
         /// The network ID of the deleted core network.
         public let coreNetworkId: String
 
+        @inlinable
         public init(coreNetworkId: String) {
             self.coreNetworkId = coreNetworkId
         }
@@ -2453,6 +2527,7 @@ extension NetworkManager {
         /// Information about the deleted core network.
         public let coreNetwork: CoreNetwork?
 
+        @inlinable
         public init(coreNetwork: CoreNetwork? = nil) {
             self.coreNetwork = coreNetwork
         }
@@ -2468,6 +2543,7 @@ extension NetworkManager {
         /// The ID of the global network.
         public let globalNetworkId: String
 
+        @inlinable
         public init(deviceId: String, globalNetworkId: String) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -2494,6 +2570,7 @@ extension NetworkManager {
         /// Information about the device.
         public let device: Device?
 
+        @inlinable
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -2507,6 +2584,7 @@ extension NetworkManager {
         /// The ID of the global network.
         public let globalNetworkId: String
 
+        @inlinable
         public init(globalNetworkId: String) {
             self.globalNetworkId = globalNetworkId
         }
@@ -2529,6 +2607,7 @@ extension NetworkManager {
         /// Information about the global network.
         public let globalNetwork: GlobalNetwork?
 
+        @inlinable
         public init(globalNetwork: GlobalNetwork? = nil) {
             self.globalNetwork = globalNetwork
         }
@@ -2544,6 +2623,7 @@ extension NetworkManager {
         /// The ID of the link.
         public let linkId: String
 
+        @inlinable
         public init(globalNetworkId: String, linkId: String) {
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
@@ -2570,6 +2650,7 @@ extension NetworkManager {
         /// Information about the link.
         public let link: Link?
 
+        @inlinable
         public init(link: Link? = nil) {
             self.link = link
         }
@@ -2583,6 +2664,7 @@ extension NetworkManager {
         /// The ID of the peering connection to delete.
         public let peeringId: String
 
+        @inlinable
         public init(peeringId: String) {
             self.peeringId = peeringId
         }
@@ -2605,6 +2687,7 @@ extension NetworkManager {
         /// Information about a deleted peering connection.
         public let peering: Peering?
 
+        @inlinable
         public init(peering: Peering? = nil) {
             self.peering = peering
         }
@@ -2618,6 +2701,7 @@ extension NetworkManager {
         /// The ARN of the policy to delete.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2646,6 +2730,7 @@ extension NetworkManager {
         /// The ID of the site.
         public let siteId: String
 
+        @inlinable
         public init(globalNetworkId: String, siteId: String) {
             self.globalNetworkId = globalNetworkId
             self.siteId = siteId
@@ -2672,6 +2757,7 @@ extension NetworkManager {
         /// Information about the site.
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }
@@ -2687,6 +2773,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the transit gateway.
         public let transitGatewayArn: String
 
+        @inlinable
         public init(globalNetworkId: String, transitGatewayArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayArn = transitGatewayArn
@@ -2713,6 +2800,7 @@ extension NetworkManager {
         /// The transit gateway registration information.
         public let transitGatewayRegistration: TransitGatewayRegistration?
 
+        @inlinable
         public init(transitGatewayRegistration: TransitGatewayRegistration? = nil) {
             self.transitGatewayRegistration = transitGatewayRegistration
         }
@@ -2730,6 +2818,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(globalNetworkIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.globalNetworkIds = globalNetworkIds
             self.maxResults = maxResults
@@ -2764,6 +2853,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(globalNetworks: [GlobalNetwork]? = nil, nextToken: String? = nil) {
             self.globalNetworks = globalNetworks
             self.nextToken = nextToken
@@ -2805,6 +2895,7 @@ extension NetworkManager {
         /// The device vendor.
         public let vendor: String?
 
+        @inlinable
         public init(awsLocation: AWSLocation? = nil, createdAt: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
             self.awsLocation = awsLocation
             self.createdAt = createdAt
@@ -2846,6 +2937,7 @@ extension NetworkManager {
         /// The ID of the global network.
         public let globalNetworkId: String
 
+        @inlinable
         public init(connectPeerId: String, globalNetworkId: String) {
             self.connectPeerId = connectPeerId
             self.globalNetworkId = globalNetworkId
@@ -2872,6 +2964,7 @@ extension NetworkManager {
         /// Describes the Connect peer association.
         public let connectPeerAssociation: ConnectPeerAssociation?
 
+        @inlinable
         public init(connectPeerAssociation: ConnectPeerAssociation? = nil) {
             self.connectPeerAssociation = connectPeerAssociation
         }
@@ -2887,6 +2980,7 @@ extension NetworkManager {
         /// The ID of the global network.
         public let globalNetworkId: String
 
+        @inlinable
         public init(customerGatewayArn: String, globalNetworkId: String) {
             self.customerGatewayArn = customerGatewayArn
             self.globalNetworkId = globalNetworkId
@@ -2913,6 +3007,7 @@ extension NetworkManager {
         /// Information about the customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
 
+        @inlinable
         public init(customerGatewayAssociation: CustomerGatewayAssociation? = nil) {
             self.customerGatewayAssociation = customerGatewayAssociation
         }
@@ -2930,6 +3025,7 @@ extension NetworkManager {
         /// The ID of the link.
         public let linkId: String
 
+        @inlinable
         public init(deviceId: String, globalNetworkId: String, linkId: String) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -2960,6 +3056,7 @@ extension NetworkManager {
         /// Information about the link association.
         public let linkAssociation: LinkAssociation?
 
+        @inlinable
         public init(linkAssociation: LinkAssociation? = nil) {
             self.linkAssociation = linkAssociation
         }
@@ -2975,6 +3072,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
         public let transitGatewayConnectPeerArn: String
 
+        @inlinable
         public init(globalNetworkId: String, transitGatewayConnectPeerArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
@@ -3001,6 +3099,7 @@ extension NetworkManager {
         /// The transit gateway Connect peer association.
         public let transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation?
 
+        @inlinable
         public init(transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation? = nil) {
             self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
         }
@@ -3016,6 +3115,7 @@ extension NetworkManager {
         /// The edge that should be used when overriding the current edge order.
         public let useEdge: String?
 
+        @inlinable
         public init(edgeSets: [[String]]? = nil, useEdge: String? = nil) {
             self.edgeSets = edgeSets
             self.useEdge = useEdge
@@ -3033,6 +3133,7 @@ extension NetworkManager {
         /// The ID of the policy version.
         public let policyVersionId: Int
 
+        @inlinable
         public init(coreNetworkId: String, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
@@ -3061,6 +3162,7 @@ extension NetworkManager {
         /// The ID of the attachment.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -3083,6 +3185,7 @@ extension NetworkManager {
         /// Details about the Connect attachment.
         public let connectAttachment: ConnectAttachment?
 
+        @inlinable
         public init(connectAttachment: ConnectAttachment? = nil) {
             self.connectAttachment = connectAttachment
         }
@@ -3102,6 +3205,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectPeerIds: [String]? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectPeerIds = connectPeerIds
             self.globalNetworkId = globalNetworkId
@@ -3140,6 +3244,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectPeerAssociations: [ConnectPeerAssociation]? = nil, nextToken: String? = nil) {
             self.connectPeerAssociations = connectPeerAssociations
             self.nextToken = nextToken
@@ -3155,6 +3260,7 @@ extension NetworkManager {
         /// The ID of the Connect peer.
         public let connectPeerId: String
 
+        @inlinable
         public init(connectPeerId: String) {
             self.connectPeerId = connectPeerId
         }
@@ -3177,6 +3283,7 @@ extension NetworkManager {
         /// Returns information about a core network Connect peer.
         public let connectPeer: ConnectPeer?
 
+        @inlinable
         public init(connectPeer: ConnectPeer? = nil) {
             self.connectPeer = connectPeer
         }
@@ -3198,6 +3305,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionIds: [String]? = nil, deviceId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectionIds = connectionIds
             self.deviceId = deviceId
@@ -3240,6 +3348,7 @@ extension NetworkManager {
         /// The token to use for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connections: [Connection]? = nil, nextToken: String? = nil) {
             self.connections = connections
             self.nextToken = nextToken
@@ -3261,6 +3370,7 @@ extension NetworkManager {
         /// The ID of the policy version.
         public let policyVersionId: Int
 
+        @inlinable
         public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.maxResults = maxResults
@@ -3295,6 +3405,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreNetworkChangeEvents: [CoreNetworkChangeEvent]? = nil, nextToken: String? = nil) {
             self.coreNetworkChangeEvents = coreNetworkChangeEvents
             self.nextToken = nextToken
@@ -3316,6 +3427,7 @@ extension NetworkManager {
         /// The ID of the policy version.
         public let policyVersionId: Int
 
+        @inlinable
         public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.maxResults = maxResults
@@ -3350,6 +3462,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreNetworkChanges: [CoreNetworkChange]? = nil, nextToken: String? = nil) {
             self.coreNetworkChanges = coreNetworkChanges
             self.nextToken = nextToken
@@ -3369,6 +3482,7 @@ extension NetworkManager {
         /// The ID of a core network policy version.
         public let policyVersionId: Int?
 
+        @inlinable
         public init(alias: CoreNetworkPolicyAlias? = nil, coreNetworkId: String, policyVersionId: Int? = nil) {
             self.alias = alias
             self.coreNetworkId = coreNetworkId
@@ -3395,6 +3509,7 @@ extension NetworkManager {
         /// The details about a core network policy.
         public let coreNetworkPolicy: CoreNetworkPolicy?
 
+        @inlinable
         public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
             self.coreNetworkPolicy = coreNetworkPolicy
         }
@@ -3408,6 +3523,7 @@ extension NetworkManager {
         /// The ID of a core network.
         public let coreNetworkId: String
 
+        @inlinable
         public init(coreNetworkId: String) {
             self.coreNetworkId = coreNetworkId
         }
@@ -3430,6 +3546,7 @@ extension NetworkManager {
         /// Details about a core network.
         public let coreNetwork: CoreNetwork?
 
+        @inlinable
         public init(coreNetwork: CoreNetwork? = nil) {
             self.coreNetwork = coreNetwork
         }
@@ -3449,6 +3566,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(customerGatewayArns: [String]? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.customerGatewayArns = customerGatewayArns
             self.globalNetworkId = globalNetworkId
@@ -3487,6 +3605,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(customerGatewayAssociations: [CustomerGatewayAssociation]? = nil, nextToken: String? = nil) {
             self.customerGatewayAssociations = customerGatewayAssociations
             self.nextToken = nextToken
@@ -3510,6 +3629,7 @@ extension NetworkManager {
         /// The ID of the site.
         public let siteId: String?
 
+        @inlinable
         public init(deviceIds: [String]? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, siteId: String? = nil) {
             self.deviceIds = deviceIds
             self.globalNetworkId = globalNetworkId
@@ -3552,6 +3672,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [Device]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -3575,6 +3696,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceId: String? = nil, globalNetworkId: String, linkId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -3615,6 +3737,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(linkAssociations: [LinkAssociation]? = nil, nextToken: String? = nil) {
             self.linkAssociations = linkAssociations
             self.nextToken = nextToken
@@ -3642,6 +3765,7 @@ extension NetworkManager {
         /// The link type.
         public let type: String?
 
+        @inlinable
         public init(globalNetworkId: String, linkIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, provider: String? = nil, siteId: String? = nil, type: String? = nil) {
             self.globalNetworkId = globalNetworkId
             self.linkIds = linkIds
@@ -3692,6 +3816,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(links: [Link]? = nil, nextToken: String? = nil) {
             self.links = links
             self.nextToken = nextToken
@@ -3713,6 +3838,7 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
+        @inlinable
         public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
@@ -3749,6 +3875,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkResourceCounts: [NetworkResourceCount]? = nil, nextToken: String? = nil) {
             self.networkResourceCounts = networkResourceCounts
             self.nextToken = nextToken
@@ -3780,6 +3907,7 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -3838,6 +3966,7 @@ extension NetworkManager {
         /// The resource relationships.
         public let relationships: [Relationship]?
 
+        @inlinable
         public init(nextToken: String? = nil, relationships: [Relationship]? = nil) {
             self.nextToken = nextToken
             self.relationships = relationships
@@ -3869,6 +3998,7 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -3927,6 +4057,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkResources: [NetworkResource]? = nil, nextToken: String? = nil) {
             self.networkResources = networkResources
             self.nextToken = nextToken
@@ -3960,6 +4091,7 @@ extension NetworkManager {
         /// The route types.
         public let types: [RouteType]?
 
+        @inlinable
         public init(destinationFilters: [String: [String]]? = nil, exactCidrMatches: [String]? = nil, globalNetworkId: String, longestPrefixMatches: [String]? = nil, prefixListIds: [String]? = nil, routeTableIdentifier: RouteTableIdentifier, states: [RouteState]? = nil, subnetOfMatches: [String]? = nil, supernetOfMatches: [String]? = nil, types: [RouteType]? = nil) {
             self.destinationFilters = destinationFilters
             self.exactCidrMatches = exactCidrMatches
@@ -4043,6 +4175,7 @@ extension NetworkManager {
         /// The route table type.
         public let routeTableType: RouteTableType?
 
+        @inlinable
         public init(coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, networkRoutes: [NetworkRoute]? = nil, routeTableArn: String? = nil, routeTableTimestamp: Date? = nil, routeTableType: RouteTableType? = nil) {
             self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.networkRoutes = networkRoutes
@@ -4080,6 +4213,7 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types:    connect-peer     transit-gateway-connect-peer     vpn-connection
         public let resourceType: String?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -4138,6 +4272,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkTelemetry: [NetworkTelemetry]? = nil, nextToken: String? = nil) {
             self.networkTelemetry = networkTelemetry
             self.nextToken = nextToken
@@ -4153,6 +4288,7 @@ extension NetworkManager {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4175,6 +4311,7 @@ extension NetworkManager {
         /// The resource policy document.
         public let policyDocument: String?
 
+        @inlinable
         public init(policyDocument: String? = nil) {
             self.policyDocument = policyDocument
         }
@@ -4190,6 +4327,7 @@ extension NetworkManager {
         /// The ID of the route analysis.
         public let routeAnalysisId: String
 
+        @inlinable
         public init(globalNetworkId: String, routeAnalysisId: String) {
             self.globalNetworkId = globalNetworkId
             self.routeAnalysisId = routeAnalysisId
@@ -4216,6 +4354,7 @@ extension NetworkManager {
         /// The route analysis.
         public let routeAnalysis: RouteAnalysis?
 
+        @inlinable
         public init(routeAnalysis: RouteAnalysis? = nil) {
             self.routeAnalysis = routeAnalysis
         }
@@ -4229,6 +4368,7 @@ extension NetworkManager {
         /// The ID of the attachment.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -4251,6 +4391,7 @@ extension NetworkManager {
         /// Describes the site-to-site attachment.
         public let siteToSiteVpnAttachment: SiteToSiteVpnAttachment?
 
+        @inlinable
         public init(siteToSiteVpnAttachment: SiteToSiteVpnAttachment? = nil) {
             self.siteToSiteVpnAttachment = siteToSiteVpnAttachment
         }
@@ -4270,6 +4411,7 @@ extension NetworkManager {
         /// One or more site IDs. The maximum is 10.
         public let siteIds: [String]?
 
+        @inlinable
         public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, siteIds: [String]? = nil) {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
@@ -4308,6 +4450,7 @@ extension NetworkManager {
         /// The sites.
         public let sites: [Site]?
 
+        @inlinable
         public init(nextToken: String? = nil, sites: [Site]? = nil) {
             self.nextToken = nextToken
             self.sites = sites
@@ -4329,6 +4472,7 @@ extension NetworkManager {
         /// One or more transit gateway Connect peer Amazon Resource Names (ARNs).
         public let transitGatewayConnectPeerArns: [String]?
 
+        @inlinable
         public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayConnectPeerArns: [String]? = nil) {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
@@ -4367,6 +4511,7 @@ extension NetworkManager {
         /// Information about the transit gateway Connect peer associations.
         public let transitGatewayConnectPeerAssociations: [TransitGatewayConnectPeerAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayConnectPeerAssociations: [TransitGatewayConnectPeerAssociation]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayConnectPeerAssociations = transitGatewayConnectPeerAssociations
@@ -4382,6 +4527,7 @@ extension NetworkManager {
         /// The ID of the peering request.
         public let peeringId: String
 
+        @inlinable
         public init(peeringId: String) {
             self.peeringId = peeringId
         }
@@ -4404,6 +4550,7 @@ extension NetworkManager {
         /// Returns information about a transit gateway peering.
         public let transitGatewayPeering: TransitGatewayPeering?
 
+        @inlinable
         public init(transitGatewayPeering: TransitGatewayPeering? = nil) {
             self.transitGatewayPeering = transitGatewayPeering
         }
@@ -4423,6 +4570,7 @@ extension NetworkManager {
         /// The Amazon Resource Names (ARNs) of one or more transit gateways. The maximum is 10.
         public let transitGatewayArns: [String]?
 
+        @inlinable
         public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayArns: [String]? = nil) {
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
@@ -4461,6 +4609,7 @@ extension NetworkManager {
         /// The transit gateway registrations.
         public let transitGatewayRegistrations: [TransitGatewayRegistration]?
 
+        @inlinable
         public init(nextToken: String? = nil, transitGatewayRegistrations: [TransitGatewayRegistration]? = nil) {
             self.nextToken = nextToken
             self.transitGatewayRegistrations = transitGatewayRegistrations
@@ -4476,6 +4625,7 @@ extension NetworkManager {
         /// The ID of the transit gateway route table attachment.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -4498,6 +4648,7 @@ extension NetworkManager {
         /// Returns information about the transit gateway route table attachment.
         public let transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment?
 
+        @inlinable
         public init(transitGatewayRouteTableAttachment: TransitGatewayRouteTableAttachment? = nil) {
             self.transitGatewayRouteTableAttachment = transitGatewayRouteTableAttachment
         }
@@ -4511,6 +4662,7 @@ extension NetworkManager {
         /// The ID of the attachment.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -4533,6 +4685,7 @@ extension NetworkManager {
         /// Returns details about a VPC attachment.
         public let vpcAttachment: VpcAttachment?
 
+        @inlinable
         public init(vpcAttachment: VpcAttachment? = nil) {
             self.vpcAttachment = vpcAttachment
         }
@@ -4556,6 +4709,7 @@ extension NetworkManager {
         /// The tags for the global network.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, globalNetworkArn: String? = nil, globalNetworkId: String? = nil, state: GlobalNetworkState? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -4599,6 +4753,7 @@ extension NetworkManager {
         /// The type of the link.
         public let type: String?
 
+        @inlinable
         public init(bandwidth: Bandwidth? = nil, createdAt: Date? = nil, description: String? = nil, globalNetworkId: String? = nil, linkArn: String? = nil, linkId: String? = nil, provider: String? = nil, siteId: String? = nil, state: LinkState? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
             self.createdAt = createdAt
@@ -4638,6 +4793,7 @@ extension NetworkManager {
         /// The ID of the link.
         public let linkId: String?
 
+        @inlinable
         public init(deviceId: String? = nil, globalNetworkId: String? = nil, linkAssociationState: LinkAssociationState? = nil, linkId: String? = nil) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -4667,6 +4823,7 @@ extension NetworkManager {
         /// The state of the attachment.
         public let state: AttachmentState?
 
+        @inlinable
         public init(attachmentType: AttachmentType? = nil, coreNetworkId: String? = nil, edgeLocation: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, state: AttachmentState? = nil) {
             self.attachmentType = attachmentType
             self.coreNetworkId = coreNetworkId
@@ -4708,6 +4865,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(attachments: [Attachment]? = nil, nextToken: String? = nil) {
             self.attachments = attachments
             self.nextToken = nextToken
@@ -4729,6 +4887,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectAttachmentId: String? = nil, coreNetworkId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectAttachmentId = connectAttachmentId
             self.coreNetworkId = coreNetworkId
@@ -4765,6 +4924,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectPeers: [ConnectPeerSummary]? = nil, nextToken: String? = nil) {
             self.connectPeers = connectPeers
             self.nextToken = nextToken
@@ -4784,6 +4944,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.coreNetworkId = coreNetworkId
             self.maxResults = maxResults
@@ -4816,6 +4977,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreNetworkPolicyVersions: [CoreNetworkPolicyVersion]? = nil, nextToken: String? = nil) {
             self.coreNetworkPolicyVersions = coreNetworkPolicyVersions
             self.nextToken = nextToken
@@ -4833,6 +4995,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4861,6 +5024,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(coreNetworks: [CoreNetworkSummary]? = nil, nextToken: String? = nil) {
             self.coreNetworks = coreNetworks
             self.nextToken = nextToken
@@ -4878,6 +5042,7 @@ extension NetworkManager {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4906,6 +5071,7 @@ extension NetworkManager {
         /// Displays the status of an Amazon Web Services Organization.
         public let organizationStatus: OrganizationStatus?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationStatus: OrganizationStatus? = nil) {
             self.nextToken = nextToken
             self.organizationStatus = organizationStatus
@@ -4931,6 +5097,7 @@ extension NetworkManager {
         /// Returns a list of the peering request states.
         public let state: PeeringState?
 
+        @inlinable
         public init(coreNetworkId: String? = nil, edgeLocation: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, peeringType: PeeringType? = nil, state: PeeringState? = nil) {
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
@@ -4972,6 +5139,7 @@ extension NetworkManager {
         /// Lists the transit gateway peerings for the ListPeerings request.
         public let peerings: [Peering]?
 
+        @inlinable
         public init(nextToken: String? = nil, peerings: [Peering]? = nil) {
             self.nextToken = nextToken
             self.peerings = peerings
@@ -4987,6 +5155,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5009,6 +5178,7 @@ extension NetworkManager {
         /// The list of tags.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -5026,6 +5196,7 @@ extension NetworkManager {
         /// The longitude.
         public let longitude: String?
 
+        @inlinable
         public init(address: String? = nil, latitude: String? = nil, longitude: String? = nil) {
             self.address = address
             self.latitude = latitude
@@ -5052,6 +5223,7 @@ extension NetworkManager {
         /// The name of the network function group.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -5085,6 +5257,7 @@ extension NetworkManager {
         /// The tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, definition: String? = nil, definitionTimestamp: Date? = nil, metadata: [String: String]? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
@@ -5120,6 +5293,7 @@ extension NetworkManager {
         /// The resource type.
         public let resourceType: String?
 
+        @inlinable
         public init(count: Int? = nil, resourceType: String? = nil) {
             self.count = count
             self.resourceType = resourceType
@@ -5145,6 +5319,7 @@ extension NetworkManager {
         /// The resource type.
         public let resourceType: String?
 
+        @inlinable
         public init(definition: String? = nil, isMiddlebox: Bool? = nil, nameTag: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.definition = definition
             self.isMiddlebox = isMiddlebox
@@ -5176,6 +5351,7 @@ extension NetworkManager {
         /// The route type. The possible values are propagated and static.
         public let type: RouteType?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, destinations: [NetworkRouteDestination]? = nil, prefixListId: String? = nil, state: RouteState? = nil, type: RouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.destinations = destinations
@@ -5209,6 +5385,7 @@ extension NetworkManager {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
+        @inlinable
         public init(coreNetworkAttachmentId: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil, resourceId: String? = nil, resourceType: String? = nil, segmentName: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.coreNetworkAttachmentId = coreNetworkAttachmentId
             self.edgeLocation = edgeLocation
@@ -5250,6 +5427,7 @@ extension NetworkManager {
         /// The resource type.
         public let resourceType: String?
 
+        @inlinable
         public init(accountId: String? = nil, address: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, health: ConnectionHealth? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.address = address
@@ -5285,6 +5463,7 @@ extension NetworkManager {
         /// The status of the SLR deployment for the account. This will be either SUCCEEDED or IN_PROGRESS.
         public let slrDeploymentStatus: String?
 
+        @inlinable
         public init(accountStatusList: [AccountStatus]? = nil, organizationAwsServiceAccessStatus: String? = nil, organizationId: String? = nil, slrDeploymentStatus: String? = nil) {
             self.accountStatusList = accountStatusList
             self.organizationAwsServiceAccessStatus = organizationAwsServiceAccessStatus
@@ -5308,6 +5487,7 @@ extension NetworkManager {
         /// The sequence number in the path. The destination is 0.
         public let sequence: Int?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, resource: NetworkResourceSummary? = nil, sequence: Int? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.resource = resource
@@ -5345,6 +5525,7 @@ extension NetworkManager {
         /// The list of key-value tags associated with the peering.
         public let tags: [Tag]?
 
+        @inlinable
         public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [PeeringError]? = nil, ownerAccountId: String? = nil, peeringId: String? = nil, peeringType: PeeringType? = nil, resourceArn: String? = nil, state: PeeringState? = nil, tags: [Tag]? = nil) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
@@ -5386,6 +5567,7 @@ extension NetworkManager {
         /// The ARN of the requested peering resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(code: PeeringErrorCode? = nil, message: String? = nil, missingPermissionsContext: PermissionsErrorContext? = nil, requestId: String? = nil, resourceArn: String? = nil) {
             self.code = code
             self.message = message
@@ -5407,6 +5589,7 @@ extension NetworkManager {
         /// The missing permissions.
         public let missingPermission: String?
 
+        @inlinable
         public init(missingPermission: String? = nil) {
             self.missingPermission = missingPermission
         }
@@ -5424,6 +5607,7 @@ extension NetworkManager {
         /// The list of proposed changes to the key-value tags associated with the network function group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attachmentPolicyRuleNumber: Int? = nil, networkFunctionGroupName: String? = nil, tags: [Tag]? = nil) {
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.networkFunctionGroupName = networkFunctionGroupName
@@ -5445,6 +5629,7 @@ extension NetworkManager {
         /// The list of key-value tags that changed for the segment.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attachmentPolicyRuleNumber: Int? = nil, segmentName: String? = nil, tags: [Tag]? = nil) {
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.segmentName = segmentName
@@ -5470,6 +5655,7 @@ extension NetworkManager {
         /// The policy document.
         public let policyDocument: String
 
+        @inlinable
         public init(clientToken: String? = PutCoreNetworkPolicyRequest.idempotencyToken(), coreNetworkId: String, description: String? = nil, latestVersionId: Int? = nil, policyDocument: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
@@ -5511,6 +5697,7 @@ extension NetworkManager {
         /// Describes the changed core network policy.
         public let coreNetworkPolicy: CoreNetworkPolicy?
 
+        @inlinable
         public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
             self.coreNetworkPolicy = coreNetworkPolicy
         }
@@ -5526,6 +5713,7 @@ extension NetworkManager {
         /// The ARN of the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(policyDocument: String, resourceArn: String) {
             self.policyDocument = policyDocument
             self.resourceArn = resourceArn
@@ -5560,6 +5748,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the transit gateway.
         public let transitGatewayArn: String
 
+        @inlinable
         public init(globalNetworkId: String, transitGatewayArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayArn = transitGatewayArn
@@ -5588,6 +5777,7 @@ extension NetworkManager {
         /// Information about the transit gateway registration.
         public let transitGatewayRegistration: TransitGatewayRegistration?
 
+        @inlinable
         public init(transitGatewayRegistration: TransitGatewayRegistration? = nil) {
             self.transitGatewayRegistration = transitGatewayRegistration
         }
@@ -5601,6 +5791,7 @@ extension NetworkManager {
         /// The ID of the attachment.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -5623,6 +5814,7 @@ extension NetworkManager {
         /// Describes the rejected attachment request.
         public let attachment: Attachment?
 
+        @inlinable
         public init(attachment: Attachment? = nil) {
             self.attachment = attachment
         }
@@ -5638,6 +5830,7 @@ extension NetworkManager {
         /// The ARN of the resource.
         public let to: String?
 
+        @inlinable
         public init(from: String? = nil, to: String? = nil) {
             self.from = from
             self.to = to
@@ -5655,6 +5848,7 @@ extension NetworkManager {
         /// The ID of the policy version to restore.
         public let policyVersionId: Int
 
+        @inlinable
         public init(coreNetworkId: String, policyVersionId: Int) {
             self.coreNetworkId = coreNetworkId
             self.policyVersionId = policyVersionId
@@ -5679,6 +5873,7 @@ extension NetworkManager {
         /// Describes the restored core network policy.
         public let coreNetworkPolicy: CoreNetworkPolicy?
 
+        @inlinable
         public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
             self.coreNetworkPolicy = coreNetworkPolicy
         }
@@ -5712,6 +5907,7 @@ extension NetworkManager {
         /// Indicates whether to include the location of middlebox appliances in the route analysis.
         public let useMiddleboxes: Bool?
 
+        @inlinable
         public init(destination: RouteAnalysisEndpointOptions? = nil, forwardPath: RouteAnalysisPath? = nil, globalNetworkId: String? = nil, includeReturnPath: Bool? = nil, ownerAccountId: String? = nil, returnPath: RouteAnalysisPath? = nil, routeAnalysisId: String? = nil, source: RouteAnalysisEndpointOptions? = nil, startTimestamp: Date? = nil, status: RouteAnalysisStatus? = nil, useMiddleboxes: Bool? = nil) {
             self.destination = destination
             self.forwardPath = forwardPath
@@ -5749,6 +5945,7 @@ extension NetworkManager {
         /// The result of the analysis. If the status is NOT_CONNECTED, check the  reason code.
         public let resultCode: RouteAnalysisCompletionResultCode?
 
+        @inlinable
         public init(reasonCode: RouteAnalysisCompletionReasonCode? = nil, reasonContext: [String: String]? = nil, resultCode: RouteAnalysisCompletionResultCode? = nil) {
             self.reasonCode = reasonCode
             self.reasonContext = reasonContext
@@ -5770,6 +5967,7 @@ extension NetworkManager {
         /// The ARN of the transit gateway attachment.
         public let transitGatewayAttachmentArn: String?
 
+        @inlinable
         public init(ipAddress: String? = nil, transitGatewayArn: String? = nil, transitGatewayAttachmentArn: String? = nil) {
             self.ipAddress = ipAddress
             self.transitGatewayArn = transitGatewayArn
@@ -5789,6 +5987,7 @@ extension NetworkManager {
         /// The ARN of the transit gateway attachment.
         public let transitGatewayAttachmentArn: String?
 
+        @inlinable
         public init(ipAddress: String? = nil, transitGatewayAttachmentArn: String? = nil) {
             self.ipAddress = ipAddress
             self.transitGatewayAttachmentArn = transitGatewayAttachmentArn
@@ -5814,6 +6013,7 @@ extension NetworkManager {
         /// The route analysis path.
         public let path: [PathComponent]?
 
+        @inlinable
         public init(completionStatus: RouteAnalysisCompletion? = nil, path: [PathComponent]? = nil) {
             self.completionStatus = completionStatus
             self.path = path
@@ -5833,6 +6033,7 @@ extension NetworkManager {
         /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String?
 
+        @inlinable
         public init(coreNetworkNetworkFunctionGroup: CoreNetworkNetworkFunctionGroupIdentifier? = nil, coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, transitGatewayRouteTableArn: String? = nil) {
             self.coreNetworkNetworkFunctionGroup = coreNetworkNetworkFunctionGroup
             self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
@@ -5863,6 +6064,7 @@ extension NetworkManager {
         /// The list of destination segments if the service insertion action is send-via.
         public let whenSentTo: WhenSentTo?
 
+        @inlinable
         public init(action: SegmentActionServiceInsertion? = nil, mode: SendViaMode? = nil, via: Via? = nil, whenSentTo: WhenSentTo? = nil) {
             self.action = action
             self.mode = mode
@@ -5884,6 +6086,7 @@ extension NetworkManager {
         /// The list of segments associated with the send-via action.
         public let sendVia: [String]?
 
+        @inlinable
         public init(sendTo: [String]? = nil, sendVia: [String]? = nil) {
             self.sendTo = sendTo
             self.sendVia = sendVia
@@ -5913,6 +6116,7 @@ extension NetworkManager {
         /// The tags for the site.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, siteArn: String? = nil, siteId: String? = nil, state: SiteState? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -5942,6 +6146,7 @@ extension NetworkManager {
         /// The ARN of the site-to-site VPN attachment.
         public let vpnConnectionArn: String?
 
+        @inlinable
         public init(attachment: Attachment? = nil, vpnConnectionArn: String? = nil) {
             self.attachment = attachment
             self.vpnConnectionArn = vpnConnectionArn
@@ -5957,6 +6162,7 @@ extension NetworkManager {
         /// The action to take for the update request. This can be either ENABLE or DISABLE.
         public let action: String
 
+        @inlinable
         public init(action: String) {
             self.action = action
         }
@@ -5974,6 +6180,7 @@ extension NetworkManager {
         /// The status of the service access update request for an Amazon Web Services Organization.
         public let organizationStatus: OrganizationStatus?
 
+        @inlinable
         public init(organizationStatus: OrganizationStatus? = nil) {
             self.organizationStatus = organizationStatus
         }
@@ -5995,6 +6202,7 @@ extension NetworkManager {
         /// Indicates whether to include the location of middlebox appliances in the route analysis. The default is false.
         public let useMiddleboxes: Bool?
 
+        @inlinable
         public init(destination: RouteAnalysisEndpointOptionsSpecification, globalNetworkId: String, includeReturnPath: Bool? = nil, source: RouteAnalysisEndpointOptionsSpecification, useMiddleboxes: Bool? = nil) {
             self.destination = destination
             self.globalNetworkId = globalNetworkId
@@ -6032,6 +6240,7 @@ extension NetworkManager {
         /// The route analysis.
         public let routeAnalysis: RouteAnalysis?
 
+        @inlinable
         public init(routeAnalysis: RouteAnalysis? = nil) {
             self.routeAnalysis = routeAnalysis
         }
@@ -6047,6 +6256,7 @@ extension NetworkManager {
         /// The tag value. Constraints: Maximum length of 256 characters.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -6071,6 +6281,7 @@ extension NetworkManager {
         /// The tags to apply to the specified resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6112,6 +6323,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
         public let transitGatewayConnectPeerArn: String?
 
+        @inlinable
         public init(deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: TransitGatewayConnectPeerAssociationState? = nil, transitGatewayConnectPeerArn: String? = nil) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -6137,6 +6349,7 @@ extension NetworkManager {
         /// The ID of the transit gateway peering attachment.
         public let transitGatewayPeeringAttachmentId: String?
 
+        @inlinable
         public init(peering: Peering? = nil, transitGatewayArn: String? = nil, transitGatewayPeeringAttachmentId: String? = nil) {
             self.peering = peering
             self.transitGatewayArn = transitGatewayArn
@@ -6158,6 +6371,7 @@ extension NetworkManager {
         /// The Amazon Resource Name (ARN) of the transit gateway.
         public let transitGatewayArn: String?
 
+        @inlinable
         public init(globalNetworkId: String? = nil, state: TransitGatewayRegistrationStateReason? = nil, transitGatewayArn: String? = nil) {
             self.globalNetworkId = globalNetworkId
             self.state = state
@@ -6177,6 +6391,7 @@ extension NetworkManager {
         /// The message for the state reason.
         public let message: String?
 
+        @inlinable
         public init(code: TransitGatewayRegistrationState? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -6195,6 +6410,7 @@ extension NetworkManager {
         /// The ARN of the transit gateway attachment route table. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String?
 
+        @inlinable
         public init(attachment: Attachment? = nil, peeringId: String? = nil, transitGatewayRouteTableArn: String? = nil) {
             self.attachment = attachment
             self.peeringId = peeringId
@@ -6214,6 +6430,7 @@ extension NetworkManager {
         /// The tag keys to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -6254,6 +6471,7 @@ extension NetworkManager {
         /// The ID of the link for the first device in the connection.
         public let linkId: String?
 
+        @inlinable
         public init(connectedLinkId: String? = nil, connectionId: String, description: String? = nil, globalNetworkId: String, linkId: String? = nil) {
             self.connectedLinkId = connectedLinkId
             self.connectionId = connectionId
@@ -6296,6 +6514,7 @@ extension NetworkManager {
         /// Information about the connection.
         public let connection: Connection?
 
+        @inlinable
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -6311,6 +6530,7 @@ extension NetworkManager {
         /// The description of the update.
         public let description: String?
 
+        @inlinable
         public init(coreNetworkId: String, description: String? = nil) {
             self.coreNetworkId = coreNetworkId
             self.description = description
@@ -6339,6 +6559,7 @@ extension NetworkManager {
         /// Returns information about a core network update.
         public let coreNetwork: CoreNetwork?
 
+        @inlinable
         public init(coreNetwork: CoreNetwork? = nil) {
             self.coreNetwork = coreNetwork
         }
@@ -6369,6 +6590,7 @@ extension NetworkManager {
         /// The vendor of the device. Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
+        @inlinable
         public init(awsLocation: AWSLocation? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, type: String? = nil, vendor: String? = nil) {
             self.awsLocation = awsLocation
             self.description = description
@@ -6434,6 +6656,7 @@ extension NetworkManager {
         /// Information about the device.
         public let device: Device?
 
+        @inlinable
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -6449,6 +6672,7 @@ extension NetworkManager {
         /// The ID of your global network.
         public let globalNetworkId: String
 
+        @inlinable
         public init(description: String? = nil, globalNetworkId: String) {
             self.description = description
             self.globalNetworkId = globalNetworkId
@@ -6477,6 +6701,7 @@ extension NetworkManager {
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
 
+        @inlinable
         public init(globalNetwork: GlobalNetwork? = nil) {
             self.globalNetwork = globalNetwork
         }
@@ -6500,6 +6725,7 @@ extension NetworkManager {
         /// The type of the link. Constraints: Maximum length of 128 characters.
         public let type: String?
 
+        @inlinable
         public init(bandwidth: Bandwidth? = nil, description: String? = nil, globalNetworkId: String, linkId: String, provider: String? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
             self.description = description
@@ -6545,6 +6771,7 @@ extension NetworkManager {
         /// Information about the link.
         public let link: Link?
 
+        @inlinable
         public init(link: Link? = nil) {
             self.link = link
         }
@@ -6562,6 +6789,7 @@ extension NetworkManager {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(globalNetworkId: String, metadata: [String: String], resourceArn: String) {
             self.globalNetworkId = globalNetworkId
             self.metadata = metadata
@@ -6600,6 +6828,7 @@ extension NetworkManager {
         /// The ARN of the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(metadata: [String: String]? = nil, resourceArn: String? = nil) {
             self.metadata = metadata
             self.resourceArn = resourceArn
@@ -6621,6 +6850,7 @@ extension NetworkManager {
         /// The ID of your site.
         public let siteId: String
 
+        @inlinable
         public init(description: String? = nil, globalNetworkId: String, location: Location? = nil, siteId: String) {
             self.description = description
             self.globalNetworkId = globalNetworkId
@@ -6657,6 +6887,7 @@ extension NetworkManager {
         /// Information about the site.
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }
@@ -6676,6 +6907,7 @@ extension NetworkManager {
         /// Removes a subnet ARN from the attachment.
         public let removeSubnetArns: [String]?
 
+        @inlinable
         public init(addSubnetArns: [String]? = nil, attachmentId: String, options: VpcOptions? = nil, removeSubnetArns: [String]? = nil) {
             self.addSubnetArns = addSubnetArns
             self.attachmentId = attachmentId
@@ -6716,6 +6948,7 @@ extension NetworkManager {
         /// Describes the updated VPC attachment.
         public let vpcAttachment: VpcAttachment?
 
+        @inlinable
         public init(vpcAttachment: VpcAttachment? = nil) {
             self.vpcAttachment = vpcAttachment
         }
@@ -6731,6 +6964,7 @@ extension NetworkManager {
         /// Describes any edge overrides. An edge override is a specific edge to be used for traffic.
         public let withEdgeOverrides: [EdgeOverride]?
 
+        @inlinable
         public init(networkFunctionGroups: [NetworkFunctionGroup]? = nil, withEdgeOverrides: [EdgeOverride]? = nil) {
             self.networkFunctionGroups = networkFunctionGroups
             self.withEdgeOverrides = withEdgeOverrides
@@ -6750,6 +6984,7 @@ extension NetworkManager {
         /// The subnet ARNs.
         public let subnetArns: [String]?
 
+        @inlinable
         public init(attachment: Attachment? = nil, options: VpcOptions? = nil, subnetArns: [String]? = nil) {
             self.attachment = attachment
             self.options = options
@@ -6769,6 +7004,7 @@ extension NetworkManager {
         /// Indicates whether IPv6 is supported.
         public let ipv6Support: Bool?
 
+        @inlinable
         public init(applianceModeSupport: Bool? = nil, ipv6Support: Bool? = nil) {
             self.applianceModeSupport = applianceModeSupport
             self.ipv6Support = ipv6Support
@@ -6784,6 +7020,7 @@ extension NetworkManager {
         /// The list of destination segments when the service insertion action is send-to.
         public let whenSentToSegmentsList: [String]?
 
+        @inlinable
         public init(whenSentToSegmentsList: [String]? = nil) {
             self.whenSentToSegmentsList = whenSentToSegmentsList
         }

@@ -135,6 +135,7 @@ extension WorkSpacesThinClient {
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), desiredSoftwareSetId: String? = nil, desktopArn: String, desktopEndpoint: String? = nil, deviceCreationTags: [String: String]? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.desiredSoftwareSetId = desiredSoftwareSetId
@@ -193,6 +194,7 @@ extension WorkSpacesThinClient {
         /// Describes an environment.
         public let environment: EnvironmentSummary?
 
+        @inlinable
         public init(environment: EnvironmentSummary? = nil) {
             self.environment = environment
         }
@@ -208,6 +210,7 @@ extension WorkSpacesThinClient {
         /// The ID of the device to delete.
         public let id: String
 
+        @inlinable
         public init(clientToken: String? = DeleteDeviceRequest.idempotencyToken(), id: String) {
             self.clientToken = clientToken
             self.id = id
@@ -239,6 +242,7 @@ extension WorkSpacesThinClient {
         /// The ID of the environment to delete.
         public let id: String
 
+        @inlinable
         public init(clientToken: String? = DeleteEnvironmentRequest.idempotencyToken(), id: String) {
             self.clientToken = clientToken
             self.id = id
@@ -272,6 +276,7 @@ extension WorkSpacesThinClient {
         /// The desired new status for the device.
         public let targetDeviceStatus: TargetDeviceStatus?
 
+        @inlinable
         public init(clientToken: String? = DeregisterDeviceRequest.idempotencyToken(), id: String, targetDeviceStatus: TargetDeviceStatus? = nil) {
             self.clientToken = clientToken
             self.id = id
@@ -346,6 +351,7 @@ extension WorkSpacesThinClient {
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -427,6 +433,7 @@ extension WorkSpacesThinClient {
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, serialNumber: String? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -506,6 +513,7 @@ extension WorkSpacesThinClient {
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, deviceCreationTags: [String: String]? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.activationCode = activationCode
             self.arn = arn
@@ -583,6 +591,7 @@ extension WorkSpacesThinClient {
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, id: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, updatedAt: Date? = nil) {
             self.activationCode = activationCode
             self.arn = arn
@@ -622,6 +631,7 @@ extension WorkSpacesThinClient {
         /// The ID of the device for which to return information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -643,6 +653,7 @@ extension WorkSpacesThinClient {
         /// Describes an device.
         public let device: Device?
 
+        @inlinable
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -656,6 +667,7 @@ extension WorkSpacesThinClient {
         /// The ID of the environment for which to return information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -677,6 +689,7 @@ extension WorkSpacesThinClient {
         /// Describes an environment.
         public let environment: Environment?
 
+        @inlinable
         public init(environment: Environment? = nil) {
             self.environment = environment
         }
@@ -690,6 +703,7 @@ extension WorkSpacesThinClient {
         /// The ID of the software set for which to return information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -711,6 +725,7 @@ extension WorkSpacesThinClient {
         /// Describes a software set.
         public let softwareSet: SoftwareSet?
 
+        @inlinable
         public init(softwareSet: SoftwareSet? = nil) {
             self.softwareSet = softwareSet
         }
@@ -726,6 +741,7 @@ extension WorkSpacesThinClient {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -754,6 +770,7 @@ extension WorkSpacesThinClient {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [DeviceSummary]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -771,6 +788,7 @@ extension WorkSpacesThinClient {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -799,6 +817,7 @@ extension WorkSpacesThinClient {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [EnvironmentSummary]? = nil, nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -816,6 +835,7 @@ extension WorkSpacesThinClient {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -844,6 +864,7 @@ extension WorkSpacesThinClient {
         /// Describes software sets.
         public let softwareSets: [SoftwareSetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, softwareSets: [SoftwareSetSummary]? = nil) {
             self.nextToken = nextToken
             self.softwareSets = softwareSets
@@ -859,6 +880,7 @@ extension WorkSpacesThinClient {
         /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -876,6 +898,7 @@ extension WorkSpacesThinClient {
         /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -901,6 +924,7 @@ extension WorkSpacesThinClient {
         /// An option to select the default or custom maintenance window.
         public let type: MaintenanceWindowType?
 
+        @inlinable
         public init(applyTimeOf: ApplyTimeOf? = nil, daysOfTheWeek: [DayOfWeek]? = nil, endTimeHour: Int? = nil, endTimeMinute: Int? = nil, startTimeHour: Int? = nil, startTimeMinute: Int? = nil, type: MaintenanceWindowType? = nil) {
             self.applyTimeOf = applyTimeOf
             self.daysOfTheWeek = daysOfTheWeek
@@ -941,6 +965,7 @@ extension WorkSpacesThinClient {
         /// The version of the software component.
         public let version: String?
 
+        @inlinable
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
             self.version = version
@@ -970,6 +995,7 @@ extension WorkSpacesThinClient {
         /// The version of the software set.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, releasedAt: Date? = nil, software: [Software]? = nil, supportedUntil: Date? = nil, tags: [String: String]? = nil, validationStatus: SoftwareSetValidationStatus? = nil, version: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1007,6 +1033,7 @@ extension WorkSpacesThinClient {
         /// The version of the software set.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, releasedAt: Date? = nil, supportedUntil: Date? = nil, validationStatus: SoftwareSetValidationStatus? = nil, version: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1032,6 +1059,7 @@ extension WorkSpacesThinClient {
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1059,6 +1087,7 @@ extension WorkSpacesThinClient {
         /// The keys of the key-value pairs for the tag or tags you want to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1088,6 +1117,7 @@ extension WorkSpacesThinClient {
         /// An option to define if software updates should be applied within a maintenance window.
         public let softwareSetUpdateSchedule: SoftwareSetUpdateSchedule?
 
+        @inlinable
         public init(desiredSoftwareSetId: String? = nil, id: String, name: String? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil) {
             self.desiredSoftwareSetId = desiredSoftwareSetId
             self.id = id
@@ -1121,6 +1151,7 @@ extension WorkSpacesThinClient {
         /// Describes a device.
         public let device: DeviceSummary?
 
+        @inlinable
         public init(device: DeviceSummary? = nil) {
             self.device = device
         }
@@ -1150,6 +1181,7 @@ extension WorkSpacesThinClient {
         /// An option to define if software updates should be applied within a maintenance window.
         public let softwareSetUpdateSchedule: SoftwareSetUpdateSchedule?
 
+        @inlinable
         public init(desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, deviceCreationTags: [String: String]? = nil, id: String, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil) {
             self.desiredSoftwareSetId = desiredSoftwareSetId
             self.desktopArn = desktopArn
@@ -1213,6 +1245,7 @@ extension WorkSpacesThinClient {
         /// Describes an environment.
         public let environment: EnvironmentSummary?
 
+        @inlinable
         public init(environment: EnvironmentSummary? = nil) {
             self.environment = environment
         }
@@ -1228,6 +1261,7 @@ extension WorkSpacesThinClient {
         /// An option to define if the software set has been validated.
         public let validationStatus: SoftwareSetValidationStatus
 
+        @inlinable
         public init(id: String, validationStatus: SoftwareSetValidationStatus) {
             self.id = id
             self.validationStatus = validationStatus

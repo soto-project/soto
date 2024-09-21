@@ -148,6 +148,7 @@ extension ConnectCampaigns {
     public struct AgentlessDialerConfig: AWSEncodableShape & AWSDecodableShape {
         public let dialingCapacity: Double?
 
+        @inlinable
         public init(dialingCapacity: Double? = nil) {
             self.dialingCapacity = dialingCapacity
         }
@@ -168,6 +169,7 @@ extension ConnectCampaigns {
         /// Enable or disable answering machine detection
         public let enableAnswerMachineDetection: Bool
 
+        @inlinable
         public init(awaitAnswerMachinePrompt: Bool? = nil, enableAnswerMachineDetection: Bool) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
@@ -188,6 +190,7 @@ extension ConnectCampaigns {
         public let outboundCallConfig: OutboundCallConfig
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, connectInstanceId: String, dialerConfig: DialerConfig, id: String, name: String, outboundCallConfig: OutboundCallConfig, tags: [String: String]? = nil) {
             self.arn = arn
             self.connectInstanceId = connectInstanceId
@@ -212,6 +215,7 @@ extension ConnectCampaigns {
     public struct CampaignFilters: AWSEncodableShape {
         public let instanceIdFilter: InstanceIdFilter?
 
+        @inlinable
         public init(instanceIdFilter: InstanceIdFilter? = nil) {
             self.instanceIdFilter = instanceIdFilter
         }
@@ -231,6 +235,7 @@ extension ConnectCampaigns {
         public let id: String
         public let name: String
 
+        @inlinable
         public init(arn: String, connectInstanceId: String, id: String, name: String) {
             self.arn = arn
             self.connectInstanceId = connectInstanceId
@@ -253,6 +258,7 @@ extension ConnectCampaigns {
         public let outboundCallConfig: OutboundCallConfig
         public let tags: [String: String]?
 
+        @inlinable
         public init(connectInstanceId: String, dialerConfig: DialerConfig, name: String, outboundCallConfig: OutboundCallConfig, tags: [String: String]? = nil) {
             self.connectInstanceId = connectInstanceId
             self.dialerConfig = dialerConfig
@@ -290,6 +296,7 @@ extension ConnectCampaigns {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -306,6 +313,7 @@ extension ConnectCampaigns {
     public struct DeleteCampaignRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -327,6 +335,7 @@ extension ConnectCampaigns {
     public struct DeleteConnectInstanceConfigRequest: AWSEncodableShape {
         public let connectInstanceId: String
 
+        @inlinable
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
         }
@@ -348,6 +357,7 @@ extension ConnectCampaigns {
     public struct DeleteInstanceOnboardingJobRequest: AWSEncodableShape {
         public let connectInstanceId: String
 
+        @inlinable
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
         }
@@ -369,6 +379,7 @@ extension ConnectCampaigns {
     public struct DescribeCampaignRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -390,6 +401,7 @@ extension ConnectCampaigns {
     public struct DescribeCampaignResponse: AWSDecodableShape {
         public let campaign: Campaign?
 
+        @inlinable
         public init(campaign: Campaign? = nil) {
             self.campaign = campaign
         }
@@ -406,6 +418,7 @@ extension ConnectCampaigns {
         public var expirationTime: Date
         public let phoneNumber: String
 
+        @inlinable
         public init(attributes: [String: String], clientToken: String, expirationTime: Date, phoneNumber: String) {
             self.attributes = attributes
             self.clientToken = clientToken
@@ -439,6 +452,7 @@ extension ConnectCampaigns {
         public let encryptionType: EncryptionType?
         public let keyArn: String?
 
+        @inlinable
         public init(enabled: Bool, encryptionType: EncryptionType? = nil, keyArn: String? = nil) {
             self.enabled = enabled
             self.encryptionType = encryptionType
@@ -460,6 +474,7 @@ extension ConnectCampaigns {
         public let campaignId: String?
         public let failureCode: GetCampaignStateBatchFailureCode?
 
+        @inlinable
         public init(campaignId: String? = nil, failureCode: GetCampaignStateBatchFailureCode? = nil) {
             self.campaignId = campaignId
             self.failureCode = failureCode
@@ -476,6 +491,7 @@ extension ConnectCampaigns {
         public let failureCode: FailureCode?
         public let id: String?
 
+        @inlinable
         public init(clientToken: String? = nil, failureCode: FailureCode? = nil, id: String? = nil) {
             self.clientToken = clientToken
             self.failureCode = failureCode
@@ -492,6 +508,7 @@ extension ConnectCampaigns {
     public struct GetCampaignStateBatchRequest: AWSEncodableShape {
         public let campaignIds: [String]
 
+        @inlinable
         public init(campaignIds: [String]) {
             self.campaignIds = campaignIds
         }
@@ -512,6 +529,7 @@ extension ConnectCampaigns {
         public let failedRequests: [FailedCampaignStateResponse]?
         public let successfulRequests: [SuccessfulCampaignStateResponse]?
 
+        @inlinable
         public init(failedRequests: [FailedCampaignStateResponse]? = nil, successfulRequests: [SuccessfulCampaignStateResponse]? = nil) {
             self.failedRequests = failedRequests
             self.successfulRequests = successfulRequests
@@ -526,6 +544,7 @@ extension ConnectCampaigns {
     public struct GetCampaignStateRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -547,6 +566,7 @@ extension ConnectCampaigns {
     public struct GetCampaignStateResponse: AWSDecodableShape {
         public let state: CampaignState?
 
+        @inlinable
         public init(state: CampaignState? = nil) {
             self.state = state
         }
@@ -559,6 +579,7 @@ extension ConnectCampaigns {
     public struct GetConnectInstanceConfigRequest: AWSEncodableShape {
         public let connectInstanceId: String
 
+        @inlinable
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
         }
@@ -580,6 +601,7 @@ extension ConnectCampaigns {
     public struct GetConnectInstanceConfigResponse: AWSDecodableShape {
         public let connectInstanceConfig: InstanceConfig?
 
+        @inlinable
         public init(connectInstanceConfig: InstanceConfig? = nil) {
             self.connectInstanceConfig = connectInstanceConfig
         }
@@ -592,6 +614,7 @@ extension ConnectCampaigns {
     public struct GetInstanceOnboardingJobStatusRequest: AWSEncodableShape {
         public let connectInstanceId: String
 
+        @inlinable
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
         }
@@ -613,6 +636,7 @@ extension ConnectCampaigns {
     public struct GetInstanceOnboardingJobStatusResponse: AWSDecodableShape {
         public let connectInstanceOnboardingJobStatus: InstanceOnboardingJobStatus?
 
+        @inlinable
         public init(connectInstanceOnboardingJobStatus: InstanceOnboardingJobStatus? = nil) {
             self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
         }
@@ -627,6 +651,7 @@ extension ConnectCampaigns {
         public let encryptionConfig: EncryptionConfig
         public let serviceLinkedRoleArn: String
 
+        @inlinable
         public init(connectInstanceId: String, encryptionConfig: EncryptionConfig, serviceLinkedRoleArn: String) {
             self.connectInstanceId = connectInstanceId
             self.encryptionConfig = encryptionConfig
@@ -644,6 +669,7 @@ extension ConnectCampaigns {
         public let `operator`: InstanceIdFilterOperator
         public let value: String
 
+        @inlinable
         public init(operator: InstanceIdFilterOperator, value: String) {
             self.`operator` = `operator`
             self.value = value
@@ -665,6 +691,7 @@ extension ConnectCampaigns {
         public let failureCode: InstanceOnboardingJobFailureCode?
         public let status: InstanceOnboardingJobStatusCode
 
+        @inlinable
         public init(connectInstanceId: String, failureCode: InstanceOnboardingJobFailureCode? = nil, status: InstanceOnboardingJobStatusCode) {
             self.connectInstanceId = connectInstanceId
             self.failureCode = failureCode
@@ -683,6 +710,7 @@ extension ConnectCampaigns {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(filters: CampaignFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -707,6 +735,7 @@ extension ConnectCampaigns {
         public let campaignSummaryList: [CampaignSummary]?
         public let nextToken: String?
 
+        @inlinable
         public init(campaignSummaryList: [CampaignSummary]? = nil, nextToken: String? = nil) {
             self.campaignSummaryList = campaignSummaryList
             self.nextToken = nextToken
@@ -721,6 +750,7 @@ extension ConnectCampaigns {
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -743,6 +773,7 @@ extension ConnectCampaigns {
     public struct ListTagsForResourceResponse: AWSDecodableShape {
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -758,6 +789,7 @@ extension ConnectCampaigns {
         public let connectQueueId: String?
         public let connectSourcePhoneNumber: String?
 
+        @inlinable
         public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, connectContactFlowId: String, connectQueueId: String? = nil, connectSourcePhoneNumber: String? = nil) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
@@ -782,6 +814,7 @@ extension ConnectCampaigns {
     public struct PauseCampaignRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -804,6 +837,7 @@ extension ConnectCampaigns {
         public let bandwidthAllocation: Double
         public let dialingCapacity: Double?
 
+        @inlinable
         public init(bandwidthAllocation: Double, dialingCapacity: Double? = nil) {
             self.bandwidthAllocation = bandwidthAllocation
             self.dialingCapacity = dialingCapacity
@@ -826,6 +860,7 @@ extension ConnectCampaigns {
         public let bandwidthAllocation: Double
         public let dialingCapacity: Double?
 
+        @inlinable
         public init(bandwidthAllocation: Double, dialingCapacity: Double? = nil) {
             self.bandwidthAllocation = bandwidthAllocation
             self.dialingCapacity = dialingCapacity
@@ -848,6 +883,7 @@ extension ConnectCampaigns {
         public let dialRequests: [DialRequest]
         public let id: String
 
+        @inlinable
         public init(dialRequests: [DialRequest], id: String) {
             self.dialRequests = dialRequests
             self.id = id
@@ -879,6 +915,7 @@ extension ConnectCampaigns {
         public let failedRequests: [FailedRequest]?
         public let successfulRequests: [SuccessfulRequest]?
 
+        @inlinable
         public init(failedRequests: [FailedRequest]? = nil, successfulRequests: [SuccessfulRequest]? = nil) {
             self.failedRequests = failedRequests
             self.successfulRequests = successfulRequests
@@ -893,6 +930,7 @@ extension ConnectCampaigns {
     public struct ResumeCampaignRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -914,6 +952,7 @@ extension ConnectCampaigns {
     public struct StartCampaignRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -936,6 +975,7 @@ extension ConnectCampaigns {
         public let connectInstanceId: String
         public let encryptionConfig: EncryptionConfig
 
+        @inlinable
         public init(connectInstanceId: String, encryptionConfig: EncryptionConfig) {
             self.connectInstanceId = connectInstanceId
             self.encryptionConfig = encryptionConfig
@@ -962,6 +1002,7 @@ extension ConnectCampaigns {
     public struct StartInstanceOnboardingJobResponse: AWSDecodableShape {
         public let connectInstanceOnboardingJobStatus: InstanceOnboardingJobStatus?
 
+        @inlinable
         public init(connectInstanceOnboardingJobStatus: InstanceOnboardingJobStatus? = nil) {
             self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
         }
@@ -974,6 +1015,7 @@ extension ConnectCampaigns {
     public struct StopCampaignRequest: AWSEncodableShape {
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -996,6 +1038,7 @@ extension ConnectCampaigns {
         public let campaignId: String?
         public let state: CampaignState?
 
+        @inlinable
         public init(campaignId: String? = nil, state: CampaignState? = nil) {
             self.campaignId = campaignId
             self.state = state
@@ -1011,6 +1054,7 @@ extension ConnectCampaigns {
         public let clientToken: String?
         public let id: String?
 
+        @inlinable
         public init(clientToken: String? = nil, id: String? = nil) {
             self.clientToken = clientToken
             self.id = id
@@ -1026,6 +1070,7 @@ extension ConnectCampaigns {
         public let arn: String
         public let tags: [String: String]
 
+        @inlinable
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
@@ -1059,6 +1104,7 @@ extension ConnectCampaigns {
         public let arn: String
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -1090,6 +1136,7 @@ extension ConnectCampaigns {
         public let dialerConfig: DialerConfig
         public let id: String
 
+        @inlinable
         public init(dialerConfig: DialerConfig, id: String) {
             self.dialerConfig = dialerConfig
             self.id = id
@@ -1117,6 +1164,7 @@ extension ConnectCampaigns {
         public let id: String
         public let name: String
 
+        @inlinable
         public init(id: String, name: String) {
             self.id = id
             self.name = name
@@ -1147,6 +1195,7 @@ extension ConnectCampaigns {
         public let connectSourcePhoneNumber: String?
         public let id: String
 
+        @inlinable
         public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, connectContactFlowId: String? = nil, connectSourcePhoneNumber: String? = nil, id: String) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId

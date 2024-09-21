@@ -113,6 +113,7 @@ extension IVS {
         /// The expected ingest bitrate (bits per second). This is configured in the encoder.
         public let targetBitrate: Int64?
 
+        @inlinable
         public init(channels: Int64? = nil, codec: String? = nil, sampleRate: Int64? = nil, targetBitrate: Int64? = nil) {
             self.channels = channels
             self.codec = codec
@@ -136,6 +137,7 @@ extension IVS {
         /// Error message, determined by the application.
         public let message: String?
 
+        @inlinable
         public init(arn: String? = nil, code: String? = nil, message: String? = nil) {
             self.arn = arn
             self.code = code
@@ -153,6 +155,7 @@ extension IVS {
         /// Array of ARNs, one per channel.
         public let arns: [String]
 
+        @inlinable
         public init(arns: [String]) {
             self.arns = arns
         }
@@ -177,6 +180,7 @@ extension IVS {
         /// Each error object is related to a specific ARN in the request.
         public let errors: [BatchError]?
 
+        @inlinable
         public init(channels: [Channel]? = nil, errors: [BatchError]? = nil) {
             self.channels = channels
             self.errors = errors
@@ -192,6 +196,7 @@ extension IVS {
         /// Array of ARNs, one per stream key.
         public let arns: [String]
 
+        @inlinable
         public init(arns: [String]) {
             self.arns = arns
         }
@@ -215,6 +220,7 @@ extension IVS {
         public let errors: [BatchError]?
         public let streamKeys: [StreamKey]?
 
+        @inlinable
         public init(errors: [BatchError]? = nil, streamKeys: [StreamKey]? = nil) {
             self.errors = errors
             self.streamKeys = streamKeys
@@ -236,6 +242,7 @@ extension IVS {
         /// The ID of the viewer session to revoke.
         public let viewerId: String
 
+        @inlinable
         public init(channelArn: String, code: String? = nil, message: String? = nil, viewerId: String) {
             self.channelArn = channelArn
             self.code = code
@@ -255,6 +262,7 @@ extension IVS {
         /// Array of viewer sessions, one per channel-ARN and viewer-ID pair.
         public let viewerSessions: [BatchStartViewerSessionRevocationViewerSession]
 
+        @inlinable
         public init(viewerSessions: [BatchStartViewerSessionRevocationViewerSession]) {
             self.viewerSessions = viewerSessions
         }
@@ -276,6 +284,7 @@ extension IVS {
         /// Each error object is related to a specific channelArn and viewerId pair in the request.
         public let errors: [BatchStartViewerSessionRevocationError]?
 
+        @inlinable
         public init(errors: [BatchStartViewerSessionRevocationError]? = nil) {
             self.errors = errors
         }
@@ -293,6 +302,7 @@ extension IVS {
         /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0.
         public let viewerSessionVersionsLessThanOrEqualTo: Int?
 
+        @inlinable
         public init(channelArn: String, viewerId: String, viewerSessionVersionsLessThanOrEqualTo: Int? = nil) {
             self.channelArn = channelArn
             self.viewerId = viewerId
@@ -343,6 +353,7 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
+        @inlinable
         public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.arn = arn
             self.authorized = authorized
@@ -398,6 +409,7 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
+        @inlinable
         public init(arn: String? = nil, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.arn = arn
             self.authorized = authorized
@@ -445,6 +457,7 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
+        @inlinable
         public init(authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.authorized = authorized
             self.insecureIngest = insecureIngest
@@ -489,6 +502,7 @@ extension IVS {
         public let channel: Channel?
         public let streamKey: StreamKey?
 
+        @inlinable
         public init(channel: Channel? = nil, streamKey: StreamKey? = nil) {
             self.channel = channel
             self.streamKey = streamKey
@@ -512,6 +526,7 @@ extension IVS {
         /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedCountries: [String]? = nil, allowedOrigins: [String]? = nil, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.allowedCountries = allowedCountries
             self.allowedOrigins = allowedOrigins
@@ -550,6 +565,7 @@ extension IVS {
     public struct CreatePlaybackRestrictionPolicyResponse: AWSDecodableShape {
         public let playbackRestrictionPolicy: PlaybackRestrictionPolicy?
 
+        @inlinable
         public init(playbackRestrictionPolicy: PlaybackRestrictionPolicy? = nil) {
             self.playbackRestrictionPolicy = playbackRestrictionPolicy
         }
@@ -573,6 +589,7 @@ extension IVS {
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
 
+        @inlinable
         public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, renditionConfiguration: RenditionConfiguration? = nil, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.destinationConfiguration = destinationConfiguration
             self.name = name
@@ -610,6 +627,7 @@ extension IVS {
     public struct CreateRecordingConfigurationResponse: AWSDecodableShape {
         public let recordingConfiguration: RecordingConfiguration?
 
+        @inlinable
         public init(recordingConfiguration: RecordingConfiguration? = nil) {
             self.recordingConfiguration = recordingConfiguration
         }
@@ -625,6 +643,7 @@ extension IVS {
         /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(channelArn: String, tags: [String: String]? = nil) {
             self.channelArn = channelArn
             self.tags = tags
@@ -652,6 +671,7 @@ extension IVS {
         /// Stream key used to authenticate an RTMPS stream for ingestion.
         public let streamKey: StreamKey?
 
+        @inlinable
         public init(streamKey: StreamKey? = nil) {
             self.streamKey = streamKey
         }
@@ -665,6 +685,7 @@ extension IVS {
         /// ARN of the channel to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -684,6 +705,7 @@ extension IVS {
         /// ARN of the key pair to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -707,6 +729,7 @@ extension IVS {
         /// ARN of the playback restriction policy to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -726,6 +749,7 @@ extension IVS {
         /// ARN of the recording configuration to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -744,6 +768,7 @@ extension IVS {
         /// ARN of the stream key to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -763,6 +788,7 @@ extension IVS {
         /// An S3 destination configuration where recorded videos will be stored.
         public let s3: S3DestinationConfiguration?
 
+        @inlinable
         public init(s3: S3DestinationConfiguration? = nil) {
             self.s3 = s3
         }
@@ -780,6 +806,7 @@ extension IVS {
         /// ARN of the channel for which the configuration is to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -798,6 +825,7 @@ extension IVS {
     public struct GetChannelResponse: AWSDecodableShape {
         public let channel: Channel?
 
+        @inlinable
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -811,6 +839,7 @@ extension IVS {
         /// ARN of the key pair to be returned.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -829,6 +858,7 @@ extension IVS {
     public struct GetPlaybackKeyPairResponse: AWSDecodableShape {
         public let keyPair: PlaybackKeyPair?
 
+        @inlinable
         public init(keyPair: PlaybackKeyPair? = nil) {
             self.keyPair = keyPair
         }
@@ -842,6 +872,7 @@ extension IVS {
         /// ARN of the playback restriction policy to be returned.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -860,6 +891,7 @@ extension IVS {
     public struct GetPlaybackRestrictionPolicyResponse: AWSDecodableShape {
         public let playbackRestrictionPolicy: PlaybackRestrictionPolicy?
 
+        @inlinable
         public init(playbackRestrictionPolicy: PlaybackRestrictionPolicy? = nil) {
             self.playbackRestrictionPolicy = playbackRestrictionPolicy
         }
@@ -873,6 +905,7 @@ extension IVS {
         /// ARN of the recording configuration to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -890,6 +923,7 @@ extension IVS {
     public struct GetRecordingConfigurationResponse: AWSDecodableShape {
         public let recordingConfiguration: RecordingConfiguration?
 
+        @inlinable
         public init(recordingConfiguration: RecordingConfiguration? = nil) {
             self.recordingConfiguration = recordingConfiguration
         }
@@ -903,6 +937,7 @@ extension IVS {
         /// ARN for the stream key to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -921,6 +956,7 @@ extension IVS {
     public struct GetStreamKeyResponse: AWSDecodableShape {
         public let streamKey: StreamKey?
 
+        @inlinable
         public init(streamKey: StreamKey? = nil) {
             self.streamKey = streamKey
         }
@@ -934,6 +970,7 @@ extension IVS {
         /// Channel ARN for stream to be accessed.
         public let channelArn: String
 
+        @inlinable
         public init(channelArn: String) {
             self.channelArn = channelArn
         }
@@ -952,6 +989,7 @@ extension IVS {
     public struct GetStreamResponse: AWSDecodableShape {
         public let stream: Stream?
 
+        @inlinable
         public init(stream: Stream? = nil) {
             self.stream = stream
         }
@@ -967,6 +1005,7 @@ extension IVS {
         /// Unique identifier for a live or previously live stream in the specified channel. If no streamId is provided, this returns the most recent stream session for the channel, if it exists.
         public let streamId: String?
 
+        @inlinable
         public init(channelArn: String, streamId: String? = nil) {
             self.channelArn = channelArn
             self.streamId = streamId
@@ -991,6 +1030,7 @@ extension IVS {
         /// List of stream details.
         public let streamSession: StreamSession?
 
+        @inlinable
         public init(streamSession: StreamSession? = nil) {
             self.streamSession = streamSession
         }
@@ -1008,6 +1048,7 @@ extension IVS {
         /// Any tags provided with the request are added to the playback key pair tags. See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String? = nil, publicKeyMaterial: String, tags: [String: String]? = nil) {
             self.name = name
             self.publicKeyMaterial = publicKeyMaterial
@@ -1035,6 +1076,7 @@ extension IVS {
     public struct ImportPlaybackKeyPairResponse: AWSDecodableShape {
         public let keyPair: PlaybackKeyPair?
 
+        @inlinable
         public init(keyPair: PlaybackKeyPair? = nil) {
             self.keyPair = keyPair
         }
@@ -1050,6 +1092,7 @@ extension IVS {
         /// Encoder settings for video.
         public let video: VideoConfiguration?
 
+        @inlinable
         public init(audio: AudioConfiguration? = nil, video: VideoConfiguration? = nil) {
             self.audio = audio
             self.video = video
@@ -1073,6 +1116,7 @@ extension IVS {
         /// The first channel to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(filterByName: String? = nil, filterByPlaybackRestrictionPolicyArn: String? = nil, filterByRecordingConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterByName = filterByName
             self.filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArn
@@ -1109,6 +1153,7 @@ extension IVS {
         /// If there are more channels than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelSummary], nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -1126,6 +1171,7 @@ extension IVS {
         /// The first key pair to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1150,6 +1196,7 @@ extension IVS {
         /// If there are more key pairs than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
+        @inlinable
         public init(keyPairs: [PlaybackKeyPairSummary], nextToken: String? = nil) {
             self.keyPairs = keyPairs
             self.nextToken = nextToken
@@ -1167,6 +1214,7 @@ extension IVS {
         /// The first policy to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1191,6 +1239,7 @@ extension IVS {
         /// List of the matching policies.
         public let playbackRestrictionPolicies: [PlaybackRestrictionPolicySummary]
 
+        @inlinable
         public init(nextToken: String? = nil, playbackRestrictionPolicies: [PlaybackRestrictionPolicySummary]) {
             self.nextToken = nextToken
             self.playbackRestrictionPolicies = playbackRestrictionPolicies
@@ -1208,6 +1257,7 @@ extension IVS {
         /// The first recording configuration to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1232,6 +1282,7 @@ extension IVS {
         /// List of the matching recording configurations.
         public let recordingConfigurations: [RecordingConfigurationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, recordingConfigurations: [RecordingConfigurationSummary]) {
             self.nextToken = nextToken
             self.recordingConfigurations = recordingConfigurations
@@ -1251,6 +1302,7 @@ extension IVS {
         /// The first stream key to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.maxResults = maxResults
@@ -1280,6 +1332,7 @@ extension IVS {
         /// List of stream keys.
         public let streamKeys: [StreamKeySummary]
 
+        @inlinable
         public init(nextToken: String? = nil, streamKeys: [StreamKeySummary]) {
             self.nextToken = nextToken
             self.streamKeys = streamKeys
@@ -1299,6 +1352,7 @@ extension IVS {
         /// The first stream to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.maxResults = maxResults
@@ -1328,6 +1382,7 @@ extension IVS {
         /// List of stream sessions.
         public let streamSessions: [StreamSessionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, streamSessions: [StreamSessionSummary]) {
             self.nextToken = nextToken
             self.streamSessions = streamSessions
@@ -1347,6 +1402,7 @@ extension IVS {
         /// The first stream to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(filterBy: StreamFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterBy = filterBy
             self.maxResults = maxResults
@@ -1373,6 +1429,7 @@ extension IVS {
         /// List of streams.
         public let streams: [StreamSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, streams: [StreamSummary]) {
             self.nextToken = nextToken
             self.streams = streams
@@ -1388,6 +1445,7 @@ extension IVS {
         /// The ARN of the resource to be retrieved. The ARN must be URL-encoded.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1411,6 +1469,7 @@ extension IVS {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1430,6 +1489,7 @@ extension IVS {
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, fingerprint: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.fingerprint = fingerprint
@@ -1453,6 +1513,7 @@ extension IVS {
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -1480,6 +1541,7 @@ extension IVS {
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedCountries: [String], allowedOrigins: [String], arn: String, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.allowedCountries = allowedCountries
             self.allowedOrigins = allowedOrigins
@@ -1513,6 +1575,7 @@ extension IVS {
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedCountries: [String], allowedOrigins: [String], arn: String, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.allowedCountries = allowedCountries
             self.allowedOrigins = allowedOrigins
@@ -1538,6 +1601,7 @@ extension IVS {
         /// Metadata to insert into the stream. Maximum: 1 KB per request.
         public let metadata: String
 
+        @inlinable
         public init(channelArn: String, metadata: String) {
             self.channelArn = channelArn
             self.metadata = metadata
@@ -1574,6 +1638,7 @@ extension IVS {
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
 
+        @inlinable
         public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, recordingReconnectWindowSeconds: Int? = nil, renditionConfiguration: RenditionConfiguration? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
@@ -1609,6 +1674,7 @@ extension IVS {
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
@@ -1632,6 +1698,7 @@ extension IVS {
         /// Indicates which set of renditions are recorded for a stream. For BASIC channels, the CUSTOM value has no effect. If CUSTOM is specified, a set of renditions must be specified in the renditions field. Default: ALL.
         public let renditionSelection: RenditionConfigurationRenditionSelection?
 
+        @inlinable
         public init(renditions: [RenditionConfigurationRendition]? = nil, renditionSelection: RenditionConfigurationRenditionSelection? = nil) {
             self.renditions = renditions
             self.renditionSelection = renditionSelection
@@ -1647,6 +1714,7 @@ extension IVS {
         /// Location (S3 bucket name) where recorded videos will be stored.
         public let bucketName: String
 
+        @inlinable
         public init(bucketName: String) {
             self.bucketName = bucketName
         }
@@ -1668,6 +1736,7 @@ extension IVS {
         /// Auto-generated passphrase to enable encryption. This field is applicable only if the end user has not enabled the insecureIngest option for the channel.
         public let passphrase: String?
 
+        @inlinable
         public init(endpoint: String? = nil, passphrase: String? = nil) {
             self.endpoint = endpoint
             self.passphrase = passphrase
@@ -1687,6 +1756,7 @@ extension IVS {
         /// An optional filter on which versions of the viewer session to revoke. All versions less than or equal to the specified version will be revoked. Default: 0.
         public let viewerSessionVersionsLessThanOrEqualTo: Int?
 
+        @inlinable
         public init(channelArn: String, viewerId: String, viewerSessionVersionsLessThanOrEqualTo: Int? = nil) {
             self.channelArn = channelArn
             self.viewerId = viewerId
@@ -1717,6 +1787,7 @@ extension IVS {
         /// ARN of the channel for which the stream is to be stopped.
         public let channelArn: String
 
+        @inlinable
         public init(channelArn: String) {
             self.channelArn = channelArn
         }
@@ -1753,6 +1824,7 @@ extension IVS {
         /// A count of concurrent views of the stream. Typically, a new view appears in viewerCount within 15 seconds of when video playback starts and a view is removed from viewerCount within 1 minute of when video playback ends. A value of -1 indicates that the request timed out; in this case, retry.
         public let viewerCount: Int64?
 
+        @inlinable
         public init(channelArn: String? = nil, health: StreamHealth? = nil, playbackUrl: String? = nil, startTime: Date? = nil, state: StreamState? = nil, streamId: String? = nil, viewerCount: Int64? = nil) {
             self.channelArn = channelArn
             self.health = health
@@ -1783,6 +1855,7 @@ extension IVS {
         /// Logical group for certain events.
         public let type: String?
 
+        @inlinable
         public init(eventTime: Date? = nil, name: String? = nil, type: String? = nil) {
             self.eventTime = eventTime
             self.name = name
@@ -1800,6 +1873,7 @@ extension IVS {
         /// The stream’s health.
         public let health: StreamHealth?
 
+        @inlinable
         public init(health: StreamHealth? = nil) {
             self.health = health
         }
@@ -1819,6 +1893,7 @@ extension IVS {
         /// Stream-key value.
         public let value: String?
 
+        @inlinable
         public init(arn: String? = nil, channelArn: String? = nil, tags: [String: String]? = nil, value: String? = nil) {
             self.arn = arn
             self.channelArn = channelArn
@@ -1842,6 +1917,7 @@ extension IVS {
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, channelArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelArn = channelArn
@@ -1873,6 +1949,7 @@ extension IVS {
         /// List of Amazon IVS events that the stream encountered. The list is sorted by most recent events and contains up to 500 events. For Amazon IVS events, see Using Amazon EventBridge with Amazon IVS.
         public let truncatedEvents: [StreamEvent]?
 
+        @inlinable
         public init(channel: Channel? = nil, endTime: Date? = nil, ingestConfiguration: IngestConfiguration? = nil, recordingConfiguration: RecordingConfiguration? = nil, startTime: Date? = nil, streamId: String? = nil, truncatedEvents: [StreamEvent]? = nil) {
             self.channel = channel
             self.endTime = endTime
@@ -1906,6 +1983,7 @@ extension IVS {
         /// Unique identifier for a live or previously live stream in the specified channel.
         public let streamId: String?
 
+        @inlinable
         public init(endTime: Date? = nil, hasErrorEvent: Bool? = nil, startTime: Date? = nil, streamId: String? = nil) {
             self.endTime = endTime
             self.hasErrorEvent = hasErrorEvent
@@ -1936,6 +2014,7 @@ extension IVS {
         /// A count of concurrent views of the stream. Typically, a new view appears in viewerCount within 15 seconds of when video playback starts and a view is removed from viewerCount within 1 minute of when video playback ends. A value of -1 indicates that the request timed out; in this case, retry.
         public let viewerCount: Int64?
 
+        @inlinable
         public init(channelArn: String? = nil, health: StreamHealth? = nil, startTime: Date? = nil, state: StreamState? = nil, streamId: String? = nil, viewerCount: Int64? = nil) {
             self.channelArn = channelArn
             self.health = health
@@ -1961,6 +2040,7 @@ extension IVS {
         /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2004,6 +2084,7 @@ extension IVS {
         /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60.  Important: For the BASIC channel type, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See  Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
         public let targetIntervalSeconds: Int64?
 
+        @inlinable
         public init(recordingMode: RecordingMode? = nil, resolution: ThumbnailConfigurationResolution? = nil, storage: [ThumbnailConfigurationStorage]? = nil, targetIntervalSeconds: Int64? = nil) {
             self.recordingMode = recordingMode
             self.resolution = resolution
@@ -2030,6 +2111,7 @@ extension IVS {
         /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2080,6 +2162,7 @@ extension IVS {
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
 
+        @inlinable
         public init(arn: String, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
             self.arn = arn
             self.authorized = authorized
@@ -2121,6 +2204,7 @@ extension IVS {
         /// Object specifying the updated channel.
         public let channel: Channel?
 
+        @inlinable
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -2142,6 +2226,7 @@ extension IVS {
         /// Playback-restriction-policy name. The value does not need to be unique.
         public let name: String?
 
+        @inlinable
         public init(allowedCountries: [String]? = nil, allowedOrigins: [String]? = nil, arn: String, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil) {
             self.allowedCountries = allowedCountries
             self.allowedOrigins = allowedOrigins
@@ -2178,6 +2263,7 @@ extension IVS {
         /// Object specifying the updated policy.
         public let playbackRestrictionPolicy: PlaybackRestrictionPolicy?
 
+        @inlinable
         public init(playbackRestrictionPolicy: PlaybackRestrictionPolicy? = nil) {
             self.playbackRestrictionPolicy = playbackRestrictionPolicy
         }
@@ -2205,6 +2291,7 @@ extension IVS {
         /// Video-resolution width in pixels.
         public let videoWidth: Int64?
 
+        @inlinable
         public init(avcLevel: String? = nil, avcProfile: String? = nil, codec: String? = nil, encoder: String? = nil, targetBitrate: Int64? = nil, targetFramerate: Int64? = nil, videoHeight: Int64? = nil, videoWidth: Int64? = nil) {
             self.avcLevel = avcLevel
             self.avcProfile = avcProfile

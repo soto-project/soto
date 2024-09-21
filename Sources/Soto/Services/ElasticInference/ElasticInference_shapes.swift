@@ -43,6 +43,7 @@ extension ElasticInference {
         ///  The throughput information of the Elastic Inference Accelerator type.
         public let throughputInfo: [KeyValuePair]?
 
+        @inlinable
         public init(acceleratorTypeName: String? = nil, memoryInfo: MemoryInfo? = nil, throughputInfo: [KeyValuePair]? = nil) {
             self.acceleratorTypeName = acceleratorTypeName
             self.memoryInfo = memoryInfo
@@ -64,6 +65,7 @@ extension ElasticInference {
         ///  The location type for the offering. It can assume the following values: region: defines that the offering is at the regional level. availability-zone: defines that the offering is at the availability zone level. availability-zone-id: defines that the offering is at the availability zone level, defined by the availability zone id.
         public let locationType: LocationType?
 
+        @inlinable
         public init(acceleratorType: String? = nil, location: String? = nil, locationType: LocationType? = nil) {
             self.acceleratorType = acceleratorType
             self.location = location
@@ -83,6 +85,7 @@ extension ElasticInference {
         ///  The location type that you want to describe accelerator type offerings for. It can assume the following values: region: will return the accelerator type offering at the regional level. availability-zone: will return the accelerator type offering at the availability zone level. availability-zone-id: will return the accelerator type offering at the availability zone level returning the availability zone id.
         public let locationType: LocationType
 
+        @inlinable
         public init(acceleratorTypes: [String]? = nil, locationType: LocationType) {
             self.acceleratorTypes = acceleratorTypes
             self.locationType = locationType
@@ -107,6 +110,7 @@ extension ElasticInference {
         ///  The list of accelerator type offerings for a specific location.
         public let acceleratorTypeOfferings: [AcceleratorTypeOffering]?
 
+        @inlinable
         public init(acceleratorTypeOfferings: [AcceleratorTypeOffering]? = nil) {
             self.acceleratorTypeOfferings = acceleratorTypeOfferings
         }
@@ -124,6 +128,7 @@ extension ElasticInference {
         ///  The available accelerator types.
         public let acceleratorTypes: [AcceleratorType]?
 
+        @inlinable
         public init(acceleratorTypes: [AcceleratorType]? = nil) {
             self.acceleratorTypes = acceleratorTypes
         }
@@ -143,6 +148,7 @@ extension ElasticInference {
         ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(acceleratorIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.acceleratorIds = acceleratorIds
             self.filters = filters
@@ -182,6 +188,7 @@ extension ElasticInference {
         ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(acceleratorSet: [ElasticInferenceAccelerator]? = nil, nextToken: String? = nil) {
             self.acceleratorSet = acceleratorSet
             self.nextToken = nextToken
@@ -205,6 +212,7 @@ extension ElasticInference {
         ///  The availability zone where the Elastic Inference Accelerator is present.
         public let availabilityZone: String?
 
+        @inlinable
         public init(acceleratorHealth: ElasticInferenceAcceleratorHealth? = nil, acceleratorId: String? = nil, acceleratorType: String? = nil, attachedResource: String? = nil, availabilityZone: String? = nil) {
             self.acceleratorHealth = acceleratorHealth
             self.acceleratorId = acceleratorId
@@ -226,6 +234,7 @@ extension ElasticInference {
         ///  The health status of the Elastic Inference Accelerator.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -241,6 +250,7 @@ extension ElasticInference {
         ///  The values for the filter of the Elastic Inference Accelerator list.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -269,6 +279,7 @@ extension ElasticInference {
         ///  The throughput value of the Elastic Inference Accelerator type.
         public let value: Int?
 
+        @inlinable
         public init(key: String? = nil, value: Int? = nil) {
             self.key = key
             self.value = value
@@ -284,6 +295,7 @@ extension ElasticInference {
         ///  The ARN of the Elastic Inference Accelerator to list the tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -307,6 +319,7 @@ extension ElasticInference {
         ///  The tags of the Elastic Inference Accelerator.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -320,6 +333,7 @@ extension ElasticInference {
         ///  The size in mebibytes of the Elastic Inference Accelerator type.
         public let sizeInMiB: Int?
 
+        @inlinable
         public init(sizeInMiB: Int? = nil) {
             self.sizeInMiB = sizeInMiB
         }
@@ -335,6 +349,7 @@ extension ElasticInference {
         ///  The tags to add to the Elastic Inference Accelerator.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -377,6 +392,7 @@ extension ElasticInference {
         ///  The list of tags to remove from the Elastic Inference Accelerator.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

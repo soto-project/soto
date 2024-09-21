@@ -1215,6 +1215,7 @@ extension AppMesh {
         /// The value of an Cloud Map service instance attribute key. Any Cloud Map service instance that contains the specified key and value is returned.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1245,6 +1246,7 @@ extension AppMesh {
         /// The name of the Cloud Map service to use.
         public let serviceName: String
 
+        @inlinable
         public init(attributes: [AwsCloudMapInstanceAttribute]? = nil, ipPreference: IpPreference? = nil, namespaceName: String, serviceName: String) {
             self.attributes = attributes
             self.ipPreference = ipPreference
@@ -1274,6 +1276,7 @@ extension AppMesh {
         /// A reference to an object that represents a client policy.
         public let clientPolicy: ClientPolicy?
 
+        @inlinable
         public init(clientPolicy: ClientPolicy? = nil) {
             self.clientPolicy = clientPolicy
         }
@@ -1291,6 +1294,7 @@ extension AppMesh {
         /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
         public let tls: ClientPolicyTls?
 
+        @inlinable
         public init(tls: ClientPolicyTls? = nil) {
             self.tls = tls
         }
@@ -1314,6 +1318,7 @@ extension AppMesh {
         /// A reference to an object that represents a TLS validation context.
         public let validation: TlsValidationContext
 
+        @inlinable
         public init(certificate: ClientTlsCertificate? = nil, enforce: Bool? = nil, ports: [Int]? = nil, validation: TlsValidationContext) {
             self.certificate = certificate
             self.enforce = enforce
@@ -1355,6 +1360,7 @@ extension AppMesh {
         /// The name of the virtual gateway to associate the gateway route with. If the virtual gateway is in a shared mesh, then you must be the owner of the virtual gateway resource.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(clientToken: String? = CreateGatewayRouteInput.idempotencyToken(), gatewayRouteName: String, meshName: String, meshOwner: String? = nil, spec: GatewayRouteSpec, tags: [TagRef]? = nil, virtualGatewayName: String) {
             self.clientToken = clientToken
             self.gatewayRouteName = gatewayRouteName
@@ -1405,6 +1411,7 @@ extension AppMesh {
         /// The full description of your gateway route following the create call.
         public let gatewayRoute: GatewayRouteData
 
+        @inlinable
         public init(gatewayRoute: GatewayRouteData) {
             self.gatewayRoute = gatewayRoute
         }
@@ -1428,6 +1435,7 @@ extension AppMesh {
         /// Optional metadata that you can apply to the service mesh to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]?
 
+        @inlinable
         public init(clientToken: String? = CreateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil, tags: [TagRef]? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -1456,6 +1464,7 @@ extension AppMesh {
         /// The full description of your service mesh following the create call.
         public let mesh: MeshData
 
+        @inlinable
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -1485,6 +1494,7 @@ extension AppMesh {
         /// The name of the virtual router in which to create the route. If the virtual router is in a shared mesh, then you must be the owner of the virtual router resource.
         public let virtualRouterName: String
 
+        @inlinable
         public init(clientToken: String? = CreateRouteInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, routeName: String, spec: RouteSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -1535,6 +1545,7 @@ extension AppMesh {
         /// The full description of your mesh following the create call.
         public let route: RouteData
 
+        @inlinable
         public init(route: RouteData) {
             self.route = route
         }
@@ -1562,6 +1573,7 @@ extension AppMesh {
         /// The name to use for the virtual gateway.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(clientToken: String? = CreateVirtualGatewayInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualGatewaySpec, tags: [TagRef]? = nil, virtualGatewayName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -1608,6 +1620,7 @@ extension AppMesh {
         /// The full description of your virtual gateway following the create call.
         public let virtualGateway: VirtualGatewayData
 
+        @inlinable
         public init(virtualGateway: VirtualGatewayData) {
             self.virtualGateway = virtualGateway
         }
@@ -1635,6 +1648,7 @@ extension AppMesh {
         /// The name to use for the virtual node.
         public let virtualNodeName: String
 
+        @inlinable
         public init(clientToken: String? = CreateVirtualNodeInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualNodeSpec, tags: [TagRef]? = nil, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -1681,6 +1695,7 @@ extension AppMesh {
         /// The full description of your virtual node following the create call.
         public let virtualNode: VirtualNodeData
 
+        @inlinable
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -1708,6 +1723,7 @@ extension AppMesh {
         /// The name to use for the virtual router.
         public let virtualRouterName: String
 
+        @inlinable
         public init(clientToken: String? = CreateVirtualRouterInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualRouterSpec, tags: [TagRef]? = nil, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -1754,6 +1770,7 @@ extension AppMesh {
         /// The full description of your virtual router following the create call.
         public let virtualRouter: VirtualRouterData
 
+        @inlinable
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -1781,6 +1798,7 @@ extension AppMesh {
         /// The name to use for the virtual service.
         public let virtualServiceName: String
 
+        @inlinable
         public init(clientToken: String? = CreateVirtualServiceInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualServiceSpec, tags: [TagRef]? = nil, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -1825,6 +1843,7 @@ extension AppMesh {
         /// The full description of your virtual service following the create call.
         public let virtualService: VirtualServiceData
 
+        @inlinable
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -1847,6 +1866,7 @@ extension AppMesh {
         /// The name of the virtual gateway to delete the route from.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(gatewayRouteName: String, meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
             self.gatewayRouteName = gatewayRouteName
             self.meshName = meshName
@@ -1881,6 +1901,7 @@ extension AppMesh {
         /// The gateway route that was deleted.
         public let gatewayRoute: GatewayRouteData
 
+        @inlinable
         public init(gatewayRoute: GatewayRouteData) {
             self.gatewayRoute = gatewayRoute
         }
@@ -1897,6 +1918,7 @@ extension AppMesh {
         /// The name of the service mesh to delete.
         public let meshName: String
 
+        @inlinable
         public init(meshName: String) {
             self.meshName = meshName
         }
@@ -1919,6 +1941,7 @@ extension AppMesh {
         /// The service mesh that was deleted.
         public let mesh: MeshData
 
+        @inlinable
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -1941,6 +1964,7 @@ extension AppMesh {
         /// The name of the virtual router to delete the route in.
         public let virtualRouterName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, routeName: String, virtualRouterName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -1975,6 +1999,7 @@ extension AppMesh {
         /// The route that was deleted.
         public let route: RouteData
 
+        @inlinable
         public init(route: RouteData) {
             self.route = route
         }
@@ -1995,6 +2020,7 @@ extension AppMesh {
         /// The name of the virtual gateway to delete.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2025,6 +2051,7 @@ extension AppMesh {
         /// The virtual gateway that was deleted.
         public let virtualGateway: VirtualGatewayData
 
+        @inlinable
         public init(virtualGateway: VirtualGatewayData) {
             self.virtualGateway = virtualGateway
         }
@@ -2045,6 +2072,7 @@ extension AppMesh {
         /// The name of the virtual node to delete.
         public let virtualNodeName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualNodeName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2075,6 +2103,7 @@ extension AppMesh {
         /// The virtual node that was deleted.
         public let virtualNode: VirtualNodeData
 
+        @inlinable
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -2095,6 +2124,7 @@ extension AppMesh {
         /// The name of the virtual router to delete.
         public let virtualRouterName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualRouterName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2125,6 +2155,7 @@ extension AppMesh {
         /// The virtual router that was deleted.
         public let virtualRouter: VirtualRouterData
 
+        @inlinable
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -2145,6 +2176,7 @@ extension AppMesh {
         /// The name of the virtual service to delete.
         public let virtualServiceName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualServiceName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2173,6 +2205,7 @@ extension AppMesh {
         /// The virtual service that was deleted.
         public let virtualService: VirtualServiceData
 
+        @inlinable
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -2195,6 +2228,7 @@ extension AppMesh {
         /// The name of the virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(gatewayRouteName: String, meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
             self.gatewayRouteName = gatewayRouteName
             self.meshName = meshName
@@ -2229,6 +2263,7 @@ extension AppMesh {
         /// The full description of your gateway route.
         public let gatewayRoute: GatewayRouteData
 
+        @inlinable
         public init(gatewayRoute: GatewayRouteData) {
             self.gatewayRoute = gatewayRoute
         }
@@ -2247,6 +2282,7 @@ extension AppMesh {
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2273,6 +2309,7 @@ extension AppMesh {
         /// The full description of your service mesh.
         public let mesh: MeshData
 
+        @inlinable
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -2295,6 +2332,7 @@ extension AppMesh {
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, routeName: String, virtualRouterName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2329,6 +2367,7 @@ extension AppMesh {
         /// The full description of your route.
         public let route: RouteData
 
+        @inlinable
         public init(route: RouteData) {
             self.route = route
         }
@@ -2349,6 +2388,7 @@ extension AppMesh {
         /// The name of the virtual gateway to describe.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualGatewayName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2379,6 +2419,7 @@ extension AppMesh {
         /// The full description of your virtual gateway.
         public let virtualGateway: VirtualGatewayData
 
+        @inlinable
         public init(virtualGateway: VirtualGatewayData) {
             self.virtualGateway = virtualGateway
         }
@@ -2399,6 +2440,7 @@ extension AppMesh {
         /// The name of the virtual node to describe.
         public let virtualNodeName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualNodeName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2429,6 +2471,7 @@ extension AppMesh {
         /// The full description of your virtual node.
         public let virtualNode: VirtualNodeData
 
+        @inlinable
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -2449,6 +2492,7 @@ extension AppMesh {
         /// The name of the virtual router to describe.
         public let virtualRouterName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualRouterName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2479,6 +2523,7 @@ extension AppMesh {
         /// The full description of your virtual router.
         public let virtualRouter: VirtualRouterData
 
+        @inlinable
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -2499,6 +2544,7 @@ extension AppMesh {
         /// The name of the virtual service to describe.
         public let virtualServiceName: String
 
+        @inlinable
         public init(meshName: String, meshOwner: String? = nil, virtualServiceName: String) {
             self.meshName = meshName
             self.meshOwner = meshOwner
@@ -2527,6 +2573,7 @@ extension AppMesh {
         /// The full description of your virtual service.
         public let virtualService: VirtualServiceData
 
+        @inlinable
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -2547,6 +2594,7 @@ extension AppMesh {
         /// Specifies the DNS response type for the virtual node.
         public let responseType: DnsResponseType?
 
+        @inlinable
         public init(hostname: String, ipPreference: IpPreference? = nil, responseType: DnsResponseType? = nil) {
             self.hostname = hostname
             self.ipPreference = ipPreference
@@ -2566,6 +2614,7 @@ extension AppMesh {
         /// A number of time units.
         public let value: Int64?
 
+        @inlinable
         public init(unit: DurationUnit? = nil, value: Int64? = nil) {
             self.unit = unit
             self.value = value
@@ -2585,6 +2634,7 @@ extension AppMesh {
         /// The egress filter type. By default, the type is DROP_ALL, which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh.
         public let type: EgressFilterType
 
+        @inlinable
         public init(type: EgressFilterType) {
             self.type = type
         }
@@ -2600,6 +2650,7 @@ extension AppMesh {
         /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.  The Envoy process must have write permissions to the path that you specify here. Otherwise, Envoy fails to bootstrap properly.
         public let path: String
 
+        @inlinable
         public init(format: LoggingFormat? = nil, path: String) {
             self.format = format
             self.path = path
@@ -2630,6 +2681,7 @@ extension AppMesh {
         /// The virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(gatewayRouteName: String, meshName: String, metadata: ResourceMetadata, spec: GatewayRouteSpec, status: GatewayRouteStatus, virtualGatewayName: String) {
             self.gatewayRouteName = gatewayRouteName
             self.meshName = meshName
@@ -2655,6 +2707,7 @@ extension AppMesh {
         /// The specified ending characters of the host name to match on.
         public let suffix: String?
 
+        @inlinable
         public init(exact: String? = nil, suffix: String? = nil) {
             self.exact = exact
             self.suffix = suffix
@@ -2677,6 +2730,7 @@ extension AppMesh {
         /// The default target host name to write to.
         public let defaultTargetHostname: DefaultGatewayRouteRewrite?
 
+        @inlinable
         public init(defaultTargetHostname: DefaultGatewayRouteRewrite? = nil) {
             self.defaultTargetHostname = defaultTargetHostname
         }
@@ -2706,6 +2760,7 @@ extension AppMesh {
         /// The virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, gatewayRouteName: String, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2741,6 +2796,7 @@ extension AppMesh {
         /// The ordering of the gateway routes spec.
         public let priority: Int?
 
+        @inlinable
         public init(grpcRoute: GrpcGatewayRoute? = nil, http2Route: HttpGatewayRoute? = nil, httpRoute: HttpGatewayRoute? = nil, priority: Int? = nil) {
             self.grpcRoute = grpcRoute
             self.http2Route = http2Route
@@ -2768,6 +2824,7 @@ extension AppMesh {
         /// The current status for the gateway route.
         public let status: GatewayRouteStatusCode
 
+        @inlinable
         public init(status: GatewayRouteStatusCode) {
             self.status = status
         }
@@ -2783,6 +2840,7 @@ extension AppMesh {
         /// An object that represents a virtual service gateway route target.
         public let virtualService: GatewayRouteVirtualService
 
+        @inlinable
         public init(port: Int? = nil, virtualService: GatewayRouteVirtualService) {
             self.port = port
             self.virtualService = virtualService
@@ -2804,6 +2862,7 @@ extension AppMesh {
         /// The name of the virtual service that traffic is routed to.
         public let virtualServiceName: String
 
+        @inlinable
         public init(virtualServiceName: String) {
             self.virtualServiceName = virtualServiceName
         }
@@ -2824,6 +2883,7 @@ extension AppMesh {
         /// An object that represents the criteria for determining a request match.
         public let match: GrpcGatewayRouteMatch
 
+        @inlinable
         public init(action: GrpcGatewayRouteAction, match: GrpcGatewayRouteMatch) {
             self.action = action
             self.match = match
@@ -2846,6 +2906,7 @@ extension AppMesh {
         /// An object that represents the target that traffic is routed to when a request matches the gateway route.
         public let target: GatewayRouteTarget
 
+        @inlinable
         public init(rewrite: GrpcGatewayRouteRewrite? = nil, target: GatewayRouteTarget) {
             self.rewrite = rewrite
             self.target = target
@@ -2871,6 +2932,7 @@ extension AppMesh {
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
 
+        @inlinable
         public init(hostname: GatewayRouteHostnameMatch? = nil, metadata: [GrpcGatewayRouteMetadata]? = nil, port: Int? = nil, serviceName: String? = nil) {
             self.hostname = hostname
             self.metadata = metadata
@@ -2905,6 +2967,7 @@ extension AppMesh {
         /// A name for the gateway route metadata.
         public let name: String
 
+        @inlinable
         public init(invert: Bool? = nil, match: GrpcMetadataMatchMethod? = nil, name: String) {
             self.invert = invert
             self.match = match
@@ -2928,6 +2991,7 @@ extension AppMesh {
         /// The host name of the gateway route to rewrite.
         public let hostname: GatewayRouteHostnameRewrite?
 
+        @inlinable
         public init(hostname: GatewayRouteHostnameRewrite? = nil) {
             self.hostname = hostname
         }
@@ -2949,6 +3013,7 @@ extension AppMesh {
         /// Specify a valid value. The event occurs before any processing of a request has started and is encountered when the upstream is temporarily or permanently unavailable.
         public let tcpRetryEvents: [TcpRetryPolicyEvent]?
 
+        @inlinable
         public init(grpcRetryEvents: [GrpcRetryPolicyEvent]? = nil, httpRetryEvents: [String]? = nil, maxRetries: Int64, perRetryTimeout: Duration, tcpRetryEvents: [TcpRetryPolicyEvent]? = nil) {
             self.grpcRetryEvents = grpcRetryEvents
             self.httpRetryEvents = httpRetryEvents
@@ -2991,6 +3056,7 @@ extension AppMesh {
         /// An object that represents types of timeouts.
         public let timeout: GrpcTimeout?
 
+        @inlinable
         public init(action: GrpcRouteAction, match: GrpcRouteMatch, retryPolicy: GrpcRetryPolicy? = nil, timeout: GrpcTimeout? = nil) {
             self.action = action
             self.match = match
@@ -3017,6 +3083,7 @@ extension AppMesh {
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
 
+        @inlinable
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
         }
@@ -3044,6 +3111,7 @@ extension AppMesh {
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
 
+        @inlinable
         public init(metadata: [GrpcRouteMetadata]? = nil, methodName: String? = nil, port: Int? = nil, serviceName: String? = nil) {
             self.metadata = metadata
             self.methodName = methodName
@@ -3079,6 +3147,7 @@ extension AppMesh {
         /// The name of the route.
         public let name: String
 
+        @inlinable
         public init(invert: Bool? = nil, match: GrpcRouteMetadataMatchMethod? = nil, name: String) {
             self.invert = invert
             self.match = match
@@ -3104,6 +3173,7 @@ extension AppMesh {
         /// An object that represents a per request timeout. The default value is 15 seconds. If you set a higher timeout, then make sure that the higher value is set for each App Mesh  resource in a conversation. For example, if a virtual node backend uses a virtual router provider to route to another virtual node, then the timeout should be greater than 15 seconds for the source and destination virtual node and the route.
         public let perRequest: Duration?
 
+        @inlinable
         public init(idle: Duration? = nil, perRequest: Duration? = nil) {
             self.idle = idle
             self.perRequest = perRequest
@@ -3136,6 +3206,7 @@ extension AppMesh {
         /// The number of consecutive failed health checks that must occur before declaring a virtual node unhealthy.
         public let unhealthyThreshold: Int
 
+        @inlinable
         public init(healthyThreshold: Int, intervalMillis: Int64, path: String? = nil, port: Int? = nil, protocol: PortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
@@ -3176,6 +3247,7 @@ extension AppMesh {
         /// An object that represents the criteria for determining a request match.
         public let match: HttpGatewayRouteMatch
 
+        @inlinable
         public init(action: HttpGatewayRouteAction, match: HttpGatewayRouteMatch) {
             self.action = action
             self.match = match
@@ -3198,6 +3270,7 @@ extension AppMesh {
         /// An object that represents the target that traffic is routed to when a request matches the gateway route.
         public let target: GatewayRouteTarget
 
+        @inlinable
         public init(rewrite: HttpGatewayRouteRewrite? = nil, target: GatewayRouteTarget) {
             self.rewrite = rewrite
             self.target = target
@@ -3222,6 +3295,7 @@ extension AppMesh {
         /// A name for the HTTP header in the gateway route that will be matched on.
         public let name: String
 
+        @inlinable
         public init(invert: Bool? = nil, match: HeaderMatchMethod? = nil, name: String) {
             self.invert = invert
             self.match = match
@@ -3257,6 +3331,7 @@ extension AppMesh {
         /// The query parameter to match on.
         public let queryParameters: [HttpQueryParameter]?
 
+        @inlinable
         public init(headers: [HttpGatewayRouteHeader]? = nil, hostname: GatewayRouteHostnameMatch? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, port: Int? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil) {
             self.headers = headers
             self.hostname = hostname
@@ -3296,6 +3371,7 @@ extension AppMesh {
         /// The exact path to rewrite.
         public let exact: String?
 
+        @inlinable
         public init(exact: String? = nil) {
             self.exact = exact
         }
@@ -3316,6 +3392,7 @@ extension AppMesh {
         /// The value used to replace the incoming route prefix when rewritten.
         public let value: String?
 
+        @inlinable
         public init(defaultPrefix: DefaultGatewayRouteRewrite? = nil, value: String? = nil) {
             self.defaultPrefix = defaultPrefix
             self.value = value
@@ -3340,6 +3417,7 @@ extension AppMesh {
         /// The specified beginning characters to rewrite.
         public let prefix: HttpGatewayRoutePrefixRewrite?
 
+        @inlinable
         public init(hostname: GatewayRouteHostnameRewrite? = nil, path: HttpGatewayRoutePathRewrite? = nil, prefix: HttpGatewayRoutePrefixRewrite? = nil) {
             self.hostname = hostname
             self.path = path
@@ -3364,6 +3442,7 @@ extension AppMesh {
         /// The regex used to match the path.
         public let regex: String?
 
+        @inlinable
         public init(exact: String? = nil, regex: String? = nil) {
             self.exact = exact
             self.regex = regex
@@ -3388,6 +3467,7 @@ extension AppMesh {
         /// A name for the query parameter that will be matched on.
         public let name: String
 
+        @inlinable
         public init(match: QueryParameterMatch? = nil, name: String) {
             self.match = match
             self.name = name
@@ -3409,6 +3489,7 @@ extension AppMesh {
         /// Specify a valid value. The event occurs before any processing of a request has started and is encountered when the upstream is temporarily or permanently unavailable.
         public let tcpRetryEvents: [TcpRetryPolicyEvent]?
 
+        @inlinable
         public init(httpRetryEvents: [String]? = nil, maxRetries: Int64, perRetryTimeout: Duration, tcpRetryEvents: [TcpRetryPolicyEvent]? = nil) {
             self.httpRetryEvents = httpRetryEvents
             self.maxRetries = maxRetries
@@ -3447,6 +3528,7 @@ extension AppMesh {
         /// An object that represents types of timeouts.
         public let timeout: HttpTimeout?
 
+        @inlinable
         public init(action: HttpRouteAction, match: HttpRouteMatch, retryPolicy: HttpRetryPolicy? = nil, timeout: HttpTimeout? = nil) {
             self.action = action
             self.match = match
@@ -3473,6 +3555,7 @@ extension AppMesh {
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
 
+        @inlinable
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
         }
@@ -3498,6 +3581,7 @@ extension AppMesh {
         /// A name for the HTTP header in the client request that will be matched on.
         public let name: String
 
+        @inlinable
         public init(invert: Bool? = nil, match: HeaderMatchMethod? = nil, name: String) {
             self.invert = invert
             self.match = match
@@ -3533,6 +3617,7 @@ extension AppMesh {
         /// The client request scheme to match on. Specify only one. Applicable only for HTTP2 routes.
         public let scheme: HttpScheme?
 
+        @inlinable
         public init(headers: [HttpRouteHeader]? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, port: Int? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil, scheme: HttpScheme? = nil) {
             self.headers = headers
             self.method = method
@@ -3573,6 +3658,7 @@ extension AppMesh {
         /// An object that represents a per request timeout. The default value is 15 seconds. If you set a higher timeout, then make sure that the higher value is set for each App Mesh  resource in a conversation. For example, if a virtual node backend uses a virtual router provider to route to another virtual node, then the timeout should be greater than 15 seconds for the source and destination virtual node and the route.
         public let perRequest: Duration?
 
+        @inlinable
         public init(idle: Duration? = nil, perRequest: Duration? = nil) {
             self.idle = idle
             self.perRequest = perRequest
@@ -3595,6 +3681,7 @@ extension AppMesh {
         /// The specified value for the JSON.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3625,6 +3712,7 @@ extension AppMesh {
         /// The name of the virtual gateway to list gateway routes in.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil, virtualGatewayName: String) {
             self.limit = limit
             self.meshName = meshName
@@ -3663,6 +3751,7 @@ extension AppMesh {
         /// The nextToken value to include in a future ListGatewayRoutes request. When the results of a ListGatewayRoutes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(gatewayRoutes: [GatewayRouteRef], nextToken: String? = nil) {
             self.gatewayRoutes = gatewayRoutes
             self.nextToken = nextToken
@@ -3680,6 +3769,7 @@ extension AppMesh {
         /// The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3706,6 +3796,7 @@ extension AppMesh {
         /// The nextToken value to include in a future ListMeshes request. When the results of a ListMeshes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(meshes: [MeshRef], nextToken: String? = nil) {
             self.meshes = meshes
             self.nextToken = nextToken
@@ -3729,6 +3820,7 @@ extension AppMesh {
         /// The name of the virtual router to list routes in.
         public let virtualRouterName: String
 
+        @inlinable
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil, virtualRouterName: String) {
             self.limit = limit
             self.meshName = meshName
@@ -3767,6 +3859,7 @@ extension AppMesh {
         /// The list of existing routes for the specified service mesh and virtual router.
         public let routes: [RouteRef]
 
+        @inlinable
         public init(nextToken: String? = nil, routes: [RouteRef]) {
             self.nextToken = nextToken
             self.routes = routes
@@ -3786,6 +3879,7 @@ extension AppMesh {
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3814,6 +3908,7 @@ extension AppMesh {
         /// The tags for the resource.
         public let tags: [TagRef]
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [TagRef]) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3835,6 +3930,7 @@ extension AppMesh {
         /// The nextToken value returned from a previous paginated ListVirtualGateways request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -3869,6 +3965,7 @@ extension AppMesh {
         /// The list of existing virtual gateways for the specified service mesh.
         public let virtualGateways: [VirtualGatewayRef]
 
+        @inlinable
         public init(nextToken: String? = nil, virtualGateways: [VirtualGatewayRef]) {
             self.nextToken = nextToken
             self.virtualGateways = virtualGateways
@@ -3890,6 +3987,7 @@ extension AppMesh {
         /// The nextToken value returned from a previous paginated ListVirtualNodes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -3924,6 +4022,7 @@ extension AppMesh {
         /// The list of existing virtual nodes for the specified service mesh.
         public let virtualNodes: [VirtualNodeRef]
 
+        @inlinable
         public init(nextToken: String? = nil, virtualNodes: [VirtualNodeRef]) {
             self.nextToken = nextToken
             self.virtualNodes = virtualNodes
@@ -3945,6 +4044,7 @@ extension AppMesh {
         /// The nextToken value returned from a previous paginated ListVirtualRouters request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -3979,6 +4079,7 @@ extension AppMesh {
         /// The list of existing virtual routers for the specified service mesh.
         public let virtualRouters: [VirtualRouterRef]
 
+        @inlinable
         public init(nextToken: String? = nil, virtualRouters: [VirtualRouterRef]) {
             self.nextToken = nextToken
             self.virtualRouters = virtualRouters
@@ -4000,6 +4101,7 @@ extension AppMesh {
         /// The nextToken value returned from a previous paginated ListVirtualServices request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, meshName: String, meshOwner: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.meshName = meshName
@@ -4034,6 +4136,7 @@ extension AppMesh {
         /// The list of existing virtual services for the specified service mesh.
         public let virtualServices: [VirtualServiceRef]
 
+        @inlinable
         public init(nextToken: String? = nil, virtualServices: [VirtualServiceRef]) {
             self.nextToken = nextToken
             self.virtualServices = virtualServices
@@ -4059,6 +4162,7 @@ extension AppMesh {
         /// A reference to an object that represents the Transport Layer Security (TLS) properties for a listener.
         public let tls: ListenerTls?
 
+        @inlinable
         public init(connectionPool: VirtualNodeConnectionPool? = nil, healthCheck: HealthCheckPolicy? = nil, outlierDetection: OutlierDetection? = nil, portMapping: PortMapping, timeout: ListenerTimeout? = nil, tls: ListenerTls? = nil) {
             self.connectionPool = connectionPool
             self.healthCheck = healthCheck
@@ -4095,6 +4199,7 @@ extension AppMesh {
         /// A reference to an object that represents a listener's Transport Layer Security (TLS) validation context.
         public let validation: ListenerTlsValidationContext?
 
+        @inlinable
         public init(certificate: ListenerTlsCertificate, mode: ListenerTlsMode, validation: ListenerTlsValidationContext? = nil) {
             self.certificate = certificate
             self.mode = mode
@@ -4117,6 +4222,7 @@ extension AppMesh {
         /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -4132,6 +4238,7 @@ extension AppMesh {
         /// The private key for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let privateKey: String
 
+        @inlinable
         public init(certificateChain: String, privateKey: String) {
             self.certificateChain = certificateChain
             self.privateKey = privateKey
@@ -4154,6 +4261,7 @@ extension AppMesh {
         /// A reference to an object that represents the name of the secret requested from the Secret Discovery Service provider representing Transport Layer Security (TLS) materials like a certificate or certificate chain.
         public let secretName: String
 
+        @inlinable
         public init(secretName: String) {
             self.secretName = secretName
         }
@@ -4169,6 +4277,7 @@ extension AppMesh {
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: ListenerTlsValidationContextTrust
 
+        @inlinable
         public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: ListenerTlsValidationContextTrust) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
@@ -4189,6 +4298,7 @@ extension AppMesh {
         /// The access log configuration for a virtual node.
         public let accessLog: AccessLog?
 
+        @inlinable
         public init(accessLog: AccessLog? = nil) {
             self.accessLog = accessLog
         }
@@ -4208,6 +4318,7 @@ extension AppMesh {
         /// The start of the range.
         public let start: Int64
 
+        @inlinable
         public init(end: Int64, start: Int64) {
             self.end = end
             self.start = start
@@ -4229,6 +4340,7 @@ extension AppMesh {
         /// The status of the service mesh.
         public let status: MeshStatus
 
+        @inlinable
         public init(meshName: String, metadata: ResourceMetadata, spec: MeshSpec, status: MeshStatus) {
             self.meshName = meshName
             self.metadata = metadata
@@ -4260,6 +4372,7 @@ extension AppMesh {
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
@@ -4285,6 +4398,7 @@ extension AppMesh {
         /// The IP version to use to control traffic within the mesh.
         public let ipPreference: IpPreference?
 
+        @inlinable
         public init(ipPreference: IpPreference? = nil) {
             self.ipPreference = ipPreference
         }
@@ -4299,6 +4413,7 @@ extension AppMesh {
         public let egressFilter: EgressFilter?
         public let serviceDiscovery: MeshServiceDiscovery?
 
+        @inlinable
         public init(egressFilter: EgressFilter? = nil, serviceDiscovery: MeshServiceDiscovery? = nil) {
             self.egressFilter = egressFilter
             self.serviceDiscovery = serviceDiscovery
@@ -4314,6 +4429,7 @@ extension AppMesh {
         /// The current mesh status.
         public let status: MeshStatusCode?
 
+        @inlinable
         public init(status: MeshStatusCode? = nil) {
             self.status = status
         }
@@ -4333,6 +4449,7 @@ extension AppMesh {
         /// Number of consecutive 5xx errors required for ejection.
         public let maxServerErrors: Int64
 
+        @inlinable
         public init(baseEjectionDuration: Duration, interval: Duration, maxEjectionPercent: Int, maxServerErrors: Int64) {
             self.baseEjectionDuration = baseEjectionDuration
             self.interval = interval
@@ -4362,6 +4479,7 @@ extension AppMesh {
         /// The protocol used for the port mapping. Specify one protocol.
         public let `protocol`: PortProtocol
 
+        @inlinable
         public init(port: Int, protocol: PortProtocol) {
             self.port = port
             self.`protocol` = `protocol`
@@ -4382,6 +4500,7 @@ extension AppMesh {
         /// The exact query parameter to match on.
         public let exact: String?
 
+        @inlinable
         public init(exact: String? = nil) {
             self.exact = exact
         }
@@ -4407,6 +4526,7 @@ extension AppMesh {
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshOwner: String, resourceOwner: String, uid: String, version: Int64) {
             self.arn = arn
             self.createdAt = createdAt
@@ -4442,6 +4562,7 @@ extension AppMesh {
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
 
+        @inlinable
         public init(meshName: String, metadata: ResourceMetadata, routeName: String, spec: RouteSpec, status: RouteStatus, virtualRouterName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -4481,6 +4602,7 @@ extension AppMesh {
         /// The virtual router that the route is associated with.
         public let virtualRouterName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, routeName: String, version: Int64, virtualRouterName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -4518,6 +4640,7 @@ extension AppMesh {
         /// An object that represents the specification of a TCP route.
         public let tcpRoute: TcpRoute?
 
+        @inlinable
         public init(grpcRoute: GrpcRoute? = nil, http2Route: HttpRoute? = nil, httpRoute: HttpRoute? = nil, priority: Int? = nil, tcpRoute: TcpRoute? = nil) {
             self.grpcRoute = grpcRoute
             self.http2Route = http2Route
@@ -4548,6 +4671,7 @@ extension AppMesh {
         /// The current status for the route.
         public let status: RouteStatusCode
 
+        @inlinable
         public init(status: RouteStatusCode) {
             self.status = status
         }
@@ -4561,6 +4685,7 @@ extension AppMesh {
         /// The values sent must match the specified values exactly.
         public let exact: [String]
 
+        @inlinable
         public init(exact: [String]) {
             self.exact = exact
         }
@@ -4581,6 +4706,7 @@ extension AppMesh {
         /// An object that represents the criteria for determining a SANs match.
         public let match: SubjectAlternativeNameMatchers
 
+        @inlinable
         public init(match: SubjectAlternativeNameMatchers) {
             self.match = match
         }
@@ -4600,6 +4726,7 @@ extension AppMesh {
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4623,6 +4750,7 @@ extension AppMesh {
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [TagRef]
 
+        @inlinable
         public init(resourceArn: String, tags: [TagRef]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4659,6 +4787,7 @@ extension AppMesh {
         /// An object that represents types of timeouts.
         public let timeout: TcpTimeout?
 
+        @inlinable
         public init(action: TcpRouteAction, match: TcpRouteMatch? = nil, timeout: TcpTimeout? = nil) {
             self.action = action
             self.match = match
@@ -4682,6 +4811,7 @@ extension AppMesh {
         /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
 
+        @inlinable
         public init(weightedTargets: [WeightedTarget]) {
             self.weightedTargets = weightedTargets
         }
@@ -4703,6 +4833,7 @@ extension AppMesh {
         /// The port number to match on.
         public let port: Int?
 
+        @inlinable
         public init(port: Int? = nil) {
             self.port = port
         }
@@ -4721,6 +4852,7 @@ extension AppMesh {
         /// An object that represents an idle timeout. An idle timeout bounds the amount of time that a connection may be idle. The default value is none.
         public let idle: Duration?
 
+        @inlinable
         public init(idle: Duration? = nil) {
             self.idle = idle
         }
@@ -4740,6 +4872,7 @@ extension AppMesh {
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: TlsValidationContextTrust
 
+        @inlinable
         public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: TlsValidationContextTrust) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
@@ -4760,6 +4893,7 @@ extension AppMesh {
         /// One or more ACM Amazon Resource Name (ARN)s.
         public let certificateAuthorityArns: [String]
 
+        @inlinable
         public init(certificateAuthorityArns: [String]) {
             self.certificateAuthorityArns = certificateAuthorityArns
         }
@@ -4778,6 +4912,7 @@ extension AppMesh {
         /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let certificateChain: String
 
+        @inlinable
         public init(certificateChain: String) {
             self.certificateChain = certificateChain
         }
@@ -4796,6 +4931,7 @@ extension AppMesh {
         /// A reference to an object that represents the name of the secret for a Transport Layer Security (TLS) Secret Discovery Service validation context trust.
         public let secretName: String
 
+        @inlinable
         public init(secretName: String) {
             self.secretName = secretName
         }
@@ -4811,6 +4947,7 @@ extension AppMesh {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4855,6 +4992,7 @@ extension AppMesh {
         /// The name of the virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateGatewayRouteInput.idempotencyToken(), gatewayRouteName: String, meshName: String, meshOwner: String? = nil, spec: GatewayRouteSpec, virtualGatewayName: String) {
             self.clientToken = clientToken
             self.gatewayRouteName = gatewayRouteName
@@ -4897,6 +5035,7 @@ extension AppMesh {
         /// A full description of the gateway route that was updated.
         public let gatewayRoute: GatewayRouteData
 
+        @inlinable
         public init(gatewayRoute: GatewayRouteData) {
             self.gatewayRoute = gatewayRoute
         }
@@ -4918,6 +5057,7 @@ extension AppMesh {
         /// The service mesh specification to apply.
         public let spec: MeshSpec?
 
+        @inlinable
         public init(clientToken: String? = UpdateMeshInput.idempotencyToken(), meshName: String, spec: MeshSpec? = nil) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -4946,6 +5086,7 @@ extension AppMesh {
     public struct UpdateMeshOutput: AWSDecodableShape {
         public let mesh: MeshData
 
+        @inlinable
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
@@ -4973,6 +5114,7 @@ extension AppMesh {
         /// The name of the virtual router that the route is associated with.
         public let virtualRouterName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateRouteInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, routeName: String, spec: RouteSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -5015,6 +5157,7 @@ extension AppMesh {
         /// A full description of the route that was updated.
         public let route: RouteData
 
+        @inlinable
         public init(route: RouteData) {
             self.route = route
         }
@@ -5040,6 +5183,7 @@ extension AppMesh {
         /// The name of the virtual gateway to update.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateVirtualGatewayInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualGatewaySpec, virtualGatewayName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -5078,6 +5222,7 @@ extension AppMesh {
         /// A full description of the virtual gateway that was updated.
         public let virtualGateway: VirtualGatewayData
 
+        @inlinable
         public init(virtualGateway: VirtualGatewayData) {
             self.virtualGateway = virtualGateway
         }
@@ -5103,6 +5248,7 @@ extension AppMesh {
         /// The name of the virtual node to update.
         public let virtualNodeName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateVirtualNodeInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualNodeSpec, virtualNodeName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -5141,6 +5287,7 @@ extension AppMesh {
         /// A full description of the virtual node that was updated.
         public let virtualNode: VirtualNodeData
 
+        @inlinable
         public init(virtualNode: VirtualNodeData) {
             self.virtualNode = virtualNode
         }
@@ -5166,6 +5313,7 @@ extension AppMesh {
         /// The name of the virtual router to update.
         public let virtualRouterName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateVirtualRouterInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualRouterSpec, virtualRouterName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -5204,6 +5352,7 @@ extension AppMesh {
         /// A full description of the virtual router that was updated.
         public let virtualRouter: VirtualRouterData
 
+        @inlinable
         public init(virtualRouter: VirtualRouterData) {
             self.virtualRouter = virtualRouter
         }
@@ -5229,6 +5378,7 @@ extension AppMesh {
         /// The name of the virtual service to update.
         public let virtualServiceName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateVirtualServiceInput.idempotencyToken(), meshName: String, meshOwner: String? = nil, spec: VirtualServiceSpec, virtualServiceName: String) {
             self.clientToken = clientToken
             self.meshName = meshName
@@ -5265,6 +5415,7 @@ extension AppMesh {
         /// A full description of the virtual service that was updated.
         public let virtualService: VirtualServiceData
 
+        @inlinable
         public init(virtualService: VirtualServiceData) {
             self.virtualService = virtualService
         }
@@ -5281,6 +5432,7 @@ extension AppMesh {
         /// A reference to an object that represents a client policy.
         public let clientPolicy: VirtualGatewayClientPolicy?
 
+        @inlinable
         public init(clientPolicy: VirtualGatewayClientPolicy? = nil) {
             self.clientPolicy = clientPolicy
         }
@@ -5298,6 +5450,7 @@ extension AppMesh {
         /// A reference to an object that represents a Transport Layer Security (TLS) client policy.
         public let tls: VirtualGatewayClientPolicyTls?
 
+        @inlinable
         public init(tls: VirtualGatewayClientPolicyTls? = nil) {
             self.tls = tls
         }
@@ -5321,6 +5474,7 @@ extension AppMesh {
         /// A reference to an object that represents a Transport Layer Security (TLS) validation context.
         public let validation: VirtualGatewayTlsValidationContext
 
+        @inlinable
         public init(certificate: VirtualGatewayClientTlsCertificate? = nil, enforce: Bool? = nil, ports: [Int]? = nil, validation: VirtualGatewayTlsValidationContext) {
             self.certificate = certificate
             self.enforce = enforce
@@ -5356,6 +5510,7 @@ extension AppMesh {
         /// The name of the virtual gateway.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualGatewaySpec, status: VirtualGatewayStatus, virtualGatewayName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -5379,6 +5534,7 @@ extension AppMesh {
         /// The file path to write access logs to. You can use /dev/stdout to send access logs to standard out and configure your Envoy container to use a log driver, such as awslogs, to export the access logs to a log storage service such as Amazon CloudWatch Logs. You can also specify a path in the Envoy container's file system to write the files to disk.
         public let path: String
 
+        @inlinable
         public init(format: LoggingFormat? = nil, path: String) {
             self.format = format
             self.path = path
@@ -5400,6 +5556,7 @@ extension AppMesh {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         public let maxRequests: Int
 
+        @inlinable
         public init(maxRequests: Int) {
             self.maxRequests = maxRequests
         }
@@ -5429,6 +5586,7 @@ extension AppMesh {
         /// The number of consecutive failed health checks that must occur before declaring a virtual gateway unhealthy.
         public let unhealthyThreshold: Int
 
+        @inlinable
         public init(healthyThreshold: Int, intervalMillis: Int64, path: String? = nil, port: Int? = nil, protocol: VirtualGatewayPortProtocol, timeoutMillis: Int64, unhealthyThreshold: Int) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
@@ -5467,6 +5625,7 @@ extension AppMesh {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         public let maxRequests: Int
 
+        @inlinable
         public init(maxRequests: Int) {
             self.maxRequests = maxRequests
         }
@@ -5486,6 +5645,7 @@ extension AppMesh {
         /// Number of overflowing requests after max_connections Envoy will queue to upstream cluster.
         public let maxPendingRequests: Int?
 
+        @inlinable
         public init(maxConnections: Int, maxPendingRequests: Int? = nil) {
             self.maxConnections = maxConnections
             self.maxPendingRequests = maxPendingRequests
@@ -5512,6 +5672,7 @@ extension AppMesh {
         /// A reference to an object that represents the Transport Layer Security (TLS) properties for the listener.
         public let tls: VirtualGatewayListenerTls?
 
+        @inlinable
         public init(connectionPool: VirtualGatewayConnectionPool? = nil, healthCheck: VirtualGatewayHealthCheckPolicy? = nil, portMapping: VirtualGatewayPortMapping, tls: VirtualGatewayListenerTls? = nil) {
             self.connectionPool = connectionPool
             self.healthCheck = healthCheck
@@ -5542,6 +5703,7 @@ extension AppMesh {
         /// A reference to an object that represents a virtual gateway's listener's Transport Layer Security (TLS) validation context.
         public let validation: VirtualGatewayListenerTlsValidationContext?
 
+        @inlinable
         public init(certificate: VirtualGatewayListenerTlsCertificate, mode: VirtualGatewayListenerTlsMode, validation: VirtualGatewayListenerTlsValidationContext? = nil) {
             self.certificate = certificate
             self.mode = mode
@@ -5564,6 +5726,7 @@ extension AppMesh {
         /// The Amazon Resource Name (ARN) for the certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -5579,6 +5742,7 @@ extension AppMesh {
         /// The private key for a certificate stored on the file system of the mesh endpoint that the proxy is running on.
         public let privateKey: String
 
+        @inlinable
         public init(certificateChain: String, privateKey: String) {
             self.certificateChain = certificateChain
             self.privateKey = privateKey
@@ -5601,6 +5765,7 @@ extension AppMesh {
         /// A reference to an object that represents the name of the secret secret requested from the Secret Discovery Service provider representing Transport Layer Security (TLS) materials like a certificate or certificate chain.
         public let secretName: String
 
+        @inlinable
         public init(secretName: String) {
             self.secretName = secretName
         }
@@ -5616,6 +5781,7 @@ extension AppMesh {
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: VirtualGatewayListenerTlsValidationContextTrust
 
+        @inlinable
         public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: VirtualGatewayListenerTlsValidationContextTrust) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
@@ -5636,6 +5802,7 @@ extension AppMesh {
         /// The access log configuration.
         public let accessLog: VirtualGatewayAccessLog?
 
+        @inlinable
         public init(accessLog: VirtualGatewayAccessLog? = nil) {
             self.accessLog = accessLog
         }
@@ -5655,6 +5822,7 @@ extension AppMesh {
         /// The protocol used for the port mapping.
         public let `protocol`: VirtualGatewayPortProtocol
 
+        @inlinable
         public init(port: Int, protocol: VirtualGatewayPortProtocol) {
             self.port = port
             self.`protocol` = `protocol`
@@ -5689,6 +5857,7 @@ extension AppMesh {
         /// The name of the resource.
         public let virtualGatewayName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualGatewayName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5719,6 +5888,7 @@ extension AppMesh {
         public let listeners: [VirtualGatewayListener]
         public let logging: VirtualGatewayLogging?
 
+        @inlinable
         public init(backendDefaults: VirtualGatewayBackendDefaults? = nil, listeners: [VirtualGatewayListener], logging: VirtualGatewayLogging? = nil) {
             self.backendDefaults = backendDefaults
             self.listeners = listeners
@@ -5744,6 +5914,7 @@ extension AppMesh {
         /// The current status.
         public let status: VirtualGatewayStatusCode
 
+        @inlinable
         public init(status: VirtualGatewayStatusCode) {
             self.status = status
         }
@@ -5759,6 +5930,7 @@ extension AppMesh {
         /// A reference to where to retrieve the trust chain when validating a peer’s Transport Layer Security (TLS) certificate.
         public let trust: VirtualGatewayTlsValidationContextTrust
 
+        @inlinable
         public init(subjectAlternativeNames: SubjectAlternativeNames? = nil, trust: VirtualGatewayTlsValidationContextTrust) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
@@ -5779,6 +5951,7 @@ extension AppMesh {
         /// One or more ACM Amazon Resource Name (ARN)s.
         public let certificateAuthorityArns: [String]
 
+        @inlinable
         public init(certificateAuthorityArns: [String]) {
             self.certificateAuthorityArns = certificateAuthorityArns
         }
@@ -5797,6 +5970,7 @@ extension AppMesh {
         /// The certificate trust chain for a certificate stored on the file system of the virtual node that the proxy is running on.
         public let certificateChain: String
 
+        @inlinable
         public init(certificateChain: String) {
             self.certificateChain = certificateChain
         }
@@ -5815,6 +5989,7 @@ extension AppMesh {
         /// A reference to an object that represents the name of the secret for a virtual gateway's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
         public let secretName: String
 
+        @inlinable
         public init(secretName: String) {
             self.secretName = secretName
         }
@@ -5836,6 +6011,7 @@ extension AppMesh {
         /// The name of the virtual node.
         public let virtualNodeName: String
 
+        @inlinable
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualNodeSpec, status: VirtualNodeStatus, virtualNodeName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -5857,6 +6033,7 @@ extension AppMesh {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         public let maxRequests: Int
 
+        @inlinable
         public init(maxRequests: Int) {
             self.maxRequests = maxRequests
         }
@@ -5874,6 +6051,7 @@ extension AppMesh {
         /// Maximum number of inflight requests Envoy can concurrently support across hosts in upstream cluster.
         public let maxRequests: Int
 
+        @inlinable
         public init(maxRequests: Int) {
             self.maxRequests = maxRequests
         }
@@ -5893,6 +6071,7 @@ extension AppMesh {
         /// Number of overflowing requests after max_connections Envoy will queue to upstream cluster.
         public let maxPendingRequests: Int?
 
+        @inlinable
         public init(maxConnections: Int, maxPendingRequests: Int? = nil) {
             self.maxConnections = maxConnections
             self.maxPendingRequests = maxPendingRequests
@@ -5927,6 +6106,7 @@ extension AppMesh {
         /// The name of the virtual node.
         public let virtualNodeName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualNodeName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -5954,6 +6134,7 @@ extension AppMesh {
         /// The name of the virtual node that is acting as a service provider.
         public let virtualNodeName: String
 
+        @inlinable
         public init(virtualNodeName: String) {
             self.virtualNodeName = virtualNodeName
         }
@@ -5980,6 +6161,7 @@ extension AppMesh {
         /// The service discovery information for the virtual node. If your virtual node does not expect ingress traffic, you can omit this parameter. If you specify a listener, then you must specify service discovery information.
         public let serviceDiscovery: ServiceDiscovery?
 
+        @inlinable
         public init(backendDefaults: BackendDefaults? = nil, backends: [Backend]? = nil, listeners: [Listener]? = nil, logging: Logging? = nil, serviceDiscovery: ServiceDiscovery? = nil) {
             self.backendDefaults = backendDefaults
             self.backends = backends
@@ -6013,6 +6195,7 @@ extension AppMesh {
         /// The current status of the virtual node.
         public let status: VirtualNodeStatusCode
 
+        @inlinable
         public init(status: VirtualNodeStatusCode) {
             self.status = status
         }
@@ -6026,6 +6209,7 @@ extension AppMesh {
         /// Maximum number of outbound TCP connections Envoy can establish concurrently with all hosts in upstream cluster.
         public let maxConnections: Int
 
+        @inlinable
         public init(maxConnections: Int) {
             self.maxConnections = maxConnections
         }
@@ -6051,6 +6235,7 @@ extension AppMesh {
         /// The name of the virtual router.
         public let virtualRouterName: String
 
+        @inlinable
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualRouterSpec, status: VirtualRouterStatus, virtualRouterName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -6071,6 +6256,7 @@ extension AppMesh {
     public struct VirtualRouterListener: AWSEncodableShape & AWSDecodableShape {
         public let portMapping: PortMapping
 
+        @inlinable
         public init(portMapping: PortMapping) {
             self.portMapping = portMapping
         }
@@ -6102,6 +6288,7 @@ extension AppMesh {
         /// The name of the virtual router.
         public let virtualRouterName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualRouterName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -6129,6 +6316,7 @@ extension AppMesh {
         /// The name of the virtual router that is acting as a service provider.
         public let virtualRouterName: String
 
+        @inlinable
         public init(virtualRouterName: String) {
             self.virtualRouterName = virtualRouterName
         }
@@ -6147,6 +6335,7 @@ extension AppMesh {
         /// The listeners that the virtual router is expected to receive inbound traffic from. You can specify one listener.
         public let listeners: [VirtualRouterListener]?
 
+        @inlinable
         public init(listeners: [VirtualRouterListener]? = nil) {
             self.listeners = listeners
         }
@@ -6166,6 +6355,7 @@ extension AppMesh {
         /// The current status of the virtual router.
         public let status: VirtualRouterStatusCode
 
+        @inlinable
         public init(status: VirtualRouterStatusCode) {
             self.status = status
         }
@@ -6181,6 +6371,7 @@ extension AppMesh {
         /// The name of the virtual service that is acting as a virtual node backend.
         public let virtualServiceName: String
 
+        @inlinable
         public init(clientPolicy: ClientPolicy? = nil, virtualServiceName: String) {
             self.clientPolicy = clientPolicy
             self.virtualServiceName = virtualServiceName
@@ -6207,6 +6398,7 @@ extension AppMesh {
         /// The name of the virtual service.
         public let virtualServiceName: String
 
+        @inlinable
         public init(meshName: String, metadata: ResourceMetadata, spec: VirtualServiceSpec, status: VirtualServiceStatus, virtualServiceName: String) {
             self.meshName = meshName
             self.metadata = metadata
@@ -6242,6 +6434,7 @@ extension AppMesh {
         /// The name of the virtual service.
         public let virtualServiceName: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, lastUpdatedAt: Date, meshName: String, meshOwner: String, resourceOwner: String, version: Int64, virtualServiceName: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -6269,6 +6462,7 @@ extension AppMesh {
         /// The App Mesh object that is acting as the provider for a virtual service. You can specify a single virtual node or virtual router.
         public let provider: VirtualServiceProvider?
 
+        @inlinable
         public init(provider: VirtualServiceProvider? = nil) {
             self.provider = provider
         }
@@ -6286,6 +6480,7 @@ extension AppMesh {
         /// The current status of the virtual service.
         public let status: VirtualServiceStatusCode
 
+        @inlinable
         public init(status: VirtualServiceStatusCode) {
             self.status = status
         }
@@ -6303,6 +6498,7 @@ extension AppMesh {
         /// The relative weight of the weighted target.
         public let weight: Int
 
+        @inlinable
         public init(port: Int? = nil, virtualNode: String, weight: Int) {
             self.port = port
             self.virtualNode = virtualNode
@@ -6329,6 +6525,7 @@ extension AppMesh {
         /// The file object to send virtual node access logs to.
         public let file: FileAccessLog?
 
+        @inlinable
         public init(file: FileAccessLog? = nil) {
             self.file = file
         }
@@ -6346,6 +6543,7 @@ extension AppMesh {
         /// Specifies a virtual service to use as a backend.
         public let virtualService: VirtualServiceBackend?
 
+        @inlinable
         public init(virtualService: VirtualServiceBackend? = nil) {
             self.virtualService = virtualService
         }
@@ -6363,6 +6561,7 @@ extension AppMesh {
         /// The file object to send virtual gateway access logs to.
         public let file: VirtualGatewayFileAccessLog?
 
+        @inlinable
         public init(file: VirtualGatewayFileAccessLog? = nil) {
             self.file = file
         }

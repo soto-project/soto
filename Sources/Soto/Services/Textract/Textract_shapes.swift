@@ -145,6 +145,7 @@ extension Textract {
         /// A string that identifies the version of the adapter.
         public let version: String
 
+        @inlinable
         public init(adapterId: String, pages: [String]? = nil, version: String) {
             self.adapterId = adapterId
             self.pages = pages
@@ -181,6 +182,7 @@ extension Textract {
         /// The feature types that the adapter is operating on.
         public let featureTypes: [FeatureType]?
 
+        @inlinable
         public init(adapterId: String? = nil, adapterName: String? = nil, creationTime: Date? = nil, featureTypes: [FeatureType]? = nil) {
             self.adapterId = adapterId
             self.adapterName = adapterName
@@ -199,6 +201,7 @@ extension Textract {
     public struct AdapterVersionDatasetConfig: AWSEncodableShape & AWSDecodableShape {
         public let manifestS3Object: S3Object?
 
+        @inlinable
         public init(manifestS3Object: S3Object? = nil) {
             self.manifestS3Object = manifestS3Object
         }
@@ -220,6 +223,7 @@ extension Textract {
         /// Indicates the feature type being analyzed by a given adapter version.
         public let featureType: FeatureType?
 
+        @inlinable
         public init(adapterVersion: EvaluationMetric? = nil, baseline: EvaluationMetric? = nil, featureType: FeatureType? = nil) {
             self.adapterVersion = adapterVersion
             self.baseline = baseline
@@ -247,6 +251,7 @@ extension Textract {
         /// A message explaining the status of a given adapter vesion.
         public let statusMessage: String?
 
+        @inlinable
         public init(adapterId: String? = nil, adapterVersion: String? = nil, creationTime: Date? = nil, featureTypes: [FeatureType]? = nil, status: AdapterVersionStatus? = nil, statusMessage: String? = nil) {
             self.adapterId = adapterId
             self.adapterVersion = adapterVersion
@@ -270,6 +275,7 @@ extension Textract {
         /// A list of adapters to be used when analyzing the specified document.
         public let adapters: [Adapter]
 
+        @inlinable
         public init(adapters: [Adapter]) {
             self.adapters = adapters
         }
@@ -299,6 +305,7 @@ extension Textract {
         /// Contains Queries and the alias for those Queries, as determined by the input.
         public let queriesConfig: QueriesConfig?
 
+        @inlinable
         public init(adaptersConfig: AdaptersConfig? = nil, document: Document, featureTypes: [FeatureType], humanLoopConfig: HumanLoopConfig? = nil, queriesConfig: QueriesConfig? = nil) {
             self.adaptersConfig = adaptersConfig
             self.document = document
@@ -333,6 +340,7 @@ extension Textract {
         /// Shows the results of the human in the loop evaluation.
         public let humanLoopActivationOutput: HumanLoopActivationOutput?
 
+        @inlinable
         public init(analyzeDocumentModelVersion: String? = nil, blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil, humanLoopActivationOutput: HumanLoopActivationOutput? = nil) {
             self.analyzeDocumentModelVersion = analyzeDocumentModelVersion
             self.blocks = blocks
@@ -351,6 +359,7 @@ extension Textract {
     public struct AnalyzeExpenseRequest: AWSEncodableShape {
         public let document: Document
 
+        @inlinable
         public init(document: Document) {
             self.document = document
         }
@@ -369,6 +378,7 @@ extension Textract {
         /// The expenses detected by Amazon Textract.
         public let expenseDocuments: [ExpenseDocument]?
 
+        @inlinable
         public init(documentMetadata: DocumentMetadata? = nil, expenseDocuments: [ExpenseDocument]? = nil) {
             self.documentMetadata = documentMetadata
             self.expenseDocuments = expenseDocuments
@@ -388,6 +398,7 @@ extension Textract {
         /// Text of either the normalized field or value associated with it.
         public let text: String
 
+        @inlinable
         public init(confidence: Float? = nil, normalizedValue: NormalizedValue? = nil, text: String) {
             self.confidence = confidence
             self.normalizedValue = normalizedValue
@@ -405,6 +416,7 @@ extension Textract {
         /// The document being passed to AnalyzeID.
         public let documentPages: [Document]
 
+        @inlinable
         public init(documentPages: [Document]) {
             self.documentPages = documentPages
         }
@@ -429,6 +441,7 @@ extension Textract {
         /// The list of documents processed by AnalyzeID. Includes a number denoting their place in the list and the response structure for the document.
         public let identityDocuments: [IdentityDocument]?
 
+        @inlinable
         public init(analyzeIDModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, identityDocuments: [IdentityDocument]? = nil) {
             self.analyzeIDModelVersion = analyzeIDModelVersion
             self.documentMetadata = documentMetadata
@@ -473,6 +486,7 @@ extension Textract {
         /// The kind of text that Amazon Textract has detected. Can check for handwritten text and printed text.
         public let textType: TextType?
 
+        @inlinable
         public init(blockType: BlockType? = nil, columnIndex: Int? = nil, columnSpan: Int? = nil, confidence: Float? = nil, entityTypes: [EntityType]? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int? = nil, query: Query? = nil, relationships: [Relationship]? = nil, rowIndex: Int? = nil, rowSpan: Int? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil, textType: TextType? = nil) {
             self.blockType = blockType
             self.columnIndex = columnIndex
@@ -520,6 +534,7 @@ extension Textract {
         /// The width of the bounding box as a ratio of the overall document page width.
         public let width: Float?
 
+        @inlinable
         public init(height: Float? = nil, left: Float? = nil, top: Float? = nil, width: Float? = nil) {
             self.height = height
             self.left = left
@@ -549,6 +564,7 @@ extension Textract {
         /// A list of tags to be added to the adapter.
         public let tags: [String: String]?
 
+        @inlinable
         public init(adapterName: String, autoUpdate: AutoUpdate? = nil, clientRequestToken: String? = CreateAdapterRequest.idempotencyToken(), description: String? = nil, featureTypes: [FeatureType], tags: [String: String]? = nil) {
             self.adapterName = adapterName
             self.autoUpdate = autoUpdate
@@ -592,6 +608,7 @@ extension Textract {
         /// A string containing the unique ID for the adapter that has been created.
         public let adapterId: String?
 
+        @inlinable
         public init(adapterId: String? = nil) {
             self.adapterId = adapterId
         }
@@ -614,6 +631,7 @@ extension Textract {
         /// A set of tags (key-value pairs) that you want to attach to the adapter version.
         public let tags: [String: String]?
 
+        @inlinable
         public init(adapterId: String, clientRequestToken: String? = CreateAdapterVersionRequest.idempotencyToken(), datasetConfig: AdapterVersionDatasetConfig, kmsKeyId: String? = nil, outputConfig: OutputConfig, tags: [String: String]? = nil) {
             self.adapterId = adapterId
             self.clientRequestToken = clientRequestToken
@@ -660,6 +678,7 @@ extension Textract {
         /// A string describing the new version of the adapter.
         public let adapterVersion: String?
 
+        @inlinable
         public init(adapterId: String? = nil, adapterVersion: String? = nil) {
             self.adapterId = adapterId
             self.adapterVersion = adapterVersion
@@ -675,6 +694,7 @@ extension Textract {
         /// A string containing a unique ID for the adapter to be deleted.
         public let adapterId: String
 
+        @inlinable
         public init(adapterId: String) {
             self.adapterId = adapterId
         }
@@ -699,6 +719,7 @@ extension Textract {
         /// Specifies the adapter version to be deleted.
         public let adapterVersion: String
 
+        @inlinable
         public init(adapterId: String, adapterVersion: String) {
             self.adapterId = adapterId
             self.adapterVersion = adapterVersion
@@ -725,6 +746,7 @@ extension Textract {
         /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image  in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
         public let document: Document
 
+        @inlinable
         public init(document: Document) {
             self.document = document
         }
@@ -745,6 +767,7 @@ extension Textract {
         /// Metadata about the document. It contains the number of pages that are detected in the document.
         public let documentMetadata: DocumentMetadata?
 
+        @inlinable
         public init(blocks: [Block]? = nil, detectDocumentTextModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil) {
             self.blocks = blocks
             self.detectDocumentTextModelVersion = detectDocumentTextModelVersion
@@ -762,6 +785,7 @@ extension Textract {
         /// The page a detected signature was found on.
         public let page: Int?
 
+        @inlinable
         public init(page: Int? = nil) {
             self.page = page
         }
@@ -777,6 +801,7 @@ extension Textract {
         /// Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB.
         public let s3Object: S3Object?
 
+        @inlinable
         public init(bytes: AWSBase64Data? = nil, s3Object: S3Object? = nil) {
             self.bytes = bytes
             self.s3Object = s3Object
@@ -804,6 +829,7 @@ extension Textract {
         /// A list of any expected signatures not found in a document group.
         public let undetectedSignatures: [UndetectedSignature]?
 
+        @inlinable
         public init(detectedSignatures: [DetectedSignature]? = nil, splitDocuments: [SplitDocument]? = nil, type: String? = nil, undetectedSignatures: [UndetectedSignature]? = nil) {
             self.detectedSignatures = detectedSignatures
             self.splitDocuments = splitDocuments
@@ -823,6 +849,7 @@ extension Textract {
         /// The Amazon S3 bucket that contains the input document.
         public let s3Object: S3Object?
 
+        @inlinable
         public init(s3Object: S3Object? = nil) {
             self.s3Object = s3Object
         }
@@ -840,6 +867,7 @@ extension Textract {
         /// The number of pages that are detected in the document.
         public let pages: Int?
 
+        @inlinable
         public init(pages: Int? = nil) {
             self.pages = pages
         }
@@ -857,6 +885,7 @@ extension Textract {
         /// The Recall score for an adapter version.
         public let recall: Float?
 
+        @inlinable
         public init(f1Score: Float? = nil, precision: Float? = nil, recall: Float? = nil) {
             self.f1Score = f1Score
             self.precision = precision
@@ -876,6 +905,7 @@ extension Textract {
         /// Percentage confideence in the detected currency.
         public let confidence: Float?
 
+        @inlinable
         public init(code: String? = nil, confidence: Float? = nil) {
             self.code = code
             self.confidence = confidence
@@ -894,6 +924,7 @@ extension Textract {
         /// The word or line of text recognized by Amazon Textract
         public let text: String?
 
+        @inlinable
         public init(confidence: Float? = nil, geometry: Geometry? = nil, text: String? = nil) {
             self.confidence = confidence
             self.geometry = geometry
@@ -917,6 +948,7 @@ extension Textract {
         /// Any information found outside of a table by Amazon Textract.
         public let summaryFields: [ExpenseField]?
 
+        @inlinable
         public init(blocks: [Block]? = nil, expenseIndex: Int? = nil, lineItemGroups: [LineItemGroup]? = nil, summaryFields: [ExpenseField]? = nil) {
             self.blocks = blocks
             self.expenseIndex = expenseIndex
@@ -946,6 +978,7 @@ extension Textract {
         /// The value of a detected element. Present in explicit and implicit elements.
         public let valueDetection: ExpenseDetection?
 
+        @inlinable
         public init(currency: ExpenseCurrency? = nil, groupProperties: [ExpenseGroupProperty]? = nil, labelDetection: ExpenseDetection? = nil, pageNumber: Int? = nil, type: ExpenseType? = nil, valueDetection: ExpenseDetection? = nil) {
             self.currency = currency
             self.groupProperties = groupProperties
@@ -971,6 +1004,7 @@ extension Textract {
         /// Informs you on whether the expense group is a name or an address.
         public let types: [String]?
 
+        @inlinable
         public init(id: String? = nil, types: [String]? = nil) {
             self.id = id
             self.types = types
@@ -988,6 +1022,7 @@ extension Textract {
         /// The word or line of text detected by Amazon Textract.
         public let text: String?
 
+        @inlinable
         public init(confidence: Float? = nil, text: String? = nil) {
             self.confidence = confidence
             self.text = text
@@ -1005,6 +1040,7 @@ extension Textract {
         /// Holds the structured data returned by AnalyzeDocument for lending documents.
         public let lendingDocument: LendingDocument?
 
+        @inlinable
         public init(expenseDocument: ExpenseDocument? = nil, identityDocument: IdentityDocument? = nil, lendingDocument: LendingDocument? = nil) {
             self.expenseDocument = expenseDocument
             self.identityDocument = identityDocument
@@ -1024,6 +1060,7 @@ extension Textract {
         /// Within the bounding box, a fine-grained polygon around the recognized item.
         public let polygon: [Point]?
 
+        @inlinable
         public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
             self.boundingBox = boundingBox
             self.polygon = polygon
@@ -1039,6 +1076,7 @@ extension Textract {
         /// A string containing a unique ID for the adapter.
         public let adapterId: String
 
+        @inlinable
         public init(adapterId: String) {
             self.adapterId = adapterId
         }
@@ -1069,6 +1107,7 @@ extension Textract {
         /// A set of tags (key-value pairs) associated with the adapter that has been retrieved.
         public let tags: [String: String]?
 
+        @inlinable
         public init(adapterId: String? = nil, adapterName: String? = nil, autoUpdate: AutoUpdate? = nil, creationTime: Date? = nil, description: String? = nil, featureTypes: [FeatureType]? = nil, tags: [String: String]? = nil) {
             self.adapterId = adapterId
             self.adapterName = adapterName
@@ -1096,6 +1135,7 @@ extension Textract {
         /// A string specifying the adapter version you want to retrieve information for.
         public let adapterVersion: String
 
+        @inlinable
         public init(adapterId: String, adapterVersion: String) {
             self.adapterId = adapterId
             self.adapterVersion = adapterVersion
@@ -1137,6 +1177,7 @@ extension Textract {
         /// A set of tags (key-value pairs) that are associated with the adapter version.
         public let tags: [String: String]?
 
+        @inlinable
         public init(adapterId: String? = nil, adapterVersion: String? = nil, creationTime: Date? = nil, datasetConfig: AdapterVersionDatasetConfig? = nil, evaluationMetrics: [AdapterVersionEvaluationMetric]? = nil, featureTypes: [FeatureType]? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig? = nil, status: AdapterVersionStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.adapterId = adapterId
             self.adapterVersion = adapterVersion
@@ -1174,6 +1215,7 @@ extension Textract {
         /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1212,6 +1254,7 @@ extension Textract {
         /// A list of warnings that occurred during the document-analysis operation.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(analyzeDocumentModelVersion: String? = nil, blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
             self.analyzeDocumentModelVersion = analyzeDocumentModelVersion
             self.blocks = blocks
@@ -1241,6 +1284,7 @@ extension Textract {
         /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1279,6 +1323,7 @@ extension Textract {
         /// A list of warnings that occurred during the text-detection operation for the document.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(blocks: [Block]? = nil, detectDocumentTextModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
             self.blocks = blocks
             self.detectDocumentTextModelVersion = detectDocumentTextModelVersion
@@ -1308,6 +1353,7 @@ extension Textract {
         /// If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1347,6 +1393,7 @@ extension Textract {
         /// A list of warnings that occurred during the text-detection operation for the document.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(analyzeExpenseModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, expenseDocuments: [ExpenseDocument]? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
             self.analyzeExpenseModelVersion = analyzeExpenseModelVersion
             self.documentMetadata = documentMetadata
@@ -1376,6 +1423,7 @@ extension Textract {
         /// If the previous response was incomplete, Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of lending results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1414,6 +1462,7 @@ extension Textract {
         ///  A list of warnings that occurred during the lending analysis operation.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(analyzeLendingModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, results: [LendingResult]? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
             self.analyzeLendingModelVersion = analyzeLendingModelVersion
             self.documentMetadata = documentMetadata
@@ -1439,6 +1488,7 @@ extension Textract {
         ///  A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1467,6 +1517,7 @@ extension Textract {
         /// A list of warnings that occurred during the lending analysis operation.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(analyzeLendingModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, statusMessage: String? = nil, summary: LendingSummary? = nil, warnings: [Warning]? = nil) {
             self.analyzeLendingModelVersion = analyzeLendingModelVersion
             self.documentMetadata = documentMetadata
@@ -1494,6 +1545,7 @@ extension Textract {
         /// The Amazon Resource Name (ARN) of the HumanLoop created.
         public let humanLoopArn: String?
 
+        @inlinable
         public init(humanLoopActivationConditionsEvaluationResults: String? = nil, humanLoopActivationReasons: [String]? = nil, humanLoopArn: String? = nil) {
             self.humanLoopActivationConditionsEvaluationResults = humanLoopActivationConditionsEvaluationResults
             self.humanLoopActivationReasons = humanLoopActivationReasons
@@ -1515,6 +1567,7 @@ extension Textract {
         /// The name of the human workflow used for this image. This should be kept unique within a region.
         public let humanLoopName: String
 
+        @inlinable
         public init(dataAttributes: HumanLoopDataAttributes? = nil, flowDefinitionArn: String, humanLoopName: String) {
             self.dataAttributes = dataAttributes
             self.flowDefinitionArn = flowDefinitionArn
@@ -1540,6 +1593,7 @@ extension Textract {
         /// Sets whether the input image is free of personally identifiable information or adult content.
         public let contentClassifiers: [ContentClassifier]?
 
+        @inlinable
         public init(contentClassifiers: [ContentClassifier]? = nil) {
             self.contentClassifiers = contentClassifiers
         }
@@ -1561,6 +1615,7 @@ extension Textract {
         /// The structure used to record information extracted from identity documents. Contains both normalized field and value of the extracted text.
         public let identityDocumentFields: [IdentityDocumentField]?
 
+        @inlinable
         public init(blocks: [Block]? = nil, documentIndex: Int? = nil, identityDocumentFields: [IdentityDocumentField]? = nil) {
             self.blocks = blocks
             self.documentIndex = documentIndex
@@ -1578,6 +1633,7 @@ extension Textract {
         public let type: AnalyzeIDDetections?
         public let valueDetection: AnalyzeIDDetections?
 
+        @inlinable
         public init(type: AnalyzeIDDetections? = nil, valueDetection: AnalyzeIDDetections? = nil) {
             self.type = type
             self.valueDetection = valueDetection
@@ -1598,6 +1654,7 @@ extension Textract {
         /// The text extracted for a detected value in a lending document.
         public let text: String?
 
+        @inlinable
         public init(confidence: Float? = nil, geometry: Geometry? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil) {
             self.confidence = confidence
             self.geometry = geometry
@@ -1619,6 +1676,7 @@ extension Textract {
         /// A list of signatures detected in a lending document.
         public let signatureDetections: [SignatureDetection]?
 
+        @inlinable
         public init(lendingFields: [LendingField]? = nil, signatureDetections: [SignatureDetection]? = nil) {
             self.lendingFields = lendingFields
             self.signatureDetections = signatureDetections
@@ -1637,6 +1695,7 @@ extension Textract {
         /// An array of LendingDetection objects.
         public let valueDetections: [LendingDetection]?
 
+        @inlinable
         public init(keyDetection: LendingDetection? = nil, type: String? = nil, valueDetections: [LendingDetection]? = nil) {
             self.keyDetection = keyDetection
             self.type = type
@@ -1658,6 +1717,7 @@ extension Textract {
         /// The classifier result for a given page.
         public let pageClassification: PageClassification?
 
+        @inlinable
         public init(extractions: [Extraction]? = nil, page: Int? = nil, pageClassification: PageClassification? = nil) {
             self.extractions = extractions
             self.page = page
@@ -1677,6 +1737,7 @@ extension Textract {
         /// UndetectedDocumentTypes.
         public let undetectedDocumentTypes: [String]?
 
+        @inlinable
         public init(documentGroups: [DocumentGroup]? = nil, undetectedDocumentTypes: [String]? = nil) {
             self.documentGroups = documentGroups
             self.undetectedDocumentTypes = undetectedDocumentTypes
@@ -1692,6 +1753,7 @@ extension Textract {
         /// ExpenseFields used to show information from detected lines on a table.
         public let lineItemExpenseFields: [ExpenseField]?
 
+        @inlinable
         public init(lineItemExpenseFields: [ExpenseField]? = nil) {
             self.lineItemExpenseFields = lineItemExpenseFields
         }
@@ -1707,6 +1769,7 @@ extension Textract {
         /// The breakdown of information on a particular line of a table.
         public let lineItems: [LineItemFields]?
 
+        @inlinable
         public init(lineItemGroupIndex: Int? = nil, lineItems: [LineItemFields]? = nil) {
             self.lineItemGroupIndex = lineItemGroupIndex
             self.lineItems = lineItems
@@ -1730,6 +1793,7 @@ extension Textract {
         /// Identifies the next page of results to return when listing adapter versions.
         public let nextToken: String?
 
+        @inlinable
         public init(adapterId: String? = nil, afterCreationTime: Date? = nil, beforeCreationTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.adapterId = adapterId
             self.afterCreationTime = afterCreationTime
@@ -1762,6 +1826,7 @@ extension Textract {
         /// Identifies the next page of results to return when listing adapter versions.
         public let nextToken: String?
 
+        @inlinable
         public init(adapterVersions: [AdapterVersionOverview]? = nil, nextToken: String? = nil) {
             self.adapterVersions = adapterVersions
             self.nextToken = nextToken
@@ -1783,6 +1848,7 @@ extension Textract {
         /// Identifies the next page of results to return when listing adapters.
         public let nextToken: String?
 
+        @inlinable
         public init(afterCreationTime: Date? = nil, beforeCreationTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterCreationTime = afterCreationTime
             self.beforeCreationTime = beforeCreationTime
@@ -1811,6 +1877,7 @@ extension Textract {
         /// Identifies the next page of results to return when listing adapters.
         public let nextToken: String?
 
+        @inlinable
         public init(adapters: [AdapterOverview]? = nil, nextToken: String? = nil) {
             self.adapters = adapters
             self.nextToken = nextToken
@@ -1826,6 +1893,7 @@ extension Textract {
         /// The Amazon Resource Name (ARN) that specifies the resource to list tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1844,6 +1912,7 @@ extension Textract {
         /// A set of tags (key-value pairs) that are part of the requested resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1859,6 +1928,7 @@ extension Textract {
         /// The normalized type of the value detected. In this case, DATE.
         public let valueType: ValueType?
 
+        @inlinable
         public init(value: String? = nil, valueType: ValueType? = nil) {
             self.value = value
             self.valueType = valueType
@@ -1876,6 +1946,7 @@ extension Textract {
         /// The Amazon SNS topic that Amazon Textract posts the completion status to.
         public let snsTopicArn: String
 
+        @inlinable
         public init(roleArn: String, snsTopicArn: String) {
             self.roleArn = roleArn
             self.snsTopicArn = snsTopicArn
@@ -1902,6 +1973,7 @@ extension Textract {
         /// The prefix of the object key that the output will be saved to. When not enabled, the prefix will be “textract_output".
         public let s3Prefix: String?
 
+        @inlinable
         public init(s3Bucket: String, s3Prefix: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
@@ -1928,6 +2000,7 @@ extension Textract {
         /// The class, or document type, assigned to a detected Page object. The class, or document type,  assigned to a detected Page object.
         public let pageType: [Prediction]
 
+        @inlinable
         public init(pageNumber: [Prediction], pageType: [Prediction]) {
             self.pageNumber = pageNumber
             self.pageType = pageType
@@ -1945,6 +2018,7 @@ extension Textract {
         /// The value of the Y coordinate for a point on a Polygon.
         public let y: Float?
 
+        @inlinable
         public init(x: Float? = nil, y: Float? = nil) {
             self.x = x
             self.y = y
@@ -1962,6 +2036,7 @@ extension Textract {
         /// The predicted value of a detected object.
         public let value: String?
 
+        @inlinable
         public init(confidence: Float? = nil, value: String? = nil) {
             self.confidence = confidence
             self.value = value
@@ -1976,6 +2051,7 @@ extension Textract {
     public struct QueriesConfig: AWSEncodableShape {
         public let queries: [Query]
 
+        @inlinable
         public init(queries: [Query]) {
             self.queries = queries
         }
@@ -2000,6 +2076,7 @@ extension Textract {
         /// Question that Amazon Textract will apply to the document. An example would be "What is the customer's SSN?"
         public let text: String
 
+        @inlinable
         public init(alias: String? = nil, pages: [String]? = nil, text: String) {
             self.alias = alias
             self.pages = pages
@@ -2034,6 +2111,7 @@ extension Textract {
         /// The type of relationship between the blocks in the IDs array and the current block. The following list describes the relationship types that can be returned.     VALUE - A list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair.    CHILD - A list of IDs that identify blocks found within the current block object. For example, WORD blocks have a CHILD relationship to the LINE block type.    MERGED_CELL - A list of IDs that identify each of the MERGED_CELL block types in a table.    ANSWER - A list that contains the ID of the QUERY_RESULT block that’s associated with the corresponding QUERY block.     TABLE - A list of IDs that identify associated TABLE block types.     TABLE_TITLE - A list that contains the ID for the TABLE_TITLE block type in a table.     TABLE_FOOTER - A list of IDs that identify the TABLE_FOOTER block types in a table.
         public let type: RelationshipType?
 
+        @inlinable
         public init(ids: [String]? = nil, type: RelationshipType? = nil) {
             self.ids = ids
             self.type = type
@@ -2053,6 +2131,7 @@ extension Textract {
         /// If the bucket has versioning enabled, you can specify the object version.
         public let version: String?
 
+        @inlinable
         public init(bucket: String? = nil, name: String? = nil, version: String? = nil) {
             self.bucket = bucket
             self.name = name
@@ -2083,6 +2162,7 @@ extension Textract {
         public let confidence: Float?
         public let geometry: Geometry?
 
+        @inlinable
         public init(confidence: Float? = nil, geometry: Geometry? = nil) {
             self.confidence = confidence
             self.geometry = geometry
@@ -2100,6 +2180,7 @@ extension Textract {
         /// An array of page numbers for a for a given document, ordered by logical boundary.
         public let pages: [Int]?
 
+        @inlinable
         public init(index: Int? = nil, pages: [Int]? = nil) {
             self.index = index
             self.pages = pages
@@ -2130,6 +2211,7 @@ extension Textract {
         public let outputConfig: OutputConfig?
         public let queriesConfig: QueriesConfig?
 
+        @inlinable
         public init(adaptersConfig: AdaptersConfig? = nil, clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil, queriesConfig: QueriesConfig? = nil) {
             self.adaptersConfig = adaptersConfig
             self.clientRequestToken = clientRequestToken
@@ -2176,6 +2258,7 @@ extension Textract {
         /// The identifier for the document text detection job. Use JobId to identify the job in a subsequent call to GetDocumentAnalysis. A JobId value  is only valid for 7 days.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2199,6 +2282,7 @@ extension Textract {
         /// Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
         public let outputConfig: OutputConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
@@ -2237,6 +2321,7 @@ extension Textract {
         /// The identifier of the text detection job for the document. Use JobId to identify the job in a subsequent call to GetDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2260,6 +2345,7 @@ extension Textract {
         /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis operation.
         public let outputConfig: OutputConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
@@ -2298,6 +2384,7 @@ extension Textract {
         /// A unique identifier for the text detection job. The JobId is returned from StartExpenseAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2318,6 +2405,7 @@ extension Textract {
         public let notificationChannel: NotificationChannel?
         public let outputConfig: OutputConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
@@ -2356,6 +2444,7 @@ extension Textract {
         /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2371,6 +2460,7 @@ extension Textract {
         /// A set of tags (key-value pairs) that you want to assign to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceARN: String, tags: [String: String]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -2403,6 +2493,7 @@ extension Textract {
         /// The page where a signature was expected but not found.
         public let page: Int?
 
+        @inlinable
         public init(page: Int? = nil) {
             self.page = page
         }
@@ -2418,6 +2509,7 @@ extension Textract {
         /// Specifies the tags to be removed from the resource specified by the ResourceARN.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -2454,6 +2546,7 @@ extension Textract {
         /// The new description to be applied to the adapter.
         public let description: String?
 
+        @inlinable
         public init(adapterId: String, adapterName: String? = nil, autoUpdate: AutoUpdate? = nil, description: String? = nil) {
             self.adapterId = adapterId
             self.adapterName = adapterName
@@ -2494,6 +2587,7 @@ extension Textract {
         /// List of the targeted feature types for the updated adapter.
         public let featureTypes: [FeatureType]?
 
+        @inlinable
         public init(adapterId: String? = nil, adapterName: String? = nil, autoUpdate: AutoUpdate? = nil, creationTime: Date? = nil, description: String? = nil, featureTypes: [FeatureType]? = nil) {
             self.adapterId = adapterId
             self.adapterName = adapterName
@@ -2519,6 +2613,7 @@ extension Textract {
         /// A list of the pages that the warning applies to.
         public let pages: [Int]?
 
+        @inlinable
         public init(errorCode: String? = nil, pages: [Int]? = nil) {
             self.errorCode = errorCode
             self.pages = pages

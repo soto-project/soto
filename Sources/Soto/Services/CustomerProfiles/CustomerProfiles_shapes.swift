@@ -342,6 +342,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]
 
+        @inlinable
         public init(domainName: String, keyName: String, profileId: String, values: [String]) {
             self.domainName = domainName
             self.keyName = keyName
@@ -385,6 +386,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]?
 
+        @inlinable
         public init(keyName: String? = nil, values: [String]? = nil) {
             self.keyName = keyName
             self.values = values
@@ -402,6 +404,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]
 
+        @inlinable
         public init(keyName: String, values: [String]) {
             self.keyName = keyName
             self.values = values
@@ -445,6 +448,7 @@ extension CustomerProfiles {
         /// The state in which a customer lives.
         public let state: String?
 
+        @inlinable
         public init(address1: String? = nil, address2: String? = nil, address3: String? = nil, address4: String? = nil, city: String? = nil, country: String? = nil, county: String? = nil, postalCode: String? = nil, province: String? = nil, state: String? = nil) {
             self.address1 = address1
             self.address2 = address2
@@ -500,6 +504,7 @@ extension CustomerProfiles {
         public let batches: [Batch]?
         public let flowDefinition: FlowDefinition
 
+        @inlinable
         public init(batches: [Batch]? = nil, flowDefinition: FlowDefinition) {
             self.batches = batches
             self.flowDefinition = flowDefinition
@@ -523,6 +528,7 @@ extension CustomerProfiles {
         /// Specifies the source connector type, such as Salesforce, ServiceNow, and Marketo. Indicates source of ingestion.
         public let sourceConnectorType: SourceConnectorType
 
+        @inlinable
         public init(connectorProfileName: String, roleArn: String? = nil, sourceConnectorType: SourceConnectorType) {
             self.connectorProfileName = connectorProfileName
             self.roleArn = roleArn
@@ -544,6 +550,7 @@ extension CustomerProfiles {
         /// Total steps in APPFLOW_INTEGRATION workflow.
         public let totalSteps: Int64
 
+        @inlinable
         public init(recordsProcessed: Int64, stepsCompleted: Int64, totalSteps: Int64) {
             self.recordsProcessed = recordsProcessed
             self.stepsCompleted = stepsCompleted
@@ -575,6 +582,7 @@ extension CustomerProfiles {
         /// Workflow step status for APPFLOW_INTEGRATION workflow.
         public let status: Status
 
+        @inlinable
         public init(batchRecordsEndTime: String, batchRecordsStartTime: String, createdAt: Date, executionMessage: String, flowName: String, lastUpdatedAt: Date, recordsProcessed: Int64, status: Status) {
             self.batchRecordsEndTime = batchRecordsEndTime
             self.batchRecordsStartTime = batchRecordsStartTime
@@ -604,6 +612,7 @@ extension CustomerProfiles {
         /// Mathematical expression that is performed on attribute items provided in the attribute list. Each element in the expression should follow the structure of \"{ObjectTypeName.AttributeName}\".
         public let expression: String
 
+        @inlinable
         public init(attributes: [AttributeItem], expression: String) {
             self.attributes = attributes
             self.expression = expression
@@ -629,6 +638,7 @@ extension CustomerProfiles {
         /// The name of an attribute defined in a profile object type.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -654,6 +664,7 @@ extension CustomerProfiles {
         /// The PhoneNumber type. You can choose from PhoneNumber, HomePhoneNumber, and MobilePhoneNumber. You only can use the PhoneNumber type in the MatchingRule. For example, if you want to match a profile based on Phone or HomePhone, you need to choose the Phone and the HomePhone to represent the PhoneNumber type and only specify the PhoneNumber on the matching rule.
         public let phoneNumber: [String]?
 
+        @inlinable
         public init(address: [String]? = nil, attributeMatchingModel: AttributeMatchingModel, emailAddress: [String]? = nil, phoneNumber: [String]? = nil) {
             self.address = address
             self.attributeMatchingModel = attributeMatchingModel
@@ -700,6 +711,7 @@ extension CustomerProfiles {
         /// A number between 0 and 1 that represents the minimum confidence score required for profiles within a matching group to be merged during the auto-merge process. A higher score means higher similarity required to merge profiles.
         public let minAllowedConfidenceScoreForMerging: Double?
 
+        @inlinable
         public init(conflictResolution: ConflictResolution? = nil, consolidation: Consolidation? = nil, enabled: Bool, minAllowedConfidenceScoreForMerging: Double? = nil) {
             self.conflictResolution = conflictResolution
             self.consolidation = consolidation
@@ -728,6 +740,7 @@ extension CustomerProfiles {
         /// Start time of batch to split ingestion.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -747,6 +760,7 @@ extension CustomerProfiles {
         /// The threshold for the calculated attribute.
         public let threshold: Threshold?
 
+        @inlinable
         public init(objectCount: Int? = nil, range: Range? = nil, threshold: Threshold? = nil) {
             self.objectCount = objectCount
             self.range = range
@@ -773,6 +787,7 @@ extension CustomerProfiles {
         /// The ObjectType name that is used to resolve profile merging conflicts when choosing SOURCE as the ConflictResolvingModel.
         public let sourceName: String?
 
+        @inlinable
         public init(conflictResolvingModel: ConflictResolvingModel, sourceName: String? = nil) {
             self.conflictResolvingModel = conflictResolvingModel
             self.sourceName = sourceName
@@ -801,6 +816,7 @@ extension CustomerProfiles {
         /// The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
+        @inlinable
         public init(marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
             self.marketo = marketo
             self.s3 = s3
@@ -822,6 +838,7 @@ extension CustomerProfiles {
         /// A list of matching criteria.
         public let matchingAttributesList: [[String]]
 
+        @inlinable
         public init(matchingAttributesList: [[String]]) {
             self.matchingAttributesList = matchingAttributesList
         }
@@ -858,6 +875,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributeDetails: AttributeDetails, calculatedAttributeName: String, conditions: Conditions? = nil, description: String? = nil, displayName: String? = nil, domainName: String, statistic: Statistic, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
@@ -936,6 +954,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
@@ -982,6 +1001,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
@@ -1059,6 +1079,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
@@ -1094,6 +1115,7 @@ extension CustomerProfiles {
         /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name
         public let uri: String
 
+        @inlinable
         public init(domainName: String, eventStreamName: String, tags: [String: String]? = nil, uri: String) {
             self.domainName = domainName
             self.eventStreamName = eventStreamName
@@ -1141,6 +1163,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(eventStreamArn: String, tags: [String: String]? = nil) {
             self.eventStreamArn = eventStreamArn
             self.tags = tags
@@ -1166,6 +1189,7 @@ extension CustomerProfiles {
         /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
         public let workflowType: WorkflowType
 
+        @inlinable
         public init(domainName: String, integrationConfig: IntegrationConfig, objectTypeName: String, roleArn: String, tags: [String: String]? = nil, workflowType: WorkflowType) {
             self.domainName = domainName
             self.integrationConfig = integrationConfig
@@ -1221,6 +1245,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(message: String, workflowId: String) {
             self.message = message
             self.workflowId = workflowId
@@ -1282,6 +1307,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
+        @inlinable
         public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
@@ -1417,6 +1443,7 @@ extension CustomerProfiles {
         /// The unique identifier of a customer profile.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -1432,6 +1459,7 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(calculatedAttributeName: String, domainName: String) {
             self.calculatedAttributeName = calculatedAttributeName
             self.domainName = domainName
@@ -1464,6 +1492,7 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1487,6 +1516,7 @@ extension CustomerProfiles {
         /// A message that indicates the delete request is done.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -1502,6 +1532,7 @@ extension CustomerProfiles {
         /// The name of the event stream
         public let eventStreamName: String
 
+        @inlinable
         public init(domainName: String, eventStreamName: String) {
             self.domainName = domainName
             self.eventStreamName = eventStreamName
@@ -1536,6 +1567,7 @@ extension CustomerProfiles {
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
+        @inlinable
         public init(domainName: String, uri: String) {
             self.domainName = domainName
             self.uri = uri
@@ -1565,6 +1597,7 @@ extension CustomerProfiles {
         /// A message that indicates the delete request is done.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -1584,6 +1617,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]
 
+        @inlinable
         public init(domainName: String, keyName: String, profileId: String, values: [String]) {
             self.domainName = domainName
             self.keyName = keyName
@@ -1625,6 +1659,7 @@ extension CustomerProfiles {
         /// A message that indicates the delete request is done.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1644,6 +1679,7 @@ extension CustomerProfiles {
         /// The unique identifier of the profile object generated by the service.
         public let profileObjectUniqueKey: String
 
+        @inlinable
         public init(domainName: String, objectTypeName: String, profileId: String, profileObjectUniqueKey: String) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
@@ -1683,6 +1719,7 @@ extension CustomerProfiles {
         /// A message that indicates the delete request is done.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1698,6 +1735,7 @@ extension CustomerProfiles {
         /// The name of the profile object type.
         public let objectTypeName: String
 
+        @inlinable
         public init(domainName: String, objectTypeName: String) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
@@ -1726,6 +1764,7 @@ extension CustomerProfiles {
         /// A message that indicates the delete request is done.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -1741,6 +1780,7 @@ extension CustomerProfiles {
         /// The unique identifier of a customer profile.
         public let profileId: String
 
+        @inlinable
         public init(domainName: String, profileId: String) {
             self.domainName = domainName
             self.profileId = profileId
@@ -1769,6 +1809,7 @@ extension CustomerProfiles {
         /// A message that indicates the delete request is done.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1784,6 +1825,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(domainName: String, workflowId: String) {
             self.domainName = domainName
             self.workflowId = workflowId
@@ -1819,6 +1861,7 @@ extension CustomerProfiles {
         /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
         public let uri: String
 
+        @inlinable
         public init(status: EventStreamDestinationStatus, unhealthySince: Date? = nil, uri: String) {
             self.status = status
             self.unhealthySince = unhealthySince
@@ -1838,6 +1881,7 @@ extension CustomerProfiles {
         /// A string that is serialized from a JSON object.
         public let objects: [String]
 
+        @inlinable
         public init(domainName: String, objects: [String]) {
             self.domainName = domainName
             self.objects = objects
@@ -1871,6 +1915,7 @@ extension CustomerProfiles {
         /// Detected ProfileObjectType mappings from given objects. A maximum of one mapping is supported.
         public let detectedProfileObjectTypes: [DetectedProfileObjectType]?
 
+        @inlinable
         public init(detectedProfileObjectTypes: [DetectedProfileObjectType]? = nil) {
             self.detectedProfileObjectTypes = detectedProfileObjectTypes
         }
@@ -1888,6 +1933,7 @@ extension CustomerProfiles {
         /// The format of sourceLastUpdatedTimestamp that was detected in fields.
         public let sourceLastUpdatedTimestampFormat: String?
 
+        @inlinable
         public init(fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, sourceLastUpdatedTimestampFormat: String? = nil) {
             self.fields = fields
             self.keys = keys
@@ -1911,6 +1957,7 @@ extension CustomerProfiles {
         /// The total size, in bytes, of all objects in the domain.
         public let totalSize: Int64?
 
+        @inlinable
         public init(meteringProfileCount: Int64? = nil, objectCount: Int64? = nil, profileCount: Int64? = nil, totalSize: Int64? = nil) {
             self.meteringProfileCount = meteringProfileCount
             self.objectCount = objectCount
@@ -1936,6 +1983,7 @@ extension CustomerProfiles {
         /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
         public let uri: String
 
+        @inlinable
         public init(message: String? = nil, status: EventStreamDestinationStatus, unhealthySince: Date? = nil, uri: String) {
             self.message = message
             self.status = status
@@ -1967,6 +2015,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(destinationSummary: DestinationSummary? = nil, domainName: String, eventStreamArn: String, eventStreamName: String, state: EventStreamState, stoppedSince: Date? = nil, tags: [String: String]? = nil) {
             self.destinationSummary = destinationSummary
             self.domainName = domainName
@@ -1992,6 +2041,7 @@ extension CustomerProfiles {
         /// The S3 location where Identity Resolution Jobs write result files.
         public let s3Exporting: S3ExportingConfig?
 
+        @inlinable
         public init(s3Exporting: S3ExportingConfig? = nil) {
             self.s3Exporting = s3Exporting
         }
@@ -2009,6 +2059,7 @@ extension CustomerProfiles {
         /// Information about the S3 location where Identity Resolution Jobs write result files.
         public let s3Exporting: S3ExportingLocation?
 
+        @inlinable
         public init(s3Exporting: S3ExportingLocation? = nil) {
             self.s3Exporting = s3Exporting
         }
@@ -2062,6 +2113,7 @@ extension CustomerProfiles {
         /// A unique identifier for the shipping address field to be merged.
         public let shippingAddress: String?
 
+        @inlinable
         public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: String? = nil, attributes: [String: String]? = nil, billingAddress: String? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, gender: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: String? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: String? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
@@ -2153,6 +2205,7 @@ extension CustomerProfiles {
         /// The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
+        @inlinable
         public init(description: String? = nil, flowName: String, kmsArn: String, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
             self.description = description
             self.flowName = flowName
@@ -2193,6 +2246,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]?
 
+        @inlinable
         public init(keyName: String? = nil, values: [String]? = nil) {
             self.keyName = keyName
             self.values = values
@@ -2214,6 +2268,7 @@ extension CustomerProfiles {
         /// Minimum confidence score required for profiles within a matching group to be merged during the auto-merge process.
         public let minAllowedConfidenceScoreForMerging: Double?
 
+        @inlinable
         public init(conflictResolution: ConflictResolution, consolidation: Consolidation, domainName: String, minAllowedConfidenceScoreForMerging: Double? = nil) {
             self.conflictResolution = conflictResolution
             self.consolidation = consolidation
@@ -2257,6 +2312,7 @@ extension CustomerProfiles {
         /// The number of profiles that would be merged if this wasn't a preview dry run.
         public let numberOfProfilesWillBeMerged: Int64?
 
+        @inlinable
         public init(domainName: String, numberOfMatchesInSample: Int64? = nil, numberOfProfilesInSample: Int64? = nil, numberOfProfilesWillBeMerged: Int64? = nil) {
             self.domainName = domainName
             self.numberOfMatchesInSample = numberOfMatchesInSample
@@ -2278,6 +2334,7 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(calculatedAttributeName: String, domainName: String) {
             self.calculatedAttributeName = calculatedAttributeName
             self.domainName = domainName
@@ -2322,6 +2379,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
@@ -2355,6 +2413,7 @@ extension CustomerProfiles {
         /// The unique identifier of a customer profile.
         public let profileId: String
 
+        @inlinable
         public init(calculatedAttributeName: String, domainName: String, profileId: String) {
             self.calculatedAttributeName = calculatedAttributeName
             self.domainName = domainName
@@ -2392,6 +2451,7 @@ extension CustomerProfiles {
         /// The value of the calculated attribute.
         public let value: String?
 
+        @inlinable
         public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, value: String? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
@@ -2411,6 +2471,7 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2457,6 +2518,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, stats: DomainStats? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
@@ -2490,6 +2552,7 @@ extension CustomerProfiles {
         /// The name of the event stream provided during create operations.
         public let eventStreamName: String
 
+        @inlinable
         public init(domainName: String, eventStreamName: String) {
             self.domainName = domainName
             self.eventStreamName = eventStreamName
@@ -2530,6 +2593,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, destinationDetails: EventStreamDestinationDetails, domainName: String, eventStreamArn: String, state: EventStreamState, stoppedSince: Date? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.destinationDetails = destinationDetails
@@ -2557,6 +2621,7 @@ extension CustomerProfiles {
         /// The unique identifier of the Identity Resolution Job.
         public let jobId: String
 
+        @inlinable
         public init(domainName: String, jobId: String) {
             self.domainName = domainName
             self.jobId = jobId
@@ -2603,6 +2668,7 @@ extension CustomerProfiles {
         /// The status of the Identity Resolution Job.    PENDING: The Identity Resolution Job is scheduled but has not started yet. If you turn off the Identity Resolution feature in your domain, jobs in the PENDING state are deleted.    PREPROCESSING: The Identity Resolution Job is loading your data.    FIND_MATCHING: The Identity Resolution Job is using the machine learning model to identify profiles that belong to the same matching group.    MERGING: The Identity Resolution Job is merging duplicate profiles.    COMPLETED: The Identity Resolution Job completed successfully.    PARTIAL_SUCCESS: There's a system error and not all of the data is merged. The Identity Resolution Job writes a message indicating the source of the problem.    FAILED: The Identity Resolution Job did not merge any data. It writes a message indicating the source of the problem.
         public let status: IdentityResolutionJobStatus?
 
+        @inlinable
         public init(autoMerging: AutoMerging? = nil, domainName: String? = nil, exportingLocation: ExportingLocation? = nil, jobEndTime: Date? = nil, jobExpirationTime: Date? = nil, jobId: String? = nil, jobStartTime: Date? = nil, jobStats: JobStats? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, status: IdentityResolutionJobStatus? = nil) {
             self.autoMerging = autoMerging
             self.domainName = domainName
@@ -2638,6 +2704,7 @@ extension CustomerProfiles {
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
+        @inlinable
         public init(domainName: String, uri: String) {
             self.domainName = domainName
             self.uri = uri
@@ -2685,6 +2752,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
@@ -2719,6 +2787,7 @@ extension CustomerProfiles {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -2756,6 +2825,7 @@ extension CustomerProfiles {
         /// The number of potential matches found.
         public let potentialMatches: Int?
 
+        @inlinable
         public init(matches: [MatchItem]? = nil, matchGenerationDate: Date? = nil, nextToken: String? = nil, potentialMatches: Int? = nil) {
             self.matches = matches
             self.matchGenerationDate = matchGenerationDate
@@ -2777,6 +2847,7 @@ extension CustomerProfiles {
         /// The name of the profile object type.
         public let objectTypeName: String
 
+        @inlinable
         public init(domainName: String, objectTypeName: String) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
@@ -2831,6 +2902,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
+        @inlinable
         public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
@@ -2870,6 +2942,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String
 
+        @inlinable
         public init(templateId: String) {
             self.templateId = templateId
         }
@@ -2905,6 +2978,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
+        @inlinable
         public init(allowProfileCreation: Bool? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, sourceLastUpdatedTimestampFormat: String? = nil, sourceName: String? = nil, sourceObject: String? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.fields = fields
@@ -2940,6 +3014,7 @@ extension CustomerProfiles {
         /// The string based on SearchKey to be searched for similar profiles.
         public let searchValue: String
 
+        @inlinable
         public init(domainName: String, matchType: MatchType, maxResults: Int? = nil, nextToken: String? = nil, searchKey: String, searchValue: String) {
             self.domainName = domainName
             self.matchType = matchType
@@ -2995,6 +3070,7 @@ extension CustomerProfiles {
         /// The integer rule level that the profiles matched on.
         public let ruleLevel: Int?
 
+        @inlinable
         public init(confidenceScore: Double? = nil, matchId: String? = nil, matchType: MatchType? = nil, nextToken: String? = nil, profileIds: [String]? = nil, ruleLevel: Int? = nil) {
             self.confidenceScore = confidenceScore
             self.matchId = matchId
@@ -3020,6 +3096,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(domainName: String, workflowId: String) {
             self.domainName = domainName
             self.workflowId = workflowId
@@ -3060,6 +3137,7 @@ extension CustomerProfiles {
         /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
         public let workflowType: WorkflowType?
 
+        @inlinable
         public init(attributes: WorkflowAttributes? = nil, errorDescription: String? = nil, lastUpdatedAt: Date? = nil, metrics: WorkflowMetrics? = nil, startDate: Date? = nil, status: Status? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
             self.attributes = attributes
             self.errorDescription = errorDescription
@@ -3094,6 +3172,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, workflowId: String) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3134,6 +3213,7 @@ extension CustomerProfiles {
         /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
         public let workflowType: WorkflowType?
 
+        @inlinable
         public init(items: [WorkflowStepItem]? = nil, nextToken: String? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3167,6 +3247,7 @@ extension CustomerProfiles {
         /// The status of the Identity Resolution Job.    PENDING: The Identity Resolution Job is scheduled but has not started yet. If you turn off the Identity Resolution feature in your domain, jobs in the PENDING state are deleted.    PREPROCESSING: The Identity Resolution Job is loading your data.    FIND_MATCHING: The Identity Resolution Job is using the machine learning model to identify profiles that belong to the same matching group.    MERGING: The Identity Resolution Job is merging duplicate profiles.    COMPLETED: The Identity Resolution Job completed successfully.    PARTIAL_SUCCESS: There's a system error and not all of the data is merged. The Identity Resolution Job writes a message indicating the source of the problem.    FAILED: The Identity Resolution Job did not merge any data. It writes a message indicating the source of the problem.
         public let status: IdentityResolutionJobStatus?
 
+        @inlinable
         public init(domainName: String? = nil, exportingLocation: ExportingLocation? = nil, jobEndTime: Date? = nil, jobId: String? = nil, jobStartTime: Date? = nil, jobStats: JobStats? = nil, message: String? = nil, status: IdentityResolutionJobStatus? = nil) {
             self.domainName = domainName
             self.exportingLocation = exportingLocation
@@ -3194,6 +3275,7 @@ extension CustomerProfiles {
         /// A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source.
         public let datetimeTypeFieldName: String?
 
+        @inlinable
         public init(datetimeTypeFieldName: String? = nil) {
             self.datetimeTypeFieldName = datetimeTypeFieldName
         }
@@ -3212,6 +3294,7 @@ extension CustomerProfiles {
         /// Configuration data for APPFLOW_INTEGRATION workflow type.
         public let appflowIntegration: AppflowIntegration?
 
+        @inlinable
         public init(appflowIntegration: AppflowIntegration? = nil) {
             self.appflowIntegration = appflowIntegration
         }
@@ -3231,6 +3314,7 @@ extension CustomerProfiles {
         /// The time when the Identity Resolution Job should run every week.
         public let time: String
 
+        @inlinable
         public init(dayOfTheWeek: JobScheduleDayOfTheWeek, time: String) {
             self.dayOfTheWeek = dayOfTheWeek
             self.time = time
@@ -3256,6 +3340,7 @@ extension CustomerProfiles {
         /// The number of profiles reviewed.
         public let numberOfProfilesReviewed: Int64?
 
+        @inlinable
         public init(numberOfMatchesFound: Int64? = nil, numberOfMergesDone: Int64? = nil, numberOfProfilesReviewed: Int64? = nil) {
             self.numberOfMatchesFound = numberOfMatchesFound
             self.numberOfMergesDone = numberOfMergesDone
@@ -3279,6 +3364,7 @@ extension CustomerProfiles {
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
+        @inlinable
         public init(includeHidden: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, uri: String) {
             self.includeHidden = includeHidden
             self.maxResults = maxResults
@@ -3315,6 +3401,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListAccountIntegrations API call.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListIntegrationItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3340,6 +3427,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(calculatedAttributeName: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, tags: [String: String]? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.createdAt = createdAt
@@ -3367,6 +3455,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous call to ListCalculatedAttributeDefinitions.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3400,6 +3489,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous call to ListCalculatedAttributeDefinitions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListCalculatedAttributeDefinitionItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3421,6 +3511,7 @@ extension CustomerProfiles {
         /// The value of the calculated attribute.
         public let value: String?
 
+        @inlinable
         public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, value: String? = nil) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
@@ -3446,6 +3537,7 @@ extension CustomerProfiles {
         /// The unique identifier of a customer profile.
         public let profileId: String
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, profileId: String) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3482,6 +3574,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous call to ListCalculatedAttributesForProfile.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListCalculatedAttributeForProfileItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3503,6 +3596,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
@@ -3524,6 +3618,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListDomain API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3552,6 +3647,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListDomains API call.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListDomainItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3571,6 +3667,7 @@ extension CustomerProfiles {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3604,6 +3701,7 @@ extension CustomerProfiles {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EventStreamSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3624,6 +3722,7 @@ extension CustomerProfiles {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3657,6 +3756,7 @@ extension CustomerProfiles {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(identityResolutionJobsList: [IdentityResolutionJob]? = nil, nextToken: String? = nil) {
             self.identityResolutionJobsList = identityResolutionJobsList
             self.nextToken = nextToken
@@ -3690,6 +3790,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
@@ -3725,6 +3826,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListIntegrations API call.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, includeHidden: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.includeHidden = includeHidden
@@ -3760,6 +3862,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListIntegrations API call.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListIntegrationItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3787,6 +3890,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -3816,6 +3920,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
+        @inlinable
         public init(sourceName: String? = nil, sourceObject: String? = nil, templateId: String? = nil) {
             self.sourceName = sourceName
             self.sourceObject = sourceObject
@@ -3835,6 +3940,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListObjectTypeTemplates API call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3863,6 +3969,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListObjectTypeTemplates API call.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListProfileObjectTypeTemplateItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3882,6 +3989,7 @@ extension CustomerProfiles {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3915,6 +4023,7 @@ extension CustomerProfiles {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListProfileObjectTypeItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -3934,6 +4043,7 @@ extension CustomerProfiles {
         /// The unique identifier of the ProfileObject generated by the service.
         public let profileObjectUniqueKey: String?
 
+        @inlinable
         public init(object: String? = nil, objectTypeName: String? = nil, profileObjectUniqueKey: String? = nil) {
             self.object = object
             self.objectTypeName = objectTypeName
@@ -3961,6 +4071,7 @@ extension CustomerProfiles {
         /// The unique identifier of a customer profile.
         public let profileId: String
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, objectFilter: ObjectFilter? = nil, objectTypeName: String, profileId: String) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -4009,6 +4120,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous call to ListProfileObjects.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListProfileObjectsItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4028,6 +4140,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListRuleBasedMatches API call.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -4061,6 +4174,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous ListRuleBasedMatches API call.
         public let nextToken: String?
 
+        @inlinable
         public init(matchIds: [String]? = nil, nextToken: String? = nil) {
             self.matchIds = matchIds
             self.nextToken = nextToken
@@ -4076,6 +4190,7 @@ extension CustomerProfiles {
         /// The ARN of the resource for which you want to view tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4098,6 +4213,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -4121,6 +4237,7 @@ extension CustomerProfiles {
         /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
         public let workflowType: WorkflowType
 
+        @inlinable
         public init(createdAt: Date, lastUpdatedAt: Date, status: Status, statusDescription: String, workflowId: String, workflowType: WorkflowType) {
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4157,6 +4274,7 @@ extension CustomerProfiles {
         /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
         public let workflowType: WorkflowType?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, queryEndDate: Date? = nil, queryStartDate: Date? = nil, status: Status? = nil, workflowType: WorkflowType? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -4203,6 +4321,7 @@ extension CustomerProfiles {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListWorkflowsItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4218,6 +4337,7 @@ extension CustomerProfiles {
         /// The object specified in the Marketo flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -4240,6 +4360,7 @@ extension CustomerProfiles {
         /// A list of identifiers for profiles that match.
         public let profileIds: [String]?
 
+        @inlinable
         public init(confidenceScore: Double? = nil, matchId: String? = nil, profileIds: [String]? = nil) {
             self.confidenceScore = confidenceScore
             self.matchId = matchId
@@ -4263,6 +4384,7 @@ extension CustomerProfiles {
         /// The day and time when do you want to start the Identity Resolution Job every week.
         public let jobSchedule: JobSchedule?
 
+        @inlinable
         public init(autoMerging: AutoMerging? = nil, enabled: Bool, exportingConfig: ExportingConfig? = nil, jobSchedule: JobSchedule? = nil) {
             self.autoMerging = autoMerging
             self.enabled = enabled
@@ -4294,6 +4416,7 @@ extension CustomerProfiles {
         /// The day and time when do you want to start the Identity Resolution Job every week.
         public let jobSchedule: JobSchedule?
 
+        @inlinable
         public init(autoMerging: AutoMerging? = nil, enabled: Bool? = nil, exportingConfig: ExportingConfig? = nil, jobSchedule: JobSchedule? = nil) {
             self.autoMerging = autoMerging
             self.enabled = enabled
@@ -4313,6 +4436,7 @@ extension CustomerProfiles {
         /// A single rule level of the MatchRules. Configures how the rule-based matching process should match profiles.
         public let rule: [String]
 
+        @inlinable
         public init(rule: [String]) {
             self.rule = rule
         }
@@ -4341,6 +4465,7 @@ extension CustomerProfiles {
         /// The identifier of the profile to be merged into MainProfileId.
         public let profileIdsToBeMerged: [String]
 
+        @inlinable
         public init(domainName: String, fieldSourceProfileIds: FieldSourceProfileIds? = nil, mainProfileId: String, profileIdsToBeMerged: [String]) {
             self.domainName = domainName
             self.fieldSourceProfileIds = fieldSourceProfileIds
@@ -4381,6 +4506,7 @@ extension CustomerProfiles {
         /// A message that indicates the merge request is complete.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -4396,6 +4522,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]
 
+        @inlinable
         public init(keyName: String, values: [String]) {
             self.keyName = keyName
             self.values = values
@@ -4425,6 +4552,7 @@ extension CustomerProfiles {
         /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode.
         public let target: String?
 
+        @inlinable
         public init(contentType: FieldContentType? = nil, source: String? = nil, target: String? = nil) {
             self.contentType = contentType
             self.source = source
@@ -4451,6 +4579,7 @@ extension CustomerProfiles {
         /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER means that this key can be used to tie an object to a PROFILE, ASSET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
         public let standardIdentifiers: [StandardIdentifier]?
 
+        @inlinable
         public init(fieldNames: [String]? = nil, standardIdentifiers: [StandardIdentifier]? = nil) {
             self.fieldNames = fieldNames
             self.standardIdentifiers = standardIdentifiers
@@ -4522,6 +4651,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
+        @inlinable
         public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, foundByItems: [FoundByKeyValue]? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
@@ -4595,6 +4725,7 @@ extension CustomerProfiles {
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String?
 
+        @inlinable
         public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.domainName = domainName
             self.flowDefinition = flowDefinition
@@ -4673,6 +4804,7 @@ extension CustomerProfiles {
         /// Unique identifier for the workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
@@ -4706,6 +4838,7 @@ extension CustomerProfiles {
         /// The name of the profile object type.
         public let objectTypeName: String
 
+        @inlinable
         public init(domainName: String, object: String, objectTypeName: String) {
             self.domainName = domainName
             self.object = object
@@ -4741,6 +4874,7 @@ extension CustomerProfiles {
         /// The unique identifier of the profile object generated by the service.
         public let profileObjectUniqueKey: String?
 
+        @inlinable
         public init(profileObjectUniqueKey: String? = nil) {
             self.profileObjectUniqueKey = profileObjectUniqueKey
         }
@@ -4776,6 +4910,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException. These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException.
         public let templateId: String?
 
+        @inlinable
         public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.description = description
@@ -4891,6 +5026,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
+        @inlinable
         public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
@@ -4932,6 +5068,7 @@ extension CustomerProfiles {
         /// The amount of time of the specified unit.
         public let value: Int
 
+        @inlinable
         public init(unit: Unit, value: Int) {
             self.unit = unit
             self.value = value
@@ -4962,6 +5099,7 @@ extension CustomerProfiles {
         ///  MatchingRule
         public let maxAllowedRuleLevelForMerging: Int?
 
+        @inlinable
         public init(attributeTypesSelector: AttributeTypesSelector? = nil, conflictResolution: ConflictResolution? = nil, enabled: Bool, exportingConfig: ExportingConfig? = nil, matchingRules: [MatchingRule]? = nil, maxAllowedRuleLevelForMatching: Int? = nil, maxAllowedRuleLevelForMerging: Int? = nil) {
             self.attributeTypesSelector = attributeTypesSelector
             self.conflictResolution = conflictResolution
@@ -5014,6 +5152,7 @@ extension CustomerProfiles {
         /// PENDING   The first status after configuration a rule-based matching rule. If it is an existing domain, the rule-based Identity Resolution waits one hour before creating the matching rule. If it is a new domain, the system will skip the PENDING stage.   IN_PROGRESS   The system is creating the rule-based matching rule. Under this status, the system is evaluating the existing data and you can no longer change the Rule-based matching configuration.   ACTIVE   The rule is ready to use. You can change the rule a day after the status is in ACTIVE.
         public let status: RuleBasedMatchingStatus?
 
+        @inlinable
         public init(attributeTypesSelector: AttributeTypesSelector? = nil, conflictResolution: ConflictResolution? = nil, enabled: Bool? = nil, exportingConfig: ExportingConfig? = nil, matchingRules: [MatchingRule]? = nil, maxAllowedRuleLevelForMatching: Int? = nil, maxAllowedRuleLevelForMerging: Int? = nil, status: RuleBasedMatchingStatus? = nil) {
             self.attributeTypesSelector = attributeTypesSelector
             self.conflictResolution = conflictResolution
@@ -5043,6 +5182,7 @@ extension CustomerProfiles {
         /// The S3 key name of the location where Identity Resolution Jobs write result files.
         public let s3KeyName: String?
 
+        @inlinable
         public init(s3BucketName: String, s3KeyName: String? = nil) {
             self.s3BucketName = s3BucketName
             self.s3KeyName = s3KeyName
@@ -5069,6 +5209,7 @@ extension CustomerProfiles {
         /// The S3 key name of the location where Identity Resolution Jobs write result files.
         public let s3KeyName: String?
 
+        @inlinable
         public init(s3BucketName: String? = nil, s3KeyName: String? = nil) {
             self.s3BucketName = s3BucketName
             self.s3KeyName = s3KeyName
@@ -5086,6 +5227,7 @@ extension CustomerProfiles {
         /// The object key for the Amazon S3 bucket in which the source files are stored.
         public let bucketPrefix: String?
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -5113,6 +5255,7 @@ extension CustomerProfiles {
         /// The object specified in the Salesforce flow source.
         public let object: String
 
+        @inlinable
         public init(enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
             self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
             self.includeDeletedRecords = includeDeletedRecords
@@ -5147,6 +5290,7 @@ extension CustomerProfiles {
         /// Specifies the time zone used when referring to the date and time of a scheduled-triggered flow, such as America/New_York.
         public let timezone: String?
 
+        @inlinable
         public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
             self.dataPullMode = dataPullMode
             self.firstExecutionFrom = firstExecutionFrom
@@ -5193,6 +5337,7 @@ extension CustomerProfiles {
         /// A list of key values.
         public let values: [String]
 
+        @inlinable
         public init(additionalSearchKeys: [AdditionalSearchKey]? = nil, domainName: String, keyName: String, logicalOperator: LogicalOperator? = nil, maxResults: Int? = nil, nextToken: String? = nil, values: [String]) {
             self.additionalSearchKeys = additionalSearchKeys
             self.domainName = domainName
@@ -5251,6 +5396,7 @@ extension CustomerProfiles {
         /// The pagination token from the previous SearchProfiles API call.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Profile]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -5266,6 +5412,7 @@ extension CustomerProfiles {
         /// The object specified in the ServiceNow flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -5292,6 +5439,7 @@ extension CustomerProfiles {
         /// The properties that are applied when using Zendesk as a flow source.
         public let zendesk: ZendeskSourceProperties?
 
+        @inlinable
         public init(marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
             self.marketo = marketo
             self.s3 = s3
@@ -5327,6 +5475,7 @@ extension CustomerProfiles {
         /// Specifies the information that is required to query a particular source connector.
         public let sourceConnectorProperties: SourceConnectorProperties
 
+        @inlinable
         public init(connectorProfileName: String? = nil, connectorType: SourceConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
@@ -5355,6 +5504,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5401,6 +5551,7 @@ extension CustomerProfiles {
         /// Specifies the particular task implementation that Amazon AppFlow performs.
         public let taskType: TaskType
 
+        @inlinable
         public init(connectorOperator: ConnectorOperator? = nil, destinationField: String? = nil, sourceFields: [String], taskProperties: [OperatorPropertiesKeys: String]? = nil, taskType: TaskType) {
             self.connectorOperator = connectorOperator
             self.destinationField = destinationField
@@ -5437,6 +5588,7 @@ extension CustomerProfiles {
         /// The value of the threshold.
         public let value: String
 
+        @inlinable
         public init(operator: Operator, value: String) {
             self.`operator` = `operator`
             self.value = value
@@ -5459,6 +5611,7 @@ extension CustomerProfiles {
         /// Specifies the type of flow trigger. It can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType
 
+        @inlinable
         public init(triggerProperties: TriggerProperties? = nil, triggerType: TriggerType) {
             self.triggerProperties = triggerProperties
             self.triggerType = triggerType
@@ -5478,6 +5631,7 @@ extension CustomerProfiles {
         /// Specifies the configuration details of a schedule-triggered flow that you define.
         public let scheduled: ScheduledTriggerProperties?
 
+        @inlinable
         public init(scheduled: ScheduledTriggerProperties? = nil) {
             self.scheduled = scheduled
         }
@@ -5497,6 +5651,7 @@ extension CustomerProfiles {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5550,6 +5705,7 @@ extension CustomerProfiles {
         /// The state in which a customer lives.
         public let state: String?
 
+        @inlinable
         public init(address1: String? = nil, address2: String? = nil, address3: String? = nil, address4: String? = nil, city: String? = nil, country: String? = nil, county: String? = nil, postalCode: String? = nil, province: String? = nil, state: String? = nil) {
             self.address1 = address1
             self.address2 = address2
@@ -5602,6 +5758,7 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(calculatedAttributeName: String, conditions: Conditions? = nil, description: String? = nil, displayName: String? = nil, domainName: String) {
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
@@ -5662,6 +5819,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
@@ -5708,6 +5866,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
@@ -5785,6 +5944,7 @@ extension CustomerProfiles {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
@@ -5862,6 +6022,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: UpdateAddress?
 
+        @inlinable
         public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: UpdateAddress? = nil, attributes: [String: String]? = nil, billingAddress: UpdateAddress? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: UpdateAddress? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String, shippingAddress: UpdateAddress? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
@@ -5984,6 +6145,7 @@ extension CustomerProfiles {
         /// The unique identifier of a customer profile.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -5997,6 +6159,7 @@ extension CustomerProfiles {
         /// Workflow attributes specific to APPFLOW_INTEGRATION workflow.
         public let appflowIntegration: AppflowIntegrationWorkflowAttributes?
 
+        @inlinable
         public init(appflowIntegration: AppflowIntegrationWorkflowAttributes? = nil) {
             self.appflowIntegration = appflowIntegration
         }
@@ -6010,6 +6173,7 @@ extension CustomerProfiles {
         /// Workflow execution metrics for APPFLOW_INTEGRATION workflow.
         public let appflowIntegration: AppflowIntegrationWorkflowMetrics?
 
+        @inlinable
         public init(appflowIntegration: AppflowIntegrationWorkflowMetrics? = nil) {
             self.appflowIntegration = appflowIntegration
         }
@@ -6023,6 +6187,7 @@ extension CustomerProfiles {
         /// Workflow step information specific to APPFLOW_INTEGRATION workflow.
         public let appflowIntegration: AppflowIntegrationWorkflowStep?
 
+        @inlinable
         public init(appflowIntegration: AppflowIntegrationWorkflowStep? = nil) {
             self.appflowIntegration = appflowIntegration
         }
@@ -6036,6 +6201,7 @@ extension CustomerProfiles {
         /// The object specified in the Zendesk flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }

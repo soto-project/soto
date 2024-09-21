@@ -196,6 +196,7 @@ extension ElasticLoadBalancingV2 {
         /// The type of action.
         public let type: ActionTypeEnum?
 
+        @inlinable
         public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, forwardConfig: ForwardActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum? = nil) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
             self.authenticateOidcConfig = authenticateOidcConfig
@@ -233,6 +234,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil, listenerArn: String? = nil) {
             self.certificates = certificates
             self.listenerArn = listenerArn
@@ -249,6 +251,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil) {
             self.certificates = certificates
         }
@@ -266,6 +269,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceArns: [String]? = nil, tags: [Tag]? = nil) {
             self.resourceArns = resourceArns
             self.tags = tags
@@ -295,6 +299,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(revocationContents: [RevocationContent]? = nil, trustStoreArn: String? = nil) {
             self.revocationContents = revocationContents
             self.trustStoreArn = trustStoreArn
@@ -311,6 +316,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TrustStoreRevocation>>
         public var trustStoreRevocations: [TrustStoreRevocation]?
 
+        @inlinable
         public init(trustStoreRevocations: [TrustStoreRevocation]? = nil) {
             self.trustStoreRevocations = trustStoreRevocations
         }
@@ -326,6 +332,7 @@ extension ElasticLoadBalancingV2 {
         /// The latest anomaly detection result.
         public let result: AnomalyResultEnum?
 
+        @inlinable
         public init(mitigationInEffect: MitigationInEffectEnum? = nil, result: AnomalyResultEnum? = nil) {
             self.mitigationInEffect = mitigationInEffect
             self.result = result
@@ -356,6 +363,7 @@ extension ElasticLoadBalancingV2 {
         /// The domain prefix or fully-qualified domain name of the Amazon Cognito user pool.
         public let userPoolDomain: String?
 
+        @inlinable
         public init(authenticationRequestExtraParams: [String: String]? = nil, onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum? = nil, scope: String? = nil, sessionCookieName: String? = nil, sessionTimeout: Int64? = nil, userPoolArn: String? = nil, userPoolClientId: String? = nil, userPoolDomain: String? = nil) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.onUnauthenticatedRequest = onUnauthenticatedRequest
@@ -406,6 +414,7 @@ extension ElasticLoadBalancingV2 {
         /// The user info endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
         public let userInfoEndpoint: String?
 
+        @inlinable
         public init(authenticationRequestExtraParams: [String: String]? = nil, authorizationEndpoint: String? = nil, clientId: String? = nil, clientSecret: String? = nil, issuer: String? = nil, onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum? = nil, scope: String? = nil, sessionCookieName: String? = nil, sessionTimeout: Int64? = nil, tokenEndpoint: String? = nil, useExistingClientSecret: Bool? = nil, userInfoEndpoint: String? = nil) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
@@ -448,6 +457,7 @@ extension ElasticLoadBalancingV2 {
         /// The name of the Availability Zone.
         public let zoneName: String?
 
+        @inlinable
         public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, outpostId: String? = nil, subnetId: String? = nil, zoneName: String? = nil) {
             self.loadBalancerAddresses = loadBalancerAddresses
             self.outpostId = outpostId
@@ -469,6 +479,7 @@ extension ElasticLoadBalancingV2 {
         /// Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates.
         public let isDefault: Bool?
 
+        @inlinable
         public init(certificateArn: String? = nil, isDefault: Bool? = nil) {
             self.certificateArn = certificateArn
             self.isDefault = isDefault
@@ -486,6 +497,7 @@ extension ElasticLoadBalancingV2 {
         /// The priority of the cipher.
         public let priority: Int?
 
+        @inlinable
         public init(name: String? = nil, priority: Int? = nil) {
             self.name = name
             self.priority = priority
@@ -521,6 +533,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, mutualAuthentication: MutualAuthenticationAttributes? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil, tags: [Tag]? = nil) {
             self.alpnPolicy = alpnPolicy
             self.certificates = certificates
@@ -563,6 +576,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Listener>>
         public var listeners: [Listener]?
 
+        @inlinable
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
         }
@@ -596,6 +610,7 @@ extension ElasticLoadBalancingV2 {
         /// The type of load balancer. The default is application.
         public let type: LoadBalancerTypeEnum?
 
+        @inlinable
         public init(customerOwnedIpv4Pool: String? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.ipAddressType = ipAddressType
@@ -635,6 +650,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<LoadBalancer>>
         public var loadBalancers: [LoadBalancer]?
 
+        @inlinable
         public init(loadBalancers: [LoadBalancer]? = nil) {
             self.loadBalancers = loadBalancers
         }
@@ -659,6 +675,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, listenerArn: String? = nil, priority: Int? = nil, tags: [Tag]? = nil) {
             self.actions = actions
             self.conditions = conditions
@@ -696,6 +713,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
+        @inlinable
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -742,6 +760,7 @@ extension ElasticLoadBalancingV2 {
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
         public let vpcId: String?
 
+        @inlinable
         public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, matcher: Matcher? = nil, name: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, tags: [Tag]? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -807,6 +826,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
+        @inlinable
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
         }
@@ -829,6 +849,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(caCertificatesBundleS3Bucket: String? = nil, caCertificatesBundleS3Key: String? = nil, caCertificatesBundleS3ObjectVersion: String? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket
             self.caCertificatesBundleS3Key = caCertificatesBundleS3Key
@@ -861,6 +882,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TrustStore>>
         public var trustStores: [TrustStore]?
 
+        @inlinable
         public init(trustStores: [TrustStore]? = nil) {
             self.trustStores = trustStores
         }
@@ -874,6 +896,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
 
+        @inlinable
         public init(listenerArn: String? = nil) {
             self.listenerArn = listenerArn
         }
@@ -891,6 +914,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
 
+        @inlinable
         public init(loadBalancerArn: String? = nil) {
             self.loadBalancerArn = loadBalancerArn
         }
@@ -908,6 +932,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(ruleArn: String? = nil) {
             self.ruleArn = ruleArn
         }
@@ -927,6 +952,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, trustStoreArn: String? = nil) {
             self.resourceArn = resourceArn
             self.trustStoreArn = trustStoreArn
@@ -946,6 +972,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
 
+        @inlinable
         public init(targetGroupArn: String? = nil) {
             self.targetGroupArn = targetGroupArn
         }
@@ -963,6 +990,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(trustStoreArn: String? = nil) {
             self.trustStoreArn = trustStoreArn
         }
@@ -983,6 +1011,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetDescription>>
         public var targets: [TargetDescription]?
 
+        @inlinable
         public init(targetGroupArn: String? = nil, targets: [TargetDescription]? = nil) {
             self.targetGroupArn = targetGroupArn
             self.targets = targets
@@ -1010,6 +1039,7 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -1033,6 +1063,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
+        @inlinable
         public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
             self.limits = limits
             self.nextMarker = nextMarker
@@ -1048,6 +1079,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
 
+        @inlinable
         public init(listenerArn: String? = nil) {
             self.listenerArn = listenerArn
         }
@@ -1062,6 +1094,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<ListenerAttribute>>
         public var attributes: [ListenerAttribute]?
 
+        @inlinable
         public init(attributes: [ListenerAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -1079,6 +1112,7 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
+        @inlinable
         public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.listenerArn = listenerArn
             self.marker = marker
@@ -1104,6 +1138,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
             self.nextMarker = nextMarker
@@ -1126,6 +1161,7 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
+        @inlinable
         public init(listenerArns: [String]? = nil, loadBalancerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.listenerArns = listenerArns
             self.loadBalancerArn = loadBalancerArn
@@ -1153,6 +1189,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
+        @inlinable
         public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
             self.listeners = listeners
             self.nextMarker = nextMarker
@@ -1168,6 +1205,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
 
+        @inlinable
         public init(loadBalancerArn: String? = nil) {
             self.loadBalancerArn = loadBalancerArn
         }
@@ -1182,6 +1220,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<LoadBalancerAttribute>>
         public var attributes: [LoadBalancerAttribute]?
 
+        @inlinable
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -1203,6 +1242,7 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
+        @inlinable
         public init(loadBalancerArns: [String]? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil) {
             self.loadBalancerArns = loadBalancerArns
             self.marker = marker
@@ -1230,6 +1270,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
 
+        @inlinable
         public init(loadBalancers: [LoadBalancer]? = nil, nextMarker: String? = nil) {
             self.loadBalancers = loadBalancers
             self.nextMarker = nextMarker
@@ -1252,6 +1293,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var ruleArns: [String]?
 
+        @inlinable
         public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil, ruleArns: [String]? = nil) {
             self.listenerArn = listenerArn
             self.marker = marker
@@ -1279,6 +1321,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
+        @inlinable
         public init(nextMarker: String? = nil, rules: [Rule]? = nil) {
             self.nextMarker = nextMarker
             self.rules = rules
@@ -1301,6 +1344,7 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
 
+        @inlinable
         public init(loadBalancerType: LoadBalancerTypeEnum? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil) {
             self.loadBalancerType = loadBalancerType
             self.marker = marker
@@ -1328,6 +1372,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<SslPolicy>>
         public var sslPolicies: [SslPolicy]?
 
+        @inlinable
         public init(nextMarker: String? = nil, sslPolicies: [SslPolicy]? = nil) {
             self.nextMarker = nextMarker
             self.sslPolicies = sslPolicies
@@ -1344,6 +1389,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var resourceArns: [String]?
 
+        @inlinable
         public init(resourceArns: [String]? = nil) {
             self.resourceArns = resourceArns
         }
@@ -1358,6 +1404,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TagDescription>>
         public var tagDescriptions: [TagDescription]?
 
+        @inlinable
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
         }
@@ -1371,6 +1418,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
 
+        @inlinable
         public init(targetGroupArn: String? = nil) {
             self.targetGroupArn = targetGroupArn
         }
@@ -1385,6 +1433,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]?
 
+        @inlinable
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -1408,6 +1457,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var targetGroupArns: [String]?
 
+        @inlinable
         public init(loadBalancerArn: String? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil, targetGroupArns: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
             self.marker = marker
@@ -1437,6 +1487,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
+        @inlinable
         public init(nextMarker: String? = nil, targetGroups: [TargetGroup]? = nil) {
             self.nextMarker = nextMarker
             self.targetGroups = targetGroups
@@ -1458,6 +1509,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetDescription>>
         public var targets: [TargetDescription]?
 
+        @inlinable
         public init(include: [DescribeTargetHealthInputIncludeEnum]? = nil, targetGroupArn: String? = nil, targets: [TargetDescription]? = nil) {
             self.include = include
             self.targetGroupArn = targetGroupArn
@@ -1482,6 +1534,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetHealthDescription>>
         public var targetHealthDescriptions: [TargetHealthDescription]?
 
+        @inlinable
         public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
             self.targetHealthDescriptions = targetHealthDescriptions
         }
@@ -1499,6 +1552,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil, trustStoreArn: String? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -1524,6 +1578,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TrustStoreAssociation>>
         public var trustStoreAssociations: [TrustStoreAssociation]?
 
+        @inlinable
         public init(nextMarker: String? = nil, trustStoreAssociations: [TrustStoreAssociation]? = nil) {
             self.nextMarker = nextMarker
             self.trustStoreAssociations = trustStoreAssociations
@@ -1545,6 +1600,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(numberOfRevokedEntries: Int64? = nil, revocationId: Int64? = nil, revocationType: RevocationType? = nil, trustStoreArn: String? = nil) {
             self.numberOfRevokedEntries = numberOfRevokedEntries
             self.revocationId = revocationId
@@ -1571,6 +1627,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil, revocationIds: [Int64]? = nil, trustStoreArn: String? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -1598,6 +1655,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<DescribeTrustStoreRevocation>>
         public var trustStoreRevocations: [DescribeTrustStoreRevocation]?
 
+        @inlinable
         public init(nextMarker: String? = nil, trustStoreRevocations: [DescribeTrustStoreRevocation]? = nil) {
             self.nextMarker = nextMarker
             self.trustStoreRevocations = trustStoreRevocations
@@ -1621,6 +1679,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var trustStoreArns: [String]?
 
+        @inlinable
         public init(marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil, trustStoreArns: [String]? = nil) {
             self.marker = marker
             self.names = names
@@ -1653,6 +1712,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TrustStore>>
         public var trustStores: [TrustStore]?
 
+        @inlinable
         public init(nextMarker: String? = nil, trustStores: [TrustStore]? = nil) {
             self.nextMarker = nextMarker
             self.trustStores = trustStores
@@ -1672,6 +1732,7 @@ extension ElasticLoadBalancingV2 {
         /// The HTTP response code (2XX, 4XX, or 5XX).
         public let statusCode: String?
 
+        @inlinable
         public init(contentType: String? = nil, messageBody: String? = nil, statusCode: String? = nil) {
             self.contentType = contentType
             self.messageBody = messageBody
@@ -1698,6 +1759,7 @@ extension ElasticLoadBalancingV2 {
         /// The target group stickiness for the rule.
         public let targetGroupStickinessConfig: TargetGroupStickinessConfig?
 
+        @inlinable
         public init(targetGroups: [TargetGroupTuple]? = nil, targetGroupStickinessConfig: TargetGroupStickinessConfig? = nil) {
             self.targetGroups = targetGroups
             self.targetGroupStickinessConfig = targetGroupStickinessConfig
@@ -1713,6 +1775,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -1726,6 +1789,7 @@ extension ElasticLoadBalancingV2 {
         /// The content of the resource policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1739,6 +1803,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(trustStoreArn: String? = nil) {
             self.trustStoreArn = trustStoreArn
         }
@@ -1752,6 +1817,7 @@ extension ElasticLoadBalancingV2 {
         /// The ca certificate bundles Amazon S3 URI.
         public let location: String?
 
+        @inlinable
         public init(location: String? = nil) {
             self.location = location
         }
@@ -1767,6 +1833,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(revocationId: Int64? = nil, trustStoreArn: String? = nil) {
             self.revocationId = revocationId
             self.trustStoreArn = trustStoreArn
@@ -1782,6 +1849,7 @@ extension ElasticLoadBalancingV2 {
         /// The revocation files Amazon S3 URI.
         public let location: String?
 
+        @inlinable
         public init(location: String? = nil) {
             self.location = location
         }
@@ -1796,6 +1864,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
+        @inlinable
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -1812,6 +1881,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
+        @inlinable
         public init(httpHeaderName: String? = nil, values: [String]? = nil) {
             self.httpHeaderName = httpHeaderName
             self.values = values
@@ -1828,6 +1898,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
+        @inlinable
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -1843,6 +1914,7 @@ extension ElasticLoadBalancingV2 {
         /// The name of the limit. The possible values are:   application-load-balancers   condition-values-per-alb-rule   condition-wildcards-per-alb-rule   gateway-load-balancers   gateway-load-balancers-per-vpc   geneve-target-groups   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   target-groups-per-action-on-application-load-balancer   target-groups-per-action-on-network-load-balancer   target-groups-per-application-load-balancer   targets-per-application-load-balancer   targets-per-availability-zone-per-gateway-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer
         public let name: String?
 
+        @inlinable
         public init(max: String? = nil, name: String? = nil) {
             self.max = max
             self.name = name
@@ -1877,6 +1949,7 @@ extension ElasticLoadBalancingV2 {
         /// [HTTPS or TLS listener] The security policy that defines which protocols and ciphers are supported.
         public let sslPolicy: String?
 
+        @inlinable
         public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, mutualAuthentication: MutualAuthenticationAttributes? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
             self.alpnPolicy = alpnPolicy
             self.certificates = certificates
@@ -1908,6 +1981,7 @@ extension ElasticLoadBalancingV2 {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1956,6 +2030,7 @@ extension ElasticLoadBalancingV2 {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dnsName: String? = nil, enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
@@ -2001,6 +2076,7 @@ extension ElasticLoadBalancingV2 {
         /// [Network Load Balancers] The private IPv4 address for an internal load balancer.
         public let privateIPv4Address: String?
 
+        @inlinable
         public init(allocationId: String? = nil, ipAddress: String? = nil, iPv6Address: String? = nil, privateIPv4Address: String? = nil) {
             self.allocationId = allocationId
             self.ipAddress = ipAddress
@@ -2022,6 +2098,7 @@ extension ElasticLoadBalancingV2 {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2045,6 +2122,7 @@ extension ElasticLoadBalancingV2 {
         /// A description of the state.
         public let reason: String?
 
+        @inlinable
         public init(code: LoadBalancerStateEnum? = nil, reason: String? = nil) {
             self.code = code
             self.reason = reason
@@ -2062,6 +2140,7 @@ extension ElasticLoadBalancingV2 {
         /// For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200–399". Note that when using shorthand syntax, some values such as commas need to be escaped.
         public let httpCode: String?
 
+        @inlinable
         public init(grpcCode: String? = nil, httpCode: String? = nil) {
             self.grpcCode = grpcCode
             self.httpCode = httpCode
@@ -2080,6 +2159,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
 
+        @inlinable
         public init(attributes: [ListenerAttribute]? = nil, listenerArn: String? = nil) {
             self.attributes = attributes
             self.listenerArn = listenerArn
@@ -2102,6 +2182,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<ListenerAttribute>>
         public var attributes: [ListenerAttribute]?
 
+        @inlinable
         public init(attributes: [ListenerAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -2132,6 +2213,7 @@ extension ElasticLoadBalancingV2 {
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
 
+        @inlinable
         public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, mutualAuthentication: MutualAuthenticationAttributes? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
             self.alpnPolicy = alpnPolicy
             self.certificates = certificates
@@ -2168,6 +2250,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Listener>>
         public var listeners: [Listener]?
 
+        @inlinable
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
         }
@@ -2184,6 +2267,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
 
+        @inlinable
         public init(attributes: [LoadBalancerAttribute]? = nil, loadBalancerArn: String? = nil) {
             self.attributes = attributes
             self.loadBalancerArn = loadBalancerArn
@@ -2207,6 +2291,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<LoadBalancerAttribute>>
         public var attributes: [LoadBalancerAttribute]?
 
+        @inlinable
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -2226,6 +2311,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String? = nil) {
             self.actions = actions
             self.conditions = conditions
@@ -2253,6 +2339,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
+        @inlinable
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -2269,6 +2356,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
 
+        @inlinable
         public init(attributes: [TargetGroupAttribute]? = nil, targetGroupArn: String? = nil) {
             self.attributes = attributes
             self.targetGroupArn = targetGroupArn
@@ -2291,6 +2379,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]?
 
+        @inlinable
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -2322,6 +2411,7 @@ extension ElasticLoadBalancingV2 {
         /// The number of consecutive health check failures required before considering the target unhealthy.
         public let unhealthyThresholdCount: Int?
 
+        @inlinable
         public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, targetGroupArn: String? = nil, unhealthyThresholdCount: Int? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -2367,6 +2457,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
+        @inlinable
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
         }
@@ -2386,6 +2477,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(caCertificatesBundleS3Bucket: String? = nil, caCertificatesBundleS3Key: String? = nil, caCertificatesBundleS3ObjectVersion: String? = nil, trustStoreArn: String? = nil) {
             self.caCertificatesBundleS3Bucket = caCertificatesBundleS3Bucket
             self.caCertificatesBundleS3Key = caCertificatesBundleS3Key
@@ -2406,6 +2498,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TrustStore>>
         public var trustStores: [TrustStore]?
 
+        @inlinable
         public init(trustStores: [TrustStore]? = nil) {
             self.trustStores = trustStores
         }
@@ -2425,6 +2518,7 @@ extension ElasticLoadBalancingV2 {
         /// Indicates a shared trust stores association status.
         public let trustStoreAssociationStatus: TrustStoreAssociationStatusEnum?
 
+        @inlinable
         public init(ignoreClientCertificateExpiry: Bool? = nil, mode: String? = nil, trustStoreArn: String? = nil, trustStoreAssociationStatus: TrustStoreAssociationStatusEnum? = nil) {
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
@@ -2445,6 +2539,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
+        @inlinable
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -2459,6 +2554,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<QueryStringKeyValuePair>>
         public var values: [QueryStringKeyValuePair]?
 
+        @inlinable
         public init(values: [QueryStringKeyValuePair]? = nil) {
             self.values = values
         }
@@ -2474,6 +2570,7 @@ extension ElasticLoadBalancingV2 {
         /// The value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2499,6 +2596,7 @@ extension ElasticLoadBalancingV2 {
         /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or temporary (HTTP 302).
         public let statusCode: RedirectActionStatusCodeEnum?
 
+        @inlinable
         public init(host: String? = nil, path: String? = nil, port: String? = nil, protocol: String? = nil, query: String? = nil, statusCode: RedirectActionStatusCodeEnum? = nil) {
             self.host = host
             self.path = path
@@ -2534,6 +2632,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<TargetDescription>>
         public var targets: [TargetDescription]?
 
+        @inlinable
         public init(targetGroupArn: String? = nil, targets: [TargetDescription]? = nil) {
             self.targetGroupArn = targetGroupArn
             self.targets = targets
@@ -2562,6 +2661,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil, listenerArn: String? = nil) {
             self.certificates = certificates
             self.listenerArn = listenerArn
@@ -2585,6 +2685,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]?
 
+        @inlinable
         public init(resourceArns: [String]? = nil, tagKeys: [String]? = nil) {
             self.resourceArns = resourceArns
             self.tagKeys = tagKeys
@@ -2615,6 +2716,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(revocationIds: [Int64]? = nil, trustStoreArn: String? = nil) {
             self.revocationIds = revocationIds
             self.trustStoreArn = trustStoreArn
@@ -2640,6 +2742,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon S3 object version of the revocation file.
         public let s3ObjectVersion: String?
 
+        @inlinable
         public init(revocationType: RevocationType? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil) {
             self.revocationType = revocationType
             self.s3Bucket = s3Bucket
@@ -2669,6 +2772,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, isDefault: Bool? = nil, priority: String? = nil, ruleArn: String? = nil) {
             self.actions = actions
             self.conditions = conditions
@@ -2705,6 +2809,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
+        @inlinable
         public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
             self.field = field
             self.hostHeaderConfig = hostHeaderConfig
@@ -2738,6 +2843,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(priority: Int? = nil, ruleArn: String? = nil) {
             self.priority = priority
             self.ruleArn = ruleArn
@@ -2760,6 +2866,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
 
+        @inlinable
         public init(ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil) {
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -2775,6 +2882,7 @@ extension ElasticLoadBalancingV2 {
         /// The IP address type.
         public let ipAddressType: IpAddressType?
 
+        @inlinable
         public init(ipAddressType: IpAddressType? = nil) {
             self.ipAddressType = ipAddressType
         }
@@ -2789,6 +2897,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<RulePriorityPair>>
         public var rulePriorities: [RulePriorityPair]?
 
+        @inlinable
         public init(rulePriorities: [RulePriorityPair]? = nil) {
             self.rulePriorities = rulePriorities
         }
@@ -2809,6 +2918,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
+        @inlinable
         public init(rules: [Rule]? = nil) {
             self.rules = rules
         }
@@ -2827,6 +2937,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
 
+        @inlinable
         public init(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil, loadBalancerArn: String? = nil, securityGroups: [String]? = nil) {
             self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.loadBalancerArn = loadBalancerArn
@@ -2847,6 +2958,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroupIds: [String]?
 
+        @inlinable
         public init(enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum? = nil, securityGroupIds: [String]? = nil) {
             self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.securityGroupIds = securityGroupIds
@@ -2870,6 +2982,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
 
+        @inlinable
         public init(ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil) {
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -2892,6 +3005,7 @@ extension ElasticLoadBalancingV2 {
         /// [Application Load Balancers] The IP address type. [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
         public let ipAddressType: IpAddressType?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil, ipAddressType: IpAddressType? = nil) {
             self.availabilityZones = availabilityZones
             self.ipAddressType = ipAddressType
@@ -2908,6 +3022,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
+        @inlinable
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -2930,6 +3045,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedLoadBalancerTypes: [String]?
 
+        @inlinable
         public init(ciphers: [Cipher]? = nil, name: String? = nil, sslProtocols: [String]? = nil, supportedLoadBalancerTypes: [String]? = nil) {
             self.ciphers = ciphers
             self.name = name
@@ -2955,6 +3071,7 @@ extension ElasticLoadBalancingV2 {
         /// The ID of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(allocationId: String? = nil, iPv6Address: String? = nil, privateIPv4Address: String? = nil, subnetId: String? = nil) {
             self.allocationId = allocationId
             self.iPv6Address = iPv6Address
@@ -2976,6 +3093,7 @@ extension ElasticLoadBalancingV2 {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3002,6 +3120,7 @@ extension ElasticLoadBalancingV2 {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3021,6 +3140,7 @@ extension ElasticLoadBalancingV2 {
         /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This  parameter is not used if the target is a Lambda function.
         public let port: Int?
 
+        @inlinable
         public init(availabilityZone: String? = nil, id: String? = nil, port: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.id = id
@@ -3078,6 +3198,7 @@ extension ElasticLoadBalancingV2 {
         /// The ID of the VPC for the targets.
         public let vpcId: String?
 
+        @inlinable
         public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -3127,6 +3248,7 @@ extension ElasticLoadBalancingV2 {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3149,6 +3271,7 @@ extension ElasticLoadBalancingV2 {
         /// Indicates whether target group stickiness is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(durationSeconds: Int? = nil, enabled: Bool? = nil) {
             self.durationSeconds = durationSeconds
             self.enabled = enabled
@@ -3166,6 +3289,7 @@ extension ElasticLoadBalancingV2 {
         /// The weight. The range is 0 to 999.
         public let weight: Int?
 
+        @inlinable
         public init(targetGroupArn: String? = nil, weight: Int? = nil) {
             self.targetGroupArn = targetGroupArn
             self.weight = weight
@@ -3185,6 +3309,7 @@ extension ElasticLoadBalancingV2 {
         /// The state of the target.
         public let state: TargetHealthStateEnum?
 
+        @inlinable
         public init(description: String? = nil, reason: TargetHealthReasonEnum? = nil, state: TargetHealthStateEnum? = nil) {
             self.description = description
             self.reason = reason
@@ -3208,6 +3333,7 @@ extension ElasticLoadBalancingV2 {
         /// The health information for the target.
         public let targetHealth: TargetHealth?
 
+        @inlinable
         public init(anomalyDetection: AnomalyDetection? = nil, healthCheckPort: String? = nil, target: TargetDescription? = nil, targetHealth: TargetHealth? = nil) {
             self.anomalyDetection = anomalyDetection
             self.healthCheckPort = healthCheckPort
@@ -3235,6 +3361,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(name: String? = nil, numberOfCaCertificates: Int? = nil, status: TrustStoreStatus? = nil, totalRevokedEntries: Int64? = nil, trustStoreArn: String? = nil) {
             self.name = name
             self.numberOfCaCertificates = numberOfCaCertificates
@@ -3256,6 +3383,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -3275,6 +3403,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(numberOfRevokedEntries: Int64? = nil, revocationId: Int64? = nil, revocationType: RevocationType? = nil, trustStoreArn: String? = nil) {
             self.numberOfRevokedEntries = numberOfRevokedEntries
             self.revocationId = revocationId

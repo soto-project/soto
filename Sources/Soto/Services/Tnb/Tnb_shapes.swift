@@ -140,6 +140,7 @@ extension Tnb {
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String
 
+        @inlinable
         public init(nsLcmOpOccId: String) {
             self.nsLcmOpOccId = nsLcmOpOccId
         }
@@ -161,6 +162,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -192,6 +194,7 @@ extension Tnb {
         /// Usage state of the function package.
         public let usageState: UsageState
 
+        @inlinable
         public init(arn: String, id: String, onboardingState: OnboardingState, operationalState: OperationalState, tags: [String: String]? = nil, usageState: UsageState) {
             self.arn = arn
             self.id = id
@@ -221,6 +224,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nsDescription: String? = nil, nsdInfoId: String, nsName: String, tags: [String: String]? = nil) {
             self.nsDescription = nsDescription
             self.nsdInfoId = nsdInfoId
@@ -257,6 +261,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, id: String, nsdInfoId: String, nsInstanceName: String, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -278,6 +283,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -309,6 +315,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, id: String, nsdOnboardingState: NsdOnboardingState, nsdOperationalState: NsdOperationalState, nsdUsageState: NsdUsageState, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -332,6 +339,7 @@ extension Tnb {
         /// ID of the function package.
         public let vnfPkgId: String
 
+        @inlinable
         public init(vnfPkgId: String) {
             self.vnfPkgId = vnfPkgId
         }
@@ -353,6 +361,7 @@ extension Tnb {
         /// Network instance ID.
         public let nsInstanceId: String
 
+        @inlinable
         public init(nsInstanceId: String) {
             self.nsInstanceId = nsInstanceId
         }
@@ -374,6 +383,7 @@ extension Tnb {
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
+        @inlinable
         public init(nsdInfoId: String) {
             self.nsdInfoId = nsdInfoId
         }
@@ -397,6 +407,7 @@ extension Tnb {
         /// Error details.
         public let details: String?
 
+        @inlinable
         public init(cause: String? = nil, details: String? = nil) {
             self.cause = cause
             self.details = details
@@ -412,6 +423,7 @@ extension Tnb {
         /// Lists of function package overrides.
         public let overrides: [ToscaOverride]?
 
+        @inlinable
         public init(overrides: [ToscaOverride]? = nil) {
             self.overrides = overrides
         }
@@ -425,6 +437,7 @@ extension Tnb {
         /// ID of the network function.
         public let vnfInstanceId: String
 
+        @inlinable
         public init(vnfInstanceId: String) {
             self.vnfInstanceId = vnfInstanceId
         }
@@ -448,6 +461,7 @@ extension Tnb {
         /// The date that the resource was last modified.
         public let lastModified: Date
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -483,6 +497,7 @@ extension Tnb {
         /// Network function provider.
         public let vnfProvider: String?
 
+        @inlinable
         public init(arn: String, id: String, instantiatedVnfInfo: GetSolVnfInfo? = nil, instantiationState: VnfInstantiationState, metadata: GetSolFunctionInstanceMetadata, nsInstanceId: String, tags: [String: String]? = nil, vnfdId: String, vnfdVersion: String? = nil, vnfPkgId: String, vnfProductName: String? = nil, vnfProvider: String? = nil) {
             self.arn = arn
             self.id = id
@@ -520,6 +535,7 @@ extension Tnb {
         /// ID of the function package.
         public let vnfPkgId: String
 
+        @inlinable
         public init(accept: PackageContentType, vnfPkgId: String) {
             self.accept = accept
             self.vnfPkgId = vnfPkgId
@@ -546,6 +562,7 @@ extension Tnb {
         /// Contents of the function package.
         public let packageContent: AWSHTTPBody
 
+        @inlinable
         public init(contentType: PackageContentType? = nil, packageContent: AWSHTTPBody) {
             self.contentType = contentType
             self.packageContent = packageContent
@@ -567,6 +584,7 @@ extension Tnb {
         /// ID of the function package.
         public let vnfPkgId: String
 
+        @inlinable
         public init(accept: DescriptorContentType, vnfPkgId: String) {
             self.accept = accept
             self.vnfPkgId = vnfPkgId
@@ -593,6 +611,7 @@ extension Tnb {
         /// Contents of the function package descriptor.
         public let vnfd: AWSHTTPBody
 
+        @inlinable
         public init(contentType: DescriptorContentType? = nil, vnfd: AWSHTTPBody) {
             self.contentType = contentType
             self.vnfd = vnfd
@@ -612,6 +631,7 @@ extension Tnb {
         /// ID of the function package.
         public let vnfPkgId: String
 
+        @inlinable
         public init(vnfPkgId: String) {
             self.vnfPkgId = vnfPkgId
         }
@@ -637,6 +657,7 @@ extension Tnb {
         /// Metadata related to the function package descriptor of the function package.
         public let vnfd: FunctionArtifactMeta?
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date, vnfd: FunctionArtifactMeta? = nil) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -673,6 +694,7 @@ extension Tnb {
         /// Network function provider.
         public let vnfProvider: String?
 
+        @inlinable
         public init(arn: String, id: String, metadata: GetSolFunctionPackageMetadata? = nil, onboardingState: OnboardingState, operationalState: OperationalState, tags: [String: String]? = nil, usageState: UsageState, vnfdId: String? = nil, vnfdVersion: String? = nil, vnfProductName: String? = nil, vnfProvider: String? = nil) {
             self.arn = arn
             self.id = id
@@ -706,6 +728,7 @@ extension Tnb {
         /// State of the network function.
         public let vnfState: VnfOperationalState?
 
+        @inlinable
         public init(vnfState: VnfOperationalState? = nil) {
             self.vnfState = vnfState
         }
@@ -719,6 +742,7 @@ extension Tnb {
         /// ID of the network instance.
         public let nsInstanceId: String
 
+        @inlinable
         public init(nsInstanceId: String) {
             self.nsInstanceId = nsInstanceId
         }
@@ -742,6 +766,7 @@ extension Tnb {
         /// The date that the resource was last modified.
         public let lastModified: Date
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -773,6 +798,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, id: String, lcmOpInfo: LcmOperationInfo? = nil, metadata: GetSolNetworkInstanceMetadata, nsdId: String, nsdInfoId: String, nsInstanceDescription: String, nsInstanceName: String, nsState: NsState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -804,6 +830,7 @@ extension Tnb {
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String
 
+        @inlinable
         public init(nsLcmOpOccId: String) {
             self.nsLcmOpOccId = nsLcmOpOccId
         }
@@ -833,6 +860,7 @@ extension Tnb {
         /// Metadata related to the network operation occurrence for network instance updates. This is populated only if the lcmOperationType is UPDATE and the updateType is UPDATE_NS.
         public let updateNsMetadata: UpdateNsMetadata?
 
+        @inlinable
         public init(createdAt: Date, instantiateMetadata: InstantiateMetadata? = nil, lastModified: Date, modifyVnfInfoMetadata: ModifyVnfInfoMetadata? = nil, updateNsMetadata: UpdateNsMetadata? = nil) {
             self.createdAt = createdAt
             self.instantiateMetadata = instantiateMetadata
@@ -872,6 +900,7 @@ extension Tnb {
         /// Type of the update. Only present if the network operation lcmOperationType is UPDATE.
         public let updateType: UpdateSolNetworkType?
 
+        @inlinable
         public init(arn: String, error: ProblemDetails? = nil, id: String? = nil, lcmOperationType: LcmOperationType? = nil, metadata: GetSolNetworkOperationMetadata? = nil, nsInstanceId: String? = nil, operationState: NsLcmOperationState? = nil, tags: [String: String]? = nil, tasks: [GetSolNetworkOperationTaskDetails]? = nil, updateType: UpdateSolNetworkType? = nil) {
             self.arn = arn
             self.error = error
@@ -913,6 +942,7 @@ extension Tnb {
         /// Task status.
         public let taskStatus: TaskStatus?
 
+        @inlinable
         public init(taskContext: [String: String]? = nil, taskEndTime: Date? = nil, taskErrorDetails: ErrorInfo? = nil, taskName: String? = nil, taskStartTime: Date? = nil, taskStatus: TaskStatus? = nil) {
             self.taskContext = taskContext
             self.taskEndTime = taskEndTime
@@ -938,6 +968,7 @@ extension Tnb {
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
+        @inlinable
         public init(accept: PackageContentType, nsdInfoId: String) {
             self.accept = accept
             self.nsdInfoId = nsdInfoId
@@ -964,6 +995,7 @@ extension Tnb {
         /// Content of the network service descriptor in the network package.
         public let nsdContent: AWSHTTPBody
 
+        @inlinable
         public init(contentType: PackageContentType? = nil, nsdContent: AWSHTTPBody) {
             self.contentType = contentType
             self.nsdContent = nsdContent
@@ -983,6 +1015,7 @@ extension Tnb {
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
+        @inlinable
         public init(nsdInfoId: String) {
             self.nsdInfoId = nsdInfoId
         }
@@ -1007,6 +1040,7 @@ extension Tnb {
         /// Contents of the network service descriptor in the network package.
         public let nsd: AWSHTTPBody
 
+        @inlinable
         public init(contentType: DescriptorContentType? = nil, nsd: AWSHTTPBody) {
             self.contentType = contentType
             self.nsd = nsd
@@ -1026,6 +1060,7 @@ extension Tnb {
         /// ID of the network service descriptor in the network package.
         public let nsdInfoId: String
 
+        @inlinable
         public init(nsdInfoId: String) {
             self.nsdInfoId = nsdInfoId
         }
@@ -1051,6 +1086,7 @@ extension Tnb {
         /// Metadata related to the onboarded network service descriptor in the network package.
         public let nsd: NetworkArtifactMeta?
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date, nsd: NetworkArtifactMeta? = nil) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -1087,6 +1123,7 @@ extension Tnb {
         /// Identifies the function package for the function package descriptor referenced by the onboarded network package.
         public let vnfPkgIds: [String]
 
+        @inlinable
         public init(arn: String, id: String, metadata: GetSolNetworkPackageMetadata, nsdId: String, nsdName: String, nsdOnboardingState: NsdOnboardingState, nsdOperationalState: NsdOperationalState, nsdUsageState: NsdUsageState, nsdVersion: String, tags: [String: String]? = nil, vnfPkgIds: [String]) {
             self.arn = arn
             self.id = id
@@ -1122,6 +1159,7 @@ extension Tnb {
         /// State of the network function instance.
         public let vnfState: VnfOperationalState?
 
+        @inlinable
         public init(vnfcResourceInfo: [GetSolVnfcResourceInfo]? = nil, vnfState: VnfOperationalState? = nil) {
             self.vnfcResourceInfo = vnfcResourceInfo
             self.vnfState = vnfState
@@ -1137,6 +1175,7 @@ extension Tnb {
         /// The metadata of the network function compute.
         public let metadata: GetSolVnfcResourceInfoMetadata?
 
+        @inlinable
         public init(metadata: GetSolVnfcResourceInfoMetadata? = nil) {
             self.metadata = metadata
         }
@@ -1154,6 +1193,7 @@ extension Tnb {
         /// Information about the node group.
         public let nodeGroup: String?
 
+        @inlinable
         public init(cluster: String? = nil, helmChart: String? = nil, nodeGroup: String? = nil) {
             self.cluster = cluster
             self.helmChart = helmChart
@@ -1173,6 +1213,7 @@ extension Tnb {
         /// The network service descriptor used for instantiating the network instance.
         public let nsdInfoId: String
 
+        @inlinable
         public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
@@ -1194,6 +1235,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(additionalParamsForNs: String? = nil, dryRun: Bool? = nil, nsInstanceId: String, tags: [String: String]? = nil) {
             self.additionalParamsForNs = additionalParamsForNs
             self.dryRun = dryRun
@@ -1231,6 +1273,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nsLcmOpOccId: String, tags: [String: String]? = nil) {
             self.nsLcmOpOccId = nsLcmOpOccId
             self.tags = tags
@@ -1246,6 +1289,7 @@ extension Tnb {
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String
 
+        @inlinable
         public init(nsLcmOpOccId: String) {
             self.nsLcmOpOccId = nsLcmOpOccId
         }
@@ -1272,6 +1316,7 @@ extension Tnb {
         /// Function package name.
         public let vnfPkgName: String?
 
+        @inlinable
         public init(arn: String, id: String, instantiatedVnfInfo: GetSolInstantiatedVnfInfo? = nil, instantiationState: VnfInstantiationState, metadata: ListSolFunctionInstanceMetadata, nsInstanceId: String, vnfPkgId: String, vnfPkgName: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1301,6 +1346,7 @@ extension Tnb {
         /// When the network function instance was last modified.
         public let lastModified: Date
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -1318,6 +1364,7 @@ extension Tnb {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1339,6 +1386,7 @@ extension Tnb {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(functionInstances: [ListSolFunctionInstanceInfo]? = nil, nextToken: String? = nil) {
             self.functionInstances = functionInstances
             self.nextToken = nextToken
@@ -1372,6 +1420,7 @@ extension Tnb {
         /// Provider of the function package and the function package descriptor.
         public let vnfProvider: String?
 
+        @inlinable
         public init(arn: String, id: String, metadata: ListSolFunctionPackageMetadata? = nil, onboardingState: OnboardingState, operationalState: OperationalState, usageState: UsageState, vnfdId: String? = nil, vnfdVersion: String? = nil, vnfProductName: String? = nil, vnfProvider: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1405,6 +1454,7 @@ extension Tnb {
         /// The date that the resource was last modified.
         public let lastModified: Date
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -1422,6 +1472,7 @@ extension Tnb {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1443,6 +1494,7 @@ extension Tnb {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(functionPackages: [ListSolFunctionPackageInfo], nextToken: String? = nil) {
             self.functionPackages = functionPackages
             self.nextToken = nextToken
@@ -1472,6 +1524,7 @@ extension Tnb {
         /// The state of the network instance.
         public let nsState: NsState
 
+        @inlinable
         public init(arn: String, id: String, metadata: ListSolNetworkInstanceMetadata, nsdId: String, nsdInfoId: String, nsInstanceDescription: String, nsInstanceName: String, nsState: NsState) {
             self.arn = arn
             self.id = id
@@ -1501,6 +1554,7 @@ extension Tnb {
         /// The date that the resource was last modified.
         public let lastModified: Date
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -1518,6 +1572,7 @@ extension Tnb {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1539,6 +1594,7 @@ extension Tnb {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkInstances: [ListSolNetworkInstanceInfo]? = nil, nextToken: String? = nil) {
             self.networkInstances = networkInstances
             self.nextToken = nextToken
@@ -1568,6 +1624,7 @@ extension Tnb {
         /// Type of the update. Only present if the network operation lcmOperationType is UPDATE.
         public let updateType: UpdateSolNetworkType?
 
+        @inlinable
         public init(arn: String, error: ProblemDetails? = nil, id: String, lcmOperationType: LcmOperationType, metadata: ListSolNetworkOperationsMetadata? = nil, nsInstanceId: String, operationState: NsLcmOperationState, updateType: UpdateSolNetworkType? = nil) {
             self.arn = arn
             self.error = error
@@ -1599,6 +1656,7 @@ extension Tnb {
         /// Network instance id filter, to retrieve network operations associated to a network instance.
         public let nsInstanceId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, nsInstanceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1630,6 +1688,7 @@ extension Tnb {
         /// The network function id used for the operation. Only present if the updateType is MODIFY_VNF_INFO.
         public let vnfInstanceId: String?
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date, nsdInfoId: String? = nil, vnfInstanceId: String? = nil) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -1651,6 +1710,7 @@ extension Tnb {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkOperations: [ListSolNetworkOperationsInfo]? = nil, nextToken: String? = nil) {
             self.networkOperations = networkOperations
             self.nextToken = nextToken
@@ -1688,6 +1748,7 @@ extension Tnb {
         /// Identifies the function package for the function package descriptor referenced by the onboarded network package.
         public let vnfPkgIds: [String]?
 
+        @inlinable
         public init(arn: String, id: String, metadata: ListSolNetworkPackageMetadata, nsdDesigner: String? = nil, nsdId: String? = nil, nsdInvariantId: String? = nil, nsdName: String? = nil, nsdOnboardingState: NsdOnboardingState, nsdOperationalState: NsdOperationalState, nsdUsageState: NsdUsageState, nsdVersion: String? = nil, vnfPkgIds: [String]? = nil) {
             self.arn = arn
             self.id = id
@@ -1725,6 +1786,7 @@ extension Tnb {
         /// The date that the resource was last modified.
         public let lastModified: Date
 
+        @inlinable
         public init(createdAt: Date, lastModified: Date) {
             self.createdAt = createdAt
             self.lastModified = lastModified
@@ -1742,6 +1804,7 @@ extension Tnb {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1763,6 +1826,7 @@ extension Tnb {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(networkPackages: [ListSolNetworkPackageInfo], nextToken: String? = nil) {
             self.networkPackages = networkPackages
             self.nextToken = nextToken
@@ -1778,6 +1842,7 @@ extension Tnb {
         /// Resource ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1799,6 +1864,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1814,6 +1880,7 @@ extension Tnb {
         /// The network function instance that was updated in the network instance.
         public let vnfInstanceId: String
 
+        @inlinable
         public init(vnfConfigurableProperties: String, vnfInstanceId: String) {
             self.vnfConfigurableProperties = vnfConfigurableProperties
             self.vnfInstanceId = vnfInstanceId
@@ -1829,6 +1896,7 @@ extension Tnb {
         /// Lists network package overrides.
         public let overrides: [ToscaOverride]?
 
+        @inlinable
         public init(overrides: [ToscaOverride]? = nil) {
             self.overrides = overrides
         }
@@ -1844,6 +1912,7 @@ extension Tnb {
         /// A human-readable title of the problem type.
         public let title: String?
 
+        @inlinable
         public init(detail: String, title: String? = nil) {
             self.detail = detail
             self.title = title
@@ -1863,6 +1932,7 @@ extension Tnb {
         /// Function package ID.
         public let vnfPkgId: String
 
+        @inlinable
         public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, vnfPkgId: String) {
             self.contentType = contentType
             self.file = file
@@ -1887,6 +1957,7 @@ extension Tnb {
     public struct PutSolFunctionPackageContentMetadata: AWSDecodableShape {
         public let vnfd: FunctionArtifactMeta?
 
+        @inlinable
         public init(vnfd: FunctionArtifactMeta? = nil) {
             self.vnfd = vnfd
         }
@@ -1910,6 +1981,7 @@ extension Tnb {
         /// Function provider.
         public let vnfProvider: String
 
+        @inlinable
         public init(id: String, metadata: PutSolFunctionPackageContentMetadata, vnfdId: String, vnfdVersion: String, vnfProductName: String, vnfProvider: String) {
             self.id = id
             self.metadata = metadata
@@ -1937,6 +2009,7 @@ extension Tnb {
         /// Network service descriptor info ID.
         public let nsdInfoId: String
 
+        @inlinable
         public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, nsdInfoId: String) {
             self.contentType = contentType
             self.file = file
@@ -1961,6 +2034,7 @@ extension Tnb {
     public struct PutSolNetworkPackageContentMetadata: AWSDecodableShape {
         public let nsd: NetworkArtifactMeta?
 
+        @inlinable
         public init(nsd: NetworkArtifactMeta? = nil) {
             self.nsd = nsd
         }
@@ -1986,6 +2060,7 @@ extension Tnb {
         /// Function package IDs.
         public let vnfPkgIds: [String]
 
+        @inlinable
         public init(arn: String, id: String, metadata: PutSolNetworkPackageContentMetadata, nsdId: String, nsdName: String, nsdVersion: String, vnfPkgIds: [String]) {
             self.arn = arn
             self.id = id
@@ -2013,6 +2088,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2049,6 +2125,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nsInstanceId: String, tags: [String: String]? = nil) {
             self.nsInstanceId = nsInstanceId
             self.tags = tags
@@ -2081,6 +2158,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nsLcmOpOccId: String? = nil, tags: [String: String]? = nil) {
             self.nsLcmOpOccId = nsLcmOpOccId
             self.tags = tags
@@ -2098,6 +2176,7 @@ extension Tnb {
         /// Name of the TOSCA override.
         public let name: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, name: String? = nil) {
             self.defaultValue = defaultValue
             self.name = name
@@ -2115,6 +2194,7 @@ extension Tnb {
         /// Tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2148,6 +2228,7 @@ extension Tnb {
         /// The network service descriptor used for updating the network instance.
         public let nsdInfoId: String
 
+        @inlinable
         public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
@@ -2165,6 +2246,7 @@ extension Tnb {
         /// ID of the function package.
         public let vnfPkgId: String
 
+        @inlinable
         public init(operationalState: OperationalState, vnfPkgId: String) {
             self.operationalState = operationalState
             self.vnfPkgId = vnfPkgId
@@ -2190,6 +2272,7 @@ extension Tnb {
         /// Operational state of the function package.
         public let operationalState: OperationalState
 
+        @inlinable
         public init(operationalState: OperationalState) {
             self.operationalState = operationalState
         }
@@ -2211,6 +2294,7 @@ extension Tnb {
         /// The type of update.   Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance.   Use the UPDATE_NS update type, to update the network instance to a new network service descriptor.
         public let updateType: UpdateSolNetworkType
 
+        @inlinable
         public init(modifyVnfInfoData: UpdateSolNetworkModify? = nil, nsInstanceId: String, tags: [String: String]? = nil, updateNs: UpdateSolNetworkServiceData? = nil, updateType: UpdateSolNetworkType) {
             self.modifyVnfInfoData = modifyVnfInfoData
             self.nsInstanceId = nsInstanceId
@@ -2254,6 +2338,7 @@ extension Tnb {
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nsLcmOpOccId: String? = nil, tags: [String: String]? = nil) {
             self.nsLcmOpOccId = nsLcmOpOccId
             self.tags = tags
@@ -2271,6 +2356,7 @@ extension Tnb {
         /// ID of the network function instance. A network function instance is a function in a function package .
         public let vnfInstanceId: String
 
+        @inlinable
         public init(vnfConfigurableProperties: String, vnfInstanceId: String) {
             self.vnfConfigurableProperties = vnfConfigurableProperties
             self.vnfInstanceId = vnfInstanceId
@@ -2292,6 +2378,7 @@ extension Tnb {
         /// Operational state of the network service descriptor in the network package.
         public let nsdOperationalState: NsdOperationalState
 
+        @inlinable
         public init(nsdInfoId: String, nsdOperationalState: NsdOperationalState) {
             self.nsdInfoId = nsdInfoId
             self.nsdOperationalState = nsdOperationalState
@@ -2317,6 +2404,7 @@ extension Tnb {
         /// Operational state of the network service descriptor in the network package.
         public let nsdOperationalState: NsdOperationalState
 
+        @inlinable
         public init(nsdOperationalState: NsdOperationalState) {
             self.nsdOperationalState = nsdOperationalState
         }
@@ -2332,6 +2420,7 @@ extension Tnb {
         /// ID of the network service descriptor.
         public let nsdInfoId: String
 
+        @inlinable
         public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
@@ -2355,6 +2444,7 @@ extension Tnb {
         /// Function package ID.
         public let vnfPkgId: String
 
+        @inlinable
         public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, vnfPkgId: String) {
             self.contentType = contentType
             self.file = file
@@ -2379,6 +2469,7 @@ extension Tnb {
     public struct ValidateSolFunctionPackageContentMetadata: AWSDecodableShape {
         public let vnfd: FunctionArtifactMeta?
 
+        @inlinable
         public init(vnfd: FunctionArtifactMeta? = nil) {
             self.vnfd = vnfd
         }
@@ -2402,6 +2493,7 @@ extension Tnb {
         /// Network function provider.
         public let vnfProvider: String
 
+        @inlinable
         public init(id: String, metadata: ValidateSolFunctionPackageContentMetadata, vnfdId: String, vnfdVersion: String, vnfProductName: String, vnfProvider: String) {
             self.id = id
             self.metadata = metadata
@@ -2429,6 +2521,7 @@ extension Tnb {
         /// Network service descriptor file.
         public let nsdInfoId: String
 
+        @inlinable
         public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, nsdInfoId: String) {
             self.contentType = contentType
             self.file = file
@@ -2453,6 +2546,7 @@ extension Tnb {
     public struct ValidateSolNetworkPackageContentMetadata: AWSDecodableShape {
         public let nsd: NetworkArtifactMeta?
 
+        @inlinable
         public init(nsd: NetworkArtifactMeta? = nil) {
             self.nsd = nsd
         }
@@ -2478,6 +2572,7 @@ extension Tnb {
         /// Function package IDs.
         public let vnfPkgIds: [String]
 
+        @inlinable
         public init(arn: String, id: String, metadata: ValidateSolNetworkPackageContentMetadata, nsdId: String, nsdName: String, nsdVersion: String, vnfPkgIds: [String]) {
             self.arn = arn
             self.id = id

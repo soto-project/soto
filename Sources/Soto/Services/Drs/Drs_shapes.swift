@@ -408,6 +408,7 @@ extension Drs {
         /// Account ID of AWS account.
         public let accountID: String?
 
+        @inlinable
         public init(accountID: String? = nil) {
             self.accountID = accountID
         }
@@ -423,6 +424,7 @@ extension Drs {
         /// The Source Network ID to associate with CloudFormation template.
         public let sourceNetworkID: String
 
+        @inlinable
         public init(cfnStackName: String, sourceNetworkID: String) {
             self.cfnStackName = cfnStackName
             self.sourceNetworkID = sourceNetworkID
@@ -447,6 +449,7 @@ extension Drs {
         /// The Source Network association Job.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -462,6 +465,7 @@ extension Drs {
         /// The model name of the CPU.
         public let modelName: String?
 
+        @inlinable
         public init(cores: Int64? = nil, modelName: String? = nil) {
             self.cores = cores
             self.modelName = modelName
@@ -487,6 +491,7 @@ extension Drs {
         /// A mapping between the volumes and their sizes
         public let volumeToVolumeSize: [String: Int64]?
 
+        @inlinable
         public init(dataTimestamp: String? = nil, forceUefi: Bool? = nil, rootVolumeName: String? = nil, volumeToConversionMap: [String: [String: String]]? = nil, volumeToProductCodes: [String: [ProductCode]]? = nil, volumeToVolumeSize: [String: Int64]? = nil) {
             self.dataTimestamp = dataTimestamp
             self.forceUefi = forceUefi
@@ -512,6 +517,7 @@ extension Drs {
         /// A list of tags associated with the extended source server.
         public let tags: [String: String]?
 
+        @inlinable
         public init(sourceServerArn: String, tags: [String: String]? = nil) {
             self.sourceServerArn = sourceServerArn
             self.tags = tags
@@ -537,6 +543,7 @@ extension Drs {
         /// Created extended source server.
         public let sourceServer: SourceServer?
 
+        @inlinable
         public init(sourceServer: SourceServer? = nil) {
             self.sourceServer = sourceServer
         }
@@ -566,6 +573,7 @@ extension Drs {
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -605,6 +613,7 @@ extension Drs {
         /// Created Launch Configuration Template.
         public let launchConfigurationTemplate: LaunchConfigurationTemplate?
 
+        @inlinable
         public init(launchConfigurationTemplate: LaunchConfigurationTemplate? = nil) {
             self.launchConfigurationTemplate = launchConfigurationTemplate
         }
@@ -646,6 +655,7 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool
 
+        @inlinable
         public init(associateDefaultSecurityGroup: Bool, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -721,6 +731,7 @@ extension Drs {
         /// Which VPC ID to protect.
         public let vpcID: String
 
+        @inlinable
         public init(originAccountID: String, originRegion: String, tags: [String: String]? = nil, vpcID: String) {
             self.originAccountID = originAccountID
             self.originRegion = originRegion
@@ -755,6 +766,7 @@ extension Drs {
         /// ID of the created Source Network.
         public let sourceNetworkID: String?
 
+        @inlinable
         public init(sourceNetworkID: String? = nil) {
             self.sourceNetworkID = sourceNetworkID
         }
@@ -770,6 +782,7 @@ extension Drs {
         /// Error in data replication.
         public let rawError: String?
 
+        @inlinable
         public init(error: DataReplicationErrorString? = nil, rawError: String? = nil) {
             self.error = error
             self.rawError = rawError
@@ -799,6 +812,7 @@ extension Drs {
         /// The ARN of the staging Outpost
         public let stagingOutpostArn: String?
 
+        @inlinable
         public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil, stagingOutpostArn: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
@@ -836,6 +850,7 @@ extension Drs {
         /// The status of the volume.
         public let volumeStatus: VolumeStatus?
 
+        @inlinable
         public init(backloggedStorageBytes: Int64? = nil, deviceName: String? = nil, replicatedStorageBytes: Int64? = nil, rescannedStorageBytes: Int64? = nil, totalStorageBytes: Int64? = nil, volumeStatus: VolumeStatus? = nil) {
             self.backloggedStorageBytes = backloggedStorageBytes
             self.deviceName = deviceName
@@ -863,6 +878,7 @@ extension Drs {
         /// The steps of the current attempt to initiate data replication.
         public let steps: [DataReplicationInitiationStep]?
 
+        @inlinable
         public init(nextAttemptDateTime: String? = nil, startDateTime: String? = nil, steps: [DataReplicationInitiationStep]? = nil) {
             self.nextAttemptDateTime = nextAttemptDateTime
             self.startDateTime = startDateTime
@@ -882,6 +898,7 @@ extension Drs {
         /// The status of the step.
         public let status: DataReplicationInitiationStepStatus?
 
+        @inlinable
         public init(name: DataReplicationInitiationStepName? = nil, status: DataReplicationInitiationStepStatus? = nil) {
             self.name = name
             self.status = status
@@ -897,6 +914,7 @@ extension Drs {
         /// The ID of the Job to be deleted.
         public let jobID: String
 
+        @inlinable
         public init(jobID: String) {
             self.jobID = jobID
         }
@@ -920,6 +938,7 @@ extension Drs {
         public let actionId: String
         public let resourceId: String
 
+        @inlinable
         public init(actionId: String, resourceId: String) {
             self.actionId = actionId
             self.resourceId = resourceId
@@ -946,6 +965,7 @@ extension Drs {
         /// The ID of the Launch Configuration Template to be deleted.
         public let launchConfigurationTemplateID: String
 
+        @inlinable
         public init(launchConfigurationTemplateID: String) {
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
         }
@@ -969,6 +989,7 @@ extension Drs {
         /// The ID of the Recovery Instance to be deleted.
         public let recoveryInstanceID: String
 
+        @inlinable
         public init(recoveryInstanceID: String) {
             self.recoveryInstanceID = recoveryInstanceID
         }
@@ -988,6 +1009,7 @@ extension Drs {
         /// The ID of the Replication Configuration Template to be deleted.
         public let replicationConfigurationTemplateID: String
 
+        @inlinable
         public init(replicationConfigurationTemplateID: String) {
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         }
@@ -1011,6 +1033,7 @@ extension Drs {
         /// ID of the Source Network to delete.
         public let sourceNetworkID: String
 
+        @inlinable
         public init(sourceNetworkID: String) {
             self.sourceNetworkID = sourceNetworkID
         }
@@ -1034,6 +1057,7 @@ extension Drs {
         /// The ID of the Source Server to be deleted.
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -1061,6 +1085,7 @@ extension Drs {
         /// The token of the next Job log items to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(jobID: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobID = jobID
             self.maxResults = maxResults
@@ -1088,6 +1113,7 @@ extension Drs {
         /// The token of the next Job log items to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [JobLog]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1107,6 +1133,7 @@ extension Drs {
         /// The token of the next Job to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1134,6 +1161,7 @@ extension Drs {
         /// The end date in a date range query.
         public let toDate: String?
 
+        @inlinable
         public init(fromDate: String? = nil, jobIDs: [String]? = nil, toDate: String? = nil) {
             self.fromDate = fromDate
             self.jobIDs = jobIDs
@@ -1168,6 +1196,7 @@ extension Drs {
         /// The token of the next Job to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Job]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1187,6 +1216,7 @@ extension Drs {
         /// The token of the next Launch Configuration Template to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(launchConfigurationTemplateIDs: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.launchConfigurationTemplateIDs = launchConfigurationTemplateIDs
             self.maxResults = maxResults
@@ -1218,6 +1248,7 @@ extension Drs {
         /// The token of the next Launch Configuration Template to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [LaunchConfigurationTemplate]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1237,6 +1268,7 @@ extension Drs {
         /// The token of the next Recovery Instance to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: DescribeRecoveryInstancesRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1262,6 +1294,7 @@ extension Drs {
         /// An array of Source Server IDs for which associated Recovery Instances should be returned.
         public let sourceServerIDs: [String]?
 
+        @inlinable
         public init(recoveryInstanceIDs: [String]? = nil, sourceServerIDs: [String]? = nil) {
             self.recoveryInstanceIDs = recoveryInstanceIDs
             self.sourceServerIDs = sourceServerIDs
@@ -1293,6 +1326,7 @@ extension Drs {
         /// The token of the next Recovery Instance to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [RecoveryInstance]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1316,6 +1350,7 @@ extension Drs {
         /// Filter Recovery Snapshots by Source Server ID.
         public let sourceServerID: String
 
+        @inlinable
         public init(filters: DescribeRecoverySnapshotsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: RecoverySnapshotsOrder? = nil, sourceServerID: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1348,6 +1383,7 @@ extension Drs {
         /// The end date in a date range query.
         public let toDateTime: String?
 
+        @inlinable
         public init(fromDateTime: String? = nil, toDateTime: String? = nil) {
             self.fromDateTime = fromDateTime
             self.toDateTime = toDateTime
@@ -1374,6 +1410,7 @@ extension Drs {
         /// The token of the next Recovery Snapshot to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [RecoverySnapshot]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1393,6 +1430,7 @@ extension Drs {
         /// The IDs of the Replication Configuration Templates to retrieve. An empty list means all Replication Configuration Templates.
         public let replicationConfigurationTemplateIDs: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1423,6 +1461,7 @@ extension Drs {
         /// The token of the next Replication Configuration Template to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ReplicationConfigurationTemplate]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1442,6 +1481,7 @@ extension Drs {
         /// The token of the next Source Networks to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: DescribeSourceNetworksRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1469,6 +1509,7 @@ extension Drs {
         /// An array of Source Network IDs that should be returned. An empty array means all Source Networks.
         public let sourceNetworkIDs: [String]?
 
+        @inlinable
         public init(originAccountID: String? = nil, originRegion: String? = nil, sourceNetworkIDs: [String]? = nil) {
             self.originAccountID = originAccountID
             self.originRegion = originRegion
@@ -1502,6 +1543,7 @@ extension Drs {
         /// The token of the next Source Networks to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SourceNetwork]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1521,6 +1563,7 @@ extension Drs {
         /// The token of the next Source Server to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1548,6 +1591,7 @@ extension Drs {
         /// An array of staging account IDs that extended source servers belong to. An empty array means all source servers will be shown.
         public let stagingAccountIDs: [String]?
 
+        @inlinable
         public init(hardwareId: String? = nil, sourceServerIDs: [String]? = nil, stagingAccountIDs: [String]? = nil) {
             self.hardwareId = hardwareId
             self.sourceServerIDs = sourceServerIDs
@@ -1583,6 +1627,7 @@ extension Drs {
         /// The token of the next Source Server to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SourceServer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1598,6 +1643,7 @@ extension Drs {
         /// The ID of the Recovery Instance to disconnect.
         public let recoveryInstanceID: String
 
+        @inlinable
         public init(recoveryInstanceID: String) {
             self.recoveryInstanceID = recoveryInstanceID
         }
@@ -1617,6 +1663,7 @@ extension Drs {
         /// The ID of the Source Server to disconnect.
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -1638,6 +1685,7 @@ extension Drs {
         /// The disk or device name.
         public let deviceName: String?
 
+        @inlinable
         public init(bytes: Int64? = nil, deviceName: String? = nil) {
             self.bytes = bytes
             self.deviceName = deviceName
@@ -1653,6 +1701,7 @@ extension Drs {
         /// The Source Network ID to export its CloudFormation template to an S3 bucket.
         public let sourceNetworkID: String
 
+        @inlinable
         public init(sourceNetworkID: String) {
             self.sourceNetworkID = sourceNetworkID
         }
@@ -1672,6 +1721,7 @@ extension Drs {
         /// S3 bucket URL where the Source Network CloudFormation template was exported to.
         public let s3DestinationUrl: String?
 
+        @inlinable
         public init(s3DestinationUrl: String? = nil) {
             self.s3DestinationUrl = s3DestinationUrl
         }
@@ -1685,6 +1735,7 @@ extension Drs {
         /// The ID of the Recovery Instance whose failback replication configuration should be returned.
         public let recoveryInstanceID: String
 
+        @inlinable
         public init(recoveryInstanceID: String) {
             self.recoveryInstanceID = recoveryInstanceID
         }
@@ -1710,6 +1761,7 @@ extension Drs {
         /// Whether to use Private IP for the failback replication of the Recovery Instance.
         public let usePrivateIP: Bool?
 
+        @inlinable
         public init(bandwidthThrottling: Int64? = nil, name: String? = nil, recoveryInstanceID: String, usePrivateIP: Bool? = nil) {
             self.bandwidthThrottling = bandwidthThrottling
             self.name = name
@@ -1729,6 +1781,7 @@ extension Drs {
         /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -1748,6 +1801,7 @@ extension Drs {
         /// The ID of the Source Serve for this Replication Configuration.r
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -1773,6 +1827,7 @@ extension Drs {
         /// vCenter VM path identification hint.
         public let vmWareUuid: String?
 
+        @inlinable
         public init(awsInstanceID: String? = nil, fqdn: String? = nil, hostname: String? = nil, vmWareUuid: String? = nil) {
             self.awsInstanceID = awsInstanceID
             self.fqdn = fqdn
@@ -1818,6 +1873,7 @@ extension Drs {
         /// The type of the Job.
         public let type: JobType?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil, initiatedBy: InitiatedBy? = nil, jobID: String, participatingResources: [ParticipatingResource]? = nil, participatingServers: [ParticipatingServer]? = nil, status: JobStatus? = nil, tags: [String: String]? = nil, type: JobType? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1853,6 +1909,7 @@ extension Drs {
         /// The date and time the log was taken.
         public let logDateTime: String?
 
+        @inlinable
         public init(event: JobLogEvent? = nil, eventData: JobLogEventData? = nil, logDateTime: String? = nil) {
             self.event = event
             self.eventData = eventData
@@ -1880,6 +1937,7 @@ extension Drs {
         /// The ID of a Recovery Instance.
         public let targetInstanceID: String?
 
+        @inlinable
         public init(conversionProperties: ConversionProperties? = nil, conversionServerID: String? = nil, eventResourceData: EventResourceData? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
@@ -1916,6 +1974,7 @@ extension Drs {
         /// Launch action type.
         public let type: LaunchActionType?
 
+        @inlinable
         public init(actionCode: String? = nil, actionId: String? = nil, actionVersion: String? = nil, active: Bool? = nil, category: LaunchActionCategory? = nil, description: String? = nil, name: String? = nil, optional: Bool? = nil, order: Int? = nil, parameters: [String: LaunchActionParameter]? = nil, type: LaunchActionType? = nil) {
             self.actionCode = actionCode
             self.actionId = actionId
@@ -1951,6 +2010,7 @@ extension Drs {
         /// Value.
         public let value: String?
 
+        @inlinable
         public init(type: LaunchActionParameterType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -1978,6 +2038,7 @@ extension Drs {
         /// Run status.
         public let status: LaunchActionRunStatus?
 
+        @inlinable
         public init(action: LaunchAction? = nil, failureReason: String? = nil, runId: String? = nil, status: LaunchActionRunStatus? = nil) {
             self.action = action
             self.failureReason = failureReason
@@ -1997,6 +2058,7 @@ extension Drs {
         /// Launch actions Ids.
         public let actionIds: [String]?
 
+        @inlinable
         public init(actionIds: [String]? = nil) {
             self.actionIds = actionIds
         }
@@ -2021,6 +2083,7 @@ extension Drs {
         /// Time where the AWS Systems Manager was detected as running on the launched instance.
         public let ssmAgentDiscoveryDatetime: String?
 
+        @inlinable
         public init(runs: [LaunchActionRun]? = nil, ssmAgentDiscoveryDatetime: String? = nil) {
             self.runs = runs
             self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
@@ -2054,6 +2117,7 @@ extension Drs {
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -2105,6 +2169,7 @@ extension Drs {
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
             self.copyPrivateIp = copyPrivateIp
@@ -2138,6 +2203,7 @@ extension Drs {
         /// Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback.
         public let launchIntoEC2InstanceID: String?
 
+        @inlinable
         public init(launchIntoEC2InstanceID: String? = nil) {
             self.launchIntoEC2InstanceID = launchIntoEC2InstanceID
         }
@@ -2156,6 +2222,7 @@ extension Drs {
         /// Whether to enable "Bring your own license" or not.
         public let osByol: Bool?
 
+        @inlinable
         public init(osByol: Bool? = nil) {
             self.osByol = osByol
         }
@@ -2177,6 +2244,7 @@ extension Drs {
         /// The date and time this Source Server was last seen by the service.
         public let lastSeenByServiceDateTime: String?
 
+        @inlinable
         public init(addedToServiceDateTime: String? = nil, elapsedReplicationDuration: String? = nil, firstByteDateTime: String? = nil, lastLaunch: LifeCycleLastLaunch? = nil, lastSeenByServiceDateTime: String? = nil) {
             self.addedToServiceDateTime = addedToServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
@@ -2200,6 +2268,7 @@ extension Drs {
         /// Status of Source Server's last launch.
         public let status: LaunchStatus?
 
+        @inlinable
         public init(initiated: LifeCycleLastLaunchInitiated? = nil, status: LaunchStatus? = nil) {
             self.initiated = initiated
             self.status = status
@@ -2219,6 +2288,7 @@ extension Drs {
         /// The Job type that was used to last launch the Source Server.
         public let type: LastLaunchType?
 
+        @inlinable
         public init(apiCallDateTime: String? = nil, jobID: String? = nil, type: LastLaunchType? = nil) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
@@ -2240,6 +2310,7 @@ extension Drs {
         /// The Id of the staging Account to retrieve extensible source servers from.
         public let stagingAccountID: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stagingAccountID: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2268,6 +2339,7 @@ extension Drs {
         /// The token of the next extensible source server to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [StagingSourceServer]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2288,6 +2360,7 @@ extension Drs {
         public let nextToken: String?
         public let resourceId: String
 
+        @inlinable
         public init(filters: LaunchActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2317,6 +2390,7 @@ extension Drs {
         /// Next token returned when listing resource launch actions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [LaunchAction]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2334,6 +2408,7 @@ extension Drs {
         /// The token of the next staging Account to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2359,6 +2434,7 @@ extension Drs {
         /// The token of the next staging Account to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
@@ -2374,6 +2450,7 @@ extension Drs {
         /// The ARN of the resource whose tags should be returned.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2397,6 +2474,7 @@ extension Drs {
         /// The tags of the requested resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2414,6 +2492,7 @@ extension Drs {
         /// The MAC address of the network interface.
         public let macAddress: String?
 
+        @inlinable
         public init(ips: [String]? = nil, isPrimary: Bool? = nil, macAddress: String? = nil) {
             self.ips = ips
             self.isPrimary = isPrimary
@@ -2431,6 +2510,7 @@ extension Drs {
         /// The long name of the Operating System.
         public let fullString: String?
 
+        @inlinable
         public init(fullString: String? = nil) {
             self.fullString = fullString
         }
@@ -2452,6 +2532,7 @@ extension Drs {
         /// The units used to measure the interval and retentionDuration.
         public let units: PITPolicyRuleUnits
 
+        @inlinable
         public init(enabled: Bool? = nil, interval: Int, retentionDuration: Int, ruleID: Int64? = nil, units: PITPolicyRuleUnits) {
             self.enabled = enabled
             self.interval = interval
@@ -2481,6 +2562,7 @@ extension Drs {
         /// The ID of a participating resource.
         public let participatingResourceID: ParticipatingResourceID?
 
+        @inlinable
         public init(launchStatus: LaunchStatus? = nil, participatingResourceID: ParticipatingResourceID? = nil) {
             self.launchStatus = launchStatus
             self.participatingResourceID = participatingResourceID
@@ -2502,6 +2584,7 @@ extension Drs {
         /// The Source Server ID of a participating server.
         public let sourceServerID: String?
 
+        @inlinable
         public init(launchActionsStatus: LaunchActionsStatus? = nil, launchStatus: LaunchStatus? = nil, recoveryInstanceID: String? = nil, sourceServerID: String? = nil) {
             self.launchActionsStatus = launchActionsStatus
             self.launchStatus = launchStatus
@@ -2523,6 +2606,7 @@ extension Drs {
         /// Mode of a product code associated with a volume.
         public let productCodeMode: ProductCodeMode?
 
+        @inlinable
         public init(productCodeId: String? = nil, productCodeMode: ProductCodeMode? = nil) {
             self.productCodeId = productCodeId
             self.productCodeMode = productCodeMode
@@ -2550,6 +2634,7 @@ extension Drs {
         public let parameters: [String: LaunchActionParameter]?
         public let resourceId: String
 
+        @inlinable
         public init(actionCode: String, actionId: String, actionVersion: String, active: Bool, category: LaunchActionCategory, description: String, name: String, optional: Bool, order: Int, parameters: [String: LaunchActionParameter]? = nil, resourceId: String) {
             self.actionCode = actionCode
             self.actionId = actionId
@@ -2624,6 +2709,7 @@ extension Drs {
         /// Launch action type.
         public let type: LaunchActionType?
 
+        @inlinable
         public init(actionCode: String? = nil, actionId: String? = nil, actionVersion: String? = nil, active: Bool? = nil, category: LaunchActionCategory? = nil, description: String? = nil, name: String? = nil, optional: Bool? = nil, order: Int? = nil, parameters: [String: LaunchActionParameter]? = nil, resourceId: String? = nil, type: LaunchActionType? = nil) {
             self.actionCode = actionCode
             self.actionId = actionId
@@ -2689,6 +2775,7 @@ extension Drs {
         /// An array of tags that are associated with the Recovery Instance.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentVersion: String? = nil, arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, originAvailabilityZone: String? = nil, originEnvironment: OriginEnvironment? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceOutpostArn: String? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
             self.agentVersion = agentVersion
             self.arn = arn
@@ -2734,6 +2821,7 @@ extension Drs {
         /// Error in data replication.
         public let rawError: String?
 
+        @inlinable
         public init(error: FailbackReplicationError? = nil, rawError: String? = nil) {
             self.error = error
             self.rawError = rawError
@@ -2763,6 +2851,7 @@ extension Drs {
         /// The ARN of the staging Outpost
         public let stagingOutpostArn: String?
 
+        @inlinable
         public init(dataReplicationError: RecoveryInstanceDataReplicationError? = nil, dataReplicationInitiation: RecoveryInstanceDataReplicationInitiation? = nil, dataReplicationState: RecoveryInstanceDataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil, stagingOutpostArn: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
@@ -2798,6 +2887,7 @@ extension Drs {
         /// The total amount of data to be replicated in bytes.
         public let totalStorageBytes: Int64?
 
+        @inlinable
         public init(backloggedStorageBytes: Int64? = nil, deviceName: String? = nil, replicatedStorageBytes: Int64? = nil, rescannedStorageBytes: Int64? = nil, totalStorageBytes: Int64? = nil) {
             self.backloggedStorageBytes = backloggedStorageBytes
             self.deviceName = deviceName
@@ -2821,6 +2911,7 @@ extension Drs {
         /// The steps of the current attempt to initiate data replication.
         public let steps: [RecoveryInstanceDataReplicationInitiationStep]?
 
+        @inlinable
         public init(startDateTime: String? = nil, steps: [RecoveryInstanceDataReplicationInitiationStep]? = nil) {
             self.startDateTime = startDateTime
             self.steps = steps
@@ -2838,6 +2929,7 @@ extension Drs {
         /// The status of the step.
         public let status: RecoveryInstanceDataReplicationInitiationStepStatus?
 
+        @inlinable
         public init(name: RecoveryInstanceDataReplicationInitiationStepName? = nil, status: RecoveryInstanceDataReplicationInitiationStepStatus? = nil) {
             self.name = name
             self.status = status
@@ -2857,6 +2949,7 @@ extension Drs {
         /// The internal device name of this disk. This is the name that is visible on the machine itself and not from the EC2 console.
         public let internalDeviceName: String?
 
+        @inlinable
         public init(bytes: Int64? = nil, ebsVolumeID: String? = nil, internalDeviceName: String? = nil) {
             self.bytes = bytes
             self.ebsVolumeID = ebsVolumeID
@@ -2892,6 +2985,7 @@ extension Drs {
         /// The state of the failback process that this Recovery Instance is in.
         public let state: FailbackState?
 
+        @inlinable
         public init(agentLastSeenByServiceDateTime: String? = nil, elapsedReplicationDuration: String? = nil, failbackClientID: String? = nil, failbackClientLastSeenByServiceDateTime: String? = nil, failbackInitiationTime: String? = nil, failbackJobID: String? = nil, failbackLaunchType: FailbackLaunchType? = nil, failbackToOriginalServer: Bool? = nil, firstByteDateTime: String? = nil, state: FailbackState? = nil) {
             self.agentLastSeenByServiceDateTime = agentLastSeenByServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
@@ -2935,6 +3029,7 @@ extension Drs {
         /// The amount of RAM in bytes.
         public let ramBytes: Int64?
 
+        @inlinable
         public init(cpus: [CPU]? = nil, disks: [RecoveryInstanceDisk]? = nil, identificationHints: IdentificationHints? = nil, lastUpdatedDateTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, os: OS? = nil, ramBytes: Int64? = nil) {
             self.cpus = cpus
             self.disks = disks
@@ -2964,6 +3059,7 @@ extension Drs {
         /// The status of the last recovery status of this Source Network.
         public let lastRecoveryResult: RecoveryResult?
 
+        @inlinable
         public init(apiCallDateTime: Date? = nil, jobID: String? = nil, lastRecoveryResult: RecoveryResult? = nil) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
@@ -2989,6 +3085,7 @@ extension Drs {
         /// The actual timestamp that the snapshot was taken.
         public let timestamp: String?
 
+        @inlinable
         public init(ebsSnapshots: [String]? = nil, expectedTimestamp: String, snapshotID: String, sourceServerID: String, timestamp: String? = nil) {
             self.ebsSnapshots = ebsSnapshots
             self.expectedTimestamp = expectedTimestamp
@@ -3042,6 +3139,7 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
+        @inlinable
         public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -3097,6 +3195,7 @@ extension Drs {
         /// The throughput to use for the EBS volume in MiB/s. This parameter is valid only for gp3 volumes.
         public let throughput: Int64?
 
+        @inlinable
         public init(deviceName: String? = nil, iops: Int64? = nil, isBootDisk: Bool? = nil, optimizedStagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, throughput: Int64? = nil) {
             self.deviceName = deviceName
             self.iops = iops
@@ -3158,6 +3257,7 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
+        @inlinable
         public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -3203,6 +3303,7 @@ extension Drs {
         /// The ID of the Source Server whose data replication should be retried.
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -3222,6 +3323,7 @@ extension Drs {
         /// The ID of the Recovery Instance that we want to reverse the replication for.
         public let recoveryInstanceID: String
 
+        @inlinable
         public init(recoveryInstanceID: String) {
             self.recoveryInstanceID = recoveryInstanceID
         }
@@ -3241,6 +3343,7 @@ extension Drs {
         /// ARN of created SourceServer.
         public let reversedDirectionSourceServerArn: String?
 
+        @inlinable
         public init(reversedDirectionSourceServerArn: String? = nil) {
             self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
         }
@@ -3260,6 +3363,7 @@ extension Drs {
         /// The ARN of the source Outpost
         public let sourceOutpostArn: String?
 
+        @inlinable
         public init(originAccountID: String? = nil, originAvailabilityZone: String? = nil, originRegion: String? = nil, sourceOutpostArn: String? = nil) {
             self.originAccountID = originAccountID
             self.originAvailabilityZone = originAvailabilityZone
@@ -3299,6 +3403,7 @@ extension Drs {
         /// A list of tags associated with the Source Network.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, cfnStackName: String? = nil, lastRecovery: RecoveryLifeCycle? = nil, launchedVpcID: String? = nil, replicationStatus: ReplicationStatus? = nil, replicationStatusDetails: String? = nil, sourceAccountID: String? = nil, sourceNetworkID: String? = nil, sourceRegion: String? = nil, sourceVpcID: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cfnStackName = cfnStackName
@@ -3338,6 +3443,7 @@ extension Drs {
         /// ID of the recovered VPC following Source Network recovery.
         public let targetVpc: String?
 
+        @inlinable
         public init(sourceNetworkID: String? = nil, sourceVpc: String? = nil, stackName: String? = nil, targetVpc: String? = nil) {
             self.sourceNetworkID = sourceNetworkID
             self.sourceVpc = sourceVpc
@@ -3373,6 +3479,7 @@ extension Drs {
         /// Are EC2 nitro instance types supported when recovering the Source Server.
         public let supportsNitroInstances: Bool?
 
+        @inlinable
         public init(cpus: [CPU]? = nil, disks: [Disk]? = nil, identificationHints: IdentificationHints? = nil, lastUpdatedDateTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, os: OS? = nil, ramBytes: Int64? = nil, recommendedInstanceType: String? = nil, supportsNitroInstances: Bool? = nil) {
             self.cpus = cpus
             self.disks = disks
@@ -3428,6 +3535,7 @@ extension Drs {
         /// The tags associated with the Source Server.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentVersion: String? = nil, arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, replicationDirection: ReplicationDirection? = nil, reversedDirectionSourceServerArn: String? = nil, sourceCloudProperties: SourceCloudProperties? = nil, sourceNetworkID: String? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, stagingArea: StagingArea? = nil, tags: [String: String]? = nil) {
             self.agentVersion = agentVersion
             self.arn = arn
@@ -3473,6 +3581,7 @@ extension Drs {
         /// Status of Source server extension. Possible values: (a) NOT_EXTENDED - This is a source server that is replicating in the current account. (b) EXTENDED - Source server is extended from a staging source server. In this case, the value of stagingSourceServerArn is pointing to the Arn of the source server in the staging account. (c) EXTENSION_ERROR - Some issue occurred when accessing staging source server. In this case, errorMessage field will contain an error message that explains what happened.
         public let status: ExtensionStatus?
 
+        @inlinable
         public init(errorMessage: String? = nil, stagingAccountID: String? = nil, stagingSourceServerArn: String? = nil, status: ExtensionStatus? = nil) {
             self.errorMessage = errorMessage
             self.stagingAccountID = stagingAccountID
@@ -3496,6 +3605,7 @@ extension Drs {
         /// A list of tags associated with the staging source server.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, hostname: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.hostname = hostname
@@ -3515,6 +3625,7 @@ extension Drs {
         /// The tags to be associated with the failback launch Job.
         public let tags: [String: String]?
 
+        @inlinable
         public init(recoveryInstanceIDs: [String], tags: [String: String]? = nil) {
             self.recoveryInstanceIDs = recoveryInstanceIDs
             self.tags = tags
@@ -3544,6 +3655,7 @@ extension Drs {
         /// The failback launch Job.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -3561,6 +3673,7 @@ extension Drs {
         /// The tags to be associated with the Recovery Job.
         public let tags: [String: String]?
 
+        @inlinable
         public init(isDrill: Bool? = nil, sourceServers: [StartRecoveryRequestSourceServer], tags: [String: String]? = nil) {
             self.isDrill = isDrill
             self.sourceServers = sourceServers
@@ -3592,6 +3705,7 @@ extension Drs {
         /// The ID of the Source Server you want to recover.
         public let sourceServerID: String
 
+        @inlinable
         public init(recoverySnapshotID: String? = nil, sourceServerID: String) {
             self.recoverySnapshotID = recoverySnapshotID
             self.sourceServerID = sourceServerID
@@ -3616,6 +3730,7 @@ extension Drs {
         /// The Recovery Job.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -3629,6 +3744,7 @@ extension Drs {
         /// The ID of the Source Server to start replication for.
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -3648,6 +3764,7 @@ extension Drs {
         /// The Source Server that this action was targeted on.
         public let sourceServer: SourceServer?
 
+        @inlinable
         public init(sourceServer: SourceServer? = nil) {
             self.sourceServer = sourceServer
         }
@@ -3665,6 +3782,7 @@ extension Drs {
         /// The tags to be associated with the Source Network recovery Job.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deployAsNew: Bool? = nil, sourceNetworks: [StartSourceNetworkRecoveryRequestNetworkEntry], tags: [String: String]? = nil) {
             self.deployAsNew = deployAsNew
             self.sourceNetworks = sourceNetworks
@@ -3696,6 +3814,7 @@ extension Drs {
         /// The ID of the Source Network you want to recover.
         public let sourceNetworkID: String
 
+        @inlinable
         public init(cfnStackName: String? = nil, sourceNetworkID: String) {
             self.cfnStackName = cfnStackName
             self.sourceNetworkID = sourceNetworkID
@@ -3720,6 +3839,7 @@ extension Drs {
         /// The Source Network recovery Job.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -3733,6 +3853,7 @@ extension Drs {
         /// ID of the Source Network to replicate.
         public let sourceNetworkID: String
 
+        @inlinable
         public init(sourceNetworkID: String) {
             self.sourceNetworkID = sourceNetworkID
         }
@@ -3752,6 +3873,7 @@ extension Drs {
         /// Source Network which was requested for replication.
         public let sourceNetwork: SourceNetwork?
 
+        @inlinable
         public init(sourceNetwork: SourceNetwork? = nil) {
             self.sourceNetwork = sourceNetwork
         }
@@ -3765,6 +3887,7 @@ extension Drs {
         /// The ID of the Recovery Instance we want to stop failback for.
         public let recoveryInstanceID: String
 
+        @inlinable
         public init(recoveryInstanceID: String) {
             self.recoveryInstanceID = recoveryInstanceID
         }
@@ -3784,6 +3907,7 @@ extension Drs {
         /// The ID of the Source Server to stop replication for.
         public let sourceServerID: String
 
+        @inlinable
         public init(sourceServerID: String) {
             self.sourceServerID = sourceServerID
         }
@@ -3803,6 +3927,7 @@ extension Drs {
         /// The Source Server that this action was targeted on.
         public let sourceServer: SourceServer?
 
+        @inlinable
         public init(sourceServer: SourceServer? = nil) {
             self.sourceServer = sourceServer
         }
@@ -3816,6 +3941,7 @@ extension Drs {
         /// ID of the Source Network to stop replication.
         public let sourceNetworkID: String
 
+        @inlinable
         public init(sourceNetworkID: String) {
             self.sourceNetworkID = sourceNetworkID
         }
@@ -3835,6 +3961,7 @@ extension Drs {
         /// Source Network which was requested to stop replication.
         public let sourceNetwork: SourceNetwork?
 
+        @inlinable
         public init(sourceNetwork: SourceNetwork? = nil) {
             self.sourceNetwork = sourceNetwork
         }
@@ -3850,6 +3977,7 @@ extension Drs {
         /// Array of tags to be added or updated.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3881,6 +4009,7 @@ extension Drs {
         /// The IDs of the Recovery Instances that should be terminated.
         public let recoveryInstanceIDs: [String]
 
+        @inlinable
         public init(recoveryInstanceIDs: [String]) {
             self.recoveryInstanceIDs = recoveryInstanceIDs
         }
@@ -3904,6 +4033,7 @@ extension Drs {
         /// The Job for terminating the Recovery Instances.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -3919,6 +4049,7 @@ extension Drs {
         /// Array of tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3953,6 +4084,7 @@ extension Drs {
         /// Whether to use Private IP for the failback replication of the Recovery Instance.
         public let usePrivateIP: Bool?
 
+        @inlinable
         public init(bandwidthThrottling: Int64? = nil, name: String? = nil, recoveryInstanceID: String, usePrivateIP: Bool? = nil) {
             self.bandwidthThrottling = bandwidthThrottling
             self.name = name
@@ -3996,6 +4128,7 @@ extension Drs {
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -4049,6 +4182,7 @@ extension Drs {
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
+        @inlinable
         public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -4087,6 +4221,7 @@ extension Drs {
         /// Updated Launch Configuration Template.
         public let launchConfigurationTemplate: LaunchConfigurationTemplate?
 
+        @inlinable
         public init(launchConfigurationTemplate: LaunchConfigurationTemplate? = nil) {
             self.launchConfigurationTemplate = launchConfigurationTemplate
         }
@@ -4132,6 +4267,7 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
+        @inlinable
         public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -4239,6 +4375,7 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
+        @inlinable
         public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
@@ -4312,6 +4449,7 @@ extension Drs {
         /// Source Network properties.
         public let sourceNetworkData: SourceNetworkData?
 
+        @inlinable
         public init(sourceNetworkData: SourceNetworkData? = nil) {
             self.sourceNetworkData = sourceNetworkData
         }
@@ -4325,6 +4463,7 @@ extension Drs {
         /// Source Network ID.
         public let sourceNetworkID: String?
 
+        @inlinable
         public init(sourceNetworkID: String? = nil) {
             self.sourceNetworkID = sourceNetworkID
         }

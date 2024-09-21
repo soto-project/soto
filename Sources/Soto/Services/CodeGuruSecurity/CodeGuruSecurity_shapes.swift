@@ -84,6 +84,7 @@ extension CodeGuruSecurity {
         /// The number of open findings of each severity as of the specified date.
         public let openFindings: FindingMetricsValuePerSeverity?
 
+        @inlinable
         public init(closedFindings: FindingMetricsValuePerSeverity? = nil, date: Date? = nil, meanTimeToClose: FindingMetricsValuePerSeverity? = nil, newFindings: FindingMetricsValuePerSeverity? = nil, openFindings: FindingMetricsValuePerSeverity? = nil) {
             self.closedFindings = closedFindings
             self.date = date
@@ -111,6 +112,7 @@ extension CodeGuruSecurity {
         /// The name of the scan that generated the finding.
         public let scanName: String
 
+        @inlinable
         public init(errorCode: ErrorCode, findingId: String, message: String, scanName: String) {
             self.errorCode = errorCode
             self.findingId = findingId
@@ -130,6 +132,7 @@ extension CodeGuruSecurity {
         /// A list of finding identifiers. Each identifier consists of a scanName and a findingId. You retrieve the findingId when you call GetFindings.
         public let findingIdentifiers: [FindingIdentifier]
 
+        @inlinable
         public init(findingIdentifiers: [FindingIdentifier]) {
             self.findingIdentifiers = findingIdentifiers
         }
@@ -150,6 +153,7 @@ extension CodeGuruSecurity {
         ///  A list of all findings which were successfully fetched.
         public let findings: [Finding]
 
+        @inlinable
         public init(failedFindings: [BatchGetFindingsError], findings: [Finding]) {
             self.failedFindings = failedFindings
             self.findings = findings
@@ -167,6 +171,7 @@ extension CodeGuruSecurity {
         /// The number of open findings in the category.
         public let findingNumber: Int?
 
+        @inlinable
         public init(categoryName: String? = nil, findingNumber: Int? = nil) {
             self.categoryName = categoryName
             self.findingNumber = findingNumber
@@ -184,6 +189,7 @@ extension CodeGuruSecurity {
         /// The code line number.
         public let number: Int?
 
+        @inlinable
         public init(content: String? = nil, number: Int? = nil) {
             self.content = content
             self.number = number
@@ -209,6 +215,7 @@ extension CodeGuruSecurity {
         /// An array of key-value pairs used to tag a scan. A tag is a custom attribute label with two parts:   A tag key. For example, CostCenter, Environment, or Secret. Tag keys are case sensitive.   An optional tag value field. For example, 111122223333, Production, or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(analysisType: AnalysisType? = nil, clientToken: String? = CreateScanRequest.idempotencyToken(), resourceId: ResourceId, scanName: String, scanType: ScanType? = nil, tags: [String: String]? = nil) {
             self.analysisType = analysisType
             self.clientToken = clientToken
@@ -256,6 +263,7 @@ extension CodeGuruSecurity {
         /// The current state of the scan. Returns either InProgress, Successful, or Failed.
         public let scanState: ScanState
 
+        @inlinable
         public init(resourceId: ResourceId, runId: String, scanName: String, scanNameArn: String? = nil, scanState: ScanState) {
             self.resourceId = resourceId
             self.runId = runId
@@ -277,6 +285,7 @@ extension CodeGuruSecurity {
         /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this  scanName when you call CreateScan on the code resource you upload to this URL.
         public let scanName: String
 
+        @inlinable
         public init(scanName: String) {
             self.scanName = scanName
         }
@@ -300,6 +309,7 @@ extension CodeGuruSecurity {
         /// A pre-signed S3 URL. You can upload the code file you want to scan with the required requestHeaders using any HTTP client.
         public let s3Url: String
 
+        @inlinable
         public init(codeArtifactId: String, requestHeaders: [String: String], s3Url: String) {
             self.codeArtifactId = codeArtifactId
             self.requestHeaders = requestHeaders
@@ -317,6 +327,7 @@ extension CodeGuruSecurity {
         /// The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(kmsKeyArn: String? = nil) {
             self.kmsKeyArn = kmsKeyArn
         }
@@ -344,6 +355,7 @@ extension CodeGuruSecurity {
         /// The first line number of the code snippet where the security vulnerability appears in your code.
         public let startLine: Int?
 
+        @inlinable
         public init(codeSnippet: [CodeLine]? = nil, endLine: Int? = nil, name: String? = nil, path: String? = nil, startLine: Int? = nil) {
             self.codeSnippet = codeSnippet
             self.endLine = endLine
@@ -395,6 +407,7 @@ extension CodeGuruSecurity {
         /// An object that describes the detected security vulnerability.
         public let vulnerability: Vulnerability?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, detectorId: String? = nil, detectorName: String? = nil, detectorTags: [String]? = nil, generatorId: String? = nil, id: String? = nil, remediation: Remediation? = nil, resource: Resource? = nil, ruleId: String? = nil, severity: Severity? = nil, status: Status? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil, vulnerability: Vulnerability? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -440,6 +453,7 @@ extension CodeGuruSecurity {
         /// The name of the scan that generated the finding.
         public let scanName: String
 
+        @inlinable
         public init(findingId: String, scanName: String) {
             self.findingId = findingId
             self.scanName = scanName
@@ -463,6 +477,7 @@ extension CodeGuruSecurity {
         /// A numeric value corresponding to a medium severity finding.
         public let medium: Double?
 
+        @inlinable
         public init(critical: Double? = nil, high: Double? = nil, info: Double? = nil, low: Double? = nil, medium: Double? = nil) {
             self.critical = critical
             self.high = high
@@ -488,6 +503,7 @@ extension CodeGuruSecurity {
         /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration. If you do not specify a customer-managed key, returns empty.
         public let encryptionConfig: EncryptionConfig
 
+        @inlinable
         public init(encryptionConfig: EncryptionConfig) {
             self.encryptionConfig = encryptionConfig
         }
@@ -507,6 +523,7 @@ extension CodeGuruSecurity {
         /// The status of the findings you want to get. Pass either Open, Closed, or All.
         public let status: Status?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, scanName: String, status: Status? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -541,6 +558,7 @@ extension CodeGuruSecurity {
         /// A pagination token. You can use this in future calls to GetFindings to continue listing results after the current page.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [Finding]? = nil, nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -556,6 +574,7 @@ extension CodeGuruSecurity {
         /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years.
         public let date: Date
 
+        @inlinable
         public init(date: Date) {
             self.date = date
         }
@@ -573,6 +592,7 @@ extension CodeGuruSecurity {
         /// The summary metrics from the specified date.
         public let metricsSummary: MetricsSummary?
 
+        @inlinable
         public init(metricsSummary: MetricsSummary? = nil) {
             self.metricsSummary = metricsSummary
         }
@@ -588,6 +608,7 @@ extension CodeGuruSecurity {
         /// The name of the scan you want to view details about.
         public let scanName: String
 
+        @inlinable
         public init(runId: String? = nil, scanName: String) {
             self.runId = runId
             self.scanName = scanName
@@ -630,6 +651,7 @@ extension CodeGuruSecurity {
         /// The time when the scan was last updated. Only available for STANDARD scan types.
         public let updatedAt: Date?
 
+        @inlinable
         public init(analysisType: AnalysisType, createdAt: Date, errorMessage: String? = nil, numberOfRevisions: Int64? = nil, runId: String, scanName: String, scanNameArn: String? = nil, scanState: ScanState, updatedAt: Date? = nil) {
             self.analysisType = analysisType
             self.createdAt = createdAt
@@ -665,6 +687,7 @@ extension CodeGuruSecurity {
         /// The start date of the interval which you want to retrieve metrics from. Rounds to the nearest day.
         public let startDate: Date
 
+        @inlinable
         public init(endDate: Date, maxResults: Int? = nil, nextToken: String? = nil, startDate: Date) {
             self.endDate = endDate
             self.maxResults = maxResults
@@ -696,6 +719,7 @@ extension CodeGuruSecurity {
         /// A pagination token. You can use this in future calls to ListFindingMetrics to continue listing results after the current page.
         public let nextToken: String?
 
+        @inlinable
         public init(findingsMetrics: [AccountFindingsMetric]? = nil, nextToken: String? = nil) {
             self.findingsMetrics = findingsMetrics
             self.nextToken = nextToken
@@ -713,6 +737,7 @@ extension CodeGuruSecurity {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -740,6 +765,7 @@ extension CodeGuruSecurity {
         /// A list of ScanSummary objects with information about all scans in an account.
         public let summaries: [ScanSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [ScanSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -755,6 +781,7 @@ extension CodeGuruSecurity {
         /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -778,6 +805,7 @@ extension CodeGuruSecurity {
         /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts:   A tag key. For example, CostCenter, Environment, or Secret. Tag keys are case sensitive.   An optional tag value field. For example, 111122223333, Production, or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -799,6 +827,7 @@ extension CodeGuruSecurity {
         /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open findings.
         public let scansWithMostOpenFindings: [ScanNameWithFindingNum]?
 
+        @inlinable
         public init(categoriesWithMostFindings: [CategoryWithFindingNum]? = nil, date: Date? = nil, openFindings: FindingMetricsValuePerSeverity? = nil, scansWithMostOpenCriticalFindings: [ScanNameWithFindingNum]? = nil, scansWithMostOpenFindings: [ScanNameWithFindingNum]? = nil) {
             self.categoriesWithMostFindings = categoriesWithMostFindings
             self.date = date
@@ -822,6 +851,7 @@ extension CodeGuruSecurity {
         /// The URL address to the recommendation for remediating the finding.
         public let url: String?
 
+        @inlinable
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
@@ -839,6 +869,7 @@ extension CodeGuruSecurity {
         /// A list of SuggestedFix objects. Each object contains information about a suggested code fix to remediate the finding.
         public let suggestedFixes: [SuggestedFix]?
 
+        @inlinable
         public init(recommendation: Recommendation? = nil, suggestedFixes: [SuggestedFix]? = nil) {
             self.recommendation = recommendation
             self.suggestedFixes = suggestedFixes
@@ -856,6 +887,7 @@ extension CodeGuruSecurity {
         /// The identifier for a section of the resource.
         public let subResourceId: String?
 
+        @inlinable
         public init(id: String? = nil, subResourceId: String? = nil) {
             self.id = id
             self.subResourceId = subResourceId
@@ -873,6 +905,7 @@ extension CodeGuruSecurity {
         /// The name of the scan.
         public let scanName: String?
 
+        @inlinable
         public init(findingNumber: Int? = nil, scanName: String? = nil) {
             self.findingNumber = findingNumber
             self.scanName = scanName
@@ -898,6 +931,7 @@ extension CodeGuruSecurity {
         /// The time the scan was last updated. A scan is updated when it is re-run.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date, runId: String, scanName: String, scanNameArn: String? = nil, scanState: ScanState, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.runId = runId
@@ -923,6 +957,7 @@ extension CodeGuruSecurity {
         /// A description of the suggested code fix and why it is being suggested.
         public let description: String?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil) {
             self.code = code
             self.description = description
@@ -940,6 +975,7 @@ extension CodeGuruSecurity {
         /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts:   A tag key. For example, CostCenter, Environment, or Secret. Tag keys are case sensitive.   An optional tag value field. For example, 111122223333, Production, or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -979,6 +1015,7 @@ extension CodeGuruSecurity {
         /// A list of keys for each tag you want to remove from a scan.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1013,6 +1050,7 @@ extension CodeGuruSecurity {
         /// The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for encryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption instead, pass nothing.
         public let encryptionConfig: EncryptionConfig
 
+        @inlinable
         public init(encryptionConfig: EncryptionConfig) {
             self.encryptionConfig = encryptionConfig
         }
@@ -1030,6 +1068,7 @@ extension CodeGuruSecurity {
         /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. If you did not specify a customer-managed KMS key in the request, returns empty.
         public let encryptionConfig: EncryptionConfig
 
+        @inlinable
         public init(encryptionConfig: EncryptionConfig) {
             self.encryptionConfig = encryptionConfig
         }
@@ -1051,6 +1090,7 @@ extension CodeGuruSecurity {
         /// One or more vulnerabilities that are related to the vulnerability being described.
         public let relatedVulnerabilities: [String]?
 
+        @inlinable
         public init(filePath: FilePath? = nil, id: String? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil) {
             self.filePath = filePath
             self.id = id
@@ -1060,6 +1100,7 @@ extension CodeGuruSecurity {
         }
 
         @available(*, deprecated, message: "Members itemCount have been deprecated")
+        @inlinable
         public init(filePath: FilePath? = nil, id: String? = nil, itemCount: Int? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil) {
             self.filePath = filePath
             self.id = id
@@ -1081,6 +1122,7 @@ extension CodeGuruSecurity {
         /// The identifier for the code file uploaded to the resource object. Returned by CreateUploadUrl when you upload resources to be scanned.
         public let codeArtifactId: String?
 
+        @inlinable
         public init(codeArtifactId: String? = nil) {
             self.codeArtifactId = codeArtifactId
         }

@@ -283,6 +283,7 @@ extension MarketplaceCatalog {
         /// A string array of unique entity id values to be filtered on.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -312,6 +313,7 @@ extension MarketplaceCatalog {
         /// The visibility of the AMI product.
         public let visibility: AmiProductVisibilityFilter?
 
+        @inlinable
         public init(entityId: AmiProductEntityIdFilter? = nil, lastModifiedDate: AmiProductLastModifiedDateFilter? = nil, productTitle: AmiProductTitleFilter? = nil, visibility: AmiProductVisibilityFilter? = nil) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
@@ -338,6 +340,7 @@ extension MarketplaceCatalog {
         /// Dates between which the AMI product was last modified.
         public let dateRange: AmiProductLastModifiedDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: AmiProductLastModifiedDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -357,6 +360,7 @@ extension MarketplaceCatalog {
         /// Date before which the AMI product was last modified.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -383,6 +387,7 @@ extension MarketplaceCatalog {
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: AmiProductSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -400,6 +405,7 @@ extension MarketplaceCatalog {
         /// The lifecycle of the AMI product.
         public let visibility: AmiProductVisibilityString?
 
+        @inlinable
         public init(productTitle: String? = nil, visibility: AmiProductVisibilityString? = nil) {
             self.productTitle = productTitle
             self.visibility = visibility
@@ -417,6 +423,7 @@ extension MarketplaceCatalog {
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -445,6 +452,7 @@ extension MarketplaceCatalog {
         /// A string array of unique visibility values to be filtered on.
         public let valueList: [AmiProductVisibilityString]?
 
+        @inlinable
         public init(valueList: [AmiProductVisibilityString]? = nil) {
             self.valueList = valueList
         }
@@ -463,6 +471,7 @@ extension MarketplaceCatalog {
         /// List of entity IDs and the catalogs the entities are present in.
         public let entityRequestList: [EntityRequest]
 
+        @inlinable
         public init(entityRequestList: [EntityRequest]) {
             self.entityRequestList = entityRequestList
         }
@@ -486,6 +495,7 @@ extension MarketplaceCatalog {
         /// A map of errors returned, with EntityId as the key and errorDetail as the value.
         public let errors: [String: BatchDescribeErrorDetail]?
 
+        @inlinable
         public init(entityDetails: [String: EntityDetail]? = nil, errors: [String: BatchDescribeErrorDetail]? = nil) {
             self.entityDetails = entityDetails
             self.errors = errors
@@ -503,6 +513,7 @@ extension MarketplaceCatalog {
         /// The error message returned.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -520,6 +531,7 @@ extension MarketplaceCatalog {
         /// Required. The unique identifier of the StartChangeSet request that you want to cancel.
         public let changeSetId: String
 
+        @inlinable
         public init(catalog: String, changeSetId: String) {
             self.catalog = catalog
             self.changeSetId = changeSetId
@@ -550,6 +562,7 @@ extension MarketplaceCatalog {
         /// The unique identifier for the change set referenced in this request.
         public let changeSetId: String?
 
+        @inlinable
         public init(changeSetArn: String? = nil, changeSetId: String? = nil) {
             self.changeSetArn = changeSetArn
             self.changeSetId = changeSetId
@@ -575,6 +588,7 @@ extension MarketplaceCatalog {
         /// The tags associated with the change.
         public let entityTags: [Tag]?
 
+        @inlinable
         public init(changeName: String? = nil, changeType: String, details: String? = nil, detailsDocument: String? = nil, entity: Entity, entityTags: [Tag]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
@@ -630,6 +644,7 @@ extension MarketplaceCatalog {
         /// The current status of the change set.
         public let status: ChangeStatus?
 
+        @inlinable
         public init(changeSetArn: String? = nil, changeSetId: String? = nil, changeSetName: String? = nil, endTime: String? = nil, entityIdList: [String]? = nil, failureCode: FailureCode? = nil, startTime: String? = nil, status: ChangeStatus? = nil) {
             self.changeSetArn = changeSetArn
             self.changeSetId = changeSetId
@@ -667,6 +682,7 @@ extension MarketplaceCatalog {
         /// An array of ErrorDetail objects associated with the change.
         public let errorDetailList: [ErrorDetail]?
 
+        @inlinable
         public init(changeName: String? = nil, changeType: String? = nil, details: String? = nil, detailsDocument: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
@@ -690,6 +706,7 @@ extension MarketplaceCatalog {
         /// A string array of unique entity id values to be filtered on.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -719,6 +736,7 @@ extension MarketplaceCatalog {
         /// The visibility of the container product.
         public let visibility: ContainerProductVisibilityFilter?
 
+        @inlinable
         public init(entityId: ContainerProductEntityIdFilter? = nil, lastModifiedDate: ContainerProductLastModifiedDateFilter? = nil, productTitle: ContainerProductTitleFilter? = nil, visibility: ContainerProductVisibilityFilter? = nil) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
@@ -745,6 +763,7 @@ extension MarketplaceCatalog {
         /// Dates between which the container product was last modified.
         public let dateRange: ContainerProductLastModifiedDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: ContainerProductLastModifiedDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -764,6 +783,7 @@ extension MarketplaceCatalog {
         /// Date before which the container product was last modified.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -790,6 +810,7 @@ extension MarketplaceCatalog {
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: ContainerProductSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -807,6 +828,7 @@ extension MarketplaceCatalog {
         /// The lifecycle of the product.
         public let visibility: ContainerProductVisibilityString?
 
+        @inlinable
         public init(productTitle: String? = nil, visibility: ContainerProductVisibilityString? = nil) {
             self.productTitle = productTitle
             self.visibility = visibility
@@ -824,6 +846,7 @@ extension MarketplaceCatalog {
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -852,6 +875,7 @@ extension MarketplaceCatalog {
         /// A string array of unique visibility values to be filtered on.
         public let valueList: [ContainerProductVisibilityString]?
 
+        @inlinable
         public init(valueList: [ContainerProductVisibilityString]? = nil) {
             self.valueList = valueList
         }
@@ -870,6 +894,7 @@ extension MarketplaceCatalog {
         /// A string array of unique entity id values to be filtered on.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -899,6 +924,7 @@ extension MarketplaceCatalog {
         /// The visibility of the data product.
         public let visibility: DataProductVisibilityFilter?
 
+        @inlinable
         public init(entityId: DataProductEntityIdFilter? = nil, lastModifiedDate: DataProductLastModifiedDateFilter? = nil, productTitle: DataProductTitleFilter? = nil, visibility: DataProductVisibilityFilter? = nil) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
@@ -925,6 +951,7 @@ extension MarketplaceCatalog {
         /// Dates between which the data product was last modified.
         public let dateRange: DataProductLastModifiedDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: DataProductLastModifiedDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -944,6 +971,7 @@ extension MarketplaceCatalog {
         /// Date before which the data product was last modified.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -970,6 +998,7 @@ extension MarketplaceCatalog {
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: DataProductSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -987,6 +1016,7 @@ extension MarketplaceCatalog {
         /// The lifecycle of the data product.
         public let visibility: DataProductVisibilityString?
 
+        @inlinable
         public init(productTitle: String? = nil, visibility: DataProductVisibilityString? = nil) {
             self.productTitle = productTitle
             self.visibility = visibility
@@ -1004,6 +1034,7 @@ extension MarketplaceCatalog {
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -1032,6 +1063,7 @@ extension MarketplaceCatalog {
         /// A string array of unique visibility values to be filtered on.
         public let valueList: [DataProductVisibilityString]?
 
+        @inlinable
         public init(valueList: [DataProductVisibilityString]? = nil) {
             self.valueList = valueList
         }
@@ -1050,6 +1082,7 @@ extension MarketplaceCatalog {
         /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1079,6 +1112,7 @@ extension MarketplaceCatalog {
         /// Required. The unique identifier for the StartChangeSet request that you want to describe the details for.
         public let changeSetId: String
 
+        @inlinable
         public init(catalog: String, changeSetId: String) {
             self.catalog = catalog
             self.changeSetId = changeSetId
@@ -1125,6 +1159,7 @@ extension MarketplaceCatalog {
         /// The status of the change request.
         public let status: ChangeStatus?
 
+        @inlinable
         public init(changeSet: [ChangeSummary]? = nil, changeSetArn: String? = nil, changeSetId: String? = nil, changeSetName: String? = nil, endTime: String? = nil, failureCode: FailureCode? = nil, failureDescription: String? = nil, intent: Intent? = nil, startTime: String? = nil, status: ChangeStatus? = nil) {
             self.changeSet = changeSet
             self.changeSetArn = changeSetArn
@@ -1158,6 +1193,7 @@ extension MarketplaceCatalog {
         /// Required. The unique ID of the entity to describe.
         public let entityId: String
 
+        @inlinable
         public init(catalog: String, entityId: String) {
             self.catalog = catalog
             self.entityId = entityId
@@ -1196,6 +1232,7 @@ extension MarketplaceCatalog {
         /// The last modified date of the entity, in ISO 8601 format (2018-02-27T13:45:22Z).
         public let lastModifiedDate: String?
 
+        @inlinable
         public init(details: String? = nil, detailsDocument: String? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
             self.details = details
             self.detailsDocument = detailsDocument
@@ -1221,6 +1258,7 @@ extension MarketplaceCatalog {
         /// The type of entity.
         public let type: String
 
+        @inlinable
         public init(identifier: String? = nil, type: String) {
             self.identifier = identifier
             self.type = type
@@ -1253,6 +1291,7 @@ extension MarketplaceCatalog {
         /// The last time the entity was modified.
         public let lastModifiedDate: String?
 
+        @inlinable
         public init(detailsDocument: String? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
             self.detailsDocument = detailsDocument
             self.entityArn = entityArn
@@ -1276,6 +1315,7 @@ extension MarketplaceCatalog {
         /// The ID of the entity.
         public let entityId: String
 
+        @inlinable
         public init(catalog: String, entityId: String) {
             self.catalog = catalog
             self.entityId = entityId
@@ -1322,6 +1362,7 @@ extension MarketplaceCatalog {
         /// The visibility status of the entity to buyers. This value can be Public (everyone can view the entity), Limited (the entity is visible to limited accounts only), or Restricted (the entity was published and then unpublished and only existing buyers can view it).
         public let visibility: String?
 
+        @inlinable
         public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, name: String? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
             self.amiProductSummary = amiProductSummary
             self.containerProductSummary = containerProductSummary
@@ -1359,6 +1400,7 @@ extension MarketplaceCatalog {
         /// The message for the error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1376,6 +1418,7 @@ extension MarketplaceCatalog {
         ///  ListEntities - This is a list of unique EntityIds.  ListChangeSets - The supported filter names and associated ValueLists is as follows:    ChangeSetName - The supported ValueList is a list of non-unique ChangeSetNames. These are defined when you call the StartChangeSet action.    Status - The supported ValueList is a list of statuses for all change set requests.    EntityId - The supported ValueList is a list of unique EntityIds.    BeforeStartTime - The supported ValueList is a list of all change sets that started before the filter value.    AfterStartTime - The supported ValueList is a list of all change sets that started after the filter value.    BeforeEndTime - The supported ValueList is a list of all change sets that ended before the filter value.    AfterEndTime - The supported ValueList is a list of all change sets that ended after the filter value.
         public let valueList: [String]?
 
+        @inlinable
         public init(name: String? = nil, valueList: [String]? = nil) {
             self.name = name
             self.valueList = valueList
@@ -1404,6 +1447,7 @@ extension MarketplaceCatalog {
         /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1427,6 +1471,7 @@ extension MarketplaceCatalog {
         /// The policy document to set; formatted in JSON.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1448,6 +1493,7 @@ extension MarketplaceCatalog {
         /// An object that contains two attributes, SortBy and SortOrder.
         public let sort: Sort?
 
+        @inlinable
         public init(catalog: String, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: Sort? = nil) {
             self.catalog = catalog
             self.filterList = filterList
@@ -1488,6 +1534,7 @@ extension MarketplaceCatalog {
         /// The value of the next token, if it exists. Null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(changeSetSummaryList: [ChangeSetSummaryListItem]? = nil, nextToken: String? = nil) {
             self.changeSetSummaryList = changeSetSummaryList
             self.nextToken = nextToken
@@ -1519,6 +1566,7 @@ extension MarketplaceCatalog {
         /// An object that contains two attributes, SortBy and SortOrder.
         public let sort: Sort?
 
+        @inlinable
         public init(catalog: String, entityType: String, entityTypeFilters: EntityTypeFilters? = nil, entityTypeSort: EntityTypeSort? = nil, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownershipType: OwnershipType? = nil, sort: Sort? = nil) {
             self.catalog = catalog
             self.entityType = entityType
@@ -1571,6 +1619,7 @@ extension MarketplaceCatalog {
         /// The value of the next token if it exists. Null if there is no more result.
         public let nextToken: String?
 
+        @inlinable
         public init(entitySummaryList: [EntitySummary]? = nil, nextToken: String? = nil) {
             self.entitySummaryList = entitySummaryList
             self.nextToken = nextToken
@@ -1586,6 +1635,7 @@ extension MarketplaceCatalog {
         /// Required. The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1607,6 +1657,7 @@ extension MarketplaceCatalog {
         /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1622,6 +1673,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the AvailabilityEndDate of an offer with date range as input.
         public let dateRange: OfferAvailabilityEndDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: OfferAvailabilityEndDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -1641,6 +1693,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the AvailabilityEndDate of an offer before a date.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -1665,6 +1718,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the BuyerAccounts of an offer with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(wildCardValue: String? = nil) {
             self.wildCardValue = wildCardValue
         }
@@ -1684,6 +1738,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on entity id of an offer with list input.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -1725,6 +1780,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the Targeting of an offer.
         public let targeting: OfferTargetingFilter?
 
+        @inlinable
         public init(availabilityEndDate: OfferAvailabilityEndDateFilter? = nil, buyerAccounts: OfferBuyerAccountsFilter? = nil, entityId: OfferEntityIdFilter? = nil, lastModifiedDate: OfferLastModifiedDateFilter? = nil, name: OfferNameFilter? = nil, productId: OfferProductIdFilter? = nil, releaseDate: OfferReleaseDateFilter? = nil, resaleAuthorizationId: OfferResaleAuthorizationIdFilter? = nil, state: OfferStateFilter? = nil, targeting: OfferTargetingFilter? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
@@ -1769,6 +1825,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the LastModifiedDate of an offer with date range as input.
         public let dateRange: OfferLastModifiedDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: OfferLastModifiedDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -1788,6 +1845,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the LastModifiedDate of an offer before a date.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -1814,6 +1872,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the Name of an offer with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -1842,6 +1901,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ProductId of an offer with list input.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -1865,6 +1925,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ReleaseDate of an offer with date range as input.
         public let dateRange: OfferReleaseDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: OfferReleaseDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -1884,6 +1945,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ReleaseDate of offers before a date.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -1908,6 +1970,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ResaleAuthorizationId of an offer with list input.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -1933,6 +1996,7 @@ extension MarketplaceCatalog {
         /// Allows to sort offers.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: OfferSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -1948,6 +2012,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the State of an offer with list input.
         public let valueList: [OfferStateString]?
 
+        @inlinable
         public init(valueList: [OfferStateString]? = nil) {
             self.valueList = valueList
         }
@@ -1980,6 +2045,7 @@ extension MarketplaceCatalog {
         /// The targeting in the offer.
         public let targeting: [OfferTargetingString]?
 
+        @inlinable
         public init(availabilityEndDate: String? = nil, buyerAccounts: [String]? = nil, name: String? = nil, productId: String? = nil, releaseDate: String? = nil, resaleAuthorizationId: String? = nil, state: OfferStateString? = nil, targeting: [OfferTargetingString]? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
@@ -2007,6 +2073,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the Targeting of an offer with list input.
         public let valueList: [OfferTargetingString]?
 
+        @inlinable
         public init(valueList: [OfferTargetingString]? = nil) {
             self.valueList = valueList
         }
@@ -2027,6 +2094,7 @@ extension MarketplaceCatalog {
         /// The Amazon Resource Name (ARN) of the entity resource you want to associate with a resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -2057,6 +2125,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization with date value as input.
         public let valueList: [String]?
 
+        @inlinable
         public init(dateRange: ResaleAuthorizationAvailabilityEndDateFilterDateRange? = nil, valueList: [String]? = nil) {
             self.dateRange = dateRange
             self.valueList = valueList
@@ -2085,6 +2154,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization before a date.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -2111,6 +2181,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on CreatedDate of a ResaleAuthorization with date value as input.
         public let valueList: [String]?
 
+        @inlinable
         public init(dateRange: ResaleAuthorizationCreatedDateFilterDateRange? = nil, valueList: [String]? = nil) {
             self.dateRange = dateRange
             self.valueList = valueList
@@ -2139,6 +2210,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on CreatedDate of a ResaleAuthorization before a date.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -2163,6 +2235,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on EntityId of a ResaleAuthorization with list input.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -2210,6 +2283,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the Status of a ResaleAuthorization.
         public let status: ResaleAuthorizationStatusFilter?
 
+        @inlinable
         public init(availabilityEndDate: ResaleAuthorizationAvailabilityEndDateFilter? = nil, createdDate: ResaleAuthorizationCreatedDateFilter? = nil, entityId: ResaleAuthorizationEntityIdFilter? = nil, lastModifiedDate: ResaleAuthorizationLastModifiedDateFilter? = nil, manufacturerAccountId: ResaleAuthorizationManufacturerAccountIdFilter? = nil, manufacturerLegalName: ResaleAuthorizationManufacturerLegalNameFilter? = nil, name: ResaleAuthorizationNameFilter? = nil, offerExtendedStatus: ResaleAuthorizationOfferExtendedStatusFilter? = nil, productId: ResaleAuthorizationProductIdFilter? = nil, productName: ResaleAuthorizationProductNameFilter? = nil, resellerAccountID: ResaleAuthorizationResellerAccountIDFilter? = nil, resellerLegalName: ResaleAuthorizationResellerLegalNameFilter? = nil, status: ResaleAuthorizationStatusFilter? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
@@ -2263,6 +2337,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization with date range as input.
         public let dateRange: ResaleAuthorizationLastModifiedDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: ResaleAuthorizationLastModifiedDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -2282,6 +2357,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization before a date.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -2308,6 +2384,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2338,6 +2415,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2368,6 +2446,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the Name of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2396,6 +2475,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the OfferExtendedStatus of a ResaleAuthorization with list input.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -2421,6 +2501,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ProductId of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2451,6 +2532,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ProductName of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2481,6 +2563,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ResellerAccountID of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2511,6 +2594,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the ResellerLegalName of a ResaleAuthorization with wild card input.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2541,6 +2625,7 @@ extension MarketplaceCatalog {
         /// Allows to sort ResaleAuthorization.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: ResaleAuthorizationSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -2556,6 +2641,7 @@ extension MarketplaceCatalog {
         /// Allows filtering on the Status of a ResaleAuthorization with list input.
         public let valueList: [ResaleAuthorizationStatusString]?
 
+        @inlinable
         public init(valueList: [ResaleAuthorizationStatusString]? = nil) {
             self.valueList = valueList
         }
@@ -2594,6 +2680,7 @@ extension MarketplaceCatalog {
         /// The status of the ResaleAuthorization.
         public let status: ResaleAuthorizationStatusString?
 
+        @inlinable
         public init(availabilityEndDate: String? = nil, createdDate: String? = nil, manufacturerAccountId: String? = nil, manufacturerLegalName: String? = nil, name: String? = nil, offerExtendedStatus: String? = nil, productId: String? = nil, productName: String? = nil, resellerAccountID: String? = nil, resellerLegalName: String? = nil, status: ResaleAuthorizationStatusString? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
@@ -2627,6 +2714,7 @@ extension MarketplaceCatalog {
         /// A string array of unique entity id values to be filtered on.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -2656,6 +2744,7 @@ extension MarketplaceCatalog {
         /// The visibility of the SaaS product.
         public let visibility: SaaSProductVisibilityFilter?
 
+        @inlinable
         public init(entityId: SaaSProductEntityIdFilter? = nil, lastModifiedDate: SaaSProductLastModifiedDateFilter? = nil, productTitle: SaaSProductTitleFilter? = nil, visibility: SaaSProductVisibilityFilter? = nil) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
@@ -2682,6 +2771,7 @@ extension MarketplaceCatalog {
         /// Dates between which the SaaS product was last modified.
         public let dateRange: SaaSProductLastModifiedDateFilterDateRange?
 
+        @inlinable
         public init(dateRange: SaaSProductLastModifiedDateFilterDateRange? = nil) {
             self.dateRange = dateRange
         }
@@ -2701,6 +2791,7 @@ extension MarketplaceCatalog {
         /// Date before which the SaaS product was last modified.
         public let beforeValue: String?
 
+        @inlinable
         public init(afterValue: String? = nil, beforeValue: String? = nil) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
@@ -2727,6 +2818,7 @@ extension MarketplaceCatalog {
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: SaaSProductSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -2744,6 +2836,7 @@ extension MarketplaceCatalog {
         /// The lifecycle of the SaaS product.
         public let visibility: SaaSProductVisibilityString?
 
+        @inlinable
         public init(productTitle: String? = nil, visibility: SaaSProductVisibilityString? = nil) {
             self.productTitle = productTitle
             self.visibility = visibility
@@ -2761,6 +2854,7 @@ extension MarketplaceCatalog {
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
         public let wildCardValue: String?
 
+        @inlinable
         public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
@@ -2789,6 +2883,7 @@ extension MarketplaceCatalog {
         /// A string array of unique visibility values to be filtered on.
         public let valueList: [SaaSProductVisibilityString]?
 
+        @inlinable
         public init(valueList: [SaaSProductVisibilityString]? = nil) {
             self.valueList = valueList
         }
@@ -2809,6 +2904,7 @@ extension MarketplaceCatalog {
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -2840,6 +2936,7 @@ extension MarketplaceCatalog {
         /// The intent related to the request. The default is APPLY. To test your request before applying changes to your entities, use VALIDATE. This feature is currently available for adding versions to single-AMI products. For more information, see Add a new version.
         public let intent: Intent?
 
+        @inlinable
         public init(catalog: String, changeSet: [Change], changeSetName: String? = nil, changeSetTags: [Tag]? = nil, clientRequestToken: String? = StartChangeSetRequest.idempotencyToken(), intent: Intent? = nil) {
             self.catalog = catalog
             self.changeSet = changeSet
@@ -2887,6 +2984,7 @@ extension MarketplaceCatalog {
         /// Unique identifier generated for the request.
         public let changeSetId: String?
 
+        @inlinable
         public init(changeSetArn: String? = nil, changeSetId: String? = nil) {
             self.changeSetArn = changeSetArn
             self.changeSetId = changeSetId
@@ -2904,6 +3002,7 @@ extension MarketplaceCatalog {
         /// The value associated with the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2929,6 +3028,7 @@ extension MarketplaceCatalog {
         /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2961,6 +3061,7 @@ extension MarketplaceCatalog {
         /// Required. A list of key names of tags to be removed. Number of strings allowed: 0-256.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

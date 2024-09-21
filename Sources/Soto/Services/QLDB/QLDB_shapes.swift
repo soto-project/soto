@@ -91,6 +91,7 @@ extension QLDB {
         /// The UUID (represented in Base62-encoded text) of the QLDB journal stream to be canceled.
         public let streamId: String
 
+        @inlinable
         public init(ledgerName: String, streamId: String) {
             self.ledgerName = ledgerName
             self.streamId = streamId
@@ -119,6 +120,7 @@ extension QLDB {
         /// The UUID (Base62-encoded text) of the canceled QLDB journal stream.
         public let streamId: String?
 
+        @inlinable
         public init(streamId: String? = nil) {
             self.streamId = streamId
         }
@@ -140,6 +142,7 @@ extension QLDB {
         /// The key-value pairs to add as tags to the ledger that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deletionProtection: Bool? = nil, kmsKey: String? = nil, name: String, permissionsMode: PermissionsMode, tags: [String: String]? = nil) {
             self.deletionProtection = deletionProtection
             self.kmsKey = kmsKey
@@ -186,6 +189,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, kmsKeyArn: String? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -211,6 +215,7 @@ extension QLDB {
         /// The name of the ledger that you want to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -236,6 +241,7 @@ extension QLDB {
         /// The UUID (represented in Base62-encoded text) of the QLDB journal stream to describe.
         public let streamId: String
 
+        @inlinable
         public init(ledgerName: String, streamId: String) {
             self.ledgerName = ledgerName
             self.streamId = streamId
@@ -264,6 +270,7 @@ extension QLDB {
         /// Information about the QLDB journal stream returned by a DescribeJournalS3Export request.
         public let stream: JournalKinesisStreamDescription?
 
+        @inlinable
         public init(stream: JournalKinesisStreamDescription? = nil) {
             self.stream = stream
         }
@@ -279,6 +286,7 @@ extension QLDB {
         /// The name of the ledger.
         public let name: String
 
+        @inlinable
         public init(exportId: String, name: String) {
             self.exportId = exportId
             self.name = name
@@ -307,6 +315,7 @@ extension QLDB {
         /// Information about the journal export job returned by a DescribeJournalS3Export request.
         public let exportDescription: JournalS3ExportDescription
 
+        @inlinable
         public init(exportDescription: JournalS3ExportDescription) {
             self.exportDescription = exportDescription
         }
@@ -320,6 +329,7 @@ extension QLDB {
         /// The name of the ledger that you want to describe.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -355,6 +365,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, encryptionDescription: LedgerEncryptionDescription? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -390,6 +401,7 @@ extension QLDB {
         /// The configuration settings of the Amazon S3 bucket destination for your export request.
         public let s3ExportConfiguration: S3ExportConfiguration
 
+        @inlinable
         public init(exclusiveEndTime: Date, inclusiveStartTime: Date, name: String, outputFormat: OutputFormat? = nil, roleArn: String, s3ExportConfiguration: S3ExportConfiguration) {
             self.exclusiveEndTime = exclusiveEndTime
             self.inclusiveStartTime = inclusiveStartTime
@@ -432,6 +444,7 @@ extension QLDB {
         /// The UUID (represented in Base62-encoded text) that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
         public let exportId: String
 
+        @inlinable
         public init(exportId: String) {
             self.exportId = exportId
         }
@@ -449,6 +462,7 @@ extension QLDB {
         /// The name of the ledger.
         public let name: String
 
+        @inlinable
         public init(blockAddress: ValueHolder, digestTipAddress: ValueHolder? = nil, name: String) {
             self.blockAddress = blockAddress
             self.digestTipAddress = digestTipAddress
@@ -483,6 +497,7 @@ extension QLDB {
         /// The proof object in Amazon Ion format returned by a GetBlock request. A proof contains the list of hash values required to recalculate the specified digest using a Merkle tree, starting with the specified block.
         public let proof: ValueHolder?
 
+        @inlinable
         public init(block: ValueHolder, proof: ValueHolder? = nil) {
             self.block = block
             self.proof = proof
@@ -498,6 +513,7 @@ extension QLDB {
         /// The name of the ledger.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -523,6 +539,7 @@ extension QLDB {
         /// The latest block location covered by the digest that you requested. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo.
         public let digestTipAddress: ValueHolder
 
+        @inlinable
         public init(digest: AWSBase64Data, digestTipAddress: ValueHolder) {
             self.digest = digest
             self.digestTipAddress = digestTipAddress
@@ -544,6 +561,7 @@ extension QLDB {
         /// The name of the ledger.
         public let name: String
 
+        @inlinable
         public init(blockAddress: ValueHolder, digestTipAddress: ValueHolder? = nil, documentId: String, name: String) {
             self.blockAddress = blockAddress
             self.digestTipAddress = digestTipAddress
@@ -584,6 +602,7 @@ extension QLDB {
         /// The document revision data object in Amazon Ion format.
         public let revision: ValueHolder
 
+        @inlinable
         public init(proof: ValueHolder? = nil, revision: ValueHolder) {
             self.proof = proof
             self.revision = revision
@@ -619,6 +638,7 @@ extension QLDB {
         /// The user-defined name of the QLDB journal stream.
         public let streamName: String
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, errorCause: ErrorCause? = nil, exclusiveEndTime: Date? = nil, inclusiveStartTime: Date? = nil, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, status: StreamStatus, streamId: String, streamName: String) {
             self.arn = arn
             self.creationTime = creationTime
@@ -667,6 +687,7 @@ extension QLDB {
         /// The current state of the journal export job.
         public let status: ExportStatus
 
+        @inlinable
         public init(exclusiveEndTime: Date, exportCreationTime: Date, exportId: String, inclusiveStartTime: Date, ledgerName: String, outputFormat: OutputFormat? = nil, roleArn: String, s3ExportConfiguration: S3ExportConfiguration, status: ExportStatus) {
             self.exclusiveEndTime = exclusiveEndTime
             self.exportCreationTime = exportCreationTime
@@ -698,6 +719,7 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) of the Kinesis Data Streams resource.
         public let streamArn: String
 
+        @inlinable
         public init(aggregationEnabled: Bool? = nil, streamArn: String) {
             self.aggregationEnabled = aggregationEnabled
             self.streamArn = streamArn
@@ -722,6 +744,7 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption. It will display AWS_OWNED_KMS_KEY when updating the ledger's encryption configuration to the Amazon Web Services owned KMS key.
         public let kmsKeyArn: String
 
+        @inlinable
         public init(encryptionStatus: EncryptionStatus, inaccessibleKmsKeyDateTime: Date? = nil, kmsKeyArn: String) {
             self.encryptionStatus = encryptionStatus
             self.inaccessibleKmsKeyDateTime = inaccessibleKmsKeyDateTime
@@ -743,6 +766,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
+        @inlinable
         public init(creationDateTime: Date? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.creationDateTime = creationDateTime
             self.name = name
@@ -764,6 +788,7 @@ extension QLDB {
         /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalKinesisStreamsForLedger call, you should use that value as input here.
         public let nextToken: String?
 
+        @inlinable
         public init(ledgerName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.ledgerName = ledgerName
             self.maxResults = maxResults
@@ -798,6 +823,7 @@ extension QLDB {
         /// The QLDB journal streams that are currently associated with the given ledger.
         public let streams: [JournalKinesisStreamDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, streams: [JournalKinesisStreamDescription]? = nil) {
             self.nextToken = nextToken
             self.streams = streams
@@ -817,6 +843,7 @@ extension QLDB {
         /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3ExportsForLedger call, then you should use that value as input here.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -851,6 +878,7 @@ extension QLDB {
         ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3ExportsForLedger call.
         public let nextToken: String?
 
+        @inlinable
         public init(journalS3Exports: [JournalS3ExportDescription]? = nil, nextToken: String? = nil) {
             self.journalS3Exports = journalS3Exports
             self.nextToken = nextToken
@@ -868,6 +896,7 @@ extension QLDB {
         /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3Exports call, then you should use that value as input here.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -897,6 +926,7 @@ extension QLDB {
         ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3Exports call.
         public let nextToken: String?
 
+        @inlinable
         public init(journalS3Exports: [JournalS3ExportDescription]? = nil, nextToken: String? = nil) {
             self.journalS3Exports = journalS3Exports
             self.nextToken = nextToken
@@ -914,6 +944,7 @@ extension QLDB {
         /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListLedgers call, then you should use that value as input here.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -943,6 +974,7 @@ extension QLDB {
         /// A pagination token, indicating whether there are more results available:   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListLedgers call.
         public let nextToken: String?
 
+        @inlinable
         public init(ledgers: [LedgerSummary]? = nil, nextToken: String? = nil) {
             self.ledgers = ledgers
             self.nextToken = nextToken
@@ -958,6 +990,7 @@ extension QLDB {
         /// The Amazon Resource Name (ARN) for which to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -980,6 +1013,7 @@ extension QLDB {
         /// The tags that are currently associated with the specified Amazon QLDB resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -995,6 +1029,7 @@ extension QLDB {
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see Protecting Data Using Server-Side Encryption in the Amazon S3 Developer Guide.
         public let objectEncryptionType: S3ObjectEncryptionType
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, objectEncryptionType: S3ObjectEncryptionType) {
             self.kmsKeyArn = kmsKeyArn
             self.objectEncryptionType = objectEncryptionType
@@ -1019,6 +1054,7 @@ extension QLDB {
         /// The prefix for the Amazon S3 bucket in which a journal export job writes the journal contents. The prefix must comply with Amazon S3 key naming rules and restrictions. For more information, see Object Key and Metadata in the Amazon S3 Developer Guide. The following are examples of valid Prefix values:    JournalExports-ForMyLedger/Testing/     JournalExports     My:Tests/
         public let prefix: String
 
+        @inlinable
         public init(bucket: String, encryptionConfiguration: S3EncryptionConfiguration, prefix: String) {
             self.bucket = bucket
             self.encryptionConfiguration = encryptionConfiguration
@@ -1056,6 +1092,7 @@ extension QLDB {
         /// The key-value pairs to add as tags to the stream that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
         public let tags: [String: String]?
 
+        @inlinable
         public init(exclusiveEndTime: Date? = nil, inclusiveStartTime: Date, kinesisConfiguration: KinesisConfiguration, ledgerName: String, roleArn: String, streamName: String, tags: [String: String]? = nil) {
             self.exclusiveEndTime = exclusiveEndTime
             self.inclusiveStartTime = inclusiveStartTime
@@ -1110,6 +1147,7 @@ extension QLDB {
         /// The UUID (represented in Base62-encoded text) that QLDB assigns to each QLDB journal stream.
         public let streamId: String?
 
+        @inlinable
         public init(streamId: String? = nil) {
             self.streamId = streamId
         }
@@ -1125,6 +1163,7 @@ extension QLDB {
         /// The key-value pairs to add as tags to the specified QLDB resource. Tag keys are case sensitive. If you specify a key that already exists for the resource, your request fails and returns an error. Tag values are case sensitive and can be null.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1163,6 +1202,7 @@ extension QLDB {
         /// The list of tag keys to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1198,6 +1238,7 @@ extension QLDB {
         /// The permissions mode to assign to the ledger. This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access control with API-level granularity for ledgers. This mode allows users who have the SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or command-level IAM permissions policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that enables access control with finer granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for specific table resources and PartiQL actions, in addition to the SendCommand API permission for the ledger. For information, see Getting started with the standard permissions mode in the Amazon QLDB Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize the security of your ledger data.
         public let permissionsMode: PermissionsMode
 
+        @inlinable
         public init(name: String, permissionsMode: PermissionsMode) {
             self.name = name
             self.permissionsMode = permissionsMode
@@ -1229,6 +1270,7 @@ extension QLDB {
         /// The current permissions mode of the ledger.
         public let permissionsMode: PermissionsMode?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil) {
             self.arn = arn
             self.name = name
@@ -1250,6 +1292,7 @@ extension QLDB {
         /// The name of the ledger.
         public let name: String
 
+        @inlinable
         public init(deletionProtection: Bool? = nil, kmsKey: String? = nil, name: String) {
             self.deletionProtection = deletionProtection
             self.kmsKey = kmsKey
@@ -1291,6 +1334,7 @@ extension QLDB {
         /// The current status of the ledger.
         public let state: LedgerState?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, encryptionDescription: LedgerEncryptionDescription? = nil, name: String? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1314,6 +1358,7 @@ extension QLDB {
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?
 
+        @inlinable
         public init(ionText: String? = nil) {
             self.ionText = ionText
         }

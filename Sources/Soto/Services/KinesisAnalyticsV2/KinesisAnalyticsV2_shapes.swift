@@ -151,6 +151,7 @@ extension KinesisAnalyticsV2 {
         /// The version ID of the SQL-based Kinesis Data Analytics application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application version ID using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
         public let currentApplicationVersionId: Int64?
 
+        @inlinable
         public init(applicationName: String, cloudWatchLoggingOption: CloudWatchLoggingOption, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil) {
             self.applicationName = applicationName
             self.cloudWatchLoggingOption = cloudWatchLoggingOption
@@ -188,6 +189,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking AddApplicationCloudWatchLoggingOption request
         public let operationId: String?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, operationId: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -213,6 +215,7 @@ extension KinesisAnalyticsV2 {
         /// The InputProcessingConfiguration to add to the application.
         public let inputProcessingConfiguration: InputProcessingConfiguration
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, inputId: String, inputProcessingConfiguration: InputProcessingConfiguration) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -250,6 +253,7 @@ extension KinesisAnalyticsV2 {
         /// The description of the preprocessor that executes on records in this input before the application's code is run.
         public let inputProcessingConfigurationDescription: InputProcessingConfigurationDescription?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, inputId: String? = nil, inputProcessingConfigurationDescription: InputProcessingConfigurationDescription? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -273,6 +277,7 @@ extension KinesisAnalyticsV2 {
         /// The Input to add.
         public let input: Input
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, input: Input) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -303,6 +308,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the application input configuration.
         public let inputDescriptions: [InputDescription]?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, inputDescriptions: [InputDescription]? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -324,6 +330,7 @@ extension KinesisAnalyticsV2 {
         /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, a Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination.
         public let output: Output
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, output: Output) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -354,6 +361,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the application output configuration. For more information,  see Configuring Application Output.
         public let outputDescriptions: [OutputDescription]?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, outputDescriptions: [OutputDescription]? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -375,6 +383,7 @@ extension KinesisAnalyticsV2 {
         /// The reference data source can be an object in your Amazon S3 bucket. Kinesis Data Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting  in-application table that is  created.
         public let referenceDataSource: ReferenceDataSource
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, referenceDataSource: ReferenceDataSource) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -405,6 +414,7 @@ extension KinesisAnalyticsV2 {
         /// Describes reference data sources configured for the application.
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -428,6 +438,7 @@ extension KinesisAnalyticsV2 {
         /// Description of the VPC to add to the application.
         public let vpcConfiguration: VpcConfiguration
 
+        @inlinable
         public init(applicationName: String, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil, vpcConfiguration: VpcConfiguration) {
             self.applicationName = applicationName
             self.conditionalToken = conditionalToken
@@ -465,6 +476,7 @@ extension KinesisAnalyticsV2 {
         /// The parameters of the new VPC configuration.
         public let vpcConfigurationDescription: VpcConfigurationDescription?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, operationId: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -486,6 +498,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies whether the code content is in text or zip format.
         public let codeContentType: CodeContentType
 
+        @inlinable
         public init(codeContent: CodeContent? = nil, codeContentType: CodeContentType) {
             self.codeContent = codeContent
             self.codeContentType = codeContentType
@@ -507,6 +520,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies whether the code content is in text or zip format.
         public let codeContentType: CodeContentType
 
+        @inlinable
         public init(codeContentDescription: CodeContentDescription? = nil, codeContentType: CodeContentType) {
             self.codeContentDescription = codeContentDescription
             self.codeContentType = codeContentType
@@ -524,6 +538,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the code content of an application.
         public let codeContentUpdate: CodeContentUpdate?
 
+        @inlinable
         public init(codeContentTypeUpdate: CodeContentType? = nil, codeContentUpdate: CodeContentUpdate? = nil) {
             self.codeContentTypeUpdate = codeContentTypeUpdate
             self.codeContentUpdate = codeContentUpdate
@@ -556,6 +571,7 @@ extension KinesisAnalyticsV2 {
         /// The configuration parameters for a Managed Service for Apache Flink Studio notebook.
         public let zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration?
 
+        @inlinable
         public init(applicationCodeConfiguration: ApplicationCodeConfiguration? = nil, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, applicationSystemRollbackConfiguration: ApplicationSystemRollbackConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil, zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration? = nil) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
@@ -609,6 +625,7 @@ extension KinesisAnalyticsV2 {
         /// The configuration parameters for a Managed Service for Apache Flink Studio notebook.
         public let zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription?
 
+        @inlinable
         public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, applicationSystemRollbackConfigurationDescription: ApplicationSystemRollbackConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil, zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription? = nil) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
@@ -651,6 +668,7 @@ extension KinesisAnalyticsV2 {
         /// Updates to the configuration of a Managed Service for Apache Flink Studio notebook.
         public let zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate?
 
+        @inlinable
         public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, applicationSystemRollbackConfigurationUpdate: ApplicationSystemRollbackConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil, zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate? = nil) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
@@ -723,6 +741,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
 
+        @inlinable
         public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil, applicationMode: ApplicationMode? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionCreateTimestamp: Date? = nil, applicationVersionId: Int64, applicationVersionRolledBackFrom: Int64? = nil, applicationVersionRolledBackTo: Int64? = nil, applicationVersionUpdatedFrom: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, conditionalToken: String? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationConfigurationDescription = applicationConfigurationDescription
@@ -772,6 +791,7 @@ extension KinesisAnalyticsV2 {
         /// The start time for the maintenance window.
         public let applicationMaintenanceWindowStartTime: String
 
+        @inlinable
         public init(applicationMaintenanceWindowEndTime: String, applicationMaintenanceWindowStartTime: String) {
             self.applicationMaintenanceWindowEndTime = applicationMaintenanceWindowEndTime
             self.applicationMaintenanceWindowStartTime = applicationMaintenanceWindowStartTime
@@ -787,6 +807,7 @@ extension KinesisAnalyticsV2 {
         /// The updated start time for the maintenance window.
         public let applicationMaintenanceWindowStartTimeUpdate: String
 
+        @inlinable
         public init(applicationMaintenanceWindowStartTimeUpdate: String) {
             self.applicationMaintenanceWindowStartTimeUpdate = applicationMaintenanceWindowStartTimeUpdate
         }
@@ -811,6 +832,7 @@ extension KinesisAnalyticsV2 {
         /// The timestamp at which the operation was created
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, operation: String? = nil, operationId: String? = nil, operationStatus: OperationStatus? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.operation = operation
@@ -838,6 +860,7 @@ extension KinesisAnalyticsV2 {
         /// The timestamp at which the operation was created
         public let startTime: Date
 
+        @inlinable
         public init(applicationVersionChangeDetails: ApplicationVersionChangeDetails? = nil, endTime: Date, operation: String, operationFailureDetails: OperationFailureDetails? = nil, operationStatus: OperationStatus, startTime: Date) {
             self.applicationVersionChangeDetails = applicationVersionChangeDetails
             self.endTime = endTime
@@ -863,6 +886,7 @@ extension KinesisAnalyticsV2 {
         /// The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the  ApplicationRestoreType.
         public let snapshotName: String?
 
+        @inlinable
         public init(applicationRestoreType: ApplicationRestoreType, snapshotName: String? = nil) {
             self.applicationRestoreType = applicationRestoreType
             self.snapshotName = snapshotName
@@ -884,6 +908,7 @@ extension KinesisAnalyticsV2 {
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let snapshotsEnabled: Bool
 
+        @inlinable
         public init(snapshotsEnabled: Bool) {
             self.snapshotsEnabled = snapshotsEnabled
         }
@@ -897,6 +922,7 @@ extension KinesisAnalyticsV2 {
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let snapshotsEnabled: Bool
 
+        @inlinable
         public init(snapshotsEnabled: Bool) {
             self.snapshotsEnabled = snapshotsEnabled
         }
@@ -910,6 +936,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to whether snapshots are enabled for an application.
         public let snapshotsEnabledUpdate: Bool
 
+        @inlinable
         public init(snapshotsEnabledUpdate: Bool) {
             self.snapshotsEnabledUpdate = snapshotsEnabledUpdate
         }
@@ -933,6 +960,7 @@ extension KinesisAnalyticsV2 {
         /// The runtime environment for the application.
         public let runtimeEnvironment: RuntimeEnvironment
 
+        @inlinable
         public init(applicationARN: String, applicationMode: ApplicationMode? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment) {
             self.applicationARN = applicationARN
             self.applicationMode = applicationMode
@@ -956,6 +984,7 @@ extension KinesisAnalyticsV2 {
         /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
         public let rollbackEnabled: Bool
 
+        @inlinable
         public init(rollbackEnabled: Bool) {
             self.rollbackEnabled = rollbackEnabled
         }
@@ -969,6 +998,7 @@ extension KinesisAnalyticsV2 {
         /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
         public let rollbackEnabled: Bool
 
+        @inlinable
         public init(rollbackEnabled: Bool) {
             self.rollbackEnabled = rollbackEnabled
         }
@@ -982,6 +1012,7 @@ extension KinesisAnalyticsV2 {
         /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
         public let rollbackEnabledUpdate: Bool
 
+        @inlinable
         public init(rollbackEnabledUpdate: Bool) {
             self.rollbackEnabledUpdate = rollbackEnabledUpdate
         }
@@ -997,6 +1028,7 @@ extension KinesisAnalyticsV2 {
         /// The operation execution resulted in the transition to the following version of the application
         public let applicationVersionUpdatedTo: Int64
 
+        @inlinable
         public init(applicationVersionUpdatedFrom: Int64, applicationVersionUpdatedTo: Int64) {
             self.applicationVersionUpdatedFrom = applicationVersionUpdatedFrom
             self.applicationVersionUpdatedTo = applicationVersionUpdatedTo
@@ -1014,6 +1046,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         public let applicationVersionId: Int64
 
+        @inlinable
         public init(applicationStatus: ApplicationStatus, applicationVersionId: Int64) {
             self.applicationStatus = applicationStatus
             self.applicationVersionId = applicationVersionId
@@ -1031,6 +1064,7 @@ extension KinesisAnalyticsV2 {
         /// The row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
         public let recordRowDelimiter: String
 
+        @inlinable
         public init(recordColumnDelimiter: String, recordRowDelimiter: String) {
             self.recordColumnDelimiter = recordColumnDelimiter
             self.recordRowDelimiter = recordRowDelimiter
@@ -1053,6 +1087,7 @@ extension KinesisAnalyticsV2 {
         /// The configuration parameters for the default Amazon Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Managed Service for Apache Flink Studio notebook.
         public let glueDataCatalogConfiguration: GlueDataCatalogConfiguration
 
+        @inlinable
         public init(glueDataCatalogConfiguration: GlueDataCatalogConfiguration) {
             self.glueDataCatalogConfiguration = glueDataCatalogConfiguration
         }
@@ -1070,6 +1105,7 @@ extension KinesisAnalyticsV2 {
         /// The configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
         public let glueDataCatalogConfigurationDescription: GlueDataCatalogConfigurationDescription
 
+        @inlinable
         public init(glueDataCatalogConfigurationDescription: GlueDataCatalogConfigurationDescription) {
             self.glueDataCatalogConfigurationDescription = glueDataCatalogConfigurationDescription
         }
@@ -1083,6 +1119,7 @@ extension KinesisAnalyticsV2 {
         /// Updates to the configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
         public let glueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate
 
+        @inlinable
         public init(glueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate) {
             self.glueDataCatalogConfigurationUpdate = glueDataCatalogConfigurationUpdate
         }
@@ -1106,6 +1143,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see  Tuning Checkpointing in the Apache Flink Documentation.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this  API or in application code.
         public let minPauseBetweenCheckpoints: Int64?
 
+        @inlinable
         public init(checkpointingEnabled: Bool? = nil, checkpointInterval: Int64? = nil, configurationType: ConfigurationType, minPauseBetweenCheckpoints: Int64? = nil) {
             self.checkpointingEnabled = checkpointingEnabled
             self.checkpointInterval = checkpointInterval
@@ -1136,6 +1174,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this  API or in application code.
         public let minPauseBetweenCheckpoints: Int64?
 
+        @inlinable
         public init(checkpointingEnabled: Bool? = nil, checkpointInterval: Int64? = nil, configurationType: ConfigurationType? = nil, minPauseBetweenCheckpoints: Int64? = nil) {
             self.checkpointingEnabled = checkpointingEnabled
             self.checkpointInterval = checkpointInterval
@@ -1161,6 +1200,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or  in application code.
         public let minPauseBetweenCheckpointsUpdate: Int64?
 
+        @inlinable
         public init(checkpointingEnabledUpdate: Bool? = nil, checkpointIntervalUpdate: Int64? = nil, configurationTypeUpdate: ConfigurationType? = nil, minPauseBetweenCheckpointsUpdate: Int64? = nil) {
             self.checkpointingEnabledUpdate = checkpointingEnabledUpdate
             self.checkpointIntervalUpdate = checkpointIntervalUpdate
@@ -1185,6 +1225,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
 
+        @inlinable
         public init(logStreamARN: String) {
             self.logStreamARN = logStreamARN
         }
@@ -1208,6 +1249,7 @@ extension KinesisAnalyticsV2 {
         /// The IAM ARN of the role to use to send application messages.   Provided for backward compatibility. Applications created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(cloudWatchLoggingOptionId: String? = nil, logStreamARN: String, roleARN: String? = nil) {
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
             self.logStreamARN = logStreamARN
@@ -1227,6 +1269,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application messages.
         public let logStreamARNUpdate: String?
 
+        @inlinable
         public init(cloudWatchLoggingOptionId: String, logStreamARNUpdate: String? = nil) {
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
             self.logStreamARNUpdate = logStreamARNUpdate
@@ -1255,6 +1298,7 @@ extension KinesisAnalyticsV2 {
         /// The zip-format code for a Managed Service for Apache Flink application.
         public let zipFileContent: AWSBase64Data?
 
+        @inlinable
         public init(s3ContentLocation: S3ContentLocation? = nil, textContent: String? = nil, zipFileContent: AWSBase64Data? = nil) {
             self.s3ContentLocation = s3ContentLocation
             self.textContent = textContent
@@ -1284,6 +1328,7 @@ extension KinesisAnalyticsV2 {
         /// The text-format code
         public let textContent: String?
 
+        @inlinable
         public init(codeMD5: String? = nil, codeSize: Int64? = nil, s3ApplicationCodeLocationDescription: S3ApplicationCodeLocationDescription? = nil, textContent: String? = nil) {
             self.codeMD5 = codeMD5
             self.codeSize = codeSize
@@ -1307,6 +1352,7 @@ extension KinesisAnalyticsV2 {
         /// Describes an update to the zipped code for an application.
         public let zipFileContentUpdate: AWSBase64Data?
 
+        @inlinable
         public init(s3ContentLocationUpdate: S3ContentLocationUpdate? = nil, textContentUpdate: String? = nil, zipFileContentUpdate: AWSBase64Data? = nil) {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
             self.textContentUpdate = textContentUpdate
@@ -1334,6 +1380,7 @@ extension KinesisAnalyticsV2 {
         /// The type of the extension for which to create and return a URL. Currently, the only valid extension URL type is FLINK_DASHBOARD_URL.
         public let urlType: UrlType
 
+        @inlinable
         public init(applicationName: String, sessionExpirationDurationInSeconds: Int64? = nil, urlType: UrlType) {
             self.applicationName = applicationName
             self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
@@ -1359,6 +1406,7 @@ extension KinesisAnalyticsV2 {
         /// The URL of the extension.
         public let authorizedUrl: String?
 
+        @inlinable
         public init(authorizedUrl: String? = nil) {
             self.authorizedUrl = authorizedUrl
         }
@@ -1386,6 +1434,7 @@ extension KinesisAnalyticsV2 {
         /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an  application. Note that the maximum number of application tags includes system tags. The maximum number of  user-defined application tags is 50. For more information, see  Using Tagging.
         public let tags: [Tag]?
 
+        @inlinable
         public init(applicationConfiguration: ApplicationConfiguration? = nil, applicationDescription: String? = nil, applicationMode: ApplicationMode? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String, tags: [Tag]? = nil) {
             self.applicationConfiguration = applicationConfiguration
             self.applicationDescription = applicationDescription
@@ -1432,6 +1481,7 @@ extension KinesisAnalyticsV2 {
         /// In response to your CreateApplication request, Managed Service for Apache Flink returns a  response with details of the application it created.
         public let applicationDetail: ApplicationDetail
 
+        @inlinable
         public init(applicationDetail: ApplicationDetail) {
             self.applicationDetail = applicationDetail
         }
@@ -1447,6 +1497,7 @@ extension KinesisAnalyticsV2 {
         /// An identifier for the application snapshot.
         public let snapshotName: String
 
+        @inlinable
         public init(applicationName: String, snapshotName: String) {
             self.applicationName = applicationName
             self.snapshotName = snapshotName
@@ -1478,6 +1529,7 @@ extension KinesisAnalyticsV2 {
         public let mavenReference: MavenReference?
         public let s3ContentLocation: S3ContentLocation?
 
+        @inlinable
         public init(artifactType: ArtifactType, mavenReference: MavenReference? = nil, s3ContentLocation: S3ContentLocation? = nil) {
             self.artifactType = artifactType
             self.mavenReference = mavenReference
@@ -1503,6 +1555,7 @@ extension KinesisAnalyticsV2 {
         public let mavenReferenceDescription: MavenReference?
         public let s3ContentLocationDescription: S3ContentLocation?
 
+        @inlinable
         public init(artifactType: ArtifactType? = nil, mavenReferenceDescription: MavenReference? = nil, s3ContentLocationDescription: S3ContentLocation? = nil) {
             self.artifactType = artifactType
             self.mavenReferenceDescription = mavenReferenceDescription
@@ -1526,6 +1579,7 @@ extension KinesisAnalyticsV2 {
         /// The version ID of the application. You must provide the CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application version ID using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
         public let currentApplicationVersionId: Int64?
 
+        @inlinable
         public init(applicationName: String, cloudWatchLoggingOptionId: String, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil) {
             self.applicationName = applicationName
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
@@ -1565,6 +1619,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking DeleteApplicationCloudWatchLoggingOption request
         public let operationId: String?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, operationId: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -1588,6 +1643,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation.
         public let inputId: String
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, inputId: String) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -1618,6 +1674,7 @@ extension KinesisAnalyticsV2 {
         /// The current application version ID.
         public let applicationVersionId: Int64?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -1637,6 +1694,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the configuration to delete. Each output configuration that is added to the application (either when the application is created or later) using the AddApplicationOutput operation has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId.
         public let outputId: String
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, outputId: String) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -1667,6 +1725,7 @@ extension KinesisAnalyticsV2 {
         /// The current application version ID.
         public let applicationVersionId: Int64?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -1686,6 +1745,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource, Kinesis Data Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID.
         public let referenceId: String
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64, referenceId: String) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -1716,6 +1776,7 @@ extension KinesisAnalyticsV2 {
         /// The updated version ID of the application.
         public let applicationVersionId: Int64?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -1733,6 +1794,7 @@ extension KinesisAnalyticsV2 {
         /// Use the DescribeApplication operation to get this value.
         public let createTimestamp: Date
 
+        @inlinable
         public init(applicationName: String, createTimestamp: Date) {
             self.applicationName = applicationName
             self.createTimestamp = createTimestamp
@@ -1762,6 +1824,7 @@ extension KinesisAnalyticsV2 {
         /// The identifier for the snapshot delete.
         public let snapshotName: String
 
+        @inlinable
         public init(applicationName: String, snapshotCreationTimestamp: Date, snapshotName: String) {
             self.applicationName = applicationName
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
@@ -1798,6 +1861,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the VPC configuration to delete.
         public let vpcConfigurationId: String
 
+        @inlinable
         public init(applicationName: String, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil, vpcConfigurationId: String) {
             self.applicationName = applicationName
             self.conditionalToken = conditionalToken
@@ -1835,6 +1899,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking DeleteApplicationVpcConfiguration request
         public let operationId: String?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, operationId: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
@@ -1852,6 +1917,7 @@ extension KinesisAnalyticsV2 {
         /// The description of an Amazon S3 object that contains the Amazon Data Analytics application, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         public let s3ContentLocation: S3ContentBaseLocation
 
+        @inlinable
         public init(s3ContentLocation: S3ContentBaseLocation) {
             self.s3ContentLocation = s3ContentLocation
         }
@@ -1869,6 +1935,7 @@ extension KinesisAnalyticsV2 {
         /// The location that holds the data required to specify an Amazon Data Analytics application.
         public let s3ContentLocationDescription: S3ContentBaseLocationDescription
 
+        @inlinable
         public init(s3ContentLocationDescription: S3ContentBaseLocationDescription) {
             self.s3ContentLocationDescription = s3ContentLocationDescription
         }
@@ -1882,6 +1949,7 @@ extension KinesisAnalyticsV2 {
         /// Updates to the location that holds the data required to specify an Amazon Data Analytics application.
         public let s3ContentLocationUpdate: S3ContentBaseLocationUpdate?
 
+        @inlinable
         public init(s3ContentLocationUpdate: S3ContentBaseLocationUpdate? = nil) {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
         }
@@ -1899,6 +1967,7 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         public let operationId: String
 
+        @inlinable
         public init(applicationName: String, operationId: String) {
             self.applicationName = applicationName
             self.operationId = operationId
@@ -1921,6 +1990,7 @@ extension KinesisAnalyticsV2 {
     public struct DescribeApplicationOperationResponse: AWSDecodableShape {
         public let applicationOperationInfoDetails: ApplicationOperationInfoDetails?
 
+        @inlinable
         public init(applicationOperationInfoDetails: ApplicationOperationInfoDetails? = nil) {
             self.applicationOperationInfoDetails = applicationOperationInfoDetails
         }
@@ -1936,6 +2006,7 @@ extension KinesisAnalyticsV2 {
         /// Displays verbose information about a Managed Service for Apache Flink application, including the application's job plan.
         public let includeAdditionalDetails: Bool?
 
+        @inlinable
         public init(applicationName: String, includeAdditionalDetails: Bool? = nil) {
             self.applicationName = applicationName
             self.includeAdditionalDetails = includeAdditionalDetails
@@ -1957,6 +2028,7 @@ extension KinesisAnalyticsV2 {
         /// Provides a description of the application, such as the application's Amazon Resource Name (ARN), status, and latest version.
         public let applicationDetail: ApplicationDetail
 
+        @inlinable
         public init(applicationDetail: ApplicationDetail) {
             self.applicationDetail = applicationDetail
         }
@@ -1972,6 +2044,7 @@ extension KinesisAnalyticsV2 {
         /// The identifier of an application snapshot. You can retrieve this value using  .
         public let snapshotName: String
 
+        @inlinable
         public init(applicationName: String, snapshotName: String) {
             self.applicationName = applicationName
             self.snapshotName = snapshotName
@@ -1996,6 +2069,7 @@ extension KinesisAnalyticsV2 {
         /// An object containing information about the application snapshot.
         public let snapshotDetails: SnapshotDetails
 
+        @inlinable
         public init(snapshotDetails: SnapshotDetails) {
             self.snapshotDetails = snapshotDetails
         }
@@ -2011,6 +2085,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the application version for which you want to get the description.
         public let applicationVersionId: Int64
 
+        @inlinable
         public init(applicationName: String, applicationVersionId: Int64) {
             self.applicationName = applicationName
             self.applicationVersionId = applicationVersionId
@@ -2033,6 +2108,7 @@ extension KinesisAnalyticsV2 {
     public struct DescribeApplicationVersionResponse: AWSDecodableShape {
         public let applicationVersionDetail: ApplicationDetail?
 
+        @inlinable
         public init(applicationVersionDetail: ApplicationDetail? = nil) {
             self.applicationVersionDetail = applicationVersionDetail
         }
@@ -2046,6 +2122,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType
 
+        @inlinable
         public init(recordFormatType: RecordFormatType) {
             self.recordFormatType = recordFormatType
         }
@@ -2067,6 +2144,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the role that is used to access the streaming source.
         public let serviceExecutionRole: String
 
+        @inlinable
         public init(inputProcessingConfiguration: InputProcessingConfiguration? = nil, inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil, resourceARN: String? = nil, s3Configuration: S3Configuration? = nil, serviceExecutionRole: String) {
             self.inputProcessingConfiguration = inputProcessingConfiguration
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
@@ -2105,6 +2183,7 @@ extension KinesisAnalyticsV2 {
         /// The raw stream data that was sampled to infer the schema.
         public let rawInputRecords: [String]?
 
+        @inlinable
         public init(inputSchema: SourceSchema? = nil, parsedInputRecords: [[String]]? = nil, processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
             self.inputSchema = inputSchema
             self.parsedInputRecords = parsedInputRecords
@@ -2124,6 +2203,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the execution property groups.
         public let propertyGroups: [PropertyGroup]
 
+        @inlinable
         public init(propertyGroups: [PropertyGroup]) {
             self.propertyGroups = propertyGroups
         }
@@ -2144,6 +2224,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the execution property groups.
         public let propertyGroupDescriptions: [PropertyGroup]?
 
+        @inlinable
         public init(propertyGroupDescriptions: [PropertyGroup]? = nil) {
             self.propertyGroupDescriptions = propertyGroupDescriptions
         }
@@ -2157,6 +2238,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the execution property groups.
         public let propertyGroups: [PropertyGroup]
 
+        @inlinable
         public init(propertyGroups: [PropertyGroup]) {
             self.propertyGroups = propertyGroups
         }
@@ -2176,6 +2258,7 @@ extension KinesisAnalyticsV2 {
     public struct ErrorInfo: AWSDecodableShape {
         public let errorString: String?
 
+        @inlinable
         public init(errorString: String? = nil) {
             self.errorString = errorString
         }
@@ -2193,6 +2276,7 @@ extension KinesisAnalyticsV2 {
         /// Describes parameters for how an application executes multiple tasks simultaneously.
         public let parallelismConfiguration: ParallelismConfiguration?
 
+        @inlinable
         public init(checkpointConfiguration: CheckpointConfiguration? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, parallelismConfiguration: ParallelismConfiguration? = nil) {
             self.checkpointConfiguration = checkpointConfiguration
             self.monitoringConfiguration = monitoringConfiguration
@@ -2221,6 +2305,7 @@ extension KinesisAnalyticsV2 {
         /// Describes parameters for how an application executes multiple tasks simultaneously.
         public let parallelismConfigurationDescription: ParallelismConfigurationDescription?
 
+        @inlinable
         public init(checkpointConfigurationDescription: CheckpointConfigurationDescription? = nil, jobPlanDescription: String? = nil, monitoringConfigurationDescription: MonitoringConfigurationDescription? = nil, parallelismConfigurationDescription: ParallelismConfigurationDescription? = nil) {
             self.checkpointConfigurationDescription = checkpointConfigurationDescription
             self.jobPlanDescription = jobPlanDescription
@@ -2244,6 +2329,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the parameters for how an application executes multiple tasks simultaneously.
         public let parallelismConfigurationUpdate: ParallelismConfigurationUpdate?
 
+        @inlinable
         public init(checkpointConfigurationUpdate: CheckpointConfigurationUpdate? = nil, monitoringConfigurationUpdate: MonitoringConfigurationUpdate? = nil, parallelismConfigurationUpdate: ParallelismConfigurationUpdate? = nil) {
             self.checkpointConfigurationUpdate = checkpointConfigurationUpdate
             self.monitoringConfigurationUpdate = monitoringConfigurationUpdate
@@ -2266,6 +2352,7 @@ extension KinesisAnalyticsV2 {
         /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot  be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and  state data in the snapshot no longer  corresponds to valid application data. For more information, see   Allowing Non-Restored State in the Apache Flink documentation.  This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public let allowNonRestoredState: Bool?
 
+        @inlinable
         public init(allowNonRestoredState: Bool? = nil) {
             self.allowNonRestoredState = allowNonRestoredState
         }
@@ -2279,6 +2366,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the database.
         public let databaseARN: String
 
+        @inlinable
         public init(databaseARN: String) {
             self.databaseARN = databaseARN
         }
@@ -2298,6 +2386,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the database.
         public let databaseARN: String
 
+        @inlinable
         public init(databaseARN: String) {
             self.databaseARN = databaseARN
         }
@@ -2311,6 +2400,7 @@ extension KinesisAnalyticsV2 {
         /// The updated Amazon Resource Name (ARN) of the database.
         public let databaseARNUpdate: String
 
+        @inlinable
         public init(databaseARNUpdate: String) {
             self.databaseARNUpdate = databaseARNUpdate
         }
@@ -2340,6 +2430,7 @@ extension KinesisAnalyticsV2 {
         /// The name prefix to use when creating an in-application stream. Suppose that you specify a prefix "MyInApplicationStream." Kinesis Data Analytics then creates one or more (as per the InputParallelism count you specified) in-application streams with the names "MyInApplicationStream_001," "MyInApplicationStream_002," and so on.
         public let namePrefix: String
 
+        @inlinable
         public init(inputParallelism: InputParallelism? = nil, inputProcessingConfiguration: InputProcessingConfiguration? = nil, inputSchema: SourceSchema, kinesisFirehoseInput: KinesisFirehoseInput? = nil, kinesisStreamsInput: KinesisStreamsInput? = nil, namePrefix: String) {
             self.inputParallelism = inputParallelism
             self.inputProcessingConfiguration = inputProcessingConfiguration
@@ -2390,6 +2481,7 @@ extension KinesisAnalyticsV2 {
         /// The in-application name prefix.
         public let namePrefix: String?
 
+        @inlinable
         public init(inAppStreamNames: [String]? = nil, inputId: String? = nil, inputParallelism: InputParallelism? = nil, inputProcessingConfigurationDescription: InputProcessingConfigurationDescription? = nil, inputSchema: SourceSchema? = nil, inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil, kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil, kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil, namePrefix: String? = nil) {
             self.inAppStreamNames = inAppStreamNames
             self.inputId = inputId
@@ -2419,6 +2511,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the Amazon Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2440,6 +2533,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that is used to access the Amazon Lambda function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(resourceARN: String, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
@@ -2455,6 +2549,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the new Amazon Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARNUpdate: String
 
+        @inlinable
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
         }
@@ -2474,6 +2569,7 @@ extension KinesisAnalyticsV2 {
         /// The number of in-application streams to create.
         public let count: Int?
 
+        @inlinable
         public init(count: Int? = nil) {
             self.count = count
         }
@@ -2492,6 +2588,7 @@ extension KinesisAnalyticsV2 {
         /// The number of in-application streams to create for the specified streaming source.
         public let countUpdate: Int
 
+        @inlinable
         public init(countUpdate: Int) {
             self.countUpdate = countUpdate
         }
@@ -2510,6 +2607,7 @@ extension KinesisAnalyticsV2 {
         /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
         public let inputLambdaProcessor: InputLambdaProcessor
 
+        @inlinable
         public init(inputLambdaProcessor: InputLambdaProcessor) {
             self.inputLambdaProcessor = inputLambdaProcessor
         }
@@ -2527,6 +2625,7 @@ extension KinesisAnalyticsV2 {
         /// Provides configuration information about the associated InputLambdaProcessorDescription
         public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
 
+        @inlinable
         public init(inputLambdaProcessorDescription: InputLambdaProcessorDescription? = nil) {
             self.inputLambdaProcessorDescription = inputLambdaProcessorDescription
         }
@@ -2540,6 +2639,7 @@ extension KinesisAnalyticsV2 {
         /// Provides update information for an InputLambdaProcessor.
         public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
 
+        @inlinable
         public init(inputLambdaProcessorUpdate: InputLambdaProcessorUpdate) {
             self.inputLambdaProcessorUpdate = inputLambdaProcessorUpdate
         }
@@ -2561,6 +2661,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies the format of the records on the streaming source.
         public let recordFormatUpdate: RecordFormat?
 
+        @inlinable
         public init(recordColumnUpdates: [RecordColumn]? = nil, recordEncodingUpdate: String? = nil, recordFormatUpdate: RecordFormat? = nil) {
             self.recordColumnUpdates = recordColumnUpdates
             self.recordEncodingUpdate = recordEncodingUpdate
@@ -2590,6 +2691,7 @@ extension KinesisAnalyticsV2 {
         /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream,  which is the oldest record available in the stream. This option is not available  for an Amazon Kinesis Data Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
         public let inputStartingPosition: InputStartingPosition?
 
+        @inlinable
         public init(inputStartingPosition: InputStartingPosition? = nil) {
             self.inputStartingPosition = inputStartingPosition
         }
@@ -2615,6 +2717,7 @@ extension KinesisAnalyticsV2 {
         /// The name prefix for in-application streams that Kinesis Data Analytics creates for the specific streaming source.
         public let namePrefixUpdate: String?
 
+        @inlinable
         public init(inputId: String, inputParallelismUpdate: InputParallelismUpdate? = nil, inputProcessingConfigurationUpdate: InputProcessingConfigurationUpdate? = nil, inputSchemaUpdate: InputSchemaUpdate? = nil, kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil, kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil, namePrefixUpdate: String? = nil) {
             self.inputId = inputId
             self.inputParallelismUpdate = inputParallelismUpdate
@@ -2654,6 +2757,7 @@ extension KinesisAnalyticsV2 {
         /// The path to the top-level parent that contains the records.
         public let recordRowPath: String
 
+        @inlinable
         public init(recordRowPath: String) {
             self.recordRowPath = recordRowPath
         }
@@ -2673,6 +2777,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2694,6 +2799,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that Kinesis Data Analytics assumes to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(resourceARN: String, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
@@ -2709,6 +2815,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the input delivery stream to read.
         public let resourceARNUpdate: String
 
+        @inlinable
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
         }
@@ -2728,6 +2835,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the destination delivery stream to write to.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2749,6 +2857,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(resourceARN: String, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
@@ -2764,6 +2873,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the delivery stream to write to.
         public let resourceARNUpdate: String
 
+        @inlinable
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
         }
@@ -2783,6 +2893,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the input Kinesis data stream to read.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2804,6 +2915,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(resourceARN: String, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
@@ -2819,6 +2931,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the input Kinesis data stream to read.
         public let resourceARNUpdate: String
 
+        @inlinable
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
         }
@@ -2838,6 +2951,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the destination Kinesis data stream to write to.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2859,6 +2973,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(resourceARN: String, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
@@ -2874,6 +2989,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the Kinesis data stream where you want to write the output.
         public let resourceARNUpdate: String
 
+        @inlinable
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
         }
@@ -2893,6 +3009,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2914,6 +3031,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to write to the destination function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let roleARN: String?
 
+        @inlinable
         public init(resourceARN: String, roleARN: String? = nil) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
@@ -2929,6 +3047,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the destination Amazon Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: Amazon Lambda
         public let resourceARNUpdate: String
 
+        @inlinable
         public init(resourceARNUpdate: String) {
             self.resourceARNUpdate = resourceARNUpdate
         }
@@ -2951,6 +3070,7 @@ extension KinesisAnalyticsV2 {
         public let operation: String?
         public let operationStatus: OperationStatus?
 
+        @inlinable
         public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil, operation: String? = nil, operationStatus: OperationStatus? = nil) {
             self.applicationName = applicationName
             self.limit = limit
@@ -2984,6 +3104,7 @@ extension KinesisAnalyticsV2 {
         public let applicationOperationInfoList: [ApplicationOperationInfo]?
         public let nextToken: String?
 
+        @inlinable
         public init(applicationOperationInfoList: [ApplicationOperationInfo]? = nil, nextToken: String? = nil) {
             self.applicationOperationInfoList = applicationOperationInfoList
             self.nextToken = nextToken
@@ -3003,6 +3124,7 @@ extension KinesisAnalyticsV2 {
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more  output available. Set it to the value of the previous call's NextToken response to indicate where the output should  continue from.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.applicationName = applicationName
             self.limit = limit
@@ -3032,6 +3154,7 @@ extension KinesisAnalyticsV2 {
         /// A collection of objects containing information about the application snapshots.
         public let snapshotSummaries: [SnapshotDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshotSummaries: [SnapshotDetails]? = nil) {
             self.nextToken = nextToken
             self.snapshotSummaries = snapshotSummaries
@@ -3051,6 +3174,7 @@ extension KinesisAnalyticsV2 {
         /// If a previous invocation of this operation returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see  Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.applicationName = applicationName
             self.limit = limit
@@ -3080,6 +3204,7 @@ extension KinesisAnalyticsV2 {
         /// The pagination token for the next set of results, or null if there are no additional results.  To retrieve the next set of items, pass this token into a subsequent invocation of this operation. For more information about pagination, see  Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationVersionSummaries: [ApplicationVersionSummary]? = nil, nextToken: String? = nil) {
             self.applicationVersionSummaries = applicationVersionSummaries
             self.nextToken = nextToken
@@ -3097,6 +3222,7 @@ extension KinesisAnalyticsV2 {
         /// If a previous command returned a pagination token,  pass it into this value to retrieve the next set of results. For more information about pagination, see  Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3122,6 +3248,7 @@ extension KinesisAnalyticsV2 {
         /// The pagination token for the next set of results, or null if there are no additional results. Pass this token into a subsequent command to retrieve the next set of items For more information about pagination, see  Using the Amazon Command Line Interface's Pagination Options.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationSummaries: [ApplicationSummary], nextToken: String? = nil) {
             self.applicationSummaries = applicationSummaries
             self.nextToken = nextToken
@@ -3137,6 +3264,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the application for which to retrieve tags.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -3156,6 +3284,7 @@ extension KinesisAnalyticsV2 {
         /// The key-value tags assigned to the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3171,6 +3300,7 @@ extension KinesisAnalyticsV2 {
         /// Provides additional mapping information when JSON is the record format on the streaming source.
         public let jsonMappingParameters: JSONMappingParameters?
 
+        @inlinable
         public init(csvMappingParameters: CSVMappingParameters? = nil, jsonMappingParameters: JSONMappingParameters? = nil) {
             self.csvMappingParameters = csvMappingParameters
             self.jsonMappingParameters = jsonMappingParameters
@@ -3195,6 +3325,7 @@ extension KinesisAnalyticsV2 {
         /// The version of the Maven reference.
         public let version: String
 
+        @inlinable
         public init(artifactId: String, groupId: String, version: String) {
             self.artifactId = artifactId
             self.groupId = groupId
@@ -3228,6 +3359,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the granularity of the CloudWatch Logs for an application. The Parallelism level is not recommended for applications with a Parallelism over 64 due to excessive costs.
         public let metricsLevel: MetricsLevel?
 
+        @inlinable
         public init(configurationType: ConfigurationType, logLevel: LogLevel? = nil, metricsLevel: MetricsLevel? = nil) {
             self.configurationType = configurationType
             self.logLevel = logLevel
@@ -3249,6 +3381,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the granularity of the CloudWatch Logs for an application.
         public let metricsLevel: MetricsLevel?
 
+        @inlinable
         public init(configurationType: ConfigurationType? = nil, logLevel: LogLevel? = nil, metricsLevel: MetricsLevel? = nil) {
             self.configurationType = configurationType
             self.logLevel = logLevel
@@ -3270,6 +3403,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the granularity of the CloudWatch Logs for an application. The Parallelism level is not recommended for applications with a Parallelism over 64 due to excessive costs.
         public let metricsLevelUpdate: MetricsLevel?
 
+        @inlinable
         public init(configurationTypeUpdate: ConfigurationType? = nil, logLevelUpdate: LogLevel? = nil, metricsLevelUpdate: MetricsLevel? = nil) {
             self.configurationTypeUpdate = configurationTypeUpdate
             self.logLevelUpdate = logLevelUpdate
@@ -3288,6 +3422,7 @@ extension KinesisAnalyticsV2 {
         /// Provides the operation ID of a system-rollback operation executed due to failure in the current operation
         public let rollbackOperationId: String?
 
+        @inlinable
         public init(errorInfo: ErrorInfo? = nil, rollbackOperationId: String? = nil) {
             self.errorInfo = errorInfo
             self.rollbackOperationId = rollbackOperationId
@@ -3311,6 +3446,7 @@ extension KinesisAnalyticsV2 {
         /// The name of the in-application stream.
         public let name: String
 
+        @inlinable
         public init(destinationSchema: DestinationSchema, kinesisFirehoseOutput: KinesisFirehoseOutput? = nil, kinesisStreamsOutput: KinesisStreamsOutput? = nil, lambdaOutput: LambdaOutput? = nil, name: String) {
             self.destinationSchema = destinationSchema
             self.kinesisFirehoseOutput = kinesisFirehoseOutput
@@ -3351,6 +3487,7 @@ extension KinesisAnalyticsV2 {
         /// A unique identifier for the output configuration.
         public let outputId: String?
 
+        @inlinable
         public init(destinationSchema: DestinationSchema? = nil, kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil, kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil, lambdaOutputDescription: LambdaOutputDescription? = nil, name: String? = nil, outputId: String? = nil) {
             self.destinationSchema = destinationSchema
             self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
@@ -3384,6 +3521,7 @@ extension KinesisAnalyticsV2 {
         /// Identifies the specific output configuration that you want to update.
         public let outputId: String
 
+        @inlinable
         public init(destinationSchemaUpdate: DestinationSchema? = nil, kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil, kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil, lambdaOutputUpdate: LambdaOutputUpdate? = nil, nameUpdate: String? = nil, outputId: String) {
             self.destinationSchemaUpdate = destinationSchemaUpdate
             self.kinesisFirehoseOutputUpdate = kinesisFirehoseOutputUpdate
@@ -3425,6 +3563,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per Kinesis Processing Unit  (KPU) used by the application. For more information about KPUs, see Amazon Managed Service for Apache Flink Pricing.
         public let parallelismPerKPU: Int?
 
+        @inlinable
         public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
@@ -3457,6 +3596,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per  Kinesis Processing Unit (KPU) used by the application.
         public let parallelismPerKPU: Int?
 
+        @inlinable
         public init(autoScalingEnabled: Bool? = nil, configurationType: ConfigurationType? = nil, currentParallelism: Int? = nil, parallelism: Int? = nil, parallelismPerKPU: Int? = nil) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
@@ -3484,6 +3624,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the initial number of parallel tasks an application can perform. If AutoScalingEnabled is set to True, then  Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application.  The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service will reduce CurrentParallelism down to the Parallelism setting.
         public let parallelismUpdate: Int?
 
+        @inlinable
         public init(autoScalingEnabledUpdate: Bool? = nil, configurationTypeUpdate: ConfigurationType? = nil, parallelismPerKPUUpdate: Int? = nil, parallelismUpdate: Int? = nil) {
             self.autoScalingEnabledUpdate = autoScalingEnabledUpdate
             self.configurationTypeUpdate = configurationTypeUpdate
@@ -3510,6 +3651,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the value of an application execution property key-value pair.
         public let propertyMap: [String: String]
 
+        @inlinable
         public init(propertyGroupId: String, propertyMap: [String: String]) {
             self.propertyGroupId = propertyGroupId
             self.propertyMap = propertyMap
@@ -3543,6 +3685,7 @@ extension KinesisAnalyticsV2 {
         /// The type of column created in the in-application input stream or reference table.
         public let sqlType: String
 
+        @inlinable
         public init(mapping: String? = nil, name: String, sqlType: String) {
             self.mapping = mapping
             self.name = name
@@ -3571,6 +3714,7 @@ extension KinesisAnalyticsV2 {
         /// The type of record format.
         public let recordFormatType: RecordFormatType
 
+        @inlinable
         public init(mappingParameters: MappingParameters? = nil, recordFormatType: RecordFormatType) {
             self.mappingParameters = mappingParameters
             self.recordFormatType = recordFormatType
@@ -3594,6 +3738,7 @@ extension KinesisAnalyticsV2 {
         /// The name of the in-application table to create.
         public let tableName: String
 
+        @inlinable
         public init(referenceSchema: SourceSchema, s3ReferenceDataSource: S3ReferenceDataSource? = nil, tableName: String) {
             self.referenceSchema = referenceSchema
             self.s3ReferenceDataSource = s3ReferenceDataSource
@@ -3624,6 +3769,7 @@ extension KinesisAnalyticsV2 {
         /// The in-application table name created by the specific reference data source configuration.
         public let tableName: String
 
+        @inlinable
         public init(referenceId: String, referenceSchema: SourceSchema? = nil, s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription, tableName: String) {
             self.referenceId = referenceId
             self.referenceSchema = referenceSchema
@@ -3649,6 +3795,7 @@ extension KinesisAnalyticsV2 {
         /// The in-application table name that is created by this update.
         public let tableNameUpdate: String?
 
+        @inlinable
         public init(referenceId: String, referenceSchemaUpdate: SourceSchema? = nil, s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil, tableNameUpdate: String? = nil) {
             self.referenceId = referenceId
             self.referenceSchemaUpdate = referenceSchemaUpdate
@@ -3680,6 +3827,7 @@ extension KinesisAnalyticsV2 {
         /// The current application version ID. You can retrieve the application version ID using  DescribeApplication.
         public let currentApplicationVersionId: Int64
 
+        @inlinable
         public init(applicationName: String, currentApplicationVersionId: Int64) {
             self.applicationName = applicationName
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -3704,6 +3852,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking RollbackApplication request
         public let operationId: String?
 
+        @inlinable
         public init(applicationDetail: ApplicationDetail, operationId: String? = nil) {
             self.applicationDetail = applicationDetail
             self.operationId = operationId
@@ -3723,6 +3872,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the starting parameters for a SQL-based Kinesis Data Analytics application application.
         public let sqlRunConfigurations: [SqlRunConfiguration]?
 
+        @inlinable
         public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, flinkRunConfiguration: FlinkRunConfiguration? = nil, sqlRunConfigurations: [SqlRunConfiguration]? = nil) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
             self.flinkRunConfiguration = flinkRunConfiguration
@@ -3748,6 +3898,7 @@ extension KinesisAnalyticsV2 {
         public let applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration?
         public let flinkRunConfigurationDescription: FlinkRunConfiguration?
 
+        @inlinable
         public init(applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration? = nil, flinkRunConfigurationDescription: FlinkRunConfiguration? = nil) {
             self.applicationRestoreConfigurationDescription = applicationRestoreConfigurationDescription
             self.flinkRunConfigurationDescription = flinkRunConfigurationDescription
@@ -3765,6 +3916,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the starting parameters for a Managed Service for Apache Flink application.
         public let flinkRunConfiguration: FlinkRunConfiguration?
 
+        @inlinable
         public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, flinkRunConfiguration: FlinkRunConfiguration? = nil) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
             self.flinkRunConfiguration = flinkRunConfiguration
@@ -3788,6 +3940,7 @@ extension KinesisAnalyticsV2 {
         /// The version of the object containing the application code.
         public let objectVersion: String?
 
+        @inlinable
         public init(bucketARN: String, fileKey: String, objectVersion: String? = nil) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
@@ -3807,6 +3960,7 @@ extension KinesisAnalyticsV2 {
         /// The name of the object that contains the data.
         public let fileKey: String
 
+        @inlinable
         public init(bucketARN: String, fileKey: String) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
@@ -3832,6 +3986,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
 
+        @inlinable
         public init(basePath: String? = nil, bucketARN: String) {
             self.basePath = basePath
             self.bucketARN = bucketARN
@@ -3858,6 +4013,7 @@ extension KinesisAnalyticsV2 {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
 
+        @inlinable
         public init(basePath: String? = nil, bucketARN: String) {
             self.basePath = basePath
             self.bucketARN = bucketARN
@@ -3875,6 +4031,7 @@ extension KinesisAnalyticsV2 {
         /// The updated Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
 
+        @inlinable
         public init(basePathUpdate: String? = nil, bucketARNUpdate: String? = nil) {
             self.basePathUpdate = basePathUpdate
             self.bucketARNUpdate = bucketARNUpdate
@@ -3903,6 +4060,7 @@ extension KinesisAnalyticsV2 {
         /// The version of the object containing the application code.
         public let objectVersion: String?
 
+        @inlinable
         public init(bucketARN: String, fileKey: String, objectVersion: String? = nil) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
@@ -3933,6 +4091,7 @@ extension KinesisAnalyticsV2 {
         /// The new version of the object containing the application code.
         public let objectVersionUpdate: String?
 
+        @inlinable
         public init(bucketARNUpdate: String? = nil, fileKeyUpdate: String? = nil, objectVersionUpdate: String? = nil) {
             self.bucketARNUpdate = bucketARNUpdate
             self.fileKeyUpdate = fileKeyUpdate
@@ -3961,6 +4120,7 @@ extension KinesisAnalyticsV2 {
         /// The object key name containing the reference data.
         public let fileKey: String?
 
+        @inlinable
         public init(bucketARN: String? = nil, fileKey: String? = nil) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
@@ -3988,6 +4148,7 @@ extension KinesisAnalyticsV2 {
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.   Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
         public let referenceRoleARN: String?
 
+        @inlinable
         public init(bucketARN: String, fileKey: String, referenceRoleARN: String? = nil) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
@@ -4007,6 +4168,7 @@ extension KinesisAnalyticsV2 {
         /// The object key name.
         public let fileKeyUpdate: String?
 
+        @inlinable
         public init(bucketARNUpdate: String? = nil, fileKeyUpdate: String? = nil) {
             self.bucketARNUpdate = bucketARNUpdate
             self.fileKeyUpdate = fileKeyUpdate
@@ -4038,6 +4200,7 @@ extension KinesisAnalyticsV2 {
         /// The status of the application snapshot.
         public let snapshotStatus: SnapshotStatus
 
+        @inlinable
         public init(applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment? = nil, snapshotCreationTimestamp: Date? = nil, snapshotName: String, snapshotStatus: SnapshotStatus) {
             self.applicationVersionId = applicationVersionId
             self.runtimeEnvironment = runtimeEnvironment
@@ -4063,6 +4226,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies the format of the records on the streaming source.
         public let recordFormat: RecordFormat
 
+        @inlinable
         public init(recordColumns: [RecordColumn], recordEncoding: String? = nil, recordFormat: RecordFormat) {
             self.recordColumns = recordColumns
             self.recordEncoding = recordEncoding
@@ -4096,6 +4260,7 @@ extension KinesisAnalyticsV2 {
         /// The array of ReferenceDataSource objects describing the reference data sources used by the application.
         public let referenceDataSources: [ReferenceDataSource]?
 
+        @inlinable
         public init(inputs: [Input]? = nil, outputs: [Output]? = nil, referenceDataSources: [ReferenceDataSource]? = nil) {
             self.inputs = inputs
             self.outputs = outputs
@@ -4129,6 +4294,7 @@ extension KinesisAnalyticsV2 {
         /// The array of ReferenceDataSourceDescription objects describing the reference data sources used by the application.
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
+        @inlinable
         public init(inputDescriptions: [InputDescription]? = nil, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.inputDescriptions = inputDescriptions
             self.outputDescriptions = outputDescriptions
@@ -4150,6 +4316,7 @@ extension KinesisAnalyticsV2 {
         /// The array of ReferenceDataSourceUpdate objects describing the new reference data sources used by the application.
         public let referenceDataSourceUpdates: [ReferenceDataSourceUpdate]?
 
+        @inlinable
         public init(inputUpdates: [InputUpdate]? = nil, outputUpdates: [OutputUpdate]? = nil, referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil) {
             self.inputUpdates = inputUpdates
             self.outputUpdates = outputUpdates
@@ -4181,6 +4348,7 @@ extension KinesisAnalyticsV2 {
         /// The point at which you want the application to start processing records from the streaming source.
         public let inputStartingPositionConfiguration: InputStartingPositionConfiguration
 
+        @inlinable
         public init(inputId: String, inputStartingPositionConfiguration: InputStartingPositionConfiguration) {
             self.inputId = inputId
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
@@ -4204,6 +4372,7 @@ extension KinesisAnalyticsV2 {
         /// Identifies the run configuration (start parameters) of a Managed Service for Apache Flink application.
         public let runConfiguration: RunConfiguration?
 
+        @inlinable
         public init(applicationName: String, runConfiguration: RunConfiguration? = nil) {
             self.applicationName = applicationName
             self.runConfiguration = runConfiguration
@@ -4226,6 +4395,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking StartApplication request
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -4241,6 +4411,7 @@ extension KinesisAnalyticsV2 {
         /// Set to true to force the application to stop. If you set Force to true, Managed Service for Apache Flink stops the application without taking a snapshot.    Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts,  we recommend you to take frequent snapshots of your application.  You can only force stop a Managed Service for Apache Flink application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
         public let force: Bool?
 
+        @inlinable
         public init(applicationName: String, force: Bool? = nil) {
             self.applicationName = applicationName
             self.force = force
@@ -4262,6 +4433,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking StopApplication request
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -4277,6 +4449,7 @@ extension KinesisAnalyticsV2 {
         /// The value of the key-value tag. The value is optional.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4300,6 +4473,7 @@ extension KinesisAnalyticsV2 {
         /// The key-value tags to assign to the application.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4332,6 +4506,7 @@ extension KinesisAnalyticsV2 {
         /// A list of keys of tags to remove from the specified application.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4365,6 +4540,7 @@ extension KinesisAnalyticsV2 {
         /// The name of the application for which you want to update the maintenance configuration.
         public let applicationName: String
 
+        @inlinable
         public init(applicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate, applicationName: String) {
             self.applicationMaintenanceConfigurationUpdate = applicationMaintenanceConfigurationUpdate
             self.applicationName = applicationName
@@ -4389,6 +4565,7 @@ extension KinesisAnalyticsV2 {
         /// The application maintenance configuration description after the update.
         public let applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription?
 
+        @inlinable
         public init(applicationARN: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil) {
             self.applicationARN = applicationARN
             self.applicationMaintenanceConfigurationDescription = applicationMaintenanceConfigurationDescription
@@ -4418,6 +4595,7 @@ extension KinesisAnalyticsV2 {
         /// Describes updates to the service execution role.
         public let serviceExecutionRoleUpdate: String?
 
+        @inlinable
         public init(applicationConfigurationUpdate: ApplicationConfigurationUpdate? = nil, applicationName: String, cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]? = nil, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil, runConfigurationUpdate: RunConfigurationUpdate? = nil, runtimeEnvironmentUpdate: RuntimeEnvironment? = nil, serviceExecutionRoleUpdate: String? = nil) {
             self.applicationConfigurationUpdate = applicationConfigurationUpdate
             self.applicationName = applicationName
@@ -4466,6 +4644,7 @@ extension KinesisAnalyticsV2 {
         /// Operation ID for tracking UpdateApplication request
         public let operationId: String?
 
+        @inlinable
         public init(applicationDetail: ApplicationDetail, operationId: String? = nil) {
             self.applicationDetail = applicationDetail
             self.operationId = operationId
@@ -4483,6 +4662,7 @@ extension KinesisAnalyticsV2 {
         /// The array of Subnet IDs  used by the VPC configuration.
         public let subnetIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4511,6 +4691,7 @@ extension KinesisAnalyticsV2 {
         /// The ID of the associated VPC.
         public let vpcId: String
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String], vpcConfigurationId: String, vpcId: String) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4534,6 +4715,7 @@ extension KinesisAnalyticsV2 {
         /// Describes an update to the ID of the VPC configuration.
         public let vpcConfigurationId: String
 
+        @inlinable
         public init(securityGroupIdUpdates: [String]? = nil, subnetIdUpdates: [String]? = nil, vpcConfigurationId: String) {
             self.securityGroupIdUpdates = securityGroupIdUpdates
             self.subnetIdUpdates = subnetIdUpdates
@@ -4567,6 +4749,7 @@ extension KinesisAnalyticsV2 {
         /// The monitoring configuration of a Managed Service for Apache Flink Studio notebook.
         public let monitoringConfiguration: ZeppelinMonitoringConfiguration?
 
+        @inlinable
         public init(catalogConfiguration: CatalogConfiguration? = nil, customArtifactsConfiguration: [CustomArtifactConfiguration]? = nil, deployAsApplicationConfiguration: DeployAsApplicationConfiguration? = nil, monitoringConfiguration: ZeppelinMonitoringConfiguration? = nil) {
             self.catalogConfiguration = catalogConfiguration
             self.customArtifactsConfiguration = customArtifactsConfiguration
@@ -4601,6 +4784,7 @@ extension KinesisAnalyticsV2 {
         /// The monitoring configuration of a Managed Service for Apache Flink Studio notebook.
         public let monitoringConfigurationDescription: ZeppelinMonitoringConfigurationDescription
 
+        @inlinable
         public init(catalogConfigurationDescription: CatalogConfigurationDescription? = nil, customArtifactsConfigurationDescription: [CustomArtifactConfigurationDescription]? = nil, deployAsApplicationConfigurationDescription: DeployAsApplicationConfigurationDescription? = nil, monitoringConfigurationDescription: ZeppelinMonitoringConfigurationDescription) {
             self.catalogConfigurationDescription = catalogConfigurationDescription
             self.customArtifactsConfigurationDescription = customArtifactsConfigurationDescription
@@ -4625,6 +4809,7 @@ extension KinesisAnalyticsV2 {
         /// Updates to the monitoring configuration of a Managed Service for Apache Flink Studio notebook.
         public let monitoringConfigurationUpdate: ZeppelinMonitoringConfigurationUpdate?
 
+        @inlinable
         public init(catalogConfigurationUpdate: CatalogConfigurationUpdate? = nil, customArtifactsConfigurationUpdate: [CustomArtifactConfiguration]? = nil, deployAsApplicationConfigurationUpdate: DeployAsApplicationConfigurationUpdate? = nil, monitoringConfigurationUpdate: ZeppelinMonitoringConfigurationUpdate? = nil) {
             self.catalogConfigurationUpdate = catalogConfigurationUpdate
             self.customArtifactsConfigurationUpdate = customArtifactsConfigurationUpdate
@@ -4653,6 +4838,7 @@ extension KinesisAnalyticsV2 {
         /// The verbosity of the CloudWatch Logs for an application.
         public let logLevel: LogLevel
 
+        @inlinable
         public init(logLevel: LogLevel) {
             self.logLevel = logLevel
         }
@@ -4666,6 +4852,7 @@ extension KinesisAnalyticsV2 {
         /// Describes the verbosity of the CloudWatch Logs for an application.
         public let logLevel: LogLevel?
 
+        @inlinable
         public init(logLevel: LogLevel? = nil) {
             self.logLevel = logLevel
         }
@@ -4679,6 +4866,7 @@ extension KinesisAnalyticsV2 {
         /// Updates to the logging level for Apache Zeppelin within a Managed Service for Apache Flink Studio notebook.
         public let logLevelUpdate: LogLevel
 
+        @inlinable
         public init(logLevelUpdate: LogLevel) {
             self.logLevelUpdate = logLevelUpdate
         }

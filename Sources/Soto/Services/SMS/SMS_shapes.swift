@@ -231,6 +231,7 @@ extension SMS {
         /// The number of servers present in the application.
         public let totalServers: Int?
 
+        @inlinable
         public init(appId: String? = nil, creationTime: Date? = nil, description: String? = nil, importedAppId: String? = nil, lastModified: Date? = nil, latestReplicationTime: Date? = nil, launchConfigurationStatus: AppLaunchConfigurationStatus? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationConfigurationStatus: AppReplicationConfigurationStatus? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int? = nil, totalServers: Int? = nil) {
             self.appId = appId
             self.creationTime = creationTime
@@ -286,6 +287,7 @@ extension SMS {
         /// The ID of the validation.
         public let validationId: String?
 
+        @inlinable
         public init(appValidationStrategy: AppValidationStrategy? = nil, name: String? = nil, ssmValidationParameters: SSMValidationParameters? = nil, validationId: String? = nil) {
             self.appValidationStrategy = appValidationStrategy
             self.name = name
@@ -313,6 +315,7 @@ extension SMS {
         /// Output from using SSM to validate the application.
         public let ssmOutput: SSMOutput?
 
+        @inlinable
         public init(ssmOutput: SSMOutput? = nil) {
             self.ssmOutput = ssmOutput
         }
@@ -344,6 +347,7 @@ extension SMS {
         /// The VM management product.
         public let vmManagerType: VmManagerType?
 
+        @inlinable
         public init(associatedOn: Date? = nil, capabilityList: [ConnectorCapability]? = nil, connectorId: String? = nil, ipAddress: String? = nil, macAddress: String? = nil, status: ConnectorStatus? = nil, version: String? = nil, vmManagerId: String? = nil, vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil) {
             self.associatedOn = associatedOn
             self.capabilityList = capabilityList
@@ -385,6 +389,7 @@ extension SMS {
         /// The tags to be associated with the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -412,6 +417,7 @@ extension SMS {
         /// The tags associated with the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
             self.serverGroups = serverGroups
@@ -447,6 +453,7 @@ extension SMS {
         /// The ID of the server.
         public let serverId: String
 
+        @inlinable
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: Date, serverId: String) {
             self.description = description
             self.encrypted = encrypted
@@ -478,6 +485,7 @@ extension SMS {
         /// The unique identifier of the replication job.
         public let replicationJobId: String?
 
+        @inlinable
         public init(replicationJobId: String? = nil) {
             self.replicationJobId = replicationJobId
         }
@@ -491,6 +499,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -508,6 +517,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -529,6 +539,7 @@ extension SMS {
         /// Indicates whether to terminate the stack corresponding to the application while deleting the application.
         public let forceTerminateApp: Bool?
 
+        @inlinable
         public init(appId: String? = nil, forceStopAppReplication: Bool? = nil, forceTerminateApp: Bool? = nil) {
             self.appId = appId
             self.forceStopAppReplication = forceStopAppReplication
@@ -550,6 +561,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -571,6 +583,7 @@ extension SMS {
         /// The ID of the replication job.
         public let replicationJobId: String
 
+        @inlinable
         public init(replicationJobId: String) {
             self.replicationJobId = replicationJobId
         }
@@ -596,6 +609,7 @@ extension SMS {
         /// The ID of the connector.
         public let connectorId: String
 
+        @inlinable
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -615,6 +629,7 @@ extension SMS {
         /// The format for the change set.
         public let changesetFormat: OutputFormat?
 
+        @inlinable
         public init(appId: String? = nil, changesetFormat: OutputFormat? = nil) {
             self.appId = appId
             self.changesetFormat = changesetFormat
@@ -630,6 +645,7 @@ extension SMS {
         /// The location of the Amazon S3 object.
         public let s3Location: S3Location?
 
+        @inlinable
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -645,6 +661,7 @@ extension SMS {
         /// The format for generating the CloudFormation template.
         public let templateFormat: OutputFormat?
 
+        @inlinable
         public init(appId: String? = nil, templateFormat: OutputFormat? = nil) {
             self.appId = appId
             self.templateFormat = templateFormat
@@ -660,6 +677,7 @@ extension SMS {
         /// The location of the Amazon S3 object.
         public let s3Location: S3Location?
 
+        @inlinable
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -673,6 +691,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -692,6 +711,7 @@ extension SMS {
         /// The launch configurations for server groups in this application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
 
+        @inlinable
         public init(appId: String? = nil, autoLaunch: Bool? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
             self.appId = appId
             self.autoLaunch = autoLaunch
@@ -711,6 +731,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -724,6 +745,7 @@ extension SMS {
         /// The replication configurations associated with server groups in this application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
+        @inlinable
         public init(serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
             self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
         }
@@ -737,6 +759,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -754,6 +777,7 @@ extension SMS {
         /// The tags associated with the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
             self.serverGroups = serverGroups
@@ -771,6 +795,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -790,6 +815,7 @@ extension SMS {
         /// The configuration for instance validation.
         public let serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]?
 
+        @inlinable
         public init(appValidationConfigurations: [AppValidationConfiguration]? = nil, serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]? = nil) {
             self.appValidationConfigurations = appValidationConfigurations
             self.serverGroupValidationConfigurations = serverGroupValidationConfigurations
@@ -805,6 +831,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String
 
+        @inlinable
         public init(appId: String) {
             self.appId = appId
         }
@@ -822,6 +849,7 @@ extension SMS {
         /// The validation output.
         public let validationOutputList: [ValidationOutput]?
 
+        @inlinable
         public init(validationOutputList: [ValidationOutput]? = nil) {
             self.validationOutputList = validationOutputList
         }
@@ -837,6 +865,7 @@ extension SMS {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -854,6 +883,7 @@ extension SMS {
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorList: [Connector]? = nil, nextToken: String? = nil) {
             self.connectorList = connectorList
             self.nextToken = nextToken
@@ -873,6 +903,7 @@ extension SMS {
         /// The ID of the replication job.
         public let replicationJobId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicationJobId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -892,6 +923,7 @@ extension SMS {
         /// Information about the replication jobs.
         public let replicationJobList: [ReplicationJob]?
 
+        @inlinable
         public init(nextToken: String? = nil, replicationJobList: [ReplicationJob]? = nil) {
             self.nextToken = nextToken
             self.replicationJobList = replicationJobList
@@ -911,6 +943,7 @@ extension SMS {
         /// The ID of the replication job.
         public let replicationJobId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicationJobId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -932,6 +965,7 @@ extension SMS {
         /// Information about the replication runs.
         public let replicationRunList: [ReplicationRun]?
 
+        @inlinable
         public init(nextToken: String? = nil, replicationJob: ReplicationJob? = nil, replicationRunList: [ReplicationRun]? = nil) {
             self.nextToken = nextToken
             self.replicationJob = replicationJob
@@ -953,6 +987,7 @@ extension SMS {
         /// The server addresses.
         public let vmServerAddressList: [VmServerAddress]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -976,6 +1011,7 @@ extension SMS {
         /// Information about the servers.
         public let serverList: [Server]?
 
+        @inlinable
         public init(lastModifiedOn: Date? = nil, nextToken: String? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, serverList: [Server]? = nil) {
             self.lastModifiedOn = lastModifiedOn
             self.nextToken = nextToken
@@ -995,6 +1031,7 @@ extension SMS {
         /// The name of the service role. If you omit this parameter, we create a service-linked role for Migration Hub in your account. Otherwise, the role that you provide must have the policy and trust policy described in the Migration Hub User Guide.
         public let roleName: String?
 
+        @inlinable
         public init(roleName: String? = nil) {
             self.roleName = roleName
         }
@@ -1020,6 +1057,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1041,6 +1079,7 @@ extension SMS {
         /// The name of the latest stack launched for this application.
         public let stackName: String?
 
+        @inlinable
         public init(latestLaunchTime: Date? = nil, stackId: String? = nil, stackName: String? = nil) {
             self.latestLaunchTime = latestLaunchTime
             self.stackId = stackId
@@ -1062,6 +1101,7 @@ extension SMS {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appIds = appIds
             self.maxResults = maxResults
@@ -1081,6 +1121,7 @@ extension SMS {
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(apps: [AppSummary]? = nil, nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -1100,6 +1141,7 @@ extension SMS {
         /// The ID of the validation.
         public let validationId: String?
 
+        @inlinable
         public init(status: ValidationStatus? = nil, statusMessage: String? = nil, validationId: String? = nil) {
             self.status = status
             self.statusMessage = statusMessage
@@ -1124,6 +1166,7 @@ extension SMS {
         /// The notification information.
         public let notificationContext: NotificationContext?
 
+        @inlinable
         public init(appId: String, notificationContext: NotificationContext? = nil) {
             self.appId = appId
             self.notificationContext = notificationContext
@@ -1154,6 +1197,7 @@ extension SMS {
         /// Information about the launch configurations for server groups in the application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
 
+        @inlinable
         public init(appId: String? = nil, autoLaunch: Bool? = nil, roleName: String? = nil, serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]? = nil) {
             self.appId = appId
             self.autoLaunch = autoLaunch
@@ -1185,6 +1229,7 @@ extension SMS {
         /// Information about the replication configurations for server groups in the application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
+        @inlinable
         public init(appId: String? = nil, serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]? = nil) {
             self.appId = appId
             self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
@@ -1208,6 +1253,7 @@ extension SMS {
         /// The configuration for instance validation.
         public let serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]?
 
+        @inlinable
         public init(appId: String, appValidationConfigurations: [AppValidationConfiguration]? = nil, serverGroupValidationConfigurations: [ServerGroupValidationConfiguration]? = nil) {
             self.appId = appId
             self.appValidationConfigurations = appValidationConfigurations
@@ -1273,6 +1319,7 @@ extension SMS {
         /// Information about the VM server.
         public let vmServer: VmServer?
 
+        @inlinable
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: Date? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: Date? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
             self.description = description
             self.encrypted = encrypted
@@ -1340,6 +1387,7 @@ extension SMS {
         /// The type of replication run.
         public let type: ReplicationRunType?
 
+        @inlinable
         public init(amiId: String? = nil, completedTime: Date? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, replicationRunId: String? = nil, scheduledStartTime: Date? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil, statusMessage: String? = nil, type: ReplicationRunType? = nil) {
             self.amiId = amiId
             self.completedTime = completedTime
@@ -1375,6 +1423,7 @@ extension SMS {
         /// The progress of the current stage of a replication run.
         public let stageProgress: String?
 
+        @inlinable
         public init(stage: String? = nil, stageProgress: String? = nil) {
             self.stage = stage
             self.stageProgress = stageProgress
@@ -1392,6 +1441,7 @@ extension SMS {
         /// The Amazon S3 bucket key.
         public let key: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -1412,6 +1462,7 @@ extension SMS {
     public struct SSMOutput: AWSDecodableShape {
         public let s3Location: S3Location?
 
+        @inlinable
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -1435,6 +1486,7 @@ extension SMS {
         /// The location of the validation script.
         public let source: Source?
 
+        @inlinable
         public init(command: String? = nil, executionTimeoutSeconds: Int? = nil, instanceId: String? = nil, outputS3BucketName: String? = nil, scriptType: ScriptType? = nil, source: Source? = nil) {
             self.command = command
             self.executionTimeoutSeconds = executionTimeoutSeconds
@@ -1475,6 +1527,7 @@ extension SMS {
         /// Information about the VM server.
         public let vmServer: VmServer?
 
+        @inlinable
         public init(replicationJobId: String? = nil, replicationJobTerminated: Bool? = nil, serverId: String? = nil, serverType: ServerType? = nil, vmServer: VmServer? = nil) {
             self.replicationJobId = replicationJobId
             self.replicationJobTerminated = replicationJobTerminated
@@ -1500,6 +1553,7 @@ extension SMS {
         /// The servers that belong to a server group.
         public let serverList: [Server]?
 
+        @inlinable
         public init(name: String? = nil, serverGroupId: String? = nil, serverList: [Server]? = nil) {
             self.name = name
             self.serverGroupId = serverGroupId
@@ -1521,6 +1575,7 @@ extension SMS {
         /// The launch configuration for servers in the server group.
         public let serverLaunchConfigurations: [ServerLaunchConfiguration]?
 
+        @inlinable
         public init(launchOrder: Int? = nil, serverGroupId: String? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
             self.launchOrder = launchOrder
             self.serverGroupId = serverGroupId
@@ -1546,6 +1601,7 @@ extension SMS {
         /// The replication configuration for servers in the server group.
         public let serverReplicationConfigurations: [ServerReplicationConfiguration]?
 
+        @inlinable
         public init(serverGroupId: String? = nil, serverReplicationConfigurations: [ServerReplicationConfiguration]? = nil) {
             self.serverGroupId = serverGroupId
             self.serverReplicationConfigurations = serverReplicationConfigurations
@@ -1563,6 +1619,7 @@ extension SMS {
         /// The validation configuration.
         public let serverValidationConfigurations: [ServerValidationConfiguration]?
 
+        @inlinable
         public init(serverGroupId: String? = nil, serverValidationConfigurations: [ServerValidationConfiguration]? = nil) {
             self.serverGroupId = serverGroupId
             self.serverValidationConfigurations = serverValidationConfigurations
@@ -1605,6 +1662,7 @@ extension SMS {
         /// The ID of the VPC into which the server should be launched.
         public let vpc: String?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, configureScript: S3Location? = nil, configureScriptType: ScriptType? = nil, ec2KeyName: String? = nil, iamInstanceProfileName: String? = nil, instanceType: String? = nil, logicalId: String? = nil, securityGroup: String? = nil, server: Server? = nil, subnet: String? = nil, userData: UserData? = nil, vpc: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.configureScript = configureScript
@@ -1647,6 +1705,7 @@ extension SMS {
         /// The parameters for replicating the server.
         public let serverReplicationParameters: ServerReplicationParameters?
 
+        @inlinable
         public init(server: Server? = nil, serverReplicationParameters: ServerReplicationParameters? = nil) {
             self.server = server
             self.serverReplicationParameters = serverReplicationParameters
@@ -1674,6 +1733,7 @@ extension SMS {
         /// The seed time for creating a replication job for the server.
         public let seedTime: Date?
 
+        @inlinable
         public init(encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, runOnce: Bool? = nil, seedTime: Date? = nil) {
             self.encrypted = encrypted
             self.frequency = frequency
@@ -1706,6 +1766,7 @@ extension SMS {
         /// The ID of the validation.
         public let validationId: String?
 
+        @inlinable
         public init(name: String? = nil, server: Server? = nil, serverValidationStrategy: ServerValidationStrategy? = nil, userDataValidationParameters: UserDataValidationParameters? = nil, validationId: String? = nil) {
             self.name = name
             self.server = server
@@ -1734,6 +1795,7 @@ extension SMS {
     public struct ServerValidationOutput: AWSDecodableShape {
         public let server: Server?
 
+        @inlinable
         public init(server: Server? = nil) {
             self.server = server
         }
@@ -1746,6 +1808,7 @@ extension SMS {
     public struct Source: AWSEncodableShape & AWSDecodableShape {
         public let s3Location: S3Location?
 
+        @inlinable
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -1763,6 +1826,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1782,6 +1846,7 @@ extension SMS {
         /// The description of the replication run.
         public let description: String?
 
+        @inlinable
         public init(appId: String, description: String? = nil) {
             self.appId = appId
             self.description = description
@@ -1803,6 +1868,7 @@ extension SMS {
         /// The ID of the replication job.
         public let replicationJobId: String
 
+        @inlinable
         public init(description: String? = nil, replicationJobId: String) {
             self.description = description
             self.replicationJobId = replicationJobId
@@ -1818,6 +1884,7 @@ extension SMS {
         /// The ID of the replication run.
         public let replicationRunId: String?
 
+        @inlinable
         public init(replicationRunId: String? = nil) {
             self.replicationRunId = replicationRunId
         }
@@ -1831,6 +1898,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1850,6 +1918,7 @@ extension SMS {
         /// The tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1865,6 +1934,7 @@ extension SMS {
         /// The ID of the application.
         public let appId: String?
 
+        @inlinable
         public init(appId: String? = nil) {
             self.appId = appId
         }
@@ -1892,6 +1962,7 @@ extension SMS {
         /// The tags to associate with the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appId: String? = nil, description: String? = nil, name: String? = nil, roleName: String? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appId = appId
             self.description = description
@@ -1919,6 +1990,7 @@ extension SMS {
         /// The tags associated with the application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appSummary: AppSummary? = nil, serverGroups: [ServerGroup]? = nil, tags: [Tag]? = nil) {
             self.appSummary = appSummary
             self.serverGroups = serverGroups
@@ -1952,6 +2024,7 @@ extension SMS {
         /// The name of the IAM role to be used by Server Migration Service.
         public let roleName: String?
 
+        @inlinable
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: Date? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String, roleName: String? = nil) {
             self.description = description
             self.encrypted = encrypted
@@ -1985,6 +2058,7 @@ extension SMS {
         /// Amazon S3 location of the user-data script.
         public let s3Location: S3Location?
 
+        @inlinable
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -2004,6 +2078,7 @@ extension SMS {
         /// The location of the validation script.
         public let source: Source?
 
+        @inlinable
         public init(scriptType: ScriptType? = nil, source: Source? = nil) {
             self.scriptType = scriptType
             self.source = source
@@ -2035,6 +2110,7 @@ extension SMS {
         /// The ID of the validation.
         public let validationId: String?
 
+        @inlinable
         public init(appValidationOutput: AppValidationOutput? = nil, latestValidationTime: Date? = nil, name: String? = nil, serverValidationOutput: ServerValidationOutput? = nil, status: ValidationStatus? = nil, statusMessage: String? = nil, validationId: String? = nil) {
             self.appValidationOutput = appValidationOutput
             self.latestValidationTime = latestValidationTime
@@ -2068,6 +2144,7 @@ extension SMS {
         /// The VM server location.
         public let vmServerAddress: VmServerAddress?
 
+        @inlinable
         public init(vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil, vmName: String? = nil, vmPath: String? = nil, vmServerAddress: VmServerAddress? = nil) {
             self.vmManagerName = vmManagerName
             self.vmManagerType = vmManagerType
@@ -2091,6 +2168,7 @@ extension SMS {
         /// The ID of the VM manager.
         public let vmManagerId: String?
 
+        @inlinable
         public init(vmId: String? = nil, vmManagerId: String? = nil) {
             self.vmId = vmId
             self.vmManagerId = vmManagerId

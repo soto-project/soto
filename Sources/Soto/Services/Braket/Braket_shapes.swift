@@ -186,6 +186,7 @@ extension Braket {
         /// Configures the paths to the Python scripts used for entry and training.
         public let scriptModeConfig: ScriptModeConfig?
 
+        @inlinable
         public init(containerImage: ContainerImage? = nil, scriptModeConfig: ScriptModeConfig? = nil) {
             self.containerImage = containerImage
             self.scriptModeConfig = scriptModeConfig
@@ -208,6 +209,7 @@ extension Braket {
         /// The association type for the specified Amazon Braket resource arn.
         public let type: AssociationType
 
+        @inlinable
         public init(arn: String, type: AssociationType) {
             self.arn = arn
             self.type = type
@@ -227,6 +229,7 @@ extension Braket {
         /// The ARN of the Amazon Braket job to cancel.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -250,6 +253,7 @@ extension Braket {
         /// The ARN of the Amazon Braket job.
         public let jobArn: String
 
+        @inlinable
         public init(cancellationStatus: CancellationStatus, jobArn: String) {
             self.cancellationStatus = cancellationStatus
             self.jobArn = jobArn
@@ -267,6 +271,7 @@ extension Braket {
         /// The ARN of the task to cancel.
         public let quantumTaskArn: String
 
+        @inlinable
         public init(clientToken: String = CancelQuantumTaskRequest.idempotencyToken(), quantumTaskArn: String) {
             self.clientToken = clientToken
             self.quantumTaskArn = quantumTaskArn
@@ -296,6 +301,7 @@ extension Braket {
         /// The ARN of the task.
         public let quantumTaskArn: String
 
+        @inlinable
         public init(cancellationStatus: CancellationStatus, quantumTaskArn: String) {
             self.cancellationStatus = cancellationStatus
             self.quantumTaskArn = quantumTaskArn
@@ -311,6 +317,7 @@ extension Braket {
         /// The URI locating the container image.
         public let uri: String
 
+        @inlinable
         public init(uri: String) {
             self.uri = uri
         }
@@ -354,6 +361,7 @@ extension Braket {
         /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(algorithmSpecification: AlgorithmSpecification, associations: [Association]? = nil, checkpointConfig: JobCheckpointConfig? = nil, clientToken: String = CreateJobRequest.idempotencyToken(), deviceConfig: DeviceConfig, hyperParameters: [String: String]? = nil, inputDataConfig: [InputFileConfig]? = nil, instanceConfig: InstanceConfig, jobName: String, outputDataConfig: JobOutputDataConfig, roleArn: String, stoppingCondition: JobStoppingCondition? = nil, tags: [String: String]? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.associations = associations
@@ -412,6 +420,7 @@ extension Braket {
         /// The ARN of the Amazon Braket job created.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -443,6 +452,7 @@ extension Braket {
         /// Tags to be added to the quantum task you're creating.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: String, associations: [Association]? = nil, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, jobToken: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64, tags: [String: String]? = nil) {
             self.action = action
             self.associations = associations
@@ -486,6 +496,7 @@ extension Braket {
         /// The ARN of the task created by the request.
         public let quantumTaskArn: String
 
+        @inlinable
         public init(quantumTaskArn: String) {
             self.quantumTaskArn = quantumTaskArn
         }
@@ -499,6 +510,7 @@ extension Braket {
         /// Information about the data stored in Amazon S3 used by the Amazon Braket job.
         public let s3DataSource: S3DataSource
 
+        @inlinable
         public init(s3DataSource: S3DataSource) {
             self.s3DataSource = s3DataSource
         }
@@ -516,6 +528,7 @@ extension Braket {
         /// The primary quantum processing unit (QPU) or simulator used to create and run an Amazon Braket job.
         public let device: String
 
+        @inlinable
         public init(device: String) {
             self.device = device
         }
@@ -538,6 +551,7 @@ extension Braket {
         /// The number of jobs or tasks in the queue for a given device.
         public let queueSize: String
 
+        @inlinable
         public init(queue: QueueName, queuePriority: QueuePriority? = nil, queueSize: String) {
             self.queue = queue
             self.queuePriority = queuePriority
@@ -563,6 +577,7 @@ extension Braket {
         /// The provider of the device.
         public let providerName: String
 
+        @inlinable
         public init(deviceArn: String, deviceName: String, deviceStatus: DeviceStatus, deviceType: DeviceType, providerName: String) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
@@ -584,6 +599,7 @@ extension Braket {
         /// The ARN of the device to retrieve.
         public let deviceArn: String
 
+        @inlinable
         public init(deviceArn: String) {
             self.deviceArn = deviceArn
         }
@@ -618,6 +634,7 @@ extension Braket {
         /// The name of the partner company for the device.
         public let providerName: String
 
+        @inlinable
         public init(deviceArn: String, deviceCapabilities: String, deviceName: String, deviceQueueInfo: [DeviceQueueInfo]? = nil, deviceStatus: DeviceStatus, deviceType: DeviceType, providerName: String) {
             self.deviceArn = deviceArn
             self.deviceCapabilities = deviceCapabilities
@@ -645,6 +662,7 @@ extension Braket {
         /// The ARN of the job to retrieve.
         public let jobArn: String
 
+        @inlinable
         public init(additionalAttributeNames: [HybridJobAdditionalAttributeName]? = nil, jobArn: String) {
             self.additionalAttributeNames = additionalAttributeNames
             self.jobArn = jobArn
@@ -708,6 +726,7 @@ extension Braket {
         /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(algorithmSpecification: AlgorithmSpecification, associations: [Association]? = nil, billableDuration: Int? = nil, checkpointConfig: JobCheckpointConfig? = nil, createdAt: Date, deviceConfig: DeviceConfig? = nil, endedAt: Date? = nil, events: [JobEventDetails]? = nil, failureReason: String? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [InputFileConfig]? = nil, instanceConfig: InstanceConfig, jobArn: String, jobName: String, outputDataConfig: JobOutputDataConfig, queueInfo: HybridJobQueueInfo? = nil, roleArn: String, startedAt: Date? = nil, status: JobPrimaryStatus, stoppingCondition: JobStoppingCondition? = nil, tags: [String: String]? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.associations = associations
@@ -763,6 +782,7 @@ extension Braket {
         /// The ARN of the task to retrieve.
         public let quantumTaskArn: String
 
+        @inlinable
         public init(additionalAttributeNames: [QuantumTaskAdditionalAttributeName]? = nil, quantumTaskArn: String) {
             self.additionalAttributeNames = additionalAttributeNames
             self.quantumTaskArn = quantumTaskArn
@@ -812,6 +832,7 @@ extension Braket {
         /// The tags that belong to this task.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associations: [Association]? = nil, createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, queueInfo: QuantumTaskQueueInfo? = nil, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.associations = associations
             self.createdAt = createdAt
@@ -855,6 +876,7 @@ extension Braket {
         /// The name of the queue.
         public let queue: QueueName
 
+        @inlinable
         public init(message: String? = nil, position: String, queue: QueueName) {
             self.message = message
             self.position = position
@@ -876,6 +898,7 @@ extension Braket {
         /// The location of the channel data.
         public let dataSource: DataSource
 
+        @inlinable
         public init(channelName: String, contentType: String? = nil, dataSource: DataSource) {
             self.channelName = channelName
             self.contentType = contentType
@@ -905,6 +928,7 @@ extension Braket {
         /// The size of the storage volume, in GB, that user wants to provision.
         public let volumeSizeInGb: Int
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceType: InstanceType, volumeSizeInGb: Int) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -924,6 +948,7 @@ extension Braket {
         /// Identifies the S3 path where you want Amazon Braket to store checkpoints. For example, s3://bucket-name/key-name-prefix.
         public let s3Uri: String
 
+        @inlinable
         public init(localPath: String? = nil, s3Uri: String) {
             self.localPath = localPath
             self.s3Uri = s3Uri
@@ -950,6 +975,7 @@ extension Braket {
         /// The type of event that occurred related to the Amazon Braket job.
         public let timeOfEvent: Date?
 
+        @inlinable
         public init(eventType: JobEventType? = nil, message: String? = nil, timeOfEvent: Date? = nil) {
             self.eventType = eventType
             self.message = message
@@ -969,6 +995,7 @@ extension Braket {
         /// Identifies the S3 path where you want Amazon Braket to store the job training artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3Path: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3Path: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Path = s3Path
@@ -991,6 +1018,7 @@ extension Braket {
         /// The maximum length of time, in seconds, that an Amazon Braket job can run.
         public let maxRuntimeInSeconds: Int?
 
+        @inlinable
         public init(maxRuntimeInSeconds: Int? = nil) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
@@ -1018,6 +1046,7 @@ extension Braket {
         /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, device: String, endedAt: Date? = nil, jobArn: String, jobName: String, startedAt: Date? = nil, status: JobPrimaryStatus, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.device = device
@@ -1045,6 +1074,7 @@ extension Braket {
         /// Specify the resourceArn for the resource whose tags to display.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1062,6 +1092,7 @@ extension Braket {
         /// Displays the key, value pairs of tags associated with this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1081,6 +1112,7 @@ extension Braket {
         /// Optional. Specifies the priority of the queue. Quantum tasks in a priority queue are processed before the tasks in a normal queue.
         public let queuePriority: QueuePriority?
 
+        @inlinable
         public init(message: String? = nil, position: String, queue: QueueName, queuePriority: QueuePriority? = nil) {
             self.message = message
             self.position = position
@@ -1116,6 +1148,7 @@ extension Braket {
         /// Displays the key, value pairs of tags associated with this quantum task.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date, deviceArn: String, endedAt: Date? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
@@ -1145,6 +1178,7 @@ extension Braket {
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest that locates the S3 data source.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -1167,6 +1201,7 @@ extension Braket {
         /// The URI that specifies the S3 path to the Python script module that contains the training script used by an Amazon Braket job.
         public let s3Uri: String
 
+        @inlinable
         public init(compressionType: CompressionType? = nil, entryPoint: String, s3Uri: String) {
             self.compressionType = compressionType
             self.entryPoint = entryPoint
@@ -1191,6 +1226,7 @@ extension Braket {
         /// The values to use to filter results.
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -1217,6 +1253,7 @@ extension Braket {
         /// A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [SearchDevicesFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1242,6 +1279,7 @@ extension Braket {
         /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [DeviceSummary], nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -1261,6 +1299,7 @@ extension Braket {
         /// The values to use for the jobs filter.
         public let values: [String]
 
+        @inlinable
         public init(name: String, operator: SearchJobsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1291,6 +1330,7 @@ extension Braket {
         /// A token used for pagination of results returned in the response. Use the token returned from the previous request to continue results where the previous request ended.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [SearchJobsFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1316,6 +1356,7 @@ extension Braket {
         /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobSummary], nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -1335,6 +1376,7 @@ extension Braket {
         /// The values to use for the filter.
         public let values: [String]
 
+        @inlinable
         public init(name: String, operator: SearchQuantumTasksFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1365,6 +1407,7 @@ extension Braket {
         /// A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [SearchQuantumTasksFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1390,6 +1433,7 @@ extension Braket {
         /// An array of QuantumTaskSummary objects for tasks that match the specified filters.
         public let quantumTasks: [QuantumTaskSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, quantumTasks: [QuantumTaskSummary]) {
             self.nextToken = nextToken
             self.quantumTasks = quantumTasks
@@ -1407,6 +1451,7 @@ extension Braket {
         /// Specify the tags to add to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1434,6 +1479,7 @@ extension Braket {
         /// Specify the keys for the tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

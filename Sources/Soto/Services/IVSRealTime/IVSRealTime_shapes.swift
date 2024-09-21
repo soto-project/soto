@@ -172,6 +172,7 @@ extension IVSRealTime {
         /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a  Stage is created or updated.
         public let storageConfigurationArn: String
 
+        @inlinable
         public init(mediaTypes: [ParticipantRecordingMediaType]? = nil, storageConfigurationArn: String) {
             self.mediaTypes = mediaTypes
             self.storageConfigurationArn = storageConfigurationArn
@@ -195,6 +196,7 @@ extension IVSRealTime {
         /// ARN of the EncoderConfiguration resource. The encoder configuration and stage resources must be in the same AWS account and region.
         public let encoderConfigurationArn: String?
 
+        @inlinable
         public init(channelArn: String, encoderConfigurationArn: String? = nil) {
             self.channelArn = channelArn
             self.encoderConfigurationArn = encoderConfigurationArn
@@ -236,6 +238,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, destinations: [Destination], endTime: Date? = nil, layout: LayoutConfiguration, stageArn: String, startTime: Date? = nil, state: CompositionState, tags: [String: String]? = nil) {
             self.arn = arn
             self.destinations = destinations
@@ -277,6 +280,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, destinations: [DestinationSummary], endTime: Date? = nil, stageArn: String, startTime: Date? = nil, state: CompositionState, tags: [String: String]? = nil) {
             self.arn = arn
             self.destinations = destinations
@@ -306,6 +310,7 @@ extension IVSRealTime {
         /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps.
         public let video: Video?
 
+        @inlinable
         public init(name: String? = nil, tags: [String: String]? = nil, video: Video? = nil) {
             self.name = name
             self.tags = tags
@@ -335,6 +340,7 @@ extension IVSRealTime {
         /// The EncoderConfiguration that was created.
         public let encoderConfiguration: EncoderConfiguration?
 
+        @inlinable
         public init(encoderConfiguration: EncoderConfiguration? = nil) {
             self.encoderConfiguration = encoderConfiguration
         }
@@ -361,6 +367,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, insecureIngest: Bool? = nil, name: String? = nil, stageArn: String? = nil, tags: [String: String]? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.ingestProtocol = ingestProtocol
@@ -400,6 +407,7 @@ extension IVSRealTime {
         /// The IngestConfiguration that was created.
         public let ingestConfiguration: IngestConfiguration?
 
+        @inlinable
         public init(ingestConfiguration: IngestConfiguration? = nil) {
             self.ingestConfiguration = ingestConfiguration
         }
@@ -421,6 +429,7 @@ extension IVSRealTime {
         /// Name that can be specified to help identify the token. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, capabilities: [ParticipantTokenCapability]? = nil, duration: Int? = nil, stageArn: String, userId: String? = nil) {
             self.attributes = attributes
             self.capabilities = capabilities
@@ -452,6 +461,7 @@ extension IVSRealTime {
         /// The participant token that was created.
         public let participantToken: ParticipantToken?
 
+        @inlinable
         public init(participantToken: ParticipantToken? = nil) {
             self.participantToken = participantToken
         }
@@ -471,6 +481,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, name: String? = nil, participantTokenConfigurations: [ParticipantTokenConfiguration]? = nil, tags: [String: String]? = nil) {
             self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
             self.name = name
@@ -508,6 +519,7 @@ extension IVSRealTime {
         /// The stage that was created.
         public let stage: Stage?
 
+        @inlinable
         public init(participantTokens: [ParticipantToken]? = nil, stage: Stage? = nil) {
             self.participantTokens = participantTokens
             self.stage = stage
@@ -528,6 +540,7 @@ extension IVSRealTime {
         /// 	 in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String? = nil, s3: S3StorageConfiguration, tags: [String: String]? = nil) {
             self.name = name
             self.s3 = s3
@@ -557,6 +570,7 @@ extension IVSRealTime {
         /// The StorageConfiguration that was created.
         public let storageConfiguration: StorageConfiguration?
 
+        @inlinable
         public init(storageConfiguration: StorageConfiguration? = nil) {
             self.storageConfiguration = storageConfiguration
         }
@@ -570,6 +584,7 @@ extension IVSRealTime {
         /// ARN of the EncoderConfiguration.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -595,6 +610,7 @@ extension IVSRealTime {
         /// Optional field to force deletion of the IngestConfiguration. If this is set to true when a participant is actively publishing, the participant is disconnected from the stage, followed by deletion of the IngestConfiguration. Default: false.
         public let force: Bool?
 
+        @inlinable
         public init(arn: String, force: Bool? = nil) {
             self.arn = arn
             self.force = force
@@ -620,6 +636,7 @@ extension IVSRealTime {
         /// ARN of the public key to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -643,6 +660,7 @@ extension IVSRealTime {
         /// ARN of the stage to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -666,6 +684,7 @@ extension IVSRealTime {
         /// ARN of the storage configuration to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -701,6 +720,7 @@ extension IVSRealTime {
         /// State of the Composition Destination.
         public let state: DestinationState
 
+        @inlinable
         public init(configuration: DestinationConfiguration, detail: DestinationDetail? = nil, endTime: Date? = nil, id: String, startTime: Date? = nil, state: DestinationState) {
             self.configuration = configuration
             self.detail = detail
@@ -730,6 +750,7 @@ extension IVSRealTime {
         /// 	  or an s3 must be specified.
         public let s3: S3DestinationConfiguration?
 
+        @inlinable
         public init(channel: ChannelDestinationConfiguration? = nil, name: String? = nil, s3: S3DestinationConfiguration? = nil) {
             self.channel = channel
             self.name = name
@@ -754,6 +775,7 @@ extension IVSRealTime {
         /// An S3 detail object to return information about the S3 destination.
         public let s3: S3Detail?
 
+        @inlinable
         public init(s3: S3Detail? = nil) {
             self.s3 = s3
         }
@@ -775,6 +797,7 @@ extension IVSRealTime {
         /// State of the Composition Destination.
         public let state: DestinationState
 
+        @inlinable
         public init(endTime: Date? = nil, id: String, startTime: Date? = nil, state: DestinationState) {
             self.endTime = endTime
             self.id = id
@@ -799,6 +822,7 @@ extension IVSRealTime {
         /// ARN of the stage to which the participant is attached.
         public let stageArn: String
 
+        @inlinable
         public init(participantId: String, reason: String? = nil, stageArn: String) {
             self.participantId = participantId
             self.reason = reason
@@ -833,6 +857,7 @@ extension IVSRealTime {
         /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps
         public let video: Video?
 
+        @inlinable
         public init(arn: String, name: String? = nil, tags: [String: String]? = nil, video: Video? = nil) {
             self.arn = arn
             self.name = name
@@ -856,6 +881,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -882,6 +908,7 @@ extension IVSRealTime {
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public let remoteParticipantId: String?
 
+        @inlinable
         public init(errorCode: EventErrorCode? = nil, eventTime: Date? = nil, name: EventName? = nil, participantId: String? = nil, remoteParticipantId: String? = nil) {
             self.errorCode = errorCode
             self.eventTime = eventTime
@@ -903,6 +930,7 @@ extension IVSRealTime {
         /// ARN of the Composition resource.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -922,6 +950,7 @@ extension IVSRealTime {
         /// The Composition that was returned.
         public let composition: Composition?
 
+        @inlinable
         public init(composition: Composition? = nil) {
             self.composition = composition
         }
@@ -935,6 +964,7 @@ extension IVSRealTime {
         /// ARN of the EncoderConfiguration resource.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -954,6 +984,7 @@ extension IVSRealTime {
         /// The EncoderConfiguration that was returned.
         public let encoderConfiguration: EncoderConfiguration?
 
+        @inlinable
         public init(encoderConfiguration: EncoderConfiguration? = nil) {
             self.encoderConfiguration = encoderConfiguration
         }
@@ -967,6 +998,7 @@ extension IVSRealTime {
         /// ARN of the ingest for which the information is to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -986,6 +1018,7 @@ extension IVSRealTime {
         /// The IngestConfiguration that was returned.
         public let ingestConfiguration: IngestConfiguration?
 
+        @inlinable
         public init(ingestConfiguration: IngestConfiguration? = nil) {
             self.ingestConfiguration = ingestConfiguration
         }
@@ -1003,6 +1036,7 @@ extension IVSRealTime {
         /// Stage ARN.
         public let stageArn: String
 
+        @inlinable
         public init(participantId: String, sessionId: String, stageArn: String) {
             self.participantId = participantId
             self.sessionId = sessionId
@@ -1031,6 +1065,7 @@ extension IVSRealTime {
         /// The participant that is returned.
         public let participant: Participant?
 
+        @inlinable
         public init(participant: Participant? = nil) {
             self.participant = participant
         }
@@ -1044,6 +1079,7 @@ extension IVSRealTime {
         /// ARN of the public key for which the information is to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1063,6 +1099,7 @@ extension IVSRealTime {
         /// The public key that is returned.
         public let publicKey: PublicKey?
 
+        @inlinable
         public init(publicKey: PublicKey? = nil) {
             self.publicKey = publicKey
         }
@@ -1076,6 +1113,7 @@ extension IVSRealTime {
         /// ARN of the stage for which the information is to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1095,6 +1133,7 @@ extension IVSRealTime {
         /// The stage that is returned.
         public let stage: Stage?
 
+        @inlinable
         public init(stage: Stage? = nil) {
             self.stage = stage
         }
@@ -1110,6 +1149,7 @@ extension IVSRealTime {
         /// ARN of the stage for which the information is to be retrieved.
         public let stageArn: String
 
+        @inlinable
         public init(sessionId: String, stageArn: String) {
             self.sessionId = sessionId
             self.stageArn = stageArn
@@ -1134,6 +1174,7 @@ extension IVSRealTime {
         /// The stage session that is returned.
         public let stageSession: StageSession?
 
+        @inlinable
         public init(stageSession: StageSession? = nil) {
             self.stageSession = stageSession
         }
@@ -1147,6 +1188,7 @@ extension IVSRealTime {
         /// ARN of the storage configuration to be retrieved.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1166,6 +1208,7 @@ extension IVSRealTime {
         /// The StorageConfiguration that was returned.
         public let storageConfiguration: StorageConfiguration?
 
+        @inlinable
         public init(storageConfiguration: StorageConfiguration? = nil) {
             self.storageConfiguration = storageConfiguration
         }
@@ -1187,6 +1230,7 @@ extension IVSRealTime {
         /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set,  videoFillMode defaults to COVER fill mode for participants in the grid  and to CONTAIN fill mode for featured participants.
         public let videoFillMode: VideoFillMode?
 
+        @inlinable
         public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, videoAspectRatio: VideoAspectRatio? = nil, videoFillMode: VideoFillMode? = nil) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
@@ -1218,6 +1262,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String? = nil, publicKeyMaterial: String, tags: [String: String]? = nil) {
             self.name = name
             self.publicKeyMaterial = publicKeyMaterial
@@ -1247,6 +1292,7 @@ extension IVSRealTime {
         /// The public key that was imported.
         public let publicKey: PublicKey?
 
+        @inlinable
         public init(publicKey: PublicKey? = nil) {
             self.publicKey = publicKey
         }
@@ -1278,6 +1324,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(arn: String, attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, stageArn: String, state: IngestConfigurationState, streamKey: String, tags: [String: String]? = nil, userId: String? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -1321,6 +1368,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(arn: String, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, stageArn: String, state: IngestConfigurationState, userId: String? = nil) {
             self.arn = arn
             self.ingestProtocol = ingestProtocol
@@ -1348,6 +1396,7 @@ extension IVSRealTime {
         /// Configuration related to PiP layout.
         public let pip: PipConfiguration?
 
+        @inlinable
         public init(grid: GridConfiguration? = nil, pip: PipConfiguration? = nil) {
             self.grid = grid
             self.pip = pip
@@ -1374,6 +1423,7 @@ extension IVSRealTime {
         /// The first Composition to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(filterByEncoderConfigurationArn: String? = nil, filterByStageArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterByEncoderConfigurationArn = filterByEncoderConfigurationArn
             self.filterByStageArn = filterByStageArn
@@ -1408,6 +1458,7 @@ extension IVSRealTime {
         /// If there are more compositions than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
+        @inlinable
         public init(compositions: [CompositionSummary], nextToken: String? = nil) {
             self.compositions = compositions
             self.nextToken = nextToken
@@ -1425,6 +1476,7 @@ extension IVSRealTime {
         /// The first encoder configuration to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1449,6 +1501,7 @@ extension IVSRealTime {
         /// If there are more encoder configurations than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
+        @inlinable
         public init(encoderConfigurations: [EncoderConfigurationSummary], nextToken: String? = nil) {
             self.encoderConfigurations = encoderConfigurations
             self.nextToken = nextToken
@@ -1470,6 +1523,7 @@ extension IVSRealTime {
         /// The first IngestConfiguration to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(filterByStageArn: String? = nil, filterByState: IngestConfigurationState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterByStageArn = filterByStageArn
             self.filterByState = filterByState
@@ -1501,6 +1555,7 @@ extension IVSRealTime {
         /// If there are more IngestConfigurations than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
+        @inlinable
         public init(ingestConfigurations: [IngestConfigurationSummary], nextToken: String? = nil) {
             self.ingestConfigurations = ingestConfigurations
             self.nextToken = nextToken
@@ -1524,6 +1579,7 @@ extension IVSRealTime {
         /// Stage ARN.
         public let stageArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, participantId: String, sessionId: String, stageArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1562,6 +1618,7 @@ extension IVSRealTime {
         /// If there are more events than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [Event], nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -1592,6 +1649,7 @@ extension IVSRealTime {
         /// Stage ARN.
         public let stageArn: String
 
+        @inlinable
         public init(filterByPublished: Bool? = nil, filterByRecordingState: ParticipantRecordingFilterByRecordingState? = nil, filterByState: ParticipantState? = nil, filterByUserId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sessionId: String, stageArn: String) {
             self.filterByPublished = filterByPublished
             self.filterByRecordingState = filterByRecordingState
@@ -1635,6 +1693,7 @@ extension IVSRealTime {
         /// List of the matching participants (summary information only).
         public let participants: [ParticipantSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, participants: [ParticipantSummary]) {
             self.nextToken = nextToken
             self.participants = participants
@@ -1652,6 +1711,7 @@ extension IVSRealTime {
         /// The first public key to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1676,6 +1736,7 @@ extension IVSRealTime {
         /// List of the matching public keys (summary information only).
         public let publicKeys: [PublicKeySummary]
 
+        @inlinable
         public init(nextToken: String? = nil, publicKeys: [PublicKeySummary]) {
             self.nextToken = nextToken
             self.publicKeys = publicKeys
@@ -1695,6 +1756,7 @@ extension IVSRealTime {
         /// Stage ARN.
         public let stageArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stageArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1724,6 +1786,7 @@ extension IVSRealTime {
         /// List of matching stage sessions.
         public let stageSessions: [StageSessionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, stageSessions: [StageSessionSummary]) {
             self.nextToken = nextToken
             self.stageSessions = stageSessions
@@ -1741,6 +1804,7 @@ extension IVSRealTime {
         /// The first stage to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1765,6 +1829,7 @@ extension IVSRealTime {
         /// List of the matching stages (summary information only).
         public let stages: [StageSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, stages: [StageSummary]) {
             self.nextToken = nextToken
             self.stages = stages
@@ -1784,6 +1849,7 @@ extension IVSRealTime {
         /// 	  see the nextToken response field.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1808,6 +1874,7 @@ extension IVSRealTime {
         /// List of the matching storage configurations.
         public let storageConfigurations: [StorageConfigurationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, storageConfigurations: [StorageConfigurationSummary]) {
             self.nextToken = nextToken
             self.storageConfigurations = storageConfigurations
@@ -1823,6 +1890,7 @@ extension IVSRealTime {
         /// The ARN of the resource to be retrieved. The ARN must be URL-encoded.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1846,6 +1914,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1890,6 +1959,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, protocol: ParticipantProtocol? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.browserName = browserName
@@ -1944,6 +2014,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, recordingState: ParticipantRecordingState? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.firstJoinTime = firstJoinTime
             self.participantId = participantId
@@ -1980,6 +2051,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, capabilities: [ParticipantTokenCapability]? = nil, duration: Int? = nil, expirationTime: Date? = nil, participantId: String? = nil, token: String? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.capabilities = capabilities
@@ -2011,6 +2083,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, capabilities: [ParticipantTokenCapability]? = nil, duration: Int? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.capabilities = capabilities
@@ -2062,6 +2135,7 @@ extension IVSRealTime {
         /// 	  COVER (cropped), or CONTAIN (letterboxed). Default: COVER.
         public let videoFillMode: VideoFillMode?
 
+        @inlinable
         public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, pipBehavior: PipBehavior? = nil, pipHeight: Int? = nil, pipOffset: Int? = nil, pipParticipantAttribute: String? = nil, pipPosition: PipPosition? = nil, pipWidth: Int? = nil, videoFillMode: VideoFillMode? = nil) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
@@ -2112,6 +2186,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, fingerprint: String? = nil, name: String? = nil, publicKeyMaterial: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.fingerprint = fingerprint
@@ -2137,6 +2212,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -2154,6 +2230,7 @@ extension IVSRealTime {
         /// The recording format for storing a recording in Amazon S3.
         public let format: RecordingConfigurationFormat?
 
+        @inlinable
         public init(format: RecordingConfigurationFormat? = nil) {
             self.format = format
         }
@@ -2174,6 +2251,7 @@ extension IVSRealTime {
         /// ARN of the StorageConfiguration where recorded videos will be stored.
         public let storageConfigurationArn: String
 
+        @inlinable
         public init(encoderConfigurationArns: [String], recordingConfiguration: RecordingConfiguration? = nil, storageConfigurationArn: String) {
             self.encoderConfigurationArns = encoderConfigurationArns
             self.recordingConfiguration = recordingConfiguration
@@ -2204,6 +2282,7 @@ extension IVSRealTime {
         /// The S3 bucket prefix under which the recording is stored.
         public let recordingPrefix: String
 
+        @inlinable
         public init(recordingPrefix: String) {
             self.recordingPrefix = recordingPrefix
         }
@@ -2218,6 +2297,7 @@ extension IVSRealTime {
         /// 	  and S3 bucket must be in the same region as the Composition.
         public let bucketName: String
 
+        @inlinable
         public init(bucketName: String) {
             self.bucketName = bucketName
         }
@@ -2247,6 +2327,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activeSessionId: String? = nil, arn: String, autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, endpoints: StageEndpoints? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.activeSessionId = activeSessionId
             self.arn = arn
@@ -2276,6 +2357,7 @@ extension IVSRealTime {
         /// The endpoint to be used for IVS real-time streaming using the WHIP protocol.
         public let whip: String?
 
+        @inlinable
         public init(events: String? = nil, rtmp: String? = nil, rtmps: String? = nil, whip: String? = nil) {
             self.events = events
             self.rtmp = rtmp
@@ -2301,6 +2383,7 @@ extension IVSRealTime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, sessionId: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.sessionId = sessionId
@@ -2324,6 +2407,7 @@ extension IVSRealTime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, sessionId: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.sessionId = sessionId
@@ -2347,6 +2431,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activeSessionId: String? = nil, arn: String, name: String? = nil, tags: [String: String]? = nil) {
             self.activeSessionId = activeSessionId
             self.arn = arn
@@ -2374,6 +2459,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(destinations: [DestinationConfiguration], idempotencyToken: String? = StartCompositionRequest.idempotencyToken(), layout: LayoutConfiguration? = nil, stageArn: String, tags: [String: String]? = nil) {
             self.destinations = destinations
             self.idempotencyToken = idempotencyToken
@@ -2416,6 +2502,7 @@ extension IVSRealTime {
         /// The Composition that was created.
         public let composition: Composition?
 
+        @inlinable
         public init(composition: Composition? = nil) {
             self.composition = composition
         }
@@ -2429,6 +2516,7 @@ extension IVSRealTime {
         /// ARN of the Composition.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2458,6 +2546,7 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, name: String? = nil, s3: S3StorageConfiguration? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -2484,6 +2573,7 @@ extension IVSRealTime {
         /// 	 limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, name: String? = nil, s3: S3StorageConfiguration? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.name = name
@@ -2505,6 +2595,7 @@ extension IVSRealTime {
         /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2544,6 +2635,7 @@ extension IVSRealTime {
         /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2580,6 +2672,7 @@ extension IVSRealTime {
         /// Stage ARN that needs to be updated.
         public let stageArn: String?
 
+        @inlinable
         public init(arn: String, stageArn: String? = nil) {
             self.arn = arn
             self.stageArn = stageArn
@@ -2603,6 +2696,7 @@ extension IVSRealTime {
         /// The updated IngestConfiguration.
         public let ingestConfiguration: IngestConfiguration?
 
+        @inlinable
         public init(ingestConfiguration: IngestConfiguration? = nil) {
             self.ingestConfiguration = ingestConfiguration
         }
@@ -2620,6 +2714,7 @@ extension IVSRealTime {
         /// Name of the stage to be updated.
         public let name: String?
 
+        @inlinable
         public init(arn: String, autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, name: String? = nil) {
             self.arn = arn
             self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
@@ -2646,6 +2741,7 @@ extension IVSRealTime {
         /// The updated stage.
         public let stage: Stage?
 
+        @inlinable
         public init(stage: Stage? = nil) {
             self.stage = stage
         }
@@ -2665,6 +2761,7 @@ extension IVSRealTime {
         /// Video-resolution width. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280.
         public let width: Int?
 
+        @inlinable
         public init(bitrate: Int? = nil, framerate: Float? = nil, height: Int? = nil, width: Int? = nil) {
             self.bitrate = bitrate
             self.framerate = framerate

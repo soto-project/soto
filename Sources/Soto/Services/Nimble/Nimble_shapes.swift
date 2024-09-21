@@ -406,6 +406,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = AcceptEulasRequest.idempotencyToken(), eulaIds: [String]? = nil, studioId: String) {
             self.clientToken = clientToken
             self.eulaIds = eulaIds
@@ -434,6 +435,7 @@ extension Nimble {
         /// A collection of EULA acceptances.
         public let eulaAcceptances: [EulaAcceptance]?
 
+        @inlinable
         public init(eulaAcceptances: [EulaAcceptance]? = nil) {
             self.eulaAcceptances = eulaAcceptances
         }
@@ -449,6 +451,7 @@ extension Nimble {
         /// The value for the LDAP attribute.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -475,6 +478,7 @@ extension Nimble {
         /// The distinguished name (DN) and organizational unit (OU) of an Active Directory computer.
         public let organizationalUnitDistinguishedName: String?
 
+        @inlinable
         public init(computerAttributes: [ActiveDirectoryComputerAttribute]? = nil, directoryId: String? = nil, organizationalUnitDistinguishedName: String? = nil) {
             self.computerAttributes = computerAttributes
             self.directoryId = directoryId
@@ -503,6 +507,7 @@ extension Nimble {
         /// The endpoint of the ComputeFarm that is accessed by the studio component resource.
         public let endpoint: String?
 
+        @inlinable
         public init(activeDirectoryUser: String? = nil, endpoint: String? = nil) {
             self.activeDirectoryUser = activeDirectoryUser
             self.endpoint = endpoint
@@ -534,6 +539,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateLaunchProfileRequest.idempotencyToken(), description: String? = nil, ec2SubnetIds: [String], launchProfileProtocolVersions: [String], name: String, streamConfiguration: StreamConfigurationCreate, studioComponentIds: [String], studioId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -591,6 +597,7 @@ extension Nimble {
         /// The launch profile.
         public let launchProfile: LaunchProfile?
 
+        @inlinable
         public init(launchProfile: LaunchProfile? = nil) {
             self.launchProfile = launchProfile
         }
@@ -614,6 +621,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateStreamingImageRequest.idempotencyToken(), description: String? = nil, ec2ImageId: String, name: String, studioId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -654,6 +662,7 @@ extension Nimble {
         /// The streaming image.
         public let streamingImage: StreamingImage?
 
+        @inlinable
         public init(streamingImage: StreamingImage? = nil) {
             self.streamingImage = streamingImage
         }
@@ -679,6 +688,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateStreamingSessionRequest.idempotencyToken(), ec2InstanceType: StreamingInstanceType? = nil, launchProfileId: String, ownedBy: String? = nil, streamingImageId: String? = nil, studioId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.ec2InstanceType = ec2InstanceType
@@ -721,6 +731,7 @@ extension Nimble {
         /// The session.
         public let session: StreamingSession?
 
+        @inlinable
         public init(session: StreamingSession? = nil) {
             self.session = session
         }
@@ -740,6 +751,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = CreateStreamingSessionStreamRequest.idempotencyToken(), expirationInSeconds: Int? = nil, sessionId: String, studioId: String) {
             self.clientToken = clientToken
             self.expirationInSeconds = expirationInSeconds
@@ -772,6 +784,7 @@ extension Nimble {
         /// The stream.
         public let stream: StreamingSessionStream?
 
+        @inlinable
         public init(stream: StreamingSessionStream? = nil) {
             self.stream = stream
         }
@@ -809,6 +822,7 @@ extension Nimble {
         /// The type of the studio component.
         public let type: StudioComponentType
 
+        @inlinable
         public init(clientToken: String? = CreateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String, runtimeRoleArn: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, secureInitializationRoleArn: String? = nil, studioId: String, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -880,6 +894,7 @@ extension Nimble {
         /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
+        @inlinable
         public init(studioComponent: StudioComponent? = nil) {
             self.studioComponent = studioComponent
         }
@@ -905,6 +920,7 @@ extension Nimble {
         /// The IAM role that studio users will assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String
 
+        @inlinable
         public init(adminRoleArn: String, clientToken: String? = CreateStudioRequest.idempotencyToken(), displayName: String, studioEncryptionConfiguration: StudioEncryptionConfiguration? = nil, studioName: String, tags: [String: String]? = nil, userRoleArn: String) {
             self.adminRoleArn = adminRoleArn
             self.clientToken = clientToken
@@ -953,6 +969,7 @@ extension Nimble {
         /// Information about a studio.
         public let studio: Studio?
 
+        @inlinable
         public init(studio: Studio? = nil) {
             self.studio = studio
         }
@@ -972,6 +989,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteLaunchProfileMemberRequest.idempotencyToken(), launchProfileId: String, principalId: String, studioId: String) {
             self.clientToken = clientToken
             self.launchProfileId = launchProfileId
@@ -1008,6 +1026,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteLaunchProfileRequest.idempotencyToken(), launchProfileId: String, studioId: String) {
             self.clientToken = clientToken
             self.launchProfileId = launchProfileId
@@ -1034,6 +1053,7 @@ extension Nimble {
         /// The launch profile.
         public let launchProfile: LaunchProfile?
 
+        @inlinable
         public init(launchProfile: LaunchProfile? = nil) {
             self.launchProfile = launchProfile
         }
@@ -1051,6 +1071,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteStreamingImageRequest.idempotencyToken(), streamingImageId: String, studioId: String) {
             self.clientToken = clientToken
             self.streamingImageId = streamingImageId
@@ -1077,6 +1098,7 @@ extension Nimble {
         /// The streaming image.
         public let streamingImage: StreamingImage?
 
+        @inlinable
         public init(streamingImage: StreamingImage? = nil) {
             self.streamingImage = streamingImage
         }
@@ -1094,6 +1116,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
             self.clientToken = clientToken
             self.sessionId = sessionId
@@ -1120,6 +1143,7 @@ extension Nimble {
         /// The session.
         public let session: StreamingSession?
 
+        @inlinable
         public init(session: StreamingSession? = nil) {
             self.session = session
         }
@@ -1137,6 +1161,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteStudioComponentRequest.idempotencyToken(), studioComponentId: String, studioId: String) {
             self.clientToken = clientToken
             self.studioComponentId = studioComponentId
@@ -1163,6 +1188,7 @@ extension Nimble {
         /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
+        @inlinable
         public init(studioComponent: StudioComponent? = nil) {
             self.studioComponent = studioComponent
         }
@@ -1180,6 +1206,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteStudioMemberRequest.idempotencyToken(), principalId: String, studioId: String) {
             self.clientToken = clientToken
             self.principalId = principalId
@@ -1212,6 +1239,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteStudioRequest.idempotencyToken(), studioId: String) {
             self.clientToken = clientToken
             self.studioId = studioId
@@ -1236,6 +1264,7 @@ extension Nimble {
         /// Information about a studio.
         public let studio: Studio
 
+        @inlinable
         public init(studio: Studio) {
             self.studio = studio
         }
@@ -1259,6 +1288,7 @@ extension Nimble {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(content: String? = nil, createdAt: Date? = nil, eulaId: String? = nil, name: String? = nil, updatedAt: Date? = nil) {
             self.content = content
             self.createdAt = createdAt
@@ -1289,6 +1319,7 @@ extension Nimble {
         /// The EULA ID.
         public let eulaId: String?
 
+        @inlinable
         public init(acceptedAt: Date? = nil, acceptedBy: String? = nil, accepteeId: String? = nil, eulaAcceptanceId: String? = nil, eulaId: String? = nil) {
             self.acceptedAt = acceptedAt
             self.acceptedBy = acceptedBy
@@ -1310,6 +1341,7 @@ extension Nimble {
         /// The EULA ID.
         public let eulaId: String
 
+        @inlinable
         public init(eulaId: String) {
             self.eulaId = eulaId
         }
@@ -1327,6 +1359,7 @@ extension Nimble {
         /// The EULA.
         public let eula: Eula?
 
+        @inlinable
         public init(eula: Eula? = nil) {
             self.eula = eula
         }
@@ -1342,6 +1375,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(launchProfileId: String, studioId: String) {
             self.launchProfileId = launchProfileId
             self.studioId = studioId
@@ -1365,6 +1399,7 @@ extension Nimble {
         /// A collection of studio component summaries.
         public let studioComponentSummaries: [StudioComponentSummary]?
 
+        @inlinable
         public init(launchProfile: LaunchProfile? = nil, streamingImages: [StreamingImage]? = nil, studioComponentSummaries: [StudioComponentSummary]? = nil) {
             self.launchProfile = launchProfile
             self.streamingImages = streamingImages
@@ -1390,6 +1425,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(launchProfileId: String, launchProfileProtocolVersions: [String], launchPurpose: String, platform: String, studioId: String) {
             self.launchProfileId = launchProfileId
             self.launchProfileProtocolVersions = launchProfileProtocolVersions
@@ -1415,6 +1451,7 @@ extension Nimble {
         /// The launch profile initialization.
         public let launchProfileInitialization: LaunchProfileInitialization?
 
+        @inlinable
         public init(launchProfileInitialization: LaunchProfileInitialization? = nil) {
             self.launchProfileInitialization = launchProfileInitialization
         }
@@ -1432,6 +1469,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(launchProfileId: String, principalId: String, studioId: String) {
             self.launchProfileId = launchProfileId
             self.principalId = principalId
@@ -1453,6 +1491,7 @@ extension Nimble {
         /// The member.
         public let member: LaunchProfileMembership?
 
+        @inlinable
         public init(member: LaunchProfileMembership? = nil) {
             self.member = member
         }
@@ -1468,6 +1507,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(launchProfileId: String, studioId: String) {
             self.launchProfileId = launchProfileId
             self.studioId = studioId
@@ -1487,6 +1527,7 @@ extension Nimble {
         /// The launch profile.
         public let launchProfile: LaunchProfile?
 
+        @inlinable
         public init(launchProfile: LaunchProfile? = nil) {
             self.launchProfile = launchProfile
         }
@@ -1502,6 +1543,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(streamingImageId: String, studioId: String) {
             self.streamingImageId = streamingImageId
             self.studioId = studioId
@@ -1521,6 +1563,7 @@ extension Nimble {
         /// The streaming image.
         public let streamingImage: StreamingImage?
 
+        @inlinable
         public init(streamingImage: StreamingImage? = nil) {
             self.streamingImage = streamingImage
         }
@@ -1536,6 +1579,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(backupId: String, studioId: String) {
             self.backupId = backupId
             self.studioId = studioId
@@ -1555,6 +1599,7 @@ extension Nimble {
         /// Information about the streaming session backup.
         public let streamingSessionBackup: StreamingSessionBackup?
 
+        @inlinable
         public init(streamingSessionBackup: StreamingSessionBackup? = nil) {
             self.streamingSessionBackup = streamingSessionBackup
         }
@@ -1570,6 +1615,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(sessionId: String, studioId: String) {
             self.sessionId = sessionId
             self.studioId = studioId
@@ -1589,6 +1635,7 @@ extension Nimble {
         /// The session.
         public let session: StreamingSession?
 
+        @inlinable
         public init(session: StreamingSession? = nil) {
             self.session = session
         }
@@ -1606,6 +1653,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(sessionId: String, streamId: String, studioId: String) {
             self.sessionId = sessionId
             self.streamId = streamId
@@ -1627,6 +1675,7 @@ extension Nimble {
         /// The stream.
         public let stream: StreamingSessionStream?
 
+        @inlinable
         public init(stream: StreamingSessionStream? = nil) {
             self.stream = stream
         }
@@ -1642,6 +1691,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(studioComponentId: String, studioId: String) {
             self.studioComponentId = studioComponentId
             self.studioId = studioId
@@ -1661,6 +1711,7 @@ extension Nimble {
         /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
+        @inlinable
         public init(studioComponent: StudioComponent? = nil) {
             self.studioComponent = studioComponent
         }
@@ -1676,6 +1727,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(principalId: String, studioId: String) {
             self.principalId = principalId
             self.studioId = studioId
@@ -1695,6 +1747,7 @@ extension Nimble {
         /// The member.
         public let member: StudioMembership?
 
+        @inlinable
         public init(member: StudioMembership? = nil) {
             self.member = member
         }
@@ -1708,6 +1761,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(studioId: String) {
             self.studioId = studioId
         }
@@ -1725,6 +1779,7 @@ extension Nimble {
         /// Information about a studio.
         public let studio: Studio
 
+        @inlinable
         public init(studio: Studio) {
             self.studio = studio
         }
@@ -1772,6 +1827,7 @@ extension Nimble {
         /// The list of the latest validation results.
         public let validationResults: [ValidationResult]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SubnetIds: [String]? = nil, launchProfileId: String? = nil, launchProfileProtocolVersions: [String]? = nil, name: String? = nil, state: LaunchProfileState? = nil, statusCode: LaunchProfileStatusCode? = nil, statusMessage: String? = nil, streamConfiguration: StreamConfiguration? = nil, studioComponentIds: [String]? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, validationResults: [ValidationResult]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1833,6 +1889,7 @@ extension Nimble {
         /// The user initializtion scripts.
         public let userInitializationScripts: [LaunchProfileInitializationScript]?
 
+        @inlinable
         public init(activeDirectory: LaunchProfileInitializationActiveDirectory? = nil, ec2SecurityGroupIds: [String]? = nil, launchProfileId: String? = nil, launchProfileProtocolVersion: String? = nil, launchPurpose: String? = nil, name: String? = nil, platform: LaunchProfilePlatform? = nil, systemInitializationScripts: [LaunchProfileInitializationScript]? = nil, userInitializationScripts: [LaunchProfileInitializationScript]? = nil) {
             self.activeDirectory = activeDirectory
             self.ec2SecurityGroupIds = ec2SecurityGroupIds
@@ -1874,6 +1931,7 @@ extension Nimble {
         /// The name for the studio component.
         public let studioComponentName: String?
 
+        @inlinable
         public init(computerAttributes: [ActiveDirectoryComputerAttribute]? = nil, directoryId: String? = nil, directoryName: String? = nil, dnsIpAddresses: [String]? = nil, organizationalUnitDistinguishedName: String? = nil, studioComponentId: String? = nil, studioComponentName: String? = nil) {
             self.computerAttributes = computerAttributes
             self.directoryId = directoryId
@@ -1907,6 +1965,7 @@ extension Nimble {
         /// The name for the studio component.
         public let studioComponentName: String?
 
+        @inlinable
         public init(runtimeRoleArn: String? = nil, script: String? = nil, secureInitializationRoleArn: String? = nil, studioComponentId: String? = nil, studioComponentName: String? = nil) {
             self.runtimeRoleArn = runtimeRoleArn
             self.script = script
@@ -1934,6 +1993,7 @@ extension Nimble {
         /// The Active Directory Security Identifier for this user, if available.
         public let sid: String?
 
+        @inlinable
         public init(identityStoreId: String? = nil, persona: LaunchProfilePersona? = nil, principalId: String? = nil, sid: String? = nil) {
             self.identityStoreId = identityStoreId
             self.persona = persona
@@ -1953,6 +2013,7 @@ extension Nimble {
         /// The endpoint of the license service that is accessed by the studio component resource.
         public let endpoint: String?
 
+        @inlinable
         public init(endpoint: String? = nil) {
             self.endpoint = endpoint
         }
@@ -1970,6 +2031,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(eulaIds: [String]? = nil, nextToken: String? = nil, studioId: String) {
             self.eulaIds = eulaIds
             self.nextToken = nextToken
@@ -1993,6 +2055,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(eulaAcceptances: [EulaAcceptance]? = nil, nextToken: String? = nil) {
             self.eulaAcceptances = eulaAcceptances
             self.nextToken = nextToken
@@ -2010,6 +2073,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(eulaIds: [String]? = nil, nextToken: String? = nil) {
             self.eulaIds = eulaIds
             self.nextToken = nextToken
@@ -2031,6 +2095,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(eulas: [Eula]? = nil, nextToken: String? = nil) {
             self.eulas = eulas
             self.nextToken = nextToken
@@ -2052,6 +2117,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(launchProfileId: String, maxResults: Int? = nil, nextToken: String? = nil, studioId: String) {
             self.launchProfileId = launchProfileId
             self.maxResults = maxResults
@@ -2082,6 +2148,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [LaunchProfileMembership]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -2105,6 +2172,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, states: [LaunchProfileState]? = nil, studioId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2137,6 +2205,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(launchProfiles: [LaunchProfile]? = nil, nextToken: String? = nil) {
             self.launchProfiles = launchProfiles
             self.nextToken = nextToken
@@ -2156,6 +2225,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(nextToken: String? = nil, owner: String? = nil, studioId: String) {
             self.nextToken = nextToken
             self.owner = owner
@@ -2179,6 +2249,7 @@ extension Nimble {
         /// A collection of streaming images.
         public let streamingImages: [StreamingImage]?
 
+        @inlinable
         public init(nextToken: String? = nil, streamingImages: [StreamingImage]? = nil) {
             self.nextToken = nextToken
             self.streamingImages = streamingImages
@@ -2198,6 +2269,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(nextToken: String? = nil, ownedBy: String? = nil, studioId: String) {
             self.nextToken = nextToken
             self.ownedBy = ownedBy
@@ -2221,6 +2293,7 @@ extension Nimble {
         /// Information about the streaming session backups.
         public let streamingSessionBackups: [StreamingSessionBackup]?
 
+        @inlinable
         public init(nextToken: String? = nil, streamingSessionBackups: [StreamingSessionBackup]? = nil) {
             self.nextToken = nextToken
             self.streamingSessionBackups = streamingSessionBackups
@@ -2244,6 +2317,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(createdBy: String? = nil, nextToken: String? = nil, ownedBy: String? = nil, sessionIds: String? = nil, studioId: String) {
             self.createdBy = createdBy
             self.nextToken = nextToken
@@ -2271,6 +2345,7 @@ extension Nimble {
         /// A collection of streaming sessions.
         public let sessions: [StreamingSession]?
 
+        @inlinable
         public init(nextToken: String? = nil, sessions: [StreamingSession]? = nil) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -2294,6 +2369,7 @@ extension Nimble {
         /// Filters the request to studio components that are of one of the given types.
         public let types: [StudioComponentType]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, states: [StudioComponentState]? = nil, studioId: String, types: [StudioComponentType]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2326,6 +2402,7 @@ extension Nimble {
         /// A collection of studio components.
         public let studioComponents: [StudioComponent]?
 
+        @inlinable
         public init(nextToken: String? = nil, studioComponents: [StudioComponent]? = nil) {
             self.nextToken = nextToken
             self.studioComponents = studioComponents
@@ -2345,6 +2422,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, studioId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2373,6 +2451,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [StudioMembership]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -2388,6 +2467,7 @@ extension Nimble {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2407,6 +2487,7 @@ extension Nimble {
         /// A collection of studios.
         public let studios: [Studio]
 
+        @inlinable
         public init(nextToken: String? = nil, studios: [Studio]) {
             self.nextToken = nextToken
             self.studios = studios
@@ -2422,6 +2503,7 @@ extension Nimble {
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2439,6 +2521,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2454,6 +2537,7 @@ extension Nimble {
         /// The principal ID.
         public let principalId: String
 
+        @inlinable
         public init(persona: LaunchProfilePersona, principalId: String) {
             self.persona = persona
             self.principalId = principalId
@@ -2471,6 +2555,7 @@ extension Nimble {
         /// The principal ID.
         public let principalId: String
 
+        @inlinable
         public init(persona: StudioPersona, principalId: String) {
             self.persona = persona
             self.principalId = principalId
@@ -2494,6 +2579,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = PutLaunchProfileMembersRequest.idempotencyToken(), identityStoreId: String, launchProfileId: String, members: [NewLaunchProfileMember], studioId: String) {
             self.clientToken = clientToken
             self.identityStoreId = identityStoreId
@@ -2539,6 +2625,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = PutStudioMembersRequest.idempotencyToken(), identityStoreId: String, members: [NewStudioMember], studioId: String) {
             self.clientToken = clientToken
             self.identityStoreId = identityStoreId
@@ -2578,6 +2665,7 @@ extension Nimble {
         /// A script parameter value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2609,6 +2697,7 @@ extension Nimble {
         /// The mount location for a shared file system on a Windows virtual workstation.
         public let windowsMountDrive: String?
 
+        @inlinable
         public init(endpoint: String? = nil, fileSystemId: String? = nil, linuxMountPoint: String? = nil, shareName: String? = nil, windowsMountDrive: String? = nil) {
             self.endpoint = endpoint
             self.fileSystemId = fileSystemId
@@ -2642,6 +2731,7 @@ extension Nimble {
         /// The studio ID for the StartStreamingSessionRequest.
         public let studioId: String
 
+        @inlinable
         public init(backupId: String? = nil, clientToken: String? = StartStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
             self.backupId = backupId
             self.clientToken = clientToken
@@ -2671,6 +2761,7 @@ extension Nimble {
     public struct StartStreamingSessionResponse: AWSDecodableShape {
         public let session: StreamingSession?
 
+        @inlinable
         public init(session: StreamingSession? = nil) {
             self.session = session
         }
@@ -2686,6 +2777,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = StartStudioSSOConfigurationRepairRequest.idempotencyToken(), studioId: String) {
             self.clientToken = clientToken
             self.studioId = studioId
@@ -2710,6 +2802,7 @@ extension Nimble {
         /// Information about a studio.
         public let studio: Studio
 
+        @inlinable
         public init(studio: Studio) {
             self.studio = studio
         }
@@ -2729,6 +2822,7 @@ extension Nimble {
         /// Adds additional instructions to a streaming session stop action to either retain the EBS volumes or delete the EBS volumes.
         public let volumeRetentionMode: VolumeRetentionMode?
 
+        @inlinable
         public init(clientToken: String? = StopStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String, volumeRetentionMode: VolumeRetentionMode? = nil) {
             self.clientToken = clientToken
             self.sessionId = sessionId
@@ -2758,6 +2852,7 @@ extension Nimble {
     public struct StopStreamingSessionResponse: AWSDecodableShape {
         public let session: StreamingSession?
 
+        @inlinable
         public init(session: StreamingSession? = nil) {
             self.session = session
         }
@@ -2789,6 +2884,7 @@ extension Nimble {
         /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
         public let volumeConfiguration: VolumeConfiguration?
 
+        @inlinable
         public init(automaticTerminationMode: AutomaticTerminationMode? = nil, clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionBackup: StreamConfigurationSessionBackup? = nil, sessionPersistenceMode: SessionPersistenceMode? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String], volumeConfiguration: VolumeConfiguration? = nil) {
             self.automaticTerminationMode = automaticTerminationMode
             self.clipboardMode = clipboardMode
@@ -2838,6 +2934,7 @@ extension Nimble {
         /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
         public let volumeConfiguration: VolumeConfiguration?
 
+        @inlinable
         public init(automaticTerminationMode: AutomaticTerminationMode? = nil, clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionBackup: StreamConfigurationSessionBackup? = nil, sessionPersistenceMode: SessionPersistenceMode? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String], volumeConfiguration: VolumeConfiguration? = nil) {
             self.automaticTerminationMode = automaticTerminationMode
             self.clipboardMode = clipboardMode
@@ -2889,6 +2986,7 @@ extension Nimble {
         /// Specifies how artists sessions are backed up. Configures backups for streaming sessions launched with this launch profile. The default value is DEACTIVATED, which means that backups are deactivated. To allow backups, set this value to AUTOMATIC.
         public let mode: SessionBackupMode?
 
+        @inlinable
         public init(maxBackupsToRetain: Int? = nil, mode: SessionBackupMode? = nil) {
             self.maxBackupsToRetain = maxBackupsToRetain
             self.mode = mode
@@ -2911,6 +3009,7 @@ extension Nimble {
         /// The configuration for the upload storage root of the streaming session.
         public let root: StreamingSessionStorageRoot?
 
+        @inlinable
         public init(mode: [StreamingSessionStorageMode], root: StreamingSessionStorageRoot? = nil) {
             self.mode = mode
             self.root = root
@@ -2955,6 +3054,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, ec2ImageId: String? = nil, encryptionConfiguration: StreamingImageEncryptionConfiguration? = nil, eulaIds: [String]? = nil, name: String? = nil, owner: String? = nil, platform: String? = nil, state: StreamingImageState? = nil, statusCode: StreamingImageStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -2994,6 +3094,7 @@ extension Nimble {
         /// The type of KMS key that is used to encrypt studio data.
         public let keyType: StreamingImageEncryptionConfigurationKeyType
 
+        @inlinable
         public init(keyArn: String? = nil, keyType: StreamingImageEncryptionConfigurationKeyType) {
             self.keyArn = keyArn
             self.keyType = keyType
@@ -3067,6 +3168,7 @@ extension Nimble {
         /// Determine if an EBS volume created from this streaming session will be backed up.
         public let volumeRetentionMode: VolumeRetentionMode?
 
+        @inlinable
         public init(arn: String? = nil, automaticTerminationMode: AutomaticTerminationMode? = nil, backupMode: SessionBackupMode? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, maxBackupsToRetain: Int? = nil, ownedBy: String? = nil, sessionId: String? = nil, sessionPersistenceMode: SessionPersistenceMode? = nil, startedAt: Date? = nil, startedBy: String? = nil, startedFromBackupId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, stopAt: Date? = nil, stoppedAt: Date? = nil, stoppedBy: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, volumeConfiguration: VolumeConfiguration? = nil, volumeRetentionMode: VolumeRetentionMode? = nil) {
             self.arn = arn
             self.automaticTerminationMode = automaticTerminationMode
@@ -3150,6 +3252,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, backupId: String? = nil, createdAt: Date? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.backupId = backupId
@@ -3183,6 +3286,7 @@ extension Nimble {
         /// The folder path in Windows workstations where files are uploaded.
         public let windows: String?
 
+        @inlinable
         public init(linux: String? = nil, windows: String? = nil) {
             self.linux = linux
             self.windows = windows
@@ -3223,6 +3327,7 @@ extension Nimble {
         /// The URL to connect to this stream using the DCV client.
         public let url: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, expiresAt: Date? = nil, ownedBy: String? = nil, state: StreamingSessionStreamState? = nil, statusCode: StreamingSessionStreamStatusCode? = nil, streamId: String? = nil, url: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3282,6 +3387,7 @@ extension Nimble {
         /// The IAM role that studio users assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String?
 
+        @inlinable
         public init(adminRoleArn: String? = nil, arn: String? = nil, createdAt: Date? = nil, displayName: String? = nil, homeRegion: String? = nil, ssoClientId: String? = nil, state: StudioState? = nil, statusCode: StudioStatusCode? = nil, statusMessage: String? = nil, studioEncryptionConfiguration: StudioEncryptionConfiguration? = nil, studioId: String? = nil, studioName: String? = nil, studioUrl: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, userRoleArn: String? = nil) {
             self.adminRoleArn = adminRoleArn
             self.arn = arn
@@ -3365,6 +3471,7 @@ extension Nimble {
         /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(arn: String? = nil, configuration: StudioComponentConfiguration? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, runtimeRoleArn: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, secureInitializationRoleArn: String? = nil, state: StudioComponentState? = nil, statusCode: StudioComponentStatusCode? = nil, statusMessage: String? = nil, studioComponentId: String? = nil, subtype: StudioComponentSubtype? = nil, tags: [String: String]? = nil, type: StudioComponentType? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.arn = arn
             self.configuration = configuration
@@ -3422,6 +3529,7 @@ extension Nimble {
         /// The initialization script.
         public let script: String?
 
+        @inlinable
         public init(launchProfileProtocolVersion: String? = nil, platform: LaunchProfilePlatform? = nil, runContext: StudioComponentInitializationScriptRunContext? = nil, script: String? = nil) {
             self.launchProfileProtocolVersion = launchProfileProtocolVersion
             self.platform = platform
@@ -3466,6 +3574,7 @@ extension Nimble {
         /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, name: String? = nil, studioComponentId: String? = nil, subtype: StudioComponentSubtype? = nil, type: StudioComponentType? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3497,6 +3606,7 @@ extension Nimble {
         /// The type of KMS key that is used to encrypt studio data.
         public let keyType: StudioEncryptionConfigurationKeyType
 
+        @inlinable
         public init(keyArn: String? = nil, keyType: StudioEncryptionConfigurationKeyType) {
             self.keyArn = keyArn
             self.keyType = keyType
@@ -3523,6 +3633,7 @@ extension Nimble {
         /// The Active Directory Security Identifier for this user, if available.
         public let sid: String?
 
+        @inlinable
         public init(identityStoreId: String? = nil, persona: StudioPersona? = nil, principalId: String? = nil, sid: String? = nil) {
             self.identityStoreId = identityStoreId
             self.persona = persona
@@ -3544,6 +3655,7 @@ extension Nimble {
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3571,6 +3683,7 @@ extension Nimble {
         /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3602,6 +3715,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateLaunchProfileMemberRequest.idempotencyToken(), launchProfileId: String, persona: LaunchProfilePersona, principalId: String, studioId: String) {
             self.clientToken = clientToken
             self.launchProfileId = launchProfileId
@@ -3634,6 +3748,7 @@ extension Nimble {
         /// The updated member.
         public let member: LaunchProfileMembership?
 
+        @inlinable
         public init(member: LaunchProfileMembership? = nil) {
             self.member = member
         }
@@ -3661,6 +3776,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateLaunchProfileRequest.idempotencyToken(), description: String? = nil, launchProfileId: String, launchProfileProtocolVersions: [String]? = nil, name: String? = nil, streamConfiguration: StreamConfigurationCreate? = nil, studioComponentIds: [String]? = nil, studioId: String) {
             self.clientToken = clientToken
             self.description = description
@@ -3713,6 +3829,7 @@ extension Nimble {
         /// The launch profile.
         public let launchProfile: LaunchProfile?
 
+        @inlinable
         public init(launchProfile: LaunchProfile? = nil) {
             self.launchProfile = launchProfile
         }
@@ -3734,6 +3851,7 @@ extension Nimble {
         /// The studio ID.
         public let studioId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateStreamingImageRequest.idempotencyToken(), description: String? = nil, name: String? = nil, streamingImageId: String, studioId: String) {
             self.clientToken = clientToken
             self.description = description
@@ -3768,6 +3886,7 @@ extension Nimble {
     public struct UpdateStreamingImageResponse: AWSDecodableShape {
         public let streamingImage: StreamingImage?
 
+        @inlinable
         public init(streamingImage: StreamingImage? = nil) {
             self.streamingImage = streamingImage
         }
@@ -3805,6 +3924,7 @@ extension Nimble {
         /// The type of the studio component.
         public let type: StudioComponentType?
 
+        @inlinable
         public init(clientToken: String? = UpdateStudioComponentRequest.idempotencyToken(), configuration: StudioComponentConfiguration? = nil, description: String? = nil, ec2SecurityGroupIds: [String]? = nil, initializationScripts: [StudioComponentInitializationScript]? = nil, name: String? = nil, runtimeRoleArn: String? = nil, scriptParameters: [ScriptParameterKeyValue]? = nil, secureInitializationRoleArn: String? = nil, studioComponentId: String, studioId: String, subtype: StudioComponentSubtype? = nil, type: StudioComponentType? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -3875,6 +3995,7 @@ extension Nimble {
         /// Information about the studio component.
         public let studioComponent: StudioComponent?
 
+        @inlinable
         public init(studioComponent: StudioComponent? = nil) {
             self.studioComponent = studioComponent
         }
@@ -3896,6 +4017,7 @@ extension Nimble {
         /// The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String?
 
+        @inlinable
         public init(adminRoleArn: String? = nil, clientToken: String? = UpdateStudioRequest.idempotencyToken(), displayName: String? = nil, studioId: String, userRoleArn: String? = nil) {
             self.adminRoleArn = adminRoleArn
             self.clientToken = clientToken
@@ -3933,6 +4055,7 @@ extension Nimble {
         /// Information about a studio.
         public let studio: Studio
 
+        @inlinable
         public init(studio: Studio) {
             self.studio = studio
         }
@@ -3952,6 +4075,7 @@ extension Nimble {
         /// The type of the validation result.
         public let type: LaunchProfileValidationType
 
+        @inlinable
         public init(state: LaunchProfileValidationState, statusCode: LaunchProfileValidationStatusCode, statusMessage: String, type: LaunchProfileValidationType) {
             self.state = state
             self.statusCode = statusCode
@@ -3975,6 +4099,7 @@ extension Nimble {
         /// The throughput to provision for the root volume that is attached to the streaming session. The throughput is measured in MiB/s.
         public let throughput: Int?
 
+        @inlinable
         public init(iops: Int? = nil, size: Int? = nil, throughput: Int? = nil) {
             self.iops = iops
             self.size = size

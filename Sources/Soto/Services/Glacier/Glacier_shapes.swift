@@ -108,6 +108,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.uploadId = uploadId
@@ -131,6 +132,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -154,6 +156,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, tags: [String: String]? = nil, vaultName: String) {
             self.accountId = accountId
             self.tags = tags
@@ -181,6 +184,7 @@ extension Glacier {
         /// The relative URI path of the newly added archive resource.
         public let location: String?
 
+        @inlinable
         public init(archiveId: String? = nil, checksum: String? = nil, location: String? = nil) {
             self.archiveId = archiveId
             self.checksum = checksum
@@ -211,6 +215,7 @@ extension Glacier {
         /// A value used to separate individual records from each other.
         public let recordDelimiter: String?
 
+        @inlinable
         public init(comments: String? = nil, fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, recordDelimiter: String? = nil) {
             self.comments = comments
             self.fieldDelimiter = fieldDelimiter
@@ -242,6 +247,7 @@ extension Glacier {
         /// A value used to separate individual records from each other.
         public let recordDelimiter: String?
 
+        @inlinable
         public init(fieldDelimiter: String? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil, quoteFields: QuoteFields? = nil, recordDelimiter: String? = nil) {
             self.fieldDelimiter = fieldDelimiter
             self.quoteCharacter = quoteCharacter
@@ -271,6 +277,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, archiveSize: String? = nil, checksum: String? = nil, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.archiveSize = archiveSize
@@ -300,6 +307,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, lockId: String, vaultName: String) {
             self.accountId = accountId
             self.lockId = lockId
@@ -323,6 +331,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -342,6 +351,7 @@ extension Glacier {
         /// The URI of the vault that was created.
         public let location: String?
 
+        @inlinable
         public init(location: String? = nil) {
             self.location = location
         }
@@ -358,6 +368,7 @@ extension Glacier {
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
         public let rules: [DataRetrievalRule]?
 
+        @inlinable
         public init(rules: [DataRetrievalRule]? = nil) {
             self.rules = rules
         }
@@ -373,6 +384,7 @@ extension Glacier {
         /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
         public let strategy: String?
 
+        @inlinable
         public init(bytesPerHour: Int64? = nil, strategy: String? = nil) {
             self.bytesPerHour = bytesPerHour
             self.strategy = strategy
@@ -392,6 +404,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, archiveId: String, vaultName: String) {
             self.accountId = accountId
             self.archiveId = archiveId
@@ -415,6 +428,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -436,6 +450,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -457,6 +472,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -480,6 +496,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, jobId: String, vaultName: String) {
             self.accountId = accountId
             self.jobId = jobId
@@ -503,6 +520,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -532,6 +550,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String?
 
+        @inlinable
         public init(creationDate: String? = nil, lastInventoryDate: String? = nil, numberOfArchives: Int64? = nil, sizeInBytes: Int64? = nil, vaultARN: String? = nil, vaultName: String? = nil) {
             self.creationDate = creationDate
             self.lastInventoryDate = lastInventoryDate
@@ -559,6 +578,7 @@ extension Glacier {
         /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(encryptionType: EncryptionType? = nil, kmsContext: String? = nil, kmsKeyId: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsContext = kmsContext
@@ -576,6 +596,7 @@ extension Glacier {
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -593,6 +614,7 @@ extension Glacier {
         /// Contains the returned data retrieval policy in JSON format.
         public let policy: DataRetrievalPolicy?
 
+        @inlinable
         public init(policy: DataRetrievalPolicy? = nil) {
             self.policy = policy
         }
@@ -612,6 +634,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, jobId: String, range: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.jobId = jobId
@@ -648,6 +671,7 @@ extension Glacier {
         /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
         public let status: Int?
 
+        @inlinable
         public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: AWSHTTPBody, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveDescription = archiveDescription
@@ -679,6 +703,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -698,6 +723,7 @@ extension Glacier {
         /// Contains the returned vault access policy as a JSON string.
         public let policy: VaultAccessPolicy
 
+        @inlinable
         public init(policy: VaultAccessPolicy) {
             self.policy = policy
         }
@@ -716,6 +742,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -741,6 +768,7 @@ extension Glacier {
         /// The state of the vault lock. InProgress or Locked.
         public let state: String?
 
+        @inlinable
         public init(creationDate: String? = nil, expirationDate: String? = nil, policy: String? = nil, state: String? = nil) {
             self.creationDate = creationDate
             self.expirationDate = expirationDate
@@ -762,6 +790,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -781,6 +810,7 @@ extension Glacier {
         /// Returns the notification configuration set on the vault.
         public let vaultNotificationConfig: VaultNotificationConfig
 
+        @inlinable
         public init(vaultNotificationConfig: VaultNotificationConfig) {
             self.vaultNotificationConfig = vaultNotificationConfig
         }
@@ -837,6 +867,7 @@ extension Glacier {
         /// The Amazon Resource Name (ARN) of the vault from which an archive retrieval was requested.
         public let vaultARN: String?
 
+        @inlinable
         public init(action: ActionCode? = nil, archiveId: String? = nil, archiveSHA256TreeHash: String? = nil, archiveSizeInBytes: Int64? = nil, completed: Bool? = nil, completionDate: String? = nil, creationDate: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, inventorySizeInBytes: Int64? = nil, jobDescription: String? = nil, jobId: String? = nil, jobOutputPath: String? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, sha256TreeHash: String? = nil, snsTopic: String? = nil, statusCode: StatusCode? = nil, statusMessage: String? = nil, tier: String? = nil, vaultARN: String? = nil) {
             self.action = action
             self.archiveId = archiveId
@@ -892,6 +923,7 @@ extension Glacier {
         /// Specifies the permission given to the grantee.
         public let permission: Permission?
 
+        @inlinable
         public init(grantee: Grantee? = nil, permission: Permission? = nil) {
             self.grantee = grantee
             self.permission = permission
@@ -915,6 +947,7 @@ extension Glacier {
         /// URI of the grantee group.
         public let uri: String?
 
+        @inlinable
         public init(displayName: String? = nil, emailAddress: String? = nil, id: String? = nil, type: `Type`, uri: String? = nil) {
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -940,6 +973,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, jobParameters: JobParameters? = nil, vaultName: String) {
             self.accountId = accountId
             self.jobParameters = jobParameters
@@ -965,6 +999,7 @@ extension Glacier {
         /// The relative URI path of the job.
         public let location: String?
 
+        @inlinable
         public init(jobId: String? = nil, jobOutputPath: String? = nil, location: String? = nil) {
             self.jobId = jobId
             self.jobOutputPath = jobOutputPath
@@ -991,6 +1026,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, archiveDescription: String? = nil, partSize: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.archiveDescription = archiveDescription
@@ -1016,6 +1052,7 @@ extension Glacier {
         /// The ID of the multipart upload. This value is also included as part of the location.
         public let uploadId: String?
 
+        @inlinable
         public init(location: String? = nil, uploadId: String? = nil) {
             self.location = location
             self.uploadId = uploadId
@@ -1038,6 +1075,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, policy: VaultLockPolicy? = nil, vaultName: String) {
             self.accountId = accountId
             self.policy = policy
@@ -1059,6 +1097,7 @@ extension Glacier {
         /// The lock ID, which is used to complete the vault locking process.
         public let lockId: String?
 
+        @inlinable
         public init(lockId: String? = nil) {
             self.lockId = lockId
         }
@@ -1075,6 +1114,7 @@ extension Glacier {
         /// Describes the serialization of a CSV-encoded object.
         public let csv: CSVInput?
 
+        @inlinable
         public init(csv: CSVInput? = nil) {
             self.csv = csv
         }
@@ -1096,6 +1136,7 @@ extension Glacier {
         /// The start of the date range in Universal Coordinated Time (UTC) for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let startDate: String?
 
+        @inlinable
         public init(endDate: String? = nil, format: String? = nil, limit: String? = nil, marker: String? = nil, startDate: String? = nil) {
             self.endDate = endDate
             self.format = format
@@ -1123,6 +1164,7 @@ extension Glacier {
         /// The start of the date range in UTC for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let startDate: String?
 
+        @inlinable
         public init(endDate: String? = nil, limit: String? = nil, marker: String? = nil, startDate: String? = nil) {
             self.endDate = endDate
             self.limit = limit
@@ -1160,6 +1202,7 @@ extension Glacier {
         /// The job type. You can initiate a job to perform a select query on an archive,  retrieve an archive, or get an inventory of a vault.  Valid values are "select", "archive-retrieval" and "inventory-retrieval".
         public let type: String?
 
+        @inlinable
         public init(archiveId: String? = nil, description: String? = nil, format: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobInput? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, snsTopic: String? = nil, tier: String? = nil, type: String? = nil) {
             self.archiveId = archiveId
             self.description = description
@@ -1201,6 +1244,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, completed: String? = nil, limit: Int? = nil, marker: String? = nil, statuscode: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.completed = completed
@@ -1230,6 +1274,7 @@ extension Glacier {
         /// 	 An opaque string used for pagination that specifies the job at which the listing of jobs should begin.  You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a  previous List Jobs request.
         public let marker: String?
 
+        @inlinable
         public init(jobList: [GlacierJobDescription]? = nil, marker: String? = nil) {
             self.jobList = jobList
             self.marker = marker
@@ -1251,6 +1296,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, limit: Int? = nil, marker: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.limit = limit
@@ -1276,6 +1322,7 @@ extension Glacier {
         /// A list of in-progress multipart uploads.
         public let uploadsList: [UploadListElement]?
 
+        @inlinable
         public init(marker: String? = nil, uploadsList: [UploadListElement]? = nil) {
             self.marker = marker
             self.uploadsList = uploadsList
@@ -1299,6 +1346,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, limit: Int? = nil, marker: String? = nil, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.limit = limit
@@ -1336,6 +1384,7 @@ extension Glacier {
         /// The Amazon Resource Name (ARN) of the vault to which the multipart upload was initiated.
         public let vaultARN: String?
 
+        @inlinable
         public init(archiveDescription: String? = nil, creationDate: String? = nil, marker: String? = nil, multipartUploadId: String? = nil, parts: [PartListElement]? = nil, partSizeInBytes: Int64? = nil, vaultARN: String? = nil) {
             self.archiveDescription = archiveDescription
             self.creationDate = creationDate
@@ -1361,6 +1410,7 @@ extension Glacier {
         /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1378,6 +1428,7 @@ extension Glacier {
         /// The response body contains the following JSON fields.
         public let provisionedCapacityList: [ProvisionedCapacityDescription]?
 
+        @inlinable
         public init(provisionedCapacityList: [ProvisionedCapacityDescription]? = nil) {
             self.provisionedCapacityList = provisionedCapacityList
         }
@@ -1393,6 +1444,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, vaultName: String) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -1412,6 +1464,7 @@ extension Glacier {
         /// The tags attached to the vault. Each tag is composed of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1429,6 +1482,7 @@ extension Glacier {
         /// A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin.
         public let marker: String?
 
+        @inlinable
         public init(accountId: String, limit: Int? = nil, marker: String? = nil) {
             self.accountId = accountId
             self.limit = limit
@@ -1452,6 +1506,7 @@ extension Glacier {
         /// List of vaults.
         public let vaultList: [DescribeVaultOutput]?
 
+        @inlinable
         public init(marker: String? = nil, vaultList: [DescribeVaultOutput]? = nil) {
             self.marker = marker
             self.vaultList = vaultList
@@ -1467,6 +1522,7 @@ extension Glacier {
         /// Describes an S3 location that will receive the results of the job request.
         public let s3: S3Location?
 
+        @inlinable
         public init(s3: S3Location? = nil) {
             self.s3 = s3
         }
@@ -1480,6 +1536,7 @@ extension Glacier {
         /// Describes the serialization of CSV-encoded query results.
         public let csv: CSVOutput?
 
+        @inlinable
         public init(csv: CSVOutput? = nil) {
             self.csv = csv
         }
@@ -1495,6 +1552,7 @@ extension Glacier {
         /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part. This field is never null.
         public let sha256TreeHash: String?
 
+        @inlinable
         public init(rangeInBytes: String? = nil, sha256TreeHash: String? = nil) {
             self.rangeInBytes = rangeInBytes
             self.sha256TreeHash = sha256TreeHash
@@ -1514,6 +1572,7 @@ extension Glacier {
         /// The date that the provisioned capacity unit was purchased, in Universal Coordinated Time (UTC).
         public let startDate: String?
 
+        @inlinable
         public init(capacityId: String? = nil, expirationDate: String? = nil, startDate: String? = nil) {
             self.capacityId = capacityId
             self.expirationDate = expirationDate
@@ -1531,6 +1590,7 @@ extension Glacier {
         /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1548,6 +1608,7 @@ extension Glacier {
         /// The ID that identifies the provisioned capacity unit.
         public let capacityId: String?
 
+        @inlinable
         public init(capacityId: String? = nil) {
             self.capacityId = capacityId
         }
@@ -1568,6 +1629,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, tagKeys: [String]? = nil, vaultName: String) {
             self.accountId = accountId
             self.tagKeys = tagKeys
@@ -1605,6 +1667,7 @@ extension Glacier {
         /// A map of metadata to store with the job results in Amazon S3.
         public let userMetadata: [String: String]?
 
+        @inlinable
         public init(accessControlList: [Grant]? = nil, bucketName: String? = nil, cannedACL: CannedACL? = nil, encryption: Encryption? = nil, prefix: String? = nil, storageClass: StorageClass? = nil, tagging: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accessControlList = accessControlList
             self.bucketName = bucketName
@@ -1638,6 +1701,7 @@ extension Glacier {
         /// Describes how the results of the select job are serialized.
         public let outputSerialization: OutputSerialization?
 
+        @inlinable
         public init(expression: String? = nil, expressionType: ExpressionType? = nil, inputSerialization: InputSerialization? = nil, outputSerialization: OutputSerialization? = nil) {
             self.expression = expression
             self.expressionType = expressionType
@@ -1659,6 +1723,7 @@ extension Glacier {
         /// The data retrieval policy in JSON format.
         public let policy: DataRetrievalPolicy?
 
+        @inlinable
         public init(accountId: String, policy: DataRetrievalPolicy? = nil) {
             self.accountId = accountId
             self.policy = policy
@@ -1684,6 +1749,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, policy: VaultAccessPolicy? = nil, vaultName: String) {
             self.accountId = accountId
             self.policy = policy
@@ -1709,6 +1775,7 @@ extension Glacier {
         /// Provides options for specifying notification configuration.
         public let vaultNotificationConfig: VaultNotificationConfig?
 
+        @inlinable
         public init(accountId: String, vaultName: String, vaultNotificationConfig: VaultNotificationConfig? = nil) {
             self.accountId = accountId
             self.vaultName = vaultName
@@ -1739,6 +1806,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, archiveDescription: String? = nil, body: AWSHTTPBody? = nil, checksum: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.archiveDescription = archiveDescription
@@ -1772,6 +1840,7 @@ extension Glacier {
         /// The Amazon Resource Name (ARN) of the vault that contains the archive.
         public let vaultARN: String?
 
+        @inlinable
         public init(archiveDescription: String? = nil, creationDate: String? = nil, multipartUploadId: String? = nil, partSizeInBytes: Int64? = nil, vaultARN: String? = nil) {
             self.archiveDescription = archiveDescription
             self.creationDate = creationDate
@@ -1804,6 +1873,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
+        @inlinable
         public init(accountId: String, body: AWSHTTPBody? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.body = body
@@ -1831,6 +1901,7 @@ extension Glacier {
         /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.
         public let checksum: String?
 
+        @inlinable
         public init(checksum: String? = nil) {
             self.checksum = checksum
         }
@@ -1847,6 +1918,7 @@ extension Glacier {
         /// The vault access policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1860,6 +1932,7 @@ extension Glacier {
         /// The vault lock policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1875,6 +1948,7 @@ extension Glacier {
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
         public let snsTopic: String?
 
+        @inlinable
         public init(events: [String]? = nil, snsTopic: String? = nil) {
             self.events = events
             self.snsTopic = snsTopic

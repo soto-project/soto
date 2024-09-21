@@ -89,6 +89,7 @@ extension ChimeSDKIdentity {
         /// The name of an AppInstance.
         public let name: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.createdTimestamp = createdTimestamp
@@ -114,6 +115,7 @@ extension ChimeSDKIdentity {
         /// The time at which an administrator was created.
         public let createdTimestamp: Date?
 
+        @inlinable
         public init(admin: Identity? = nil, appInstanceArn: String? = nil, createdTimestamp: Date? = nil) {
             self.admin = admin
             self.appInstanceArn = appInstanceArn
@@ -131,6 +133,7 @@ extension ChimeSDKIdentity {
         /// The details of the AppInstanceAdmin.
         public let admin: Identity?
 
+        @inlinable
         public init(admin: Identity? = nil) {
             self.admin = admin
         }
@@ -154,6 +157,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceBot.
         public let name: String?
 
+        @inlinable
         public init(appInstanceBotArn: String? = nil, configuration: Configuration? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceBotArn = appInstanceBotArn
             self.configuration = configuration
@@ -181,6 +185,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceBox.
         public let name: String?
 
+        @inlinable
         public init(appInstanceBotArn: String? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceBotArn = appInstanceBotArn
             self.metadata = metadata
@@ -198,6 +203,7 @@ extension ChimeSDKIdentity {
         /// The length of time in days to retain the messages in a channel.
         public let channelRetentionSettings: ChannelRetentionSettings?
 
+        @inlinable
         public init(channelRetentionSettings: ChannelRetentionSettings? = nil) {
             self.channelRetentionSettings = channelRetentionSettings
         }
@@ -219,6 +225,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstance.
         public let name: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
@@ -246,6 +253,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceUser.
         public let name: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, expirationSettings: ExpirationSettings? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
@@ -287,6 +295,7 @@ extension ChimeSDKIdentity {
         /// The type of the AppInstanceUserEndpoint.
         public let type: AppInstanceUserEndpointType?
 
+        @inlinable
         public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, endpointAttributes: EndpointAttributes? = nil, endpointId: String? = nil, endpointState: EndpointState? = nil, lastUpdatedTimestamp: Date? = nil, name: String? = nil, resourceArn: String? = nil, type: AppInstanceUserEndpointType? = nil) {
             self.allowMessages = allowMessages
             self.appInstanceUserArn = appInstanceUserArn
@@ -328,6 +337,7 @@ extension ChimeSDKIdentity {
         /// The type of the AppInstanceUserEndpoint.
         public let type: AppInstanceUserEndpointType?
 
+        @inlinable
         public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String? = nil, endpointId: String? = nil, endpointState: EndpointState? = nil, name: String? = nil, type: AppInstanceUserEndpointType? = nil) {
             self.allowMessages = allowMessages
             self.appInstanceUserArn = appInstanceUserArn
@@ -355,6 +365,7 @@ extension ChimeSDKIdentity {
         /// The name of an AppInstanceUser.
         public let name: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
@@ -372,6 +383,7 @@ extension ChimeSDKIdentity {
         /// The time in days to retain the messages in a channel.
         public let retentionDays: Int?
 
+        @inlinable
         public init(retentionDays: Int? = nil) {
             self.retentionDays = retentionDays
         }
@@ -390,6 +402,7 @@ extension ChimeSDKIdentity {
         /// The configuration for an Amazon Lex V2 bot.
         public let lex: LexConfiguration
 
+        @inlinable
         public init(lex: LexConfiguration) {
             self.lex = lex
         }
@@ -409,6 +422,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
@@ -441,6 +455,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the of the admin for the AppInstance.
         public let appInstanceArn: String?
 
+        @inlinable
         public init(appInstanceAdmin: Identity? = nil, appInstanceArn: String? = nil) {
             self.appInstanceAdmin = appInstanceAdmin
             self.appInstanceArn = appInstanceArn
@@ -466,6 +481,7 @@ extension ChimeSDKIdentity {
         /// The tags assigned to the AppInstanceBot.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appInstanceArn: String, clientRequestToken: String = CreateAppInstanceBotRequest.idempotencyToken(), configuration: Configuration, metadata: String? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.clientRequestToken = clientRequestToken
@@ -508,6 +524,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppinstanceBot.
         public let appInstanceBotArn: String?
 
+        @inlinable
         public init(appInstanceBotArn: String? = nil) {
             self.appInstanceBotArn = appInstanceBotArn
         }
@@ -527,6 +544,7 @@ extension ChimeSDKIdentity {
         /// Tags assigned to the AppInstance.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String = CreateAppInstanceRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.metadata = metadata
@@ -562,6 +580,7 @@ extension ChimeSDKIdentity {
         /// The Amazon Resource Number (ARN) of the AppInstance.
         public let appInstanceArn: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil) {
             self.appInstanceArn = appInstanceArn
         }
@@ -587,6 +606,7 @@ extension ChimeSDKIdentity {
         /// Tags assigned to the AppInstanceUser.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appInstanceArn: String, appInstanceUserId: String, clientRequestToken: String = CreateAppInstanceUserRequest.idempotencyToken(), expirationSettings: ExpirationSettings? = nil, metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceUserId = appInstanceUserId
@@ -635,6 +655,7 @@ extension ChimeSDKIdentity {
         /// The user's ARN.
         public let appInstanceUserArn: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -650,6 +671,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
@@ -678,6 +700,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstanceBot being deleted.
         public let appInstanceBotArn: String
 
+        @inlinable
         public init(appInstanceBotArn: String) {
             self.appInstanceBotArn = appInstanceBotArn
         }
@@ -701,6 +724,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -724,6 +748,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the user request being deleted.
         public let appInstanceUserArn: String
 
+        @inlinable
         public init(appInstanceUserArn: String) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -749,6 +774,7 @@ extension ChimeSDKIdentity {
         /// The unique identifier of the AppInstanceUserEndpoint.
         public let endpointId: String
 
+        @inlinable
         public init(appInstanceUserArn: String, endpointId: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
@@ -778,6 +804,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
@@ -806,6 +833,7 @@ extension ChimeSDKIdentity {
         /// The ARN and name of the AppInstanceUser, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
         public let appInstanceAdmin: AppInstanceAdmin?
 
+        @inlinable
         public init(appInstanceAdmin: AppInstanceAdmin? = nil) {
             self.appInstanceAdmin = appInstanceAdmin
         }
@@ -819,6 +847,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstanceBot.
         public let appInstanceBotArn: String
 
+        @inlinable
         public init(appInstanceBotArn: String) {
             self.appInstanceBotArn = appInstanceBotArn
         }
@@ -842,6 +871,7 @@ extension ChimeSDKIdentity {
         /// The detials of the AppInstanceBot.
         public let appInstanceBot: AppInstanceBot?
 
+        @inlinable
         public init(appInstanceBot: AppInstanceBot? = nil) {
             self.appInstanceBot = appInstanceBot
         }
@@ -855,6 +885,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -878,6 +909,7 @@ extension ChimeSDKIdentity {
         /// The ARN, metadata, created and last-updated timestamps, and the name of the AppInstance. All timestamps use epoch milliseconds.
         public let appInstance: AppInstance?
 
+        @inlinable
         public init(appInstance: AppInstance? = nil) {
             self.appInstance = appInstance
         }
@@ -893,6 +925,7 @@ extension ChimeSDKIdentity {
         /// The unique identifier of the AppInstanceUserEndpoint.
         public let endpointId: String
 
+        @inlinable
         public init(appInstanceUserArn: String, endpointId: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
@@ -919,6 +952,7 @@ extension ChimeSDKIdentity {
         /// The full details of an AppInstanceUserEndpoint: the AppInstanceUserArn, ID, name, type, resource ARN, attributes,  allow messages, state, and created and last updated timestamps. All timestamps use epoch milliseconds.
         public let appInstanceUserEndpoint: AppInstanceUserEndpoint?
 
+        @inlinable
         public init(appInstanceUserEndpoint: AppInstanceUserEndpoint? = nil) {
             self.appInstanceUserEndpoint = appInstanceUserEndpoint
         }
@@ -932,6 +966,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
 
+        @inlinable
         public init(appInstanceUserArn: String) {
             self.appInstanceUserArn = appInstanceUserArn
         }
@@ -955,6 +990,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceUser.
         public let appInstanceUser: AppInstanceUser?
 
+        @inlinable
         public init(appInstanceUser: AppInstanceUser? = nil) {
             self.appInstanceUser = appInstanceUser
         }
@@ -970,6 +1006,7 @@ extension ChimeSDKIdentity {
         /// The VOIP device token for the APNS and APNS_SANDBOX endpoint types.
         public let voipDeviceToken: String?
 
+        @inlinable
         public init(deviceToken: String, voipDeviceToken: String? = nil) {
             self.deviceToken = deviceToken
             self.voipDeviceToken = voipDeviceToken
@@ -996,6 +1033,7 @@ extension ChimeSDKIdentity {
         /// The reason for the EndpointStatus.
         public let statusReason: EndpointStatusReason?
 
+        @inlinable
         public init(status: EndpointStatus, statusReason: EndpointStatusReason? = nil) {
             self.status = status
             self.statusReason = statusReason
@@ -1013,6 +1051,7 @@ extension ChimeSDKIdentity {
         /// The period in days after which an AppInstanceUser will be automatically deleted.
         public let expirationDays: Int
 
+        @inlinable
         public init(expirationCriterion: ExpirationCriterion, expirationDays: Int) {
             self.expirationCriterion = expirationCriterion
             self.expirationDays = expirationDays
@@ -1033,6 +1072,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -1058,6 +1098,7 @@ extension ChimeSDKIdentity {
         /// The timestamp representing the time at which the specified items are retained, in Epoch Seconds.
         public let initiateDeletionTimestamp: Date?
 
+        @inlinable
         public init(appInstanceRetentionSettings: AppInstanceRetentionSettings? = nil, initiateDeletionTimestamp: Date? = nil) {
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
@@ -1075,6 +1116,7 @@ extension ChimeSDKIdentity {
         /// The name in an Identity.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1092,6 +1134,7 @@ extension ChimeSDKIdentity {
         /// Sets targeted messages as the bot trigger. For targeted messages:    ALL: The bot processes all TargetedMessages sent to it. The bot then responds with a targeted message back to the sender.     NONE: The bot processes no targeted messages.
         public let targetedMessages: TargetedMessages
 
+        @inlinable
         public init(standardMessages: StandardMessages, targetedMessages: TargetedMessages) {
             self.standardMessages = standardMessages
             self.targetedMessages = targetedMessages
@@ -1115,6 +1158,7 @@ extension ChimeSDKIdentity {
         /// The name of the welcome intent configured in the Amazon Lex V2 bot.
         public let welcomeIntent: String?
 
+        @inlinable
         public init(invokedBy: InvokedBy? = nil, lexBotAliasArn: String, localeId: String, respondsTo: RespondsTo? = nil, welcomeIntent: String? = nil) {
             self.invokedBy = invokedBy
             self.lexBotAliasArn = lexBotAliasArn
@@ -1149,6 +1193,7 @@ extension ChimeSDKIdentity {
         /// The token returned from previous API requests until the number of administrators is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
@@ -1184,6 +1229,7 @@ extension ChimeSDKIdentity {
         /// The token returned from previous API requests until the number of administrators is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceAdmins: [AppInstanceAdminSummary]? = nil, appInstanceArn: String? = nil, nextToken: String? = nil) {
             self.appInstanceAdmins = appInstanceAdmins
             self.appInstanceArn = appInstanceArn
@@ -1205,6 +1251,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API calls until all requested bots are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
@@ -1240,6 +1287,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API calls until all requested bots are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, appInstanceBots: [AppInstanceBotSummary]? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceBots = appInstanceBots
@@ -1261,6 +1309,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API calls until all requested endpoints are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceUserArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.maxResults = maxResults
@@ -1294,6 +1343,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API calls until all requested endpoints are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceUserEndpoints: [AppInstanceUserEndpointSummary]? = nil, nextToken: String? = nil) {
             self.appInstanceUserEndpoints = appInstanceUserEndpoints
             self.nextToken = nextToken
@@ -1313,6 +1363,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
@@ -1348,6 +1399,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil, appInstanceUsers: [AppInstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceUsers = appInstanceUsers
@@ -1367,6 +1419,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API requests until you reach the maximum number of AppInstances.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1395,6 +1448,7 @@ extension ChimeSDKIdentity {
         /// The token passed by previous API requests until the maximum number of AppInstances is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstances: [AppInstanceSummary]? = nil, nextToken: String? = nil) {
             self.appInstances = appInstances
             self.nextToken = nextToken
@@ -1410,6 +1464,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1433,6 +1488,7 @@ extension ChimeSDKIdentity {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1448,6 +1504,7 @@ extension ChimeSDKIdentity {
         /// The time in days to retain data. Data type: number.
         public let appInstanceRetentionSettings: AppInstanceRetentionSettings
 
+        @inlinable
         public init(appInstanceArn: String, appInstanceRetentionSettings: AppInstanceRetentionSettings) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
@@ -1478,6 +1535,7 @@ extension ChimeSDKIdentity {
         /// The time at which the API deletes data.
         public let initiateDeletionTimestamp: Date?
 
+        @inlinable
         public init(appInstanceRetentionSettings: AppInstanceRetentionSettings? = nil, initiateDeletionTimestamp: Date? = nil) {
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
             self.initiateDeletionTimestamp = initiateDeletionTimestamp
@@ -1495,6 +1553,7 @@ extension ChimeSDKIdentity {
         /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
         public let expirationSettings: ExpirationSettings?
 
+        @inlinable
         public init(appInstanceUserArn: String, expirationSettings: ExpirationSettings? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.expirationSettings = expirationSettings
@@ -1525,6 +1584,7 @@ extension ChimeSDKIdentity {
         /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
         public let expirationSettings: ExpirationSettings?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, expirationSettings: ExpirationSettings? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.expirationSettings = expirationSettings
@@ -1552,6 +1612,7 @@ extension ChimeSDKIdentity {
         /// The type of the AppInstanceUserEndpoint. Supported types:    APNS: The mobile notification service for an Apple device.    APNS_SANDBOX: The sandbox environment of the mobile notification service for an Apple device.    GCM: The mobile notification service for an Android device.   Populate the ResourceArn value of each type as PinpointAppArn.
         public let type: AppInstanceUserEndpointType
 
+        @inlinable
         public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String, clientRequestToken: String = RegisterAppInstanceUserEndpointRequest.idempotencyToken(), endpointAttributes: EndpointAttributes, name: String? = nil, resourceArn: String, type: AppInstanceUserEndpointType) {
             self.allowMessages = allowMessages
             self.appInstanceUserArn = appInstanceUserArn
@@ -1605,6 +1666,7 @@ extension ChimeSDKIdentity {
         /// The unique identifier of the AppInstanceUserEndpoint.
         public let endpointId: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, endpointId: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
@@ -1622,6 +1684,7 @@ extension ChimeSDKIdentity {
         /// The value in a tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1646,6 +1709,7 @@ extension ChimeSDKIdentity {
         /// The tag key-value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1674,6 +1738,7 @@ extension ChimeSDKIdentity {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1707,6 +1772,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceBot.
         public let name: String
 
+        @inlinable
         public init(appInstanceBotArn: String, configuration: Configuration? = nil, metadata: String, name: String) {
             self.appInstanceBotArn = appInstanceBotArn
             self.configuration = configuration
@@ -1745,6 +1811,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstanceBot.
         public let appInstanceBotArn: String?
 
+        @inlinable
         public init(appInstanceBotArn: String? = nil) {
             self.appInstanceBotArn = appInstanceBotArn
         }
@@ -1762,6 +1829,7 @@ extension ChimeSDKIdentity {
         /// The name that you want to change.
         public let name: String
 
+        @inlinable
         public init(appInstanceArn: String, metadata: String, name: String) {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
@@ -1797,6 +1865,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String?
 
+        @inlinable
         public init(appInstanceArn: String? = nil) {
             self.appInstanceArn = appInstanceArn
         }
@@ -1816,6 +1885,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceUserEndpoint.
         public let name: String?
 
+        @inlinable
         public init(allowMessages: AllowMessages? = nil, appInstanceUserArn: String, endpointId: String, name: String? = nil) {
             self.allowMessages = allowMessages
             self.appInstanceUserArn = appInstanceUserArn
@@ -1854,6 +1924,7 @@ extension ChimeSDKIdentity {
         /// The unique identifier of the AppInstanceUserEndpoint.
         public let endpointId: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, endpointId: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
@@ -1873,6 +1944,7 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceUser.
         public let name: String
 
+        @inlinable
         public init(appInstanceUserArn: String, metadata: String, name: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
@@ -1908,6 +1980,7 @@ extension ChimeSDKIdentity {
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
         }

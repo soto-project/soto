@@ -429,6 +429,7 @@ extension GroundStation {
         ///  This field should not be used. Use agentCpuCores instead.  List of CPU cores reserved for processes other than the agent running on the EC2 instance.
         public let reservedCpuCores: [Int]?
 
+        @inlinable
         public init(agentCpuCores: [Int]? = nil, agentVersion: String, componentVersions: [ComponentVersion], instanceId: String, instanceType: String, reservedCpuCores: [Int]? = nil) {
             self.agentCpuCores = agentCpuCores
             self.agentVersion = agentVersion
@@ -473,6 +474,7 @@ extension GroundStation {
         /// Aggregate status.
         public let status: AgentStatus
 
+        @inlinable
         public init(signatureMap: [String: Bool]? = nil, status: AgentStatus) {
             self.signatureMap = signatureMap
             self.status = status
@@ -488,6 +490,7 @@ extension GroundStation {
         /// Name of an antenna demod decode output node used in a contact.
         public let outputNode: String?
 
+        @inlinable
         public init(outputNode: String? = nil) {
             self.outputNode = outputNode
         }
@@ -501,6 +504,7 @@ extension GroundStation {
         /// Object that describes a spectral Config.
         public let spectrumConfig: SpectrumConfig
 
+        @inlinable
         public init(spectrumConfig: SpectrumConfig) {
             self.spectrumConfig = spectrumConfig
         }
@@ -518,6 +522,7 @@ extension GroundStation {
         /// Information about the spectral Config.
         public let spectrumConfig: SpectrumConfig
 
+        @inlinable
         public init(decodeConfig: DecodeConfig, demodulationConfig: DemodulationConfig, spectrumConfig: SpectrumConfig) {
             self.decodeConfig = decodeConfig
             self.demodulationConfig = demodulationConfig
@@ -544,6 +549,7 @@ extension GroundStation {
         /// Whether or not uplink transmit is disabled.
         public let transmitDisabled: Bool?
 
+        @inlinable
         public init(spectrumConfig: UplinkSpectrumConfig, targetEirp: Eirp, transmitDisabled: Bool? = nil) {
             self.spectrumConfig = spectrumConfig
             self.targetEirp = targetEirp
@@ -569,6 +575,7 @@ extension GroundStation {
         /// Name string associated with AgentEndpoint. Used as a human-readable identifier for AgentEndpoint.
         public let name: String
 
+        @inlinable
         public init(agentStatus: AgentStatus? = nil, auditResults: AuditResults? = nil, egressAddress: ConnectionDetails, ingressAddress: RangedConnectionDetails, name: String) {
             self.agentStatus = agentStatus
             self.auditResults = auditResults
@@ -597,6 +604,7 @@ extension GroundStation {
         /// UUID of a contact.
         public let contactId: String
 
+        @inlinable
         public init(contactId: String) {
             self.contactId = contactId
         }
@@ -632,6 +640,7 @@ extension GroundStation {
         /// Component status.
         public let status: AgentStatus
 
+        @inlinable
         public init(bytesReceived: Int64? = nil, bytesSent: Int64? = nil, capabilityArn: String, componentType: String, dataflowId: String, packetsDropped: Int64? = nil, status: AgentStatus) {
             self.bytesReceived = bytesReceived
             self.bytesSent = bytesSent
@@ -666,6 +675,7 @@ extension GroundStation {
         /// List of versions.
         public let versions: [String]
 
+        @inlinable
         public init(componentType: String, versions: [String]) {
             self.componentType = componentType
             self.versions = versions
@@ -696,6 +706,7 @@ extension GroundStation {
         /// Type of a Config.
         public let configType: ConfigCapabilityType?
 
+        @inlinable
         public init(configArn: String? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil) {
             self.configArn = configArn
             self.configId = configId
@@ -719,6 +730,7 @@ extension GroundStation {
         /// Name of a Config.
         public let name: String?
 
+        @inlinable
         public init(configArn: String? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil, name: String? = nil) {
             self.configArn = configArn
             self.configId = configId
@@ -740,6 +752,7 @@ extension GroundStation {
         /// A socket address.
         public let socketAddress: SocketAddress
 
+        @inlinable
         public init(mtu: Int? = nil, socketAddress: SocketAddress) {
             self.mtu = mtu
             self.socketAddress = socketAddress
@@ -783,6 +796,7 @@ extension GroundStation {
         ///  Projected time in UTC your satellite will rise above the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
         public let visibilityStartTime: Date?
 
+        @inlinable
         public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: Date? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
@@ -824,6 +838,7 @@ extension GroundStation {
         /// UUID of a contact.
         public let contactId: String?
 
+        @inlinable
         public init(contactId: String? = nil) {
             self.contactId = contactId
         }
@@ -841,6 +856,7 @@ extension GroundStation {
         /// Tags assigned to a Config.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configData: ConfigTypeData, name: String, tags: [String: String]? = nil) {
             self.configData = configData
             self.name = name
@@ -871,6 +887,7 @@ extension GroundStation {
         /// Tags of a dataflow endpoint group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, endpointDetails: [EndpointDetails], tags: [String: String]? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -915,6 +932,7 @@ extension GroundStation {
         /// Tags assigned to an ephemeris.
         public let tags: [String: String]?
 
+        @inlinable
         public init(enabled: Bool? = nil, ephemeris: EphemerisData? = nil, expirationTime: Date? = nil, kmsKeyArn: String? = nil, name: String, priority: Int? = nil, satelliteId: String, tags: [String: String]? = nil) {
             self.enabled = enabled
             self.ephemeris = ephemeris
@@ -970,6 +988,7 @@ extension GroundStation {
         /// ARN of a tracking Config.
         public let trackingConfigArn: String
 
+        @inlinable
         public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int, name: String, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -1019,6 +1038,7 @@ extension GroundStation {
         public let errorMessage: String?
         public let source: Source?
 
+        @inlinable
         public init(destination: Destination? = nil, errorMessage: String? = nil, source: Source? = nil) {
             self.destination = destination
             self.errorMessage = errorMessage
@@ -1042,6 +1062,7 @@ extension GroundStation {
         /// Status of a dataflow endpoint.
         public let status: EndpointStatus?
 
+        @inlinable
         public init(address: SocketAddress? = nil, mtu: Int? = nil, name: String? = nil, status: EndpointStatus? = nil) {
             self.address = address
             self.mtu = mtu
@@ -1069,6 +1090,7 @@ extension GroundStation {
         /// Region of a dataflow endpoint.
         public let dataflowEndpointRegion: String?
 
+        @inlinable
         public init(dataflowEndpointName: String, dataflowEndpointRegion: String? = nil) {
             self.dataflowEndpointName = dataflowEndpointName
             self.dataflowEndpointRegion = dataflowEndpointRegion
@@ -1084,6 +1106,7 @@ extension GroundStation {
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
 
+        @inlinable
         public init(dataflowEndpointGroupId: String? = nil) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -1099,6 +1122,7 @@ extension GroundStation {
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String?
 
+        @inlinable
         public init(dataflowEndpointGroupArn: String? = nil, dataflowEndpointGroupId: String? = nil) {
             self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
@@ -1114,6 +1138,7 @@ extension GroundStation {
         /// Unvalidated JSON of a decode Config.
         public let unvalidatedJSON: String
 
+        @inlinable
         public init(unvalidatedJSON: String) {
             self.unvalidatedJSON = unvalidatedJSON
         }
@@ -1135,6 +1160,7 @@ extension GroundStation {
         /// Type of a Config.
         public let configType: ConfigCapabilityType
 
+        @inlinable
         public init(configId: String, configType: ConfigCapabilityType) {
             self.configId = configId
             self.configType = configType
@@ -1160,6 +1186,7 @@ extension GroundStation {
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
 
+        @inlinable
         public init(dataflowEndpointGroupId: String) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -1183,6 +1210,7 @@ extension GroundStation {
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String
 
+        @inlinable
         public init(ephemerisId: String) {
             self.ephemerisId = ephemerisId
         }
@@ -1206,6 +1234,7 @@ extension GroundStation {
         /// UUID of a mission profile.
         public let missionProfileId: String
 
+        @inlinable
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
         }
@@ -1229,6 +1258,7 @@ extension GroundStation {
         /// Unvalidated JSON of a demodulation Config.
         public let unvalidatedJSON: String
 
+        @inlinable
         public init(unvalidatedJSON: String) {
             self.unvalidatedJSON = unvalidatedJSON
         }
@@ -1248,6 +1278,7 @@ extension GroundStation {
         /// UUID of a contact.
         public let contactId: String
 
+        @inlinable
         public init(contactId: String) {
             self.contactId = contactId
         }
@@ -1301,6 +1332,7 @@ extension GroundStation {
         ///  Projected time in UTC your satellite will rise above the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
         public let visibilityStartTime: Date?
 
+        @inlinable
         public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
@@ -1344,6 +1376,7 @@ extension GroundStation {
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String
 
+        @inlinable
         public init(ephemerisId: String) {
             self.ephemerisId = ephemerisId
         }
@@ -1385,6 +1418,7 @@ extension GroundStation {
         /// Tags assigned to an ephemeris.
         public let tags: [String: String]?
 
+        @inlinable
         public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, invalidReason: EphemerisInvalidReason? = nil, name: String? = nil, priority: Int? = nil, satelliteId: String? = nil, status: EphemerisStatus? = nil, suppliedData: EphemerisTypeDescription? = nil, tags: [String: String]? = nil) {
             self.creationTime = creationTime
             self.enabled = enabled
@@ -1422,6 +1456,7 @@ extension GroundStation {
         /// Region of a dataflow destination.
         public let dataflowDestinationRegion: String?
 
+        @inlinable
         public init(configDetails: ConfigDetails? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil, dataflowDestinationRegion: String? = nil) {
             self.configDetails = configDetails
             self.configId = configId
@@ -1445,6 +1480,7 @@ extension GroundStation {
         /// List of public IP addresses to associate with agent.
         public let publicIpAddresses: [String]
 
+        @inlinable
         public init(capabilityArns: [String], privateIpAddresses: [String], publicIpAddresses: [String]) {
             self.capabilityArns = capabilityArns
             self.privateIpAddresses = privateIpAddresses
@@ -1483,6 +1519,7 @@ extension GroundStation {
         /// Value of an EIRP. Valid values are between 20.0 to 50.0 dBW.
         public let value: Double
 
+        @inlinable
         public init(units: EirpUnits, value: Double) {
             self.units = units
             self.value = value
@@ -1500,6 +1537,7 @@ extension GroundStation {
         /// Elevation angle value.
         public let value: Double
 
+        @inlinable
         public init(unit: AngleUnits, value: Double) {
             self.unit = unit
             self.value = value
@@ -1523,6 +1561,7 @@ extension GroundStation {
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public let securityDetails: SecurityDetails?
 
+        @inlinable
         public init(awsGroundStationAgentEndpoint: AwsGroundStationAgentEndpoint? = nil, endpoint: DataflowEndpoint? = nil, healthReasons: [CapabilityHealthReason]? = nil, healthStatus: CapabilityHealth? = nil, securityDetails: SecurityDetails? = nil) {
             self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
             self.endpoint = endpoint
@@ -1552,6 +1591,7 @@ extension GroundStation {
         /// Source S3 object used for the ephemeris.
         public let sourceS3Object: S3Object?
 
+        @inlinable
         public init(ephemerisData: String? = nil, sourceS3Object: S3Object? = nil) {
             self.ephemerisData = ephemerisData
             self.sourceS3Object = sourceS3Object
@@ -1567,6 +1607,7 @@ extension GroundStation {
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String?
 
+        @inlinable
         public init(ephemerisId: String? = nil) {
             self.ephemerisId = ephemerisId
         }
@@ -1592,6 +1633,7 @@ extension GroundStation {
         /// The status of the ephemeris.
         public let status: EphemerisStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, name: String? = nil, priority: Int? = nil, sourceS3Object: S3Object? = nil, status: EphemerisStatus? = nil) {
             self.creationTime = creationTime
             self.enabled = enabled
@@ -1623,6 +1665,7 @@ extension GroundStation {
         /// The EphemerisSource that generated a given ephemeris.
         public let source: EphemerisSource
 
+        @inlinable
         public init(ephemerisId: String? = nil, epoch: Date? = nil, name: String? = nil, source: EphemerisSource) {
             self.ephemerisId = ephemerisId
             self.epoch = epoch
@@ -1644,6 +1687,7 @@ extension GroundStation {
         /// Frequency value. Valid values are between 2200 to 2300 MHz and 7750 to 8400 MHz for downlink and 2025 to 2120 MHz for uplink.
         public let value: Double
 
+        @inlinable
         public init(units: FrequencyUnits, value: Double) {
             self.units = units
             self.value = value
@@ -1661,6 +1705,7 @@ extension GroundStation {
         /// Frequency bandwidth value. AWS Ground Station currently has the following bandwidth limitations:   For AntennaDownlinkDemodDecodeconfig, valid values are between 125 kHz to 650 MHz.   For AntennaDownlinkconfig, valid values are between 10 kHz to 54 MHz.   For AntennaUplinkConfig, valid values are between 10 kHz to 54 MHz.
         public let value: Double
 
+        @inlinable
         public init(units: BandwidthUnits, value: Double) {
             self.units = units
             self.value = value
@@ -1676,6 +1721,7 @@ extension GroundStation {
         /// UUID of agent to get configuration information for.
         public let agentId: String
 
+        @inlinable
         public init(agentId: String) {
             self.agentId = agentId
         }
@@ -1701,6 +1747,7 @@ extension GroundStation {
         /// Tasking document for agent.
         public let taskingDocument: String?
 
+        @inlinable
         public init(agentId: String? = nil, taskingDocument: String? = nil) {
             self.agentId = agentId
             self.taskingDocument = taskingDocument
@@ -1718,6 +1765,7 @@ extension GroundStation {
         /// Type of a Config.
         public let configType: ConfigCapabilityType
 
+        @inlinable
         public init(configId: String, configType: ConfigCapabilityType) {
             self.configId = configId
             self.configType = configType
@@ -1753,6 +1801,7 @@ extension GroundStation {
         /// Tags assigned to a Config.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configArn: String, configData: ConfigTypeData, configId: String, configType: ConfigCapabilityType? = nil, name: String, tags: [String: String]? = nil) {
             self.configArn = configArn
             self.configData = configData
@@ -1776,6 +1825,7 @@ extension GroundStation {
         /// UUID of a dataflow endpoint group.
         public let dataflowEndpointGroupId: String
 
+        @inlinable
         public init(dataflowEndpointGroupId: String) {
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -1809,6 +1859,7 @@ extension GroundStation {
         /// Tags assigned to a dataflow endpoint group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEndpointGroupArn: String? = nil, dataflowEndpointGroupId: String? = nil, endpointsDetails: [EndpointDetails]? = nil, tags: [String: String]? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -1834,6 +1885,7 @@ extension GroundStation {
         /// The year being requested, in the format of YYYY.
         public let year: Int
 
+        @inlinable
         public init(month: Int, year: Int) {
             self.month = month
             self.year = year
@@ -1864,6 +1916,7 @@ extension GroundStation {
         /// Upcoming minutes scheduled for an account, specific to the month being requested.
         public let upcomingMinutesScheduled: Int?
 
+        @inlinable
         public init(estimatedMinutesRemaining: Int? = nil, isReservedMinutesCustomer: Bool? = nil, totalReservedMinuteAllocation: Int? = nil, totalScheduledMinutes: Int? = nil, upcomingMinutesScheduled: Int? = nil) {
             self.estimatedMinutesRemaining = estimatedMinutesRemaining
             self.isReservedMinutesCustomer = isReservedMinutesCustomer
@@ -1885,6 +1938,7 @@ extension GroundStation {
         /// UUID of a mission profile.
         public let missionProfileId: String
 
+        @inlinable
         public init(missionProfileId: String) {
             self.missionProfileId = missionProfileId
         }
@@ -1930,6 +1984,7 @@ extension GroundStation {
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
+        @inlinable
         public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -1965,6 +2020,7 @@ extension GroundStation {
         /// UUID of a satellite.
         public let satelliteId: String
 
+        @inlinable
         public init(satelliteId: String) {
             self.satelliteId = satelliteId
         }
@@ -1996,6 +2052,7 @@ extension GroundStation {
         /// UUID of a satellite.
         public let satelliteId: String?
 
+        @inlinable
         public init(currentEphemeris: EphemerisMetaData? = nil, groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
             self.currentEphemeris = currentEphemeris
             self.groundStations = groundStations
@@ -2021,6 +2078,7 @@ extension GroundStation {
         /// Ground station Region.
         public let region: String?
 
+        @inlinable
         public init(groundStationId: String? = nil, groundStationName: String? = nil, region: String? = nil) {
             self.groundStationId = groundStationId
             self.groundStationName = groundStationName
@@ -2040,6 +2098,7 @@ extension GroundStation {
         /// A minimum value.
         public let minimum: Int
 
+        @inlinable
         public init(maximum: Int, minimum: Int) {
             self.maximum = maximum
             self.minimum = minimum
@@ -2057,6 +2116,7 @@ extension GroundStation {
         /// Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2086,6 +2146,7 @@ extension GroundStation {
         /// Next token returned in the response of a previous ListConfigs call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(configList: [ConfigListItem]? = nil, nextToken: String? = nil) {
             self.configList = configList
             self.nextToken = nextToken
@@ -2115,6 +2176,7 @@ extension GroundStation {
         /// Status of a contact reservation.
         public let statusList: [ContactStatus]
 
+        @inlinable
         public init(endTime: Date, groundStation: String? = nil, maxResults: Int? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: Date, statusList: [ContactStatus]) {
             self.endTime = endTime
             self.groundStation = groundStation
@@ -2156,6 +2218,7 @@ extension GroundStation {
         /// Next token returned in the response of a previous ListContacts call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactList: [ContactData]? = nil, nextToken: String? = nil) {
             self.contactList = contactList
             self.nextToken = nextToken
@@ -2173,6 +2236,7 @@ extension GroundStation {
         /// Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2202,6 +2266,7 @@ extension GroundStation {
         /// Next token returned in the response of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataflowEndpointGroupList: [DataflowEndpointListItem]? = nil, nextToken: String? = nil) {
             self.dataflowEndpointGroupList = dataflowEndpointGroupList
             self.nextToken = nextToken
@@ -2227,6 +2292,7 @@ extension GroundStation {
         /// The list of ephemeris status to return.
         public let statusList: [EphemerisStatus]?
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, satelliteId: String, startTime: Date, statusList: [EphemerisStatus]? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -2273,6 +2339,7 @@ extension GroundStation {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(ephemerides: [EphemerisItem]? = nil, nextToken: String? = nil) {
             self.ephemerides = ephemerides
             self.nextToken = nextToken
@@ -2292,6 +2359,7 @@ extension GroundStation {
         /// Satellite ID to retrieve on-boarded ground stations.
         public let satelliteId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, satelliteId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2326,6 +2394,7 @@ extension GroundStation {
         /// Next token that can be supplied in the next call to get the next page of ground stations.
         public let nextToken: String?
 
+        @inlinable
         public init(groundStationList: [GroundStationData]? = nil, nextToken: String? = nil) {
             self.groundStationList = groundStationList
             self.nextToken = nextToken
@@ -2343,6 +2412,7 @@ extension GroundStation {
         /// Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2372,6 +2442,7 @@ extension GroundStation {
         /// Next token returned in the response of a previous ListMissionProfiles call. Used to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(missionProfileList: [MissionProfileListItem]? = nil, nextToken: String? = nil) {
             self.missionProfileList = missionProfileList
             self.nextToken = nextToken
@@ -2389,6 +2460,7 @@ extension GroundStation {
         /// Next token that can be supplied in the next call to get the next page of satellites.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2418,6 +2490,7 @@ extension GroundStation {
         /// List of satellites.
         public let satellites: [SatelliteListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, satellites: [SatelliteListItem]? = nil) {
             self.nextToken = nextToken
             self.satellites = satellites
@@ -2433,6 +2506,7 @@ extension GroundStation {
         /// ARN of a resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2456,6 +2530,7 @@ extension GroundStation {
         /// Tags assigned to a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2469,6 +2544,7 @@ extension GroundStation {
         /// UUID of a mission profile.
         public let missionProfileId: String?
 
+        @inlinable
         public init(missionProfileId: String? = nil) {
             self.missionProfileId = missionProfileId
         }
@@ -2488,6 +2564,7 @@ extension GroundStation {
         /// Region of a mission profile.
         public let region: String?
 
+        @inlinable
         public init(missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil) {
             self.missionProfileArn = missionProfileArn
             self.missionProfileId = missionProfileId
@@ -2509,6 +2586,7 @@ extension GroundStation {
         /// Identifies the S3 object to be used as the ephemeris.
         public let s3Object: S3Object?
 
+        @inlinable
         public init(oemData: String? = nil, s3Object: S3Object? = nil) {
             self.oemData = oemData
             self.s3Object = s3Object
@@ -2532,6 +2610,7 @@ extension GroundStation {
         /// A ranged socket address.
         public let socketAddress: RangedSocketAddress
 
+        @inlinable
         public init(mtu: Int? = nil, socketAddress: RangedSocketAddress) {
             self.mtu = mtu
             self.socketAddress = socketAddress
@@ -2553,6 +2632,7 @@ extension GroundStation {
         /// Port range of a socket address.
         public let portRange: IntegerRange
 
+        @inlinable
         public init(name: String, portRange: IntegerRange) {
             self.name = name
             self.portRange = portRange
@@ -2576,6 +2656,7 @@ extension GroundStation {
         /// Data for associating an agent with the capabilities it is managing.
         public let discoveryData: DiscoveryData
 
+        @inlinable
         public init(agentDetails: AgentDetails, discoveryData: DiscoveryData) {
             self.agentDetails = agentDetails
             self.discoveryData = discoveryData
@@ -2596,6 +2677,7 @@ extension GroundStation {
         /// UUID of registered agent.
         public let agentId: String?
 
+        @inlinable
         public init(agentId: String? = nil) {
             self.agentId = agentId
         }
@@ -2619,6 +2701,7 @@ extension GroundStation {
         /// Tags assigned to a contact.
         public let tags: [String: String]?
 
+        @inlinable
         public init(endTime: Date, groundStation: String, missionProfileArn: String, satelliteArn: String, startTime: Date, tags: [String: String]? = nil) {
             self.endTime = endTime
             self.groundStation = groundStation
@@ -2652,6 +2735,7 @@ extension GroundStation {
         /// For versioned S3 objects, the version to use for the ephemeris.
         public let version: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil, version: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -2685,6 +2769,7 @@ extension GroundStation {
         /// ARN of the role Ground Station assumes to write data to the bucket.
         public let roleArn: String
 
+        @inlinable
         public init(bucketArn: String, prefix: String? = nil, roleArn: String) {
             self.bucketArn = bucketArn
             self.prefix = prefix
@@ -2710,6 +2795,7 @@ extension GroundStation {
         /// Key template used for the S3 Recording Configuration
         public let keyTemplate: String?
 
+        @inlinable
         public init(bucketArn: String? = nil, keyTemplate: String? = nil) {
             self.bucketArn = bucketArn
             self.keyTemplate = keyTemplate
@@ -2733,6 +2819,7 @@ extension GroundStation {
         /// UUID of a satellite.
         public let satelliteId: String?
 
+        @inlinable
         public init(currentEphemeris: EphemerisMetaData? = nil, groundStations: [String]? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
             self.currentEphemeris = currentEphemeris
             self.groundStations = groundStations
@@ -2758,6 +2845,7 @@ extension GroundStation {
         /// A list of subnets where AWS Ground Station places elastic network interfaces to send streams to your instances.
         public let subnetIds: [String]
 
+        @inlinable
         public init(roleArn: String, securityGroupIds: [String], subnetIds: [String]) {
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
@@ -2777,6 +2865,7 @@ extension GroundStation {
         /// Port of a socket address.
         public let port: Int
 
+        @inlinable
         public init(name: String, port: Int) {
             self.name = name
             self.port = port
@@ -2798,6 +2887,7 @@ extension GroundStation {
         /// Region of a dataflow source.
         public let dataflowSourceRegion: String?
 
+        @inlinable
         public init(configDetails: ConfigDetails? = nil, configId: String? = nil, configType: ConfigCapabilityType? = nil, dataflowSourceRegion: String? = nil) {
             self.configDetails = configDetails
             self.configId = configId
@@ -2821,6 +2911,7 @@ extension GroundStation {
         /// Polarization of a spectral Config. Capturing both "RIGHT_HAND" and "LEFT_HAND" polarization requires two separate configs.
         public let polarization: Polarization?
 
+        @inlinable
         public init(bandwidth: FrequencyBandwidth, centerFrequency: Frequency, polarization: Polarization? = nil) {
             self.bandwidth = bandwidth
             self.centerFrequency = centerFrequency
@@ -2842,6 +2933,7 @@ extension GroundStation {
         /// The valid time range for the TLE. Gaps or overlap are not permitted.
         public let validTimeRange: TimeRange
 
+        @inlinable
         public init(tleLine1: String, tleLine2: String, validTimeRange: TimeRange) {
             self.tleLine1 = tleLine1
             self.tleLine2 = tleLine2
@@ -2870,6 +2962,7 @@ extension GroundStation {
         /// The data for a TLE ephemeris, supplied directly in the request rather than through an S3 object.
         public let tleData: [TLEData]?
 
+        @inlinable
         public init(s3Object: S3Object? = nil, tleData: [TLEData]? = nil) {
             self.s3Object = s3Object
             self.tleData = tleData
@@ -2896,6 +2989,7 @@ extension GroundStation {
         /// Tags assigned to a resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2929,6 +3023,7 @@ extension GroundStation {
         /// Time in UTC at which the time range starts.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -2944,6 +3039,7 @@ extension GroundStation {
         /// Current setting for autotrack.
         public let autotrack: Criticality
 
+        @inlinable
         public init(autotrack: Criticality) {
             self.autotrack = autotrack
         }
@@ -2959,6 +3055,7 @@ extension GroundStation {
         /// Keys of a resource tag.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2999,6 +3096,7 @@ extension GroundStation {
         /// GUID of agent task.
         public let taskId: String
 
+        @inlinable
         public init(agentId: String, aggregateStatus: AggregateStatus, componentStatuses: [ComponentStatusData], taskId: String) {
             self.agentId = agentId
             self.aggregateStatus = aggregateStatus
@@ -3039,6 +3137,7 @@ extension GroundStation {
         /// UUID of updated agent.
         public let agentId: String
 
+        @inlinable
         public init(agentId: String) {
             self.agentId = agentId
         }
@@ -3058,6 +3157,7 @@ extension GroundStation {
         /// Name of a Config.
         public let name: String
 
+        @inlinable
         public init(configData: ConfigTypeData, configId: String, configType: ConfigCapabilityType, name: String) {
             self.configData = configData
             self.configId = configId
@@ -3100,6 +3200,7 @@ extension GroundStation {
         /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
         public let priority: Int?
 
+        @inlinable
         public init(enabled: Bool, ephemerisId: String, name: String? = nil, priority: Int? = nil) {
             self.enabled = enabled
             self.ephemerisId = ephemerisId
@@ -3154,6 +3255,7 @@ extension GroundStation {
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
+        @inlinable
         public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileId: String, name: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
@@ -3219,6 +3321,7 @@ extension GroundStation {
         /// Whether or not an uplink Config is enabled.
         public let enabled: Bool
 
+        @inlinable
         public init(antennaUplinkConfigArn: String, enabled: Bool) {
             self.antennaUplinkConfigArn = antennaUplinkConfigArn
             self.enabled = enabled
@@ -3236,6 +3339,7 @@ extension GroundStation {
         /// Polarization of an uplink spectral Config. Capturing both "RIGHT_HAND" and "LEFT_HAND" polarization requires two separate configs.
         public let polarization: Polarization?
 
+        @inlinable
         public init(centerFrequency: Frequency, polarization: Polarization? = nil) {
             self.centerFrequency = centerFrequency
             self.polarization = polarization

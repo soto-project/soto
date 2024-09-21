@@ -252,6 +252,7 @@ extension Outposts {
         /// The state for the address.
         public let stateOrRegion: String
 
+        @inlinable
         public init(addressLine1: String, addressLine2: String? = nil, addressLine3: String? = nil, city: String, contactName: String? = nil, contactPhoneNumber: String? = nil, countryCode: String, districtOrCounty: String? = nil, municipality: String? = nil, postalCode: String, stateOrRegion: String) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
@@ -326,6 +327,7 @@ extension Outposts {
         ///  The rack ID of the asset.
         public let rackId: String?
 
+        @inlinable
         public init(assetId: String? = nil, assetLocation: AssetLocation? = nil, assetType: AssetType? = nil, computeAttributes: ComputeAttributes? = nil, rackId: String? = nil) {
             self.assetId = assetId
             self.assetLocation = assetLocation
@@ -347,6 +349,7 @@ extension Outposts {
         ///  The position of an asset in a rack measured in rack units.
         public let rackElevation: Float?
 
+        @inlinable
         public init(rackElevation: Float? = nil) {
             self.rackElevation = rackElevation
         }
@@ -362,6 +365,7 @@ extension Outposts {
         /// ID or ARN of the Outpost associated with the capacity task that you want to cancel.
         public let outpostIdentifier: String
 
+        @inlinable
         public init(capacityTaskId: String, outpostIdentifier: String) {
             self.capacityTaskId = capacityTaskId
             self.outpostIdentifier = outpostIdentifier
@@ -394,6 +398,7 @@ extension Outposts {
         ///  The ID of the order.
         public let orderId: String
 
+        @inlinable
         public init(orderId: String) {
             self.orderId = orderId
         }
@@ -423,6 +428,7 @@ extension Outposts {
         /// The type of failure.
         public let type: CapacityTaskFailureType?
 
+        @inlinable
         public init(reason: String, type: CapacityTaskFailureType? = nil) {
             self.reason = reason
             self.type = type
@@ -450,6 +456,7 @@ extension Outposts {
         /// The ID of the Outpost associated with the specified capacity task.
         public let outpostId: String?
 
+        @inlinable
         public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil) {
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
@@ -487,6 +494,7 @@ extension Outposts {
         ///  The weight of the item in pounds.
         public let weightLbs: Int?
 
+        @inlinable
         public init(catalogItemId: String? = nil, ec2Capacities: [EC2Capacity]? = nil, itemStatus: CatalogItemStatus? = nil, powerKva: Float? = nil, supportedStorage: [SupportedStorageEnum]? = nil, supportedUplinkGbps: [Int]? = nil, weightLbs: Int? = nil) {
             self.catalogItemId = catalogItemId
             self.ec2Capacities = ec2Capacities
@@ -516,6 +524,7 @@ extension Outposts {
         /// The state.   ACTIVE - The asset is available and can provide capacity for new compute resources.   ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.   RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
         public let state: ComputeAssetState?
 
+        @inlinable
         public init(hostId: String? = nil, instanceFamilies: [String]? = nil, state: ComputeAssetState? = nil) {
             self.hostId = hostId
             self.instanceFamilies = instanceFamilies
@@ -543,6 +552,7 @@ extension Outposts {
         ///  The server tunnel address.
         public let serverTunnelAddress: String?
 
+        @inlinable
         public init(allowedIps: [String]? = nil, clientPublicKey: String? = nil, clientTunnelAddress: String? = nil, serverEndpoint: String? = nil, serverPublicKey: String? = nil, serverTunnelAddress: String? = nil) {
             self.allowedIps = allowedIps
             self.clientPublicKey = clientPublicKey
@@ -572,6 +582,7 @@ extension Outposts {
         /// The payment terms.
         public let paymentTerm: PaymentTerm?
 
+        @inlinable
         public init(lineItems: [LineItemRequest], outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil) {
             self.lineItems = lineItems
             self.outpostIdentifier = outpostIdentifier
@@ -602,6 +613,7 @@ extension Outposts {
         /// Information about this order.
         public let order: Order?
 
+        @inlinable
         public init(order: Order? = nil) {
             self.order = order
         }
@@ -623,6 +635,7 @@ extension Outposts {
         /// The tags to apply to the Outpost.
         public let tags: [String: String]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, name: String, siteId: String, supportedHardwareType: SupportedHardwareType? = nil, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -673,6 +686,7 @@ extension Outposts {
     public struct CreateOutpostOutput: AWSDecodableShape {
         public let outpost: Outpost?
 
+        @inlinable
         public init(outpost: Outpost? = nil) {
             self.outpost = outpost
         }
@@ -696,6 +710,7 @@ extension Outposts {
         ///  The tags to apply to a site.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, notes: String? = nil, operatingAddress: Address? = nil, rackPhysicalProperties: RackPhysicalProperties? = nil, shippingAddress: Address? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -743,6 +758,7 @@ extension Outposts {
     public struct CreateSiteOutput: AWSDecodableShape {
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }
@@ -756,6 +772,7 @@ extension Outposts {
         ///  The ID or ARN of the Outpost.
         public let outpostId: String
 
+        @inlinable
         public init(outpostId: String) {
             self.outpostId = outpostId
         }
@@ -783,6 +800,7 @@ extension Outposts {
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
+        @inlinable
         public init(siteId: String) {
             self.siteId = siteId
         }
@@ -814,6 +832,7 @@ extension Outposts {
         ///  The quantity of the EC2 capacity.
         public let quantity: String?
 
+        @inlinable
         public init(family: String? = nil, maxSize: String? = nil, quantity: String? = nil) {
             self.family = family
             self.maxSize = maxSize
@@ -833,6 +852,7 @@ extension Outposts {
         /// ID or ARN of the Outpost associated with the specified capacity task.
         public let outpostIdentifier: String
 
+        @inlinable
         public init(capacityTaskId: String, outpostIdentifier: String) {
             self.capacityTaskId = capacityTaskId
             self.outpostIdentifier = outpostIdentifier
@@ -879,6 +899,7 @@ extension Outposts {
         /// List of instance pools requested in the capacity task.
         public let requestedInstancePools: [InstanceTypeCapacity]?
 
+        @inlinable
         public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil) {
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
@@ -910,6 +931,7 @@ extension Outposts {
         /// The ID of the catalog item.
         public let catalogItemId: String
 
+        @inlinable
         public init(catalogItemId: String) {
             self.catalogItemId = catalogItemId
         }
@@ -933,6 +955,7 @@ extension Outposts {
         /// Information about this catalog item.
         public let catalogItem: CatalogItem?
 
+        @inlinable
         public init(catalogItem: CatalogItem? = nil) {
             self.catalogItem = catalogItem
         }
@@ -946,6 +969,7 @@ extension Outposts {
         ///  The ID of the connection.
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -971,6 +995,7 @@ extension Outposts {
         ///  The ID of the connection.
         public let connectionId: String?
 
+        @inlinable
         public init(connectionDetails: ConnectionDetails? = nil, connectionId: String? = nil) {
             self.connectionDetails = connectionDetails
             self.connectionId = connectionId
@@ -986,6 +1011,7 @@ extension Outposts {
         /// The ID of the order.
         public let orderId: String
 
+        @inlinable
         public init(orderId: String) {
             self.orderId = orderId
         }
@@ -1008,6 +1034,7 @@ extension Outposts {
     public struct GetOrderOutput: AWSDecodableShape {
         public let order: Order?
 
+        @inlinable
         public init(order: Order? = nil) {
             self.order = order
         }
@@ -1021,6 +1048,7 @@ extension Outposts {
         ///  The ID or ARN of the Outpost.
         public let outpostId: String
 
+        @inlinable
         public init(outpostId: String) {
             self.outpostId = outpostId
         }
@@ -1046,6 +1074,7 @@ extension Outposts {
         ///  The ID or ARN of the Outpost.
         public let outpostId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1081,6 +1110,7 @@ extension Outposts {
         ///  The ID of the Outpost.
         public let outpostId: String?
 
+        @inlinable
         public init(instanceTypes: [InstanceTypeItem]? = nil, nextToken: String? = nil, outpostArn: String? = nil, outpostId: String? = nil) {
             self.instanceTypes = instanceTypes
             self.nextToken = nextToken
@@ -1099,6 +1129,7 @@ extension Outposts {
     public struct GetOutpostOutput: AWSDecodableShape {
         public let outpost: Outpost?
 
+        @inlinable
         public init(outpost: Outpost? = nil) {
             self.outpost = outpost
         }
@@ -1116,6 +1147,7 @@ extension Outposts {
         /// The ID or ARN of the Outpost.
         public let outpostIdentifier: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, orderId: String, outpostIdentifier: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1153,6 +1185,7 @@ extension Outposts {
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
 
+        @inlinable
         public init(instanceTypes: [InstanceTypeItem]? = nil, nextToken: String? = nil) {
             self.instanceTypes = instanceTypes
             self.nextToken = nextToken
@@ -1170,6 +1203,7 @@ extension Outposts {
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
+        @inlinable
         public init(addressType: AddressType, siteId: String) {
             self.addressType = addressType
             self.siteId = siteId
@@ -1198,6 +1232,7 @@ extension Outposts {
         public let addressType: AddressType?
         public let siteId: String?
 
+        @inlinable
         public init(address: Address? = nil, addressType: AddressType? = nil, siteId: String? = nil) {
             self.address = address
             self.addressType = addressType
@@ -1215,6 +1250,7 @@ extension Outposts {
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
+        @inlinable
         public init(siteId: String) {
             self.siteId = siteId
         }
@@ -1237,6 +1273,7 @@ extension Outposts {
     public struct GetSiteOutput: AWSDecodableShape {
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }
@@ -1252,6 +1289,7 @@ extension Outposts {
         /// The instance type of the hosts.
         public let instanceType: String
 
+        @inlinable
         public init(count: Int, instanceType: String) {
             self.count = count
             self.instanceType = instanceType
@@ -1276,6 +1314,7 @@ extension Outposts {
         /// The number of default VCPUs in an instance type.
         public let vcpUs: Int?
 
+        @inlinable
         public init(instanceType: String? = nil, vcpUs: Int? = nil) {
             self.instanceType = instanceType
             self.vcpUs = vcpUs
@@ -1305,6 +1344,7 @@ extension Outposts {
         /// The status of the line item.
         public let status: LineItemStatus?
 
+        @inlinable
         public init(assetInformationList: [LineItemAssetInformation]? = nil, catalogItemId: String? = nil, lineItemId: String? = nil, previousLineItemId: String? = nil, previousOrderId: String? = nil, quantity: Int? = nil, shipmentInformation: ShipmentInformation? = nil, status: LineItemStatus? = nil) {
             self.assetInformationList = assetInformationList
             self.catalogItemId = catalogItemId
@@ -1334,6 +1374,7 @@ extension Outposts {
         ///  The MAC addresses of the asset.
         public let macAddressList: [String]?
 
+        @inlinable
         public init(assetId: String? = nil, macAddressList: [String]? = nil) {
             self.assetId = assetId
             self.macAddressList = macAddressList
@@ -1351,6 +1392,7 @@ extension Outposts {
         /// The quantity of a line item request.
         public let quantity: Int?
 
+        @inlinable
         public init(catalogItemId: String? = nil, quantity: Int? = nil) {
             self.catalogItemId = catalogItemId
             self.quantity = quantity
@@ -1379,6 +1421,7 @@ extension Outposts {
         /// Filters the results by state.
         public let statusFilter: [AssetState]?
 
+        @inlinable
         public init(hostIdFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String, statusFilter: [AssetState]? = nil) {
             self.hostIdFilter = hostIdFilter
             self.maxResults = maxResults
@@ -1423,6 +1466,7 @@ extension Outposts {
         public let assets: [AssetInfo]?
         public let nextToken: String?
 
+        @inlinable
         public init(assets: [AssetInfo]? = nil, nextToken: String? = nil) {
             self.assets = assets
             self.nextToken = nextToken
@@ -1442,6 +1486,7 @@ extension Outposts {
         /// Filters the results by an Outpost ID or an Outpost ARN.
         public let outpostIdentifierFilter: String?
 
+        @inlinable
         public init(capacityTaskStatusFilter: [CapacityTaskStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifierFilter: String? = nil) {
             self.capacityTaskStatusFilter = capacityTaskStatusFilter
             self.maxResults = maxResults
@@ -1477,6 +1522,7 @@ extension Outposts {
         public let capacityTasks: [CapacityTaskSummary]?
         public let nextToken: String?
 
+        @inlinable
         public init(capacityTasks: [CapacityTaskSummary]? = nil, nextToken: String? = nil) {
             self.capacityTasks = capacityTasks
             self.nextToken = nextToken
@@ -1498,6 +1544,7 @@ extension Outposts {
         /// Filters the results by storage option.
         public let supportedStorageFilter: [SupportedStorageEnum]?
 
+        @inlinable
         public init(ec2FamilyFilter: [String]? = nil, itemClassFilter: [CatalogItemClass]? = nil, maxResults: Int? = nil, nextToken: String? = nil, supportedStorageFilter: [SupportedStorageEnum]? = nil) {
             self.ec2FamilyFilter = ec2FamilyFilter
             self.itemClassFilter = itemClassFilter
@@ -1537,6 +1584,7 @@ extension Outposts {
         public let catalogItems: [CatalogItem]?
         public let nextToken: String?
 
+        @inlinable
         public init(catalogItems: [CatalogItem]? = nil, nextToken: String? = nil) {
             self.catalogItems = catalogItems
             self.nextToken = nextToken
@@ -1554,6 +1602,7 @@ extension Outposts {
         ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostIdentifierFilter: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifierFilter: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1587,6 +1636,7 @@ extension Outposts {
         ///  Information about the orders.
         public let orders: [OrderSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, orders: [OrderSummary]? = nil) {
             self.nextToken = nextToken
             self.orders = orders
@@ -1608,6 +1658,7 @@ extension Outposts {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(availabilityZoneFilter: [String]? = nil, availabilityZoneIdFilter: [String]? = nil, lifeCycleStatusFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.availabilityZoneFilter = availabilityZoneFilter
             self.availabilityZoneIdFilter = availabilityZoneIdFilter
@@ -1662,6 +1713,7 @@ extension Outposts {
         public let nextToken: String?
         public let outposts: [Outpost]?
 
+        @inlinable
         public init(nextToken: String? = nil, outposts: [Outpost]? = nil) {
             self.nextToken = nextToken
             self.outposts = outposts
@@ -1683,6 +1735,7 @@ extension Outposts {
         /// Filters the results by state or region.
         public let operatingAddressStateOrRegionFilter: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, operatingAddressCityFilter: [String]? = nil, operatingAddressCountryCodeFilter: [String]? = nil, operatingAddressStateOrRegionFilter: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1731,6 +1784,7 @@ extension Outposts {
         public let nextToken: String?
         public let sites: [Site]?
 
+        @inlinable
         public init(nextToken: String? = nil, sites: [Site]? = nil) {
             self.nextToken = nextToken
             self.sites = sites
@@ -1746,6 +1800,7 @@ extension Outposts {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1768,6 +1823,7 @@ extension Outposts {
         /// The resource tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1797,6 +1853,7 @@ extension Outposts {
         /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
+        @inlinable
         public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, orderType: OrderType? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, status: OrderStatus? = nil) {
             self.lineItems = lineItems
             self.orderFulfilledDate = orderFulfilledDate
@@ -1838,6 +1895,7 @@ extension Outposts {
         /// The status of the order.    PREPARING - Order is received and is being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. For more information, see the LineItem status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following statuses are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
+        @inlinable
         public init(lineItemCountsByStatus: [LineItemStatus: Int]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, orderType: OrderType? = nil, outpostId: String? = nil, status: OrderStatus? = nil) {
             self.lineItemCountsByStatus = lineItemCountsByStatus
             self.orderFulfilledDate = orderFulfilledDate
@@ -1876,6 +1934,7 @@ extension Outposts {
         /// The Outpost tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, siteArn: String? = nil, siteId: String? = nil, supportedHardwareType: SupportedHardwareType? = nil, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -1927,6 +1986,7 @@ extension Outposts {
         /// The uplink speed the rack supports for the connection to the Region.
         public let uplinkGbps: UplinkGbps?
 
+        @inlinable
         public init(fiberOpticCableType: FiberOpticCableType? = nil, maximumSupportedWeightLbs: MaximumSupportedWeightLbs? = nil, opticalStandard: OpticalStandard? = nil, powerConnector: PowerConnector? = nil, powerDrawKva: PowerDrawKva? = nil, powerFeedDrop: PowerFeedDrop? = nil, powerPhase: PowerPhase? = nil, uplinkCount: UplinkCount? = nil, uplinkGbps: UplinkGbps? = nil) {
             self.fiberOpticCableType = fiberOpticCableType
             self.maximumSupportedWeightLbs = maximumSupportedWeightLbs
@@ -1958,6 +2018,7 @@ extension Outposts {
         ///  The tracking number of the shipment.
         public let shipmentTrackingNumber: String?
 
+        @inlinable
         public init(shipmentCarrier: ShipmentCarrier? = nil, shipmentTrackingNumber: String? = nil) {
             self.shipmentCarrier = shipmentCarrier
             self.shipmentTrackingNumber = shipmentTrackingNumber
@@ -1988,6 +2049,7 @@ extension Outposts {
         /// The site tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountId: String? = nil, description: String? = nil, name: String? = nil, notes: String? = nil, operatingAddressCity: String? = nil, operatingAddressCountryCode: String? = nil, operatingAddressStateOrRegion: String? = nil, rackPhysicalProperties: RackPhysicalProperties? = nil, siteArn: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.description = description
@@ -2027,6 +2089,7 @@ extension Outposts {
         /// The ID or ARN of the Outposts associated with the specified capacity task.
         public let outpostIdentifier: String
 
+        @inlinable
         public init(dryRun: Bool? = nil, instancePools: [InstanceTypeCapacity], orderId: String, outpostIdentifier: String) {
             self.dryRun = dryRun
             self.instancePools = instancePools
@@ -2084,6 +2147,7 @@ extension Outposts {
         /// List of the instance pools requested in the specified capacity task.
         public let requestedInstancePools: [InstanceTypeCapacity]?
 
+        @inlinable
         public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil) {
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
@@ -2121,6 +2185,7 @@ extension Outposts {
         ///  The device index of the network interface on the Outpost server.
         public let networkInterfaceDeviceIndex: Int
 
+        @inlinable
         public init(assetId: String, clientPublicKey: String, deviceSerialNumber: String? = nil, networkInterfaceDeviceIndex: Int = 0) {
             self.assetId = assetId
             self.clientPublicKey = clientPublicKey
@@ -2156,6 +2221,7 @@ extension Outposts {
         ///  The underlay IP address.
         public let underlayIpAddress: String?
 
+        @inlinable
         public init(connectionId: String? = nil, underlayIpAddress: String? = nil) {
             self.connectionId = connectionId
             self.underlayIpAddress = underlayIpAddress
@@ -2173,6 +2239,7 @@ extension Outposts {
         /// The tags to add to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2214,6 +2281,7 @@ extension Outposts {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2253,6 +2321,7 @@ extension Outposts {
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, outpostId: String, supportedHardwareType: SupportedHardwareType? = nil) {
             self.description = description
             self.name = name
@@ -2290,6 +2359,7 @@ extension Outposts {
     public struct UpdateOutpostOutput: AWSDecodableShape {
         public let outpost: Outpost?
 
+        @inlinable
         public init(outpost: Outpost? = nil) {
             self.outpost = outpost
         }
@@ -2307,6 +2377,7 @@ extension Outposts {
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
+        @inlinable
         public init(address: Address, addressType: AddressType, siteId: String) {
             self.address = address
             self.addressType = addressType
@@ -2340,6 +2411,7 @@ extension Outposts {
         ///  The type of the address.
         public let addressType: AddressType?
 
+        @inlinable
         public init(address: Address? = nil, addressType: AddressType? = nil) {
             self.address = address
             self.addressType = addressType
@@ -2359,6 +2431,7 @@ extension Outposts {
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, notes: String? = nil, siteId: String) {
             self.description = description
             self.name = name
@@ -2400,6 +2473,7 @@ extension Outposts {
     public struct UpdateSiteOutput: AWSDecodableShape {
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }
@@ -2431,6 +2505,7 @@ extension Outposts {
         /// The uplink speed the rack should support for the connection to the Region.
         public let uplinkGbps: UplinkGbps?
 
+        @inlinable
         public init(fiberOpticCableType: FiberOpticCableType? = nil, maximumSupportedWeightLbs: MaximumSupportedWeightLbs? = nil, opticalStandard: OpticalStandard? = nil, powerConnector: PowerConnector? = nil, powerDrawKva: PowerDrawKva? = nil, powerFeedDrop: PowerFeedDrop? = nil, powerPhase: PowerPhase? = nil, siteId: String, uplinkCount: UplinkCount? = nil, uplinkGbps: UplinkGbps? = nil) {
             self.fiberOpticCableType = fiberOpticCableType
             self.maximumSupportedWeightLbs = maximumSupportedWeightLbs
@@ -2481,6 +2556,7 @@ extension Outposts {
     public struct UpdateSiteRackPhysicalPropertiesOutput: AWSDecodableShape {
         public let site: Site?
 
+        @inlinable
         public init(site: Site? = nil) {
             self.site = site
         }

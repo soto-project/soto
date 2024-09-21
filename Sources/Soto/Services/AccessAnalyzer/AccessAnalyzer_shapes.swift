@@ -610,6 +610,7 @@ extension AccessAnalyzer {
         /// A list of resources for the access permissions. Any strings that can be used as a resource in an IAM policy can be used in the list of resources to check.
         public let resources: [String]?
 
+        @inlinable
         public init(actions: [String]? = nil, resources: [String]? = nil) {
             self.actions = actions
             self.resources = resources
@@ -642,6 +643,7 @@ extension AccessAnalyzer {
         /// Provides more details about the current status of the access preview. For example, if the creation of the access preview fails, a Failed status is returned. This failure can be due to an internal issue with the analysis or due to an invalid resource configuration.
         public let statusReason: AccessPreviewStatusReason?
 
+        @inlinable
         public init(analyzerArn: String, configurations: [String: Configuration], createdAt: Date, id: String, status: AccessPreviewStatus, statusReason: AccessPreviewStatusReason? = nil) {
             self.analyzerArn = analyzerArn
             self.configurations = configurations
@@ -694,6 +696,7 @@ extension AccessAnalyzer {
         /// The preview status of the finding. This is what the status of the finding would be after permissions deployment. For example, a Changed finding with preview status Resolved and existing status Active indicates the existing Active finding would become Resolved as a result of the proposed permissions change.
         public let status: FindingStatus
 
+        @inlinable
         public init(action: [String]? = nil, changeType: FindingChangeType, condition: [String: String]? = nil, createdAt: Date, error: String? = nil, existingFindingId: String? = nil, existingFindingStatus: FindingStatus? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus) {
             self.action = action
             self.changeType = changeType
@@ -735,6 +738,7 @@ extension AccessAnalyzer {
         /// The reason code for the current status of the access preview.
         public let code: AccessPreviewStatusReasonCode
 
+        @inlinable
         public init(code: AccessPreviewStatusReasonCode) {
             self.code = code
         }
@@ -756,6 +760,7 @@ extension AccessAnalyzer {
         public let status: AccessPreviewStatus
         public let statusReason: AccessPreviewStatusReason?
 
+        @inlinable
         public init(analyzerArn: String, createdAt: Date, id: String, status: AccessPreviewStatus, statusReason: AccessPreviewStatusReason? = nil) {
             self.analyzerArn = analyzerArn
             self.createdAt = createdAt
@@ -800,6 +805,7 @@ extension AccessAnalyzer {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(actions: [String]? = nil, analyzedAt: Date, createdAt: Date, error: String? = nil, isPublic: Bool, resourceArn: String, resourceOwnerAccount: String, resourceType: ResourceType, sharedVia: [String]? = nil, status: FindingStatus? = nil, updatedAt: Date) {
             self.actions = actions
             self.analyzedAt = analyzedAt
@@ -837,6 +843,7 @@ extension AccessAnalyzer {
         /// The type of resource that was analyzed.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(resourceArn: String, resourceOwnerAccount: String, resourceType: ResourceType) {
             self.resourceArn = resourceArn
             self.resourceOwnerAccount = resourceOwnerAccount
@@ -874,6 +881,7 @@ extension AccessAnalyzer {
         /// The type of analyzer, which corresponds to the zone of trust chosen for the analyzer.
         public let type: `Type`
 
+        @inlinable
         public init(arn: String, configuration: AnalyzerConfiguration? = nil, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.arn = arn
             self.configuration = configuration
@@ -909,6 +917,7 @@ extension AccessAnalyzer {
         /// The name of the rule to apply.
         public let ruleName: String
 
+        @inlinable
         public init(analyzerArn: String, clientToken: String? = ApplyArchiveRuleRequest.idempotencyToken(), ruleName: String) {
             self.analyzerArn = analyzerArn
             self.clientToken = clientToken
@@ -941,6 +950,7 @@ extension AccessAnalyzer {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, filter: [String: Criterion], ruleName: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.filter = filter
@@ -960,6 +970,7 @@ extension AccessAnalyzer {
         /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -985,6 +996,7 @@ extension AccessAnalyzer {
         /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
         public let policyType: AccessCheckPolicyType
 
+        @inlinable
         public init(access: [Access], policyDocument: String, policyType: AccessCheckPolicyType) {
             self.access = access
             self.policyDocument = policyDocument
@@ -1012,6 +1024,7 @@ extension AccessAnalyzer {
         /// The result of the check for whether the access is allowed. If the result is PASS, the specified policy doesn't allow any of the specified permissions in the access object. If the result is FAIL, the specified policy might allow some or all of the permissions in the access object.
         public let result: CheckAccessNotGrantedResult?
 
+        @inlinable
         public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckAccessNotGrantedResult? = nil) {
             self.message = message
             self.reasons = reasons
@@ -1033,6 +1046,7 @@ extension AccessAnalyzer {
         /// The type of policy to compare. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
         public let policyType: AccessCheckPolicyType
 
+        @inlinable
         public init(existingPolicyDocument: String, newPolicyDocument: String, policyType: AccessCheckPolicyType) {
             self.existingPolicyDocument = existingPolicyDocument
             self.newPolicyDocument = newPolicyDocument
@@ -1054,6 +1068,7 @@ extension AccessAnalyzer {
         /// The result of the check for new access. If the result is PASS, no new access is allowed by the updated policy. If the result is FAIL, the updated policy might allow new access.
         public let result: CheckNoNewAccessResult?
 
+        @inlinable
         public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckNoNewAccessResult? = nil) {
             self.message = message
             self.reasons = reasons
@@ -1073,6 +1088,7 @@ extension AccessAnalyzer {
         /// The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Analyzer will return an error.
         public let resourceType: AccessCheckResourceType
 
+        @inlinable
         public init(policyDocument: String, resourceType: AccessCheckResourceType) {
             self.policyDocument = policyDocument
             self.resourceType = resourceType
@@ -1092,6 +1108,7 @@ extension AccessAnalyzer {
         /// The result of the check for public access to the specified resource type. If the result is PASS, the policy doesn't allow public access to the specified resource type. If the result is FAIL, the policy might allow public access to the specified resource type.
         public let result: CheckNoPublicAccessResult?
 
+        @inlinable
         public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckNoPublicAccessResult? = nil) {
             self.message = message
             self.reasons = reasons
@@ -1117,6 +1134,7 @@ extension AccessAnalyzer {
         /// A Trail object that contains settings for a trail.
         public let trails: [Trail]
 
+        @inlinable
         public init(accessRole: String, endTime: Date? = nil, startTime: Date, trails: [Trail]) {
             self.accessRole = accessRole
             self.endTime = endTime
@@ -1149,6 +1167,7 @@ extension AccessAnalyzer {
         /// A TrailProperties object that contains settings for trail properties.
         public let trailProperties: [TrailProperties]
 
+        @inlinable
         public init(endTime: Date, startTime: Date, trailProperties: [TrailProperties]) {
             self.endTime = endTime
             self.startTime = startTime
@@ -1170,6 +1189,7 @@ extension AccessAnalyzer {
         /// Access control configuration for your resource that is used to generate the access preview. The access preview includes findings for external access allowed to the resource with the proposed access control configuration. The configuration must contain exactly one element.
         public let configurations: [String: Configuration]
 
+        @inlinable
         public init(analyzerArn: String, clientToken: String? = CreateAccessPreviewRequest.idempotencyToken(), configurations: [String: Configuration]) {
             self.analyzerArn = analyzerArn
             self.clientToken = clientToken
@@ -1194,6 +1214,7 @@ extension AccessAnalyzer {
         /// The unique ID for the access preview.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1217,6 +1238,7 @@ extension AccessAnalyzer {
         /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
         public let type: `Type`
 
+        @inlinable
         public init(analyzerName: String, archiveRules: [InlineArchiveRule]? = nil, clientToken: String? = CreateAnalyzerRequest.idempotencyToken(), configuration: AnalyzerConfiguration? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.analyzerName = analyzerName
             self.archiveRules = archiveRules
@@ -1249,6 +1271,7 @@ extension AccessAnalyzer {
         /// The ARN of the analyzer that was created by the request.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1268,6 +1291,7 @@ extension AccessAnalyzer {
         /// The name of the rule to create.
         public let ruleName: String
 
+        @inlinable
         public init(analyzerName: String, clientToken: String? = CreateArchiveRuleRequest.idempotencyToken(), filter: [String: Criterion], ruleName: String) {
             self.analyzerName = analyzerName
             self.clientToken = clientToken
@@ -1313,6 +1337,7 @@ extension AccessAnalyzer {
         /// A "not equals" operator to match for the filter used to create the rule.
         public let neq: [String]?
 
+        @inlinable
         public init(contains: [String]? = nil, eq: [String]? = nil, exists: Bool? = nil, neq: [String]? = nil) {
             self.contains = contains
             self.eq = eq
@@ -1343,6 +1368,7 @@ extension AccessAnalyzer {
         /// A client token.
         public let clientToken: String?
 
+        @inlinable
         public init(analyzerName: String, clientToken: String? = DeleteAnalyzerRequest.idempotencyToken()) {
             self.analyzerName = analyzerName
             self.clientToken = clientToken
@@ -1372,6 +1398,7 @@ extension AccessAnalyzer {
         /// The name of the rule to delete.
         public let ruleName: String
 
+        @inlinable
         public init(analyzerName: String, clientToken: String? = DeleteArchiveRuleRequest.idempotencyToken(), ruleName: String) {
             self.analyzerName = analyzerName
             self.clientToken = clientToken
@@ -1402,6 +1429,7 @@ extension AccessAnalyzer {
         /// The proposed resource policy defining who can access or manage the DynamoDB stream.
         public let streamPolicy: String?
 
+        @inlinable
         public init(streamPolicy: String? = nil) {
             self.streamPolicy = streamPolicy
         }
@@ -1415,6 +1443,7 @@ extension AccessAnalyzer {
         /// The proposed resource policy defining who can access or manage the DynamoDB table.
         public let tablePolicy: String?
 
+        @inlinable
         public init(tablePolicy: String? = nil) {
             self.tablePolicy = tablePolicy
         }
@@ -1432,6 +1461,7 @@ extension AccessAnalyzer {
         /// The IDs of the Amazon Web Services accounts that have access to the Amazon EBS volume snapshot.   If the configuration is for an existing Amazon EBS volume snapshot and you do not specify the userIds, then the access preview uses the existing shared userIds for the snapshot.   If the access preview is for a new resource and you do not specify the userIds, then the access preview considers the snapshot without any userIds.   To propose deletion of existing shared accountIds, you can specify an empty list for userIds.
         public let userIds: [String]?
 
+        @inlinable
         public init(groups: [String]? = nil, kmsKeyId: String? = nil, userIds: [String]? = nil) {
             self.groups = groups
             self.kmsKeyId = kmsKeyId
@@ -1449,6 +1479,7 @@ extension AccessAnalyzer {
         /// The JSON repository policy text to apply to the Amazon ECR repository. For more information, see Private repository policy examples in the Amazon ECR User Guide.
         public let repositoryPolicy: String?
 
+        @inlinable
         public init(repositoryPolicy: String? = nil) {
             self.repositoryPolicy = repositoryPolicy
         }
@@ -1462,6 +1493,7 @@ extension AccessAnalyzer {
         /// The JSON policy definition to apply to the Amazon EFS file system. For more information on the elements that make up a file system policy, see Amazon EFS Resource-based policies.
         public let fileSystemPolicy: String?
 
+        @inlinable
         public init(fileSystemPolicy: String? = nil) {
             self.fileSystemPolicy = fileSystemPolicy
         }
@@ -1483,6 +1515,7 @@ extension AccessAnalyzer {
         /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
         public let sources: [FindingSource]?
 
+        @inlinable
         public init(action: [String]? = nil, condition: [String: String], isPublic: Bool? = nil, principal: [String: String]? = nil, sources: [FindingSource]? = nil) {
             self.action = action
             self.condition = condition
@@ -1533,6 +1566,7 @@ extension AccessAnalyzer {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
             self.action = action
             self.analyzedAt = analyzedAt
@@ -1574,6 +1608,7 @@ extension AccessAnalyzer {
         /// Indicates the type of access that generated the finding.
         public let type: FindingSourceType
 
+        @inlinable
         public init(detail: FindingSourceDetail? = nil, type: FindingSourceType) {
             self.detail = detail
             self.type = type
@@ -1591,6 +1626,7 @@ extension AccessAnalyzer {
         /// The ARN of the access point that generated the finding. The ARN format depends on whether the ARN represents an access point or a multi-region access point.
         public let accessPointArn: String?
 
+        @inlinable
         public init(accessPointAccount: String? = nil, accessPointArn: String? = nil) {
             self.accessPointAccount = accessPointAccount
             self.accessPointArn = accessPointArn
@@ -1635,6 +1671,7 @@ extension AccessAnalyzer {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
             self.action = action
             self.analyzedAt = analyzedAt
@@ -1695,6 +1732,7 @@ extension AccessAnalyzer {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(analyzedAt: Date, createdAt: Date, error: String? = nil, findingType: FindingType? = nil, id: String, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, status: FindingStatus, updatedAt: Date) {
             self.analyzedAt = analyzedAt
             self.createdAt = createdAt
@@ -1728,6 +1766,7 @@ extension AccessAnalyzer {
         /// The unique ID for the finding recommendation.
         public let id: String
 
+        @inlinable
         public init(analyzerArn: String, id: String) {
             self.analyzerArn = analyzerArn
             self.id = id
@@ -1751,6 +1790,7 @@ extension AccessAnalyzer {
         /// The text to use as the content for the new policy. The policy is created using the CreatePolicy action.
         public let policy: String
 
+        @inlinable
         public init(policy: String) {
             self.policy = policy
         }
@@ -1768,6 +1808,7 @@ extension AccessAnalyzer {
         /// The ARN of the IAM entity (user or role) for which you are generating a policy.
         public let principalArn: String
 
+        @inlinable
         public init(cloudTrailProperties: CloudTrailProperties? = nil, isComplete: Bool? = nil, principalArn: String) {
             self.cloudTrailProperties = cloudTrailProperties
             self.isComplete = isComplete
@@ -1787,6 +1828,7 @@ extension AccessAnalyzer {
         /// A GeneratedPolicyProperties object that contains properties of the generated policy.
         public let properties: GeneratedPolicyProperties
 
+        @inlinable
         public init(generatedPolicies: [GeneratedPolicy]? = nil, properties: GeneratedPolicyProperties) {
             self.generatedPolicies = generatedPolicies
             self.properties = properties
@@ -1804,6 +1846,7 @@ extension AccessAnalyzer {
         /// The ARN of the analyzer used to generate the access preview.
         public let analyzerArn: String
 
+        @inlinable
         public init(accessPreviewId: String, analyzerArn: String) {
             self.accessPreviewId = accessPreviewId
             self.analyzerArn = analyzerArn
@@ -1828,6 +1871,7 @@ extension AccessAnalyzer {
         /// An object that contains information about the access preview.
         public let accessPreview: AccessPreview
 
+        @inlinable
         public init(accessPreview: AccessPreview) {
             self.accessPreview = accessPreview
         }
@@ -1843,6 +1887,7 @@ extension AccessAnalyzer {
         /// The ARN of the resource to retrieve information about.
         public let resourceArn: String
 
+        @inlinable
         public init(analyzerArn: String, resourceArn: String) {
             self.analyzerArn = analyzerArn
             self.resourceArn = resourceArn
@@ -1867,6 +1912,7 @@ extension AccessAnalyzer {
         /// An AnalyzedResource object that contains information that IAM Access Analyzer found when it analyzed the resource.
         public let resource: AnalyzedResource?
 
+        @inlinable
         public init(resource: AnalyzedResource? = nil) {
             self.resource = resource
         }
@@ -1880,6 +1926,7 @@ extension AccessAnalyzer {
         /// The name of the analyzer retrieved.
         public let analyzerName: String
 
+        @inlinable
         public init(analyzerName: String) {
             self.analyzerName = analyzerName
         }
@@ -1903,6 +1950,7 @@ extension AccessAnalyzer {
         /// An AnalyzerSummary object that contains information about the analyzer.
         public let analyzer: AnalyzerSummary
 
+        @inlinable
         public init(analyzer: AnalyzerSummary) {
             self.analyzer = analyzer
         }
@@ -1918,6 +1966,7 @@ extension AccessAnalyzer {
         /// The name of the rule to retrieve.
         public let ruleName: String
 
+        @inlinable
         public init(analyzerName: String, ruleName: String) {
             self.analyzerName = analyzerName
             self.ruleName = ruleName
@@ -1945,6 +1994,7 @@ extension AccessAnalyzer {
     public struct GetArchiveRuleResponse: AWSDecodableShape {
         public let archiveRule: ArchiveRuleSummary
 
+        @inlinable
         public init(archiveRule: ArchiveRuleSummary) {
             self.archiveRule = archiveRule
         }
@@ -1964,6 +2014,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzerArn: String, id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.analyzerArn = analyzerArn
             self.id = id
@@ -2007,6 +2058,7 @@ extension AccessAnalyzer {
         /// The status of the retrieval of the finding recommendation.
         public let status: Status
 
+        @inlinable
         public init(completedAt: Date? = nil, error: RecommendationError? = nil, nextToken: String? = nil, recommendationType: RecommendationType, recommendedSteps: [RecommendedStep]? = nil, resourceArn: String, startedAt: Date, status: Status) {
             self.completedAt = completedAt
             self.error = error
@@ -2036,6 +2088,7 @@ extension AccessAnalyzer {
         /// The ID of the finding to retrieve.
         public let id: String
 
+        @inlinable
         public init(analyzerArn: String, id: String) {
             self.analyzerArn = analyzerArn
             self.id = id
@@ -2059,6 +2112,7 @@ extension AccessAnalyzer {
         /// A finding object that contains finding details.
         public let finding: Finding?
 
+        @inlinable
         public init(finding: Finding? = nil) {
             self.finding = finding
         }
@@ -2078,6 +2132,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzerArn: String, id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.analyzerArn = analyzerArn
             self.id = id
@@ -2130,6 +2185,7 @@ extension AccessAnalyzer {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(analyzedAt: Date, createdAt: Date, error: String? = nil, findingDetails: [FindingDetails], findingType: FindingType? = nil, id: String, nextToken: String? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, status: FindingStatus, updatedAt: Date) {
             self.analyzedAt = analyzedAt
             self.createdAt = createdAt
@@ -2169,6 +2225,7 @@ extension AccessAnalyzer {
         /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
         public let jobId: String
 
+        @inlinable
         public init(includeResourcePlaceholders: Bool? = nil, includeServiceLevelTemplate: Bool? = nil, jobId: String) {
             self.includeResourcePlaceholders = includeResourcePlaceholders
             self.includeServiceLevelTemplate = includeServiceLevelTemplate
@@ -2192,6 +2249,7 @@ extension AccessAnalyzer {
         /// A GeneratedPolicyDetails object that contains details about the generated policy.
         public let jobDetails: JobDetails
 
+        @inlinable
         public init(generatedPolicyResult: GeneratedPolicyResult, jobDetails: JobDetails) {
             self.generatedPolicyResult = generatedPolicyResult
             self.jobDetails = jobDetails
@@ -2207,6 +2265,7 @@ extension AccessAnalyzer {
         /// The proposed trust policy for the IAM role.
         public let trustPolicy: String?
 
+        @inlinable
         public init(trustPolicy: String? = nil) {
             self.trustPolicy = trustPolicy
         }
@@ -2222,6 +2281,7 @@ extension AccessAnalyzer {
         /// The name of the rule.
         public let ruleName: String
 
+        @inlinable
         public init(filter: [String: Criterion], ruleName: String) {
             self.filter = filter
             self.ruleName = ruleName
@@ -2260,6 +2320,7 @@ extension AccessAnalyzer {
         /// The status of the job request.
         public let status: JobStatus
 
+        @inlinable
         public init(completedOn: Date? = nil, jobError: JobError? = nil, jobId: String, startedOn: Date, status: JobStatus) {
             self.completedOn = completedOn
             self.jobError = jobError
@@ -2283,6 +2344,7 @@ extension AccessAnalyzer {
         /// Specific information about the error. For example, which service quota was exceeded or which resource was not found.
         public let message: String
 
+        @inlinable
         public init(code: JobErrorCode, message: String) {
             self.code = code
             self.message = message
@@ -2306,6 +2368,7 @@ extension AccessAnalyzer {
         /// The principal that is given permission to retire the grant by using RetireGrant operation.
         public let retiringPrincipal: String?
 
+        @inlinable
         public init(constraints: KmsGrantConstraints? = nil, granteePrincipal: String, issuingAccount: String, operations: [KmsGrantOperation], retiringPrincipal: String? = nil) {
             self.constraints = constraints
             self.granteePrincipal = granteePrincipal
@@ -2329,6 +2392,7 @@ extension AccessAnalyzer {
         /// A list of key-value pairs that must be included in the encryption context of the cryptographic operation request. The grant allows the cryptographic operation only when the encryption context in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs.
         public let encryptionContextSubset: [String: String]?
 
+        @inlinable
         public init(encryptionContextEquals: [String: String]? = nil, encryptionContextSubset: [String: String]? = nil) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
@@ -2346,6 +2410,7 @@ extension AccessAnalyzer {
         /// Resource policy configuration for the KMS key. The only valid value for the name of the key policy is default. For more information, see Default key policy.
         public let keyPolicies: [String: String]?
 
+        @inlinable
         public init(grants: [KmsGrantConfiguration]? = nil, keyPolicies: [String: String]? = nil) {
             self.grants = grants
             self.keyPolicies = keyPolicies
@@ -2369,6 +2434,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPreviewId: String, analyzerArn: String, filter: [String: Criterion]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accessPreviewId = accessPreviewId
             self.analyzerArn = analyzerArn
@@ -2409,6 +2475,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [AccessPreviewFinding], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -2428,6 +2495,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzerArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.analyzerArn = analyzerArn
             self.maxResults = maxResults
@@ -2455,6 +2523,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPreviews: [AccessPreviewSummary], nextToken: String? = nil) {
             self.accessPreviews = accessPreviews
             self.nextToken = nextToken
@@ -2476,6 +2545,7 @@ extension AccessAnalyzer {
         /// The type of resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(analyzerArn: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: ResourceType? = nil) {
             self.analyzerArn = analyzerArn
             self.maxResults = maxResults
@@ -2501,6 +2571,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzedResources: [AnalyzedResourceSummary], nextToken: String? = nil) {
             self.analyzedResources = analyzedResources
             self.nextToken = nextToken
@@ -2520,6 +2591,7 @@ extension AccessAnalyzer {
         /// The type of analyzer.
         public let type: `Type`?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, type: `Type`? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2543,6 +2615,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzers: [AnalyzerSummary], nextToken: String? = nil) {
             self.analyzers = analyzers
             self.nextToken = nextToken
@@ -2562,6 +2635,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzerName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.analyzerName = analyzerName
             self.maxResults = maxResults
@@ -2591,6 +2665,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(archiveRules: [ArchiveRuleSummary], nextToken: String? = nil) {
             self.archiveRules = archiveRules
             self.nextToken = nextToken
@@ -2614,6 +2689,7 @@ extension AccessAnalyzer {
         /// The sort order for the findings returned.
         public let sort: SortCriteria?
 
+        @inlinable
         public init(analyzerArn: String, filter: [String: Criterion]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SortCriteria? = nil) {
             self.analyzerArn = analyzerArn
             self.filter = filter
@@ -2644,6 +2720,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [FindingSummary], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -2666,6 +2743,7 @@ extension AccessAnalyzer {
         public let nextToken: String?
         public let sort: SortCriteria?
 
+        @inlinable
         public init(analyzerArn: String, filter: [String: Criterion]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SortCriteria? = nil) {
             self.analyzerArn = analyzerArn
             self.filter = filter
@@ -2696,6 +2774,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [FindingSummaryV2], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -2715,6 +2794,7 @@ extension AccessAnalyzer {
         /// The ARN of the IAM entity (user or role) for which you are generating a policy. Use this with ListGeneratedPolicies to filter the results to only include results for a specific principal.
         public let principalArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principalArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2742,6 +2822,7 @@ extension AccessAnalyzer {
         /// A PolicyGeneration object that contains details about the generated policy.
         public let policyGenerations: [PolicyGeneration]
 
+        @inlinable
         public init(nextToken: String? = nil, policyGenerations: [PolicyGeneration]) {
             self.nextToken = nextToken
             self.policyGenerations = policyGenerations
@@ -2757,6 +2838,7 @@ extension AccessAnalyzer {
         /// The ARN of the resource to retrieve tags from.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2774,6 +2856,7 @@ extension AccessAnalyzer {
         /// The tags that are applied to the specified resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2789,6 +2872,7 @@ extension AccessAnalyzer {
         /// A span in a policy.
         public let span: Span
 
+        @inlinable
         public init(path: [PathElement], span: Span) {
             self.path = path
             self.span = span
@@ -2814,6 +2898,7 @@ extension AccessAnalyzer {
         /// The status of the policy generation request.
         public let status: JobStatus
 
+        @inlinable
         public init(completedOn: Date? = nil, jobId: String, principalArn: String, startedOn: Date, status: JobStatus) {
             self.completedOn = completedOn
             self.jobId = jobId
@@ -2835,6 +2920,7 @@ extension AccessAnalyzer {
         /// The ARN of the IAM entity (user or role) for which you are generating a policy.
         public let principalArn: String
 
+        @inlinable
         public init(principalArn: String) {
             self.principalArn = principalArn
         }
@@ -2856,6 +2942,7 @@ extension AccessAnalyzer {
         /// The offset within the policy that corresponds to the position, starting from 0.
         public let offset: Int
 
+        @inlinable
         public init(column: Int, line: Int, offset: Int) {
             self.column = column
             self.line = line
@@ -2875,6 +2962,7 @@ extension AccessAnalyzer {
         /// The KMS key identifier for an encrypted Amazon RDS DB cluster snapshot. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.   If the configuration is for an existing Amazon RDS DB cluster snapshot and you do not specify the kmsKeyId, or you specify an empty string, then the access preview uses the existing kmsKeyId of the snapshot.   If the access preview is for a new resource and you do not specify the specify the kmsKeyId, then the access preview considers the snapshot as unencrypted.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(attributes: [String: RdsDbClusterSnapshotAttributeValue]? = nil, kmsKeyId: String? = nil) {
             self.attributes = attributes
             self.kmsKeyId = kmsKeyId
@@ -2892,6 +2980,7 @@ extension AccessAnalyzer {
         /// The KMS key identifier for an encrypted Amazon RDS DB snapshot. The KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.   If the configuration is for an existing Amazon RDS DB snapshot and you do not specify the kmsKeyId, or you specify an empty string, then the access preview uses the existing kmsKeyId of the snapshot.   If the access preview is for a new resource and you do not specify the specify the kmsKeyId, then the access preview considers the snapshot as unencrypted.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(attributes: [String: RdsDbSnapshotAttributeValue]? = nil, kmsKeyId: String? = nil) {
             self.attributes = attributes
             self.kmsKeyId = kmsKeyId
@@ -2911,6 +3000,7 @@ extension AccessAnalyzer {
         /// The index number of the reason statement.
         public let statementIndex: Int?
 
+        @inlinable
         public init(description: String? = nil, statementId: String? = nil, statementIndex: Int? = nil) {
             self.description = description
             self.statementId = statementId
@@ -2930,6 +3020,7 @@ extension AccessAnalyzer {
         /// The error message for a failed retrieval of a recommendation for a finding.
         public let message: String
 
+        @inlinable
         public init(code: String, message: String) {
             self.code = code
             self.message = message
@@ -2949,6 +3040,7 @@ extension AccessAnalyzer {
         /// The proposed S3PublicAccessBlock configuration to apply to this Amazon S3 access point or multi-region access point.
         public let publicAccessBlock: S3PublicAccessBlockConfiguration?
 
+        @inlinable
         public init(accessPointPolicy: String? = nil, networkOrigin: NetworkOriginConfiguration? = nil, publicAccessBlock: S3PublicAccessBlockConfiguration? = nil) {
             self.accessPointPolicy = accessPointPolicy
             self.networkOrigin = networkOrigin
@@ -2972,6 +3064,7 @@ extension AccessAnalyzer {
         /// The permissions being granted.
         public let permission: AclPermission
 
+        @inlinable
         public init(grantee: AclGrantee, permission: AclPermission) {
             self.grantee = grantee
             self.permission = permission
@@ -2993,6 +3086,7 @@ extension AccessAnalyzer {
         /// The proposed block public access configuration for the Amazon S3 bucket.
         public let bucketPublicAccessBlock: S3PublicAccessBlockConfiguration?
 
+        @inlinable
         public init(accessPoints: [String: S3AccessPointConfiguration]? = nil, bucketAclGrants: [S3BucketAclGrantConfiguration]? = nil, bucketPolicy: String? = nil, bucketPublicAccessBlock: S3PublicAccessBlockConfiguration? = nil) {
             self.accessPoints = accessPoints
             self.bucketAclGrants = bucketAclGrants
@@ -3019,6 +3113,7 @@ extension AccessAnalyzer {
         /// The proposed bucket policy for the Amazon S3 directory bucket.
         public let bucketPolicy: String?
 
+        @inlinable
         public init(bucketPolicy: String? = nil) {
             self.bucketPolicy = bucketPolicy
         }
@@ -3034,6 +3129,7 @@ extension AccessAnalyzer {
         ///  Specifies whether Amazon S3 should restrict public bucket policies for this bucket.
         public let restrictPublicBuckets: Bool
 
+        @inlinable
         public init(ignorePublicAcls: Bool, restrictPublicBuckets: Bool) {
             self.ignorePublicAcls = ignorePublicAcls
             self.restrictPublicBuckets = restrictPublicBuckets
@@ -3051,6 +3147,7 @@ extension AccessAnalyzer {
         /// The proposed resource policy defining who can access or manage the secret.
         public let secretPolicy: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, secretPolicy: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.secretPolicy = secretPolicy
@@ -3066,6 +3163,7 @@ extension AccessAnalyzer {
         /// The JSON policy text that defines who can access an Amazon SNS topic. For more information, see Example cases for Amazon SNS access control in the Amazon SNS Developer Guide.
         public let topicPolicy: String?
 
+        @inlinable
         public init(topicPolicy: String? = nil) {
             self.topicPolicy = topicPolicy
         }
@@ -3085,6 +3183,7 @@ extension AccessAnalyzer {
         /// The sort order, ascending or descending.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(attributeName: String? = nil, orderBy: OrderBy? = nil) {
             self.attributeName = attributeName
             self.orderBy = orderBy
@@ -3102,6 +3201,7 @@ extension AccessAnalyzer {
         /// The start position of the span (inclusive).
         public let start: Position
 
+        @inlinable
         public init(end: Position, start: Position) {
             self.end = end
             self.start = start
@@ -3117,6 +3217,7 @@ extension AccessAnalyzer {
         ///  The proposed resource policy for the Amazon SQS queue.
         public let queuePolicy: String?
 
+        @inlinable
         public init(queuePolicy: String? = nil) {
             self.queuePolicy = queuePolicy
         }
@@ -3134,6 +3235,7 @@ extension AccessAnalyzer {
         /// Contains the ARN of the IAM entity (user or role) for which you are generating a policy.
         public let policyGenerationDetails: PolicyGenerationDetails
 
+        @inlinable
         public init(clientToken: String? = StartPolicyGenerationRequest.idempotencyToken(), cloudTrailDetails: CloudTrailDetails? = nil, policyGenerationDetails: PolicyGenerationDetails) {
             self.clientToken = clientToken
             self.cloudTrailDetails = cloudTrailDetails
@@ -3156,6 +3258,7 @@ extension AccessAnalyzer {
         /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -3173,6 +3276,7 @@ extension AccessAnalyzer {
         /// The Amazon Web Services account ID that owns the resource. For most Amazon Web Services resources, the owning account is the account in which the resource was created.
         public let resourceOwnerAccount: String?
 
+        @inlinable
         public init(analyzerArn: String, resourceArn: String, resourceOwnerAccount: String? = nil) {
             self.analyzerArn = analyzerArn
             self.resourceArn = resourceArn
@@ -3195,6 +3299,7 @@ extension AccessAnalyzer {
         /// The reason code for the current status of the analyzer.
         public let code: ReasonCode
 
+        @inlinable
         public init(code: ReasonCode) {
             self.code = code
         }
@@ -3210,6 +3315,7 @@ extension AccessAnalyzer {
         /// The start index of the substring, starting from 0.
         public let start: Int
 
+        @inlinable
         public init(length: Int, start: Int) {
             self.length = length
             self.start = start
@@ -3227,6 +3333,7 @@ extension AccessAnalyzer {
         /// The tags to add to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3256,6 +3363,7 @@ extension AccessAnalyzer {
         /// A list of regions to get CloudTrail data from and analyze to generate a policy.
         public let regions: [String]?
 
+        @inlinable
         public init(allRegions: Bool? = nil, cloudTrailArn: String, regions: [String]? = nil) {
             self.allRegions = allRegions
             self.cloudTrailArn = cloudTrailArn
@@ -3281,6 +3389,7 @@ extension AccessAnalyzer {
         /// A list of regions to get CloudTrail data from and analyze to generate a policy.
         public let regions: [String]?
 
+        @inlinable
         public init(allRegions: Bool? = nil, cloudTrailArn: String, regions: [String]? = nil) {
             self.allRegions = allRegions
             self.cloudTrailArn = cloudTrailArn
@@ -3300,6 +3409,7 @@ extension AccessAnalyzer {
         /// The key for the tag to add.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3323,6 +3433,7 @@ extension AccessAnalyzer {
         /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 180 days.
         public let unusedAccessAge: Int?
 
+        @inlinable
         public init(unusedAccessAge: Int? = nil) {
             self.unusedAccessAge = unusedAccessAge
         }
@@ -3339,6 +3450,7 @@ extension AccessAnalyzer {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAccessed: Date?
 
+        @inlinable
         public init(action: String, lastAccessed: Date? = nil) {
             self.action = action
             self.lastAccessed = lastAccessed
@@ -3355,6 +3467,7 @@ extension AccessAnalyzer {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAccessed: Date?
 
+        @inlinable
         public init(lastAccessed: Date? = nil) {
             self.lastAccessed = lastAccessed
         }
@@ -3371,6 +3484,7 @@ extension AccessAnalyzer {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAccessed: Date?
 
+        @inlinable
         public init(accessKeyId: String, lastAccessed: Date? = nil) {
             self.accessKeyId = accessKeyId
             self.lastAccessed = lastAccessed
@@ -3387,6 +3501,7 @@ extension AccessAnalyzer {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAccessed: Date?
 
+        @inlinable
         public init(lastAccessed: Date? = nil) {
             self.lastAccessed = lastAccessed
         }
@@ -3405,6 +3520,7 @@ extension AccessAnalyzer {
         /// The namespace of the Amazon Web Services service that contains the unused actions.
         public let serviceNamespace: String
 
+        @inlinable
         public init(actions: [UnusedAction]? = nil, lastAccessed: Date? = nil, serviceNamespace: String) {
             self.actions = actions
             self.lastAccessed = lastAccessed
@@ -3429,6 +3545,7 @@ extension AccessAnalyzer {
         /// If the recommended action for the unused permissions finding is to replace the existing policy, the contents of the recommended policy to replace the policy specified in the existingPolicyId field.
         public let recommendedPolicy: String?
 
+        @inlinable
         public init(existingPolicyId: String? = nil, policyUpdatedAt: Date? = nil, recommendedAction: RecommendedRemediationAction, recommendedPolicy: String? = nil) {
             self.existingPolicyId = existingPolicyId
             self.policyUpdatedAt = policyUpdatedAt
@@ -3454,6 +3571,7 @@ extension AccessAnalyzer {
         /// The name of the rule to update.
         public let ruleName: String
 
+        @inlinable
         public init(analyzerName: String, clientToken: String? = UpdateArchiveRuleRequest.idempotencyToken(), filter: [String: Criterion], ruleName: String) {
             self.analyzerName = analyzerName
             self.clientToken = clientToken
@@ -3500,6 +3618,7 @@ extension AccessAnalyzer {
         /// The state represents the action to take to update the finding Status. Use ARCHIVE to change an Active finding to an Archived finding. Use ACTIVE to change an Archived finding to an Active finding.
         public let status: FindingStatusUpdate
 
+        @inlinable
         public init(analyzerArn: String, clientToken: String? = UpdateFindingsRequest.idempotencyToken(), ids: [String]? = nil, resourceArn: String? = nil, status: FindingStatusUpdate) {
             self.analyzerArn = analyzerArn
             self.clientToken = clientToken
@@ -3534,6 +3653,7 @@ extension AccessAnalyzer {
         /// The list of locations in the policy document that are related to the finding. The issue code provides a summary of an issue identified by the finding.
         public let locations: [Location]
 
+        @inlinable
         public init(findingDetails: String, findingType: ValidatePolicyFindingType, issueCode: String, learnMoreLink: String, locations: [Location]) {
             self.findingDetails = findingDetails
             self.findingType = findingType
@@ -3565,6 +3685,7 @@ extension AccessAnalyzer {
         /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY. For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Analyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies.
         public let validatePolicyResourceType: ValidatePolicyResourceType?
 
+        @inlinable
         public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, policyDocument: String, policyType: PolicyType, validatePolicyResourceType: ValidatePolicyResourceType? = nil) {
             self.locale = locale
             self.maxResults = maxResults
@@ -3599,6 +3720,7 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [ValidatePolicyFinding], nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -3614,6 +3736,7 @@ extension AccessAnalyzer {
         ///  If this field is specified, this access point will only allow connections from the specified VPC ID.
         public let vpcId: String
 
+        @inlinable
         public init(vpcId: String) {
             self.vpcId = vpcId
         }
@@ -3631,6 +3754,7 @@ extension AccessAnalyzer {
         /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account. External access analyzers do not support any configuration.
         public let unusedAccess: UnusedAccessConfiguration?
 
+        @inlinable
         public init(unusedAccess: UnusedAccessConfiguration? = nil) {
             self.unusedAccess = unusedAccess
         }
@@ -3644,6 +3768,7 @@ extension AccessAnalyzer {
         /// The Amazon Web Services account IDs that have access to the manual Amazon RDS DB cluster snapshot. If the value all is specified, then the Amazon RDS DB cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.   If the configuration is for an existing Amazon RDS DB cluster snapshot and you do not specify the accountIds in RdsDbClusterSnapshotAttributeValue, then the access preview uses the existing shared accountIds for the snapshot.   If the access preview is for a new resource and you do not specify the specify the accountIds in RdsDbClusterSnapshotAttributeValue, then the access preview considers the snapshot without any attributes.   To propose deletion of existing shared accountIds, you can specify an empty list for accountIds in the RdsDbClusterSnapshotAttributeValue.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -3657,6 +3782,7 @@ extension AccessAnalyzer {
         /// The Amazon Web Services account IDs that have access to the manual Amazon RDS DB snapshot. If the value all is specified, then the Amazon RDS DB snapshot is public and can be copied or restored by all Amazon Web Services accounts.   If the configuration is for an existing Amazon RDS DB snapshot and you do not specify the accountIds in RdsDbSnapshotAttributeValue, then the access preview uses the existing shared accountIds for the snapshot.   If the access preview is for a new resource and you do not specify the specify the accountIds in RdsDbSnapshotAttributeValue, then the access preview considers the snapshot without any attributes.   To propose deletion of an existing shared accountIds, you can specify an empty list for accountIds in the RdsDbSnapshotAttributeValue.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -3670,6 +3796,7 @@ extension AccessAnalyzer {
         /// A recommended step for an unused permissions finding.
         public let unusedPermissionsRecommendedStep: UnusedPermissionsRecommendedStep?
 
+        @inlinable
         public init(unusedPermissionsRecommendedStep: UnusedPermissionsRecommendedStep? = nil) {
             self.unusedPermissionsRecommendedStep = unusedPermissionsRecommendedStep
         }

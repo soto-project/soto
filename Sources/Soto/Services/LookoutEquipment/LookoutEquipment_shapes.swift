@@ -176,6 +176,7 @@ extension LookoutEquipment {
         ///  Indicates whether there is a potential data issue related to categorical values.
         public let status: StatisticalIssueStatus
 
+        @inlinable
         public init(numberOfCategory: Int? = nil, status: StatisticalIssueStatus) {
             self.numberOfCategory = numberOfCategory
             self.status = status
@@ -193,6 +194,7 @@ extension LookoutEquipment {
         ///  Indicates the percentage of occurances of the given statistic.
         public let percentage: Float
 
+        @inlinable
         public init(count: Int, percentage: Float) {
             self.count = count
             self.percentage = percentage
@@ -216,6 +218,7 @@ extension LookoutEquipment {
         /// Any tags associated with the ingested data described in the dataset.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = CreateDatasetRequest.idempotencyToken(), datasetName: String, datasetSchema: DatasetSchema? = nil, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.datasetName = datasetName
@@ -258,6 +261,7 @@ extension LookoutEquipment {
         /// Indicates the status of the CreateDataset operation.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(datasetArn: String? = nil, datasetName: String? = nil, status: DatasetStatus? = nil) {
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -293,6 +297,7 @@ extension LookoutEquipment {
         /// Any tags associated with the inference scheduler.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = CreateInferenceSchedulerRequest.idempotencyToken(), dataDelayOffsetInMinutes: Int64? = nil, dataInputConfiguration: InferenceInputConfiguration, dataOutputConfiguration: InferenceOutputConfiguration, dataUploadFrequency: DataUploadFrequency, inferenceSchedulerName: String, modelName: String, roleArn: String, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
@@ -356,6 +361,7 @@ extension LookoutEquipment {
         /// Indicates the status of the CreateInferenceScheduler operation.
         public let status: InferenceSchedulerStatus?
 
+        @inlinable
         public init(inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelQuality: ModelQuality? = nil, status: InferenceSchedulerStatus? = nil) {
             self.inferenceSchedulerArn = inferenceSchedulerArn
             self.inferenceSchedulerName = inferenceSchedulerName
@@ -381,6 +387,7 @@ extension LookoutEquipment {
         ///  Tags that provide metadata about the label group you are creating.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = CreateLabelGroupRequest.idempotencyToken(), faultCodes: [String]? = nil, labelGroupName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.faultCodes = faultCodes
@@ -421,6 +428,7 @@ extension LookoutEquipment {
         ///  The name of the label group that you have created. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String?
 
+        @inlinable
         public init(labelGroupArn: String? = nil, labelGroupName: String? = nil) {
             self.labelGroupArn = labelGroupArn
             self.labelGroupName = labelGroupName
@@ -450,6 +458,7 @@ extension LookoutEquipment {
         ///  The start time of the labeled event.
         public let startTime: Date
 
+        @inlinable
         public init(clientToken: String = CreateLabelRequest.idempotencyToken(), endTime: Date, equipment: String? = nil, faultCode: String? = nil, labelGroupName: String, notes: String? = nil, rating: LabelRating, startTime: Date) {
             self.clientToken = clientToken
             self.endTime = endTime
@@ -495,6 +504,7 @@ extension LookoutEquipment {
         ///  The ID of the label that you have created.
         public let labelId: String?
 
+        @inlinable
         public init(labelId: String? = nil) {
             self.labelId = labelId
         }
@@ -536,6 +546,7 @@ extension LookoutEquipment {
         /// Indicates the time reference in the dataset that should be used to begin the subset of training data for the machine learning model.
         public let trainingDataStartTime: Date?
 
+        @inlinable
         public init(clientToken: String = CreateModelRequest.idempotencyToken(), dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetName: String, datasetSchema: DatasetSchema? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, modelDiagnosticsOutputConfiguration: ModelDiagnosticsOutputConfiguration? = nil, modelName: String, offCondition: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil) {
             self.clientToken = clientToken
             self.dataPreProcessingConfiguration = dataPreProcessingConfiguration
@@ -606,6 +617,7 @@ extension LookoutEquipment {
         /// Indicates the status of the CreateModel operation.
         public let status: ModelStatus?
 
+        @inlinable
         public init(modelArn: String? = nil, status: ModelStatus? = nil) {
             self.modelArn = modelArn
             self.status = status
@@ -631,6 +643,7 @@ extension LookoutEquipment {
         /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
         public let retrainingStartDate: Date?
 
+        @inlinable
         public init(clientToken: String = CreateRetrainingSchedulerRequest.idempotencyToken(), lookbackWindow: String, modelName: String, promoteMode: ModelPromoteMode? = nil, retrainingFrequency: String, retrainingStartDate: Date? = nil) {
             self.clientToken = clientToken
             self.lookbackWindow = lookbackWindow
@@ -671,6 +684,7 @@ extension LookoutEquipment {
         /// The status of the retraining scheduler.
         public let status: RetrainingSchedulerStatus?
 
+        @inlinable
         public init(modelArn: String? = nil, modelName: String? = nil, status: RetrainingSchedulerStatus? = nil) {
             self.modelArn = modelArn
             self.modelName = modelName
@@ -696,6 +710,7 @@ extension LookoutEquipment {
         /// Indicates the status of the data ingestion job.
         public let status: IngestionJobStatus?
 
+        @inlinable
         public init(datasetArn: String? = nil, datasetName: String? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, jobId: String? = nil, status: IngestionJobStatus? = nil) {
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -717,6 +732,7 @@ extension LookoutEquipment {
         /// The sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let targetSamplingRate: TargetSamplingRate?
 
+        @inlinable
         public init(targetSamplingRate: TargetSamplingRate? = nil) {
             self.targetSamplingRate = targetSamplingRate
         }
@@ -738,6 +754,7 @@ extension LookoutEquipment {
         ///  Parameter that gives information about unsupported timestamps in the input data.
         public let unsupportedTimestamps: UnsupportedTimestamps
 
+        @inlinable
         public init(duplicateTimestamps: DuplicateTimestamps, insufficientSensorData: InsufficientSensorData, invalidSensorData: InvalidSensorData, missingSensorData: MissingSensorData, unsupportedTimestamps: UnsupportedTimestamps) {
             self.duplicateTimestamps = duplicateTimestamps
             self.insufficientSensorData = insufficientSensorData
@@ -759,6 +776,7 @@ extension LookoutEquipment {
         /// The data schema used within the given dataset.
         public let inlineDataSchema: String?
 
+        @inlinable
         public init(inlineDataSchema: String? = nil) {
             self.inlineDataSchema = inlineDataSchema
         }
@@ -783,6 +801,7 @@ extension LookoutEquipment {
         /// Indicates the status of the dataset.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, status: DatasetStatus? = nil) {
             self.createdAt = createdAt
             self.datasetArn = datasetArn
@@ -802,6 +821,7 @@ extension LookoutEquipment {
         /// The name of the dataset to be deleted.
         public let datasetName: String
 
+        @inlinable
         public init(datasetName: String) {
             self.datasetName = datasetName
         }
@@ -821,6 +841,7 @@ extension LookoutEquipment {
         /// The name of the inference scheduler to be deleted.
         public let inferenceSchedulerName: String
 
+        @inlinable
         public init(inferenceSchedulerName: String) {
             self.inferenceSchedulerName = inferenceSchedulerName
         }
@@ -840,6 +861,7 @@ extension LookoutEquipment {
         ///  The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
         public let labelGroupName: String
 
+        @inlinable
         public init(labelGroupName: String) {
             self.labelGroupName = labelGroupName
         }
@@ -861,6 +883,7 @@ extension LookoutEquipment {
         ///  The ID of the label that you want to delete.
         public let labelId: String
 
+        @inlinable
         public init(labelGroupName: String, labelId: String) {
             self.labelGroupName = labelGroupName
             self.labelId = labelId
@@ -884,6 +907,7 @@ extension LookoutEquipment {
         /// The name of the machine learning model to be deleted.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -903,6 +927,7 @@ extension LookoutEquipment {
         /// The Amazon Resource Name (ARN) of the resource for which the resource policy should be deleted.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -922,6 +947,7 @@ extension LookoutEquipment {
         /// The name of the model whose retraining scheduler you want to delete.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -941,6 +967,7 @@ extension LookoutEquipment {
         /// The job ID of the data ingestion job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -984,6 +1011,7 @@ extension LookoutEquipment {
         ///  Provides details about status of the ingestion job that is currently in progress.
         public let statusDetail: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, ingestedDataSize: Int64? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, jobId: String? = nil, roleArn: String? = nil, sourceDatasetArn: String? = nil, status: IngestionJobStatus? = nil, statusDetail: String? = nil) {
             self.createdAt = createdAt
             self.dataEndTime = dataEndTime
@@ -1023,6 +1051,7 @@ extension LookoutEquipment {
         /// The name of the dataset to be described.
         public let datasetName: String
 
+        @inlinable
         public init(datasetName: String) {
             self.datasetName = datasetName
         }
@@ -1068,6 +1097,7 @@ extension LookoutEquipment {
         /// Indicates the status of the dataset.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, datasetName: String? = nil, dataStartTime: Date? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, lastUpdatedAt: Date? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, sourceDatasetArn: String? = nil, status: DatasetStatus? = nil) {
             self.createdAt = createdAt
             self.dataEndTime = dataEndTime
@@ -1107,6 +1137,7 @@ extension LookoutEquipment {
         /// The name of the inference scheduler being described.
         public let inferenceSchedulerName: String
 
+        @inlinable
         public init(inferenceSchedulerName: String) {
             self.inferenceSchedulerName = inferenceSchedulerName
         }
@@ -1152,6 +1183,7 @@ extension LookoutEquipment {
         /// Specifies the time at which the inference scheduler was last updated, if it was.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataDelayOffsetInMinutes: Int64? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, latestInferenceResult: LatestInferenceResult? = nil, modelArn: String? = nil, modelName: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, status: InferenceSchedulerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
@@ -1191,6 +1223,7 @@ extension LookoutEquipment {
         ///  Returns the name of the label group.
         public let labelGroupName: String
 
+        @inlinable
         public init(labelGroupName: String) {
             self.labelGroupName = labelGroupName
         }
@@ -1218,6 +1251,7 @@ extension LookoutEquipment {
         ///  The time at which the label group was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, faultCodes: [String]? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.faultCodes = faultCodes
@@ -1241,6 +1275,7 @@ extension LookoutEquipment {
         ///  Returns the ID of the label.
         public let labelId: String
 
+        @inlinable
         public init(labelGroupName: String, labelId: String) {
             self.labelGroupName = labelGroupName
             self.labelId = labelId
@@ -1282,6 +1317,7 @@ extension LookoutEquipment {
         ///  The start time of the requested label.
         public let startTime: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, endTime: Date? = nil, equipment: String? = nil, faultCode: String? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, labelId: String? = nil, notes: String? = nil, rating: LabelRating? = nil, startTime: Date? = nil) {
             self.createdAt = createdAt
             self.endTime = endTime
@@ -1313,6 +1349,7 @@ extension LookoutEquipment {
         /// The name of the machine learning model to be described.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -1414,6 +1451,7 @@ extension LookoutEquipment {
         /// Indicates the time at which the training of the machine learning model began.
         public let trainingExecutionStartTime: Date?
 
+        @inlinable
         public init(accumulatedInferenceDataEndTime: Date? = nil, accumulatedInferenceDataStartTime: Date? = nil, activeModelVersion: Int64? = nil, activeModelVersionArn: String? = nil, createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, importJobEndTime: Date? = nil, importJobStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, latestScheduledRetrainingAvailableDataInDays: Int? = nil, latestScheduledRetrainingFailedReason: String? = nil, latestScheduledRetrainingModelVersion: Int64? = nil, latestScheduledRetrainingStartTime: Date? = nil, latestScheduledRetrainingStatus: ModelVersionStatus? = nil, modelArn: String? = nil, modelDiagnosticsOutputConfiguration: ModelDiagnosticsOutputConfiguration? = nil, modelMetrics: String? = nil, modelName: String? = nil, modelQuality: ModelQuality? = nil, modelVersionActivatedAt: Date? = nil, nextScheduledRetrainingStartDate: Date? = nil, offCondition: String? = nil, previousActiveModelVersion: Int64? = nil, previousActiveModelVersionArn: String? = nil, previousModelVersionActivatedAt: Date? = nil, priorModelMetrics: String? = nil, retrainingSchedulerStatus: RetrainingSchedulerStatus? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, sourceModelVersionArn: String? = nil, status: ModelStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
             self.accumulatedInferenceDataEndTime = accumulatedInferenceDataEndTime
             self.accumulatedInferenceDataStartTime = accumulatedInferenceDataStartTime
@@ -1511,6 +1549,7 @@ extension LookoutEquipment {
         /// The version of the machine learning model.
         public let modelVersion: Int64
 
+        @inlinable
         public init(modelName: String, modelVersion: Int64) {
             self.modelName = modelName
             self.modelVersion = modelVersion
@@ -1599,6 +1638,7 @@ extension LookoutEquipment {
         /// The time when the training of the version began.
         public let trainingExecutionStartTime: Date?
 
+        @inlinable
         public init(autoPromotionResult: AutoPromotionResult? = nil, autoPromotionResultReason: String? = nil, createdAt: Date? = nil, dataPreProcessingConfiguration: DataPreProcessingConfiguration? = nil, datasetArn: String? = nil, datasetName: String? = nil, evaluationDataEndTime: Date? = nil, evaluationDataStartTime: Date? = nil, failedReason: String? = nil, importedDataSizeInBytes: Int64? = nil, importJobEndTime: Date? = nil, importJobStartTime: Date? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, lastUpdatedTime: Date? = nil, modelArn: String? = nil, modelDiagnosticsOutputConfiguration: ModelDiagnosticsOutputConfiguration? = nil, modelDiagnosticsResultsObject: S3Object? = nil, modelMetrics: String? = nil, modelName: String? = nil, modelQuality: ModelQuality? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, offCondition: String? = nil, priorModelMetrics: String? = nil, retrainingAvailableDataInDays: Int? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, sourceModelVersionArn: String? = nil, sourceType: ModelVersionSourceType? = nil, status: ModelVersionStatus? = nil, trainingDataEndTime: Date? = nil, trainingDataStartTime: Date? = nil, trainingExecutionEndTime: Date? = nil, trainingExecutionStartTime: Date? = nil) {
             self.autoPromotionResult = autoPromotionResult
             self.autoPromotionResultReason = autoPromotionResultReason
@@ -1680,6 +1720,7 @@ extension LookoutEquipment {
         /// The Amazon Resource Name (ARN) of the resource that is associated with the resource policy.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1705,6 +1746,7 @@ extension LookoutEquipment {
         /// The resource policy in a JSON-formatted string.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, policyRevisionId: String? = nil, resourcePolicy: String? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -1724,6 +1766,7 @@ extension LookoutEquipment {
         /// The name of the model that the retraining scheduler is attached to.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -1759,6 +1802,7 @@ extension LookoutEquipment {
         /// Indicates the time and date at which the retraining scheduler was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, lookbackWindow: String? = nil, modelArn: String? = nil, modelName: String? = nil, promoteMode: ModelPromoteMode? = nil, retrainingFrequency: String? = nil, retrainingStartDate: Date? = nil, status: RetrainingSchedulerStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.lookbackWindow = lookbackWindow
@@ -1788,6 +1832,7 @@ extension LookoutEquipment {
         ///  Indicates the total number of duplicate timestamps.
         public let totalNumberOfDuplicateTimestamps: Int
 
+        @inlinable
         public init(totalNumberOfDuplicateTimestamps: Int) {
             self.totalNumberOfDuplicateTimestamps = totalNumberOfDuplicateTimestamps
         }
@@ -1809,6 +1854,7 @@ extension LookoutEquipment {
         /// Any tags associated with the dataset to be created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = ImportDatasetRequest.idempotencyToken(), datasetName: String? = nil, serverSideKmsKeyId: String? = nil, sourceDatasetArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.datasetName = datasetName
@@ -1855,6 +1901,7 @@ extension LookoutEquipment {
         /// The status of the ImportDataset operation.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(datasetArn: String? = nil, datasetName: String? = nil, jobId: String? = nil, status: DatasetStatus? = nil) {
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -1889,6 +1936,7 @@ extension LookoutEquipment {
         /// The tags associated with the machine learning model to be created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = ImportModelVersionRequest.idempotencyToken(), datasetName: String, inferenceDataImportStrategy: InferenceDataImportStrategy? = nil, labelsInputConfiguration: LabelsInputConfiguration? = nil, modelName: String? = nil, roleArn: String? = nil, serverSideKmsKeyId: String? = nil, sourceModelVersionArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.datasetName = datasetName
@@ -1952,6 +2000,7 @@ extension LookoutEquipment {
         /// The status of the ImportModelVersion operation.
         public let status: ModelVersionStatus?
 
+        @inlinable
         public init(modelArn: String? = nil, modelName: String? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, status: ModelVersionStatus? = nil) {
             self.modelArn = modelArn
             self.modelName = modelName
@@ -1983,6 +2032,7 @@ extension LookoutEquipment {
         /// The name of the inference scheduler being used for the inference events.
         public let inferenceSchedulerName: String?
 
+        @inlinable
         public init(diagnostics: String? = nil, eventDurationInSeconds: Int64? = nil, eventEndTime: Date? = nil, eventStartTime: Date? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil) {
             self.diagnostics = diagnostics
             self.eventDurationInSeconds = eventDurationInSeconds
@@ -2032,6 +2082,7 @@ extension LookoutEquipment {
         /// Indicates the status of the inference execution.
         public let status: InferenceExecutionStatus?
 
+        @inlinable
         public init(customerResultObject: S3Object? = nil, dataEndTime: Date? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, scheduledStartTime: Date? = nil, status: InferenceExecutionStatus? = nil) {
             self.customerResultObject = customerResultObject
             self.dataEndTime = dataEndTime
@@ -2075,6 +2126,7 @@ extension LookoutEquipment {
         ///  Specifies configuration information for the input data for the inference, including Amazon S3 location of input data.
         public let s3InputConfiguration: InferenceS3InputConfiguration?
 
+        @inlinable
         public init(inferenceInputNameConfiguration: InferenceInputNameConfiguration? = nil, inputTimeZoneOffset: String? = nil, s3InputConfiguration: InferenceS3InputConfiguration? = nil) {
             self.inferenceInputNameConfiguration = inferenceInputNameConfiguration
             self.inputTimeZoneOffset = inputTimeZoneOffset
@@ -2100,6 +2152,7 @@ extension LookoutEquipment {
         /// The format of the timestamp, whether Epoch time, or standard, with or without hyphens (-).
         public let timestampFormat: String?
 
+        @inlinable
         public init(componentTimestampDelimiter: String? = nil, timestampFormat: String? = nil) {
             self.componentTimestampDelimiter = componentTimestampDelimiter
             self.timestampFormat = timestampFormat
@@ -2123,6 +2176,7 @@ extension LookoutEquipment {
         ///  Specifies configuration information for the output results from for the inference, output S3 location.
         public let s3OutputConfiguration: InferenceS3OutputConfiguration
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3OutputConfiguration: InferenceS3OutputConfiguration) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputConfiguration = s3OutputConfiguration
@@ -2147,6 +2201,7 @@ extension LookoutEquipment {
         /// The prefix for the S3 bucket used for the input data for the inference.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -2172,6 +2227,7 @@ extension LookoutEquipment {
         ///  The prefix for the S3 bucket used for the output results from the inference.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -2209,6 +2265,7 @@ extension LookoutEquipment {
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
 
+        @inlinable
         public init(dataDelayOffsetInMinutes: Int64? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, latestInferenceResult: LatestInferenceResult? = nil, modelArn: String? = nil, modelName: String? = nil, status: InferenceSchedulerStatus? = nil) {
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
             self.dataUploadFrequency = dataUploadFrequency
@@ -2240,6 +2297,7 @@ extension LookoutEquipment {
         /// Indicates the total number of files that were submitted for ingestion.
         public let totalNumberOfFiles: Int
 
+        @inlinable
         public init(discardedFiles: [S3Object]? = nil, ingestedNumberOfFiles: Int, totalNumberOfFiles: Int) {
             self.discardedFiles = discardedFiles
             self.ingestedNumberOfFiles = ingestedNumberOfFiles
@@ -2257,6 +2315,7 @@ extension LookoutEquipment {
         /// The location information for the S3 bucket used for input data for the data ingestion.
         public let s3InputConfiguration: IngestionS3InputConfiguration
 
+        @inlinable
         public init(s3InputConfiguration: IngestionS3InputConfiguration) {
             self.s3InputConfiguration = s3InputConfiguration
         }
@@ -2278,6 +2337,7 @@ extension LookoutEquipment {
         /// The prefix for the S3 location being used for the input data for the data ingestion.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String, keyPattern: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.keyPattern = keyPattern
@@ -2307,6 +2367,7 @@ extension LookoutEquipment {
         ///  Parameter that describes the total number of sensors that have a short date range of less than 14 days of data overall.
         public let sensorsWithShortDateRange: SensorsWithShortDateRange
 
+        @inlinable
         public init(missingCompleteSensorData: MissingCompleteSensorData, sensorsWithShortDateRange: SensorsWithShortDateRange) {
             self.missingCompleteSensorData = missingCompleteSensorData
             self.sensorsWithShortDateRange = sensorsWithShortDateRange
@@ -2324,6 +2385,7 @@ extension LookoutEquipment {
         ///  Indicates the total number of invalid values across all the sensors.
         public let totalNumberOfInvalidValues: Int
 
+        @inlinable
         public init(affectedSensorCount: Int, totalNumberOfInvalidValues: Int) {
             self.affectedSensorCount = affectedSensorCount
             self.totalNumberOfInvalidValues = totalNumberOfInvalidValues
@@ -2345,6 +2407,7 @@ extension LookoutEquipment {
         ///  The time at which the label group was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.labelGroupArn = labelGroupArn
@@ -2380,6 +2443,7 @@ extension LookoutEquipment {
         ///  The timestamp indicating the start of the label.
         public let startTime: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, endTime: Date? = nil, equipment: String? = nil, faultCode: String? = nil, labelGroupArn: String? = nil, labelGroupName: String? = nil, labelId: String? = nil, rating: LabelRating? = nil, startTime: Date? = nil) {
             self.createdAt = createdAt
             self.endTime = endTime
@@ -2411,6 +2475,7 @@ extension LookoutEquipment {
         /// Contains location information for the S3 location being used for label data.
         public let s3InputConfiguration: LabelsS3InputConfiguration?
 
+        @inlinable
         public init(labelGroupName: String? = nil, s3InputConfiguration: LabelsS3InputConfiguration? = nil) {
             self.labelGroupName = labelGroupName
             self.s3InputConfiguration = s3InputConfiguration
@@ -2435,6 +2500,7 @@ extension LookoutEquipment {
         ///  The prefix for the S3 bucket used for the label data.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -2462,6 +2528,7 @@ extension LookoutEquipment {
         ///  Indicates whether there is a potential data issue related to large gaps in timestamps.
         public let status: StatisticalIssueStatus
 
+        @inlinable
         public init(maxTimestampGapInDays: Int? = nil, numberOfLargeTimestampGaps: Int? = nil, status: StatisticalIssueStatus) {
             self.maxTimestampGapInDays = maxTimestampGapInDays
             self.numberOfLargeTimestampGaps = numberOfLargeTimestampGaps
@@ -2485,6 +2552,7 @@ extension LookoutEquipment {
         /// Indicates the status of the data ingestion job.
         public let status: IngestionJobStatus?
 
+        @inlinable
         public init(datasetName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: IngestionJobStatus? = nil) {
             self.datasetName = datasetName
             self.maxResults = maxResults
@@ -2516,6 +2584,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of data ingestion jobs.
         public let nextToken: String?
 
+        @inlinable
         public init(dataIngestionJobSummaries: [DataIngestionJobSummary]? = nil, nextToken: String? = nil) {
             self.dataIngestionJobSummaries = dataIngestionJobSummaries
             self.nextToken = nextToken
@@ -2535,6 +2604,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of datasets.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetNameBeginsWith: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetNameBeginsWith = datasetNameBeginsWith
             self.maxResults = maxResults
@@ -2564,6 +2634,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of datasets.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetSummaries: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasetSummaries = datasetSummaries
             self.nextToken = nextToken
@@ -2587,6 +2658,7 @@ extension LookoutEquipment {
         /// An opaque pagination token indicating where to continue the listing of inference events.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceSchedulerName: String, intervalEndTime: Date, intervalStartTime: Date, maxResults: Int? = nil, nextToken: String? = nil) {
             self.inferenceSchedulerName = inferenceSchedulerName
             self.intervalEndTime = intervalEndTime
@@ -2620,6 +2692,7 @@ extension LookoutEquipment {
         /// An opaque pagination token indicating where to continue the listing of inference executions.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceEventSummaries: [InferenceEventSummary]? = nil, nextToken: String? = nil) {
             self.inferenceEventSummaries = inferenceEventSummaries
             self.nextToken = nextToken
@@ -2645,6 +2718,7 @@ extension LookoutEquipment {
         /// The status of the inference execution.
         public let status: InferenceExecutionStatus?
 
+        @inlinable
         public init(dataEndTimeBefore: Date? = nil, dataStartTimeAfter: Date? = nil, inferenceSchedulerName: String, maxResults: Int? = nil, nextToken: String? = nil, status: InferenceExecutionStatus? = nil) {
             self.dataEndTimeBefore = dataEndTimeBefore
             self.dataStartTimeAfter = dataStartTimeAfter
@@ -2680,6 +2754,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of inference executions.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceExecutionSummaries: [InferenceExecutionSummary]? = nil, nextToken: String? = nil) {
             self.inferenceExecutionSummaries = inferenceExecutionSummaries
             self.nextToken = nextToken
@@ -2703,6 +2778,7 @@ extension LookoutEquipment {
         /// Specifies the current status of the inference schedulers.
         public let status: InferenceSchedulerStatus?
 
+        @inlinable
         public init(inferenceSchedulerNameBeginsWith: String? = nil, maxResults: Int? = nil, modelName: String? = nil, nextToken: String? = nil, status: InferenceSchedulerStatus? = nil) {
             self.inferenceSchedulerNameBeginsWith = inferenceSchedulerNameBeginsWith
             self.maxResults = maxResults
@@ -2739,6 +2815,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of inference schedulers.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceSchedulerSummaries: [InferenceSchedulerSummary]? = nil, nextToken: String? = nil) {
             self.inferenceSchedulerSummaries = inferenceSchedulerSummaries
             self.nextToken = nextToken
@@ -2758,6 +2835,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of label groups.
         public let nextToken: String?
 
+        @inlinable
         public init(labelGroupNameBeginsWith: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.labelGroupNameBeginsWith = labelGroupNameBeginsWith
             self.maxResults = maxResults
@@ -2787,6 +2865,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of label groups.
         public let nextToken: String?
 
+        @inlinable
         public init(labelGroupSummaries: [LabelGroupSummary]? = nil, nextToken: String? = nil) {
             self.labelGroupSummaries = labelGroupSummaries
             self.nextToken = nextToken
@@ -2814,6 +2893,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of label groups.
         public let nextToken: String?
 
+        @inlinable
         public init(equipment: String? = nil, faultCode: String? = nil, intervalEndTime: Date? = nil, intervalStartTime: Date? = nil, labelGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.equipment = equipment
             self.faultCode = faultCode
@@ -2857,6 +2937,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of datasets.
         public let nextToken: String?
 
+        @inlinable
         public init(labelSummaries: [LabelSummary]? = nil, nextToken: String? = nil) {
             self.labelSummaries = labelSummaries
             self.nextToken = nextToken
@@ -2888,6 +2969,7 @@ extension LookoutEquipment {
         /// Filter the results based on the current status of the model version.
         public let status: ModelVersionStatus?
 
+        @inlinable
         public init(createdAtEndTime: Date? = nil, createdAtStartTime: Date? = nil, maxModelVersion: Int64? = nil, maxResults: Int? = nil, minModelVersion: Int64? = nil, modelName: String, nextToken: String? = nil, sourceType: ModelVersionSourceType? = nil, status: ModelVersionStatus? = nil) {
             self.createdAtEndTime = createdAtEndTime
             self.createdAtStartTime = createdAtStartTime
@@ -2931,6 +3013,7 @@ extension LookoutEquipment {
         /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelVersionSummaries: [ModelVersionSummary]? = nil, nextToken: String? = nil) {
             self.modelVersionSummaries = modelVersionSummaries
             self.nextToken = nextToken
@@ -2954,6 +3037,7 @@ extension LookoutEquipment {
         /// The status of the machine learning model.
         public let status: ModelStatus?
 
+        @inlinable
         public init(datasetNameBeginsWith: String? = nil, maxResults: Int? = nil, modelNameBeginsWith: String? = nil, nextToken: String? = nil, status: ModelStatus? = nil) {
             self.datasetNameBeginsWith = datasetNameBeginsWith
             self.maxResults = maxResults
@@ -2990,6 +3074,7 @@ extension LookoutEquipment {
         ///  An opaque pagination token indicating where to continue the listing of machine learning models.
         public let nextToken: String?
 
+        @inlinable
         public init(modelSummaries: [ModelSummary]? = nil, nextToken: String? = nil) {
             self.modelSummaries = modelSummaries
             self.nextToken = nextToken
@@ -3011,6 +3096,7 @@ extension LookoutEquipment {
         /// Specify this field to only list retraining schedulers whose status matches the value you specify.
         public let status: RetrainingSchedulerStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, modelNameBeginsWith: String? = nil, nextToken: String? = nil, status: RetrainingSchedulerStatus? = nil) {
             self.maxResults = maxResults
             self.modelNameBeginsWith = modelNameBeginsWith
@@ -3042,6 +3128,7 @@ extension LookoutEquipment {
         /// Provides information on the specified retraining scheduler, including the model name, model ARN, status, and start date.
         public let retrainingSchedulerSummaries: [RetrainingSchedulerSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, retrainingSchedulerSummaries: [RetrainingSchedulerSummary]? = nil) {
             self.nextToken = nextToken
             self.retrainingSchedulerSummaries = retrainingSchedulerSummaries
@@ -3063,6 +3150,7 @@ extension LookoutEquipment {
         /// An opaque pagination token indicating where to continue the listing of sensor statistics.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetName: String, ingestionJobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetName = datasetName
             self.ingestionJobId = ingestionJobId
@@ -3096,6 +3184,7 @@ extension LookoutEquipment {
         /// Provides ingestion-based statistics regarding the specified sensor with respect to various validation types, such as whether data exists, the number and percentage of missing values, and the number and percentage of duplicate timestamps.
         public let sensorStatisticsSummaries: [SensorStatisticsSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, sensorStatisticsSummaries: [SensorStatisticsSummary]? = nil) {
             self.nextToken = nextToken
             self.sensorStatisticsSummaries = sensorStatisticsSummaries
@@ -3111,6 +3200,7 @@ extension LookoutEquipment {
         /// The Amazon Resource Name (ARN) of the resource (such as the dataset or model) that is the focus of the ListTagsForResource operation.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3129,6 +3219,7 @@ extension LookoutEquipment {
         ///  Any tags associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3142,6 +3233,7 @@ extension LookoutEquipment {
         ///  Indicates the number of sensors that have data missing completely.
         public let affectedSensorCount: Int
 
+        @inlinable
         public init(affectedSensorCount: Int) {
             self.affectedSensorCount = affectedSensorCount
         }
@@ -3157,6 +3249,7 @@ extension LookoutEquipment {
         ///  Indicates the total number of missing values across all the sensors.
         public let totalNumberOfMissingValues: Int
 
+        @inlinable
         public init(affectedSensorCount: Int, totalNumberOfMissingValues: Int) {
             self.affectedSensorCount = affectedSensorCount
             self.totalNumberOfMissingValues = totalNumberOfMissingValues
@@ -3174,6 +3267,7 @@ extension LookoutEquipment {
         /// The Amazon S3 location for the pointwise model diagnostics.
         public let s3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputConfiguration = s3OutputConfiguration
@@ -3198,6 +3292,7 @@ extension LookoutEquipment {
         /// The Amazon S3 prefix for the location of the pointwise model diagnostics. The prefix specifies the folder and evaluation result file name. (bucket). When you call CreateModel or UpdateModel, specify the path within the bucket that you want Lookout for Equipment to save the model to. During training, Lookout for Equipment creates the model evaluation model as a compressed JSON file with the name model_diagnostics_results.json.gz. When you call DescribeModel or DescribeModelVersion, prefix contains the file path and filename of the model evaluation file.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -3248,6 +3343,7 @@ extension LookoutEquipment {
         /// Indicates the status of the machine learning model.
         public let status: ModelStatus?
 
+        @inlinable
         public init(activeModelVersion: Int64? = nil, activeModelVersionArn: String? = nil, createdAt: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, latestScheduledRetrainingModelVersion: Int64? = nil, latestScheduledRetrainingStartTime: Date? = nil, latestScheduledRetrainingStatus: ModelVersionStatus? = nil, modelArn: String? = nil, modelDiagnosticsOutputConfiguration: ModelDiagnosticsOutputConfiguration? = nil, modelName: String? = nil, modelQuality: ModelQuality? = nil, nextScheduledRetrainingStartDate: Date? = nil, retrainingSchedulerStatus: RetrainingSchedulerStatus? = nil, status: ModelStatus? = nil) {
             self.activeModelVersion = activeModelVersion
             self.activeModelVersionArn = activeModelVersionArn
@@ -3303,6 +3399,7 @@ extension LookoutEquipment {
         /// The current status of the model version.
         public let status: ModelVersionStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, modelArn: String? = nil, modelName: String? = nil, modelQuality: ModelQuality? = nil, modelVersion: Int64? = nil, modelVersionArn: String? = nil, sourceType: ModelVersionSourceType? = nil, status: ModelVersionStatus? = nil) {
             self.createdAt = createdAt
             self.modelArn = modelArn
@@ -3332,6 +3429,7 @@ extension LookoutEquipment {
         ///  Indicates whether there is a potential data issue related to having monotonic values.
         public let status: StatisticalIssueStatus
 
+        @inlinable
         public init(monotonicity: Monotonicity? = nil, status: StatisticalIssueStatus) {
             self.monotonicity = monotonicity
             self.status = status
@@ -3347,6 +3445,7 @@ extension LookoutEquipment {
         ///  Indicates whether there is a potential data issue related to having multiple operating modes.
         public let status: StatisticalIssueStatus
 
+        @inlinable
         public init(status: StatisticalIssueStatus) {
             self.status = status
         }
@@ -3366,6 +3465,7 @@ extension LookoutEquipment {
         /// The JSON-formatted resource policy to create.
         public let resourcePolicy: String
 
+        @inlinable
         public init(clientToken: String = PutResourcePolicyRequest.idempotencyToken(), policyRevisionId: String? = nil, resourceArn: String, resourcePolicy: String) {
             self.clientToken = clientToken
             self.policyRevisionId = policyRevisionId
@@ -3401,6 +3501,7 @@ extension LookoutEquipment {
         /// The Amazon Resource Name (ARN) of the resource for which the policy was created.
         public let resourceArn: String?
 
+        @inlinable
         public init(policyRevisionId: String? = nil, resourceArn: String? = nil) {
             self.policyRevisionId = policyRevisionId
             self.resourceArn = resourceArn
@@ -3426,6 +3527,7 @@ extension LookoutEquipment {
         /// The status of the retraining scheduler.
         public let status: RetrainingSchedulerStatus?
 
+        @inlinable
         public init(lookbackWindow: String? = nil, modelArn: String? = nil, modelName: String? = nil, retrainingFrequency: String? = nil, retrainingStartDate: Date? = nil, status: RetrainingSchedulerStatus? = nil) {
             self.lookbackWindow = lookbackWindow
             self.modelArn = modelArn
@@ -3451,6 +3553,7 @@ extension LookoutEquipment {
         /// The Amazon Web Services Key Management Service (KMS key) key being used to encrypt the S3 object. Without this key, data in the bucket is not accessible.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -3490,6 +3593,7 @@ extension LookoutEquipment {
         ///  Name of the sensor that the statistics belong to.
         public let sensorName: String?
 
+        @inlinable
         public init(categoricalValues: CategoricalValues? = nil, componentName: String? = nil, dataEndTime: Date? = nil, dataExists: Bool? = nil, dataStartTime: Date? = nil, duplicateTimestamps: CountPercent? = nil, invalidDateEntries: CountPercent? = nil, invalidValues: CountPercent? = nil, largeTimestampGaps: LargeTimestampGaps? = nil, missingValues: CountPercent? = nil, monotonicValues: MonotonicValues? = nil, multipleOperatingModes: MultipleOperatingModes? = nil, sensorName: String? = nil) {
             self.categoricalValues = categoricalValues
             self.componentName = componentName
@@ -3527,6 +3631,7 @@ extension LookoutEquipment {
         ///  Indicates the number of sensors that have less than 14 days of data.
         public let affectedSensorCount: Int
 
+        @inlinable
         public init(affectedSensorCount: Int) {
             self.affectedSensorCount = affectedSensorCount
         }
@@ -3546,6 +3651,7 @@ extension LookoutEquipment {
         ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the data ingestion job.
         public let roleArn: String
 
+        @inlinable
         public init(clientToken: String = StartDataIngestionJobRequest.idempotencyToken(), datasetName: String, ingestionInputConfiguration: IngestionInputConfiguration, roleArn: String) {
             self.clientToken = clientToken
             self.datasetName = datasetName
@@ -3580,6 +3686,7 @@ extension LookoutEquipment {
         /// Indicates the status of the StartDataIngestionJob operation.
         public let status: IngestionJobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, status: IngestionJobStatus? = nil) {
             self.jobId = jobId
             self.status = status
@@ -3595,6 +3702,7 @@ extension LookoutEquipment {
         /// The name of the inference scheduler to be started.
         public let inferenceSchedulerName: String
 
+        @inlinable
         public init(inferenceSchedulerName: String) {
             self.inferenceSchedulerName = inferenceSchedulerName
         }
@@ -3622,6 +3730,7 @@ extension LookoutEquipment {
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
 
+        @inlinable
         public init(inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, status: InferenceSchedulerStatus? = nil) {
             self.inferenceSchedulerArn = inferenceSchedulerArn
             self.inferenceSchedulerName = inferenceSchedulerName
@@ -3643,6 +3752,7 @@ extension LookoutEquipment {
         /// The name of the model whose retraining scheduler you want to start.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -3666,6 +3776,7 @@ extension LookoutEquipment {
         /// The status of the retraining scheduler.
         public let status: RetrainingSchedulerStatus?
 
+        @inlinable
         public init(modelArn: String? = nil, modelName: String? = nil, status: RetrainingSchedulerStatus? = nil) {
             self.modelArn = modelArn
             self.modelName = modelName
@@ -3683,6 +3794,7 @@ extension LookoutEquipment {
         /// The name of the inference scheduler to be stopped.
         public let inferenceSchedulerName: String
 
+        @inlinable
         public init(inferenceSchedulerName: String) {
             self.inferenceSchedulerName = inferenceSchedulerName
         }
@@ -3710,6 +3822,7 @@ extension LookoutEquipment {
         /// Indicates the status of the inference scheduler.
         public let status: InferenceSchedulerStatus?
 
+        @inlinable
         public init(inferenceSchedulerArn: String? = nil, inferenceSchedulerName: String? = nil, modelArn: String? = nil, modelName: String? = nil, status: InferenceSchedulerStatus? = nil) {
             self.inferenceSchedulerArn = inferenceSchedulerArn
             self.inferenceSchedulerName = inferenceSchedulerName
@@ -3731,6 +3844,7 @@ extension LookoutEquipment {
         /// The name of the model whose retraining scheduler you want to stop.
         public let modelName: String
 
+        @inlinable
         public init(modelName: String) {
             self.modelName = modelName
         }
@@ -3754,6 +3868,7 @@ extension LookoutEquipment {
         /// The status of the retraining scheduler.
         public let status: RetrainingSchedulerStatus?
 
+        @inlinable
         public init(modelArn: String? = nil, modelName: String? = nil, status: RetrainingSchedulerStatus? = nil) {
             self.modelArn = modelArn
             self.modelName = modelName
@@ -3773,6 +3888,7 @@ extension LookoutEquipment {
         /// The value for the specified tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3798,6 +3914,7 @@ extension LookoutEquipment {
         /// The tag or tags to be associated with a specific resource. Both the tag key and value are specified.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3826,6 +3943,7 @@ extension LookoutEquipment {
         ///  Indicates the total number of unsupported timestamps across the ingested data.
         public let totalNumberOfUnsupportedTimestamps: Int
 
+        @inlinable
         public init(totalNumberOfUnsupportedTimestamps: Int) {
             self.totalNumberOfUnsupportedTimestamps = totalNumberOfUnsupportedTimestamps
         }
@@ -3841,6 +3959,7 @@ extension LookoutEquipment {
         /// Specifies the key of the tag to be removed from a specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3873,6 +3992,7 @@ extension LookoutEquipment {
         /// The version of the machine learning model for which the active model version is being set.
         public let modelVersion: Int64
 
+        @inlinable
         public init(modelName: String, modelVersion: Int64) {
             self.modelName = modelName
             self.modelVersion = modelVersion
@@ -3905,6 +4025,7 @@ extension LookoutEquipment {
         /// The Amazon Resource Name (ARN) of the machine learning model version that was the previous active model version.
         public let previousActiveVersionArn: String?
 
+        @inlinable
         public init(currentActiveVersion: Int64? = nil, currentActiveVersionArn: String? = nil, modelArn: String? = nil, modelName: String? = nil, previousActiveVersion: Int64? = nil, previousActiveVersionArn: String? = nil) {
             self.currentActiveVersion = currentActiveVersion
             self.currentActiveVersionArn = currentActiveVersionArn
@@ -3938,6 +4059,7 @@ extension LookoutEquipment {
         ///  The Amazon Resource Name (ARN) of a role with permission to access the data source for the inference scheduler.
         public let roleArn: String?
 
+        @inlinable
         public init(dataDelayOffsetInMinutes: Int64? = nil, dataInputConfiguration: InferenceInputConfiguration? = nil, dataOutputConfiguration: InferenceOutputConfiguration? = nil, dataUploadFrequency: DataUploadFrequency? = nil, inferenceSchedulerName: String, roleArn: String? = nil) {
             self.dataDelayOffsetInMinutes = dataDelayOffsetInMinutes
             self.dataInputConfiguration = dataInputConfiguration
@@ -3976,6 +4098,7 @@ extension LookoutEquipment {
         ///  The name of the label group to be updated.
         public let labelGroupName: String
 
+        @inlinable
         public init(faultCodes: [String]? = nil, labelGroupName: String) {
             self.faultCodes = faultCodes
             self.labelGroupName = labelGroupName
@@ -4008,6 +4131,7 @@ extension LookoutEquipment {
         /// The ARN of the model to update.
         public let roleArn: String?
 
+        @inlinable
         public init(labelsInputConfiguration: LabelsInputConfiguration? = nil, modelDiagnosticsOutputConfiguration: ModelDiagnosticsOutputConfiguration? = nil, modelName: String, roleArn: String? = nil) {
             self.labelsInputConfiguration = labelsInputConfiguration
             self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
@@ -4046,6 +4170,7 @@ extension LookoutEquipment {
         /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
         public let retrainingStartDate: Date?
 
+        @inlinable
         public init(lookbackWindow: String? = nil, modelName: String, promoteMode: ModelPromoteMode? = nil, retrainingFrequency: String? = nil, retrainingStartDate: Date? = nil) {
             self.lookbackWindow = lookbackWindow
             self.modelName = modelName

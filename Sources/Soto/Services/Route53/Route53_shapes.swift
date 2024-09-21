@@ -288,6 +288,7 @@ extension Route53 {
         /// The current value for the limit that is specified by Type.
         public let value: Int64
 
+        @inlinable
         public init(type: AccountLimitType, value: Int64) {
             self.type = type
             self.value = value
@@ -307,6 +308,7 @@ extension Route53 {
         /// 			key-signing key in the same hosted zone.
         public let name: String
 
+        @inlinable
         public init(hostedZoneId: String, name: String) {
             self.hostedZoneId = hostedZoneId
             self.name = name
@@ -331,6 +333,7 @@ extension Route53 {
     public struct ActivateKeySigningKeyResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -353,6 +356,7 @@ extension Route53 {
         /// 			Reference.
         public let region: CloudWatchRegion
 
+        @inlinable
         public init(name: String, region: CloudWatchRegion) {
             self.name = name
             self.region = region
@@ -529,6 +533,7 @@ extension Route53 {
         /// 						zone.)
         public let hostedZoneId: String
 
+        @inlinable
         public init(dnsName: String, evaluateTargetHealth: Bool, hostedZoneId: String) {
             self.dnsName = dnsName
             self.evaluateTargetHealth = evaluateTargetHealth
@@ -558,6 +563,7 @@ extension Route53 {
         /// 			a private hosted zone.
         public let vpc: VPC
 
+        @inlinable
         public init(comment: String? = nil, hostedZoneId: String, vpc: VPC) {
             self.comment = comment
             self.hostedZoneId = hostedZoneId
@@ -587,6 +593,7 @@ extension Route53 {
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -610,6 +617,7 @@ extension Route53 {
         /// Information about the resource record set to create, delete, or update.
         public let resourceRecordSet: ResourceRecordSet
 
+        @inlinable
         public init(action: ChangeAction, resourceRecordSet: ResourceRecordSet) {
             self.action = action
             self.resourceRecordSet = resourceRecordSet
@@ -635,6 +643,7 @@ extension Route53 {
         /// 			request.
         public let comment: String?
 
+        @inlinable
         public init(changes: [Change], comment: String? = nil) {
             self.changes = changes
             self.comment = comment
@@ -672,6 +681,7 @@ extension Route53 {
         /// The UUID of the CIDR collection to update.
         public let id: String
 
+        @inlinable
         public init(changes: [CidrCollectionChange], collectionVersion: Int64? = nil, id: String) {
             self.changes = changes
             self.collectionVersion = collectionVersion
@@ -708,6 +718,7 @@ extension Route53 {
         /// 			not.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -731,6 +742,7 @@ extension Route53 {
         /// 			represents March 27, 2017 at 17:48:16.751 UTC.
         public let submittedAt: Date
 
+        @inlinable
         public init(comment: String? = nil, id: String, status: ChangeStatus, submittedAt: Date) {
             self.comment = comment
             self.id = id
@@ -754,6 +766,7 @@ extension Route53 {
         /// 			change.
         public let hostedZoneId: String
 
+        @inlinable
         public init(changeBatch: ChangeBatch, hostedZoneId: String) {
             self.changeBatch = changeBatch
             self.hostedZoneId = hostedZoneId
@@ -782,6 +795,7 @@ extension Route53 {
         /// 			detailed information about the change.
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -809,6 +823,7 @@ extension Route53 {
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.
         public let resourceType: TagResourceType
 
+        @inlinable
         public init(addTags: [Tag]? = nil, removeTagKeys: [String]? = nil, resourceId: String, resourceType: TagResourceType) {
             self.addTags = addTags
             self.removeTagKeys = removeTagKeys
@@ -855,6 +870,7 @@ extension Route53 {
         /// The location name of the CIDR block.
         public let locationName: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil, locationName: String? = nil) {
             self.cidrBlock = cidrBlock
             self.locationName = locationName
@@ -879,6 +895,7 @@ extension Route53 {
         /// 			collection.
         public let version: Int64?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, version: Int64? = nil) {
             self.arn = arn
             self.id = id
@@ -905,6 +922,7 @@ extension Route53 {
         /// Name of the location that is associated with the CIDR collection.
         public let locationName: String
 
+        @inlinable
         public init(action: CidrCollectionChangeAction, cidrList: [String], locationName: String) {
             self.action = action
             self.cidrList = cidrList
@@ -937,6 +955,7 @@ extension Route53 {
         /// The CIDR collection location name.
         public let locationName: String
 
+        @inlinable
         public init(collectionId: String, locationName: String) {
             self.collectionId = collectionId
             self.locationName = locationName
@@ -987,6 +1006,7 @@ extension Route53 {
         /// 			compared with.
         public let threshold: Double
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator, dimensions: [Dimension]? = nil, evaluationPeriods: Int, metricName: String, namespace: String, period: Int, statistic: Statistic, threshold: Double) {
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
@@ -1023,6 +1043,7 @@ extension Route53 {
         /// 			collection.
         public let version: Int64?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, version: Int64? = nil) {
             self.arn = arn
             self.id = id
@@ -1046,6 +1067,7 @@ extension Route53 {
         /// 			the Earth (-180 - 180).
         public let longitude: String
 
+        @inlinable
         public init(latitude: String, longitude: String) {
             self.latitude = latitude
             self.longitude = longitude
@@ -1075,6 +1097,7 @@ extension Route53 {
         /// 			other API calls.
         public let name: String
 
+        @inlinable
         public init(callerReference: String, name: String) {
             self.callerReference = callerReference
             self.name = name
@@ -1101,6 +1124,7 @@ extension Route53 {
         /// A unique URL that represents the location for the CIDR collection.
         public let location: String?
 
+        @inlinable
         public init(collection: CidrCollection? = nil, location: String? = nil) {
             self.collection = collection
             self.location = location
@@ -1137,6 +1161,7 @@ extension Route53 {
         /// A complex type that contains settings for a new health check.
         public let healthCheckConfig: HealthCheckConfig
 
+        @inlinable
         public init(callerReference: String, healthCheckConfig: HealthCheckConfig) {
             self.callerReference = callerReference
             self.healthCheckConfig = healthCheckConfig
@@ -1160,6 +1185,7 @@ extension Route53 {
         /// The unique URL representing the new health check.
         public let location: String
 
+        @inlinable
         public init(healthCheck: HealthCheck, location: String) {
             self.healthCheck = healthCheck
             self.location = location
@@ -1210,6 +1236,7 @@ extension Route53 {
         /// 				VPCId and VPCRegion are also required. To associate additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
         public let vpc: VPC?
 
+        @inlinable
         public init(callerReference: String, delegationSetId: String? = nil, hostedZoneConfig: HostedZoneConfig? = nil, name: String, vpc: VPC? = nil) {
             self.callerReference = callerReference
             self.delegationSetId = delegationSetId
@@ -1250,6 +1277,7 @@ extension Route53 {
         /// 			this hosted zone.
         public let vpc: VPC?
 
+        @inlinable
         public init(changeInfo: ChangeInfo, delegationSet: DelegationSet, hostedZone: HostedZone, location: String, vpc: VPC? = nil) {
             self.changeInfo = changeInfo
             self.delegationSet = delegationSet
@@ -1296,6 +1324,7 @@ extension Route53 {
         /// 			value to ACTIVE or INACTIVE.
         public let status: String
 
+        @inlinable
         public init(callerReference: String, hostedZoneId: String, keyManagementServiceArn: String, name: String, status: String) {
             self.callerReference = callerReference
             self.hostedZoneId = hostedZoneId
@@ -1330,6 +1359,7 @@ extension Route53 {
         /// The unique URL representing the new key-signing key (KSK).
         public let location: String
 
+        @inlinable
         public init(changeInfo: ChangeInfo, keySigningKey: KeySigningKey, location: String) {
             self.changeInfo = changeInfo
             self.keySigningKey = keySigningKey
@@ -1359,6 +1389,7 @@ extension Route53 {
         /// 			for public hosted zones.
         public let hostedZoneId: String
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String, hostedZoneId: String) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
@@ -1382,6 +1413,7 @@ extension Route53 {
         /// 			want Amazon Route 53 to send query logs to.
         public let queryLoggingConfig: QueryLoggingConfig
 
+        @inlinable
         public init(location: String, queryLoggingConfig: QueryLoggingConfig) {
             self.location = location
             self.queryLoggingConfig = queryLoggingConfig
@@ -1411,6 +1443,7 @@ extension Route53 {
         /// 			for that hosted zone.
         public let hostedZoneId: String?
 
+        @inlinable
         public init(callerReference: String, hostedZoneId: String? = nil) {
             self.callerReference = callerReference
             self.hostedZoneId = hostedZoneId
@@ -1434,6 +1467,7 @@ extension Route53 {
         /// The unique URL representing the new reusable delegation set.
         public let location: String
 
+        @inlinable
         public init(delegationSet: DelegationSet, location: String) {
             self.delegationSet = delegationSet
             self.location = location
@@ -1469,6 +1503,7 @@ extension Route53 {
         /// 			record sets that it creates in the specified hosted zone.
         public let ttl: Int64
 
+        @inlinable
         public init(hostedZoneId: String, name: String, trafficPolicyId: String, trafficPolicyVersion: Int, ttl: Int64) {
             self.hostedZoneId = hostedZoneId
             self.name = name
@@ -1503,6 +1538,7 @@ extension Route53 {
         /// A complex type that contains settings for the new traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
 
+        @inlinable
         public init(location: String, trafficPolicyInstance: TrafficPolicyInstance) {
             self.location = location
             self.trafficPolicyInstance = trafficPolicyInstance
@@ -1528,6 +1564,7 @@ extension Route53 {
         /// The name of the traffic policy.
         public let name: String
 
+        @inlinable
         public init(comment: String? = nil, document: String, name: String) {
             self.comment = comment
             self.document = document
@@ -1553,6 +1590,7 @@ extension Route53 {
         /// A complex type that contains settings for the new traffic policy.
         public let trafficPolicy: TrafficPolicy
 
+        @inlinable
         public init(location: String, trafficPolicy: TrafficPolicy) {
             self.location = location
             self.trafficPolicy = trafficPolicy
@@ -1581,6 +1619,7 @@ extension Route53 {
         /// The ID of the traffic policy for which you want to create a new version.
         public let id: String
 
+        @inlinable
         public init(comment: String? = nil, document: String, id: String) {
             self.comment = comment
             self.document = document
@@ -1615,6 +1654,7 @@ extension Route53 {
         /// 			policy.
         public let trafficPolicy: TrafficPolicy
 
+        @inlinable
         public init(location: String, trafficPolicy: TrafficPolicy) {
             self.location = location
             self.trafficPolicy = trafficPolicy
@@ -1640,6 +1680,7 @@ extension Route53 {
         /// 			authorize associating with your hosted zone.
         public let vpc: VPC
 
+        @inlinable
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
@@ -1668,6 +1709,7 @@ extension Route53 {
         /// The VPC that you authorized associating with a hosted zone.
         public let vpc: VPC
 
+        @inlinable
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
@@ -1693,6 +1735,7 @@ extension Route53 {
         /// 			the problem might be and steps that you can take to correct the issue.
         public let statusMessage: String?
 
+        @inlinable
         public init(serveSignature: String? = nil, statusMessage: String? = nil) {
             self.serveSignature = serveSignature
             self.statusMessage = statusMessage
@@ -1710,6 +1753,7 @@ extension Route53 {
         /// A string used to identify a key-signing key (KSK).
         public let name: String
 
+        @inlinable
         public init(hostedZoneId: String, name: String) {
             self.hostedZoneId = hostedZoneId
             self.name = name
@@ -1734,6 +1778,7 @@ extension Route53 {
     public struct DeactivateKeySigningKeyResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -1756,6 +1801,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_NameServersEncoding, String>>
         public var nameServers: [String]
 
+        @inlinable
         public init(callerReference: String? = nil, id: String? = nil, nameServers: [String]) {
             self.callerReference = callerReference
             self.id = id
@@ -1773,6 +1819,7 @@ extension Route53 {
         /// The UUID of the collection to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1798,6 +1845,7 @@ extension Route53 {
         /// The ID of the health check that you want to delete.
         public let healthCheckId: String
 
+        @inlinable
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
         }
@@ -1823,6 +1871,7 @@ extension Route53 {
         /// The ID of the hosted zone you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1845,6 +1894,7 @@ extension Route53 {
         /// 			delete a hosted zone.
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -1860,6 +1910,7 @@ extension Route53 {
         /// A string used to identify a key-signing key (KSK).
         public let name: String
 
+        @inlinable
         public init(hostedZoneId: String, name: String) {
             self.hostedZoneId = hostedZoneId
             self.name = name
@@ -1884,6 +1935,7 @@ extension Route53 {
     public struct DeleteKeySigningKeyResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -1897,6 +1949,7 @@ extension Route53 {
         /// The ID of the configuration that you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1923,6 +1976,7 @@ extension Route53 {
         /// The ID of the reusable delegation set that you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1950,6 +2004,7 @@ extension Route53 {
         /// 				instance.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1978,6 +2033,7 @@ extension Route53 {
         /// The version number of the traffic policy that you want to delete.
         public let version: Int
 
+        @inlinable
         public init(id: String, version: Int) {
             self.id = id
             self.version = version
@@ -2011,6 +2067,7 @@ extension Route53 {
         /// 			VPC.
         public let vpc: VPC
 
+        @inlinable
         public init(hostedZoneId: String, vpc: VPC) {
             self.hostedZoneId = hostedZoneId
             self.vpc = vpc
@@ -2045,6 +2102,7 @@ extension Route53 {
         /// 			dimension.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -2060,6 +2118,7 @@ extension Route53 {
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
 
+        @inlinable
         public init(hostedZoneId: String) {
             self.hostedZoneId = hostedZoneId
         }
@@ -2080,6 +2139,7 @@ extension Route53 {
     public struct DisableHostedZoneDNSSECResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -2098,6 +2158,7 @@ extension Route53 {
         /// 			the specified hosted zone.
         public let vpc: VPC
 
+        @inlinable
         public init(comment: String? = nil, hostedZoneId: String, vpc: VPC) {
             self.comment = comment
             self.hostedZoneId = hostedZoneId
@@ -2128,6 +2189,7 @@ extension Route53 {
         /// 			zone.
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -2141,6 +2203,7 @@ extension Route53 {
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
 
+        @inlinable
         public init(hostedZoneId: String) {
             self.hostedZoneId = hostedZoneId
         }
@@ -2161,6 +2224,7 @@ extension Route53 {
     public struct EnableHostedZoneDNSSECResponse: AWSDecodableShape {
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -2185,6 +2249,7 @@ extension Route53 {
         /// 				CountryCode.
         public let subdivisionCode: String?
 
+        @inlinable
         public init(continentCode: String? = nil, countryCode: String? = nil, subdivisionCode: String? = nil) {
             self.continentCode = continentCode
             self.countryCode = countryCode
@@ -2226,6 +2291,7 @@ extension Route53 {
         /// 			United States.
         public let subdivisionName: String?
 
+        @inlinable
         public init(continentCode: String? = nil, continentName: String? = nil, countryCode: String? = nil, countryName: String? = nil, subdivisionCode: String? = nil, subdivisionName: String? = nil) {
             self.continentCode = continentCode
             self.continentName = continentName
@@ -2262,6 +2328,7 @@ extension Route53 {
         /// 			belongs to the Local Zone Group us-west-2-den-1.
         public let localZoneGroup: String?
 
+        @inlinable
         public init(awsRegion: String? = nil, bias: Int? = nil, coordinates: Coordinates? = nil, localZoneGroup: String? = nil) {
             self.awsRegion = awsRegion
             self.bias = bias
@@ -2299,6 +2366,7 @@ extension Route53 {
         /// 					records in the Amazon Route 53 console.)
         public let type: AccountLimitType
 
+        @inlinable
         public init(type: AccountLimitType) {
             self.type = type
         }
@@ -2324,6 +2392,7 @@ extension Route53 {
         /// 			can create using the current account.
         public let limit: AccountLimit
 
+        @inlinable
         public init(count: Int64, limit: AccountLimit) {
             self.count = count
             self.limit = limit
@@ -2341,6 +2410,7 @@ extension Route53 {
         /// 			you submitted the request.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2363,6 +2433,7 @@ extension Route53 {
         /// A complex type that contains information about the specified change batch.
         public let changeInfo: ChangeInfo
 
+        @inlinable
         public init(changeInfo: ChangeInfo) {
             self.changeInfo = changeInfo
         }
@@ -2382,6 +2453,7 @@ extension Route53 {
         @CustomCoding<StandardArrayCoder<String>>
         public var checkerIpRanges: [String]
 
+        @inlinable
         public init(checkerIpRanges: [String]) {
             self.checkerIpRanges = checkerIpRanges
         }
@@ -2395,6 +2467,7 @@ extension Route53 {
         /// A unique string used to identify a hosted zone.
         public let hostedZoneId: String
 
+        @inlinable
         public init(hostedZoneId: String) {
             self.hostedZoneId = hostedZoneId
         }
@@ -2419,6 +2492,7 @@ extension Route53 {
         /// A string representing the status of DNSSEC.
         public let status: DNSSECStatus
 
+        @inlinable
         public init(keySigningKeys: [KeySigningKey], status: DNSSECStatus) {
             self.keySigningKeys = keySigningKeys
             self.status = status
@@ -2445,6 +2519,7 @@ extension Route53 {
         /// 			API.
         public let subdivisionCode: String?
 
+        @inlinable
         public init(continentCode: String? = nil, countryCode: String? = nil, subdivisionCode: String? = nil) {
             self.continentCode = continentCode
             self.countryCode = countryCode
@@ -2476,6 +2551,7 @@ extension Route53 {
         /// 			names for the specified geolocation code.
         public let geoLocationDetails: GeoLocationDetails
 
+        @inlinable
         public init(geoLocationDetails: GeoLocationDetails) {
             self.geoLocationDetails = geoLocationDetails
         }
@@ -2493,6 +2569,7 @@ extension Route53 {
         /// The number of health checks associated with the current Amazon Web Services account.
         public let healthCheckCount: Int64
 
+        @inlinable
         public init(healthCheckCount: Int64) {
             self.healthCheckCount = healthCheckCount
         }
@@ -2511,6 +2588,7 @@ extension Route53 {
         /// 				check.
         public let healthCheckId: String
 
+        @inlinable
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
         }
@@ -2536,6 +2614,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>>
         public var healthCheckObservations: [HealthCheckObservation]
 
+        @inlinable
         public init(healthCheckObservations: [HealthCheckObservation]) {
             self.healthCheckObservations = healthCheckObservations
         }
@@ -2551,6 +2630,7 @@ extension Route53 {
         /// 			check to use. The value can be up to 64 characters long.
         public let healthCheckId: String
 
+        @inlinable
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
         }
@@ -2573,6 +2653,7 @@ extension Route53 {
         /// 			with the current Amazon Web Services account.
         public let healthCheck: HealthCheck
 
+        @inlinable
         public init(healthCheck: HealthCheck) {
             self.healthCheck = healthCheck
         }
@@ -2591,6 +2672,7 @@ extension Route53 {
         /// 				check.
         public let healthCheckId: String
 
+        @inlinable
         public init(healthCheckId: String) {
             self.healthCheckId = healthCheckId
         }
@@ -2617,6 +2699,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_HealthCheckObservationsEncoding, HealthCheckObservation>>
         public var healthCheckObservations: [HealthCheckObservation]
 
+        @inlinable
         public init(healthCheckObservations: [HealthCheckObservation]) {
             self.healthCheckObservations = healthCheckObservations
         }
@@ -2635,6 +2718,7 @@ extension Route53 {
         /// 			current Amazon Web Services account.
         public let hostedZoneCount: Int64
 
+        @inlinable
         public init(hostedZoneCount: Int64) {
             self.hostedZoneCount = hostedZoneCount
         }
@@ -2653,6 +2737,7 @@ extension Route53 {
         /// 					zone.
         public let type: HostedZoneLimitType
 
+        @inlinable
         public init(hostedZoneId: String, type: HostedZoneLimitType) {
             self.hostedZoneId = hostedZoneId
             self.type = type
@@ -2684,6 +2769,7 @@ extension Route53 {
         /// 			the specified hosted zone.
         public let limit: HostedZoneLimit
 
+        @inlinable
         public init(count: Int64, limit: HostedZoneLimit) {
             self.count = count
             self.limit = limit
@@ -2699,6 +2785,7 @@ extension Route53 {
         /// The ID of the hosted zone that you want to get information about.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2730,6 +2817,7 @@ extension Route53 {
         @OptionalCustomCoding<ArrayCoder<_VPCsEncoding, VPC>>
         public var vpCs: [VPC]?
 
+        @inlinable
         public init(delegationSet: DelegationSet? = nil, hostedZone: HostedZone, vpCs: [VPC]? = nil) {
             self.delegationSet = delegationSet
             self.hostedZone = hostedZone
@@ -2748,6 +2836,7 @@ extension Route53 {
         /// 			about.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2771,6 +2860,7 @@ extension Route53 {
         /// 			you specified in a GetQueryLoggingConfig request.
         public let queryLoggingConfig: QueryLoggingConfig
 
+        @inlinable
         public init(queryLoggingConfig: QueryLoggingConfig) {
             self.queryLoggingConfig = queryLoggingConfig
         }
@@ -2787,6 +2877,7 @@ extension Route53 {
         /// 			hosted zones that you can associate with the specified reusable delegation set.
         public let type: ReusableDelegationSetLimitType
 
+        @inlinable
         public init(delegationSetId: String, type: ReusableDelegationSetLimitType) {
             self.delegationSetId = delegationSetId
             self.type = type
@@ -2814,6 +2905,7 @@ extension Route53 {
         /// 			specified reusable delegation set.
         public let limit: ReusableDelegationSetLimit
 
+        @inlinable
         public init(count: Int64, limit: ReusableDelegationSetLimit) {
             self.count = count
             self.limit = limit
@@ -2830,6 +2922,7 @@ extension Route53 {
         /// 			for.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2851,6 +2944,7 @@ extension Route53 {
         /// A complex type that contains information about the reusable delegation set.
         public let delegationSet: DelegationSet
 
+        @inlinable
         public init(delegationSet: DelegationSet) {
             self.delegationSet = delegationSet
         }
@@ -2868,6 +2962,7 @@ extension Route53 {
         /// The number of traffic policy instances that are associated with the current Amazon Web Services account.
         public let trafficPolicyInstanceCount: Int
 
+        @inlinable
         public init(trafficPolicyInstanceCount: Int) {
             self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
         }
@@ -2881,6 +2976,7 @@ extension Route53 {
         /// The ID of the traffic policy instance that you want to get information about.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2903,6 +2999,7 @@ extension Route53 {
         /// A complex type that contains settings for the traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
 
+        @inlinable
         public init(trafficPolicyInstance: TrafficPolicyInstance) {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
@@ -2919,6 +3016,7 @@ extension Route53 {
         /// 			about.
         public let version: Int
 
+        @inlinable
         public init(id: String, version: Int) {
             self.id = id
             self.version = version
@@ -2945,6 +3043,7 @@ extension Route53 {
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
 
+        @inlinable
         public init(trafficPolicy: TrafficPolicy) {
             self.trafficPolicy = trafficPolicy
         }
@@ -2975,6 +3074,7 @@ extension Route53 {
         /// 			delete it using Amazon Route 53.
         public let linkedService: LinkedService?
 
+        @inlinable
         public init(callerReference: String, cloudWatchAlarmConfiguration: CloudWatchAlarmConfiguration? = nil, healthCheckConfig: HealthCheckConfig, healthCheckVersion: Int64, id: String, linkedService: LinkedService? = nil) {
             self.callerReference = callerReference
             self.cloudWatchAlarmConfiguration = cloudWatchAlarmConfiguration
@@ -3195,6 +3295,7 @@ extension Route53 {
         /// 				Amazon Route 53 Developer Guide.
         public let type: HealthCheckType
 
+        @inlinable
         public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, ipAddress: String? = nil, measureLatency: Bool? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, requestInterval: Int? = nil, resourcePath: String? = nil, routingControlArn: String? = nil, searchString: String? = nil, type: HealthCheckType) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
@@ -3274,6 +3375,7 @@ extension Route53 {
         /// 			53 health checker and the time of the failed health check.
         public let statusReport: StatusReport?
 
+        @inlinable
         public init(ipAddress: String? = nil, region: HealthCheckRegion? = nil, statusReport: StatusReport? = nil) {
             self.ipAddress = ipAddress
             self.region = region
@@ -3310,6 +3412,7 @@ extension Route53 {
         /// The number of resource record sets in the hosted zone.
         public let resourceRecordSetCount: Int64?
 
+        @inlinable
         public init(callerReference: String, config: HostedZoneConfig? = nil, id: String, linkedService: LinkedService? = nil, name: String, resourceRecordSetCount: Int64? = nil) {
             self.callerReference = callerReference
             self.config = config
@@ -3335,6 +3438,7 @@ extension Route53 {
         /// A value that indicates whether this is a private hosted zone.
         public let privateZone: Bool?
 
+        @inlinable
         public init(comment: String? = nil, privateZone: Bool? = nil) {
             self.comment = comment
             self.privateZone = privateZone
@@ -3359,6 +3463,7 @@ extension Route53 {
         /// The current value for the limit that is specified by Type.
         public let value: Int64
 
+        @inlinable
         public init(type: HostedZoneLimitType, value: Int64) {
             self.type = type
             self.value = value
@@ -3384,6 +3489,7 @@ extension Route53 {
         /// 			of OwningService is efs.amazonaws.com.
         public let owningService: String?
 
+        @inlinable
         public init(owningAccount: String? = nil, owningService: String? = nil) {
             self.owningAccount = owningAccount
             self.owningService = owningService
@@ -3406,6 +3512,7 @@ extension Route53 {
         /// 			service.
         public let owner: HostedZoneOwner
 
+        @inlinable
         public init(hostedZoneId: String, name: String, owner: HostedZoneOwner) {
             self.hostedZoneId = hostedZoneId
             self.name = name
@@ -3477,6 +3584,7 @@ extension Route53 {
         /// 			correct the issue.
         public let statusMessage: String?
 
+        @inlinable
         public init(createdDate: Date? = nil, digestAlgorithmMnemonic: String? = nil, digestAlgorithmType: Int? = nil, digestValue: String? = nil, dnskeyRecord: String? = nil, dsRecord: String? = nil, flag: Int? = nil, keyTag: Int? = nil, kmsArn: String? = nil, lastModifiedDate: Date? = nil, name: String? = nil, publicKey: String? = nil, signingAlgorithmMnemonic: String? = nil, signingAlgorithmType: Int? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.createdDate = createdDate
             self.digestAlgorithmMnemonic = digestAlgorithmMnemonic
@@ -3526,6 +3634,7 @@ extension Route53 {
         /// 			delete it using Amazon Route 53.
         public let servicePrincipal: String?
 
+        @inlinable
         public init(description: String? = nil, servicePrincipal: String? = nil) {
             self.description = description
             self.servicePrincipal = servicePrincipal
@@ -3548,6 +3657,7 @@ extension Route53 {
         /// 			results.
         public let nextToken: String?
 
+        @inlinable
         public init(collectionId: String, locationName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collectionId = collectionId
             self.locationName = locationName
@@ -3583,6 +3693,7 @@ extension Route53 {
         /// 			results.  If no value is provided, the listing of results starts from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(cidrBlocks: [CidrBlockSummary]? = nil, nextToken: String? = nil) {
             self.cidrBlocks = cidrBlocks
             self.nextToken = nextToken
@@ -3601,6 +3712,7 @@ extension Route53 {
         /// 			results. If no value is provided, the listing of results starts from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3628,6 +3740,7 @@ extension Route53 {
         /// 			results. If no value is provided, the listing of results starts from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(cidrCollections: [CollectionSummary]? = nil, nextToken: String? = nil) {
             self.cidrCollections = cidrCollections
             self.nextToken = nextToken
@@ -3648,6 +3761,7 @@ extension Route53 {
         /// 			results. If no value is provided, the listing of results starts from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(collectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collectionId = collectionId
             self.maxResults = maxResults
@@ -3678,6 +3792,7 @@ extension Route53 {
         /// 			results. If no value is provided, the listing of results starts from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(cidrLocations: [LocationSummary]? = nil, nextToken: String? = nil) {
             self.cidrLocations = cidrLocations
             self.nextToken = nextToken
@@ -3718,6 +3833,7 @@ extension Route53 {
         /// 				startcountrycode and startsubdivisioncode.
         public let startSubdivisionCode: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, startContinentCode: String? = nil, startCountryCode: String? = nil, startSubdivisionCode: String? = nil) {
             self.maxItems = maxItems
             self.startContinentCode = startContinentCode
@@ -3779,6 +3895,7 @@ extension Route53 {
         /// 			request.
         public let nextSubdivisionCode: String?
 
+        @inlinable
         public init(geoLocationDetailsList: [GeoLocationDetails], isTruncated: Bool, maxItems: Int, nextContinentCode: String? = nil, nextCountryCode: String? = nil, nextSubdivisionCode: String? = nil) {
             self.geoLocationDetailsList = geoLocationDetailsList
             self.isTruncated = isTruncated
@@ -3812,6 +3929,7 @@ extension Route53 {
         /// 			only the first 1000 health checks.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3856,6 +3974,7 @@ extension Route53 {
         /// 				NextMarker in the marker parameter.
         public let nextMarker: String?
 
+        @inlinable
         public init(healthChecks: [HealthCheck], isTruncated: Bool, marker: String? = nil, maxItems: Int, nextMarker: String? = nil) {
             self.healthChecks = healthChecks
             self.isTruncated = isTruncated
@@ -3898,6 +4017,7 @@ extension Route53 {
         /// 			zone in the next group of maxitems hosted zones.
         public let maxItems: Int?
 
+        @inlinable
         public init(dnsName: String? = nil, hostedZoneId: String? = nil, maxItems: Int? = nil) {
             self.dnsName = dnsName
             self.hostedZoneId = hostedZoneId
@@ -3954,6 +4074,7 @@ extension Route53 {
         /// 			the dnsname and hostedzoneid parameters, respectively. This element is present only if IsTruncated is true.
         public let nextHostedZoneId: String?
 
+        @inlinable
         public init(dnsName: String? = nil, hostedZoneId: String? = nil, hostedZones: [HostedZone], isTruncated: Bool, maxItems: Int, nextDNSName: String? = nil, nextHostedZoneId: String? = nil) {
             self.dnsName = dnsName
             self.hostedZoneId = hostedZoneId
@@ -3994,6 +4115,7 @@ extension Route53 {
         /// 			Region that you created the VPC in.
         public let vpcRegion: VPCRegion
 
+        @inlinable
         public init(maxItems: Int? = nil, nextToken: String? = nil, vpcId: String, vpcRegion: VPCRegion) {
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -4034,6 +4156,7 @@ extension Route53 {
         /// 				ListHostedZonesByVPC request.
         public let nextToken: String?
 
+        @inlinable
         public init(hostedZoneSummaries: [HostedZoneSummary], maxItems: Int, nextToken: String? = nil) {
             self.hostedZoneSummaries = hostedZoneSummaries
             self.maxItems = maxItems
@@ -4069,6 +4192,7 @@ extension Route53 {
         /// 			will return if you submit another request.
         public let maxItems: Int?
 
+        @inlinable
         public init(delegationSetId: String? = nil, hostedZoneType: HostedZoneType? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.delegationSetId = delegationSetId
             self.hostedZoneType = hostedZoneType
@@ -4118,6 +4242,7 @@ extension Route53 {
         /// 			parameter. This element is present only if IsTruncated is true.
         public let nextMarker: String?
 
+        @inlinable
         public init(hostedZones: [HostedZone], isTruncated: Bool, marker: String? = nil, maxItems: Int, nextMarker: String? = nil) {
             self.hostedZones = hostedZones
             self.isTruncated = isTruncated
@@ -4152,6 +4277,7 @@ extension Route53 {
         /// 			request.
         public let nextToken: String?
 
+        @inlinable
         public init(hostedZoneId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
@@ -4189,6 +4315,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_QueryLoggingConfigsEncoding, QueryLoggingConfig>>
         public var queryLoggingConfigs: [QueryLoggingConfig]
 
+        @inlinable
         public init(nextToken: String? = nil, queryLoggingConfigs: [QueryLoggingConfig]) {
             self.nextToken = nextToken
             self.queryLoggingConfigs = queryLoggingConfigs
@@ -4235,6 +4362,7 @@ extension Route53 {
         /// 			an InvalidInput error.
         public let startRecordType: RRType?
 
+        @inlinable
         public init(hostedZoneId: String, maxItems: Int? = nil, startRecordIdentifier: String? = nil, startRecordName: String? = nil, startRecordType: RRType? = nil) {
             self.hostedZoneId = hostedZoneId
             self.maxItems = maxItems
@@ -4286,6 +4414,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_ResourceRecordSetsEncoding, ResourceRecordSet>>
         public var resourceRecordSets: [ResourceRecordSet]
 
+        @inlinable
         public init(isTruncated: Bool, maxItems: Int, nextRecordIdentifier: String? = nil, nextRecordName: String? = nil, nextRecordType: RRType? = nil, resourceRecordSets: [ResourceRecordSet]) {
             self.isTruncated = isTruncated
             self.maxItems = maxItems
@@ -4318,6 +4447,7 @@ extension Route53 {
         /// 			the first 100 reusable delegation sets.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4360,6 +4490,7 @@ extension Route53 {
         /// 				NextMarker in the marker parameter.
         public let nextMarker: String?
 
+        @inlinable
         public init(delegationSets: [DelegationSet], isTruncated: Bool, marker: String? = nil, maxItems: Int, nextMarker: String? = nil) {
             self.delegationSets = delegationSets
             self.isTruncated = isTruncated
@@ -4383,6 +4514,7 @@ extension Route53 {
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.
         public let resourceType: TagResourceType
 
+        @inlinable
         public init(resourceId: String, resourceType: TagResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -4407,6 +4539,7 @@ extension Route53 {
         /// 			resource.
         public let resourceTagSet: ResourceTagSet
 
+        @inlinable
         public init(resourceTagSet: ResourceTagSet) {
             self.resourceTagSet = resourceTagSet
         }
@@ -4426,6 +4559,7 @@ extension Route53 {
         /// The type of the resources.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.
         public let resourceType: TagResourceType
 
+        @inlinable
         public init(resourceIds: [String], resourceType: TagResourceType) {
             self.resourceIds = resourceIds
             self.resourceType = resourceType
@@ -4459,6 +4593,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_ResourceTagSetsEncoding, ResourceTagSet>>
         public var resourceTagSets: [ResourceTagSet]
 
+        @inlinable
         public init(resourceTagSets: [ResourceTagSet]) {
             self.resourceTagSets = resourceTagSets
         }
@@ -4485,6 +4620,7 @@ extension Route53 {
         /// 			response.
         public let trafficPolicyIdMarker: String?
 
+        @inlinable
         public init(maxItems: Int? = nil, trafficPolicyIdMarker: String? = nil) {
             self.maxItems = maxItems
             self.trafficPolicyIdMarker = trafficPolicyIdMarker
@@ -4526,6 +4662,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_TrafficPolicySummariesEncoding, TrafficPolicySummary>>
         public var trafficPolicySummaries: [TrafficPolicySummary]
 
+        @inlinable
         public init(isTruncated: Bool, maxItems: Int, trafficPolicyIdMarker: String, trafficPolicySummaries: [TrafficPolicySummary]) {
             self.isTruncated = isTruncated
             self.maxItems = maxItems
@@ -4571,6 +4708,7 @@ extension Route53 {
         /// 				false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceTypeMarker: RRType?
 
+        @inlinable
         public init(hostedZoneId: String, maxItems: Int? = nil, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.hostedZoneId = hostedZoneId
             self.maxItems = maxItems
@@ -4623,6 +4761,7 @@ extension Route53 {
         /// 			policy instance in the next group of traffic policy instances.
         public let trafficPolicyInstanceTypeMarker: RRType?
 
+        @inlinable
         public init(isTruncated: Bool, maxItems: Int, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstances: [TrafficPolicyInstance], trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.isTruncated = isTruncated
             self.maxItems = maxItems
@@ -4684,6 +4823,7 @@ extension Route53 {
         /// 				TrafficPolicyId.
         public let trafficPolicyVersion: Int
 
+        @inlinable
         public init(hostedZoneIdMarker: String? = nil, maxItems: Int? = nil, trafficPolicyId: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyVersion: Int) {
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.maxItems = maxItems
@@ -4748,6 +4888,7 @@ extension Route53 {
         /// 				MaxItems traffic policy instances.
         public let trafficPolicyInstanceTypeMarker: RRType?
 
+        @inlinable
         public init(hostedZoneIdMarker: String? = nil, isTruncated: Bool, maxItems: Int, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstances: [TrafficPolicyInstance], trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.isTruncated = isTruncated
@@ -4804,6 +4945,7 @@ extension Route53 {
         /// 				false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceTypeMarker: RRType?
 
+        @inlinable
         public init(hostedZoneIdMarker: String? = nil, maxItems: Int? = nil, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.maxItems = maxItems
@@ -4861,6 +5003,7 @@ extension Route53 {
         ///
         public let trafficPolicyInstanceTypeMarker: RRType?
 
+        @inlinable
         public init(hostedZoneIdMarker: String? = nil, isTruncated: Bool, maxItems: Int, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstances: [TrafficPolicyInstance], trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.isTruncated = isTruncated
@@ -4900,6 +5043,7 @@ extension Route53 {
         /// 				TrafficPolicyVersionMarker in the previous response.
         public let trafficPolicyVersionMarker: String?
 
+        @inlinable
         public init(id: String, maxItems: Int? = nil, trafficPolicyVersionMarker: String? = nil) {
             self.id = id
             self.maxItems = maxItems
@@ -4947,6 +5091,7 @@ extension Route53 {
         /// 				TrafficPolicyVersionMarker request parameter. This element is present only if IsTruncated is true.
         public let trafficPolicyVersionMarker: String
 
+        @inlinable
         public init(isTruncated: Bool, maxItems: Int, trafficPolicies: [TrafficPolicy], trafficPolicyVersionMarker: String) {
             self.isTruncated = isTruncated
             self.maxItems = maxItems
@@ -4977,6 +5122,7 @@ extension Route53 {
         /// 			another ListVPCAssociationAuthorizations request.
         public let nextToken: String?
 
+        @inlinable
         public init(hostedZoneId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.hostedZoneId = hostedZoneId
             self.maxResults = maxResults
@@ -5015,6 +5161,7 @@ extension Route53 {
         @CustomCoding<ArrayCoder<_VPCsEncoding, VPC>>
         public var vpCs: [VPC]
 
+        @inlinable
         public init(hostedZoneId: String, nextToken: String? = nil, vpCs: [VPC]) {
             self.hostedZoneId = hostedZoneId
             self.nextToken = nextToken
@@ -5032,6 +5179,7 @@ extension Route53 {
         /// A string that specifies a location name.
         public let locationName: String?
 
+        @inlinable
         public init(locationName: String? = nil) {
             self.locationName = locationName
         }
@@ -5050,6 +5198,7 @@ extension Route53 {
         /// The ID for a configuration for DNS query logging.
         public let id: String
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String, hostedZoneId: String, id: String) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
@@ -5073,6 +5222,7 @@ extension Route53 {
         /// 				SOA.   If you're creating an alias resource record set, omit Value.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -5343,6 +5493,7 @@ extension Route53 {
         /// 					Guide.
         public let weight: Int64?
 
+        @inlinable
         public init(aliasTarget: AliasTarget? = nil, cidrRoutingConfig: CidrRoutingConfig? = nil, failover: ResourceRecordSetFailover? = nil, geoLocation: GeoLocation? = nil, geoProximityLocation: GeoProximityLocation? = nil, healthCheckId: String? = nil, multiValueAnswer: Bool? = nil, name: String, region: ResourceRecordSetRegion? = nil, resourceRecords: [ResourceRecord]? = nil, setIdentifier: String? = nil, trafficPolicyInstanceId: String? = nil, ttl: Int64? = nil, type: RRType, weight: Int64? = nil) {
             self.aliasTarget = aliasTarget
             self.cidrRoutingConfig = cidrRoutingConfig
@@ -5412,6 +5563,7 @@ extension Route53 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceId: String? = nil, resourceType: TagResourceType? = nil, tags: [Tag]? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -5434,6 +5586,7 @@ extension Route53 {
         /// 			limit.
         public let value: Int64
 
+        @inlinable
         public init(type: ReusableDelegationSetLimitType, value: Int64) {
             self.type = type
             self.value = value
@@ -5454,6 +5607,7 @@ extension Route53 {
         /// 			Amazon Route 53 health checkers.
         public let status: String?
 
+        @inlinable
         public init(checkedTime: Date? = nil, status: String? = nil) {
             self.checkedTime = checkedTime
             self.status = status
@@ -5481,6 +5635,7 @@ extension Route53 {
         /// 					value that you want to assign the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5526,6 +5681,7 @@ extension Route53 {
         /// 				(us-east-1).
         public let resolverIP: String?
 
+        @inlinable
         public init(edns0ClientSubnetIP: String? = nil, edns0ClientSubnetMask: String? = nil, hostedZoneId: String, recordName: String, recordType: RRType, resolverIP: String? = nil) {
             self.edns0ClientSubnetIP = edns0ClientSubnetIP
             self.edns0ClientSubnetMask = edns0ClientSubnetMask
@@ -5581,6 +5737,7 @@ extension Route53 {
         /// 			possible response codes, see DNS RCODES on the IANA website.
         public let responseCode: String
 
+        @inlinable
         public init(nameserver: String, protocol: String, recordData: [String], recordName: String, recordType: RRType, responseCode: String) {
             self.nameserver = nameserver
             self.`protocol` = `protocol`
@@ -5619,6 +5776,7 @@ extension Route53 {
         /// 			policy, the value of Version is always 1.
         public let version: Int
 
+        @inlinable
         public init(comment: String? = nil, document: String, id: String, name: String, type: RRType, version: Int) {
             self.comment = comment
             self.document = document
@@ -5672,6 +5830,7 @@ extension Route53 {
         /// 			created in the specified hosted zone.
         public let ttl: Int64
 
+        @inlinable
         public init(hostedZoneId: String, id: String, message: String, name: String, state: String, trafficPolicyId: String, trafficPolicyType: RRType, trafficPolicyVersion: Int, ttl: Int64) {
             self.hostedZoneId = hostedZoneId
             self.id = id
@@ -5710,6 +5869,7 @@ extension Route53 {
         /// 			traffic policy to create a traffic policy instance.
         public let type: RRType
 
+        @inlinable
         public init(id: String, latestVersion: Int, name: String, trafficPolicyCount: Int, type: RRType) {
             self.id = id
             self.latestVersion = latestVersion
@@ -5907,6 +6067,7 @@ extension Route53 {
         /// 				Type when you update a health check.)
         public let searchString: String?
 
+        @inlinable
         public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthCheckId: String, healthCheckVersion: Int64? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, ipAddress: String? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, resetElements: [ResettableElementName]? = nil, resourcePath: String? = nil, searchString: String? = nil) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
@@ -5998,6 +6159,7 @@ extension Route53 {
         /// 			request.
         public let healthCheck: HealthCheck
 
+        @inlinable
         public init(healthCheck: HealthCheck) {
             self.healthCheck = healthCheck
         }
@@ -6015,6 +6177,7 @@ extension Route53 {
         /// The ID for the hosted zone that you want to update the comment for.
         public let id: String
 
+        @inlinable
         public init(comment: String? = nil, id: String) {
             self.comment = comment
             self.id = id
@@ -6042,6 +6205,7 @@ extension Route53 {
         /// 			request.
         public let hostedZone: HostedZone
 
+        @inlinable
         public init(hostedZone: HostedZone) {
             self.hostedZone = hostedZone
         }
@@ -6061,6 +6225,7 @@ extension Route53 {
         /// 			comment for.
         public let version: Int
 
+        @inlinable
         public init(comment: String, id: String, version: Int) {
             self.comment = comment
             self.id = id
@@ -6092,6 +6257,7 @@ extension Route53 {
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
 
+        @inlinable
         public init(trafficPolicy: TrafficPolicy) {
             self.trafficPolicy = trafficPolicy
         }
@@ -6114,6 +6280,7 @@ extension Route53 {
         /// 			sets.
         public let ttl: Int64
 
+        @inlinable
         public init(id: String, trafficPolicyId: String, trafficPolicyVersion: Int, ttl: Int64) {
             self.id = id
             self.trafficPolicyId = trafficPolicyId
@@ -6152,6 +6319,7 @@ extension Route53 {
         /// A complex type that contains settings for the updated traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
 
+        @inlinable
         public init(trafficPolicyInstance: TrafficPolicyInstance) {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
@@ -6167,6 +6335,7 @@ extension Route53 {
         /// 			in.
         public let vpcRegion: VPCRegion?
 
+        @inlinable
         public init(vpcId: String? = nil, vpcRegion: VPCRegion? = nil) {
             self.vpcId = vpcId
             self.vpcRegion = vpcRegion

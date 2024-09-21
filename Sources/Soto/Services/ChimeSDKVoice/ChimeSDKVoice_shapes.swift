@@ -215,6 +215,7 @@ extension ChimeSDKVoice {
         /// The address suffix, such as the N in 8th Avenue N.
         public let streetSuffix: String?
 
+        @inlinable
         public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, postDirectional: String? = nil, preDirectional: String? = nil, state: String? = nil, streetName: String? = nil, streetNumber: String? = nil, streetSuffix: String? = nil) {
             self.city = city
             self.country = country
@@ -250,6 +251,7 @@ extension ChimeSDKVoice {
         /// The Amazon Chime SDK Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], forceAssociate: Bool? = nil, voiceConnectorGroupId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.forceAssociate = forceAssociate
@@ -281,6 +283,7 @@ extension ChimeSDKVoice {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -298,6 +301,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], forceAssociate: Bool? = nil, voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.forceAssociate = forceAssociate
@@ -329,6 +333,7 @@ extension ChimeSDKVoice {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and  error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -342,6 +347,7 @@ extension ChimeSDKVoice {
         /// List of phone number IDs.
         public let phoneNumberIds: [String]
 
+        @inlinable
         public init(phoneNumberIds: [String]) {
             self.phoneNumberIds = phoneNumberIds
         }
@@ -359,6 +365,7 @@ extension ChimeSDKVoice {
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -372,6 +379,7 @@ extension ChimeSDKVoice {
         /// Lists the phone numbers in the update request.
         public let updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]
 
+        @inlinable
         public init(updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]) {
             self.updatePhoneNumberRequestItems = updatePhoneNumberRequestItems
         }
@@ -391,6 +399,7 @@ extension ChimeSDKVoice {
         /// A list of failed phone numbers and their error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -408,6 +417,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String?
 
+        @inlinable
         public init(isCaller: Bool? = nil, transactionId: String? = nil, voiceConnectorId: String? = nil) {
             self.isCaller = isCaller
             self.transactionId = transactionId
@@ -437,6 +447,7 @@ extension ChimeSDKVoice {
         /// The numeric portion of the candidate address.
         public let streetNumber: String?
 
+        @inlinable
         public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, state: String? = nil, streetInfo: String? = nil, streetNumber: String? = nil) {
             self.city = city
             self.country = country
@@ -466,6 +477,7 @@ extension ChimeSDKVoice {
         /// The phone number product type.
         public let productType: PhoneNumberProductType
 
+        @inlinable
         public init(e164PhoneNumbers: [String], name: String? = nil, productType: PhoneNumberProductType) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.name = name
@@ -491,6 +503,7 @@ extension ChimeSDKVoice {
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
+        @inlinable
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
             self.phoneNumberOrder = phoneNumberOrder
         }
@@ -518,6 +531,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(capabilities: [Capability], expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participantPhoneNumbers: [String], voiceConnectorId: String) {
             self.capabilities = capabilities
             self.expiryMinutes = expiryMinutes
@@ -571,6 +585,7 @@ extension ChimeSDKVoice {
         /// The proxy session details.
         public let proxySession: ProxySession?
 
+        @inlinable
         public init(proxySession: ProxySession? = nil) {
             self.proxySession = proxySession
         }
@@ -592,6 +607,7 @@ extension ChimeSDKVoice {
         /// The phone number that the service should call.
         public let toPhoneNumber: String
 
+        @inlinable
         public init(argumentsMap: [String: String]? = nil, fromPhoneNumber: String, sipHeaders: [String: String]? = nil, sipMediaApplicationId: String, toPhoneNumber: String) {
             self.argumentsMap = argumentsMap
             self.fromPhoneNumber = fromPhoneNumber
@@ -630,6 +646,7 @@ extension ChimeSDKVoice {
         /// The actual call.
         public let sipMediaApplicationCall: SipMediaApplicationCall?
 
+        @inlinable
         public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
             self.sipMediaApplicationCall = sipMediaApplicationCall
         }
@@ -649,6 +666,7 @@ extension ChimeSDKVoice {
         /// The tags assigned to the SIP media application.
         public let tags: [Tag]?
 
+        @inlinable
         public init(awsRegion: String, endpoints: [SipMediaApplicationEndpoint], name: String, tags: [Tag]? = nil) {
             self.awsRegion = awsRegion
             self.endpoints = endpoints
@@ -684,6 +702,7 @@ extension ChimeSDKVoice {
         /// The SIP media application details.
         public let sipMediaApplication: SipMediaApplication?
 
+        @inlinable
         public init(sipMediaApplication: SipMediaApplication? = nil) {
             self.sipMediaApplication = sipMediaApplication
         }
@@ -705,6 +724,7 @@ extension ChimeSDKVoice {
         /// If TriggerType is RequestUriHostname, the  value can be the outbound host name of a Voice Connector. If  TriggerType is ToPhoneNumber, the value can  be a customer-owned phone number in the E164 format. The  SipMediaApplication specified in the SipRule is triggered  if the request URI in an incoming SIP request matches the  RequestUriHostname, or if the To header in the  incoming SIP request matches the ToPhoneNumber value.
         public let triggerValue: String
 
+        @inlinable
         public init(disabled: Bool? = nil, name: String, targetApplications: [SipRuleTargetApplication]? = nil, triggerType: SipRuleTriggerType, triggerValue: String) {
             self.disabled = disabled
             self.name = name
@@ -738,6 +758,7 @@ extension ChimeSDKVoice {
         /// The SIP rule information, including the rule ID, triggers, and target applications.
         public let sipRule: SipRule?
 
+        @inlinable
         public init(sipRule: SipRule? = nil) {
             self.sipRule = sipRule
         }
@@ -753,6 +774,7 @@ extension ChimeSDKVoice {
         /// Lists the Voice Connectors that inbound calls are routed to.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
+        @inlinable
         public init(name: String, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.name = name
             self.voiceConnectorItems = voiceConnectorItems
@@ -777,6 +799,7 @@ extension ChimeSDKVoice {
         /// The details of the Voice Connector group.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
+        @inlinable
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
             self.voiceConnectorGroup = voiceConnectorGroup
         }
@@ -796,6 +819,7 @@ extension ChimeSDKVoice {
         /// The tags assigned to the Voice Connector.
         public let tags: [Tag]?
 
+        @inlinable
         public init(awsRegion: VoiceConnectorAwsRegion? = nil, name: String, requireEncryption: Bool, tags: [Tag]? = nil) {
             self.awsRegion = awsRegion
             self.name = name
@@ -826,6 +850,7 @@ extension ChimeSDKVoice {
         /// The details of the Voice Connector.
         public let voiceConnector: VoiceConnector?
 
+        @inlinable
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -847,6 +872,7 @@ extension ChimeSDKVoice {
         /// The tags assigned to the domain.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -882,6 +908,7 @@ extension ChimeSDKVoice {
         /// The requested voice profile domain.
         public let voiceProfileDomain: VoiceProfileDomain?
 
+        @inlinable
         public init(voiceProfileDomain: VoiceProfileDomain? = nil) {
             self.voiceProfileDomain = voiceProfileDomain
         }
@@ -895,6 +922,7 @@ extension ChimeSDKVoice {
         /// The ID of the speaker search task.
         public let speakerSearchTaskId: String
 
+        @inlinable
         public init(speakerSearchTaskId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
         }
@@ -914,6 +942,7 @@ extension ChimeSDKVoice {
         /// The requested voice profile.
         public let voiceProfile: VoiceProfile?
 
+        @inlinable
         public init(voiceProfile: VoiceProfile? = nil) {
             self.voiceProfile = voiceProfile
         }
@@ -929,6 +958,7 @@ extension ChimeSDKVoice {
         /// The RFC2617 compliant user name associated with the SIP credentials, in  US-ASCII format.
         public let username: String?
 
+        @inlinable
         public init(password: String? = nil, username: String? = nil) {
             self.password = password
             self.username = username
@@ -948,6 +978,7 @@ extension ChimeSDKVoice {
         /// The DNIS phone number for routing test emergency calls to, in E.164 format.
         public let testPhoneNumber: String?
 
+        @inlinable
         public init(callingCountry: String, emergencyPhoneNumber: String, testPhoneNumber: String? = nil) {
             self.callingCountry = callingCountry
             self.emergencyPhoneNumber = emergencyPhoneNumber
@@ -971,6 +1002,7 @@ extension ChimeSDKVoice {
         /// The phone number ID.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -994,6 +1026,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(proxySessionId: String, voiceConnectorId: String) {
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
@@ -1022,6 +1055,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -1043,6 +1077,7 @@ extension ChimeSDKVoice {
         /// The SIP rule ID.
         public let sipRuleId: String
 
+        @inlinable
         public init(sipRuleId: String) {
             self.sipRuleId = sipRuleId
         }
@@ -1064,6 +1099,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1085,6 +1121,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector Group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(voiceConnectorGroupId: String) {
             self.voiceConnectorGroupId = voiceConnectorGroupId
         }
@@ -1106,6 +1143,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1127,6 +1165,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1150,6 +1189,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1171,6 +1211,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1194,6 +1235,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(usernames: [String], voiceConnectorId: String) {
             self.usernames = usernames
             self.voiceConnectorId = voiceConnectorId
@@ -1219,6 +1261,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1240,6 +1283,7 @@ extension ChimeSDKVoice {
         /// The voice profile domain ID.
         public let voiceProfileDomainId: String
 
+        @inlinable
         public init(voiceProfileDomainId: String) {
             self.voiceProfileDomainId = voiceProfileDomainId
         }
@@ -1263,6 +1307,7 @@ extension ChimeSDKVoice {
         /// The voice profile ID.
         public let voiceProfileId: String
 
+        @inlinable
         public init(voiceProfileId: String) {
             self.voiceProfileId = voiceProfileId
         }
@@ -1288,6 +1333,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], voiceConnectorGroupId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorGroupId = voiceConnectorGroupId
@@ -1316,6 +1362,7 @@ extension ChimeSDKVoice {
         /// If the action fails for one or more of the phone numbers in the request,  a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -1331,6 +1378,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(e164PhoneNumbers: [String], voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorId = voiceConnectorId
@@ -1359,6 +1407,7 @@ extension ChimeSDKVoice {
         /// If the action fails for one or more of the phone numbers in the request, a  list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
+        @inlinable
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
             self.phoneNumberErrors = phoneNumberErrors
         }
@@ -1372,6 +1421,7 @@ extension ChimeSDKVoice {
         /// The Dialed Number Identification Service (DNIS) emergency calling configuration  details.
         public let dnis: [DNISEmergencyCallingConfiguration]?
 
+        @inlinable
         public init(dnis: [DNISEmergencyCallingConfiguration]? = nil) {
             self.dnis = dnis
         }
@@ -1393,6 +1443,7 @@ extension ChimeSDKVoice {
         /// The country.
         public let country: String
 
+        @inlinable
         public init(areaCode: String, country: String) {
             self.areaCode = areaCode
             self.country = country
@@ -1413,6 +1464,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
 
+        @inlinable
         public init(voiceConnector: VoiceConnectorSettings? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -1426,6 +1478,7 @@ extension ChimeSDKVoice {
         /// The ID of the phone number order .
         public let phoneNumberOrderId: String
 
+        @inlinable
         public init(phoneNumberOrderId: String) {
             self.phoneNumberOrderId = phoneNumberOrderId
         }
@@ -1447,6 +1500,7 @@ extension ChimeSDKVoice {
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
+        @inlinable
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
             self.phoneNumberOrder = phoneNumberOrder
         }
@@ -1460,6 +1514,7 @@ extension ChimeSDKVoice {
         /// The phone number ID.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -1481,6 +1536,7 @@ extension ChimeSDKVoice {
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
 
+        @inlinable
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -1497,6 +1553,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var callingNameUpdatedTimestamp: Date?
 
+        @inlinable
         public init(callingName: String? = nil, callingNameUpdatedTimestamp: Date? = nil) {
             self.callingName = callingName
             self.callingNameUpdatedTimestamp = callingNameUpdatedTimestamp
@@ -1514,6 +1571,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(proxySessionId: String, voiceConnectorId: String) {
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
@@ -1542,6 +1600,7 @@ extension ChimeSDKVoice {
         /// The proxy session details.
         public let proxySession: ProxySession?
 
+        @inlinable
         public init(proxySession: ProxySession? = nil) {
             self.proxySession = proxySession
         }
@@ -1555,6 +1614,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -1576,6 +1636,7 @@ extension ChimeSDKVoice {
         /// Returns the Alexa Skill configuration.
         public let sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil) {
             self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
         }
@@ -1589,6 +1650,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -1610,6 +1672,7 @@ extension ChimeSDKVoice {
         /// The actual logging configuration.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
         }
@@ -1623,6 +1686,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID .
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
         }
@@ -1644,6 +1708,7 @@ extension ChimeSDKVoice {
         /// The details of the SIP media application.
         public let sipMediaApplication: SipMediaApplication?
 
+        @inlinable
         public init(sipMediaApplication: SipMediaApplication? = nil) {
             self.sipMediaApplication = sipMediaApplication
         }
@@ -1657,6 +1722,7 @@ extension ChimeSDKVoice {
         /// The SIP rule ID.
         public let sipRuleId: String
 
+        @inlinable
         public init(sipRuleId: String) {
             self.sipRuleId = sipRuleId
         }
@@ -1678,6 +1744,7 @@ extension ChimeSDKVoice {
         /// The SIP rule details.
         public let sipRule: SipRule?
 
+        @inlinable
         public init(sipRule: SipRule? = nil) {
             self.sipRule = sipRule
         }
@@ -1693,6 +1760,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(speakerSearchTaskId: String, voiceConnectorId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
             self.voiceConnectorId = voiceConnectorId
@@ -1721,6 +1789,7 @@ extension ChimeSDKVoice {
         /// The details of the speaker search task.
         public let speakerSearchTask: SpeakerSearchTask?
 
+        @inlinable
         public init(speakerSearchTask: SpeakerSearchTask? = nil) {
             self.speakerSearchTask = speakerSearchTask
         }
@@ -1734,6 +1803,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1755,6 +1825,7 @@ extension ChimeSDKVoice {
         /// The details of the emergency calling configuration.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
+        @inlinable
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration? = nil) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
         }
@@ -1768,6 +1839,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
+        @inlinable
         public init(voiceConnectorGroupId: String) {
             self.voiceConnectorGroupId = voiceConnectorGroupId
         }
@@ -1789,6 +1861,7 @@ extension ChimeSDKVoice {
         /// The details of the Voice Connector group.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
+        @inlinable
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
             self.voiceConnectorGroup = voiceConnectorGroup
         }
@@ -1802,6 +1875,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1823,6 +1897,7 @@ extension ChimeSDKVoice {
         /// The logging configuration details .
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -1836,6 +1911,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1857,6 +1933,7 @@ extension ChimeSDKVoice {
         /// The origination setting details.
         public let origination: Origination?
 
+        @inlinable
         public init(origination: Origination? = nil) {
             self.origination = origination
         }
@@ -1870,6 +1947,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1893,6 +1971,7 @@ extension ChimeSDKVoice {
         /// The proxy configuration details.
         public let proxy: Proxy?
 
+        @inlinable
         public init(proxy: Proxy? = nil) {
             self.proxy = proxy
         }
@@ -1906,6 +1985,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1927,6 +2007,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
+        @inlinable
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -1940,6 +2021,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1961,6 +2043,7 @@ extension ChimeSDKVoice {
         /// The details of the streaming configuration.
         public let streamingConfiguration: StreamingConfiguration?
 
+        @inlinable
         public init(streamingConfiguration: StreamingConfiguration? = nil) {
             self.streamingConfiguration = streamingConfiguration
         }
@@ -1974,6 +2057,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1995,6 +2079,7 @@ extension ChimeSDKVoice {
         /// The termination health details.
         public let terminationHealth: TerminationHealth?
 
+        @inlinable
         public init(terminationHealth: TerminationHealth? = nil) {
             self.terminationHealth = terminationHealth
         }
@@ -2008,6 +2093,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -2029,6 +2115,7 @@ extension ChimeSDKVoice {
         /// The termination setting details.
         public let termination: Termination?
 
+        @inlinable
         public init(termination: Termination? = nil) {
             self.termination = termination
         }
@@ -2042,6 +2129,7 @@ extension ChimeSDKVoice {
         /// The voice profile domain ID.
         public let voiceProfileDomainId: String
 
+        @inlinable
         public init(voiceProfileDomainId: String) {
             self.voiceProfileDomainId = voiceProfileDomainId
         }
@@ -2065,6 +2153,7 @@ extension ChimeSDKVoice {
         /// The details of the voice profile domain.
         public let voiceProfileDomain: VoiceProfileDomain?
 
+        @inlinable
         public init(voiceProfileDomain: VoiceProfileDomain? = nil) {
             self.voiceProfileDomain = voiceProfileDomain
         }
@@ -2078,6 +2167,7 @@ extension ChimeSDKVoice {
         /// The voice profile ID.
         public let voiceProfileId: String
 
+        @inlinable
         public init(voiceProfileId: String) {
             self.voiceProfileId = voiceProfileId
         }
@@ -2101,6 +2191,7 @@ extension ChimeSDKVoice {
         /// The voice profile details.
         public let voiceProfile: VoiceProfile?
 
+        @inlinable
         public init(voiceProfile: VoiceProfile? = nil) {
             self.voiceProfile = voiceProfile
         }
@@ -2118,6 +2209,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice tone analysis task.
         public let voiceToneAnalysisTaskId: String
 
+        @inlinable
         public init(isCaller: Bool, voiceConnectorId: String, voiceToneAnalysisTaskId: String) {
             self.isCaller = isCaller
             self.voiceConnectorId = voiceConnectorId
@@ -2148,6 +2240,7 @@ extension ChimeSDKVoice {
         /// The details of the voice tone analysis task.
         public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
 
+        @inlinable
         public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
             self.voiceToneAnalysisTask = voiceToneAnalysisTask
         }
@@ -2161,6 +2254,7 @@ extension ChimeSDKVoice {
         /// The list of AWS Regions.
         public let voiceConnectorRegions: [VoiceConnectorAwsRegion]?
 
+        @inlinable
         public init(voiceConnectorRegions: [VoiceConnectorAwsRegion]? = nil) {
             self.voiceConnectorRegions = voiceConnectorRegions
         }
@@ -2176,6 +2270,7 @@ extension ChimeSDKVoice {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2202,6 +2297,7 @@ extension ChimeSDKVoice {
         /// The phone number order details.
         public let phoneNumberOrders: [PhoneNumberOrder]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumberOrders: [PhoneNumberOrder]? = nil) {
             self.nextToken = nextToken
             self.phoneNumberOrders = phoneNumberOrders
@@ -2227,6 +2323,7 @@ extension ChimeSDKVoice {
         /// The status of your organization's phone numbers.
         public let status: String?
 
+        @inlinable
         public init(filterName: PhoneNumberAssociationName? = nil, filterValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, productType: PhoneNumberProductType? = nil, status: String? = nil) {
             self.filterName = filterName
             self.filterValue = filterValue
@@ -2261,6 +2358,7 @@ extension ChimeSDKVoice {
         /// The phone number details.
         public let phoneNumbers: [PhoneNumber]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumbers: [PhoneNumber]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -2282,6 +2380,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: ProxySessionStatus? = nil, voiceConnectorId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2316,6 +2415,7 @@ extension ChimeSDKVoice {
         /// The proxy sessions' details.
         public let proxySessions: [ProxySession]?
 
+        @inlinable
         public init(nextToken: String? = nil, proxySessions: [ProxySession]? = nil) {
             self.nextToken = nextToken
             self.proxySessions = proxySessions
@@ -2333,6 +2433,7 @@ extension ChimeSDKVoice {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2360,6 +2461,7 @@ extension ChimeSDKVoice {
         /// The list of SIP media applications and application details.
         public let sipMediaApplications: [SipMediaApplication]?
 
+        @inlinable
         public init(nextToken: String? = nil, sipMediaApplications: [SipMediaApplication]? = nil) {
             self.nextToken = nextToken
             self.sipMediaApplications = sipMediaApplications
@@ -2379,6 +2481,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sipMediaApplicationId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2409,6 +2512,7 @@ extension ChimeSDKVoice {
         /// The list of SIP rules and details.
         public let sipRules: [SipRule]?
 
+        @inlinable
         public init(nextToken: String? = nil, sipRules: [SipRule]? = nil) {
             self.nextToken = nextToken
             self.sipRules = sipRules
@@ -2424,6 +2528,7 @@ extension ChimeSDKVoice {
         /// The phone number product type.
         public let productType: PhoneNumberProductType
 
+        @inlinable
         public init(productType: PhoneNumberProductType) {
             self.productType = productType
         }
@@ -2441,6 +2546,7 @@ extension ChimeSDKVoice {
         /// The supported phone number countries.
         public let phoneNumberCountries: [PhoneNumberCountry]?
 
+        @inlinable
         public init(phoneNumberCountries: [PhoneNumberCountry]? = nil) {
             self.phoneNumberCountries = phoneNumberCountries
         }
@@ -2454,6 +2560,7 @@ extension ChimeSDKVoice {
         /// The resource ARN.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2477,6 +2584,7 @@ extension ChimeSDKVoice {
         /// The tags in the list.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2492,6 +2600,7 @@ extension ChimeSDKVoice {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2518,6 +2627,7 @@ extension ChimeSDKVoice {
         /// The details of the Voice Connector groups.
         public let voiceConnectorGroups: [VoiceConnectorGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, voiceConnectorGroups: [VoiceConnectorGroup]? = nil) {
             self.nextToken = nextToken
             self.voiceConnectorGroups = voiceConnectorGroups
@@ -2533,6 +2643,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
         }
@@ -2554,6 +2665,7 @@ extension ChimeSDKVoice {
         /// A list of user names.
         public let usernames: [String]?
 
+        @inlinable
         public init(usernames: [String]? = nil) {
             self.usernames = usernames
         }
@@ -2569,6 +2681,7 @@ extension ChimeSDKVoice {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2595,6 +2708,7 @@ extension ChimeSDKVoice {
         /// The details of the Voice Connectors.
         public let voiceConnectors: [VoiceConnector]?
 
+        @inlinable
         public init(nextToken: String? = nil, voiceConnectors: [VoiceConnector]? = nil) {
             self.nextToken = nextToken
             self.voiceConnectors = voiceConnectors
@@ -2612,6 +2726,7 @@ extension ChimeSDKVoice {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2638,6 +2753,7 @@ extension ChimeSDKVoice {
         /// The list of voice profile domains.
         public let voiceProfileDomains: [VoiceProfileDomainSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, voiceProfileDomains: [VoiceProfileDomainSummary]? = nil) {
             self.nextToken = nextToken
             self.voiceProfileDomains = voiceProfileDomains
@@ -2657,6 +2773,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice profile domain.
         public let voiceProfileDomainId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, voiceProfileDomainId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2688,6 +2805,7 @@ extension ChimeSDKVoice {
         /// The list of voice profiles.
         public let voiceProfiles: [VoiceProfileSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, voiceProfiles: [VoiceProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.voiceProfiles = voiceProfiles
@@ -2705,6 +2823,7 @@ extension ChimeSDKVoice {
         /// Boolean that enables sending SIP message logs to Amazon CloudWatch.
         public let enableSIPLogs: Bool?
 
+        @inlinable
         public init(enableMediaMetricLogs: Bool? = nil, enableSIPLogs: Bool? = nil) {
             self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
@@ -2722,6 +2841,7 @@ extension ChimeSDKVoice {
         /// Denotes the configuration as enabled or disabled.
         public let disabled: Bool?
 
+        @inlinable
         public init(configurationArn: String? = nil, disabled: Bool? = nil) {
             self.configurationArn = configurationArn
             self.disabled = disabled
@@ -2745,6 +2865,7 @@ extension ChimeSDKVoice {
         /// The phone number status.
         public let status: OrderedPhoneNumberStatus?
 
+        @inlinable
         public init(e164PhoneNumber: String? = nil, status: OrderedPhoneNumberStatus? = nil) {
             self.e164PhoneNumber = e164PhoneNumber
             self.status = status
@@ -2762,6 +2883,7 @@ extension ChimeSDKVoice {
         /// The call distribution properties defined for your SIP hosts. Valid range: Minimum  value of 1. Maximum value of 20. This parameter is not required, but you must specify  this parameter or Disabled.
         public let routes: [OriginationRoute]?
 
+        @inlinable
         public init(disabled: Bool? = nil, routes: [OriginationRoute]? = nil) {
             self.disabled = disabled
             self.routes = routes
@@ -2791,6 +2913,7 @@ extension ChimeSDKVoice {
         /// The weight assigned to an origination route. When hosts have equal priority,  calls are distributed between them based on their relative weights.
         public let weight: Int?
 
+        @inlinable
         public init(host: String? = nil, port: Int? = nil, priority: Int? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int? = nil) {
             self.host = host
             self.port = port
@@ -2823,6 +2946,7 @@ extension ChimeSDKVoice {
         /// The participant's proxy phone number.
         public let proxyPhoneNumber: String?
 
+        @inlinable
         public init(phoneNumber: String? = nil, proxyPhoneNumber: String? = nil) {
             self.phoneNumber = phoneNumber
             self.proxyPhoneNumber = proxyPhoneNumber
@@ -2869,6 +2993,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, name: String? = nil, orderId: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
             self.associations = associations
             self.callingName = callingName
@@ -2915,6 +3040,7 @@ extension ChimeSDKVoice {
         /// Contains the ID for the entity specified in Name.
         public let value: String?
 
+        @inlinable
         public init(associatedTimestamp: Date? = nil, name: PhoneNumberAssociationName? = nil, value: String? = nil) {
             self.associatedTimestamp = associatedTimestamp
             self.name = name
@@ -2942,6 +3068,7 @@ extension ChimeSDKVoice {
         /// Allows or denies outbound SMS messaging for the specified phone number.
         public let outboundSMS: Bool?
 
+        @inlinable
         public init(inboundCall: Bool? = nil, inboundMMS: Bool? = nil, inboundSMS: Bool? = nil, outboundCall: Bool? = nil, outboundMMS: Bool? = nil, outboundSMS: Bool? = nil) {
             self.inboundCall = inboundCall
             self.inboundMMS = inboundMMS
@@ -2967,6 +3094,7 @@ extension ChimeSDKVoice {
         /// The supported phone number types.
         public let supportedPhoneNumberTypes: [PhoneNumberType]?
 
+        @inlinable
         public init(countryCode: String? = nil, supportedPhoneNumberTypes: [PhoneNumberType]? = nil) {
             self.countryCode = countryCode
             self.supportedPhoneNumberTypes = supportedPhoneNumberTypes
@@ -2986,6 +3114,7 @@ extension ChimeSDKVoice {
         /// The phone number ID for which the action failed.
         public let phoneNumberId: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, phoneNumberId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3017,6 +3146,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, orderType: PhoneNumberOrderType? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.orderedPhoneNumbers = orderedPhoneNumbers
@@ -3048,6 +3178,7 @@ extension ChimeSDKVoice {
         /// The countries for proxy phone numbers to be selected from.
         public let phoneNumberCountries: [String]?
 
+        @inlinable
         public init(defaultSessionExpiryMinutes: Int? = nil, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberCountries: [String]? = nil) {
             self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
             self.disabled = disabled
@@ -3094,6 +3225,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, createdTimestamp: Date? = nil, endedTimestamp: Date? = nil, expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participants: [Participant]? = nil, proxySessionId: String? = nil, status: ProxySessionStatus? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
             self.capabilities = capabilities
             self.createdTimestamp = createdTimestamp
@@ -3133,6 +3265,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil, sipMediaApplicationId: String) {
             self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
             self.sipMediaApplicationId = sipMediaApplicationId
@@ -3159,6 +3292,7 @@ extension ChimeSDKVoice {
         /// Returns the Alexa Skill configuration.
         public let sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil) {
             self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
         }
@@ -3174,6 +3308,7 @@ extension ChimeSDKVoice {
         /// The logging configuration for the specified SIP media application.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationId: String, sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationId = sipMediaApplicationId
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
@@ -3199,6 +3334,7 @@ extension ChimeSDKVoice {
         /// The updated logging configuration for the specified SIP media application.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
+        @inlinable
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
         }
@@ -3214,6 +3350,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration, voiceConnectorId: String) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
             self.voiceConnectorId = voiceConnectorId
@@ -3240,6 +3377,7 @@ extension ChimeSDKVoice {
         /// The updated configuration.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
+        @inlinable
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration? = nil) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
         }
@@ -3255,6 +3393,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration, voiceConnectorId: String) {
             self.loggingConfiguration = loggingConfiguration
             self.voiceConnectorId = voiceConnectorId
@@ -3280,6 +3419,7 @@ extension ChimeSDKVoice {
         /// The updated logging configuration.
         public let loggingConfiguration: LoggingConfiguration?
 
+        @inlinable
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
             self.loggingConfiguration = loggingConfiguration
         }
@@ -3295,6 +3435,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(origination: Origination, voiceConnectorId: String) {
             self.origination = origination
             self.voiceConnectorId = voiceConnectorId
@@ -3321,6 +3462,7 @@ extension ChimeSDKVoice {
         /// The updated origination settings.
         public let origination: Origination?
 
+        @inlinable
         public init(origination: Origination? = nil) {
             self.origination = origination
         }
@@ -3342,6 +3484,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(defaultSessionExpiryMinutes: Int, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberPoolCountries: [String], voiceConnectorId: String) {
             self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
             self.disabled = disabled
@@ -3384,6 +3527,7 @@ extension ChimeSDKVoice {
         /// The proxy configuration details.
         public let proxy: Proxy?
 
+        @inlinable
         public init(proxy: Proxy? = nil) {
             self.proxy = proxy
         }
@@ -3399,6 +3543,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(streamingConfiguration: StreamingConfiguration, voiceConnectorId: String) {
             self.streamingConfiguration = streamingConfiguration
             self.voiceConnectorId = voiceConnectorId
@@ -3425,6 +3570,7 @@ extension ChimeSDKVoice {
         /// The updated streaming settings.
         public let streamingConfiguration: StreamingConfiguration?
 
+        @inlinable
         public init(streamingConfiguration: StreamingConfiguration? = nil) {
             self.streamingConfiguration = streamingConfiguration
         }
@@ -3440,6 +3586,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(credentials: [Credential]? = nil, voiceConnectorId: String) {
             self.credentials = credentials
             self.voiceConnectorId = voiceConnectorId
@@ -3467,6 +3614,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(termination: Termination, voiceConnectorId: String) {
             self.termination = termination
             self.voiceConnectorId = voiceConnectorId
@@ -3493,6 +3641,7 @@ extension ChimeSDKVoice {
         /// The updated termination settings.
         public let termination: Termination?
 
+        @inlinable
         public init(termination: Termination? = nil) {
             self.termination = termination
         }
@@ -3506,6 +3655,7 @@ extension ChimeSDKVoice {
         /// The ID of the phone number being restored.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -3527,6 +3677,7 @@ extension ChimeSDKVoice {
         /// The restored phone number.
         public let phoneNumber: PhoneNumber?
 
+        @inlinable
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -3554,6 +3705,7 @@ extension ChimeSDKVoice {
         /// Confines a search to just the phone numbers associated with the specified toll-free prefix.
         public let tollFreePrefix: String?
 
+        @inlinable
         public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberType: PhoneNumberType? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
             self.areaCode = areaCode
             self.city = city
@@ -3596,6 +3748,7 @@ extension ChimeSDKVoice {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(e164PhoneNumbers: [String]? = nil, nextToken: String? = nil) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.nextToken = nextToken
@@ -3611,6 +3764,7 @@ extension ChimeSDKVoice {
         /// The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain.  Asymmetric customer managed keys are not supported.
         public let kmsKeyArn: String
 
+        @inlinable
         public init(kmsKeyArn: String) {
             self.kmsKeyArn = kmsKeyArn
         }
@@ -3644,6 +3798,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(awsRegion: String? = nil, createdTimestamp: Date? = nil, endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationArn: String? = nil, sipMediaApplicationId: String? = nil, updatedTimestamp: Date? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
@@ -3671,6 +3826,7 @@ extension ChimeSDKVoice {
         /// The status of the Alexa Skill configuration.
         public let alexaSkillStatus: AlexaSkillStatus
 
+        @inlinable
         public init(alexaSkillIds: [String], alexaSkillStatus: AlexaSkillStatus) {
             self.alexaSkillIds = alexaSkillIds
             self.alexaSkillStatus = alexaSkillStatus
@@ -3695,6 +3851,7 @@ extension ChimeSDKVoice {
         /// The call's transaction ID.
         public let transactionId: String?
 
+        @inlinable
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -3708,6 +3865,7 @@ extension ChimeSDKVoice {
         /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias.  The function must be created in the same AWS Region as the SIP media application.
         public let lambdaArn: String?
 
+        @inlinable
         public init(lambdaArn: String? = nil) {
             self.lambdaArn = lambdaArn
         }
@@ -3726,6 +3884,7 @@ extension ChimeSDKVoice {
         /// Enables message logging for the specified SIP media application.
         public let enableSipMediaApplicationMessageLogs: Bool?
 
+        @inlinable
         public init(enableSipMediaApplicationMessageLogs: Bool? = nil) {
             self.enableSipMediaApplicationMessageLogs = enableSipMediaApplicationMessageLogs
         }
@@ -3755,6 +3914,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, disabled: Bool? = nil, name: String? = nil, sipRuleId: String? = nil, targetApplications: [SipRuleTargetApplication]? = nil, triggerType: SipRuleTriggerType? = nil, triggerValue: String? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.disabled = disabled
@@ -3786,6 +3946,7 @@ extension ChimeSDKVoice {
         /// The ID of a rule's target SIP media application.
         public let sipMediaApplicationId: String?
 
+        @inlinable
         public init(awsRegion: String? = nil, priority: Int? = nil, sipMediaApplicationId: String? = nil) {
             self.awsRegion = awsRegion
             self.priority = priority
@@ -3810,6 +3971,7 @@ extension ChimeSDKVoice {
         /// The status of a voice print generation operation, VoiceprintGenerationSuccess or VoiceprintGenerationFailure..
         public let voiceprintGenerationStatus: String?
 
+        @inlinable
         public init(results: [SpeakerSearchResult]? = nil, voiceprintGenerationStatus: String? = nil) {
             self.results = results
             self.voiceprintGenerationStatus = voiceprintGenerationStatus
@@ -3827,6 +3989,7 @@ extension ChimeSDKVoice {
         /// The voice profile ID.
         public let voiceProfileId: String?
 
+        @inlinable
         public init(confidenceScore: Float? = nil, voiceProfileId: String? = nil) {
             self.confidenceScore = confidenceScore
             self.voiceProfileId = voiceProfileId
@@ -3859,6 +4022,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(callDetails: CallDetails? = nil, createdTimestamp: Date? = nil, speakerSearchDetails: SpeakerSearchDetails? = nil, speakerSearchTaskId: String? = nil, speakerSearchTaskStatus: String? = nil, startedTimestamp: Date? = nil, statusMessage: String? = nil, updatedTimestamp: Date? = nil) {
             self.callDetails = callDetails
             self.createdTimestamp = createdTimestamp
@@ -3894,6 +4058,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice profile domain that will store the voice profile.
         public let voiceProfileDomainId: String
 
+        @inlinable
         public init(callLeg: CallLegType? = nil, clientRequestToken: String? = nil, transactionId: String, voiceConnectorId: String, voiceProfileDomainId: String) {
             self.callLeg = callLeg
             self.clientRequestToken = clientRequestToken
@@ -3937,6 +4102,7 @@ extension ChimeSDKVoice {
         /// The details of the speaker search task.
         public let speakerSearchTask: SpeakerSearchTask?
 
+        @inlinable
         public init(speakerSearchTask: SpeakerSearchTask? = nil) {
             self.speakerSearchTask = speakerSearchTask
         }
@@ -3956,6 +4122,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, languageCode: LanguageCode, transactionId: String, voiceConnectorId: String) {
             self.clientRequestToken = clientRequestToken
             self.languageCode = languageCode
@@ -3993,6 +4160,7 @@ extension ChimeSDKVoice {
         /// The details of the voice tone analysis task.
         public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
 
+        @inlinable
         public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
             self.voiceToneAnalysisTask = voiceToneAnalysisTask
         }
@@ -4008,6 +4176,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(speakerSearchTaskId: String, voiceConnectorId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
             self.voiceConnectorId = voiceConnectorId
@@ -4038,6 +4207,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice tone analysis task.
         public let voiceToneAnalysisTaskId: String
 
+        @inlinable
         public init(voiceConnectorId: String, voiceToneAnalysisTaskId: String) {
             self.voiceConnectorId = voiceConnectorId
             self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
@@ -4072,6 +4242,7 @@ extension ChimeSDKVoice {
         /// The streaming notification targets.
         public let streamingNotificationTargets: [StreamingNotificationTarget]?
 
+        @inlinable
         public init(dataRetentionInHours: Int, disabled: Bool, mediaInsightsConfiguration: MediaInsightsConfiguration? = nil, streamingNotificationTargets: [StreamingNotificationTarget]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
@@ -4098,6 +4269,7 @@ extension ChimeSDKVoice {
         /// The streaming notification target.
         public let notificationTarget: NotificationTarget?
 
+        @inlinable
         public init(notificationTarget: NotificationTarget? = nil) {
             self.notificationTarget = notificationTarget
         }
@@ -4113,6 +4285,7 @@ extension ChimeSDKVoice {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4136,6 +4309,7 @@ extension ChimeSDKVoice {
         /// A list of the tags being added to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4170,6 +4344,7 @@ extension ChimeSDKVoice {
         /// When termination is disabled, outbound calls cannot be made.
         public let disabled: Bool?
 
+        @inlinable
         public init(callingRegions: [String]? = nil, cidrAllowedList: [String]? = nil, cpsLimit: Int? = nil, defaultPhoneNumber: String? = nil, disabled: Bool? = nil) {
             self.callingRegions = callingRegions
             self.cidrAllowedList = cidrAllowedList
@@ -4199,6 +4374,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var timestamp: Date?
 
+        @inlinable
         public init(source: String? = nil, timestamp: Date? = nil) {
             self.source = source
             self.timestamp = timestamp
@@ -4216,6 +4392,7 @@ extension ChimeSDKVoice {
         /// The keys of the tags being removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4243,6 +4420,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
 
+        @inlinable
         public init(voiceConnector: VoiceConnectorSettings? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -4262,6 +4440,7 @@ extension ChimeSDKVoice {
         /// The product type.
         public let productType: PhoneNumberProductType?
 
+        @inlinable
         public init(callingName: String? = nil, name: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.callingName = callingName
             self.name = name
@@ -4302,6 +4481,7 @@ extension ChimeSDKVoice {
         /// The product type to update.
         public let productType: PhoneNumberProductType?
 
+        @inlinable
         public init(callingName: String? = nil, name: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
             self.callingName = callingName
             self.name = name
@@ -4328,6 +4508,7 @@ extension ChimeSDKVoice {
         /// The updated phone number details.
         public let phoneNumber: PhoneNumber?
 
+        @inlinable
         public init(phoneNumber: PhoneNumber? = nil) {
             self.phoneNumber = phoneNumber
         }
@@ -4341,6 +4522,7 @@ extension ChimeSDKVoice {
         /// The default outbound calling name for the account.
         public let callingName: String
 
+        @inlinable
         public init(callingName: String) {
             self.callingName = callingName
         }
@@ -4364,6 +4546,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(capabilities: [Capability], expiryMinutes: Int? = nil, proxySessionId: String, voiceConnectorId: String) {
             self.capabilities = capabilities
             self.expiryMinutes = expiryMinutes
@@ -4400,6 +4583,7 @@ extension ChimeSDKVoice {
         /// The updated proxy session details.
         public let proxySession: ProxySession?
 
+        @inlinable
         public init(proxySession: ProxySession? = nil) {
             self.proxySession = proxySession
         }
@@ -4417,6 +4601,7 @@ extension ChimeSDKVoice {
         /// The ID of the call transaction.
         public let transactionId: String
 
+        @inlinable
         public init(arguments: [String: String], sipMediaApplicationId: String, transactionId: String) {
             self.arguments = arguments
             self.sipMediaApplicationId = sipMediaApplicationId
@@ -4446,6 +4631,7 @@ extension ChimeSDKVoice {
         /// A Call instance for a SIP media application.
         public let sipMediaApplicationCall: SipMediaApplicationCall?
 
+        @inlinable
         public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
             self.sipMediaApplicationCall = sipMediaApplicationCall
         }
@@ -4463,6 +4649,7 @@ extension ChimeSDKVoice {
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
+        @inlinable
         public init(endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationId: String) {
             self.endpoints = endpoints
             self.name = name
@@ -4499,6 +4686,7 @@ extension ChimeSDKVoice {
         /// The updated SIP media application’s details.
         public let sipMediaApplication: SipMediaApplication?
 
+        @inlinable
         public init(sipMediaApplication: SipMediaApplication? = nil) {
             self.sipMediaApplication = sipMediaApplication
         }
@@ -4518,6 +4706,7 @@ extension ChimeSDKVoice {
         /// The new list of target applications.
         public let targetApplications: [SipRuleTargetApplication]?
 
+        @inlinable
         public init(disabled: Bool? = nil, name: String, sipRuleId: String, targetApplications: [SipRuleTargetApplication]? = nil) {
             self.disabled = disabled
             self.name = name
@@ -4557,6 +4746,7 @@ extension ChimeSDKVoice {
         /// The updated SIP rule details.
         public let sipRule: SipRule?
 
+        @inlinable
         public init(sipRule: SipRule? = nil) {
             self.sipRule = sipRule
         }
@@ -4574,6 +4764,7 @@ extension ChimeSDKVoice {
         /// The VoiceConnectorItems to associate with the Voice Connector  group.
         public let voiceConnectorItems: [VoiceConnectorItem]
 
+        @inlinable
         public init(name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {
             self.name = name
             self.voiceConnectorGroupId = voiceConnectorGroupId
@@ -4608,6 +4799,7 @@ extension ChimeSDKVoice {
         /// The updated Voice Connector group.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
+        @inlinable
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
             self.voiceConnectorGroup = voiceConnectorGroup
         }
@@ -4625,6 +4817,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(name: String, requireEncryption: Bool, voiceConnectorId: String) {
             self.name = name
             self.requireEncryption = requireEncryption
@@ -4656,6 +4849,7 @@ extension ChimeSDKVoice {
         /// The updated Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
+        @inlinable
         public init(voiceConnector: VoiceConnector? = nil) {
             self.voiceConnector = voiceConnector
         }
@@ -4673,6 +4867,7 @@ extension ChimeSDKVoice {
         /// The domain ID.
         public let voiceProfileDomainId: String
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, voiceProfileDomainId: String) {
             self.description = description
             self.name = name
@@ -4707,6 +4902,7 @@ extension ChimeSDKVoice {
         /// The updated details of the voice profile domain.
         public let voiceProfileDomain: VoiceProfileDomain?
 
+        @inlinable
         public init(voiceProfileDomain: VoiceProfileDomain? = nil) {
             self.voiceProfileDomain = voiceProfileDomain
         }
@@ -4722,6 +4918,7 @@ extension ChimeSDKVoice {
         /// The profile ID.
         public let voiceProfileId: String
 
+        @inlinable
         public init(speakerSearchTaskId: String, voiceProfileId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
             self.voiceProfileId = voiceProfileId
@@ -4752,6 +4949,7 @@ extension ChimeSDKVoice {
         /// The updated voice profile settings.
         public let voiceProfile: VoiceProfile?
 
+        @inlinable
         public init(voiceProfile: VoiceProfile? = nil) {
             self.voiceProfile = voiceProfile
         }
@@ -4777,6 +4975,7 @@ extension ChimeSDKVoice {
         /// The address street number, such as 200 or 2121.
         public let streetNumber: String
 
+        @inlinable
         public init(awsAccountId: String, city: String, country: String, postalCode: String, state: String, streetInfo: String, streetNumber: String) {
             self.awsAccountId = awsAccountId
             self.city = city
@@ -4818,6 +5017,7 @@ extension ChimeSDKVoice {
         /// Number indicating the result of address validation. Each possible result is defined as follows:    0 - Address validation succeeded.    1 - Address validation succeeded. The address was a close enough match and has been corrected as part of the address object.    2 - Address validation failed. You should re-submit the validation request with candidates from the CandidateAddressList result, if it's a close match.
         public let validationResult: Int?
 
+        @inlinable
         public init(address: Address? = nil, addressExternalId: String? = nil, candidateAddressList: [CandidateAddress]? = nil, validationResult: Int? = nil) {
             self.address = address
             self.addressExternalId = addressExternalId
@@ -4853,6 +5053,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector's ID.
         public let voiceConnectorId: String?
 
+        @inlinable
         public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
@@ -4892,6 +5093,7 @@ extension ChimeSDKVoice {
         /// The Voice Connectors to which you route inbound calls.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -4917,6 +5119,7 @@ extension ChimeSDKVoice {
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
+        @inlinable
         public init(priority: Int, voiceConnectorId: String) {
             self.priority = priority
             self.voiceConnectorId = voiceConnectorId
@@ -4938,6 +5141,7 @@ extension ChimeSDKVoice {
         /// The S3 bucket that stores the Voice Connector's call detail records.
         public let cdrBucket: String?
 
+        @inlinable
         public init(cdrBucket: String? = nil) {
             self.cdrBucket = cdrBucket
         }
@@ -4964,6 +5168,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice profile.
         public let voiceProfileId: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, expirationTimestamp: Date? = nil, updatedTimestamp: Date? = nil, voiceProfileArn: String? = nil, voiceProfileDomainId: String? = nil, voiceProfileId: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.expirationTimestamp = expirationTimestamp
@@ -5001,6 +5206,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice profile domain.
         public let voiceProfileDomainId: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, description: String? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, updatedTimestamp: Date? = nil, voiceProfileDomainArn: String? = nil, voiceProfileDomainId: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.description = description
@@ -5038,6 +5244,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice profile domain summary.
         public let voiceProfileDomainId: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, description: String? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceProfileDomainArn: String? = nil, voiceProfileDomainId: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.description = description
@@ -5074,6 +5281,7 @@ extension ChimeSDKVoice {
         /// The ID of the voice profile in a voice profile summary.
         public let voiceProfileId: String?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, expirationTimestamp: Date? = nil, updatedTimestamp: Date? = nil, voiceProfileArn: String? = nil, voiceProfileDomainId: String? = nil, voiceProfileId: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.expirationTimestamp = expirationTimestamp
@@ -5112,6 +5320,7 @@ extension ChimeSDKVoice {
         /// The status of a voice tone analysis task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED,  FAILED, or STOPPED.
         public let voiceToneAnalysisTaskStatus: String?
 
+        @inlinable
         public init(callDetails: CallDetails? = nil, createdTimestamp: Date? = nil, startedTimestamp: Date? = nil, statusMessage: String? = nil, updatedTimestamp: Date? = nil, voiceToneAnalysisTaskId: String? = nil, voiceToneAnalysisTaskStatus: String? = nil) {
             self.callDetails = callDetails
             self.createdTimestamp = createdTimestamp

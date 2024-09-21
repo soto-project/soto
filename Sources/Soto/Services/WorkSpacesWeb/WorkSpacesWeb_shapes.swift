@@ -80,6 +80,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(browserSettingsArn: String, portalArn: String) {
             self.browserSettingsArn = browserSettingsArn
             self.portalArn = portalArn
@@ -110,6 +111,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(browserSettingsArn: String, portalArn: String) {
             self.browserSettingsArn = browserSettingsArn
             self.portalArn = portalArn
@@ -127,6 +129,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(ipAccessSettingsArn: String, portalArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
             self.portalArn = portalArn
@@ -157,6 +160,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(ipAccessSettingsArn: String, portalArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
             self.portalArn = portalArn
@@ -174,6 +178,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(networkSettingsArn: String, portalArn: String) {
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
@@ -204,6 +209,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(networkSettingsArn: String, portalArn: String) {
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
@@ -221,6 +227,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(portalArn: String, trustStoreArn: String) {
             self.portalArn = portalArn
             self.trustStoreArn = trustStoreArn
@@ -251,6 +258,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(portalArn: String, trustStoreArn: String) {
             self.portalArn = portalArn
             self.trustStoreArn = trustStoreArn
@@ -268,6 +276,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(portalArn: String, userAccessLoggingSettingsArn: String) {
             self.portalArn = portalArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -298,6 +307,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(portalArn: String, userAccessLoggingSettingsArn: String) {
             self.portalArn = portalArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -315,6 +325,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(portalArn: String, userSettingsArn: String) {
             self.portalArn = portalArn
             self.userSettingsArn = userSettingsArn
@@ -345,6 +356,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(portalArn: String, userSettingsArn: String) {
             self.portalArn = portalArn
             self.userSettingsArn = userSettingsArn
@@ -368,6 +380,7 @@ extension WorkSpacesWeb {
         /// The customer managed key used to encrypt sensitive information in the browser settings.
         public let customerManagedKey: String?
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, browserPolicy: String? = nil, browserSettingsArn: String, customerManagedKey: String? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
@@ -389,6 +402,7 @@ extension WorkSpacesWeb {
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
 
+        @inlinable
         public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
         }
@@ -412,6 +426,7 @@ extension WorkSpacesWeb {
         /// A hexadecimal identifier for the certificate.
         public let thumbprint: String?
 
+        @inlinable
         public init(body: AWSBase64Data? = nil, issuer: String? = nil, notValidAfter: Date? = nil, notValidBefore: Date? = nil, subject: String? = nil, thumbprint: String? = nil) {
             self.body = body
             self.issuer = issuer
@@ -443,6 +458,7 @@ extension WorkSpacesWeb {
         /// A hexadecimal identifier for the certificate.
         public let thumbprint: String?
 
+        @inlinable
         public init(issuer: String? = nil, notValidAfter: Date? = nil, notValidBefore: Date? = nil, subject: String? = nil, thumbprint: String? = nil) {
             self.issuer = issuer
             self.notValidAfter = notValidAfter
@@ -468,6 +484,7 @@ extension WorkSpacesWeb {
         /// The path of the cookie.
         public let path: String?
 
+        @inlinable
         public init(domain: String, name: String? = nil, path: String? = nil) {
             self.domain = domain
             self.name = name
@@ -495,6 +512,7 @@ extension WorkSpacesWeb {
         /// The list of cookie specifications that are blocked from being synchronized to the remote browser.
         public let blocklist: [CookieSpecification]?
 
+        @inlinable
         public init(allowlist: [CookieSpecification], blocklist: [CookieSpecification]? = nil) {
             self.allowlist = allowlist
             self.blocklist = blocklist
@@ -529,6 +547,7 @@ extension WorkSpacesWeb {
         /// The tags to add to the browser settings resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, browserPolicy: String, clientToken: String? = CreateBrowserSettingsRequest.idempotencyToken(), customerManagedKey: String? = nil, tags: [Tag]? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.browserPolicy = browserPolicy
@@ -571,6 +590,7 @@ extension WorkSpacesWeb {
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
 
+        @inlinable
         public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
         }
@@ -594,6 +614,7 @@ extension WorkSpacesWeb {
         /// The tags to add to the identity provider resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateIdentityProviderRequest.idempotencyToken(), identityProviderDetails: [String: String], identityProviderName: String, identityProviderType: IdentityProviderType, portalArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.identityProviderDetails = identityProviderDetails
@@ -638,6 +659,7 @@ extension WorkSpacesWeb {
         /// The ARN of the identity provider.
         public let identityProviderArn: String
 
+        @inlinable
         public init(identityProviderArn: String) {
             self.identityProviderArn = identityProviderArn
         }
@@ -663,6 +685,7 @@ extension WorkSpacesWeb {
         /// The tags to add to the IP access settings resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateIpAccessSettingsRequest.idempotencyToken(), customerManagedKey: String? = nil, description: String? = nil, displayName: String? = nil, ipRules: [IpRule], tags: [Tag]? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.clientToken = clientToken
@@ -717,6 +740,7 @@ extension WorkSpacesWeb {
         /// The ARN of the IP access settings resource.
         public let ipAccessSettingsArn: String
 
+        @inlinable
         public init(ipAccessSettingsArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
         }
@@ -738,6 +762,7 @@ extension WorkSpacesWeb {
         /// The VPC that streaming instances will connect to.
         public let vpcId: String
 
+        @inlinable
         public init(clientToken: String? = CreateNetworkSettingsRequest.idempotencyToken(), securityGroupIds: [String], subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
             self.clientToken = clientToken
             self.securityGroupIds = securityGroupIds
@@ -785,6 +810,7 @@ extension WorkSpacesWeb {
         /// The ARN of the network settings.
         public let networkSettingsArn: String
 
+        @inlinable
         public init(networkSettingsArn: String) {
             self.networkSettingsArn = networkSettingsArn
         }
@@ -812,6 +838,7 @@ extension WorkSpacesWeb {
         /// The tags to add to the web portal. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), customerManagedKey: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, maxConcurrentSessions: Int? = nil, tags: [Tag]? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
@@ -864,6 +891,7 @@ extension WorkSpacesWeb {
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public let portalEndpoint: String
 
+        @inlinable
         public init(portalArn: String, portalEndpoint: String) {
             self.portalArn = portalArn
             self.portalEndpoint = portalEndpoint
@@ -883,6 +911,7 @@ extension WorkSpacesWeb {
         /// The tags to add to the trust store. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(certificateList: [AWSBase64Data], clientToken: String? = CreateTrustStoreRequest.idempotencyToken(), tags: [Tag]? = nil) {
             self.certificateList = certificateList
             self.clientToken = clientToken
@@ -909,6 +938,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(trustStoreArn: String) {
             self.trustStoreArn = trustStoreArn
         }
@@ -926,6 +956,7 @@ extension WorkSpacesWeb {
         /// The tags to add to the user settings resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateUserAccessLoggingSettingsRequest.idempotencyToken(), kinesisStreamArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.kinesisStreamArn = kinesisStreamArn
@@ -955,6 +986,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(userAccessLoggingSettingsArn: String) {
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
         }
@@ -992,6 +1024,7 @@ extension WorkSpacesWeb {
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, uploadAllowed: EnabledType) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.clientToken = clientToken
@@ -1052,6 +1085,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(userSettingsArn: String) {
             self.userSettingsArn = userSettingsArn
         }
@@ -1065,6 +1099,7 @@ extension WorkSpacesWeb {
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
 
+        @inlinable
         public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
         }
@@ -1092,6 +1127,7 @@ extension WorkSpacesWeb {
         /// The ARN of the identity provider.
         public let identityProviderArn: String
 
+        @inlinable
         public init(identityProviderArn: String) {
             self.identityProviderArn = identityProviderArn
         }
@@ -1119,6 +1155,7 @@ extension WorkSpacesWeb {
         /// The ARN of the IP access settings.
         public let ipAccessSettingsArn: String
 
+        @inlinable
         public init(ipAccessSettingsArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
         }
@@ -1146,6 +1183,7 @@ extension WorkSpacesWeb {
         /// The ARN of the network settings.
         public let networkSettingsArn: String
 
+        @inlinable
         public init(networkSettingsArn: String) {
             self.networkSettingsArn = networkSettingsArn
         }
@@ -1173,6 +1211,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1200,6 +1239,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(trustStoreArn: String) {
             self.trustStoreArn = trustStoreArn
         }
@@ -1227,6 +1267,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(userAccessLoggingSettingsArn: String) {
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
         }
@@ -1254,6 +1295,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(userSettingsArn: String) {
             self.userSettingsArn = userSettingsArn
         }
@@ -1281,6 +1323,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1308,6 +1351,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1335,6 +1379,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1362,6 +1407,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1389,6 +1435,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1416,6 +1463,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1443,6 +1491,7 @@ extension WorkSpacesWeb {
         /// The ARN of the browser settings.
         public let browserSettingsArn: String
 
+        @inlinable
         public init(browserSettingsArn: String) {
             self.browserSettingsArn = browserSettingsArn
         }
@@ -1466,6 +1515,7 @@ extension WorkSpacesWeb {
         /// The browser settings.
         public let browserSettings: BrowserSettings?
 
+        @inlinable
         public init(browserSettings: BrowserSettings? = nil) {
             self.browserSettings = browserSettings
         }
@@ -1479,6 +1529,7 @@ extension WorkSpacesWeb {
         /// The ARN of the identity provider.
         public let identityProviderArn: String
 
+        @inlinable
         public init(identityProviderArn: String) {
             self.identityProviderArn = identityProviderArn
         }
@@ -1502,6 +1553,7 @@ extension WorkSpacesWeb {
         /// The identity provider.
         public let identityProvider: IdentityProvider?
 
+        @inlinable
         public init(identityProvider: IdentityProvider? = nil) {
             self.identityProvider = identityProvider
         }
@@ -1515,6 +1567,7 @@ extension WorkSpacesWeb {
         /// The ARN of the IP access settings.
         public let ipAccessSettingsArn: String
 
+        @inlinable
         public init(ipAccessSettingsArn: String) {
             self.ipAccessSettingsArn = ipAccessSettingsArn
         }
@@ -1538,6 +1591,7 @@ extension WorkSpacesWeb {
         /// The IP access settings.
         public let ipAccessSettings: IpAccessSettings?
 
+        @inlinable
         public init(ipAccessSettings: IpAccessSettings? = nil) {
             self.ipAccessSettings = ipAccessSettings
         }
@@ -1551,6 +1605,7 @@ extension WorkSpacesWeb {
         /// The ARN of the network settings.
         public let networkSettingsArn: String
 
+        @inlinable
         public init(networkSettingsArn: String) {
             self.networkSettingsArn = networkSettingsArn
         }
@@ -1574,6 +1629,7 @@ extension WorkSpacesWeb {
         /// The network settings.
         public let networkSettings: NetworkSettings?
 
+        @inlinable
         public init(networkSettings: NetworkSettings? = nil) {
             self.networkSettings = networkSettings
         }
@@ -1587,6 +1643,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1610,6 +1667,7 @@ extension WorkSpacesWeb {
         /// The web portal.
         public let portal: Portal?
 
+        @inlinable
         public init(portal: Portal? = nil) {
             self.portal = portal
         }
@@ -1623,6 +1681,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(portalArn: String) {
             self.portalArn = portalArn
         }
@@ -1648,6 +1707,7 @@ extension WorkSpacesWeb {
         /// The service provider SAML metadata.
         public let serviceProviderSamlMetadata: String?
 
+        @inlinable
         public init(portalArn: String, serviceProviderSamlMetadata: String? = nil) {
             self.portalArn = portalArn
             self.serviceProviderSamlMetadata = serviceProviderSamlMetadata
@@ -1665,6 +1725,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store certificate.
         public let trustStoreArn: String
 
+        @inlinable
         public init(thumbprint: String, trustStoreArn: String) {
             self.thumbprint = thumbprint
             self.trustStoreArn = trustStoreArn
@@ -1695,6 +1756,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store certificate.
         public let trustStoreArn: String
 
+        @inlinable
         public init(certificate: Certificate? = nil, trustStoreArn: String) {
             self.certificate = certificate
             self.trustStoreArn = trustStoreArn
@@ -1710,6 +1772,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(trustStoreArn: String) {
             self.trustStoreArn = trustStoreArn
         }
@@ -1733,6 +1796,7 @@ extension WorkSpacesWeb {
         /// The trust store.
         public let trustStore: TrustStore?
 
+        @inlinable
         public init(trustStore: TrustStore? = nil) {
             self.trustStore = trustStore
         }
@@ -1746,6 +1810,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(userAccessLoggingSettingsArn: String) {
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
         }
@@ -1769,6 +1834,7 @@ extension WorkSpacesWeb {
         /// The user access logging settings.
         public let userAccessLoggingSettings: UserAccessLoggingSettings?
 
+        @inlinable
         public init(userAccessLoggingSettings: UserAccessLoggingSettings? = nil) {
             self.userAccessLoggingSettings = userAccessLoggingSettings
         }
@@ -1782,6 +1848,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(userSettingsArn: String) {
             self.userSettingsArn = userSettingsArn
         }
@@ -1805,6 +1872,7 @@ extension WorkSpacesWeb {
         /// The user settings.
         public let userSettings: UserSettings?
 
+        @inlinable
         public init(userSettings: UserSettings? = nil) {
             self.userSettings = userSettings
         }
@@ -1824,6 +1892,7 @@ extension WorkSpacesWeb {
         /// The identity provider type.
         public let identityProviderType: IdentityProviderType?
 
+        @inlinable
         public init(identityProviderArn: String, identityProviderDetails: [String: String]? = nil, identityProviderName: String? = nil, identityProviderType: IdentityProviderType? = nil) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderDetails = identityProviderDetails
@@ -1847,6 +1916,7 @@ extension WorkSpacesWeb {
         /// The identity provider type.
         public let identityProviderType: IdentityProviderType?
 
+        @inlinable
         public init(identityProviderArn: String, identityProviderName: String? = nil, identityProviderType: IdentityProviderType? = nil) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderName = identityProviderName
@@ -1878,6 +1948,7 @@ extension WorkSpacesWeb {
         /// The IP rules of the IP access settings.
         public let ipRules: [IpRule]?
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, description: String? = nil, displayName: String? = nil, ipAccessSettingsArn: String, ipRules: [IpRule]? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
@@ -1911,6 +1982,7 @@ extension WorkSpacesWeb {
         /// The ARN of IP access settings.
         public let ipAccessSettingsArn: String
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, displayName: String? = nil, ipAccessSettingsArn: String) {
             self.creationDate = creationDate
             self.description = description
@@ -1932,6 +2004,7 @@ extension WorkSpacesWeb {
         /// The IP range of the IP rule.
         public let ipRange: String
 
+        @inlinable
         public init(description: String? = nil, ipRange: String) {
             self.description = description
             self.ipRange = ipRange
@@ -1956,6 +2029,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1984,6 +2058,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(browserSettings: [BrowserSettingsSummary]? = nil, nextToken: String? = nil) {
             self.browserSettings = browserSettings
             self.nextToken = nextToken
@@ -2003,6 +2078,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, portalArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2036,6 +2112,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(identityProviders: [IdentityProviderSummary]? = nil, nextToken: String? = nil) {
             self.identityProviders = identityProviders
             self.nextToken = nextToken
@@ -2053,6 +2130,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2081,6 +2159,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(ipAccessSettings: [IpAccessSettingsSummary]? = nil, nextToken: String? = nil) {
             self.ipAccessSettings = ipAccessSettings
             self.nextToken = nextToken
@@ -2098,6 +2177,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2126,6 +2206,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(networkSettings: [NetworkSettingsSummary]? = nil, nextToken: String? = nil) {
             self.networkSettings = networkSettings
             self.nextToken = nextToken
@@ -2143,6 +2224,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2171,6 +2253,7 @@ extension WorkSpacesWeb {
         /// The portals in the list.
         public let portals: [PortalSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, portals: [PortalSummary]? = nil) {
             self.nextToken = nextToken
             self.portals = portals
@@ -2186,6 +2269,7 @@ extension WorkSpacesWeb {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2209,6 +2293,7 @@ extension WorkSpacesWeb {
         /// The tags of the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2226,6 +2311,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store
         public let trustStoreArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, trustStoreArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2261,6 +2347,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(certificateList: [CertificateSummary]? = nil, nextToken: String? = nil, trustStoreArn: String) {
             self.certificateList = certificateList
             self.nextToken = nextToken
@@ -2280,6 +2367,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2308,6 +2396,7 @@ extension WorkSpacesWeb {
         /// The trust stores.
         public let trustStores: [TrustStoreSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trustStores: [TrustStoreSummary]? = nil) {
             self.nextToken = nextToken
             self.trustStores = trustStores
@@ -2325,6 +2414,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2353,6 +2443,7 @@ extension WorkSpacesWeb {
         /// The user access logging settings.
         public let userAccessLoggingSettings: [UserAccessLoggingSettingsSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, userAccessLoggingSettings: [UserAccessLoggingSettingsSummary]? = nil) {
             self.nextToken = nextToken
             self.userAccessLoggingSettings = userAccessLoggingSettings
@@ -2370,6 +2461,7 @@ extension WorkSpacesWeb {
         /// The pagination token used to retrieve the next page of results for this operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2398,6 +2490,7 @@ extension WorkSpacesWeb {
         /// The user settings.
         public let userSettings: [UserSettingsSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, userSettings: [UserSettingsSummary]? = nil) {
             self.nextToken = nextToken
             self.userSettings = userSettings
@@ -2421,6 +2514,7 @@ extension WorkSpacesWeb {
         /// The VPC that streaming instances will connect to.
         public let vpcId: String?
 
+        @inlinable
         public init(associatedPortalArns: [String]? = nil, networkSettingsArn: String, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.associatedPortalArns = associatedPortalArns
             self.networkSettingsArn = networkSettingsArn
@@ -2444,6 +2538,7 @@ extension WorkSpacesWeb {
         /// The VPC ID of the network settings.
         public let vpcId: String?
 
+        @inlinable
         public init(networkSettingsArn: String, vpcId: String? = nil) {
             self.networkSettingsArn = networkSettingsArn
             self.vpcId = vpcId
@@ -2495,6 +2590,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings that is associated with the web portal.
         public let userSettingsArn: String?
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
@@ -2574,6 +2670,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings that is associated with the web portal.
         public let userSettingsArn: String?
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
@@ -2619,6 +2716,7 @@ extension WorkSpacesWeb {
         /// The value of the tag
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2646,6 +2744,7 @@ extension WorkSpacesWeb {
         /// The tags of the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(clientToken: String? = TagResourceRequest.idempotencyToken(), resourceArn: String, tags: [Tag]) {
             self.clientToken = clientToken
             self.resourceArn = resourceArn
@@ -2688,6 +2787,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(associatedPortalArns: [String]? = nil, trustStoreArn: String) {
             self.associatedPortalArns = associatedPortalArns
             self.trustStoreArn = trustStoreArn
@@ -2703,6 +2803,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String?
 
+        @inlinable
         public init(trustStoreArn: String? = nil) {
             self.trustStoreArn = trustStoreArn
         }
@@ -2718,6 +2819,7 @@ extension WorkSpacesWeb {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2757,6 +2859,7 @@ extension WorkSpacesWeb {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
         public let clientToken: String?
 
+        @inlinable
         public init(browserPolicy: String? = nil, browserSettingsArn: String, clientToken: String? = UpdateBrowserSettingsRequest.idempotencyToken()) {
             self.browserPolicy = browserPolicy
             self.browserSettingsArn = browserSettingsArn
@@ -2792,6 +2895,7 @@ extension WorkSpacesWeb {
         /// The browser settings.
         public let browserSettings: BrowserSettings
 
+        @inlinable
         public init(browserSettings: BrowserSettings) {
             self.browserSettings = browserSettings
         }
@@ -2813,6 +2917,7 @@ extension WorkSpacesWeb {
         /// The type of the identity provider.
         public let identityProviderType: IdentityProviderType?
 
+        @inlinable
         public init(clientToken: String? = UpdateIdentityProviderRequest.idempotencyToken(), identityProviderArn: String, identityProviderDetails: [String: String]? = nil, identityProviderName: String? = nil, identityProviderType: IdentityProviderType? = nil) {
             self.clientToken = clientToken
             self.identityProviderArn = identityProviderArn
@@ -2860,6 +2965,7 @@ extension WorkSpacesWeb {
         /// The identity provider.
         public let identityProvider: IdentityProvider
 
+        @inlinable
         public init(identityProvider: IdentityProvider) {
             self.identityProvider = identityProvider
         }
@@ -2881,6 +2987,7 @@ extension WorkSpacesWeb {
         /// The updated IP rules of the IP access settings.
         public let ipRules: [IpRule]?
 
+        @inlinable
         public init(clientToken: String? = UpdateIpAccessSettingsRequest.idempotencyToken(), description: String? = nil, displayName: String? = nil, ipAccessSettingsArn: String, ipRules: [IpRule]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2930,6 +3037,7 @@ extension WorkSpacesWeb {
         /// The IP access settings.
         public let ipAccessSettings: IpAccessSettings
 
+        @inlinable
         public init(ipAccessSettings: IpAccessSettings) {
             self.ipAccessSettings = ipAccessSettings
         }
@@ -2951,6 +3059,7 @@ extension WorkSpacesWeb {
         /// The VPC that streaming instances will connect to.
         public let vpcId: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateNetworkSettingsRequest.idempotencyToken(), networkSettingsArn: String, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.clientToken = clientToken
             self.networkSettingsArn = networkSettingsArn
@@ -3006,6 +3115,7 @@ extension WorkSpacesWeb {
         /// The network settings.
         public let networkSettings: NetworkSettings
 
+        @inlinable
         public init(networkSettings: NetworkSettings) {
             self.networkSettings = networkSettings
         }
@@ -3027,6 +3137,7 @@ extension WorkSpacesWeb {
         /// The ARN of the web portal.
         public let portalArn: String
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, maxConcurrentSessions: Int? = nil, portalArn: String) {
             self.authenticationType = authenticationType
             self.displayName = displayName
@@ -3068,6 +3179,7 @@ extension WorkSpacesWeb {
         /// The web portal.
         public let portal: Portal?
 
+        @inlinable
         public init(portal: Portal? = nil) {
             self.portal = portal
         }
@@ -3087,6 +3199,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(certificatesToAdd: [AWSBase64Data]? = nil, certificatesToDelete: [String]? = nil, clientToken: String? = UpdateTrustStoreRequest.idempotencyToken(), trustStoreArn: String) {
             self.certificatesToAdd = certificatesToAdd
             self.certificatesToDelete = certificatesToDelete
@@ -3127,6 +3240,7 @@ extension WorkSpacesWeb {
         /// The ARN of the trust store.
         public let trustStoreArn: String
 
+        @inlinable
         public init(trustStoreArn: String) {
             self.trustStoreArn = trustStoreArn
         }
@@ -3144,6 +3258,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(clientToken: String? = UpdateUserAccessLoggingSettingsRequest.idempotencyToken(), kinesisStreamArn: String? = nil, userAccessLoggingSettingsArn: String) {
             self.clientToken = clientToken
             self.kinesisStreamArn = kinesisStreamArn
@@ -3179,6 +3294,7 @@ extension WorkSpacesWeb {
         /// The user access logging settings.
         public let userAccessLoggingSettings: UserAccessLoggingSettings
 
+        @inlinable
         public init(userAccessLoggingSettings: UserAccessLoggingSettings) {
             self.userAccessLoggingSettings = userAccessLoggingSettings
         }
@@ -3212,6 +3328,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -3273,6 +3390,7 @@ extension WorkSpacesWeb {
         /// The user settings.
         public let userSettings: UserSettings
 
+        @inlinable
         public init(userSettings: UserSettings) {
             self.userSettings = userSettings
         }
@@ -3290,6 +3408,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(associatedPortalArns: [String]? = nil, kinesisStreamArn: String? = nil, userAccessLoggingSettingsArn: String) {
             self.associatedPortalArns = associatedPortalArns
             self.kinesisStreamArn = kinesisStreamArn
@@ -3309,6 +3428,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user access logging settings.
         public let userAccessLoggingSettingsArn: String
 
+        @inlinable
         public init(kinesisStreamArn: String? = nil, userAccessLoggingSettingsArn: String) {
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -3348,6 +3468,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
@@ -3403,6 +3524,7 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
+        @inlinable
         public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed

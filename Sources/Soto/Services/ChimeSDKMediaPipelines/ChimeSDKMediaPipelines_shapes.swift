@@ -343,6 +343,7 @@ extension ChimeSDKMediaPipelines {
         /// The position of the ActiveSpeakerOnly video tile.
         public let activeSpeakerPosition: ActiveSpeakerPosition?
 
+        @inlinable
         public init(activeSpeakerPosition: ActiveSpeakerPosition? = nil) {
             self.activeSpeakerPosition = activeSpeakerPosition
         }
@@ -380,6 +381,7 @@ extension ChimeSDKMediaPipelines {
         /// Specifies the name of the custom vocabulary to use when processing a transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see Custom vocabularies in the Amazon Transcribe Developer Guide. Length Constraints: Minimum length of 1. Maximum length of 200.
         public let vocabularyName: String?
 
+        @inlinable
         public init(callAnalyticsStreamCategories: [String]? = nil, contentIdentificationType: ContentType? = nil, contentRedactionType: ContentType? = nil, enablePartialResultsStabilization: Bool? = nil, filterPartialResults: Bool? = nil, languageCode: CallAnalyticsLanguageCode, languageModelName: String? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, postCallAnalyticsSettings: PostCallAnalyticsSettings? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.callAnalyticsStreamCategories = callAnalyticsStreamCategories
             self.contentIdentificationType = contentIdentificationType
@@ -474,6 +476,7 @@ extension ChimeSDKMediaPipelines {
         /// The names of the custom vocabulary or vocabularies used during transcription.
         public let vocabularyNames: String?
 
+        @inlinable
         public init(contentIdentificationType: ContentType? = nil, contentRedactionType: ContentType? = nil, enablePartialResultsStabilization: Bool? = nil, filterPartialResults: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: CallAnalyticsLanguageCode? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -557,6 +560,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration for the video artifacts concatenation.
         public let video: VideoConcatenationConfiguration
 
+        @inlinable
         public init(audio: AudioConcatenationConfiguration, compositedVideo: CompositedVideoConcatenationConfiguration, content: ContentConcatenationConfiguration, dataChannel: DataChannelConcatenationConfiguration, meetingEvents: MeetingEventsConcatenationConfiguration, transcriptionMessages: TranscriptionMessagesConcatenationConfiguration, video: VideoConcatenationConfiguration) {
             self.audio = audio
             self.compositedVideo = compositedVideo
@@ -588,6 +592,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration for the video artifacts.
         public let video: VideoArtifactsConfiguration
 
+        @inlinable
         public init(audio: AudioArtifactsConfiguration, compositedVideo: CompositedVideoArtifactsConfiguration? = nil, content: ContentArtifactsConfiguration, video: VideoArtifactsConfiguration) {
             self.audio = audio
             self.compositedVideo = compositedVideo
@@ -611,6 +616,7 @@ extension ChimeSDKMediaPipelines {
         /// The MUX type of the audio artifact configuration object.
         public let muxType: AudioMuxType
 
+        @inlinable
         public init(muxType: AudioMuxType) {
             self.muxType = muxType
         }
@@ -624,6 +630,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: AudioArtifactsConcatenationState
 
+        @inlinable
         public init(state: AudioArtifactsConcatenationState) {
             self.state = state
         }
@@ -639,6 +646,7 @@ extension ChimeSDKMediaPipelines {
         /// Specifies whether the audio in a channel belongs to the AGENT or CUSTOMER.
         public let participantRole: ParticipantRole?
 
+        @inlinable
         public init(channelId: Int, participantRole: ParticipantRole? = nil) {
             self.channelId = channelId
             self.participantRole = participantRole
@@ -659,6 +667,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration for the artifacts in an Amazon Chime SDK meeting concatenation.
         public let artifactsConfiguration: ArtifactsConcatenationConfiguration
 
+        @inlinable
         public init(artifactsConfiguration: ArtifactsConcatenationConfiguration) {
             self.artifactsConfiguration = artifactsConfiguration
         }
@@ -674,6 +683,7 @@ extension ChimeSDKMediaPipelines {
         /// The source configuration for a specified media pipeline.
         public let sourceConfiguration: SourceConfiguration?
 
+        @inlinable
         public init(artifactsConfiguration: ArtifactsConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil) {
             self.artifactsConfiguration = artifactsConfiguration
             self.sourceConfiguration = sourceConfiguration
@@ -700,6 +710,7 @@ extension ChimeSDKMediaPipelines {
         /// The source configuration settings of the media pipeline's configuration object.
         public let sourceConfiguration: SourceConfiguration?
 
+        @inlinable
         public init(arn: String, compositedVideo: CompositedVideoArtifactsConfiguration? = nil, muxType: LiveConnectorMuxType, sourceConfiguration: SourceConfiguration? = nil) {
             self.arn = arn
             self.compositedVideo = compositedVideo
@@ -731,6 +742,7 @@ extension ChimeSDKMediaPipelines {
         /// The video resolution setting in the configuration object. Default: HD at 1280 x 720. FHD resolution: 1920 x 1080.
         public let resolution: ResolutionOption?
 
+        @inlinable
         public init(gridViewConfiguration: GridViewConfiguration, layout: LayoutOption? = nil, resolution: ResolutionOption? = nil) {
             self.gridViewConfiguration = gridViewConfiguration
             self.layout = layout
@@ -752,6 +764,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
 
+        @inlinable
         public init(state: ArtifactsConcatenationState) {
             self.state = state
         }
@@ -767,6 +780,7 @@ extension ChimeSDKMediaPipelines {
         /// The type of data sink in the configuration object.
         public let type: ConcatenationSinkType
 
+        @inlinable
         public init(s3BucketSinkConfiguration: S3BucketSinkConfiguration, type: ConcatenationSinkType) {
             self.s3BucketSinkConfiguration = s3BucketSinkConfiguration
             self.type = type
@@ -788,6 +802,7 @@ extension ChimeSDKMediaPipelines {
         /// The type of concatenation source in a configuration object.
         public let type: ConcatenationSourceType
 
+        @inlinable
         public init(mediaCapturePipelineSourceConfiguration: MediaCapturePipelineSourceConfiguration, type: ConcatenationSourceType) {
             self.mediaCapturePipelineSourceConfiguration = mediaCapturePipelineSourceConfiguration
             self.type = type
@@ -809,6 +824,7 @@ extension ChimeSDKMediaPipelines {
         /// Indicates whether the content artifact is enabled or disabled.
         public let state: ArtifactsState
 
+        @inlinable
         public init(muxType: ContentMuxType? = nil, state: ArtifactsState) {
             self.muxType = muxType
             self.state = state
@@ -824,6 +840,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
 
+        @inlinable
         public init(state: ArtifactsConcatenationState) {
             self.state = state
         }
@@ -849,6 +866,7 @@ extension ChimeSDKMediaPipelines {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType, tags: [Tag]? = nil) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.clientRequestToken = clientRequestToken
@@ -892,6 +910,7 @@ extension ChimeSDKMediaPipelines {
         /// A media pipeline object, the ID, source type, source ARN, sink type, and sink ARN of a media pipeline object.
         public let mediaCapturePipeline: MediaCapturePipeline?
 
+        @inlinable
         public init(mediaCapturePipeline: MediaCapturePipeline? = nil) {
             self.mediaCapturePipeline = mediaCapturePipeline
         }
@@ -911,6 +930,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags associated with the media concatenation pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMediaConcatenationPipelineRequest.idempotencyToken(), sinks: [ConcatenationSink], sources: [ConcatenationSource], tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.sinks = sinks
@@ -951,6 +971,7 @@ extension ChimeSDKMediaPipelines {
         /// A media concatenation pipeline object, the ID, source type, MediaPipelineARN, and sink of a media concatenation pipeline object.
         public let mediaConcatenationPipeline: MediaConcatenationPipeline?
 
+        @inlinable
         public init(mediaConcatenationPipeline: MediaConcatenationPipeline? = nil) {
             self.mediaConcatenationPipeline = mediaConcatenationPipeline
         }
@@ -974,6 +995,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags assigned to the media insights pipeline configuration.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMediaInsightsPipelineConfigurationRequest.idempotencyToken(), elements: [MediaInsightsPipelineConfigurationElement], mediaInsightsPipelineConfigurationName: String, realTimeAlertConfiguration: RealTimeAlertConfiguration? = nil, resourceAccessRoleArn: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.elements = elements
@@ -1018,6 +1040,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration settings for the media insights pipeline.
         public let mediaInsightsPipelineConfiguration: MediaInsightsPipelineConfiguration?
 
+        @inlinable
         public init(mediaInsightsPipelineConfiguration: MediaInsightsPipelineConfiguration? = nil) {
             self.mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfiguration
         }
@@ -1043,6 +1066,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags assigned to the media insights pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMediaInsightsPipelineRequest.idempotencyToken(), kinesisVideoStreamRecordingSourceRuntimeConfiguration: KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil, kinesisVideoStreamSourceRuntimeConfiguration: KinesisVideoStreamSourceRuntimeConfiguration? = nil, mediaInsightsPipelineConfigurationArn: String, mediaInsightsRuntimeMetadata: [String: String]? = nil, s3RecordingSinkRuntimeConfiguration: S3RecordingSinkRuntimeConfiguration? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.kinesisVideoStreamRecordingSourceRuntimeConfiguration = kinesisVideoStreamRecordingSourceRuntimeConfiguration
@@ -1091,6 +1115,7 @@ extension ChimeSDKMediaPipelines {
         /// The media insights pipeline object.
         public let mediaInsightsPipeline: MediaInsightsPipeline
 
+        @inlinable
         public init(mediaInsightsPipeline: MediaInsightsPipeline) {
             self.mediaInsightsPipeline = mediaInsightsPipeline
         }
@@ -1110,6 +1135,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags associated with the media live connector pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMediaLiveConnectorPipelineRequest.idempotencyToken(), sinks: [LiveConnectorSinkConfiguration], sources: [LiveConnectorSourceConfiguration], tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.sinks = sinks
@@ -1150,6 +1176,7 @@ extension ChimeSDKMediaPipelines {
         /// The new media live connector pipeline.
         public let mediaLiveConnectorPipeline: MediaLiveConnectorPipeline?
 
+        @inlinable
         public init(mediaLiveConnectorPipeline: MediaLiveConnectorPipeline? = nil) {
             self.mediaLiveConnectorPipeline = mediaLiveConnectorPipeline
         }
@@ -1169,6 +1196,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags assigned to the stream pool.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMediaPipelineKinesisVideoStreamPoolRequest.idempotencyToken(), poolName: String, streamConfiguration: KinesisVideoStreamConfiguration, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.poolName = poolName
@@ -1203,6 +1231,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration for applying the streams to the pool.
         public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
 
+        @inlinable
         public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
             self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
         }
@@ -1222,6 +1251,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags assigned to the media pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateMediaStreamPipelineRequest.idempotencyToken(), sinks: [MediaStreamSink], sources: [MediaStreamSource], tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.sinks = sinks
@@ -1261,6 +1291,7 @@ extension ChimeSDKMediaPipelines {
         /// The requested media pipeline.
         public let mediaStreamPipeline: MediaStreamPipeline?
 
+        @inlinable
         public init(mediaStreamPipeline: MediaStreamPipeline? = nil) {
             self.mediaStreamPipeline = mediaStreamPipeline
         }
@@ -1274,6 +1305,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
 
+        @inlinable
         public init(state: ArtifactsConcatenationState) {
             self.state = state
         }
@@ -1287,6 +1319,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the media pipeline being deleted.
         public let mediaPipelineId: String
 
+        @inlinable
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
         }
@@ -1310,6 +1343,7 @@ extension ChimeSDKMediaPipelines {
         /// The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configuration.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1332,6 +1366,7 @@ extension ChimeSDKMediaPipelines {
         /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1354,6 +1389,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the media pipeline to delete.
         public let mediaPipelineId: String
 
+        @inlinable
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
         }
@@ -1379,6 +1415,7 @@ extension ChimeSDKMediaPipelines {
         /// The range of timestamps to return.
         public let timestampRange: TimestampRange
 
+        @inlinable
         public init(fragmentSelectorType: FragmentSelectorType, timestampRange: TimestampRange) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
@@ -1394,6 +1431,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the pipeline that you want to get.
         public let mediaPipelineId: String
 
+        @inlinable
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
         }
@@ -1417,6 +1455,7 @@ extension ChimeSDKMediaPipelines {
         /// The media pipeline object.
         public let mediaCapturePipeline: MediaCapturePipeline?
 
+        @inlinable
         public init(mediaCapturePipeline: MediaCapturePipeline? = nil) {
             self.mediaCapturePipeline = mediaCapturePipeline
         }
@@ -1430,6 +1469,7 @@ extension ChimeSDKMediaPipelines {
         /// The unique identifier of the requested resource.  Valid values include the name and ARN of the media insights pipeline configuration.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1452,6 +1492,7 @@ extension ChimeSDKMediaPipelines {
         /// The requested media insights pipeline configuration.
         public let mediaInsightsPipelineConfiguration: MediaInsightsPipelineConfiguration?
 
+        @inlinable
         public init(mediaInsightsPipelineConfiguration: MediaInsightsPipelineConfiguration? = nil) {
             self.mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfiguration
         }
@@ -1465,6 +1506,7 @@ extension ChimeSDKMediaPipelines {
         /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1487,6 +1529,7 @@ extension ChimeSDKMediaPipelines {
         /// The video stream pool configuration object.
         public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
 
+        @inlinable
         public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
             self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
         }
@@ -1500,6 +1543,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the pipeline that you want to get.
         public let mediaPipelineId: String
 
+        @inlinable
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
         }
@@ -1523,6 +1567,7 @@ extension ChimeSDKMediaPipelines {
         /// The media pipeline object.
         public let mediaPipeline: MediaPipeline?
 
+        @inlinable
         public init(mediaPipeline: MediaPipeline? = nil) {
             self.mediaPipeline = mediaPipeline
         }
@@ -1538,6 +1583,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the speaker search task.
         public let speakerSearchTaskId: String
 
+        @inlinable
         public init(identifier: String, speakerSearchTaskId: String) {
             self.identifier = identifier
             self.speakerSearchTaskId = speakerSearchTaskId
@@ -1565,6 +1611,7 @@ extension ChimeSDKMediaPipelines {
         /// The details of the speaker search task.
         public let speakerSearchTask: SpeakerSearchTask?
 
+        @inlinable
         public init(speakerSearchTask: SpeakerSearchTask? = nil) {
             self.speakerSearchTask = speakerSearchTask
         }
@@ -1580,6 +1627,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the voice tone analysis task.
         public let voiceToneAnalysisTaskId: String
 
+        @inlinable
         public init(identifier: String, voiceToneAnalysisTaskId: String) {
             self.identifier = identifier
             self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
@@ -1607,6 +1655,7 @@ extension ChimeSDKMediaPipelines {
         /// The details of the voice tone analysis task.
         public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
 
+        @inlinable
         public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
             self.voiceToneAnalysisTask = voiceToneAnalysisTask
         }
@@ -1632,6 +1681,7 @@ extension ChimeSDKMediaPipelines {
         /// The attribute settings for the video tiles.
         public let videoAttribute: VideoAttribute?
 
+        @inlinable
         public init(activeSpeakerOnlyConfiguration: ActiveSpeakerOnlyConfiguration? = nil, canvasOrientation: CanvasOrientation? = nil, contentShareLayout: ContentShareLayoutOption, horizontalLayoutConfiguration: HorizontalLayoutConfiguration? = nil, presenterOnlyConfiguration: PresenterOnlyConfiguration? = nil, verticalLayoutConfiguration: VerticalLayoutConfiguration? = nil, videoAttribute: VideoAttribute? = nil) {
             self.activeSpeakerOnlyConfiguration = activeSpeakerOnlyConfiguration
             self.canvasOrientation = canvasOrientation
@@ -1669,6 +1719,7 @@ extension ChimeSDKMediaPipelines {
         /// Sets the position of horizontal tiles.
         public let tilePosition: HorizontalTilePosition?
 
+        @inlinable
         public init(tileAspectRatio: String? = nil, tileCount: Int? = nil, tileOrder: TileOrder? = nil, tilePosition: HorizontalTilePosition? = nil) {
             self.tileAspectRatio = tileAspectRatio
             self.tileCount = tileCount
@@ -1694,6 +1745,7 @@ extension ChimeSDKMediaPipelines {
         /// The name of the issue detection rule.
         public let ruleName: String
 
+        @inlinable
         public init(ruleName: String) {
             self.ruleName = ruleName
         }
@@ -1717,6 +1769,7 @@ extension ChimeSDKMediaPipelines {
         /// The name of the keyword match rule.
         public let ruleName: String
 
+        @inlinable
         public init(keywords: [String], negate: Bool? = nil, ruleName: String) {
             self.keywords = keywords
             self.negate = negate
@@ -1747,6 +1800,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the sink.
         public let insightsTarget: String?
 
+        @inlinable
         public init(insightsTarget: String? = nil) {
             self.insightsTarget = insightsTarget
         }
@@ -1768,6 +1822,7 @@ extension ChimeSDKMediaPipelines {
         /// The Amazon Web Services Region of the video stream.
         public let region: String
 
+        @inlinable
         public init(dataRetentionInHours: Int? = nil, region: String) {
             self.dataRetentionInHours = dataRetentionInHours
             self.region = region
@@ -1790,6 +1845,7 @@ extension ChimeSDKMediaPipelines {
         /// The updated time that data is retained.
         public let dataRetentionInHours: Int?
 
+        @inlinable
         public init(dataRetentionInHours: Int? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
         }
@@ -1823,6 +1879,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, poolArn: String? = nil, poolId: String? = nil, poolName: String? = nil, poolSize: Int? = nil, poolStatus: KinesisVideoStreamPoolStatus? = nil, streamConfiguration: KinesisVideoStreamConfiguration? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.poolArn = poolArn
@@ -1854,6 +1911,7 @@ extension ChimeSDKMediaPipelines {
         /// The name of the video stream pool.
         public let poolName: String?
 
+        @inlinable
         public init(poolArn: String? = nil, poolId: String? = nil, poolName: String? = nil) {
             self.poolArn = poolArn
             self.poolId = poolId
@@ -1873,6 +1931,7 @@ extension ChimeSDKMediaPipelines {
         /// The stream or streams to be recorded.
         public let streams: [RecordingStreamConfiguration]
 
+        @inlinable
         public init(fragmentSelector: FragmentSelector, streams: [RecordingStreamConfiguration]) {
             self.fragmentSelector = fragmentSelector
             self.streams = streams
@@ -1900,6 +1959,7 @@ extension ChimeSDKMediaPipelines {
         /// The streams in the source runtime configuration of a Kinesis video stream.
         public let streams: [StreamConfiguration]
 
+        @inlinable
         public init(mediaEncoding: MediaEncoding, mediaSampleRate: Int, streams: [StreamConfiguration]) {
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRate = mediaSampleRate
@@ -1931,6 +1991,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the stream.
         public let streamArn: String
 
+        @inlinable
         public init(channelId: Int = 0, fragmentNumber: String? = nil, streamArn: String) {
             self.channelId = channelId
             self.fragmentNumber = fragmentNumber
@@ -1959,6 +2020,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the sink.
         public let insightsTarget: String?
 
+        @inlinable
         public init(insightsTarget: String? = nil) {
             self.insightsTarget = insightsTarget
         }
@@ -1980,6 +2042,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2008,6 +2071,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(mediaCapturePipelines: [MediaCapturePipelineSummary]? = nil, nextToken: String? = nil) {
             self.mediaCapturePipelines = mediaCapturePipelines
             self.nextToken = nextToken
@@ -2025,6 +2089,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2053,6 +2118,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(mediaInsightsPipelineConfigurations: [MediaInsightsPipelineConfigurationSummary]? = nil, nextToken: String? = nil) {
             self.mediaInsightsPipelineConfigurations = mediaInsightsPipelineConfigurations
             self.nextToken = nextToken
@@ -2070,6 +2136,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2098,6 +2165,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to return the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(kinesisVideoStreamPools: [KinesisVideoStreamPoolSummary]? = nil, nextToken: String? = nil) {
             self.kinesisVideoStreamPools = kinesisVideoStreamPools
             self.nextToken = nextToken
@@ -2115,6 +2183,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2143,6 +2212,7 @@ extension ChimeSDKMediaPipelines {
         /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(mediaPipelines: [MediaPipelineSummary]? = nil, nextToken: String? = nil) {
             self.mediaPipelines = mediaPipelines
             self.nextToken = nextToken
@@ -2158,6 +2228,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the media pipeline associated with any tags. The ARN consists of the pipeline's region, resource ID, and pipeline ID.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2181,6 +2252,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags associated with the specified media pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2198,6 +2270,7 @@ extension ChimeSDKMediaPipelines {
         /// The URL of the RTMP configuration.
         public let url: String
 
+        @inlinable
         public init(audioChannels: AudioChannelsOption? = nil, audioSampleRate: String? = nil, url: String) {
             self.audioChannels = audioChannels
             self.audioSampleRate = audioSampleRate
@@ -2223,6 +2296,7 @@ extension ChimeSDKMediaPipelines {
         /// The sink configuration's sink type.
         public let sinkType: LiveConnectorSinkType
 
+        @inlinable
         public init(rtmpConfiguration: LiveConnectorRTMPConfiguration, sinkType: LiveConnectorSinkType) {
             self.rtmpConfiguration = rtmpConfiguration
             self.sinkType = sinkType
@@ -2244,6 +2318,7 @@ extension ChimeSDKMediaPipelines {
         /// The source configuration's media source type.
         public let sourceType: LiveConnectorSourceType
 
+        @inlinable
         public init(chimeSdkMeetingLiveConnectorConfiguration: ChimeSdkMeetingLiveConnectorConfiguration, sourceType: LiveConnectorSourceType) {
             self.chimeSdkMeetingLiveConnectorConfiguration = chimeSdkMeetingLiveConnectorConfiguration
             self.sourceType = sourceType
@@ -2283,6 +2358,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.createdTimestamp = createdTimestamp
@@ -2316,6 +2392,7 @@ extension ChimeSDKMediaPipelines {
         /// The media pipeline ARN in the configuration object of a media capture pipeline.
         public let mediaPipelineArn: String
 
+        @inlinable
         public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConcatenationConfiguration, mediaPipelineArn: String) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.mediaPipelineArn = mediaPipelineArn
@@ -2339,6 +2416,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the media pipeline in the summary.
         public let mediaPipelineId: String?
 
+        @inlinable
         public init(mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil) {
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
@@ -2368,6 +2446,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinks: [ConcatenationSink]? = nil, sources: [ConcatenationSource]? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
@@ -2412,6 +2491,7 @@ extension ChimeSDKMediaPipelines {
         /// The status of a media insights pipeline.
         public let status: MediaPipelineStatus?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, elementStatuses: [MediaInsightsPipelineElementStatus]? = nil, kinesisVideoStreamRecordingSourceRuntimeConfiguration: KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil, kinesisVideoStreamSourceRuntimeConfiguration: KinesisVideoStreamSourceRuntimeConfiguration? = nil, mediaInsightsPipelineConfigurationArn: String? = nil, mediaInsightsRuntimeMetadata: [String: String]? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, s3RecordingSinkRuntimeConfiguration: S3RecordingSinkRuntimeConfiguration? = nil, status: MediaPipelineStatus? = nil) {
             self.createdTimestamp = createdTimestamp
             self.elementStatuses = elementStatuses
@@ -2459,6 +2539,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, elements: [MediaInsightsPipelineConfigurationElement]? = nil, mediaInsightsPipelineConfigurationArn: String? = nil, mediaInsightsPipelineConfigurationId: String? = nil, mediaInsightsPipelineConfigurationName: String? = nil, realTimeAlertConfiguration: RealTimeAlertConfiguration? = nil, resourceAccessRoleArn: String? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.elements = elements
@@ -2504,6 +2585,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration settings for voice enhancement sink in a media insights pipeline configuration element.
         public let voiceEnhancementSinkConfiguration: VoiceEnhancementSinkConfiguration?
 
+        @inlinable
         public init(amazonTranscribeCallAnalyticsProcessorConfiguration: AmazonTranscribeCallAnalyticsProcessorConfiguration? = nil, amazonTranscribeProcessorConfiguration: AmazonTranscribeProcessorConfiguration? = nil, kinesisDataStreamSinkConfiguration: KinesisDataStreamSinkConfiguration? = nil, lambdaFunctionSinkConfiguration: LambdaFunctionSinkConfiguration? = nil, s3RecordingSinkConfiguration: S3RecordingSinkConfiguration? = nil, snsTopicSinkConfiguration: SnsTopicSinkConfiguration? = nil, sqsQueueSinkConfiguration: SqsQueueSinkConfiguration? = nil, type: MediaInsightsPipelineConfigurationElementType, voiceAnalyticsProcessorConfiguration: VoiceAnalyticsProcessorConfiguration? = nil, voiceEnhancementSinkConfiguration: VoiceEnhancementSinkConfiguration? = nil) {
             self.amazonTranscribeCallAnalyticsProcessorConfiguration = amazonTranscribeCallAnalyticsProcessorConfiguration
             self.amazonTranscribeProcessorConfiguration = amazonTranscribeProcessorConfiguration
@@ -2549,6 +2631,7 @@ extension ChimeSDKMediaPipelines {
         /// The name of the media insights pipeline configuration.
         public let mediaInsightsPipelineConfigurationName: String?
 
+        @inlinable
         public init(mediaInsightsPipelineConfigurationArn: String? = nil, mediaInsightsPipelineConfigurationId: String? = nil, mediaInsightsPipelineConfigurationName: String? = nil) {
             self.mediaInsightsPipelineConfigurationArn = mediaInsightsPipelineConfigurationArn
             self.mediaInsightsPipelineConfigurationId = mediaInsightsPipelineConfigurationId
@@ -2568,6 +2651,7 @@ extension ChimeSDKMediaPipelines {
         /// The type of status.
         public let type: MediaInsightsPipelineConfigurationElementType?
 
+        @inlinable
         public init(status: MediaPipelineElementStatus? = nil, type: MediaInsightsPipelineConfigurationElementType? = nil) {
             self.status = status
             self.type = type
@@ -2597,6 +2681,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinks: [LiveConnectorSinkConfiguration]? = nil, sources: [LiveConnectorSourceConfiguration]? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
@@ -2630,6 +2715,7 @@ extension ChimeSDKMediaPipelines {
         /// Designates a media pipeline as a media stream pipeline.
         public let mediaStreamPipeline: MediaStreamPipeline?
 
+        @inlinable
         public init(mediaCapturePipeline: MediaCapturePipeline? = nil, mediaConcatenationPipeline: MediaConcatenationPipeline? = nil, mediaInsightsPipeline: MediaInsightsPipeline? = nil, mediaLiveConnectorPipeline: MediaLiveConnectorPipeline? = nil, mediaStreamPipeline: MediaStreamPipeline? = nil) {
             self.mediaCapturePipeline = mediaCapturePipeline
             self.mediaConcatenationPipeline = mediaConcatenationPipeline
@@ -2653,6 +2739,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the media pipeline in the summary.
         public let mediaPipelineId: String?
 
+        @inlinable
         public init(mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil) {
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
@@ -2682,6 +2769,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinks: [MediaStreamSink]? = nil, sources: [MediaStreamSource]? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
@@ -2713,6 +2801,7 @@ extension ChimeSDKMediaPipelines {
         /// The media stream sink's type.
         public let sinkType: MediaStreamPipelineSinkType
 
+        @inlinable
         public init(mediaStreamType: MediaStreamType, reservedStreamCapacity: Int, sinkArn: String, sinkType: MediaStreamPipelineSinkType) {
             self.mediaStreamType = mediaStreamType
             self.reservedStreamCapacity = reservedStreamCapacity
@@ -2742,6 +2831,7 @@ extension ChimeSDKMediaPipelines {
         /// The type of media stream source.
         public let sourceType: MediaPipelineSourceType
 
+        @inlinable
         public init(sourceArn: String, sourceType: MediaPipelineSourceType) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
@@ -2763,6 +2853,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
 
+        @inlinable
         public init(state: ArtifactsConcatenationState) {
             self.state = state
         }
@@ -2782,6 +2873,7 @@ extension ChimeSDKMediaPipelines {
         /// The URL of the Amazon S3 bucket that contains the post-call data.
         public let outputLocation: String
 
+        @inlinable
         public init(contentRedactionOutput: ContentRedactionOutput? = nil, dataAccessRoleArn: String, outputEncryptionKMSKeyId: String? = nil, outputLocation: String) {
             self.contentRedactionOutput = contentRedactionOutput
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -2810,6 +2902,7 @@ extension ChimeSDKMediaPipelines {
         /// Defines the position of the presenter video tile. Default: TopRight.
         public let presenterPosition: PresenterPosition?
 
+        @inlinable
         public init(presenterPosition: PresenterPosition? = nil) {
             self.presenterPosition = presenterPosition
         }
@@ -2825,6 +2918,7 @@ extension ChimeSDKMediaPipelines {
         /// The rules in the alert. Rules specify the words or phrases that you want to be notified about.
         public let rules: [RealTimeAlertRule]?
 
+        @inlinable
         public init(disabled: Bool? = nil, rules: [RealTimeAlertRule]? = nil) {
             self.disabled = disabled
             self.rules = rules
@@ -2854,6 +2948,7 @@ extension ChimeSDKMediaPipelines {
         /// The type of alert rule.
         public let type: RealTimeAlertRuleType
 
+        @inlinable
         public init(issueDetectionConfiguration: IssueDetectionConfiguration? = nil, keywordMatchConfiguration: KeywordMatchConfiguration? = nil, sentimentConfiguration: SentimentConfiguration? = nil, type: RealTimeAlertRuleType) {
             self.issueDetectionConfiguration = issueDetectionConfiguration
             self.keywordMatchConfiguration = keywordMatchConfiguration
@@ -2879,6 +2974,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the recording stream.
         public let streamArn: String?
 
+        @inlinable
         public init(streamArn: String? = nil) {
             self.streamArn = streamArn
         }
@@ -2898,6 +2994,7 @@ extension ChimeSDKMediaPipelines {
         /// The destination URL of the S3 bucket.
         public let destination: String
 
+        @inlinable
         public init(destination: String) {
             self.destination = destination
         }
@@ -2919,6 +3016,7 @@ extension ChimeSDKMediaPipelines {
         /// The default file format for the media files sent to the Amazon S3 bucket.
         public let recordingFileFormat: RecordingFileFormat?
 
+        @inlinable
         public init(destination: String? = nil, recordingFileFormat: RecordingFileFormat? = nil) {
             self.destination = destination
             self.recordingFileFormat = recordingFileFormat
@@ -2942,6 +3040,7 @@ extension ChimeSDKMediaPipelines {
         /// The file format for the media files sent to the Amazon S3 bucket.
         public let recordingFileFormat: RecordingFileFormat
 
+        @inlinable
         public init(destination: String, recordingFileFormat: RecordingFileFormat) {
             self.destination = destination
             self.recordingFileFormat = recordingFileFormat
@@ -2965,6 +3064,7 @@ extension ChimeSDKMediaPipelines {
         /// The external user IDs of the streams selected for a media pipeline.
         public let externalUserIds: [String]?
 
+        @inlinable
         public init(attendeeIds: [String]? = nil, externalUserIds: [String]? = nil) {
             self.attendeeIds = attendeeIds
             self.externalUserIds = externalUserIds
@@ -2998,6 +3098,7 @@ extension ChimeSDKMediaPipelines {
         /// Specifies the analysis interval.
         public let timePeriod: Int
 
+        @inlinable
         public init(ruleName: String, sentimentType: SentimentType, timePeriod: Int) {
             self.ruleName = ruleName
             self.sentimentType = sentimentType
@@ -3023,6 +3124,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the SNS sink.
         public let insightsTarget: String?
 
+        @inlinable
         public init(insightsTarget: String? = nil) {
             self.insightsTarget = insightsTarget
         }
@@ -3042,6 +3144,7 @@ extension ChimeSDKMediaPipelines {
         /// The selected video streams for a specified media pipeline. The number of video streams can't exceed 25.
         public let selectedVideoStreams: SelectedVideoStreams?
 
+        @inlinable
         public init(selectedVideoStreams: SelectedVideoStreams? = nil) {
             self.selectedVideoStreams = selectedVideoStreams
         }
@@ -3067,6 +3170,7 @@ extension ChimeSDKMediaPipelines {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, speakerSearchTaskId: String? = nil, speakerSearchTaskStatus: MediaPipelineTaskStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.speakerSearchTaskId = speakerSearchTaskId
@@ -3086,6 +3190,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the SQS sink.
         public let insightsTarget: String?
 
+        @inlinable
         public init(insightsTarget: String? = nil) {
             self.insightsTarget = insightsTarget
         }
@@ -3111,6 +3216,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the voice profile domain that will store the voice profile.
         public let voiceProfileDomainArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = StartSpeakerSearchTaskRequest.idempotencyToken(), identifier: String, kinesisVideoStreamSourceTaskConfiguration: KinesisVideoStreamSourceTaskConfiguration? = nil, voiceProfileDomainArn: String) {
             self.clientRequestToken = clientRequestToken
             self.identifier = identifier
@@ -3150,6 +3256,7 @@ extension ChimeSDKMediaPipelines {
         /// The details of the speaker search task.
         public let speakerSearchTask: SpeakerSearchTask?
 
+        @inlinable
         public init(speakerSearchTask: SpeakerSearchTask? = nil) {
             self.speakerSearchTask = speakerSearchTask
         }
@@ -3169,6 +3276,7 @@ extension ChimeSDKMediaPipelines {
         /// The language code.
         public let languageCode: VoiceAnalyticsLanguageCode
 
+        @inlinable
         public init(clientRequestToken: String? = StartVoiceToneAnalysisTaskRequest.idempotencyToken(), identifier: String, kinesisVideoStreamSourceTaskConfiguration: KinesisVideoStreamSourceTaskConfiguration? = nil, languageCode: VoiceAnalyticsLanguageCode) {
             self.clientRequestToken = clientRequestToken
             self.identifier = identifier
@@ -3205,6 +3313,7 @@ extension ChimeSDKMediaPipelines {
         /// The details of the voice tone analysis task.
         public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
 
+        @inlinable
         public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
             self.voiceToneAnalysisTask = voiceToneAnalysisTask
         }
@@ -3220,6 +3329,7 @@ extension ChimeSDKMediaPipelines {
         /// The speaker search task ID.
         public let speakerSearchTaskId: String
 
+        @inlinable
         public init(identifier: String, speakerSearchTaskId: String) {
             self.identifier = identifier
             self.speakerSearchTaskId = speakerSearchTaskId
@@ -3249,6 +3359,7 @@ extension ChimeSDKMediaPipelines {
         /// The ID of the voice tone analysis task.
         public let voiceToneAnalysisTaskId: String
 
+        @inlinable
         public init(identifier: String, voiceToneAnalysisTaskId: String) {
             self.identifier = identifier
             self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
@@ -3278,6 +3389,7 @@ extension ChimeSDKMediaPipelines {
         /// The number of channels in a streaming channel.
         public let numberOfChannels: Int
 
+        @inlinable
         public init(channelDefinitions: [ChannelDefinition]? = nil, numberOfChannels: Int) {
             self.channelDefinitions = channelDefinitions
             self.numberOfChannels = numberOfChannels
@@ -3307,6 +3419,7 @@ extension ChimeSDKMediaPipelines {
         /// The streaming channel definition in the stream configuration.
         public let streamChannelDefinition: StreamChannelDefinition
 
+        @inlinable
         public init(fragmentNumber: String? = nil, streamArn: String, streamChannelDefinition: StreamChannelDefinition) {
             self.fragmentNumber = fragmentNumber
             self.streamArn = streamArn
@@ -3336,6 +3449,7 @@ extension ChimeSDKMediaPipelines {
         /// The value half of a tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3359,6 +3473,7 @@ extension ChimeSDKMediaPipelines {
         /// The tags associated with the specified media pipeline.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -3391,6 +3506,7 @@ extension ChimeSDKMediaPipelines {
         /// The starting timestamp for the specified range.
         public let startTimestamp: Date
 
+        @inlinable
         public init(endTimestamp: Date, startTimestamp: Date) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
@@ -3406,6 +3522,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
 
+        @inlinable
         public init(state: ArtifactsConcatenationState) {
             self.state = state
         }
@@ -3421,6 +3538,7 @@ extension ChimeSDKMediaPipelines {
         /// The key/value pairs in the tag that you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -3458,6 +3576,7 @@ extension ChimeSDKMediaPipelines {
         /// The ARN of the role used by the service to access Amazon Web Services resources.
         public let resourceAccessRoleArn: String
 
+        @inlinable
         public init(elements: [MediaInsightsPipelineConfigurationElement], identifier: String, realTimeAlertConfiguration: RealTimeAlertConfiguration? = nil, resourceAccessRoleArn: String) {
             self.elements = elements
             self.identifier = identifier
@@ -3497,6 +3616,7 @@ extension ChimeSDKMediaPipelines {
         /// The updated configuration settings.
         public let mediaInsightsPipelineConfiguration: MediaInsightsPipelineConfiguration?
 
+        @inlinable
         public init(mediaInsightsPipelineConfiguration: MediaInsightsPipelineConfiguration? = nil) {
             self.mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfiguration
         }
@@ -3512,6 +3632,7 @@ extension ChimeSDKMediaPipelines {
         /// The requested status of the media insights pipeline.
         public let updateStatus: MediaPipelineStatusUpdate
 
+        @inlinable
         public init(identifier: String, updateStatus: MediaPipelineStatusUpdate) {
             self.identifier = identifier
             self.updateStatus = updateStatus
@@ -3540,6 +3661,7 @@ extension ChimeSDKMediaPipelines {
         /// The configuration settings for the video stream.
         public let streamConfiguration: KinesisVideoStreamConfigurationUpdate?
 
+        @inlinable
         public init(identifier: String, streamConfiguration: KinesisVideoStreamConfigurationUpdate? = nil) {
             self.identifier = identifier
             self.streamConfiguration = streamConfiguration
@@ -3567,6 +3689,7 @@ extension ChimeSDKMediaPipelines {
         /// The video stream pool configuration object.
         public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
 
+        @inlinable
         public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
             self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
         }
@@ -3586,6 +3709,7 @@ extension ChimeSDKMediaPipelines {
         /// Sets the position of vertical tiles.
         public let tilePosition: VerticalTilePosition?
 
+        @inlinable
         public init(tileAspectRatio: String? = nil, tileCount: Int? = nil, tileOrder: TileOrder? = nil, tilePosition: VerticalTilePosition? = nil) {
             self.tileAspectRatio = tileAspectRatio
             self.tileCount = tileCount
@@ -3613,6 +3737,7 @@ extension ChimeSDKMediaPipelines {
         /// Indicates whether the video artifact is enabled or disabled.
         public let state: ArtifactsState
 
+        @inlinable
         public init(muxType: VideoMuxType? = nil, state: ArtifactsState) {
             self.muxType = muxType
             self.state = state
@@ -3634,6 +3759,7 @@ extension ChimeSDKMediaPipelines {
         /// Defines the highlight color for the active video tile.
         public let highlightColor: HighlightColor?
 
+        @inlinable
         public init(borderColor: BorderColor? = nil, borderThickness: Int? = nil, cornerRadius: Int? = nil, highlightColor: HighlightColor? = nil) {
             self.borderColor = borderColor
             self.borderThickness = borderThickness
@@ -3660,6 +3786,7 @@ extension ChimeSDKMediaPipelines {
         /// Enables or disables the configuration object.
         public let state: ArtifactsConcatenationState
 
+        @inlinable
         public init(state: ArtifactsConcatenationState) {
             self.state = state
         }
@@ -3675,6 +3802,7 @@ extension ChimeSDKMediaPipelines {
         /// The status of the voice tone analysis task.
         public let voiceToneAnalysisStatus: VoiceAnalyticsConfigurationStatus?
 
+        @inlinable
         public init(speakerSearchStatus: VoiceAnalyticsConfigurationStatus? = nil, voiceToneAnalysisStatus: VoiceAnalyticsConfigurationStatus? = nil) {
             self.speakerSearchStatus = speakerSearchStatus
             self.voiceToneAnalysisStatus = voiceToneAnalysisStatus
@@ -3690,6 +3818,7 @@ extension ChimeSDKMediaPipelines {
         /// Disables the VoiceEnhancementSinkConfiguration element.
         public let disabled: Bool?
 
+        @inlinable
         public init(disabled: Bool? = nil) {
             self.disabled = disabled
         }
@@ -3711,6 +3840,7 @@ extension ChimeSDKMediaPipelines {
         /// The status of a voice tone analysis task.
         public let voiceToneAnalysisTaskStatus: MediaPipelineTaskStatus?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, updatedTimestamp: Date? = nil, voiceToneAnalysisTaskId: String? = nil, voiceToneAnalysisTaskStatus: MediaPipelineTaskStatus? = nil) {
             self.createdTimestamp = createdTimestamp
             self.updatedTimestamp = updatedTimestamp

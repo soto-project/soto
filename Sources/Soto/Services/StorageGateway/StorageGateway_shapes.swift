@@ -144,6 +144,7 @@ extension StorageGateway {
         /// The value that indicates the type of tape drive to use for tape gateway. This field is optional. Valid Values: IBM-ULT3580-TD5
         public let tapeDriveType: String?
 
+        @inlinable
         public init(activationKey: String, gatewayName: String, gatewayRegion: String, gatewayTimezone: String, gatewayType: String? = nil, mediumChangerType: String? = nil, tags: [Tag]? = nil, tapeDriveType: String? = nil) {
             self.activationKey = activationKey
             self.gatewayName = gatewayName
@@ -191,6 +192,7 @@ extension StorageGateway {
     public struct ActivateGatewayOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -205,6 +207,7 @@ extension StorageGateway {
         public let diskIds: [String]
         public let gatewayARN: String
 
+        @inlinable
         public init(diskIds: [String], gatewayARN: String) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
@@ -228,6 +231,7 @@ extension StorageGateway {
     public struct AddCacheOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -243,6 +247,7 @@ extension StorageGateway {
         /// The key-value pair that represents the tag you want to add to the resource. The value can be an empty string.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -266,6 +271,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String?
 
+        @inlinable
         public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
@@ -280,6 +286,7 @@ extension StorageGateway {
         public let diskIds: [String]
         public let gatewayARN: String
 
+        @inlinable
         public init(diskIds: [String], gatewayARN: String) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
@@ -303,6 +310,7 @@ extension StorageGateway {
     public struct AddUploadBufferOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -317,6 +325,7 @@ extension StorageGateway {
         public let diskIds: [String]
         public let gatewayARN: String
 
+        @inlinable
         public init(diskIds: [String], gatewayARN: String) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
@@ -340,6 +349,7 @@ extension StorageGateway {
     public struct AddWorkingStorageOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -357,6 +367,7 @@ extension StorageGateway {
         /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool.
         public let tapeARN: String
 
+        @inlinable
         public init(bypassGovernanceRetention: Bool? = nil, poolId: String, tapeARN: String) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.poolId = poolId
@@ -382,6 +393,7 @@ extension StorageGateway {
         /// The unique Amazon Resource Names (ARN) of the virtual tape that was added to the tape pool.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -409,6 +421,7 @@ extension StorageGateway {
         /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group.
         public let userName: String
 
+        @inlinable
         public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientToken: String, endpointNetworkConfiguration: EndpointNetworkConfiguration? = nil, gatewayARN: String, locationARN: String, password: String, tags: [Tag]? = nil, userName: String) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
@@ -458,6 +471,7 @@ extension StorageGateway {
         /// The ARN of the newly created file system association.
         public let fileSystemAssociationARN: String?
 
+        @inlinable
         public init(fileSystemAssociationARN: String? = nil) {
             self.fileSystemAssociationARN = fileSystemAssociationARN
         }
@@ -479,6 +493,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume to attach to the specified gateway.
         public let volumeARN: String
 
+        @inlinable
         public init(diskId: String? = nil, gatewayARN: String, networkInterfaceId: String, targetName: String? = nil, volumeARN: String) {
             self.diskId = diskId
             self.gatewayARN = gatewayARN
@@ -516,6 +531,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume that was attached to the gateway.
         public let volumeARN: String?
 
+        @inlinable
         public init(targetARN: String? = nil, volumeARN: String? = nil) {
             self.targetARN = targetARN
             self.volumeARN = volumeARN
@@ -532,6 +548,7 @@ extension StorageGateway {
         public let automaticTapeCreationRules: [AutomaticTapeCreationRule]?
         public let gatewayARN: String?
 
+        @inlinable
         public init(automaticTapeCreationRules: [AutomaticTapeCreationRule]? = nil, gatewayARN: String? = nil) {
             self.automaticTapeCreationRules = automaticTapeCreationRules
             self.gatewayARN = gatewayARN
@@ -555,6 +572,7 @@ extension StorageGateway {
         /// Set to true to indicate that tapes are to be archived as write-once-read-many (WORM). Set to false when WORM is not enabled for tapes.
         public let worm: Bool?
 
+        @inlinable
         public init(minimumNumTapes: Int, poolId: String, tapeBarcodePrefix: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.minimumNumTapes = minimumNumTapes
             self.poolId = poolId
@@ -598,6 +616,7 @@ extension StorageGateway {
         ///  The minute of the hour to start the bandwidth rate limit interval. The interval begins at the start of that minute. To begin an interval exactly at the start of the hour, use the value 0.
         public let startMinuteOfHour: Int
 
+        @inlinable
         public init(averageDownloadRateLimitInBitsPerSec: Int64? = nil, averageUploadRateLimitInBitsPerSec: Int64? = nil, daysOfWeek: [Int], endHourOfDay: Int, endMinuteOfHour: Int, startHourOfDay: Int, startMinuteOfHour: Int) {
             self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
@@ -642,6 +661,7 @@ extension StorageGateway {
         /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days)
         public let cacheStaleTimeoutInSeconds: Int?
 
+        @inlinable
         public init(cacheStaleTimeoutInSeconds: Int? = nil) {
             self.cacheStaleTimeoutInSeconds = cacheStaleTimeoutInSeconds
         }
@@ -678,6 +698,7 @@ extension StorageGateway {
         /// The size of the data stored on the volume in bytes. This value is calculated based on the number of blocks that are touched, instead of the actual amount of data written. This value can be useful for sequential write patterns but less accurate for random write patterns. VolumeUsedInBytes is different from the compressed size of the volume, which is the value that is used to calculate your bill.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. If you use a delete tool that overwrites the data on your volume with random data, your usage will not be reduced. This is because the random data is not compressible. If you want to reduce the amount of billed storage on your volume, we recommend overwriting your files with zeros to compress the data to a negligible amount of actual storage.
         public let volumeUsedInBytes: Int64?
 
+        @inlinable
         public init(createdDate: Date? = nil, kmsKey: String? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
             self.createdDate = createdDate
             self.kmsKey = kmsKey
@@ -716,6 +737,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
         public let tapeARN: String
 
+        @inlinable
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
@@ -739,6 +761,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -753,6 +776,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
         public let tapeARN: String
 
+        @inlinable
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
@@ -776,6 +800,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -795,6 +820,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let targetARN: String?
 
+        @inlinable
         public init(initiatorName: String? = nil, secretToAuthenticateInitiator: String? = nil, secretToAuthenticateTarget: String? = nil, targetARN: String? = nil) {
             self.initiatorName = initiatorName
             self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
@@ -831,6 +857,7 @@ extension StorageGateway {
         /// The size of the volume in bytes.
         public let volumeSizeInBytes: Int64
 
+        @inlinable
         public init(clientToken: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, snapshotId: String? = nil, sourceVolumeARN: String? = nil, tags: [Tag]? = nil, targetName: String, volumeSizeInBytes: Int64 = 0) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
@@ -885,6 +912,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the configured volume.
         public let volumeARN: String?
 
+        @inlinable
         public init(targetARN: String? = nil, volumeARN: String? = nil) {
             self.targetARN = targetARN
             self.volumeARN = volumeARN
@@ -942,6 +970,7 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
+        @inlinable
         public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kmsKey: String? = nil, locationARN: String, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
@@ -968,6 +997,7 @@ extension StorageGateway {
         }
 
         @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        @inlinable
         public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
@@ -1062,6 +1092,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the newly created file share.
         public let fileShareARN: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
         }
@@ -1127,6 +1158,7 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
+        @inlinable
         public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
@@ -1158,6 +1190,7 @@ extension StorageGateway {
         }
 
         @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        @inlinable
         public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
@@ -1271,6 +1304,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the newly created file share.
         public let fileShareARN: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
         }
@@ -1288,6 +1322,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let volumeARN: String
 
+        @inlinable
         public init(snapshotDescription: String, tags: [Tag]? = nil, volumeARN: String) {
             self.snapshotDescription = snapshotDescription
             self.tags = tags
@@ -1320,6 +1355,7 @@ extension StorageGateway {
         /// The time the volume was created from the recovery point.
         public let volumeRecoveryPointTime: String?
 
+        @inlinable
         public init(snapshotId: String? = nil, volumeARN: String? = nil, volumeRecoveryPointTime: String? = nil) {
             self.snapshotId = snapshotId
             self.volumeARN = volumeARN
@@ -1341,6 +1377,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
+        @inlinable
         public init(snapshotDescription: String, tags: [Tag]? = nil, volumeARN: String) {
             self.snapshotDescription = snapshotDescription
             self.tags = tags
@@ -1371,6 +1408,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume of which the snapshot was taken.
         public let volumeARN: String?
 
+        @inlinable
         public init(snapshotId: String? = nil, volumeARN: String? = nil) {
             self.snapshotId = snapshotId
             self.volumeARN = volumeARN
@@ -1401,6 +1439,7 @@ extension StorageGateway {
         /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
         public let targetName: String
 
+        @inlinable
         public init(diskId: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, preserveExistingData: Bool = false, snapshotId: String? = nil, tags: [Tag]? = nil, targetName: String) {
             self.diskId = diskId
             self.gatewayARN = gatewayARN
@@ -1452,6 +1491,7 @@ extension StorageGateway {
         /// The size of the volume in bytes.
         public let volumeSizeInBytes: Int64?
 
+        @inlinable
         public init(targetARN: String? = nil, volumeARN: String? = nil, volumeSizeInBytes: Int64? = nil) {
             self.targetARN = targetARN
             self.volumeARN = volumeARN
@@ -1477,6 +1517,7 @@ extension StorageGateway {
         /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
 
+        @inlinable
         public init(poolName: String, retentionLockTimeInDays: Int? = nil, retentionLockType: RetentionLockType? = nil, storageClass: TapeStorageClass, tags: [Tag]? = nil) {
             self.poolName = poolName
             self.retentionLockTimeInDays = retentionLockTimeInDays
@@ -1509,6 +1550,7 @@ extension StorageGateway {
         /// The unique Amazon Resource Name (ARN) that represents the custom tape pool. Use the ListTapePools operation to return a list of tape pools for your account and Amazon Web Services Region.
         public let poolARN: String?
 
+        @inlinable
         public init(poolARN: String? = nil) {
             self.poolARN = poolARN
         }
@@ -1536,6 +1578,7 @@ extension StorageGateway {
         /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
         public let worm: Bool?
 
+        @inlinable
         public init(gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcode: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.gatewayARN = gatewayARN
             self.kmsEncrypted = kmsEncrypted
@@ -1579,6 +1622,7 @@ extension StorageGateway {
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -1610,6 +1654,7 @@ extension StorageGateway {
         /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
         public let worm: Bool?
 
+        @inlinable
         public init(clientToken: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
@@ -1661,6 +1706,7 @@ extension StorageGateway {
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
         public let tapeARNs: [String]?
 
+        @inlinable
         public init(tapeARNs: [String]? = nil) {
             self.tapeARNs = tapeARNs
         }
@@ -1673,6 +1719,7 @@ extension StorageGateway {
     public struct DeleteAutomaticTapeCreationPolicyInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -1690,6 +1737,7 @@ extension StorageGateway {
     public struct DeleteAutomaticTapeCreationPolicyOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -1704,6 +1752,7 @@ extension StorageGateway {
         public let bandwidthType: String
         public let gatewayARN: String
 
+        @inlinable
         public init(bandwidthType: String, gatewayARN: String) {
             self.bandwidthType = bandwidthType
             self.gatewayARN = gatewayARN
@@ -1725,6 +1774,7 @@ extension StorageGateway {
     public struct DeleteBandwidthRateLimitOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -1740,6 +1790,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
 
+        @inlinable
         public init(initiatorName: String, targetARN: String) {
             self.initiatorName = initiatorName
             self.targetARN = targetARN
@@ -1765,6 +1816,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the target.
         public let targetARN: String?
 
+        @inlinable
         public init(initiatorName: String? = nil, targetARN: String? = nil) {
             self.initiatorName = initiatorName
             self.targetARN = targetARN
@@ -1782,6 +1834,7 @@ extension StorageGateway {
         /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
         public let forceDelete: Bool?
 
+        @inlinable
         public init(fileShareARN: String, forceDelete: Bool? = nil) {
             self.fileShareARN = fileShareARN
             self.forceDelete = forceDelete
@@ -1802,6 +1855,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the deleted file share.
         public let fileShareARN: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
         }
@@ -1814,6 +1868,7 @@ extension StorageGateway {
     public struct DeleteGatewayInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -1831,6 +1886,7 @@ extension StorageGateway {
     public struct DeleteGatewayOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -1844,6 +1900,7 @@ extension StorageGateway {
         /// The volume which snapshot schedule to delete.
         public let volumeARN: String
 
+        @inlinable
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
         }
@@ -1863,6 +1920,7 @@ extension StorageGateway {
         /// The volume which snapshot schedule was deleted.
         public let volumeARN: String?
 
+        @inlinable
         public init(volumeARN: String? = nil) {
             self.volumeARN = volumeARN
         }
@@ -1878,6 +1936,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
         public let tapeARN: String
 
+        @inlinable
         public init(bypassGovernanceRetention: Bool? = nil, tapeARN: String) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.tapeARN = tapeARN
@@ -1899,6 +1958,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -1916,6 +1976,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
         public let tapeARN: String
 
+        @inlinable
         public init(bypassGovernanceRetention: Bool? = nil, gatewayARN: String, tapeARN: String) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.gatewayARN = gatewayARN
@@ -1941,6 +2002,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -1954,6 +2016,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the custom tape pool to delete.
         public let poolARN: String
 
+        @inlinable
         public init(poolARN: String) {
             self.poolARN = poolARN
         }
@@ -1972,6 +2035,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the custom tape pool being deleted.
         public let poolARN: String?
 
+        @inlinable
         public init(poolARN: String? = nil) {
             self.poolARN = poolARN
         }
@@ -1985,6 +2049,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
+        @inlinable
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
         }
@@ -2004,6 +2069,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
         public let volumeARN: String?
 
+        @inlinable
         public init(volumeARN: String? = nil) {
             self.volumeARN = volumeARN
         }
@@ -2016,6 +2082,7 @@ extension StorageGateway {
     public struct DescribeAvailabilityMonitorTestInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2037,6 +2104,7 @@ extension StorageGateway {
         /// The status of the high availability monitoring test. If a test hasn't been performed, the value of this field is null.
         public let status: AvailabilityMonitorTestStatus?
 
+        @inlinable
         public init(gatewayARN: String? = nil, startTime: Date? = nil, status: AvailabilityMonitorTestStatus? = nil) {
             self.gatewayARN = gatewayARN
             self.startTime = startTime
@@ -2053,6 +2121,7 @@ extension StorageGateway {
     public struct DescribeBandwidthRateLimitInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2074,6 +2143,7 @@ extension StorageGateway {
         public let averageUploadRateLimitInBitsPerSec: Int64?
         public let gatewayARN: String?
 
+        @inlinable
         public init(averageDownloadRateLimitInBitsPerSec: Int64? = nil, averageUploadRateLimitInBitsPerSec: Int64? = nil, gatewayARN: String? = nil) {
             self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
@@ -2090,6 +2160,7 @@ extension StorageGateway {
     public struct DescribeBandwidthRateLimitScheduleInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2109,6 +2180,7 @@ extension StorageGateway {
         public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]?
         public let gatewayARN: String?
 
+        @inlinable
         public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]? = nil, gatewayARN: String? = nil) {
             self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
             self.gatewayARN = gatewayARN
@@ -2123,6 +2195,7 @@ extension StorageGateway {
     public struct DescribeCacheInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2152,6 +2225,7 @@ extension StorageGateway {
         public let diskIds: [String]?
         public let gatewayARN: String?
 
+        @inlinable
         public init(cacheAllocatedInBytes: Int64? = nil, cacheDirtyPercentage: Double? = nil, cacheHitPercentage: Double? = nil, cacheMissPercentage: Double? = nil, cacheUsedPercentage: Double? = nil, diskIds: [String]? = nil, gatewayARN: String? = nil) {
             self.cacheAllocatedInBytes = cacheAllocatedInBytes
             self.cacheDirtyPercentage = cacheDirtyPercentage
@@ -2177,6 +2251,7 @@ extension StorageGateway {
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a cached volume. All of the specified cached volumes must be from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
 
+        @inlinable
         public init(volumeARNs: [String]) {
             self.volumeARNs = volumeARNs
         }
@@ -2198,6 +2273,7 @@ extension StorageGateway {
         /// An array of objects where each object contains metadata about one cached volume.
         public let cachediSCSIVolumes: [CachediSCSIVolume]?
 
+        @inlinable
         public init(cachediSCSIVolumes: [CachediSCSIVolume]? = nil) {
             self.cachediSCSIVolumes = cachediSCSIVolumes
         }
@@ -2211,6 +2287,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
 
+        @inlinable
         public init(targetARN: String) {
             self.targetARN = targetARN
         }
@@ -2229,6 +2306,7 @@ extension StorageGateway {
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.
         public let chapCredentials: [ChapInfo]?
 
+        @inlinable
         public init(chapCredentials: [ChapInfo]? = nil) {
             self.chapCredentials = chapCredentials
         }
@@ -2242,6 +2320,7 @@ extension StorageGateway {
         /// An array containing the Amazon Resource Name (ARN) of each file system association to be described.
         public let fileSystemAssociationARNList: [String]
 
+        @inlinable
         public init(fileSystemAssociationARNList: [String]) {
             self.fileSystemAssociationARNList = fileSystemAssociationARNList
         }
@@ -2264,6 +2343,7 @@ extension StorageGateway {
         /// An array containing the FileSystemAssociationInfo data type of each file system association to be described.
         public let fileSystemAssociationInfoList: [FileSystemAssociationInfo]?
 
+        @inlinable
         public init(fileSystemAssociationInfoList: [FileSystemAssociationInfo]? = nil) {
             self.fileSystemAssociationInfoList = fileSystemAssociationInfoList
         }
@@ -2276,6 +2356,7 @@ extension StorageGateway {
     public struct DescribeGatewayInformationInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2335,6 +2416,7 @@ extension StorageGateway {
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway.
         public let vpcEndpoint: String?
 
+        @inlinable
         public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayCapacity: GatewayCapacity? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, hostEnvironmentId: String? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, softwareVersion: String? = nil, supportedGatewayCapacities: [GatewayCapacity]? = nil, tags: [Tag]? = nil, vpcEndpoint: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.deprecationDate = deprecationDate
@@ -2389,6 +2471,7 @@ extension StorageGateway {
     public struct DescribeMaintenanceStartTimeInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2418,6 +2501,7 @@ extension StorageGateway {
         /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
         public let timezone: String?
 
+        @inlinable
         public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String? = nil, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, softwareUpdatePreferences: SoftwareUpdatePreferences? = nil, timezone: String? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -2443,6 +2527,7 @@ extension StorageGateway {
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described.
         public let fileShareARNList: [String]
 
+        @inlinable
         public init(fileShareARNList: [String]) {
             self.fileShareARNList = fileShareARNList
         }
@@ -2465,6 +2550,7 @@ extension StorageGateway {
         /// An array containing a description for each requested file share.
         public let nfsFileShareInfoList: [NFSFileShareInfo]?
 
+        @inlinable
         public init(nfsFileShareInfoList: [NFSFileShareInfo]? = nil) {
             self.nfsFileShareInfoList = nfsFileShareInfoList
         }
@@ -2478,6 +2564,7 @@ extension StorageGateway {
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described.
         public let fileShareARNList: [String]
 
+        @inlinable
         public init(fileShareARNList: [String]) {
             self.fileShareARNList = fileShareARNList
         }
@@ -2500,6 +2587,7 @@ extension StorageGateway {
         /// An array containing a description for each requested file share.
         public let smbFileShareInfoList: [SMBFileShareInfo]?
 
+        @inlinable
         public init(smbFileShareInfoList: [SMBFileShareInfo]? = nil) {
             self.smbFileShareInfoList = smbFileShareInfoList
         }
@@ -2512,6 +2600,7 @@ extension StorageGateway {
     public struct DescribeSMBSettingsInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2541,6 +2630,7 @@ extension StorageGateway {
         /// The type of security strategy that was specified for file gateway.    ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway.    MandatorySigning: If you choose this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing turned on. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008, or later.     MandatoryEncryption: If you choose this option, File Gateway only allows connections from SMBv3 clients that have encryption turned on. Both 256-bit and 128-bit algorithms are allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.    MandatoryEncryptionNoAes128: If you choose this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
         public let smbSecurityStrategy: SMBSecurityStrategy?
 
+        @inlinable
         public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, fileSharesVisible: Bool? = nil, gatewayARN: String? = nil, smbGuestPasswordSet: Bool? = nil, smbLocalGroups: SMBLocalGroups? = nil, smbSecurityStrategy: SMBSecurityStrategy? = nil) {
             self.activeDirectoryStatus = activeDirectoryStatus
             self.domainName = domainName
@@ -2566,6 +2656,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
+        @inlinable
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
         }
@@ -2595,6 +2686,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume that was specified in the request.
         public let volumeARN: String?
 
+        @inlinable
         public init(description: String? = nil, recurrenceInHours: Int? = nil, startAt: Int? = nil, tags: [Tag]? = nil, timezone: String? = nil, volumeARN: String? = nil) {
             self.description = description
             self.recurrenceInHours = recurrenceInHours
@@ -2618,6 +2710,7 @@ extension StorageGateway {
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must be from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
 
+        @inlinable
         public init(volumeARNs: [String]) {
             self.volumeARNs = volumeARNs
         }
@@ -2639,6 +2732,7 @@ extension StorageGateway {
         /// Describes a single unit of output from DescribeStorediSCSIVolumes. The following fields are returned:    ChapEnabled: Indicates whether mutual CHAP is enabled for the iSCSI target.    LunNumber: The logical disk number.    NetworkInterfaceId: The network interface ID of the stored volume that initiator use to map the stored volume as an iSCSI target.    NetworkInterfacePort: The port used to communicate with iSCSI targets.    PreservedExistingData: Indicates when the stored volume was created, existing data on the underlying local disk was preserved.    SourceSnapshotId: If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-1122aabb. Otherwise, this field is not included.    StorediSCSIVolumes: An array of StorediSCSIVolume objects where each object contains metadata about one stored volume.    TargetARN: The Amazon Resource Name (ARN) of the volume target.    VolumeARN: The Amazon Resource Name (ARN) of the stored volume.    VolumeDiskId: The disk ID of the local disk that was specified in the CreateStorediSCSIVolume operation.    VolumeId: The unique identifier of the storage volume, e.g. vol-1122AABB.    VolumeiSCSIAttributes: An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.    VolumeProgress: Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.    VolumeSizeInBytes: The size of the volume in bytes.    VolumeStatus: One of the VolumeStatus values that indicates the state of the volume.    VolumeType: One of the enumeration values describing the type of the volume. Currently, only STORED volumes are supported.
         public let storediSCSIVolumes: [StorediSCSIVolume]?
 
+        @inlinable
         public init(storediSCSIVolumes: [StorediSCSIVolume]? = nil) {
             self.storediSCSIVolumes = storediSCSIVolumes
         }
@@ -2656,6 +2750,7 @@ extension StorageGateway {
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
         public let tapeARNs: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
             self.limit = limit
             self.marker = marker
@@ -2686,6 +2781,7 @@ extension StorageGateway {
         /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name (ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description, and tape barcode.
         public let tapeArchives: [TapeArchive]?
 
+        @inlinable
         public init(marker: String? = nil, tapeArchives: [TapeArchive]? = nil) {
             self.marker = marker
             self.tapeArchives = tapeArchives
@@ -2704,6 +2800,7 @@ extension StorageGateway {
         /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
         public let marker: String?
 
+        @inlinable
         public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
@@ -2732,6 +2829,7 @@ extension StorageGateway {
         /// An array of TapeRecoveryPointInfos that are available for the specified gateway.
         public let tapeRecoveryPointInfos: [TapeRecoveryPointInfo]?
 
+        @inlinable
         public init(gatewayARN: String? = nil, marker: String? = nil, tapeRecoveryPointInfos: [TapeRecoveryPointInfo]? = nil) {
             self.gatewayARN = gatewayARN
             self.marker = marker
@@ -2754,6 +2852,7 @@ extension StorageGateway {
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
         public let tapeARNs: [String]?
 
+        @inlinable
         public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
@@ -2788,6 +2887,7 @@ extension StorageGateway {
         /// An array of virtual tape descriptions.
         public let tapes: [Tape]?
 
+        @inlinable
         public init(marker: String? = nil, tapes: [Tape]? = nil) {
             self.marker = marker
             self.tapes = tapes
@@ -2802,6 +2902,7 @@ extension StorageGateway {
     public struct DescribeUploadBufferInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2825,6 +2926,7 @@ extension StorageGateway {
         /// The total number of bytes being used in the gateway's upload buffer.
         public let uploadBufferUsedInBytes: Int64?
 
+        @inlinable
         public init(diskIds: [String]? = nil, gatewayARN: String? = nil, uploadBufferAllocatedInBytes: Int64? = nil, uploadBufferUsedInBytes: Int64? = nil) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
@@ -2849,6 +2951,7 @@ extension StorageGateway {
         /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway.
         public let vtlDeviceARNs: [String]?
 
+        @inlinable
         public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil, vtlDeviceARNs: [String]? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
@@ -2883,6 +2986,7 @@ extension StorageGateway {
         /// An array of VTL device objects composed of the Amazon Resource Name (ARN) of the VTL devices.
         public let vtlDevices: [VTLDevice]?
 
+        @inlinable
         public init(gatewayARN: String? = nil, marker: String? = nil, vtlDevices: [VTLDevice]? = nil) {
             self.gatewayARN = gatewayARN
             self.marker = marker
@@ -2899,6 +3003,7 @@ extension StorageGateway {
     public struct DescribeWorkingStorageInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -2922,6 +3027,7 @@ extension StorageGateway {
         /// The total working storage in bytes in use by the gateway. If no working storage is configured for the gateway, this field returns 0.
         public let workingStorageUsedInBytes: Int64?
 
+        @inlinable
         public init(diskIds: [String]? = nil, gatewayARN: String? = nil, workingStorageAllocatedInBytes: Int64? = nil, workingStorageUsedInBytes: Int64? = nil) {
             self.diskIds = diskIds
             self.gatewayARN = gatewayARN
@@ -2943,6 +3049,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume to detach from the gateway.
         public let volumeARN: String
 
+        @inlinable
         public init(forceDetach: Bool? = nil, volumeARN: String) {
             self.forceDetach = forceDetach
             self.volumeARN = volumeARN
@@ -2964,6 +3071,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume that was detached.
         public let volumeARN: String?
 
+        @inlinable
         public init(volumeARN: String? = nil) {
             self.volumeARN = volumeARN
         }
@@ -2983,6 +3091,7 @@ extension StorageGateway {
         /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
         public let targetARN: String?
 
+        @inlinable
         public init(chapEnabled: Bool? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int? = nil, targetARN: String? = nil) {
             self.chapEnabled = chapEnabled
             self.networkInterfaceId = networkInterfaceId
@@ -3001,6 +3110,7 @@ extension StorageGateway {
     public struct DisableGatewayInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -3019,6 +3129,7 @@ extension StorageGateway {
         /// The unique Amazon Resource Name (ARN) of the disabled gateway.
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -3034,6 +3145,7 @@ extension StorageGateway {
         /// If this value is set to true, the operation disassociates an Amazon FSx file system immediately. It ends all data uploads to the file system, and the file system association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx file system does not disassociate until all data is uploaded.
         public let forceDelete: Bool?
 
+        @inlinable
         public init(fileSystemAssociationARN: String, forceDelete: Bool? = nil) {
             self.fileSystemAssociationARN = fileSystemAssociationARN
             self.forceDelete = forceDelete
@@ -3054,6 +3166,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the deleted file system association.
         public let fileSystemAssociationARN: String?
 
+        @inlinable
         public init(fileSystemAssociationARN: String? = nil) {
             self.fileSystemAssociationARN = fileSystemAssociationARN
         }
@@ -3079,6 +3192,7 @@ extension StorageGateway {
         /// A value that represents the status of a local disk.
         public let diskStatus: String?
 
+        @inlinable
         public init(diskAllocationResource: String? = nil, diskAllocationType: String? = nil, diskAttributeList: [String]? = nil, diskId: String? = nil, diskNode: String? = nil, diskPath: String? = nil, diskSizeInBytes: Int64? = nil, diskStatus: String? = nil) {
             self.diskAllocationResource = diskAllocationResource
             self.diskAllocationType = diskAllocationType
@@ -3106,6 +3220,7 @@ extension StorageGateway {
         /// A list of gateway IP addresses on which the associated Amazon FSx file system is available.  If multiple file systems are associated with this gateway, this field is required.
         public let ipAddresses: [String]?
 
+        @inlinable
         public init(ipAddresses: [String]? = nil) {
             self.ipAddresses = ipAddresses
         }
@@ -3131,6 +3246,7 @@ extension StorageGateway {
         public let fileShareType: FileShareType?
         public let gatewayARN: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil, fileShareId: String? = nil, fileShareStatus: String? = nil, fileShareType: FileShareType? = nil, gatewayARN: String? = nil) {
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
@@ -3166,6 +3282,7 @@ extension StorageGateway {
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, endpointNetworkConfiguration: EndpointNetworkConfiguration? = nil, fileSystemAssociationARN: String? = nil, fileSystemAssociationStatus: String? = nil, fileSystemAssociationStatusDetails: [FileSystemAssociationStatusDetail]? = nil, gatewayARN: String? = nil, locationARN: String? = nil, tags: [Tag]? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
@@ -3195,6 +3312,7 @@ extension StorageGateway {
         /// The error code for a given file system association status.
         public let errorCode: String?
 
+        @inlinable
         public init(errorCode: String? = nil) {
             self.errorCode = errorCode
         }
@@ -3213,6 +3331,7 @@ extension StorageGateway {
         public let fileSystemAssociationStatus: String?
         public let gatewayARN: String?
 
+        @inlinable
         public init(fileSystemAssociationARN: String? = nil, fileSystemAssociationId: String? = nil, fileSystemAssociationStatus: String? = nil, gatewayARN: String? = nil) {
             self.fileSystemAssociationARN = fileSystemAssociationARN
             self.fileSystemAssociationId = fileSystemAssociationId
@@ -3252,6 +3371,7 @@ extension StorageGateway {
         /// The version number of the software running on the gateway appliance.
         public let softwareVersion: String?
 
+        @inlinable
         public init(deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayOperationalState: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, hostEnvironmentId: String? = nil, softwareVersion: String? = nil) {
             self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
@@ -3297,6 +3417,7 @@ extension StorageGateway {
         /// Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be enabled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permissions to join computers to the domain.
         public let userName: String
 
+        @inlinable
         public init(domainControllers: [String]? = nil, domainName: String, gatewayARN: String, organizationalUnit: String? = nil, password: String, timeoutInSeconds: Int? = nil, userName: String) {
             self.domainControllers = domainControllers
             self.domainName = domainName
@@ -3347,6 +3468,7 @@ extension StorageGateway {
         /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
         public let gatewayARN: String?
 
+        @inlinable
         public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, gatewayARN: String? = nil) {
             self.activeDirectoryStatus = activeDirectoryStatus
             self.gatewayARN = gatewayARN
@@ -3361,6 +3483,7 @@ extension StorageGateway {
     public struct ListAutomaticTapeCreationPoliciesInput: AWSEncodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -3379,6 +3502,7 @@ extension StorageGateway {
         /// Gets a listing of information about the gateway's automatic tape creation policies, including the automatic tape creation rules and the gateway that is using the policies.
         public let automaticTapeCreationPolicyInfos: [AutomaticTapeCreationPolicyInfo]?
 
+        @inlinable
         public init(automaticTapeCreationPolicyInfos: [AutomaticTapeCreationPolicyInfo]? = nil) {
             self.automaticTapeCreationPolicyInfos = automaticTapeCreationPolicyInfos
         }
@@ -3396,6 +3520,7 @@ extension StorageGateway {
         /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
         public let marker: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
@@ -3425,6 +3550,7 @@ extension StorageGateway {
         /// If a value is present, there are more file shares to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file shares.
         public let nextMarker: String?
 
+        @inlinable
         public init(fileShareInfoList: [FileShareInfo]? = nil, marker: String? = nil, nextMarker: String? = nil) {
             self.fileShareInfoList = fileShareInfoList
             self.marker = marker
@@ -3445,6 +3571,7 @@ extension StorageGateway {
         /// Opaque pagination token returned from a previous ListFileSystemAssociations operation. If present, Marker specifies where to continue the list from after a previous call to ListFileSystemAssociations. Optional.
         public let marker: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
@@ -3474,6 +3601,7 @@ extension StorageGateway {
         /// If a value is present, there are more file system associations to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file system associations.
         public let nextMarker: String?
 
+        @inlinable
         public init(fileSystemAssociationSummaryList: [FileSystemAssociationSummary]? = nil, marker: String? = nil, nextMarker: String? = nil) {
             self.fileSystemAssociationSummaryList = fileSystemAssociationSummaryList
             self.marker = marker
@@ -3493,6 +3621,7 @@ extension StorageGateway {
         /// An opaque string that indicates the position at which to begin the returned list of gateways.
         public let marker: String?
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil) {
             self.limit = limit
             self.marker = marker
@@ -3516,6 +3645,7 @@ extension StorageGateway {
         /// Use the marker in your next request to fetch the next set of gateways in the list. If there are no more gateways to list, this field does not appear in the response.
         public let marker: String?
 
+        @inlinable
         public init(gateways: [GatewayInfo]? = nil, marker: String? = nil) {
             self.gateways = gateways
             self.marker = marker
@@ -3530,6 +3660,7 @@ extension StorageGateway {
     public struct ListLocalDisksInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -3549,6 +3680,7 @@ extension StorageGateway {
         public let disks: [Disk]?
         public let gatewayARN: String?
 
+        @inlinable
         public init(disks: [Disk]? = nil, gatewayARN: String? = nil) {
             self.disks = disks
             self.gatewayARN = gatewayARN
@@ -3568,6 +3700,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil, resourceARN: String) {
             self.limit = limit
             self.marker = marker
@@ -3597,6 +3730,7 @@ extension StorageGateway {
         /// An array that contains the tags for the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(marker: String? = nil, resourceARN: String? = nil, tags: [Tag]? = nil) {
             self.marker = marker
             self.resourceARN = resourceARN
@@ -3618,6 +3752,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of each of the custom tape pools you want to list. If you don't specify a custom tape pool ARN, the response lists all custom tape pools.
         public let poolARNs: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil, poolARNs: [String]? = nil) {
             self.limit = limit
             self.marker = marker
@@ -3647,6 +3782,7 @@ extension StorageGateway {
         /// An array of PoolInfo objects, where each object describes a single custom tape pool. If there are no custom tape pools, the PoolInfos is an empty array.
         public let poolInfos: [PoolInfo]?
 
+        @inlinable
         public init(marker: String? = nil, poolInfos: [PoolInfo]? = nil) {
             self.marker = marker
             self.poolInfos = poolInfos
@@ -3665,6 +3801,7 @@ extension StorageGateway {
         public let marker: String?
         public let tapeARNs: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
             self.limit = limit
             self.marker = marker
@@ -3694,6 +3831,7 @@ extension StorageGateway {
         public let marker: String?
         public let tapeInfos: [TapeInfo]?
 
+        @inlinable
         public init(marker: String? = nil, tapeInfos: [TapeInfo]? = nil) {
             self.marker = marker
             self.tapeInfos = tapeInfos
@@ -3709,6 +3847,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
         public let volumeARN: String
 
+        @inlinable
         public init(volumeARN: String) {
             self.volumeARN = volumeARN
         }
@@ -3728,6 +3867,7 @@ extension StorageGateway {
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
         public let initiators: [String]?
 
+        @inlinable
         public init(initiators: [String]? = nil) {
             self.initiators = initiators
         }
@@ -3740,6 +3880,7 @@ extension StorageGateway {
     public struct ListVolumeRecoveryPointsInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -3759,6 +3900,7 @@ extension StorageGateway {
         /// An array of VolumeRecoveryPointInfo objects.
         public let volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]?
 
+        @inlinable
         public init(gatewayARN: String? = nil, volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]? = nil) {
             self.gatewayARN = gatewayARN
             self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
@@ -3777,6 +3919,7 @@ extension StorageGateway {
         /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
         public let marker: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
@@ -3805,6 +3948,7 @@ extension StorageGateway {
         /// An array of VolumeInfo objects, where each object describes an iSCSI volume. If no volumes are defined for the gateway, then VolumeInfos is an empty array "[]".
         public let volumeInfos: [VolumeInfo]?
 
+        @inlinable
         public init(gatewayARN: String? = nil, marker: String? = nil, volumeInfos: [VolumeInfo]? = nil) {
             self.gatewayARN = gatewayARN
             self.marker = marker
@@ -3828,6 +3972,7 @@ extension StorageGateway {
         /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody.
         public let ownerId: Int64?
 
+        @inlinable
         public init(directoryMode: String? = nil, fileMode: String? = nil, groupId: Int64? = nil, ownerId: Int64? = nil) {
             self.directoryMode = directoryMode
             self.fileMode = fileMode
@@ -3896,6 +4041,7 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
+        @inlinable
         public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
@@ -3925,6 +4071,7 @@ extension StorageGateway {
         }
 
         @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        @inlinable
         public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
@@ -3990,6 +4137,7 @@ extension StorageGateway {
         /// The Media Access Control (MAC) address of the interface.  This is currently unsupported and will not be returned in output.
         public let macAddress: String?
 
+        @inlinable
         public init(ipv4Address: String? = nil, ipv6Address: String? = nil, macAddress: String? = nil) {
             self.ipv4Address = ipv4Address
             self.ipv6Address = ipv6Address
@@ -4006,6 +4154,7 @@ extension StorageGateway {
     public struct NotifyWhenUploadedInput: AWSEncodableShape {
         public let fileShareARN: String
 
+        @inlinable
         public init(fileShareARN: String) {
             self.fileShareARN = fileShareARN
         }
@@ -4024,6 +4173,7 @@ extension StorageGateway {
         public let fileShareARN: String?
         public let notificationId: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil, notificationId: String? = nil) {
             self.fileShareARN = fileShareARN
             self.notificationId = notificationId
@@ -4049,6 +4199,7 @@ extension StorageGateway {
         /// The storage class that is associated with the custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let storageClass: TapeStorageClass?
 
+        @inlinable
         public init(poolARN: String? = nil, poolName: String? = nil, poolStatus: PoolStatus? = nil, retentionLockTimeInDays: Int? = nil, retentionLockType: RetentionLockType? = nil, storageClass: TapeStorageClass? = nil) {
             self.poolARN = poolARN
             self.poolName = poolName
@@ -4076,6 +4227,7 @@ extension StorageGateway {
         /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true, each folder that is listed in FolderList is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true. Valid Values: true | false
         public let recursive: Bool?
 
+        @inlinable
         public init(fileShareARN: String, folderList: [String]? = nil, recursive: Bool? = nil) {
             self.fileShareARN = fileShareARN
             self.folderList = folderList
@@ -4104,6 +4256,7 @@ extension StorageGateway {
         public let fileShareARN: String?
         public let notificationId: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil, notificationId: String? = nil) {
             self.fileShareARN = fileShareARN
             self.notificationId = notificationId
@@ -4121,6 +4274,7 @@ extension StorageGateway {
         /// The keys of the tags you want to remove from the specified resource. A tag is composed of a key-value pair.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4146,6 +4300,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
         public let resourceARN: String?
 
+        @inlinable
         public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
@@ -4158,6 +4313,7 @@ extension StorageGateway {
     public struct ResetCacheInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -4175,6 +4331,7 @@ extension StorageGateway {
     public struct ResetCacheOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4190,6 +4347,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
         public let tapeARN: String
 
+        @inlinable
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
@@ -4213,6 +4371,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -4227,6 +4386,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
         public let tapeARN: String
 
+        @inlinable
         public init(gatewayARN: String, tapeARN: String) {
             self.gatewayARN = gatewayARN
             self.tapeARN = tapeARN
@@ -4250,6 +4410,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
         public let tapeARN: String?
 
+        @inlinable
         public init(tapeARN: String? = nil) {
             self.tapeARN = tapeARN
         }
@@ -4312,6 +4473,7 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
+        @inlinable
         public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
@@ -4346,6 +4508,7 @@ extension StorageGateway {
         }
 
         @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        @inlinable
         public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
@@ -4417,6 +4580,7 @@ extension StorageGateway {
         /// A list of Active Directory users and groups that have local Gateway Admin permissions. Acceptable formats include: DOMAIN\User1, user1, DOMAIN\group1, and group1. Gateway Admins can use the Shared Folders Microsoft Management Console snap-in to force-close files that are open and locked.
         public let gatewayAdmins: [String]?
 
+        @inlinable
         public init(gatewayAdmins: [String]? = nil) {
             self.gatewayAdmins = gatewayAdmins
         }
@@ -4439,6 +4603,7 @@ extension StorageGateway {
         /// The password you want to set for your VM local console.
         public let localConsolePassword: String
 
+        @inlinable
         public init(gatewayARN: String, localConsolePassword: String) {
             self.gatewayARN = gatewayARN
             self.localConsolePassword = localConsolePassword
@@ -4461,6 +4626,7 @@ extension StorageGateway {
     public struct SetLocalConsolePasswordOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4476,6 +4642,7 @@ extension StorageGateway {
         /// The password that you want to set for your SMB server.
         public let password: String
 
+        @inlinable
         public init(gatewayARN: String, password: String) {
             self.gatewayARN = gatewayARN
             self.password = password
@@ -4498,6 +4665,7 @@ extension StorageGateway {
     public struct SetSMBGuestPasswordOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4510,6 +4678,7 @@ extension StorageGateway {
     public struct ShutdownGatewayInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -4527,6 +4696,7 @@ extension StorageGateway {
     public struct ShutdownGatewayOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4540,6 +4710,7 @@ extension StorageGateway {
         /// Indicates the automatic update policy for a gateway.  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
         public let automaticUpdatePolicy: AutomaticUpdatePolicy?
 
+        @inlinable
         public init(automaticUpdatePolicy: AutomaticUpdatePolicy? = nil) {
             self.automaticUpdatePolicy = automaticUpdatePolicy
         }
@@ -4552,6 +4723,7 @@ extension StorageGateway {
     public struct StartAvailabilityMonitorTestInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -4569,6 +4741,7 @@ extension StorageGateway {
     public struct StartAvailabilityMonitorTestOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4581,6 +4754,7 @@ extension StorageGateway {
     public struct StartGatewayInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -4598,6 +4772,7 @@ extension StorageGateway {
     public struct StartGatewayOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4638,6 +4813,7 @@ extension StorageGateway {
         /// The size of the data stored on the volume in bytes. This value is calculated based on the number of blocks that are touched, instead of the actual amount of data written. This value can be useful for sequential write patterns but less accurate for random write patterns. VolumeUsedInBytes is different from the compressed size of the volume, which is the value that is used to calculate your bill.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public let volumeUsedInBytes: Int64?
 
+        @inlinable
         public init(createdDate: Date? = nil, kmsKey: String? = nil, preservedExistingData: Bool? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeDiskId: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
             self.createdDate = createdDate
             self.kmsKey = kmsKey
@@ -4681,6 +4857,7 @@ extension StorageGateway {
         /// Value of the tag key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4726,6 +4903,7 @@ extension StorageGateway {
         /// If the tape is archived as write-once-read-many (WORM), this value is true.
         public let worm: Bool?
 
+        @inlinable
         public init(kmsKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, progress: Double? = nil, retentionStartDate: Date? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vtlDevice: String? = nil, worm: Bool? = nil) {
             self.kmsKey = kmsKey
             self.poolEntryDate = poolEntryDate
@@ -4786,6 +4964,7 @@ extension StorageGateway {
         /// Set to true if the archived tape is stored as write-once-read-many (WORM).
         public let worm: Bool?
 
+        @inlinable
         public init(completionTime: Date? = nil, kmsKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, retentionStartDate: Date? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, worm: Bool? = nil) {
             self.completionTime = completionTime
             self.kmsKey = kmsKey
@@ -4837,6 +5016,7 @@ extension StorageGateway {
         /// The status of the tape.
         public let tapeStatus: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, retentionStartDate: Date? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
             self.gatewayARN = gatewayARN
             self.poolEntryDate = poolEntryDate
@@ -4870,6 +5050,7 @@ extension StorageGateway {
         /// The status of the virtual tapes.
         public let tapeStatus: String?
 
+        @inlinable
         public init(tapeARN: String? = nil, tapeRecoveryPointTime: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil) {
             self.tapeARN = tapeARN
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
@@ -4890,6 +5071,7 @@ extension StorageGateway {
         public let automaticTapeCreationRules: [AutomaticTapeCreationRule]
         public let gatewayARN: String
 
+        @inlinable
         public init(automaticTapeCreationRules: [AutomaticTapeCreationRule], gatewayARN: String) {
             self.automaticTapeCreationRules = automaticTapeCreationRules
             self.gatewayARN = gatewayARN
@@ -4914,6 +5096,7 @@ extension StorageGateway {
     public struct UpdateAutomaticTapeCreationPolicyOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4930,6 +5113,7 @@ extension StorageGateway {
         public let averageUploadRateLimitInBitsPerSec: Int64?
         public let gatewayARN: String
 
+        @inlinable
         public init(averageDownloadRateLimitInBitsPerSec: Int64? = nil, averageUploadRateLimitInBitsPerSec: Int64? = nil, gatewayARN: String) {
             self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
@@ -4953,6 +5137,7 @@ extension StorageGateway {
     public struct UpdateBandwidthRateLimitOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -4967,6 +5152,7 @@ extension StorageGateway {
         public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]
         public let gatewayARN: String
 
+        @inlinable
         public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval], gatewayARN: String) {
             self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
             self.gatewayARN = gatewayARN
@@ -4990,6 +5176,7 @@ extension StorageGateway {
     public struct UpdateBandwidthRateLimitScheduleOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -5009,6 +5196,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
         public let targetARN: String
 
+        @inlinable
         public init(initiatorName: String, secretToAuthenticateInitiator: String, secretToAuthenticateTarget: String? = nil, targetARN: String) {
             self.initiatorName = initiatorName
             self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
@@ -5042,6 +5230,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
         public let targetARN: String?
 
+        @inlinable
         public init(initiatorName: String? = nil, targetARN: String? = nil) {
             self.initiatorName = initiatorName
             self.targetARN = targetARN
@@ -5064,6 +5253,7 @@ extension StorageGateway {
         /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group.
         public let userName: String?
 
+        @inlinable
         public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, fileSystemAssociationARN: String, password: String? = nil, userName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
@@ -5097,6 +5287,7 @@ extension StorageGateway {
         /// The ARN of the updated file system association.
         public let fileSystemAssociationARN: String?
 
+        @inlinable
         public init(fileSystemAssociationARN: String? = nil) {
             self.fileSystemAssociationARN = fileSystemAssociationARN
         }
@@ -5116,6 +5307,7 @@ extension StorageGateway {
         /// A value that indicates the time zone of the gateway.
         public let gatewayTimezone: String?
 
+        @inlinable
         public init(cloudWatchLogGroupARN: String? = nil, gatewayARN: String, gatewayCapacity: GatewayCapacity? = nil, gatewayName: String? = nil, gatewayTimezone: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.gatewayARN = gatewayARN
@@ -5149,6 +5341,7 @@ extension StorageGateway {
         /// The name you configured for your gateway.
         public let gatewayName: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil, gatewayName: String? = nil) {
             self.gatewayARN = gatewayARN
             self.gatewayName = gatewayName
@@ -5163,6 +5356,7 @@ extension StorageGateway {
     public struct UpdateGatewaySoftwareNowInput: AWSEncodableShape {
         public let gatewayARN: String
 
+        @inlinable
         public init(gatewayARN: String) {
             self.gatewayARN = gatewayARN
         }
@@ -5180,6 +5374,7 @@ extension StorageGateway {
     public struct UpdateGatewaySoftwareNowOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -5202,6 +5397,7 @@ extension StorageGateway {
         /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
         public let softwareUpdatePreferences: SoftwareUpdatePreferences?
 
+        @inlinable
         public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, softwareUpdatePreferences: SoftwareUpdatePreferences? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -5237,6 +5433,7 @@ extension StorageGateway {
     public struct UpdateMaintenanceStartTimeOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -5280,6 +5477,7 @@ extension StorageGateway {
         /// The user mapped to anonymous user. Valid values are the following:    RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.
         public let squash: String?
 
+        @inlinable
         public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsKey: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
@@ -5300,6 +5498,7 @@ extension StorageGateway {
         }
 
         @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        @inlinable
         public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
@@ -5367,6 +5566,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the updated file share.
         public let fileShareARN: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
         }
@@ -5418,6 +5618,7 @@ extension StorageGateway {
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
+        @inlinable
         public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, smbaclEnabled: Bool? = nil, validUserList: [String]? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
@@ -5442,6 +5643,7 @@ extension StorageGateway {
         }
 
         @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        @inlinable
         public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, smbaclEnabled: Bool? = nil, validUserList: [String]? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
@@ -5524,6 +5726,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the updated SMB file share.
         public let fileShareARN: String?
 
+        @inlinable
         public init(fileShareARN: String? = nil) {
             self.fileShareARN = fileShareARN
         }
@@ -5538,6 +5741,7 @@ extension StorageGateway {
         public let fileSharesVisible: Bool
         public let gatewayARN: String
 
+        @inlinable
         public init(fileSharesVisible: Bool, gatewayARN: String) {
             self.fileSharesVisible = fileSharesVisible
             self.gatewayARN = gatewayARN
@@ -5557,6 +5761,7 @@ extension StorageGateway {
     public struct UpdateSMBFileShareVisibilityOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -5571,6 +5776,7 @@ extension StorageGateway {
         /// A list of Active Directory users and groups that you want to grant special permissions for SMB file shares on the gateway.
         public let smbLocalGroups: SMBLocalGroups
 
+        @inlinable
         public init(gatewayARN: String, smbLocalGroups: SMBLocalGroups) {
             self.gatewayARN = gatewayARN
             self.smbLocalGroups = smbLocalGroups
@@ -5591,6 +5797,7 @@ extension StorageGateway {
     public struct UpdateSMBLocalGroupsOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -5605,6 +5812,7 @@ extension StorageGateway {
         /// Specifies the type of security strategy.  ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway.  MandatorySigning: If you choose this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.  MandatoryEncryption: If you choose this option, File Gateway only allows connections from SMBv3 clients that have encryption enabled. This option is recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.  MandatoryEncryptionNoAes128: If you choose this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
         public let smbSecurityStrategy: SMBSecurityStrategy
 
+        @inlinable
         public init(gatewayARN: String, smbSecurityStrategy: SMBSecurityStrategy) {
             self.gatewayARN = gatewayARN
             self.smbSecurityStrategy = smbSecurityStrategy
@@ -5624,6 +5832,7 @@ extension StorageGateway {
     public struct UpdateSMBSecurityStrategyOutput: AWSDecodableShape {
         public let gatewayARN: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil) {
             self.gatewayARN = gatewayARN
         }
@@ -5645,6 +5854,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
+        @inlinable
         public init(description: String? = nil, recurrenceInHours: Int, startAt: Int, tags: [Tag]? = nil, volumeARN: String) {
             self.description = description
             self.recurrenceInHours = recurrenceInHours
@@ -5681,6 +5891,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String?
 
+        @inlinable
         public init(volumeARN: String? = nil) {
             self.volumeARN = volumeARN
         }
@@ -5696,6 +5907,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the medium changer you want to select.
         public let vtlDeviceARN: String
 
+        @inlinable
         public init(deviceType: String, vtlDeviceARN: String) {
             self.deviceType = deviceType
             self.vtlDeviceARN = vtlDeviceARN
@@ -5718,6 +5930,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
         public let vtlDeviceARN: String?
 
+        @inlinable
         public init(vtlDeviceARN: String? = nil) {
             self.vtlDeviceARN = vtlDeviceARN
         }
@@ -5739,6 +5952,7 @@ extension StorageGateway {
         /// Specifies the vendor of the device that the VTL device object emulates.
         public let vtlDeviceVendor: String?
 
+        @inlinable
         public init(deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil, vtlDeviceARN: String? = nil, vtlDeviceProductIdentifier: String? = nil, vtlDeviceType: String? = nil, vtlDeviceVendor: String? = nil) {
             self.deviceiSCSIAttributes = deviceiSCSIAttributes
             self.vtlDeviceARN = vtlDeviceARN
@@ -5771,6 +5985,7 @@ extension StorageGateway {
         /// One of the VolumeType enumeration values describing the type of the volume.
         public let volumeType: String?
 
+        @inlinable
         public init(gatewayARN: String? = nil, gatewayId: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeType: String? = nil) {
             self.gatewayARN = gatewayARN
             self.gatewayId = gatewayId
@@ -5802,6 +6017,7 @@ extension StorageGateway {
         /// The size of the data stored on the volume in bytes.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public let volumeUsageInBytes: Int64?
 
+        @inlinable
         public init(volumeARN: String? = nil, volumeRecoveryPointTime: String? = nil, volumeSizeInBytes: Int64? = nil, volumeUsageInBytes: Int64? = nil) {
             self.volumeARN = volumeARN
             self.volumeRecoveryPointTime = volumeRecoveryPointTime
@@ -5829,6 +6045,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the volume target.
         public let targetARN: String?
 
+        @inlinable
         public init(chapEnabled: Bool? = nil, lunNumber: Int? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int? = nil, targetARN: String? = nil) {
             self.chapEnabled = chapEnabled
             self.lunNumber = lunNumber

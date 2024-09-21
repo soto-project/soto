@@ -136,6 +136,7 @@ extension RAM {
         /// The Amazon Resource Name (ARN) of the invitation that you want to accept.
         public let resourceShareInvitationArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
             self.clientToken = clientToken
             self.resourceShareInvitationArn = resourceShareInvitationArn
@@ -153,6 +154,7 @@ extension RAM {
         /// An object that contains information about the specified invitation.
         public let resourceShareInvitation: ResourceShareInvitation?
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
             self.clientToken = clientToken
             self.resourceShareInvitation = resourceShareInvitation
@@ -176,6 +178,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the resource share to which you want to add or replace permissions.
         public let resourceShareArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, permissionArn: String, permissionVersion: Int? = nil, replace: Bool? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
@@ -199,6 +202,7 @@ extension RAM {
         /// A return value of true indicates that the request succeeded.  A value of false indicates that the request failed.
         public let returnValue: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.returnValue = returnValue
@@ -222,6 +226,7 @@ extension RAM {
         /// Specifies from which source accounts the service principal has access to the resources in this resource share.
         public let sources: [String]?
 
+        @inlinable
         public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String, sources: [String]? = nil) {
             self.clientToken = clientToken
             self.principals = principals
@@ -245,6 +250,7 @@ extension RAM {
         /// An array of objects that contain information about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
             self.clientToken = clientToken
             self.resourceShareAssociations = resourceShareAssociations
@@ -274,6 +280,7 @@ extension RAM {
         /// The current status of the association between the permission and the resource share. The following are the possible values:    ATTACHABLE – This permission or version can be associated  with resource shares.    UNATTACHABLE – This permission or version can't  currently be associated with resource shares.    DELETING – This permission or version is in the process of being deleted.    DELETED – This permission or version is deleted.
         public let status: String?
 
+        @inlinable
         public init(arn: String? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, lastUpdatedTime: Date? = nil, permissionVersion: String? = nil, resourceShareArn: String? = nil, resourceType: String? = nil, status: String? = nil) {
             self.arn = arn
             self.defaultVersion = defaultVersion
@@ -309,6 +316,7 @@ extension RAM {
         /// Specifies a list of one or more tag key and value pairs to attach to the permission.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = nil, name: String, policyTemplate: String, resourceType: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.name = name
@@ -338,6 +346,7 @@ extension RAM {
         /// A structure with information about this customer managed permission.
         public let permission: ResourceSharePermissionSummary?
 
+        @inlinable
         public init(clientToken: String? = nil, permission: ResourceSharePermissionSummary? = nil) {
             self.clientToken = clientToken
             self.permission = permission
@@ -357,6 +366,7 @@ extension RAM {
         /// A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
         public let policyTemplate: String
 
+        @inlinable
         public init(clientToken: String? = nil, permissionArn: String, policyTemplate: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
@@ -375,6 +385,7 @@ extension RAM {
         public let clientToken: String?
         public let permission: ResourceSharePermissionDetail?
 
+        @inlinable
         public init(clientToken: String? = nil, permission: ResourceSharePermissionDetail? = nil) {
             self.clientToken = clientToken
             self.permission = permission
@@ -404,6 +415,7 @@ extension RAM {
         /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
         public let tags: [Tag]?
 
+        @inlinable
         public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, sources: [String]? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
@@ -433,6 +445,7 @@ extension RAM {
         /// An object with information about the new resource share.
         public let resourceShare: ResourceShare?
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShare: ResourceShare? = nil) {
             self.clientToken = clientToken
             self.resourceShare = resourceShare
@@ -450,6 +463,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the customer managed permission that you want to delete.
         public let permissionArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, permissionArn: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
@@ -473,6 +487,7 @@ extension RAM {
         /// A boolean that indicates whether the delete operations succeeded.
         public let returnValue: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, permissionStatus: PermissionStatus? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.permissionStatus = permissionStatus
@@ -494,6 +509,7 @@ extension RAM {
         /// Specifies the version number to delete. You can't delete the default version for a customer managed permission. You can't delete a version if it's the only version of the permission. You must either first create another version, or delete the permission completely. You can't delete a version if it is attached to any resource shares. If the version is the default, you must first use SetDefaultPermissionVersion to set a different version as the default for the customer managed permission, and then use AssociateResourceSharePermission to update your resource shares to use the new default version.
         public let permissionVersion: Int
 
+        @inlinable
         public init(clientToken: String? = nil, permissionArn: String, permissionVersion: Int) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
@@ -519,6 +535,7 @@ extension RAM {
         /// A boolean value that indicates whether the operation is successful.
         public let returnValue: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, permissionStatus: PermissionStatus? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.permissionStatus = permissionStatus
@@ -538,6 +555,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the resource share to delete.
         public let resourceShareArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.resourceShareArn = resourceShareArn
@@ -559,6 +577,7 @@ extension RAM {
         /// A return value of true indicates that the request succeeded.  A value of false indicates that the request failed.
         public let returnValue: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.returnValue = returnValue
@@ -578,6 +597,7 @@ extension RAM {
         /// The Amazon Resource Name (ARN) of the resource share that you want to remove the managed permission from.
         public let resourceShareArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, permissionArn: String, resourceShareArn: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
@@ -597,6 +617,7 @@ extension RAM {
         /// A return value of true indicates that the request succeeded.  A value of false indicates that the request failed.
         public let returnValue: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.returnValue = returnValue
@@ -620,6 +641,7 @@ extension RAM {
         /// Specifies from which source accounts the service principal no longer has access to the resources in this resource share.
         public let sources: [String]?
 
+        @inlinable
         public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String, sources: [String]? = nil) {
             self.clientToken = clientToken
             self.principals = principals
@@ -643,6 +665,7 @@ extension RAM {
         /// An array of objects with information about the updated associations for this resource share.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
             self.clientToken = clientToken
             self.resourceShareAssociations = resourceShareAssociations
@@ -662,6 +685,7 @@ extension RAM {
         /// A return value of true indicates that the request succeeded.  A value of false indicates that the request failed.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -677,6 +701,7 @@ extension RAM {
         /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version. To see the list of available versions, use ListPermissionVersions.
         public let permissionVersion: Int?
 
+        @inlinable
         public init(permissionArn: String, permissionVersion: Int? = nil) {
             self.permissionArn = permissionArn
             self.permissionVersion = permissionVersion
@@ -692,6 +717,7 @@ extension RAM {
         /// An object with details about the permission.
         public let permission: ResourceSharePermissionDetail?
 
+        @inlinable
         public init(permission: ResourceSharePermissionDetail? = nil) {
             self.permission = permission
         }
@@ -711,6 +737,7 @@ extension RAM {
         /// Specifies the Amazon Resource Names (ARNs) of the resources whose policies you want to retrieve.
         public let resourceArns: [String]
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -737,6 +764,7 @@ extension RAM {
         /// An array of resource policy documents in JSON format.
         public let policies: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, policies: [String]? = nil) {
             self.nextToken = nextToken
             self.policies = policies
@@ -764,6 +792,7 @@ extension RAM {
         /// Specifies a list of Amazon Resource Names (ARNs) of the resource share whose associations you want to retrieve.
         public let resourceShareArns: [String]?
 
+        @inlinable
         public init(associationStatus: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType, maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil) {
             self.associationStatus = associationStatus
             self.associationType = associationType
@@ -796,6 +825,7 @@ extension RAM {
         /// An array of objects that contain the details about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
             self.nextToken = nextToken
             self.resourceShareAssociations = resourceShareAssociations
@@ -817,6 +847,7 @@ extension RAM {
         /// Specifies the Amazon Resource Names (ARNs) of the resource share invitations you want information about.
         public let resourceShareInvitationArns: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, resourceShareInvitationArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -843,6 +874,7 @@ extension RAM {
         /// An array of objects that contain the details about the invitations.
         public let resourceShareInvitations: [ResourceShareInvitation]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceShareInvitations: [ResourceShareInvitation]? = nil) {
             self.nextToken = nextToken
             self.resourceShareInvitations = resourceShareInvitations
@@ -874,6 +906,7 @@ extension RAM {
         /// Specifies that you want to retrieve details of only those resource shares that match the specified tag keys and values.
         public let tagFilters: [TagFilter]?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, permissionArn: String? = nil, permissionVersion: Int? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -910,6 +943,7 @@ extension RAM {
         /// An array of objects that contain the information about the resource shares.
         public let resourceShares: [ResourceShare]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceShares: [ResourceShare]? = nil) {
             self.nextToken = nextToken
             self.resourceShares = resourceShares
@@ -931,6 +965,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.
         public let resourceShareInvitationArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceRegionScope: ResourceRegionScopeFilter? = nil, resourceShareInvitationArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -957,6 +992,7 @@ extension RAM {
         /// An array of objects that contain the information about the resources included the specified resource share.
         public let resources: [Resource]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -986,6 +1022,7 @@ extension RAM {
         /// Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
         public let resourceType: String?
 
+        @inlinable
         public init(associationStatus: ResourceShareAssociationStatus? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, maxResults: Int? = nil, nextToken: String? = nil, permissionArn: String? = nil, permissionVersion: Int? = nil, resourceType: String? = nil) {
             self.associationStatus = associationStatus
             self.defaultVersion = defaultVersion
@@ -1020,6 +1057,7 @@ extension RAM {
         /// A structure with information about this customer managed permission.
         public let permissions: [AssociatedPermission]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [AssociatedPermission]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1039,6 +1077,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the RAM permission whose versions you want to list. You can use the permissionVersion parameter on the AssociateResourceSharePermission operation to specify a non-default version to attach.
         public let permissionArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, permissionArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1063,6 +1102,7 @@ extension RAM {
         /// An array of objects that contain details for each of the available versions.
         public let permissions: [ResourceSharePermissionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1084,6 +1124,7 @@ extension RAM {
         /// Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the ListResourceTypes operation to get the specific string required.
         public let resourceType: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, permissionType: PermissionTypeFilter? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1110,6 +1151,7 @@ extension RAM {
         /// An array of objects with information about the permissions.
         public let permissions: [ResourceSharePermissionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1137,6 +1179,7 @@ extension RAM {
         /// Specifies that you want to list information for only principals associated with resource shares that include the specified resource type. For a list of valid values, query the ListResourceTypes operation.
         public let resourceType: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1169,6 +1212,7 @@ extension RAM {
         /// An array of objects that contain the details about the principals.
         public let principals: [Principal]?
 
+        @inlinable
         public init(nextToken: String? = nil, principals: [Principal]? = nil) {
             self.nextToken = nextToken
             self.principals = principals
@@ -1190,6 +1234,7 @@ extension RAM {
         /// A list of IDs. These values come from the idfield of the replacePermissionAssociationsWorkstructure returned by the ReplacePermissionAssociations operation.
         public let workIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: ReplacePermissionAssociationsWorkStatus? = nil, workIds: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1216,6 +1261,7 @@ extension RAM {
         /// An array of data structures that provide details of the matching work IDs.
         public let replacePermissionAssociationsWorks: [ReplacePermissionAssociationsWork]?
 
+        @inlinable
         public init(nextToken: String? = nil, replacePermissionAssociationsWorks: [ReplacePermissionAssociationsWork]? = nil) {
             self.nextToken = nextToken
             self.replacePermissionAssociationsWorks = replacePermissionAssociationsWorks
@@ -1235,6 +1281,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the resource share for which you want to retrieve the associated permissions.
         public let resourceShareArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1259,6 +1306,7 @@ extension RAM {
         /// An array of objects that describe the permissions associated with the resource share.
         public let permissions: [ResourceSharePermissionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1278,6 +1326,7 @@ extension RAM {
         /// Specifies that you want the results to include only  resources that have the specified scope.    ALL – the results include both global and  regional resources or resource types.    GLOBAL – the results include only global  resources or resource types.    REGIONAL – the results include only regional  resources or resource types.   The default value is ALL.
         public let resourceRegionScope: ResourceRegionScopeFilter?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceRegionScope: ResourceRegionScopeFilter? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1302,6 +1351,7 @@ extension RAM {
         /// An array of objects that contain information about the resource types that can be shared using RAM.
         public let resourceTypes: [ServiceNameAndResourceType]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceTypes: [ServiceNameAndResourceType]? = nil) {
             self.nextToken = nextToken
             self.resourceTypes = resourceTypes
@@ -1331,6 +1381,7 @@ extension RAM {
         /// Specifies that you want to list only the resource shares that include resources of the specified resource type. For valid values, query the ListResourceTypes operation.
         public let resourceType: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceRegionScope: ResourceRegionScopeFilter? = nil, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1365,6 +1416,7 @@ extension RAM {
         /// An array of objects that contain information about the resources.
         public let resources: [Resource]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -1388,6 +1440,7 @@ extension RAM {
         /// The Amazon Resource Name (ARN) of a resource share the principal is associated with.
         public let resourceShareArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, external: Bool? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, resourceShareArn: String? = nil) {
             self.creationTime = creationTime
             self.external = external
@@ -1413,6 +1466,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the CREATED_FROM_POLICY permission that you want to promote. You can get this Amazon Resource Name (ARN) by calling the ListResourceSharePermissions operation.
         public let permissionArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, name: String, permissionArn: String) {
             self.clientToken = clientToken
             self.name = name
@@ -1431,6 +1485,7 @@ extension RAM {
         public let clientToken: String?
         public let permission: ResourceSharePermissionSummary?
 
+        @inlinable
         public init(clientToken: String? = nil, permission: ResourceSharePermissionSummary? = nil) {
             self.clientToken = clientToken
             self.permission = permission
@@ -1446,6 +1501,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the resource share to promote.
         public let resourceShareArn: String
 
+        @inlinable
         public init(resourceShareArn: String) {
             self.resourceShareArn = resourceShareArn
         }
@@ -1463,6 +1519,7 @@ extension RAM {
         /// A return value of true indicates that the request succeeded.  A value of false indicates that the request failed.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -1478,6 +1535,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the invitation that you want to reject.
         public let resourceShareInvitationArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
             self.clientToken = clientToken
             self.resourceShareInvitationArn = resourceShareInvitationArn
@@ -1495,6 +1553,7 @@ extension RAM {
         /// An object that contains the details about the rejected invitation.
         public let resourceShareInvitation: ResourceShareInvitation?
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
             self.clientToken = clientToken
             self.resourceShareInvitation = resourceShareInvitation
@@ -1516,6 +1575,7 @@ extension RAM {
         /// Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion. The operation always associates the version that is currently the default for the specified managed permission.
         public let toPermissionArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, fromPermissionArn: String, fromPermissionVersion: Int? = nil, toPermissionArn: String) {
             self.clientToken = clientToken
             self.fromPermissionArn = fromPermissionArn
@@ -1537,6 +1597,7 @@ extension RAM {
         /// Specifies a data structure that you can use to track the asynchronous tasks that RAM performs to complete this operation. You can use the ListReplacePermissionAssociationsWork operation and pass the id value returned in this structure.
         public let replacePermissionAssociationsWork: ReplacePermissionAssociationsWork?
 
+        @inlinable
         public init(clientToken: String? = nil, replacePermissionAssociationsWork: ReplacePermissionAssociationsWork? = nil) {
             self.clientToken = clientToken
             self.replacePermissionAssociationsWork = replacePermissionAssociationsWork
@@ -1568,6 +1629,7 @@ extension RAM {
         /// The version of the managed permission that this background task is associating with the resource shares. This is always the version that is currently the default for this managed permission.
         public let toPermissionVersion: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, fromPermissionArn: String? = nil, fromPermissionVersion: String? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, status: ReplacePermissionAssociationsWorkStatus? = nil, statusMessage: String? = nil, toPermissionArn: String? = nil, toPermissionVersion: String? = nil) {
             self.creationTime = creationTime
             self.fromPermissionArn = fromPermissionArn
@@ -1613,6 +1675,7 @@ extension RAM {
         /// The resource type. This takes the form of: service-code:resource-code, and is case-insensitive. For example, an Amazon EC2 Subnet would be represented by the string ec2:subnet.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceGroupArn: String? = nil, resourceRegionScope: ResourceRegionScope? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1660,6 +1723,7 @@ extension RAM {
         /// The tag key and value pairs attached to the resource share.
         public let tags: [Tag]?
 
+        @inlinable
         public init(allowExternalPrincipals: Bool? = nil, creationTime: Date? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.creationTime = creationTime
@@ -1707,6 +1771,7 @@ extension RAM {
         /// A message about the status of the association.
         public let statusMessage: String?
 
+        @inlinable
         public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: Date? = nil, external: Bool? = nil, lastUpdatedTime: Date? = nil, resourceShareArn: String? = nil, resourceShareName: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
             self.associatedEntity = associatedEntity
             self.associationType = associationType
@@ -1752,6 +1817,7 @@ extension RAM {
         /// The current status of the invitation.
         public let status: ResourceShareInvitationStatus?
 
+        @inlinable
         public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, receiverArn: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
@@ -1765,6 +1831,7 @@ extension RAM {
         }
 
         @available(*, deprecated, message: "Members resourceShareAssociations have been deprecated")
+        @inlinable
         public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, receiverArn: String? = nil, resourceShareArn: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
@@ -1818,6 +1885,7 @@ extension RAM {
         /// The version of the permission described in this response.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, permissionType: PermissionType? = nil, resourceType: String? = nil, status: PermissionStatus? = nil, tags: [Tag]? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1877,6 +1945,7 @@ extension RAM {
         /// The version of the permission associated with this resource share.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permissionType: PermissionType? = nil, resourceType: String? = nil, status: String? = nil, tags: [Tag]? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1916,6 +1985,7 @@ extension RAM {
         /// The name of the Amazon Web Services service to which resources of this type belong.
         public let serviceName: String?
 
+        @inlinable
         public init(resourceRegionScope: ResourceRegionScope? = nil, resourceType: String? = nil, serviceName: String? = nil) {
             self.resourceRegionScope = resourceRegionScope
             self.resourceType = resourceType
@@ -1937,6 +2007,7 @@ extension RAM {
         /// Specifies the version number that you want to designate as the default for customer managed permission. To see a list of all available version numbers, use ListPermissionVersions.
         public let permissionVersion: Int
 
+        @inlinable
         public init(clientToken: String? = nil, permissionArn: String, permissionVersion: Int) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
@@ -1956,6 +2027,7 @@ extension RAM {
         /// A boolean value that indicates whether the operation was successful.
         public let returnValue: Bool?
 
+        @inlinable
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
             self.clientToken = clientToken
             self.returnValue = returnValue
@@ -1973,6 +2045,7 @@ extension RAM {
         /// The string value attached to the tag. The value can be an empty string. Key values are case sensitive.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1990,6 +2063,7 @@ extension RAM {
         /// A list of zero or more tag values. If no values are provided, then the filter matches any tag with the specified key, regardless of its value.
         public let tagValues: [String]?
 
+        @inlinable
         public init(tagKey: String? = nil, tagValues: [String]? = nil) {
             self.tagKey = tagKey
             self.tagValues = tagValues
@@ -2009,6 +2083,7 @@ extension RAM {
         /// A list of one or more tag key and value pairs. The tag key must be present and not be an empty string. The tag value must be present but can be an empty string.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String? = nil, resourceShareArn: String? = nil, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.resourceShareArn = resourceShareArn
@@ -2034,6 +2109,7 @@ extension RAM {
         /// Specifies a list of one or more tag keys that you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String? = nil, resourceShareArn: String? = nil, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.resourceShareArn = resourceShareArn
@@ -2061,6 +2137,7 @@ extension RAM {
         /// Specifies the Amazon Resource Name (ARN) of the resource share that you want to modify.
         public let resourceShareArn: String
 
+        @inlinable
         public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String? = nil, resourceShareArn: String) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
@@ -2082,6 +2159,7 @@ extension RAM {
         /// Information about the resource share.
         public let resourceShare: ResourceShare?
 
+        @inlinable
         public init(clientToken: String? = nil, resourceShare: ResourceShare? = nil) {
             self.clientToken = clientToken
             self.resourceShare = resourceShare

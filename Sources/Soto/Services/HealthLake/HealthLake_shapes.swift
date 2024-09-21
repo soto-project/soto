@@ -94,6 +94,7 @@ extension HealthLake {
         ///  Resource tags that are applied to a data store when it is created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, identityProviderConfiguration: IdentityProviderConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.datastoreName = datastoreName
@@ -140,6 +141,7 @@ extension HealthLake {
         /// The status of the FHIR data store.
         public let datastoreStatus: DatastoreStatus
 
+        @inlinable
         public init(datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreStatus: DatastoreStatus) {
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -165,6 +167,7 @@ extension HealthLake {
         /// Allows the user to filter data store results by status.
         public let datastoreStatus: DatastoreStatus?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, datastoreName: String? = nil, datastoreStatus: DatastoreStatus? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -210,6 +213,7 @@ extension HealthLake {
         ///  The server-side encryption key configuration for a customer provided encryption key (CMK).
         public let sseConfiguration: SseConfiguration?
 
+        @inlinable
         public init(createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, errorCause: ErrorCause? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
@@ -243,6 +247,7 @@ extension HealthLake {
         ///  The AWS-generated ID for the data store to be deleted.
         public let datastoreId: String
 
+        @inlinable
         public init(datastoreId: String) {
             self.datastoreId = datastoreId
         }
@@ -268,6 +273,7 @@ extension HealthLake {
         /// The status of the data store that the user has requested to be deleted.
         public let datastoreStatus: DatastoreStatus
 
+        @inlinable
         public init(datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreStatus: DatastoreStatus) {
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -287,6 +293,7 @@ extension HealthLake {
         /// The AWS-generated data store ID.
         public let datastoreId: String
 
+        @inlinable
         public init(datastoreId: String) {
             self.datastoreId = datastoreId
         }
@@ -306,6 +313,7 @@ extension HealthLake {
         /// All properties associated with a data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
         public let datastoreProperties: DatastoreProperties
 
+        @inlinable
         public init(datastoreProperties: DatastoreProperties) {
             self.datastoreProperties = datastoreProperties
         }
@@ -321,6 +329,7 @@ extension HealthLake {
         /// The AWS generated ID for an export job.
         public let jobId: String
 
+        @inlinable
         public init(datastoreId: String, jobId: String) {
             self.datastoreId = datastoreId
             self.jobId = jobId
@@ -345,6 +354,7 @@ extension HealthLake {
         /// Displays the properties of the export job, including the ID, Arn, Name, and the status of the job.
         public let exportJobProperties: ExportJobProperties
 
+        @inlinable
         public init(exportJobProperties: ExportJobProperties) {
             self.exportJobProperties = exportJobProperties
         }
@@ -360,6 +370,7 @@ extension HealthLake {
         /// The AWS-generated job ID.
         public let jobId: String
 
+        @inlinable
         public init(datastoreId: String, jobId: String) {
             self.datastoreId = datastoreId
             self.jobId = jobId
@@ -384,6 +395,7 @@ extension HealthLake {
         /// The properties of the Import job request, including the ID, ARN, name, status of the job, and the progress report of the job.
         public let importJobProperties: ImportJobProperties
 
+        @inlinable
         public init(importJobProperties: ImportJobProperties) {
             self.importJobProperties = importJobProperties
         }
@@ -399,6 +411,7 @@ extension HealthLake {
         /// The text of the error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCategory: ErrorCategory? = nil, errorMessage: String? = nil) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
@@ -430,6 +443,7 @@ extension HealthLake {
         /// The time an export job was initiated.
         public let submitTime: Date
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, datastoreId: String, endTime: Date? = nil, jobId: String, jobName: String? = nil, jobStatus: JobStatus, message: String? = nil, outputDataConfig: OutputDataConfig, submitTime: Date) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -465,6 +479,7 @@ extension HealthLake {
         /// The JSON metadata elements that you want to use in your identity provider configuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see Metadata in SMART's App Launch specification.  authorization_endpoint: The URL to the OAuth2 authorization endpoint.  grant_types_supported:  An array of grant types that are supported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials.  token_endpoint: The URL to the OAuth2 token endpoint.  capabilities: An array of strings of the SMART capabilities that the authorization server supports.  code_challenge_methods_supported: An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods.
         public let metadata: String?
 
+        @inlinable
         public init(authorizationStrategy: AuthorizationStrategy, fineGrainedAuthorizationEnabled: Bool? = nil, idpLambdaArn: String? = nil, metadata: String? = nil) {
             self.authorizationStrategy = authorizationStrategy
             self.fineGrainedAuthorizationEnabled = fineGrainedAuthorizationEnabled
@@ -509,6 +524,7 @@ extension HealthLake {
         /// The time that the Import job was submitted for processing.
         public let submitTime: Date
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, datastoreId: String, endTime: Date? = nil, inputDataConfig: InputDataConfig, jobId: String, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig? = nil, jobProgressReport: JobProgressReport? = nil, jobStatus: JobStatus, message: String? = nil, submitTime: Date) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -556,6 +572,7 @@ extension HealthLake {
         /// The size (in MB) of the files scanned from the input S3 bucket.
         public let totalSizeOfScannedFilesInMB: Double?
 
+        @inlinable
         public init(throughput: Double? = nil, totalNumberOfFilesReadWithCustomerError: Int64? = nil, totalNumberOfImportedFiles: Int64? = nil, totalNumberOfResourcesImported: Int64? = nil, totalNumberOfResourcesScanned: Int64? = nil, totalNumberOfResourcesWithCustomerError: Int64? = nil, totalNumberOfScannedFiles: Int64? = nil, totalSizeOfScannedFilesInMB: Double? = nil) {
             self.throughput = throughput
             self.totalNumberOfFilesReadWithCustomerError = totalNumberOfFilesReadWithCustomerError
@@ -585,6 +602,7 @@ extension HealthLake {
         ///  The KMS encryption key id/alias used to encrypt the data store contents at rest.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(cmkType: CmkType, kmsKeyId: String? = nil) {
             self.cmkType = cmkType
             self.kmsKeyId = kmsKeyId
@@ -610,6 +628,7 @@ extension HealthLake {
         /// Fetches the next page of data stores when results are paginated.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: DatastoreFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -637,6 +656,7 @@ extension HealthLake {
         /// Pagination token that can be used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(datastorePropertiesList: [DatastoreProperties], nextToken: String? = nil) {
             self.datastorePropertiesList = datastorePropertiesList
             self.nextToken = nextToken
@@ -664,6 +684,7 @@ extension HealthLake {
         ///  This parameter limits the response to FHIR export jobs submitted before a user specified date.
         public let submittedBefore: Date?
 
+        @inlinable
         public init(datastoreId: String, jobName: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, submittedAfter: Date? = nil, submittedBefore: Date? = nil) {
             self.datastoreId = datastoreId
             self.jobName = jobName
@@ -704,6 +725,7 @@ extension HealthLake {
         ///  A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
         public let nextToken: String?
 
+        @inlinable
         public init(exportJobPropertiesList: [ExportJobProperties], nextToken: String? = nil) {
             self.exportJobPropertiesList = exportJobPropertiesList
             self.nextToken = nextToken
@@ -731,6 +753,7 @@ extension HealthLake {
         ///  This parameter limits the response to FHIR import jobs submitted before a user specified date.
         public let submittedBefore: Date?
 
+        @inlinable
         public init(datastoreId: String, jobName: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, submittedAfter: Date? = nil, submittedBefore: Date? = nil) {
             self.datastoreId = datastoreId
             self.jobName = jobName
@@ -771,6 +794,7 @@ extension HealthLake {
         ///  A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
         public let nextToken: String?
 
+        @inlinable
         public init(importJobPropertiesList: [ImportJobProperties], nextToken: String? = nil) {
             self.importJobPropertiesList = importJobPropertiesList
             self.nextToken = nextToken
@@ -786,6 +810,7 @@ extension HealthLake {
         ///  The Amazon Resource Name(ARN) of the data store for which tags are being added.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -805,6 +830,7 @@ extension HealthLake {
         ///  Returns a list of tags associated with a data store.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -818,6 +844,7 @@ extension HealthLake {
         /// The type of preloaded data. Only Synthea preloaded data is supported.
         public let preloadDataType: PreloadDataType
 
+        @inlinable
         public init(preloadDataType: PreloadDataType) {
             self.preloadDataType = preloadDataType
         }
@@ -833,6 +860,7 @@ extension HealthLake {
         ///  The S3Uri is the user specified S3 location of the FHIR data to be imported into AWS HealthLake.
         public let s3Uri: String
 
+        @inlinable
         public init(kmsKeyId: String, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -856,6 +884,7 @@ extension HealthLake {
         ///  The KMS encryption configuration used to provide details for data encryption.
         public let kmsEncryptionConfig: KmsEncryptionConfig
 
+        @inlinable
         public init(kmsEncryptionConfig: KmsEncryptionConfig) {
             self.kmsEncryptionConfig = kmsEncryptionConfig
         }
@@ -881,6 +910,7 @@ extension HealthLake {
         /// The output data configuration that was supplied when the export job was created.
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientToken: String = StartFHIRExportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -922,6 +952,7 @@ extension HealthLake {
         /// The status of a FHIR export job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED, or FAILED.
         public let jobStatus: JobStatus
 
+        @inlinable
         public init(datastoreId: String? = nil, jobId: String, jobStatus: JobStatus) {
             self.datastoreId = datastoreId
             self.jobId = jobId
@@ -948,6 +979,7 @@ extension HealthLake {
         public let jobName: String?
         public let jobOutputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientToken: String = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputDataConfig: InputDataConfig, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -992,6 +1024,7 @@ extension HealthLake {
         /// The status of an import job.
         public let jobStatus: JobStatus
 
+        @inlinable
         public init(datastoreId: String? = nil, jobId: String, jobStatus: JobStatus) {
             self.datastoreId = datastoreId
             self.jobId = jobId
@@ -1011,6 +1044,7 @@ extension HealthLake {
         ///  The value portion of a tag. Tag values are case sensitive.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1036,6 +1070,7 @@ extension HealthLake {
         ///  The user specified key and value pair tags being added to a data store.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1067,6 +1102,7 @@ extension HealthLake {
         ///  The keys for the tags to be removed from the HealthLake data store.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1098,6 +1134,7 @@ extension HealthLake {
         /// The S3Uri is the user specified S3 location of the FHIR data to be imported into AWS HealthLake.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Uri: String? = nil) {
             self.s3Uri = s3Uri
         }
@@ -1116,6 +1153,7 @@ extension HealthLake {
         ///  The output data configuration that was supplied when the export job was created.
         public let s3Configuration: S3Configuration?
 
+        @inlinable
         public init(s3Configuration: S3Configuration? = nil) {
             self.s3Configuration = s3Configuration
         }

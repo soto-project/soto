@@ -131,6 +131,7 @@ extension TaxSettings {
         /// Your TRN information. Instead of having full legal address, here TRN information will have jurisdiction details (for example, country code and state/region/province if applicable).
         public let taxRegistration: TaxRegistrationWithJurisdiction?
 
+        @inlinable
         public init(accountId: String? = nil, accountMetaData: AccountMetaData? = nil, taxInheritanceDetails: TaxInheritanceDetails? = nil, taxRegistration: TaxRegistrationWithJurisdiction? = nil) {
             self.accountId = accountId
             self.accountMetaData = accountMetaData
@@ -157,6 +158,7 @@ extension TaxSettings {
         ///  Seller information associated with the account.
         public let seller: String?
 
+        @inlinable
         public init(accountName: String? = nil, address: Address? = nil, addressRoleMap: [AddressRoleType: Jurisdiction]? = nil, addressType: AddressRoleType? = nil, seller: String? = nil) {
             self.accountName = accountName
             self.address = address
@@ -204,6 +206,7 @@ extension TaxSettings {
         ///  Additional tax information associated with your TRN in Ukraine.
         public let ukraineAdditionalInfo: UkraineAdditionalInfo?
 
+        @inlinable
         public init(canadaAdditionalInfo: CanadaAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil) {
             self.canadaAdditionalInfo = canadaAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
@@ -283,6 +286,7 @@ extension TaxSettings {
         ///  Additional tax information associated with your TRN in Ukraine.
         public let ukraineAdditionalInfo: UkraineAdditionalInfo?
 
+        @inlinable
         public init(brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil) {
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
@@ -340,6 +344,7 @@ extension TaxSettings {
         /// The state, region, or province that the address is located. If this is required for tax settings, use the same name as shown on the Tax Settings page.
         public let stateOrRegion: String?
 
+        @inlinable
         public init(addressLine1: String, addressLine2: String? = nil, addressLine3: String? = nil, city: String, countryCode: String, districtOrCounty: String? = nil, postalCode: String, stateOrRegion: String? = nil) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
@@ -398,6 +403,7 @@ extension TaxSettings {
         ///  The error message for an individual failure in the BatchDeleteTaxRegistration operation.
         public let message: String
 
+        @inlinable
         public init(accountId: String, code: String? = nil, message: String) {
             self.accountId = accountId
             self.code = code
@@ -415,6 +421,7 @@ extension TaxSettings {
         /// List of unique account identifiers.
         public let accountIds: [String]
 
+        @inlinable
         public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
@@ -438,6 +445,7 @@ extension TaxSettings {
         /// The list of errors for the accounts the TRN information could not be deleted for.
         public let errors: [BatchDeleteTaxRegistrationError]
 
+        @inlinable
         public init(errors: [BatchDeleteTaxRegistrationError]) {
             self.errors = errors
         }
@@ -455,6 +463,7 @@ extension TaxSettings {
         ///  The error message for an individual failure in the BatchPutTaxRegistration operation.
         public let message: String
 
+        @inlinable
         public init(accountId: String, code: String? = nil, message: String) {
             self.accountId = accountId
             self.code = code
@@ -474,6 +483,7 @@ extension TaxSettings {
         /// Your TRN information that will be stored to the accounts mentioned in putEntries.
         public let taxRegistrationEntry: TaxRegistrationEntry
 
+        @inlinable
         public init(accountIds: [String], taxRegistrationEntry: TaxRegistrationEntry) {
             self.accountIds = accountIds
             self.taxRegistrationEntry = taxRegistrationEntry
@@ -502,6 +512,7 @@ extension TaxSettings {
         /// The status of your TRN stored in the system after processing. Based on the validation occurring on the TRN, the status can be Verified, Pending or Rejected.
         public let status: TaxRegistrationStatus?
 
+        @inlinable
         public init(errors: [BatchPutTaxRegistrationError], status: TaxRegistrationStatus? = nil) {
             self.errors = errors
             self.status = status
@@ -519,6 +530,7 @@ extension TaxSettings {
         /// Legal nature of business, based on your TRN in Brazil. This only applies for a CNPJ tax type.
         public let legalNatureCode: String?
 
+        @inlinable
         public init(ccmCode: String? = nil, legalNatureCode: String? = nil) {
             self.ccmCode = ccmCode
             self.legalNatureCode = legalNatureCode
@@ -540,6 +552,7 @@ extension TaxSettings {
         ///  The provincial sales tax ID for your TRN in Canada. This parameter can represent the following:    Provincial sales tax ID number for British Columbia and Saskatchewan provinces   Manitoba retail sales tax ID number for Manitoba province   Quebec sales tax ID number for Quebec province   The Tax Setting API only accepts this parameter if the TRN is specified  for the previous provinces. For other provinces, the Tax Settings API doesn't accept this parameter.
         public let provincialSalesTaxId: String?
 
+        @inlinable
         public init(canadaQuebecSalesTaxNumber: String? = nil, canadaRetailSalesTaxNumber: String? = nil, isResellerAccount: Bool? = nil, provincialSalesTaxId: String? = nil) {
             self.canadaQuebecSalesTaxNumber = canadaQuebecSalesTaxNumber
             self.canadaRetailSalesTaxNumber = canadaRetailSalesTaxNumber
@@ -567,6 +580,7 @@ extension TaxSettings {
         /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -592,6 +606,7 @@ extension TaxSettings {
         /// The Amazon S3 object prefix that you specify for your tax document file.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -615,6 +630,7 @@ extension TaxSettings {
         ///  Registry commercial code (RCC) for your TRN in Estonia. This value is an eight-numeric string, such as 12345678.
         public let registryCommercialCode: String
 
+        @inlinable
         public init(registryCommercialCode: String) {
             self.registryCommercialCode = registryCommercialCode
         }
@@ -634,6 +650,7 @@ extension TaxSettings {
         ///  The legal person or physical person assigned to this TRN in Georgia.
         public let personType: PersonType
 
+        @inlinable
         public init(personType: PersonType) {
             self.personType = personType
         }
@@ -649,6 +666,7 @@ extension TaxSettings {
         /// The metadata for your tax document.
         public let taxDocumentMetadata: TaxDocumentMetadata
 
+        @inlinable
         public init(destinationS3Location: DestinationS3Location, taxDocumentMetadata: TaxDocumentMetadata) {
             self.destinationS3Location = destinationS3Location
             self.taxDocumentMetadata = taxDocumentMetadata
@@ -669,6 +687,7 @@ extension TaxSettings {
         /// The file path of the Amazon S3 bucket where you want to download your tax document to.
         public let destinationFilePath: String?
 
+        @inlinable
         public init(destinationFilePath: String? = nil) {
             self.destinationFilePath = destinationFilePath
         }
@@ -682,6 +701,7 @@ extension TaxSettings {
         /// Your unique account identifier.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -701,6 +721,7 @@ extension TaxSettings {
         /// TRN information of the account mentioned in the request.
         public let taxRegistration: TaxRegistration?
 
+        @inlinable
         public init(taxRegistration: TaxRegistration? = nil) {
             self.taxRegistration = taxRegistration
         }
@@ -714,6 +735,7 @@ extension TaxSettings {
         ///  India pan information associated with the account.
         public let pan: String?
 
+        @inlinable
         public init(pan: String? = nil) {
             self.pan = pan
         }
@@ -729,6 +751,7 @@ extension TaxSettings {
         ///  Dealer type for your TRN in Israel. If you're not a local authorized dealer with an Israeli VAT ID, specify your tax identification number so that Amazon Web Services can send you a compliant tax invoice.
         public let dealerType: IsraelDealerType
 
+        @inlinable
         public init(customerType: IsraelCustomerType, dealerType: IsraelDealerType) {
             self.customerType = customerType
             self.dealerType = dealerType
@@ -750,6 +773,7 @@ extension TaxSettings {
         /// List of service tax codes for your TRN in Italy. You can use your customer tax code as part of a VAT Group.
         public let taxCode: String?
 
+        @inlinable
         public init(cigNumber: String? = nil, cupNumber: String? = nil, sdiAccountId: String? = nil, taxCode: String? = nil) {
             self.cigNumber = cigNumber
             self.cupNumber = cupNumber
@@ -778,6 +802,7 @@ extension TaxSettings {
         ///  The state, region, or province associated with the country of the jurisdiction, if applicable.
         public let stateOrRegion: String?
 
+        @inlinable
         public init(countryCode: String, stateOrRegion: String? = nil) {
             self.countryCode = countryCode
             self.stateOrRegion = stateOrRegion
@@ -793,6 +818,7 @@ extension TaxSettings {
         /// The legal person or physical person assigned to this TRN in Kenya.
         public let personType: PersonType
 
+        @inlinable
         public init(personType: PersonType) {
             self.personType = personType
         }
@@ -808,6 +834,7 @@ extension TaxSettings {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -833,6 +860,7 @@ extension TaxSettings {
         ///  The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountDetails: [AccountDetails], nextToken: String? = nil) {
             self.accountDetails = accountDetails
             self.nextToken = nextToken
@@ -848,6 +876,7 @@ extension TaxSettings {
         /// List of service tax codes for your TRN in Malaysia.
         public let serviceTaxCodes: [MalaysiaServiceTaxCode]
 
+        @inlinable
         public init(serviceTaxCodes: [MalaysiaServiceTaxCode]) {
             self.serviceTaxCodes = serviceTaxCodes
         }
@@ -868,6 +897,7 @@ extension TaxSettings {
         ///  True if your business is a member of a VAT group with a NIP active for VAT purposes. Otherwise, this is false.
         public let isGroupVatEnabled: Bool?
 
+        @inlinable
         public init(individualRegistrationNumber: String? = nil, isGroupVatEnabled: Bool? = nil) {
             self.individualRegistrationNumber = individualRegistrationNumber
             self.isGroupVatEnabled = isGroupVatEnabled
@@ -889,6 +919,7 @@ extension TaxSettings {
         ///  Your TRN information that will be stored to the account mentioned in accountId.
         public let taxRegistrationEntry: TaxRegistrationEntry
 
+        @inlinable
         public init(accountId: String? = nil, taxRegistrationEntry: TaxRegistrationEntry) {
             self.accountId = accountId
             self.taxRegistrationEntry = taxRegistrationEntry
@@ -911,6 +942,7 @@ extension TaxSettings {
         /// The status of your TRN stored in the system after processing. Based on the validation occurring on the TRN, the status can be Verified, Pending or Rejected.
         public let status: TaxRegistrationStatus?
 
+        @inlinable
         public init(status: TaxRegistrationStatus? = nil) {
             self.status = status
         }
@@ -924,6 +956,7 @@ extension TaxSettings {
         ///  The tax registration number type. The value can be TaxRegistrationNumber or LocalRegistrationNumber.
         public let taxRegistrationNumberType: TaxRegistrationNumberType
 
+        @inlinable
         public init(taxRegistrationNumberType: TaxRegistrationNumberType) {
             self.taxRegistrationNumberType = taxRegistrationNumberType
         }
@@ -937,6 +970,7 @@ extension TaxSettings {
         ///  The tax registration number type.
         public let taxRegistrationNumberType: SaudiArabiaTaxRegistrationNumberType?
 
+        @inlinable
         public init(taxRegistrationNumberType: SaudiArabiaTaxRegistrationNumberType? = nil) {
             self.taxRegistrationNumberType = taxRegistrationNumberType
         }
@@ -952,6 +986,7 @@ extension TaxSettings {
         /// The object key of your tax document object in Amazon S3.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -980,6 +1015,7 @@ extension TaxSettings {
         /// Line of business based on the most recently uploaded tax registration certificate.
         public let lineOfBusiness: String
 
+        @inlinable
         public init(businessRepresentativeName: String, itemOfBusiness: String, lineOfBusiness: String) {
             self.businessRepresentativeName = businessRepresentativeName
             self.itemOfBusiness = itemOfBusiness
@@ -1009,6 +1045,7 @@ extension TaxSettings {
         /// The registration type in Spain.
         public let registrationType: RegistrationType
 
+        @inlinable
         public init(registrationType: RegistrationType) {
             self.registrationType = registrationType
         }
@@ -1024,6 +1061,7 @@ extension TaxSettings {
         /// The name of your tax document.
         public let taxDocumentName: String
 
+        @inlinable
         public init(taxDocumentAccessToken: String, taxDocumentName: String) {
             self.taxDocumentAccessToken = taxDocumentAccessToken
             self.taxDocumentName = taxDocumentName
@@ -1046,6 +1084,7 @@ extension TaxSettings {
         ///  Tax inheritance parent account information associated with the account.
         public let parentEntityId: String?
 
+        @inlinable
         public init(inheritanceObtainedReason: String? = nil, parentEntityId: String? = nil) {
             self.inheritanceObtainedReason = inheritanceObtainedReason
             self.parentEntityId = parentEntityId
@@ -1077,6 +1116,7 @@ extension TaxSettings {
         /// The metadata for your tax document.
         public let taxDocumentMetadatas: [TaxDocumentMetadata]?
 
+        @inlinable
         public init(additionalTaxInformation: AdditionalInfoResponse? = nil, certifiedEmailId: String? = nil, legalAddress: Address, legalName: String, registrationId: String, registrationType: TaxRegistrationType, sector: Sector? = nil, status: TaxRegistrationStatus, taxDocumentMetadatas: [TaxDocumentMetadata]? = nil) {
             self.additionalTaxInformation = additionalTaxInformation
             self.certifiedEmailId = certifiedEmailId
@@ -1106,6 +1146,7 @@ extension TaxSettings {
         /// The Amazon S3 location where your tax registration document is stored.
         public let s3Location: SourceS3Location
 
+        @inlinable
         public init(s3Location: SourceS3Location) {
             self.s3Location = s3Location
         }
@@ -1137,6 +1178,7 @@ extension TaxSettings {
         /// Additional details needed to verify your TRN information in Brazil. You only need to specify this parameter when you set a TRN in Brazil that is the CPF tax type.  Don't specify this parameter to set a TRN in Brazil of the CNPJ tax type or to set a TRN for another country.
         public let verificationDetails: VerificationDetails?
 
+        @inlinable
         public init(additionalTaxInformation: AdditionalInfoRequest? = nil, certifiedEmailId: String? = nil, legalAddress: Address? = nil, legalName: String? = nil, registrationId: String, registrationType: TaxRegistrationType, sector: Sector? = nil, verificationDetails: VerificationDetails? = nil) {
             self.additionalTaxInformation = additionalTaxInformation
             self.certifiedEmailId = certifiedEmailId
@@ -1193,6 +1235,7 @@ extension TaxSettings {
         /// The metadata for your tax document.
         public let taxDocumentMetadatas: [TaxDocumentMetadata]?
 
+        @inlinable
         public init(additionalTaxInformation: AdditionalInfoResponse? = nil, certifiedEmailId: String? = nil, jurisdiction: Jurisdiction, legalName: String, registrationId: String, registrationType: TaxRegistrationType, sector: Sector? = nil, status: TaxRegistrationStatus, taxDocumentMetadatas: [TaxDocumentMetadata]? = nil) {
             self.additionalTaxInformation = additionalTaxInformation
             self.certifiedEmailId = certifiedEmailId
@@ -1228,6 +1271,7 @@ extension TaxSettings {
         /// The tax office where you're registered. You can enter this information as a string. The Tax Settings API will add this information to your invoice. This parameter is required for business-to-business (B2B) and business-to-government customers. It's not required for business-to-consumer (B2C) customers.
         public let taxOffice: String?
 
+        @inlinable
         public init(industries: Industries? = nil, kepEmailId: String? = nil, secondaryTaxId: String? = nil, taxOffice: String? = nil) {
             self.industries = industries
             self.kepEmailId = kepEmailId
@@ -1253,6 +1297,7 @@ extension TaxSettings {
         ///  The tax registration type.
         public let ukraineTrnType: UkraineTrnType
 
+        @inlinable
         public init(ukraineTrnType: UkraineTrnType) {
             self.ukraineTrnType = ukraineTrnType
         }
@@ -1268,6 +1313,7 @@ extension TaxSettings {
         /// The tax registration document, which is required for specific countries such as Bangladesh, Kenya, South Korea and Spain.
         public let taxRegistrationDocuments: [TaxRegistrationDocument]?
 
+        @inlinable
         public init(dateOfBirth: String? = nil, taxRegistrationDocuments: [TaxRegistrationDocument]? = nil) {
             self.dateOfBirth = dateOfBirth
             self.taxRegistrationDocuments = taxRegistrationDocuments

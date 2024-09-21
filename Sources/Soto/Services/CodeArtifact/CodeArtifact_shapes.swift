@@ -138,6 +138,7 @@ extension CodeArtifact {
         ///  The size of the asset.
         public let size: Int64?
 
+        @inlinable
         public init(hashes: [HashAlgorithm: String]? = nil, name: String, size: Int64? = nil) {
             self.hashes = hashes
             self.name = name
@@ -161,6 +162,7 @@ extension CodeArtifact {
         ///  The name of the repository to which the external connection is added.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, externalConnection: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -199,6 +201,7 @@ extension CodeArtifact {
         ///  Information about the connected repository after processing the request.
         public let repository: RepositoryDescription?
 
+        @inlinable
         public init(repository: RepositoryDescription? = nil) {
             self.repository = repository
         }
@@ -218,6 +221,7 @@ extension CodeArtifact {
         ///  The name of the associated package.
         public let package: String?
 
+        @inlinable
         public init(associationType: PackageGroupAssociationType? = nil, format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil) {
             self.associationType = associationType
             self.format = format
@@ -257,6 +261,7 @@ extension CodeArtifact {
         ///  The versions of the package to be copied.    You must specify versions or versionRevisions. You cannot specify both.
         public let versions: [String]?
 
+        @inlinable
         public init(allowOverwrite: Bool? = nil, destinationRepository: String, domain: String, domainOwner: String? = nil, format: PackageFormat, includeFromUpstream: Bool? = nil, namespace: String? = nil, package: String, sourceRepository: String, versionRevisions: [String: String]? = nil, versions: [String]? = nil) {
             self.allowOverwrite = allowOverwrite
             self.destinationRepository = destinationRepository
@@ -336,6 +341,7 @@ extension CodeArtifact {
         ///  A list of the package versions that were successfully copied to your repository.
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
+        @inlinable
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
             self.failedVersions = failedVersions
             self.successfulVersions = successfulVersions
@@ -355,6 +361,7 @@ extension CodeArtifact {
         /// One or more tag key-value pairs for the domain.
         public let tags: [Tag]?
 
+        @inlinable
         public init(domain: String, encryptionKey: String? = nil, tags: [Tag]? = nil) {
             self.domain = domain
             self.encryptionKey = encryptionKey
@@ -392,6 +399,7 @@ extension CodeArtifact {
         ///  Contains information about the created domain after processing the request.
         public let domain: DomainDescription?
 
+        @inlinable
         public init(domain: DomainDescription? = nil) {
             self.domain = domain
         }
@@ -415,6 +423,7 @@ extension CodeArtifact {
         /// One or more tag key-value pairs for the package group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(contactInfo: String? = nil, description: String? = nil, domain: String, domainOwner: String? = nil, packageGroup: String, tags: [Tag]? = nil) {
             self.contactInfo = contactInfo
             self.description = description
@@ -467,6 +476,7 @@ extension CodeArtifact {
         ///  Information about the created package group after processing the request.
         public let packageGroup: PackageGroupDescription?
 
+        @inlinable
         public init(packageGroup: PackageGroupDescription? = nil) {
             self.packageGroup = packageGroup
         }
@@ -490,6 +500,7 @@ extension CodeArtifact {
         ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories  in the list determines their priority order when CodeArtifact looks for a requested package version. For more  information, see Working with upstream repositories.
         public let upstreams: [UpstreamRepository]?
 
+        @inlinable
         public init(description: String? = nil, domain: String, domainOwner: String? = nil, repository: String, tags: [Tag]? = nil, upstreams: [UpstreamRepository]? = nil) {
             self.description = description
             self.domain = domain
@@ -542,6 +553,7 @@ extension CodeArtifact {
         ///  Information about the created repository after processing the request.
         public let repository: RepositoryDescription?
 
+        @inlinable
         public init(repository: RepositoryDescription? = nil) {
             self.repository = repository
         }
@@ -559,6 +571,7 @@ extension CodeArtifact {
         ///  The current revision of the resource policy to be deleted. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy.
         public let policyRevision: String?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, policyRevision: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -592,6 +605,7 @@ extension CodeArtifact {
         ///  Information about the deleted resource policy after processing the request.
         public let policy: ResourcePolicy?
 
+        @inlinable
         public init(policy: ResourcePolicy? = nil) {
             self.policy = policy
         }
@@ -607,6 +621,7 @@ extension CodeArtifact {
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -635,6 +650,7 @@ extension CodeArtifact {
         ///  Contains information about the deleted domain after processing the request.
         public let domain: DomainDescription?
 
+        @inlinable
         public init(domain: DomainDescription? = nil) {
             self.domain = domain
         }
@@ -652,6 +668,7 @@ extension CodeArtifact {
         /// The pattern of the package group to be deleted.
         public let packageGroup: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, packageGroup: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -682,6 +699,7 @@ extension CodeArtifact {
         ///  Information about the deleted package group after processing the request.
         public let packageGroup: PackageGroupDescription?
 
+        @inlinable
         public init(packageGroup: PackageGroupDescription? = nil) {
             self.packageGroup = packageGroup
         }
@@ -705,6 +723,7 @@ extension CodeArtifact {
         /// The name of the repository that contains the package to delete.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -749,6 +768,7 @@ extension CodeArtifact {
     public struct DeletePackageResult: AWSDecodableShape {
         public let deletedPackage: PackageSummary?
 
+        @inlinable
         public init(deletedPackage: PackageSummary? = nil) {
             self.deletedPackage = deletedPackage
         }
@@ -776,6 +796,7 @@ extension CodeArtifact {
         ///  An array of strings that specify the versions of the package to delete.
         public let versions: [String]
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, expectedStatus: PackageVersionStatus? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, versions: [String]) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -836,6 +857,7 @@ extension CodeArtifact {
         ///  A list of the package versions that were successfully deleted. The  status of every successful version will be Deleted.
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
+        @inlinable
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
             self.failedVersions = failedVersions
             self.successfulVersions = successfulVersions
@@ -857,6 +879,7 @@ extension CodeArtifact {
         ///  The name of the repository that is associated with the resource policy to be deleted
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, policyRevision: String? = nil, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -895,6 +918,7 @@ extension CodeArtifact {
         ///  Information about the deleted policy after processing the request.
         public let policy: ResourcePolicy?
 
+        @inlinable
         public init(policy: ResourcePolicy? = nil) {
             self.policy = policy
         }
@@ -912,6 +936,7 @@ extension CodeArtifact {
         ///  The name of the repository to delete.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -945,6 +970,7 @@ extension CodeArtifact {
         ///  Information about the deleted repository after processing the request.
         public let repository: RepositoryDescription?
 
+        @inlinable
         public init(repository: RepositoryDescription? = nil) {
             self.repository = repository
         }
@@ -960,6 +986,7 @@ extension CodeArtifact {
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -987,6 +1014,7 @@ extension CodeArtifact {
     public struct DescribeDomainResult: AWSDecodableShape {
         public let domain: DomainDescription?
 
+        @inlinable
         public init(domain: DomainDescription? = nil) {
             self.domain = domain
         }
@@ -1004,6 +1032,7 @@ extension CodeArtifact {
         /// The pattern of the requested package group.
         public let packageGroup: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, packageGroup: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1037,6 +1066,7 @@ extension CodeArtifact {
         /// A PackageGroupDescription object  that contains information about the requested package group.
         public let packageGroup: PackageGroupDescription?
 
+        @inlinable
         public init(packageGroup: PackageGroupDescription? = nil) {
             self.packageGroup = packageGroup
         }
@@ -1060,6 +1090,7 @@ extension CodeArtifact {
         /// The name of the repository that contains the requested package.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1105,6 +1136,7 @@ extension CodeArtifact {
         /// A PackageDescription  object that contains information about the requested package.
         public let package: PackageDescription
 
+        @inlinable
         public init(package: PackageDescription) {
             self.package = package
         }
@@ -1130,6 +1162,7 @@ extension CodeArtifact {
         ///  The name of the repository that contains the package version.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1180,6 +1213,7 @@ extension CodeArtifact {
         ///  A PackageVersionDescription  object that contains information about the requested package version.
         public let packageVersion: PackageVersionDescription
 
+        @inlinable
         public init(packageVersion: PackageVersionDescription) {
             self.packageVersion = packageVersion
         }
@@ -1197,6 +1231,7 @@ extension CodeArtifact {
         ///  A string that specifies the name of the requested repository.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1230,6 +1265,7 @@ extension CodeArtifact {
         ///  A RepositoryDescription object that contains the requested repository information.
         public let repository: RepositoryDescription?
 
+        @inlinable
         public init(repository: RepositoryDescription? = nil) {
             self.repository = repository
         }
@@ -1249,6 +1285,7 @@ extension CodeArtifact {
         /// The name of the repository from which the external connection will be removed.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, externalConnection: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1287,6 +1324,7 @@ extension CodeArtifact {
         ///  The repository associated with the removed external connection.
         public let repository: RepositoryDescription?
 
+        @inlinable
         public init(repository: RepositoryDescription? = nil) {
             self.repository = repository
         }
@@ -1316,6 +1354,7 @@ extension CodeArtifact {
         ///  The versions of the package you want to dispose.
         public let versions: [String]
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, expectedStatus: PackageVersionStatus? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, versionRevisions: [String: String]? = nil, versions: [String]) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1387,6 +1426,7 @@ extension CodeArtifact {
         ///  A list of the package versions that were successfully disposed.
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
+        @inlinable
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
             self.failedVersions = failedVersions
             self.successfulVersions = successfulVersions
@@ -1418,6 +1458,7 @@ extension CodeArtifact {
         ///  The current status of a domain.
         public let status: DomainStatus?
 
+        @inlinable
         public init(arn: String? = nil, assetSizeBytes: Int64? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, repositoryCount: Int? = nil, s3BucketArn: String? = nil, status: DomainStatus? = nil) {
             self.arn = arn
             self.assetSizeBytes = assetSizeBytes
@@ -1449,6 +1490,7 @@ extension CodeArtifact {
         /// The name of the repository that a package was originally published to.
         public let repositoryName: String?
 
+        @inlinable
         public init(externalConnectionName: String? = nil, repositoryName: String? = nil) {
             self.externalConnectionName = externalConnectionName
             self.repositoryName = repositoryName
@@ -1474,6 +1516,7 @@ extension CodeArtifact {
         ///  A string that contains the status of the domain.
         public let status: DomainStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, status: DomainStatus? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1505,6 +1548,7 @@ extension CodeArtifact {
         ///  The package from which to get the associated package group.
         public let package: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1547,6 +1591,7 @@ extension CodeArtifact {
         /// The package group that is associated with the requested package.
         public let packageGroup: PackageGroupDescription?
 
+        @inlinable
         public init(associationType: PackageGroupAssociationType? = nil, packageGroup: PackageGroupDescription? = nil) {
             self.associationType = associationType
             self.packageGroup = packageGroup
@@ -1566,6 +1611,7 @@ extension CodeArtifact {
         /// The time, in seconds, that the generated authorization token is valid. Valid values are  0 and any number between 900 (15 minutes) and 43200 (12 hours).  A value of 0 will set the expiration of the authorization token to the same expiration of  the user's role's temporary credentials.
         public let durationSeconds: Int64?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, durationSeconds: Int64? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1600,6 +1646,7 @@ extension CodeArtifact {
         ///  A timestamp that specifies the date and time the authorization token expires.
         public let expiration: Date?
 
+        @inlinable
         public init(authorizationToken: String? = nil, expiration: Date? = nil) {
             self.authorizationToken = authorizationToken
             self.expiration = expiration
@@ -1617,6 +1664,7 @@ extension CodeArtifact {
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1645,6 +1693,7 @@ extension CodeArtifact {
         ///  The returned resource policy.
         public let policy: ResourcePolicy?
 
+        @inlinable
         public init(policy: ResourcePolicy? = nil) {
             self.policy = policy
         }
@@ -1674,6 +1723,7 @@ extension CodeArtifact {
         ///  The repository that contains the package version with the requested asset.
         public let repository: String
 
+        @inlinable
         public init(asset: String, domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, packageVersionRevision: String? = nil, repository: String) {
             self.asset = asset
             self.domain = domain
@@ -1741,6 +1791,7 @@ extension CodeArtifact {
         ///  The name of the package version revision that contains the downloaded asset.
         public let packageVersionRevision: String?
 
+        @inlinable
         public init(asset: AWSHTTPBody, assetName: String? = nil, packageVersion: String? = nil, packageVersionRevision: String? = nil) {
             self.asset = asset
             self.assetName = assetName
@@ -1776,6 +1827,7 @@ extension CodeArtifact {
         ///  The repository that contains the package with the requested readme file.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1836,6 +1888,7 @@ extension CodeArtifact {
         ///  The current revision associated with the package version.
         public let versionRevision: String?
 
+        @inlinable
         public init(format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil, readme: String? = nil, version: String? = nil, versionRevision: String? = nil) {
             self.format = format
             self.namespace = namespace
@@ -1865,6 +1918,7 @@ extension CodeArtifact {
         ///  The name of the repository.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1900,6 +1954,7 @@ extension CodeArtifact {
         ///  A string that specifies the URL of the returned endpoint.
         public let repositoryEndpoint: String?
 
+        @inlinable
         public init(repositoryEndpoint: String? = nil) {
             self.repositoryEndpoint = repositoryEndpoint
         }
@@ -1917,6 +1972,7 @@ extension CodeArtifact {
         ///  The name of the repository whose associated resource policy is to be retrieved.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -1950,6 +2006,7 @@ extension CodeArtifact {
         ///  The returned resource policy.
         public let policy: ResourcePolicy?
 
+        @inlinable
         public init(policy: ResourcePolicy? = nil) {
             self.policy = policy
         }
@@ -1965,6 +2022,7 @@ extension CodeArtifact {
         ///  The URL for license data.
         public let url: String?
 
+        @inlinable
         public init(name: String? = nil, url: String? = nil) {
             self.name = name
             self.url = url
@@ -1990,6 +2048,7 @@ extension CodeArtifact {
         /// The pattern of the package group from which to list allowed repositories.
         public let packageGroup: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, originRestrictionType: PackageGroupOriginRestrictionType, packageGroup: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2036,6 +2095,7 @@ extension CodeArtifact {
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(allowedRepositories: [String]? = nil, nextToken: String? = nil) {
             self.allowedRepositories = allowedRepositories
             self.nextToken = nextToken
@@ -2061,6 +2121,7 @@ extension CodeArtifact {
         ///  When this flag is included, ListAssociatedPackages will return a list of packages that would be associated with a package  group, even if it does not exist.
         public let preview: Bool?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, packageGroup: String, preview: Bool? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2107,6 +2168,7 @@ extension CodeArtifact {
         ///  The list of packages associated with the requested package group.
         public let packages: [AssociatedPackage]?
 
+        @inlinable
         public init(nextToken: String? = nil, packages: [AssociatedPackage]? = nil) {
             self.nextToken = nextToken
             self.packages = packages
@@ -2124,6 +2186,7 @@ extension CodeArtifact {
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2149,6 +2212,7 @@ extension CodeArtifact {
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domains: [DomainSummary]? = nil, nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -2172,6 +2236,7 @@ extension CodeArtifact {
         ///  A prefix for which to search package groups. When included, ListPackageGroups will return only package groups with patterns that match the prefix.
         public let prefix: String?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefix: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2215,6 +2280,7 @@ extension CodeArtifact {
         ///  The list of package groups in the requested domain.
         public let packageGroups: [PackageGroupSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageGroups: [PackageGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.packageGroups = packageGroups
@@ -2246,6 +2312,7 @@ extension CodeArtifact {
         ///  The name of the repository that contains the package that contains the requested package version assets.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, package: String, packageVersion: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2317,6 +2384,7 @@ extension CodeArtifact {
         ///  The current revision associated with the package version.
         public let versionRevision: String?
 
+        @inlinable
         public init(assets: [AssetSummary]? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, version: String? = nil, versionRevision: String? = nil) {
             self.assets = assets
             self.format = format
@@ -2356,6 +2424,7 @@ extension CodeArtifact {
         ///  The name of the repository that contains the requested package version.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, nextToken: String? = nil, package: String, packageVersion: String, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2423,6 +2492,7 @@ extension CodeArtifact {
         ///  The current revision associated with the package version.
         public let versionRevision: String?
 
+        @inlinable
         public init(dependencies: [PackageDependency]? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, version: String? = nil, versionRevision: String? = nil) {
             self.dependencies = dependencies
             self.format = format
@@ -2468,6 +2538,7 @@ extension CodeArtifact {
         ///  A string that filters the requested package versions by status.
         public let status: PackageVersionStatus?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, originType: PackageVersionOriginType? = nil, package: String, repository: String, sortBy: PackageVersionSortType? = nil, status: PackageVersionStatus? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2538,6 +2609,7 @@ extension CodeArtifact {
         ///  The returned list of  PackageVersionSummary  objects.
         public let versions: [PackageVersionSummary]?
 
+        @inlinable
         public init(defaultDisplayVersion: String? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, versions: [PackageVersionSummary]? = nil) {
             self.defaultDisplayVersion = defaultDisplayVersion
             self.format = format
@@ -2579,6 +2651,7 @@ extension CodeArtifact {
         /// The value of the Upstream package origin control restriction used to filter requested packages.  Only packages with the provided restriction are returned. For more information, see PackageOriginRestrictions.
         public let upstream: AllowUpstream?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat? = nil, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, packagePrefix: String? = nil, publish: AllowPublish? = nil, repository: String, upstream: AllowUpstream? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2639,6 +2712,7 @@ extension CodeArtifact {
         ///  The list of returned PackageSummary  objects.
         public let packages: [PackageSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, packages: [PackageSummary]? = nil) {
             self.nextToken = nextToken
             self.packages = packages
@@ -2664,6 +2738,7 @@ extension CodeArtifact {
         ///  A prefix used to filter returned repositories. Only repositories with names that start with  repositoryPrefix are returned.
         public let repositoryPrefix: String?
 
+        @inlinable
         public init(administratorAccount: String? = nil, domain: String, domainOwner: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, repositoryPrefix: String? = nil) {
             self.administratorAccount = administratorAccount
             self.domain = domain
@@ -2713,6 +2788,7 @@ extension CodeArtifact {
         ///  The returned list of repositories.
         public let repositories: [RepositorySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositories: [RepositorySummary]? = nil) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -2732,6 +2808,7 @@ extension CodeArtifact {
         ///  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned.
         public let repositoryPrefix: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, repositoryPrefix: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2766,6 +2843,7 @@ extension CodeArtifact {
         ///  The returned list of RepositorySummary  objects.
         public let repositories: [RepositorySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositories: [RepositorySummary]? = nil) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -2789,6 +2867,7 @@ extension CodeArtifact {
         ///  The pattern of the package group from which to list sub package groups.
         public let packageGroup: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, packageGroup: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -2833,6 +2912,7 @@ extension CodeArtifact {
         ///  A list of sub package groups for the requested package group.
         public let packageGroups: [PackageGroupSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageGroups: [PackageGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.packageGroups = packageGroups
@@ -2848,6 +2928,7 @@ extension CodeArtifact {
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2871,6 +2952,7 @@ extension CodeArtifact {
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2890,6 +2972,7 @@ extension CodeArtifact {
         ///  The required version, or version range, of the package that this package depends on. The version format is specific to the package type. For example, the following are possible valid required versions: 1.2.3, ^2.3.4, or 4.x.
         public let versionRequirement: String?
 
+        @inlinable
         public init(dependencyType: String? = nil, namespace: String? = nil, package: String? = nil, versionRequirement: String? = nil) {
             self.dependencyType = dependencyType
             self.namespace = namespace
@@ -2915,6 +2998,7 @@ extension CodeArtifact {
         /// The package origin configuration for the package.
         public let originConfiguration: PackageOriginConfiguration?
 
+        @inlinable
         public init(format: PackageFormat? = nil, name: String? = nil, namespace: String? = nil, originConfiguration: PackageOriginConfiguration? = nil) {
             self.format = format
             self.name = name
@@ -2936,6 +3020,7 @@ extension CodeArtifact {
         ///  The name of the allowed repository.
         public let repositoryName: String?
 
+        @inlinable
         public init(originRestrictionType: PackageGroupOriginRestrictionType? = nil, repositoryName: String? = nil) {
             self.originRestrictionType = originRestrictionType
             self.repositoryName = repositoryName
@@ -2973,6 +3058,7 @@ extension CodeArtifact {
         ///  The pattern of the package group. The pattern determines which packages are associated with the package group.
         public let pattern: String?
 
+        @inlinable
         public init(arn: String? = nil, contactInfo: String? = nil, createdTime: Date? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, originConfiguration: PackageGroupOriginConfiguration? = nil, parent: PackageGroupReference? = nil, pattern: String? = nil) {
             self.arn = arn
             self.contactInfo = contactInfo
@@ -3002,6 +3088,7 @@ extension CodeArtifact {
         /// The origin configuration settings that determine how package versions can enter repositories.
         public let restrictions: [PackageGroupOriginRestrictionType: PackageGroupOriginRestriction]?
 
+        @inlinable
         public init(restrictions: [PackageGroupOriginRestrictionType: PackageGroupOriginRestriction]? = nil) {
             self.restrictions = restrictions
         }
@@ -3021,6 +3108,7 @@ extension CodeArtifact {
         /// The number of repositories in the allowed repository list.
         public let repositoriesCount: Int64?
 
+        @inlinable
         public init(effectiveMode: PackageGroupOriginRestrictionMode? = nil, inheritedFrom: PackageGroupReference? = nil, mode: PackageGroupOriginRestrictionMode? = nil, repositoriesCount: Int64? = nil) {
             self.effectiveMode = effectiveMode
             self.inheritedFrom = inheritedFrom
@@ -3042,6 +3130,7 @@ extension CodeArtifact {
         ///  The pattern of the package group. The pattern determines which packages are associated with the package group, and is  also the identifier of the package group.
         public let pattern: String?
 
+        @inlinable
         public init(arn: String? = nil, pattern: String? = nil) {
             self.arn = arn
             self.pattern = pattern
@@ -3073,6 +3162,7 @@ extension CodeArtifact {
         ///  The pattern of the package group. The pattern determines which packages are associated with the package group.
         public let pattern: String?
 
+        @inlinable
         public init(arn: String? = nil, contactInfo: String? = nil, createdTime: Date? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, originConfiguration: PackageGroupOriginConfiguration? = nil, parent: PackageGroupReference? = nil, pattern: String? = nil) {
             self.arn = arn
             self.contactInfo = contactInfo
@@ -3102,6 +3192,7 @@ extension CodeArtifact {
         /// A PackageOriginRestrictions object that contains information  about the upstream and publish package origin configuration for the package.
         public let restrictions: PackageOriginRestrictions?
 
+        @inlinable
         public init(restrictions: PackageOriginRestrictions? = nil) {
             self.restrictions = restrictions
         }
@@ -3117,6 +3208,7 @@ extension CodeArtifact {
         /// The package origin configuration that determines if new versions of the package can be added to the repository from an external connection or upstream source.
         public let upstream: AllowUpstream
 
+        @inlinable
         public init(publish: AllowPublish, upstream: AllowUpstream) {
             self.publish = publish
             self.upstream = upstream
@@ -3138,6 +3230,7 @@ extension CodeArtifact {
         ///  The name of the package.
         public let package: String?
 
+        @inlinable
         public init(format: PackageFormat? = nil, namespace: String? = nil, originConfiguration: PackageOriginConfiguration? = nil, package: String? = nil) {
             self.format = format
             self.namespace = namespace
@@ -3181,6 +3274,7 @@ extension CodeArtifact {
         ///  The version of the package.
         public let version: String?
 
+        @inlinable
         public init(displayName: String? = nil, format: PackageFormat? = nil, homePage: String? = nil, licenses: [LicenseInfo]? = nil, namespace: String? = nil, origin: PackageVersionOrigin? = nil, packageName: String? = nil, publishedTime: Date? = nil, revision: String? = nil, sourceCodeRepository: String? = nil, status: PackageVersionStatus? = nil, summary: String? = nil, version: String? = nil) {
             self.displayName = displayName
             self.format = format
@@ -3220,6 +3314,7 @@ extension CodeArtifact {
         ///  The error message associated with the error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: PackageVersionErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3237,6 +3332,7 @@ extension CodeArtifact {
         /// Describes how the package version was originally added to the domain. An INTERNAL origin type means the package version was published  directly to a repository in the domain. An EXTERNAL origin type means the package version was ingested from an external connection.
         public let originType: PackageVersionOriginType?
 
+        @inlinable
         public init(domainEntryPoint: DomainEntryPoint? = nil, originType: PackageVersionOriginType? = nil) {
             self.domainEntryPoint = domainEntryPoint
             self.originType = originType
@@ -3258,6 +3354,7 @@ extension CodeArtifact {
         ///  Information about a package version.
         public let version: String
 
+        @inlinable
         public init(origin: PackageVersionOrigin? = nil, revision: String? = nil, status: PackageVersionStatus, version: String) {
             self.origin = origin
             self.revision = revision
@@ -3298,6 +3395,7 @@ extension CodeArtifact {
         /// Specifies whether the package version should remain in the unfinished state. If omitted, the package version status will be set to Published (see Package version status in the CodeArtifact User Guide). Valid values: unfinished
         public let unfinished: Bool?
 
+        @inlinable
         public init(assetContent: AWSHTTPBody, assetName: String, assetSHA256: String, domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String, unfinished: Bool? = nil) {
             self.assetContent = assetContent
             self.assetName = assetName
@@ -3374,6 +3472,7 @@ extension CodeArtifact {
         /// The revision of the package version.
         public let versionRevision: String?
 
+        @inlinable
         public init(asset: AssetSummary? = nil, format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil, status: PackageVersionStatus? = nil, version: String? = nil, versionRevision: String? = nil) {
             self.asset = asset
             self.format = format
@@ -3405,6 +3504,7 @@ extension CodeArtifact {
         ///  The current revision of the resource policy to be set. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy.
         public let policyRevision: String?
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, policyDocument: String, policyRevision: String? = nil) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -3439,6 +3539,7 @@ extension CodeArtifact {
         ///  The resource policy that was set after processing the request.
         public let policy: ResourcePolicy?
 
+        @inlinable
         public init(policy: ResourcePolicy? = nil) {
             self.policy = policy
         }
@@ -3464,6 +3565,7 @@ extension CodeArtifact {
         /// A PackageOriginRestrictions  object that contains information about the upstream and publish package origin restrictions.  The upstream restriction determines if new package versions can be ingested or retained from external connections or upstream repositories.  The publish restriction determines if new package versions can be published directly to the repository. You must include both the desired upstream and publish restrictions.
         public let restrictions: PackageOriginRestrictions
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, restrictions: PackageOriginRestrictions) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -3513,6 +3615,7 @@ extension CodeArtifact {
         /// A PackageOriginConfiguration  object that describes the origin configuration set for the package. It contains a  PackageOriginRestrictions  object that describes how new versions of the package can be introduced to the repository.
         public let originConfiguration: PackageOriginConfiguration?
 
+        @inlinable
         public init(originConfiguration: PackageOriginConfiguration? = nil) {
             self.originConfiguration = originConfiguration
         }
@@ -3534,6 +3637,7 @@ extension CodeArtifact {
         ///  The name of the repository to set the resource policy on.
         public let repository: String
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, policyDocument: String, policyRevision: String? = nil, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -3580,6 +3684,7 @@ extension CodeArtifact {
         ///  The resource policy that was set after processing the request.
         public let policy: ResourcePolicy?
 
+        @inlinable
         public init(policy: ResourcePolicy? = nil) {
             self.policy = policy
         }
@@ -3609,6 +3714,7 @@ extension CodeArtifact {
         ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories  in the list determines their priority order when CodeArtifact looks for a requested package version. For more  information, see Working with upstream repositories.
         public let upstreams: [UpstreamRepositoryInfo]?
 
+        @inlinable
         public init(administratorAccount: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, externalConnections: [RepositoryExternalConnectionInfo]? = nil, name: String? = nil, upstreams: [UpstreamRepositoryInfo]? = nil) {
             self.administratorAccount = administratorAccount
             self.arn = arn
@@ -3642,6 +3748,7 @@ extension CodeArtifact {
         ///  The status of the external connection of a repository. There is one valid value, Available.
         public let status: ExternalConnectionStatus?
 
+        @inlinable
         public init(externalConnectionName: String? = nil, packageFormat: PackageFormat? = nil, status: ExternalConnectionStatus? = nil) {
             self.externalConnectionName = externalConnectionName
             self.packageFormat = packageFormat
@@ -3671,6 +3778,7 @@ extension CodeArtifact {
         ///  The name of the repository.
         public let name: String?
 
+        @inlinable
         public init(administratorAccount: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, name: String? = nil) {
             self.administratorAccount = administratorAccount
             self.arn = arn
@@ -3700,6 +3808,7 @@ extension CodeArtifact {
         ///  The current revision of the resource policy.
         public let revision: String?
 
+        @inlinable
         public init(document: String? = nil, resourceArn: String? = nil, revision: String? = nil) {
             self.document = document
             self.resourceArn = resourceArn
@@ -3719,6 +3828,7 @@ extension CodeArtifact {
         ///  The status of a package version.
         public let status: PackageVersionStatus?
 
+        @inlinable
         public init(revision: String? = nil, status: PackageVersionStatus? = nil) {
             self.revision = revision
             self.status = status
@@ -3736,6 +3846,7 @@ extension CodeArtifact {
         /// The tag value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3761,6 +3872,7 @@ extension CodeArtifact {
         /// The tags you want to modify or add to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3798,6 +3910,7 @@ extension CodeArtifact {
         /// The tag key for each tag that you want to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3845,6 +3958,7 @@ extension CodeArtifact {
         ///  The origin configuration settings that determine how package versions can enter repositories.
         public let restrictions: [PackageGroupOriginRestrictionType: PackageGroupOriginRestrictionMode]?
 
+        @inlinable
         public init(addAllowedRepositories: [PackageGroupAllowedRepository]? = nil, domain: String, domainOwner: String? = nil, packageGroup: String, removeAllowedRepositories: [PackageGroupAllowedRepository]? = nil, restrictions: [PackageGroupOriginRestrictionType: PackageGroupOriginRestrictionMode]? = nil) {
             self.addAllowedRepositories = addAllowedRepositories
             self.domain = domain
@@ -3896,6 +4010,7 @@ extension CodeArtifact {
         ///  The package group and information about it after processing the request.
         public let packageGroup: PackageGroupDescription?
 
+        @inlinable
         public init(allowedRepositoryUpdates: [PackageGroupOriginRestrictionType: [PackageGroupAllowedRepositoryUpdateType: [String]]]? = nil, packageGroup: PackageGroupDescription? = nil) {
             self.allowedRepositoryUpdates = allowedRepositoryUpdates
             self.packageGroup = packageGroup
@@ -3919,6 +4034,7 @@ extension CodeArtifact {
         ///  The pattern of the package group to be updated.
         public let packageGroup: String
 
+        @inlinable
         public init(contactInfo: String? = nil, description: String? = nil, domain: String, domainOwner: String? = nil, packageGroup: String) {
             self.contactInfo = contactInfo
             self.description = description
@@ -3964,6 +4080,7 @@ extension CodeArtifact {
         ///  The package group and information about it after the request has been processed.
         public let packageGroup: PackageGroupDescription?
 
+        @inlinable
         public init(packageGroup: PackageGroupDescription? = nil) {
             self.packageGroup = packageGroup
         }
@@ -3995,6 +4112,7 @@ extension CodeArtifact {
         ///  An array of strings that specify the versions of the package with the statuses to update.
         public let versions: [String]
 
+        @inlinable
         public init(domain: String, domainOwner: String? = nil, expectedStatus: PackageVersionStatus? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, targetStatus: PackageVersionStatus, versionRevisions: [String: String]? = nil, versions: [String]) {
             self.domain = domain
             self.domainOwner = domainOwner
@@ -4069,6 +4187,7 @@ extension CodeArtifact {
         ///  A list of PackageVersionError objects, one for each package version with  a status that failed to update.
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
+        @inlinable
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
             self.failedVersions = failedVersions
             self.successfulVersions = successfulVersions
@@ -4092,6 +4211,7 @@ extension CodeArtifact {
         ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories  in the list determines their priority order when CodeArtifact looks for a requested package version. For more  information, see Working with upstream repositories.
         public let upstreams: [UpstreamRepository]?
 
+        @inlinable
         public init(description: String? = nil, domain: String, domainOwner: String? = nil, repository: String, upstreams: [UpstreamRepository]? = nil) {
             self.description = description
             self.domain = domain
@@ -4137,6 +4257,7 @@ extension CodeArtifact {
         ///  The updated repository.
         public let repository: RepositoryDescription?
 
+        @inlinable
         public init(repository: RepositoryDescription? = nil) {
             self.repository = repository
         }
@@ -4150,6 +4271,7 @@ extension CodeArtifact {
         ///  The name of an upstream repository.
         public let repositoryName: String
 
+        @inlinable
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -4169,6 +4291,7 @@ extension CodeArtifact {
         ///  The name of an upstream repository.
         public let repositoryName: String?
 
+        @inlinable
         public init(repositoryName: String? = nil) {
             self.repositoryName = repositoryName
         }

@@ -146,6 +146,7 @@ extension FraudDetector {
         ///  The model's threshold that specifies an acceptable fraud capture rate. For example, a threshold of 500 means any model score 500 or above is  labeled as fraud.
         public let threshold: Float?
 
+        @inlinable
         public init(adr: Float? = nil, atodr: Float? = nil, cr: Float? = nil, threshold: Float? = nil) {
             self.adr = adr
             self.atodr = atodr
@@ -165,6 +166,7 @@ extension FraudDetector {
         ///  The anomaly separation index (ASI) score. This metric summarizes the overall ability of the model to separate anomalous activities from the normal behavior. Depending on the business, a  large fraction of these anomalous activities can be malicious and correspond to the account takeover attacks. A model with no separability power will have the lowest possible  ASI score of 0.5, whereas the a model with a high separability power will have the highest possible ASI score of 1.0
         public let asi: Float?
 
+        @inlinable
         public init(asi: Float? = nil) {
             self.asi = asi
         }
@@ -180,6 +182,7 @@ extension FraudDetector {
         ///  The model's overall performance scores.
         public let modelPerformance: ATIModelPerformance?
 
+        @inlinable
         public init(metricDataPoints: [ATIMetricDataPoint]? = nil, modelPerformance: ATIModelPerformance? = nil) {
             self.metricDataPoints = metricDataPoints
             self.modelPerformance = modelPerformance
@@ -197,6 +200,7 @@ extension FraudDetector {
         ///  The names of all the variables.
         public let variableNames: [String]
 
+        @inlinable
         public init(aggregatedVariablesImportance: Float, variableNames: [String]) {
             self.aggregatedVariablesImportance = aggregatedVariablesImportance
             self.variableNames = variableNames
@@ -216,6 +220,7 @@ extension FraudDetector {
         ///  The relative impact of the aggregated variables in terms of magnitude on the prediction scores.
         public let relativeImpact: String?
 
+        @inlinable
         public init(eventVariableNames: [String]? = nil, logOddsImpact: Float? = nil, relativeImpact: String? = nil) {
             self.eventVariableNames = eventVariableNames
             self.logOddsImpact = logOddsImpact
@@ -233,6 +238,7 @@ extension FraudDetector {
         ///  List of variables' metrics.
         public let logOddsMetrics: [AggregatedLogOddsMetric]?
 
+        @inlinable
         public init(logOddsMetrics: [AggregatedLogOddsMetric]? = nil) {
             self.logOddsMetrics = logOddsMetrics
         }
@@ -256,6 +262,7 @@ extension FraudDetector {
         ///  The variable type of the list.
         public let variableType: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, name: String, updatedTime: String? = nil, variableType: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -283,6 +290,7 @@ extension FraudDetector {
         /// The name.
         public let name: String?
 
+        @inlinable
         public init(code: Int? = nil, message: String? = nil, name: String? = nil) {
             self.code = code
             self.message = message
@@ -302,6 +310,7 @@ extension FraudDetector {
         /// The list of variables for the batch create variable request.
         public let variableEntries: [VariableEntry]
 
+        @inlinable
         public init(tags: [Tag]? = nil, variableEntries: [VariableEntry]) {
             self.tags = tags
             self.variableEntries = variableEntries
@@ -326,6 +335,7 @@ extension FraudDetector {
         /// Provides the errors for the BatchCreateVariable request.
         public let errors: [BatchCreateVariableError]?
 
+        @inlinable
         public init(errors: [BatchCreateVariableError]? = nil) {
             self.errors = errors
         }
@@ -343,6 +353,7 @@ extension FraudDetector {
         /// The error name.
         public let name: String?
 
+        @inlinable
         public init(code: Int? = nil, message: String? = nil, name: String? = nil) {
             self.code = code
             self.message = message
@@ -360,6 +371,7 @@ extension FraudDetector {
         /// The list of variable names to get.
         public let names: [String]
 
+        @inlinable
         public init(names: [String]) {
             self.names = names
         }
@@ -380,6 +392,7 @@ extension FraudDetector {
         /// The returned variables.
         public let variables: [Variable]?
 
+        @inlinable
         public init(errors: [BatchGetVariableError]? = nil, variables: [Variable]? = nil) {
             self.errors = errors
             self.variables = variables
@@ -419,6 +432,7 @@ extension FraudDetector {
         /// The total number of records in the batch import job.
         public let totalRecordsCount: Int?
 
+        @inlinable
         public init(arn: String? = nil, completionTime: String? = nil, eventTypeName: String? = nil, failedRecordsCount: Int? = nil, failureReason: String? = nil, iamRoleArn: String? = nil, inputPath: String? = nil, jobId: String? = nil, outputPath: String? = nil, processedRecordsCount: Int? = nil, startTime: String? = nil, status: AsyncJobStatus? = nil, totalRecordsCount: Int? = nil) {
             self.arn = arn
             self.completionTime = completionTime
@@ -484,6 +498,7 @@ extension FraudDetector {
         /// The total number of records in the batch prediction job.
         public let totalRecordsCount: Int?
 
+        @inlinable
         public init(arn: String? = nil, completionTime: String? = nil, detectorName: String? = nil, detectorVersion: String? = nil, eventTypeName: String? = nil, failureReason: String? = nil, iamRoleArn: String? = nil, inputPath: String? = nil, jobId: String? = nil, lastHeartbeatTime: String? = nil, outputPath: String? = nil, processedRecordsCount: Int? = nil, startTime: String? = nil, status: AsyncJobStatus? = nil, totalRecordsCount: Int? = nil) {
             self.arn = arn
             self.completionTime = completionTime
@@ -525,6 +540,7 @@ extension FraudDetector {
         ///  The ID of an in-progress batch import job to cancel.  Amazon Fraud Detector will throw an error if the batch import job is in FAILED, CANCELED, or  COMPLETED state.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -548,6 +564,7 @@ extension FraudDetector {
         /// The ID of the batch prediction job to cancel.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -581,6 +598,7 @@ extension FraudDetector {
         /// A collection of key-value pairs associated with this request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(eventTypeName: String, iamRoleArn: String, inputPath: String, jobId: String, outputPath: String, tags: [Tag]? = nil) {
             self.eventTypeName = eventTypeName
             self.iamRoleArn = iamRoleArn
@@ -644,6 +662,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(detectorName: String, detectorVersion: String? = nil, eventTypeName: String, iamRoleArn: String, inputPath: String, jobId: String, outputPath: String, tags: [Tag]? = nil) {
             self.detectorName = detectorName
             self.detectorVersion = detectorVersion
@@ -715,6 +734,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, detectorId: String, externalModelEndpoints: [String]? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule], tags: [Tag]? = nil) {
             self.description = description
             self.detectorId = detectorId
@@ -762,6 +782,7 @@ extension FraudDetector {
         /// The status of the detector version.
         public let status: DetectorVersionStatus?
 
+        @inlinable
         public init(detectorId: String? = nil, detectorVersionId: String? = nil, status: DetectorVersionStatus? = nil) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -787,6 +808,7 @@ extension FraudDetector {
         ///  The variable type of the list. You can only assign the variable type with String data type.  For more information, see  Variable types.
         public let variableType: String?
 
+        @inlinable
         public init(description: String? = nil, elements: [String]? = nil, name: String, tags: [Tag]? = nil, variableType: String? = nil) {
             self.description = description
             self.elements = elements
@@ -841,6 +863,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, eventTypeName: String, modelId: String, modelType: ModelTypeEnum, tags: [Tag]? = nil) {
             self.description = description
             self.eventTypeName = eventTypeName
@@ -890,6 +913,7 @@ extension FraudDetector {
         /// The training data source location in Amazon S3.
         public let trainingDataSource: TrainingDataSourceEnum
 
+        @inlinable
         public init(externalEventsDetail: ExternalEventsDetail? = nil, ingestedEventsDetail: IngestedEventsDetail? = nil, modelId: String, modelType: ModelTypeEnum, tags: [Tag]? = nil, trainingDataSchema: TrainingDataSchema, trainingDataSource: TrainingDataSourceEnum) {
             self.externalEventsDetail = externalEventsDetail
             self.ingestedEventsDetail = ingestedEventsDetail
@@ -933,6 +957,7 @@ extension FraudDetector {
         /// The model version status.
         public let status: String?
 
+        @inlinable
         public init(modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil) {
             self.modelId = modelId
             self.modelType = modelType
@@ -964,6 +989,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, detectorId: String, expression: String, language: Language, outcomes: [String], ruleId: String, tags: [Tag]? = nil) {
             self.description = description
             self.detectorId = detectorId
@@ -1007,6 +1033,7 @@ extension FraudDetector {
         /// The created rule.
         public let rule: Rule?
 
+        @inlinable
         public init(rule: Rule? = nil) {
             self.rule = rule
         }
@@ -1033,6 +1060,7 @@ extension FraudDetector {
         /// 				 Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
         public let variableType: String?
 
+        @inlinable
         public init(dataSource: DataSource, dataType: DataType, defaultValue: String, description: String? = nil, name: String, tags: [Tag]? = nil, variableType: String? = nil) {
             self.dataSource = dataSource
             self.dataType = dataType
@@ -1071,6 +1099,7 @@ extension FraudDetector {
         /// The file-specific model training data validation messages.
         public let fileLevelMessages: [FileValidationMessage]?
 
+        @inlinable
         public init(fieldLevelMessages: [FieldValidationMessage]? = nil, fileLevelMessages: [FileValidationMessage]? = nil) {
             self.fieldLevelMessages = fieldLevelMessages
             self.fileLevelMessages = fileLevelMessages
@@ -1086,6 +1115,7 @@ extension FraudDetector {
         /// The ID of the batch import job to delete.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1109,6 +1139,7 @@ extension FraudDetector {
         /// The ID of the batch prediction job to delete.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1132,6 +1163,7 @@ extension FraudDetector {
         /// The ID of the detector to delete.
         public let detectorId: String
 
+        @inlinable
         public init(detectorId: String) {
             self.detectorId = detectorId
         }
@@ -1157,6 +1189,7 @@ extension FraudDetector {
         /// The ID of the detector version to delete.
         public let detectorVersionId: String
 
+        @inlinable
         public init(detectorId: String, detectorVersionId: String) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -1185,6 +1218,7 @@ extension FraudDetector {
         /// The name of the entity type to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1212,6 +1246,7 @@ extension FraudDetector {
         /// The name of the event type.
         public let eventTypeName: String
 
+        @inlinable
         public init(deleteAuditHistory: Bool? = nil, eventId: String, eventTypeName: String) {
             self.deleteAuditHistory = deleteAuditHistory
             self.eventId = eventId
@@ -1242,6 +1277,7 @@ extension FraudDetector {
         /// The name of the event type to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1265,6 +1301,7 @@ extension FraudDetector {
         /// The name of the event type.
         public let eventTypeName: String
 
+        @inlinable
         public init(eventTypeName: String) {
             self.eventTypeName = eventTypeName
         }
@@ -1286,6 +1323,7 @@ extension FraudDetector {
         /// Name of event type for which to delete the events.
         public let eventTypeName: String?
 
+        @inlinable
         public init(eventsDeletionStatus: String? = nil, eventTypeName: String? = nil) {
             self.eventsDeletionStatus = eventsDeletionStatus
             self.eventTypeName = eventTypeName
@@ -1301,6 +1339,7 @@ extension FraudDetector {
         /// The endpoint of the Amazon Sagemaker model to delete.
         public let modelEndpoint: String
 
+        @inlinable
         public init(modelEndpoint: String) {
             self.modelEndpoint = modelEndpoint
         }
@@ -1324,6 +1363,7 @@ extension FraudDetector {
         /// The name of the label to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1347,6 +1387,7 @@ extension FraudDetector {
         ///  The name of the list to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1372,6 +1413,7 @@ extension FraudDetector {
         /// The model type of the model to delete.
         public let modelType: ModelTypeEnum
 
+        @inlinable
         public init(modelId: String, modelType: ModelTypeEnum) {
             self.modelId = modelId
             self.modelType = modelType
@@ -1401,6 +1443,7 @@ extension FraudDetector {
         /// The model version number of the model version to delete.
         public let modelVersionNumber: String
 
+        @inlinable
         public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
             self.modelId = modelId
             self.modelType = modelType
@@ -1431,6 +1474,7 @@ extension FraudDetector {
         /// The name of the outcome to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1453,6 +1497,7 @@ extension FraudDetector {
     public struct DeleteRuleRequest: AWSEncodableShape {
         public let rule: Rule
 
+        @inlinable
         public init(rule: Rule) {
             self.rule = rule
         }
@@ -1474,6 +1519,7 @@ extension FraudDetector {
         /// The name of the variable to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1495,6 +1541,7 @@ extension FraudDetector {
         /// The next token from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -1526,6 +1573,7 @@ extension FraudDetector {
         /// The next token to be used for subsequent requests.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String? = nil, detectorId: String? = nil, detectorVersionSummaries: [DetectorVersionSummary]? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.detectorId = detectorId
@@ -1553,6 +1601,7 @@ extension FraudDetector {
         /// The next token from the previous results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.modelId = modelId
@@ -1587,6 +1636,7 @@ extension FraudDetector {
         /// The next token.
         public let nextToken: String?
 
+        @inlinable
         public init(modelVersionDetails: [ModelVersionDetail]? = nil, nextToken: String? = nil) {
             self.modelVersionDetails = modelVersionDetails
             self.nextToken = nextToken
@@ -1612,6 +1662,7 @@ extension FraudDetector {
         /// Timestamp of when the detector was last updated.
         public let lastUpdatedTime: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, eventTypeName: String? = nil, lastUpdatedTime: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1641,6 +1692,7 @@ extension FraudDetector {
         /// The detector version status.
         public let status: DetectorVersionStatus?
 
+        @inlinable
         public init(description: String? = nil, detectorVersionId: String? = nil, lastUpdatedTime: String? = nil, status: DetectorVersionStatus? = nil) {
             self.description = description
             self.detectorVersionId = detectorVersionId
@@ -1662,6 +1714,7 @@ extension FraudDetector {
         /// The entity type.
         public let entityType: String
 
+        @inlinable
         public init(entityId: String, entityType: String) {
             self.entityId = entityId
             self.entityType = entityType
@@ -1691,6 +1744,7 @@ extension FraudDetector {
         /// The entity type name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1718,6 +1772,7 @@ extension FraudDetector {
         /// Indicates whether event variables were used to generate predictions.
         public let useEventVariables: Bool?
 
+        @inlinable
         public init(inputVariables: [String: String]? = nil, modelEndpoint: String? = nil, outputVariables: [String: String]? = nil, useEventVariables: Bool? = nil) {
             self.inputVariables = inputVariables
             self.modelEndpoint = modelEndpoint
@@ -1743,6 +1798,7 @@ extension FraudDetector {
         /// The model version.
         public let modelVersion: String?
 
+        @inlinable
         public init(evaluations: [ModelVersionEvaluation]? = nil, modelId: String? = nil, modelType: String? = nil, modelVersion: String? = nil) {
             self.evaluations = evaluations
             self.modelId = modelId
@@ -1774,6 +1830,7 @@ extension FraudDetector {
         /// The rule version.
         public let ruleVersion: String?
 
+        @inlinable
         public init(evaluated: Bool? = nil, expression: String? = nil, expressionWithValues: String? = nil, matched: Bool? = nil, outcomes: [String]? = nil, ruleId: String? = nil, ruleVersion: String? = nil) {
             self.evaluated = evaluated
             self.expression = expression
@@ -1811,6 +1868,7 @@ extension FraudDetector {
         /// The timestamp associated with the label to update. The timestamp must be specified using ISO 8601 standard in UTC.
         public let labelTimestamp: String?
 
+        @inlinable
         public init(currentLabel: String? = nil, entities: [Entity]? = nil, eventId: String? = nil, eventTimestamp: String? = nil, eventTypeName: String? = nil, eventVariables: [String: String]? = nil, labelTimestamp: String? = nil) {
             self.currentLabel = currentLabel
             self.entities = entities
@@ -1836,6 +1894,7 @@ extension FraudDetector {
         /// Specifies if event orchestration is enabled through Amazon EventBridge.
         public let eventBridgeEnabled: Bool
 
+        @inlinable
         public init(eventBridgeEnabled: Bool) {
             self.eventBridgeEnabled = eventBridgeEnabled
         }
@@ -1859,6 +1918,7 @@ extension FraudDetector {
         /// The timestamp when the prediction was generated.
         public let predictionTimestamp: String?
 
+        @inlinable
         public init(detectorId: String? = nil, detectorVersionId: String? = nil, eventId: String? = nil, eventTimestamp: String? = nil, eventTypeName: String? = nil, predictionTimestamp: String? = nil) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -1902,6 +1962,7 @@ extension FraudDetector {
         /// The event type name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, entityTypes: [String]? = nil, eventIngestion: EventIngestion? = nil, eventOrchestration: EventOrchestration? = nil, eventVariables: [String]? = nil, ingestedEventStatistics: IngestedEventStatistics? = nil, labels: [String]? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1939,6 +2000,7 @@ extension FraudDetector {
         /// The value of the event variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, source: String? = nil, value: String? = nil) {
             self.name = name
             self.source = source
@@ -1958,6 +2020,7 @@ extension FraudDetector {
         /// The Amazon S3 bucket location for the data.
         public let dataLocation: String
 
+        @inlinable
         public init(dataAccessRoleArn: String, dataLocation: String) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.dataLocation = dataLocation
@@ -1998,6 +2061,7 @@ extension FraudDetector {
         /// The output configuration.
         public let outputConfiguration: ModelOutputConfiguration?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, inputConfiguration: ModelInputConfiguration? = nil, invokeModelEndpointRoleArn: String? = nil, lastUpdatedTime: String? = nil, modelEndpoint: String? = nil, modelEndpointStatus: ModelEndpointStatus? = nil, modelSource: ModelSource? = nil, outputConfiguration: ModelOutputConfiguration? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -2029,6 +2093,7 @@ extension FraudDetector {
         /// The fraud prediction scores from Amazon SageMaker model.
         public let outputs: [String: String]?
 
+        @inlinable
         public init(externalModel: ExternalModelSummary? = nil, outputs: [String: String]? = nil) {
             self.externalModel = externalModel
             self.outputs = outputs
@@ -2046,6 +2111,7 @@ extension FraudDetector {
         /// The source of the model.
         public let modelSource: ModelSource?
 
+        @inlinable
         public init(modelEndpoint: String? = nil, modelSource: ModelSource? = nil) {
             self.modelEndpoint = modelEndpoint
             self.modelSource = modelSource
@@ -2069,6 +2135,7 @@ extension FraudDetector {
         /// The message type.
         public let type: String?
 
+        @inlinable
         public init(content: String? = nil, fieldName: String? = nil, identifier: String? = nil, title: String? = nil, type: String? = nil) {
             self.content = content
             self.fieldName = fieldName
@@ -2094,6 +2161,7 @@ extension FraudDetector {
         /// The message type.
         public let type: String?
 
+        @inlinable
         public init(content: String? = nil, title: String? = nil, type: String? = nil) {
             self.content = content
             self.title = title
@@ -2111,6 +2179,7 @@ extension FraudDetector {
         /// A statement containing a resource property and a value to specify filter condition.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -2134,6 +2203,7 @@ extension FraudDetector {
         /// The next token from the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -2161,6 +2231,7 @@ extension FraudDetector {
         /// The next token for the subsequent resquest.
         public let nextToken: String?
 
+        @inlinable
         public init(batchImports: [BatchImport]? = nil, nextToken: String? = nil) {
             self.batchImports = batchImports
             self.nextToken = nextToken
@@ -2180,6 +2251,7 @@ extension FraudDetector {
         /// The next token from the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -2207,6 +2279,7 @@ extension FraudDetector {
         /// The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(batchPredictions: [BatchPrediction]? = nil, nextToken: String? = nil) {
             self.batchPredictions = batchPredictions
             self.nextToken = nextToken
@@ -2222,6 +2295,7 @@ extension FraudDetector {
         /// Name of event type for which to get the deletion status.
         public let eventTypeName: String
 
+        @inlinable
         public init(eventTypeName: String) {
             self.eventTypeName = eventTypeName
         }
@@ -2243,6 +2317,7 @@ extension FraudDetector {
         /// The event type name.
         public let eventTypeName: String?
 
+        @inlinable
         public init(eventsDeletionStatus: AsyncJobStatus? = nil, eventTypeName: String? = nil) {
             self.eventsDeletionStatus = eventsDeletionStatus
             self.eventTypeName = eventTypeName
@@ -2260,6 +2335,7 @@ extension FraudDetector {
         /// The detector version ID.
         public let detectorVersionId: String
 
+        @inlinable
         public init(detectorId: String, detectorVersionId: String) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -2304,6 +2380,7 @@ extension FraudDetector {
         /// The status of the detector version.
         public let status: DetectorVersionStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, detectorVersionId: String? = nil, externalModelEndpoints: [String]? = nil, lastUpdatedTime: String? = nil, modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]? = nil, status: DetectorVersionStatus? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -2341,6 +2418,7 @@ extension FraudDetector {
         /// The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(detectorId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -2368,6 +2446,7 @@ extension FraudDetector {
         /// The next page token.
         public let nextToken: String?
 
+        @inlinable
         public init(detectors: [Detector]? = nil, nextToken: String? = nil) {
             self.detectors = detectors
             self.nextToken = nextToken
@@ -2387,6 +2466,7 @@ extension FraudDetector {
         /// The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2414,6 +2494,7 @@ extension FraudDetector {
         /// The next page token.
         public let nextToken: String?
 
+        @inlinable
         public init(entityTypes: [EntityType]? = nil, nextToken: String? = nil) {
             self.entityTypes = entityTypes
             self.nextToken = nextToken
@@ -2437,6 +2518,7 @@ extension FraudDetector {
         ///  The timestamp that defines when the prediction was generated. The timestamp must be specified using ISO 8601 standard in UTC. We recommend calling ListEventPredictions first, and using the predictionTimestamp value in the response to provide an accurate prediction timestamp value.
         public let predictionTimestamp: String
 
+        @inlinable
         public init(detectorId: String, detectorVersionId: String, eventId: String, eventTypeName: String, predictionTimestamp: String) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -2503,6 +2585,7 @@ extension FraudDetector {
         /// List of rules associated with the detector version that were used for evaluating variable values.
         public let rules: [EvaluatedRule]?
 
+        @inlinable
         public init(detectorId: String? = nil, detectorVersionId: String? = nil, detectorVersionStatus: String? = nil, entityId: String? = nil, entityType: String? = nil, evaluatedExternalModels: [EvaluatedExternalModel]? = nil, evaluatedModelVersions: [EvaluatedModelVersion]? = nil, eventId: String? = nil, eventTimestamp: String? = nil, eventTypeName: String? = nil, eventVariables: [EventVariableSummary]? = nil, outcomes: [String]? = nil, predictionTimestamp: String? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [EvaluatedRule]? = nil) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -2558,6 +2641,7 @@ extension FraudDetector {
         /// The Amazon SageMaker model endpoint input data blobs.
         public let externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]?
 
+        @inlinable
         public init(detectorId: String, detectorVersionId: String? = nil, entities: [Entity], eventId: String, eventTimestamp: String, eventTypeName: String, eventVariables: [String: String], externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]? = nil) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -2613,6 +2697,7 @@ extension FraudDetector {
         /// The results from the rules.
         public let ruleResults: [RuleResult]?
 
+        @inlinable
         public init(externalModelOutputs: [ExternalModelOutputs]? = nil, modelScores: [ModelScores]? = nil, ruleResults: [RuleResult]? = nil) {
             self.externalModelOutputs = externalModelOutputs
             self.modelScores = modelScores
@@ -2632,6 +2717,7 @@ extension FraudDetector {
         /// The event type of the event to retrieve.
         public let eventTypeName: String
 
+        @inlinable
         public init(eventId: String, eventTypeName: String) {
             self.eventId = eventId
             self.eventTypeName = eventTypeName
@@ -2647,6 +2733,7 @@ extension FraudDetector {
         /// The details of the event.
         public let event: Event?
 
+        @inlinable
         public init(event: Event? = nil) {
             self.event = event
         }
@@ -2664,6 +2751,7 @@ extension FraudDetector {
         /// The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2691,6 +2779,7 @@ extension FraudDetector {
         /// The next page token.
         public let nextToken: String?
 
+        @inlinable
         public init(eventTypes: [EventType]? = nil, nextToken: String? = nil) {
             self.eventTypes = eventTypes
             self.nextToken = nextToken
@@ -2710,6 +2799,7 @@ extension FraudDetector {
         /// The next page token for the request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, modelEndpoint: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.modelEndpoint = modelEndpoint
@@ -2734,6 +2824,7 @@ extension FraudDetector {
         /// The next page token to be used in subsequent requests.
         public let nextToken: String?
 
+        @inlinable
         public init(externalModels: [ExternalModel]? = nil, nextToken: String? = nil) {
             self.externalModels = externalModels
             self.nextToken = nextToken
@@ -2749,6 +2840,7 @@ extension FraudDetector {
         /// The KMS encryption key.
         public let kmsKey: KMSKey?
 
+        @inlinable
         public init(kmsKey: KMSKey? = nil) {
             self.kmsKey = kmsKey
         }
@@ -2766,6 +2858,7 @@ extension FraudDetector {
         /// The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2793,6 +2886,7 @@ extension FraudDetector {
         /// The next page token.
         public let nextToken: String?
 
+        @inlinable
         public init(labels: [Label]? = nil, nextToken: String? = nil) {
             self.labels = labels
             self.nextToken = nextToken
@@ -2812,6 +2906,7 @@ extension FraudDetector {
         ///  The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2841,6 +2936,7 @@ extension FraudDetector {
         ///  The next page token.
         public let nextToken: String?
 
+        @inlinable
         public init(elements: [String]? = nil, nextToken: String? = nil) {
             self.elements = elements
             self.nextToken = nextToken
@@ -2860,6 +2956,7 @@ extension FraudDetector {
         ///  The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2889,6 +2986,7 @@ extension FraudDetector {
         ///  The next page token.
         public let nextToken: String?
 
+        @inlinable
         public init(lists: [AllowDenyList]? = nil, nextToken: String? = nil) {
             self.lists = lists
             self.nextToken = nextToken
@@ -2908,6 +3006,7 @@ extension FraudDetector {
         /// The model version number.
         public let modelVersionNumber: String
 
+        @inlinable
         public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
             self.modelId = modelId
             self.modelType = modelType
@@ -2950,6 +3049,7 @@ extension FraudDetector {
         /// The training data source.
         public let trainingDataSource: TrainingDataSourceEnum?
 
+        @inlinable
         public init(arn: String? = nil, externalEventsDetail: ExternalEventsDetail? = nil, ingestedEventsDetail: IngestedEventsDetail? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSchema: TrainingDataSchema? = nil, trainingDataSource: TrainingDataSourceEnum? = nil) {
             self.arn = arn
             self.externalEventsDetail = externalEventsDetail
@@ -2985,6 +3085,7 @@ extension FraudDetector {
         /// The next token for the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.modelId = modelId
@@ -3014,6 +3115,7 @@ extension FraudDetector {
         /// The next page token to be used in subsequent requests.
         public let nextToken: String?
 
+        @inlinable
         public init(models: [Model]? = nil, nextToken: String? = nil) {
             self.models = models
             self.nextToken = nextToken
@@ -3033,6 +3135,7 @@ extension FraudDetector {
         /// The next page token for the request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -3060,6 +3163,7 @@ extension FraudDetector {
         /// The outcomes.
         public let outcomes: [Outcome]?
 
+        @inlinable
         public init(nextToken: String? = nil, outcomes: [Outcome]? = nil) {
             self.nextToken = nextToken
             self.outcomes = outcomes
@@ -3083,6 +3187,7 @@ extension FraudDetector {
         /// The rule version.
         public let ruleVersion: String?
 
+        @inlinable
         public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, ruleId: String? = nil, ruleVersion: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
@@ -3120,6 +3225,7 @@ extension FraudDetector {
         /// The details of the requested rule.
         public let ruleDetails: [RuleDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, ruleDetails: [RuleDetail]? = nil) {
             self.nextToken = nextToken
             self.ruleDetails = ruleDetails
@@ -3139,6 +3245,7 @@ extension FraudDetector {
         /// The next page token of the get variable request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -3163,6 +3270,7 @@ extension FraudDetector {
         /// The names of the variables returned.
         public let variables: [Variable]?
 
+        @inlinable
         public init(nextToken: String? = nil, variables: [Variable]? = nil) {
             self.nextToken = nextToken
             self.variables = variables
@@ -3186,6 +3294,7 @@ extension FraudDetector {
         /// The number of stored events.
         public let numberOfEvents: Int64?
 
+        @inlinable
         public init(eventDataSizeInBytes: Int64? = nil, lastUpdatedTime: String? = nil, leastRecentEvent: String? = nil, mostRecentEvent: String? = nil, numberOfEvents: Int64? = nil) {
             self.eventDataSizeInBytes = eventDataSizeInBytes
             self.lastUpdatedTime = lastUpdatedTime
@@ -3207,6 +3316,7 @@ extension FraudDetector {
         /// The start and stop time of the ingested events.
         public let ingestedEventsTimeWindow: IngestedEventsTimeWindow
 
+        @inlinable
         public init(ingestedEventsTimeWindow: IngestedEventsTimeWindow) {
             self.ingestedEventsTimeWindow = ingestedEventsTimeWindow
         }
@@ -3226,6 +3336,7 @@ extension FraudDetector {
         /// Timestamp of the first ingensted event.
         public let startTime: String
 
+        @inlinable
         public init(endTime: String, startTime: String) {
             self.endTime = endTime
             self.startTime = startTime
@@ -3248,6 +3359,7 @@ extension FraudDetector {
         /// The encryption key ARN.
         public let kmsEncryptionKeyArn: String?
 
+        @inlinable
         public init(kmsEncryptionKeyArn: String? = nil) {
             self.kmsEncryptionKeyArn = kmsEncryptionKeyArn
         }
@@ -3269,6 +3381,7 @@ extension FraudDetector {
         /// The label name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -3292,6 +3405,7 @@ extension FraudDetector {
         /// The action to take for unlabeled events.   Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled.   Use FRAUD  if you want to categorize all unlabeled events as “Fraud”.  This is recommended when most of the events in your dataset are fraudulent.   Use LEGIT if you want to categorize all unlabeled events as “Legit”. This is recommended when most of the events in your dataset are legitimate.   Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data.  This is recommended when there is significant unlabeled events in the dataset.   By default, Amazon Fraud Detector ignores the unlabeled data.
         public let unlabeledEventsTreatment: UnlabeledEventsTreatment?
 
+        @inlinable
         public init(labelMapper: [String: [String]]? = nil, unlabeledEventsTreatment: UnlabeledEventsTreatment? = nil) {
             self.labelMapper = labelMapper
             self.unlabeledEventsTreatment = unlabeledEventsTreatment
@@ -3319,6 +3433,7 @@ extension FraudDetector {
         /// The time period for when the predictions were generated.
         public let predictionTimeRange: PredictionTimeRange?
 
+        @inlinable
         public init(detectorId: FilterCondition? = nil, detectorVersionId: FilterCondition? = nil, eventId: FilterCondition? = nil, eventType: FilterCondition? = nil, maxResults: Int? = nil, nextToken: String? = nil, predictionTimeRange: PredictionTimeRange? = nil) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -3356,6 +3471,7 @@ extension FraudDetector {
         /// Identifies the next page of results to return. Use the token to make the call again to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(eventPredictionSummaries: [EventPredictionSummary]? = nil, nextToken: String? = nil) {
             self.eventPredictionSummaries = eventPredictionSummaries
             self.nextToken = nextToken
@@ -3375,6 +3491,7 @@ extension FraudDetector {
         /// The ARN that specifies the resource whose tags you want to list.
         public let resourceARN: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3402,6 +3519,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3421,6 +3539,7 @@ extension FraudDetector {
         /// The type of variable.
         public let variableType: String
 
+        @inlinable
         public init(variableImportance: Float, variableName: String, variableType: String) {
             self.variableImportance = variableImportance
             self.variableName = variableName
@@ -3444,6 +3563,7 @@ extension FraudDetector {
         /// The true positive rate. This is the percentage of total fraud the model detects. Also known as capture rate.
         public let tpr: Float?
 
+        @inlinable
         public init(fpr: Float? = nil, precision: Float? = nil, threshold: Float? = nil, tpr: Float? = nil) {
             self.fpr = fpr
             self.precision = precision
@@ -3475,6 +3595,7 @@ extension FraudDetector {
         /// The model type.
         public let modelType: ModelTypeEnum?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, eventTypeName: String? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -3502,6 +3623,7 @@ extension FraudDetector {
         /// The content type of the Amazon SageMaker model endpoint input data blob.
         public let contentType: String?
 
+        @inlinable
         public init(byteBuffer: AWSBase64Data? = nil, contentType: String? = nil) {
             self.byteBuffer = byteBuffer
             self.contentType = contentType
@@ -3530,6 +3652,7 @@ extension FraudDetector {
         /// The event variables.
         public let useEventVariables: Bool
 
+        @inlinable
         public init(csvInputTemplate: String? = nil, eventTypeName: String? = nil, format: ModelInputDataFormat? = nil, jsonInputTemplate: String? = nil, useEventVariables: Bool) {
             self.csvInputTemplate = csvInputTemplate
             self.eventTypeName = eventTypeName
@@ -3565,6 +3688,7 @@ extension FraudDetector {
         /// A map of JSON keys in response from SageMaker to the Amazon Fraud Detector variables.
         public let jsonKeyToVariableMap: [String: String]?
 
+        @inlinable
         public init(csvIndexToVariableMap: [String: String]? = nil, format: ModelOutputDataFormat, jsonKeyToVariableMap: [String: String]? = nil) {
             self.csvIndexToVariableMap = csvIndexToVariableMap
             self.format = format
@@ -3584,6 +3708,7 @@ extension FraudDetector {
         /// The model's fraud prediction scores.
         public let scores: [String: Float]?
 
+        @inlinable
         public init(modelVersion: ModelVersion? = nil, scores: [String: Float]? = nil) {
             self.modelVersion = modelVersion
             self.scores = scores
@@ -3605,6 +3730,7 @@ extension FraudDetector {
         /// The model version number.
         public let modelVersionNumber: String
 
+        @inlinable
         public init(arn: String? = nil, modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String) {
             self.arn = arn
             self.modelId = modelId
@@ -3660,6 +3786,7 @@ extension FraudDetector {
         ///  The training result details. The details include the relative importance of the variables.
         public let trainingResultV2: TrainingResultV2?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, externalEventsDetail: ExternalEventsDetail? = nil, ingestedEventsDetail: IngestedEventsDetail? = nil, lastUpdatedTime: String? = nil, modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil, trainingDataSchema: TrainingDataSchema? = nil, trainingDataSource: TrainingDataSourceEnum? = nil, trainingResult: TrainingResult? = nil, trainingResultV2: TrainingResultV2? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -3701,6 +3828,7 @@ extension FraudDetector {
         /// The prediction explanations generated for the model version.
         public let predictionExplanations: PredictionExplanations?
 
+        @inlinable
         public init(evaluationScore: String? = nil, outputVariableName: String? = nil, predictionExplanations: PredictionExplanations? = nil) {
             self.evaluationScore = evaluationScore
             self.outputVariableName = outputVariableName
@@ -3724,6 +3852,7 @@ extension FraudDetector {
         ///  The true positive rate. This is the percentage of total fraud the model detects. Also known as capture rate.
         public let tpr: Float?
 
+        @inlinable
         public init(fpr: Float? = nil, precision: Float? = nil, threshold: Float? = nil, tpr: Float? = nil) {
             self.fpr = fpr
             self.precision = precision
@@ -3745,6 +3874,7 @@ extension FraudDetector {
         ///  Indicates the range of area under curve (auc) expected from the OFI model. A range greater than 0.1 indicates higher model uncertainity.
         public let uncertaintyRange: UncertaintyRange?
 
+        @inlinable
         public init(auc: Float? = nil, uncertaintyRange: UncertaintyRange? = nil) {
             self.auc = auc
             self.uncertaintyRange = uncertaintyRange
@@ -3762,6 +3892,7 @@ extension FraudDetector {
         ///  The model's overall performance score.
         public let modelPerformance: OFIModelPerformance?
 
+        @inlinable
         public init(metricDataPoints: [OFIMetricDataPoint]? = nil, modelPerformance: OFIModelPerformance? = nil) {
             self.metricDataPoints = metricDataPoints
             self.modelPerformance = modelPerformance
@@ -3785,6 +3916,7 @@ extension FraudDetector {
         /// The outcome name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -3808,6 +3940,7 @@ extension FraudDetector {
         /// The details of the event variable's impact on the prediction score.
         public let variableImpactExplanations: [VariableImpactExplanation]?
 
+        @inlinable
         public init(aggregatedVariablesImpactExplanations: [AggregatedVariablesImpactExplanation]? = nil, variableImpactExplanations: [VariableImpactExplanation]? = nil) {
             self.aggregatedVariablesImpactExplanations = aggregatedVariablesImpactExplanations
             self.variableImpactExplanations = variableImpactExplanations
@@ -3825,6 +3958,7 @@ extension FraudDetector {
         /// The start time of the time period for when the predictions were generated.
         public let startTime: String
 
+        @inlinable
         public init(endTime: String, startTime: String) {
             self.endTime = endTime
             self.startTime = startTime
@@ -3853,6 +3987,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, detectorId: String, eventTypeName: String, tags: [Tag]? = nil) {
             self.description = description
             self.detectorId = detectorId
@@ -3895,6 +4030,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -3942,6 +4078,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, entityTypes: [String], eventIngestion: EventIngestion? = nil, eventOrchestration: EventOrchestration? = nil, eventVariables: [String], labels: [String]? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
             self.entityTypes = entityTypes
@@ -3999,6 +4136,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(inputConfiguration: ModelInputConfiguration, invokeModelEndpointRoleArn: String, modelEndpoint: String, modelEndpointStatus: ModelEndpointStatus, modelSource: ModelSource, outputConfiguration: ModelOutputConfiguration, tags: [Tag]? = nil) {
             self.inputConfiguration = inputConfiguration
             self.invokeModelEndpointRoleArn = invokeModelEndpointRoleArn
@@ -4039,6 +4177,7 @@ extension FraudDetector {
         /// The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key.
         public let kmsEncryptionKeyArn: String
 
+        @inlinable
         public init(kmsEncryptionKeyArn: String) {
             self.kmsEncryptionKeyArn = kmsEncryptionKeyArn
         }
@@ -4066,6 +4205,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -4103,6 +4243,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -4140,6 +4281,7 @@ extension FraudDetector {
         /// The rule version.
         public let ruleVersion: String
 
+        @inlinable
         public init(detectorId: String, ruleId: String, ruleVersion: String) {
             self.detectorId = detectorId
             self.ruleId = ruleId
@@ -4187,6 +4329,7 @@ extension FraudDetector {
         /// The rule version.
         public let ruleVersion: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, detectorId: String? = nil, expression: String? = nil, language: Language? = nil, lastUpdatedTime: String? = nil, outcomes: [String]? = nil, ruleId: String? = nil, ruleVersion: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -4220,6 +4363,7 @@ extension FraudDetector {
         /// The rule ID that was matched, based on the rule execution mode.
         public let ruleId: String?
 
+        @inlinable
         public init(outcomes: [String]? = nil, ruleId: String? = nil) {
             self.outcomes = outcomes
             self.ruleId = ruleId
@@ -4247,6 +4391,7 @@ extension FraudDetector {
         /// The timestamp associated with the label. Required if specifying assignedLabel.
         public let labelTimestamp: String?
 
+        @inlinable
         public init(assignedLabel: String? = nil, entities: [Entity], eventId: String, eventTimestamp: String, eventTypeName: String, eventVariables: [String: String], labelTimestamp: String? = nil) {
             self.assignedLabel = assignedLabel
             self.entities = entities
@@ -4308,6 +4453,7 @@ extension FraudDetector {
         ///  The true positive rate. This is the percentage of total fraud the model detects. Also known as capture rate.
         public let tpr: Float?
 
+        @inlinable
         public init(fpr: Float? = nil, precision: Float? = nil, threshold: Float? = nil, tpr: Float? = nil) {
             self.fpr = fpr
             self.precision = precision
@@ -4329,6 +4475,7 @@ extension FraudDetector {
         ///  Indicates the range of area under curve (auc) expected from the TFI model. A range greater than 0.1 indicates higher model uncertainity.
         public let uncertaintyRange: UncertaintyRange?
 
+        @inlinable
         public init(auc: Float? = nil, uncertaintyRange: UncertaintyRange? = nil) {
             self.auc = auc
             self.uncertaintyRange = uncertaintyRange
@@ -4346,6 +4493,7 @@ extension FraudDetector {
         ///  The model performance score.
         public let modelPerformance: TFIModelPerformance?
 
+        @inlinable
         public init(metricDataPoints: [TFIMetricDataPoint]? = nil, modelPerformance: TFIModelPerformance? = nil) {
             self.metricDataPoints = metricDataPoints
             self.modelPerformance = modelPerformance
@@ -4363,6 +4511,7 @@ extension FraudDetector {
         /// A value assigned to a tag key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4387,6 +4536,7 @@ extension FraudDetector {
         /// The tags to assign to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4417,6 +4567,7 @@ extension FraudDetector {
         /// The training data schema variables.
         public let modelVariables: [String]
 
+        @inlinable
         public init(labelSchema: LabelSchema? = nil, modelVariables: [String]) {
             self.labelSchema = labelSchema
             self.modelVariables = modelVariables
@@ -4434,6 +4585,7 @@ extension FraudDetector {
         /// The data points details.
         public let metricDataPoints: [MetricDataPoint]?
 
+        @inlinable
         public init(auc: Float? = nil, metricDataPoints: [MetricDataPoint]? = nil) {
             self.auc = auc
             self.metricDataPoints = metricDataPoints
@@ -4453,6 +4605,7 @@ extension FraudDetector {
         ///  The Transaction Fraud Insights (TFI) model training metric details.
         public let tfi: TFITrainingMetricsValue?
 
+        @inlinable
         public init(ati: ATITrainingMetricsValue? = nil, ofi: OFITrainingMetricsValue? = nil, tfi: TFITrainingMetricsValue? = nil) {
             self.ati = ati
             self.ofi = ofi
@@ -4474,6 +4627,7 @@ extension FraudDetector {
         /// The variable importance metrics.
         public let variableImportanceMetrics: VariableImportanceMetrics?
 
+        @inlinable
         public init(dataValidationMetrics: DataValidationMetrics? = nil, trainingMetrics: TrainingMetrics? = nil, variableImportanceMetrics: VariableImportanceMetrics? = nil) {
             self.dataValidationMetrics = dataValidationMetrics
             self.trainingMetrics = trainingMetrics
@@ -4495,6 +4649,7 @@ extension FraudDetector {
         public let trainingMetricsV2: TrainingMetricsV2?
         public let variableImportanceMetrics: VariableImportanceMetrics?
 
+        @inlinable
         public init(aggregatedVariablesImportanceMetrics: AggregatedVariablesImportanceMetrics? = nil, dataValidationMetrics: DataValidationMetrics? = nil, trainingMetricsV2: TrainingMetricsV2? = nil, variableImportanceMetrics: VariableImportanceMetrics? = nil) {
             self.aggregatedVariablesImportanceMetrics = aggregatedVariablesImportanceMetrics
             self.dataValidationMetrics = dataValidationMetrics
@@ -4516,6 +4671,7 @@ extension FraudDetector {
         ///  The upper bound value of the area under curve (auc).
         public let upperBoundValue: Float
 
+        @inlinable
         public init(lowerBoundValue: Float, upperBoundValue: Float) {
             self.lowerBoundValue = lowerBoundValue
             self.upperBoundValue = upperBoundValue
@@ -4533,6 +4689,7 @@ extension FraudDetector {
         /// The resource ARN.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4568,6 +4725,7 @@ extension FraudDetector {
         /// The detector version ID.
         public let detectorVersionId: String
 
+        @inlinable
         public init(description: String, detectorId: String, detectorVersionId: String) {
             self.description = description
             self.detectorId = detectorId
@@ -4612,6 +4770,7 @@ extension FraudDetector {
         /// The rules to include in the detector version.
         public let rules: [Rule]
 
+        @inlinable
         public init(description: String? = nil, detectorId: String, detectorVersionId: String, externalModelEndpoints: [String], modelVersions: [ModelVersion]? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [Rule]) {
             self.description = description
             self.detectorId = detectorId
@@ -4662,6 +4821,7 @@ extension FraudDetector {
         /// The new status. The only supported values are ACTIVE and INACTIVE
         public let status: DetectorVersionStatus
 
+        @inlinable
         public init(detectorId: String, detectorVersionId: String, status: DetectorVersionStatus) {
             self.detectorId = detectorId
             self.detectorVersionId = detectorVersionId
@@ -4698,6 +4858,7 @@ extension FraudDetector {
         /// The timestamp associated with the label. The timestamp must be specified using ISO 8601 standard in UTC.
         public let labelTimestamp: String
 
+        @inlinable
         public init(assignedLabel: String, eventId: String, eventTypeName: String, labelTimestamp: String) {
             self.assignedLabel = assignedLabel
             self.eventId = eventId
@@ -4743,6 +4904,7 @@ extension FraudDetector {
         ///  The variable type you want to assign to the list.   You cannot update a variable type of a list that already has a variable type assigned to it. You can assign a variable type to a list only if the list does not already have a variable type.
         public let variableType: String?
 
+        @inlinable
         public init(description: String? = nil, elements: [String]? = nil, name: String, updateMode: ListUpdateMode? = nil, variableType: String? = nil) {
             self.description = description
             self.elements = elements
@@ -4789,6 +4951,7 @@ extension FraudDetector {
         /// The model type.
         public let modelType: ModelTypeEnum
 
+        @inlinable
         public init(description: String? = nil, modelId: String, modelType: ModelTypeEnum) {
             self.description = description
             self.modelId = modelId
@@ -4828,6 +4991,7 @@ extension FraudDetector {
         /// A collection of key and value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(externalEventsDetail: ExternalEventsDetail? = nil, ingestedEventsDetail: IngestedEventsDetail? = nil, majorVersionNumber: String, modelId: String, modelType: ModelTypeEnum, tags: [Tag]? = nil) {
             self.externalEventsDetail = externalEventsDetail
             self.ingestedEventsDetail = ingestedEventsDetail
@@ -4872,6 +5036,7 @@ extension FraudDetector {
         /// The status of the updated model version.
         public let status: String?
 
+        @inlinable
         public init(modelId: String? = nil, modelType: ModelTypeEnum? = nil, modelVersionNumber: String? = nil, status: String? = nil) {
             self.modelId = modelId
             self.modelType = modelType
@@ -4897,6 +5062,7 @@ extension FraudDetector {
         /// The model version status.
         public let status: ModelVersionStatus
 
+        @inlinable
         public init(modelId: String, modelType: ModelTypeEnum, modelVersionNumber: String, status: ModelVersionStatus) {
             self.modelId = modelId
             self.modelType = modelType
@@ -4931,6 +5097,7 @@ extension FraudDetector {
         /// The rule to update.
         public let rule: Rule
 
+        @inlinable
         public init(description: String, rule: Rule) {
             self.description = description
             self.rule = rule
@@ -4966,6 +5133,7 @@ extension FraudDetector {
         /// The tags to assign to the rule version.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, expression: String, language: Language, outcomes: [String], rule: Rule, tags: [Tag]? = nil) {
             self.description = description
             self.expression = expression
@@ -5002,6 +5170,7 @@ extension FraudDetector {
         /// The new rule version that was created.
         public let rule: Rule?
 
+        @inlinable
         public init(rule: Rule? = nil) {
             self.rule = rule
         }
@@ -5021,6 +5190,7 @@ extension FraudDetector {
         /// The variable type. For more information see Variable types.
         public let variableType: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, name: String, variableType: String? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -5060,6 +5230,7 @@ extension FraudDetector {
         /// The variable type of the variable. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
         public let variableType: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: String? = nil, dataSource: DataSource? = nil, dataType: DataType? = nil, defaultValue: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil, variableType: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -5099,6 +5270,7 @@ extension FraudDetector {
         /// The type of the variable. For more information see Variable types. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
         public let variableType: String?
 
+        @inlinable
         public init(dataSource: String? = nil, dataType: String? = nil, defaultValue: String? = nil, description: String? = nil, name: String? = nil, variableType: String? = nil) {
             self.dataSource = dataSource
             self.dataType = dataType
@@ -5126,6 +5298,7 @@ extension FraudDetector {
         ///  The event variable's relative impact in terms of magnitude on the prediction scores.  The relative impact values consist of a numerical rating (0-5, 5 being the highest) and direction (increased/decreased) impact of the fraud risk.
         public let relativeImpact: String?
 
+        @inlinable
         public init(eventVariableName: String? = nil, logOddsImpact: Float? = nil, relativeImpact: String? = nil) {
             self.eventVariableName = eventVariableName
             self.logOddsImpact = logOddsImpact
@@ -5143,6 +5316,7 @@ extension FraudDetector {
         /// List of variable metrics.
         public let logOddsMetrics: [LogOddsMetric]?
 
+        @inlinable
         public init(logOddsMetrics: [LogOddsMetric]? = nil) {
             self.logOddsMetrics = logOddsMetrics
         }

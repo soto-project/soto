@@ -117,6 +117,7 @@ extension ManagedBlockchainQuery {
         /// The container for the recipient address of the transaction.
         public let transactionEventToAddress: [String]
 
+        @inlinable
         public init(transactionEventToAddress: [String]) {
             self.transactionEventToAddress = transactionEventToAddress
         }
@@ -140,6 +141,7 @@ extension ManagedBlockchainQuery {
         /// The token standard of the contract.
         public let tokenStandard: QueryTokenStandard
 
+        @inlinable
         public init(contractIdentifier: ContractIdentifier, deployerAddress: String, tokenStandard: QueryTokenStandard) {
             self.contractIdentifier = contractIdentifier
             self.deployerAddress = deployerAddress
@@ -164,6 +166,7 @@ extension ManagedBlockchainQuery {
         public let ownerIdentifier: OwnerIdentifier?
         public let tokenIdentifier: TokenIdentifier?
 
+        @inlinable
         public init(atBlockchainInstant: BlockchainInstant? = nil, errorCode: String, errorMessage: String, errorType: ErrorType, ownerIdentifier: OwnerIdentifier? = nil, tokenIdentifier: TokenIdentifier? = nil) {
             self.atBlockchainInstant = atBlockchainInstant
             self.errorCode = errorCode
@@ -187,6 +190,7 @@ extension ManagedBlockchainQuery {
         /// An array of BatchGetTokenBalanceInputItem objects whose balance is being requested.
         public let getTokenBalanceInputs: [BatchGetTokenBalanceInputItem]?
 
+        @inlinable
         public init(getTokenBalanceInputs: [BatchGetTokenBalanceInputItem]? = nil) {
             self.getTokenBalanceInputs = getTokenBalanceInputs
         }
@@ -209,6 +213,7 @@ extension ManagedBlockchainQuery {
         public let ownerIdentifier: OwnerIdentifier
         public let tokenIdentifier: TokenIdentifier
 
+        @inlinable
         public init(atBlockchainInstant: BlockchainInstant? = nil, ownerIdentifier: OwnerIdentifier, tokenIdentifier: TokenIdentifier) {
             self.atBlockchainInstant = atBlockchainInstant
             self.ownerIdentifier = ownerIdentifier
@@ -233,6 +238,7 @@ extension ManagedBlockchainQuery {
         /// An array of BatchGetTokenBalanceOutputItem objects returned by the response.
         public let tokenBalances: [BatchGetTokenBalanceOutputItem]
 
+        @inlinable
         public init(errors: [BatchGetTokenBalanceErrorItem], tokenBalances: [BatchGetTokenBalanceOutputItem]) {
             self.errors = errors
             self.tokenBalances = tokenBalances
@@ -252,6 +258,7 @@ extension ManagedBlockchainQuery {
         public let ownerIdentifier: OwnerIdentifier?
         public let tokenIdentifier: TokenIdentifier?
 
+        @inlinable
         public init(atBlockchainInstant: BlockchainInstant, balance: String, lastUpdatedTime: BlockchainInstant? = nil, ownerIdentifier: OwnerIdentifier? = nil, tokenIdentifier: TokenIdentifier? = nil) {
             self.atBlockchainInstant = atBlockchainInstant
             self.balance = balance
@@ -273,6 +280,7 @@ extension ManagedBlockchainQuery {
         /// The container of the Timestamp of the blockchain instant.  This timestamp will only be recorded up to  the second.
         public let time: Date?
 
+        @inlinable
         public init(time: Date? = nil) {
             self.time = time
         }
@@ -286,6 +294,7 @@ extension ManagedBlockchainQuery {
         /// The container to determine whether to list results that have only reached  finality . Transactions  that have reached finality are always part of the response.
         public let include: [ConfirmationStatus]
 
+        @inlinable
         public init(include: [ConfirmationStatus]) {
             self.include = include
         }
@@ -307,6 +316,7 @@ extension ManagedBlockchainQuery {
         /// The container for the token standard.
         public let tokenStandard: QueryTokenStandard
 
+        @inlinable
         public init(deployerAddress: String, network: QueryNetwork, tokenStandard: QueryTokenStandard) {
             self.deployerAddress = deployerAddress
             self.network = network
@@ -330,6 +340,7 @@ extension ManagedBlockchainQuery {
         /// The blockchain network of the contract.
         public let network: QueryNetwork
 
+        @inlinable
         public init(contractAddress: String, network: QueryNetwork) {
             self.contractAddress = contractAddress
             self.network = network
@@ -353,6 +364,7 @@ extension ManagedBlockchainQuery {
         /// The symbol of the token contract.
         public let symbol: String?
 
+        @inlinable
         public init(decimals: Int? = nil, name: String? = nil, symbol: String? = nil) {
             self.decimals = decimals
             self.name = name
@@ -370,6 +382,7 @@ extension ManagedBlockchainQuery {
         /// Contains the blockchain address and network information about the contract.
         public let contractIdentifier: ContractIdentifier
 
+        @inlinable
         public init(contractIdentifier: ContractIdentifier) {
             self.contractIdentifier = contractIdentifier
         }
@@ -392,6 +405,7 @@ extension ManagedBlockchainQuery {
         /// The token standard of the contract requested.
         public let tokenStandard: QueryTokenStandard
 
+        @inlinable
         public init(contractIdentifier: ContractIdentifier, deployerAddress: String, metadata: ContractMetadata? = nil, tokenStandard: QueryTokenStandard) {
             self.contractIdentifier = contractIdentifier
             self.deployerAddress = deployerAddress
@@ -415,6 +429,7 @@ extension ManagedBlockchainQuery {
         /// The container for the identifier for the token, including the unique  token ID and its blockchain network.
         public let tokenIdentifier: TokenIdentifier
 
+        @inlinable
         public init(atBlockchainInstant: BlockchainInstant? = nil, ownerIdentifier: OwnerIdentifier, tokenIdentifier: TokenIdentifier) {
             self.atBlockchainInstant = atBlockchainInstant
             self.ownerIdentifier = ownerIdentifier
@@ -441,6 +456,7 @@ extension ManagedBlockchainQuery {
         public let ownerIdentifier: OwnerIdentifier?
         public let tokenIdentifier: TokenIdentifier?
 
+        @inlinable
         public init(atBlockchainInstant: BlockchainInstant, balance: String, lastUpdatedTime: BlockchainInstant? = nil, ownerIdentifier: OwnerIdentifier? = nil, tokenIdentifier: TokenIdentifier? = nil) {
             self.atBlockchainInstant = atBlockchainInstant
             self.balance = balance
@@ -466,6 +482,7 @@ extension ManagedBlockchainQuery {
         /// The identifier of a Bitcoin transaction. It is generated when a transaction is created.   transactionId is only supported on the Bitcoin networks.
         public let transactionId: String?
 
+        @inlinable
         public init(network: QueryNetwork, transactionHash: String? = nil, transactionId: String? = nil) {
             self.network = network
             self.transactionHash = transactionHash
@@ -488,6 +505,7 @@ extension ManagedBlockchainQuery {
         /// Contains the details of the transaction.
         public let transaction: Transaction
 
+        @inlinable
         public init(transaction: Transaction) {
             self.transaction = transaction
         }
@@ -505,6 +523,7 @@ extension ManagedBlockchainQuery {
         ///  The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(contractFilter: ContractFilter, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contractFilter = contractFilter
             self.maxResults = maxResults
@@ -529,6 +548,7 @@ extension ManagedBlockchainQuery {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(contracts: [AssetContract], nextToken: String? = nil) {
             self.contracts = contracts
             self.nextToken = nextToken
@@ -557,6 +577,7 @@ extension ManagedBlockchainQuery {
         /// This container specifies filtering attributes related to BITCOIN_VOUT event types
         public let voutFilter: VoutFilter?
 
+        @inlinable
         public init(addressIdentifierFilter: AddressIdentifierFilter, confirmationStatusFilter: ConfirmationStatusFilter? = nil, maxResults: Int? = nil, network: String, nextToken: String? = nil, sort: ListFilteredTransactionEventsSort? = nil, timeFilter: TimeFilter? = nil, voutFilter: VoutFilter? = nil) {
             self.addressIdentifierFilter = addressIdentifierFilter
             self.confirmationStatusFilter = confirmationStatusFilter
@@ -592,6 +613,7 @@ extension ManagedBlockchainQuery {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [TransactionEvent], nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -609,6 +631,7 @@ extension ManagedBlockchainQuery {
         /// The container for the sort order for ListFilteredTransactionEvents.  The SortOrder field only accepts the values ASCENDING  and DESCENDING. Not providing SortOrder will default  to ASCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: ListFilteredTransactionEventsSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -630,6 +653,7 @@ extension ManagedBlockchainQuery {
         /// The contract address or a token identifier on the  blockchain network by which to filter the request. You must specify the contractAddress  property of this container when listing tokens minted by a contract.  You must always specify the network property of this  container when using this operation.
         public let tokenFilter: TokenFilter
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, ownerFilter: OwnerFilter? = nil, tokenFilter: TokenFilter) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -657,6 +681,7 @@ extension ManagedBlockchainQuery {
         /// An array of TokenBalance objects. Each object contains details about  the token balance.
         public let tokenBalances: [TokenBalance]
 
+        @inlinable
         public init(nextToken: String? = nil, tokenBalances: [TokenBalance]) {
             self.nextToken = nextToken
             self.tokenBalances = tokenBalances
@@ -680,6 +705,7 @@ extension ManagedBlockchainQuery {
         /// The identifier of a Bitcoin transaction. It is generated when a transaction is created.   transactionId is only supported on the Bitcoin networks.
         public let transactionId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, network: QueryNetwork, nextToken: String? = nil, transactionHash: String? = nil, transactionId: String? = nil) {
             self.maxResults = maxResults
             self.network = network
@@ -709,6 +735,7 @@ extension ManagedBlockchainQuery {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [TransactionEvent], nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -736,6 +763,7 @@ extension ManagedBlockchainQuery {
         public let sort: ListTransactionsSort?
         public let toBlockchainInstant: BlockchainInstant?
 
+        @inlinable
         public init(address: String, confirmationStatusFilter: ConfirmationStatusFilter? = nil, fromBlockchainInstant: BlockchainInstant? = nil, maxResults: Int? = nil, network: QueryNetwork, nextToken: String? = nil, sort: ListTransactionsSort? = nil, toBlockchainInstant: BlockchainInstant? = nil) {
             self.address = address
             self.confirmationStatusFilter = confirmationStatusFilter
@@ -771,6 +799,7 @@ extension ManagedBlockchainQuery {
         /// The array of transactions returned by the request.
         public let transactions: [TransactionOutputItem]
 
+        @inlinable
         public init(nextToken: String? = nil, transactions: [TransactionOutputItem]) {
             self.nextToken = nextToken
             self.transactions = transactions
@@ -788,6 +817,7 @@ extension ManagedBlockchainQuery {
         /// The container for the sort order for ListTransactions.  The SortOrder field only accepts the values ASCENDING  and DESCENDING. Not providing SortOrder will default  to ASCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: ListTransactionsSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -803,6 +833,7 @@ extension ManagedBlockchainQuery {
         /// The contract or wallet address.
         public let address: String
 
+        @inlinable
         public init(address: String) {
             self.address = address
         }
@@ -820,6 +851,7 @@ extension ManagedBlockchainQuery {
         /// The contract or wallet address for the owner.
         public let address: String
 
+        @inlinable
         public init(address: String) {
             self.address = address
         }
@@ -837,6 +869,7 @@ extension ManagedBlockchainQuery {
         public let from: BlockchainInstant?
         public let to: BlockchainInstant?
 
+        @inlinable
         public init(from: BlockchainInstant? = nil, to: BlockchainInstant? = nil) {
             self.from = from
             self.to = to
@@ -860,6 +893,7 @@ extension ManagedBlockchainQuery {
         /// The identifier for the token, including the unique token ID and its blockchain network.
         public let tokenIdentifier: TokenIdentifier?
 
+        @inlinable
         public init(atBlockchainInstant: BlockchainInstant, balance: String, lastUpdatedTime: BlockchainInstant? = nil, ownerIdentifier: OwnerIdentifier? = nil, tokenIdentifier: TokenIdentifier? = nil) {
             self.atBlockchainInstant = atBlockchainInstant
             self.balance = balance
@@ -885,6 +919,7 @@ extension ManagedBlockchainQuery {
         /// The unique identifier of the token.
         public let tokenId: String?
 
+        @inlinable
         public init(contractAddress: String? = nil, network: QueryNetwork, tokenId: String? = nil) {
             self.contractAddress = contractAddress
             self.network = network
@@ -911,6 +946,7 @@ extension ManagedBlockchainQuery {
         /// The unique identifier of the token.  For native tokens, use the 3 character abbreviation that best matches your token.  For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must  specify the tokenId in the 64 character hexadecimal tokenid format.
         public let tokenId: String?
 
+        @inlinable
         public init(contractAddress: String? = nil, network: QueryNetwork, tokenId: String? = nil) {
             self.contractAddress = contractAddress
             self.network = network
@@ -971,6 +1007,7 @@ extension ManagedBlockchainQuery {
         /// The Timestamp of the transaction.
         public let transactionTimestamp: Date
 
+        @inlinable
         public init(blockHash: String? = nil, blockNumber: String? = nil, confirmationStatus: ConfirmationStatus? = nil, contractAddress: String? = nil, cumulativeGasUsed: String? = nil, effectiveGasPrice: String? = nil, executionStatus: ExecutionStatus? = nil, from: String? = nil, gasUsed: String? = nil, network: QueryNetwork, numberOfTransactions: Int64, signatureR: String? = nil, signatureS: String? = nil, signatureV: Int? = nil, to: String, transactionFee: String? = nil, transactionHash: String, transactionId: String? = nil, transactionIndex: Int64, transactionTimestamp: Date) {
             self.blockHash = blockHash
             self.blockNumber = blockNumber
@@ -1051,6 +1088,7 @@ extension ManagedBlockchainQuery {
         /// Specifies if the transaction output is spent or unspent. This is only returned for BITCOIN_VOUT event types.  This is only returned for BITCOIN_VOUT event types.
         public let voutSpent: Bool?
 
+        @inlinable
         public init(blockchainInstant: BlockchainInstant? = nil, confirmationStatus: ConfirmationStatus? = nil, contractAddress: String? = nil, eventType: QueryTransactionEventType, from: String? = nil, network: QueryNetwork, spentVoutIndex: Int? = nil, spentVoutTransactionHash: String? = nil, spentVoutTransactionId: String? = nil, to: String? = nil, tokenId: String? = nil, transactionHash: String, transactionId: String? = nil, value: String? = nil, voutIndex: Int? = nil, voutSpent: Bool? = nil) {
             self.blockchainInstant = blockchainInstant
             self.confirmationStatus = confirmationStatus
@@ -1102,6 +1140,7 @@ extension ManagedBlockchainQuery {
         /// The time when the transaction occurred.
         public let transactionTimestamp: Date
 
+        @inlinable
         public init(confirmationStatus: ConfirmationStatus? = nil, network: QueryNetwork, transactionHash: String, transactionId: String? = nil, transactionTimestamp: Date) {
             self.confirmationStatus = confirmationStatus
             self.network = network
@@ -1123,6 +1162,7 @@ extension ManagedBlockchainQuery {
         /// Specifies if the transaction output is spent or unspent.
         public let voutSpent: Bool
 
+        @inlinable
         public init(voutSpent: Bool) {
             self.voutSpent = voutSpent
         }

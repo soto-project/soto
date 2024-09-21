@@ -40,6 +40,7 @@ extension InspectorScan {
         /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
         public let sbom: String
 
+        @inlinable
         public init(outputFormat: OutputFormat? = nil, sbom: String) {
             self.outputFormat = outputFormat
             self.sbom = sbom
@@ -55,6 +56,7 @@ extension InspectorScan {
         /// The vulnerability report for the scanned SBOM.
         public let sbom: String?
 
+        @inlinable
         public init(sbom: String? = nil) {
             self.sbom = sbom
         }

@@ -267,6 +267,7 @@ extension Redshift {
         /// The unique identifier of the DC2 Reserved Node offering to be used for the exchange. You can obtain the value for the parameter by calling GetReservedNodeExchangeOfferings
         public let targetReservedNodeOfferingId: String?
 
+        @inlinable
         public init(reservedNodeId: String? = nil, targetReservedNodeOfferingId: String? = nil) {
             self.reservedNodeId = reservedNodeId
             self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
@@ -286,6 +287,7 @@ extension Redshift {
     public struct AcceptReservedNodeExchangeOutputMessage: AWSDecodableShape {
         public let exchangedReservedNode: ReservedNode?
 
+        @inlinable
         public init(exchangedReservedNode: ReservedNode? = nil) {
             self.exchangedReservedNode = exchangedReservedNode
         }
@@ -304,6 +306,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_AttributeValuesEncoding, AttributeValueTarget>>
         public var attributeValues: [AttributeValueTarget]?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValues: [AttributeValueTarget]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -322,6 +325,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_AccountAttributesEncoding, AccountAttribute>>
         public var accountAttributes: [AccountAttribute]?
 
+        @inlinable
         public init(accountAttributes: [AccountAttribute]? = nil) {
             self.accountAttributes = accountAttributes
         }
@@ -337,6 +341,7 @@ extension Redshift {
         /// The identifier of an Amazon Web Services account authorized to restore a snapshot.
         public let accountId: String?
 
+        @inlinable
         public init(accountAlias: String? = nil, accountId: String? = nil) {
             self.accountAlias = accountAlias
             self.accountId = accountId
@@ -354,6 +359,7 @@ extension Redshift {
         /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaStatus: AquaStatus?
 
+        @inlinable
         public init(aquaConfigurationStatus: AquaConfigurationStatus? = nil, aquaStatus: AquaStatus? = nil) {
             self.aquaConfigurationStatus = aquaConfigurationStatus
             self.aquaStatus = aquaStatus
@@ -377,6 +383,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
         public let dataShareArn: String?
 
+        @inlinable
         public init(allowWrites: Bool? = nil, associateEntireAccount: Bool? = nil, consumerArn: String? = nil, consumerRegion: String? = nil, dataShareArn: String? = nil) {
             self.allowWrites = allowWrites
             self.associateEntireAccount = associateEntireAccount
@@ -411,6 +418,7 @@ extension Redshift {
         /// The expiration date for the certificate.
         public let customDomainCertificateExpiryDate: Date?
 
+        @inlinable
         public init(certificateAssociations: [CertificateAssociation]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil) {
             self.certificateAssociations = certificateAssociations
             self.customDomainCertificateArn = customDomainCertificateArn
@@ -428,6 +436,7 @@ extension Redshift {
         /// The value of the attribute.
         public let attributeValue: String?
 
+        @inlinable
         public init(attributeValue: String? = nil) {
             self.attributeValue = attributeValue
         }
@@ -443,6 +452,7 @@ extension Redshift {
         /// The name of the authentication profile.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileContent: String? = nil, authenticationProfileName: String? = nil) {
             self.authenticationProfileContent = authenticationProfileContent
             self.authenticationProfileName = authenticationProfileName
@@ -464,6 +474,7 @@ extension Redshift {
         /// The Amazon Web Services account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is not an acceptable value.  Example: 111122223333
         public let ec2SecurityGroupOwnerId: String?
 
+        @inlinable
         public init(cidrip: String? = nil, clusterSecurityGroupName: String? = nil, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -489,6 +500,7 @@ extension Redshift {
     public struct AuthorizeClusterSecurityGroupIngressResult: AWSDecodableShape {
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
+        @inlinable
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
@@ -506,6 +518,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the datashare namespace that producers are to authorize sharing for.
         public let dataShareArn: String?
 
+        @inlinable
         public init(allowWrites: Bool? = nil, consumerIdentifier: String? = nil, dataShareArn: String? = nil) {
             self.allowWrites = allowWrites
             self.consumerIdentifier = consumerIdentifier
@@ -535,6 +548,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcIdsEncoding, String>>
         public var vpcIds: [String]?
 
+        @inlinable
         public init(account: String? = nil, clusterIdentifier: String? = nil, vpcIds: [String]? = nil) {
             self.account = account
             self.clusterIdentifier = clusterIdentifier
@@ -566,6 +580,7 @@ extension Redshift {
         /// The identifier of the snapshot the account is authorized to restore.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(accountWithRestoreAccess: String? = nil, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.accountWithRestoreAccess = accountWithRestoreAccess
             self.snapshotArn = snapshotArn
@@ -591,6 +606,7 @@ extension Redshift {
     public struct AuthorizeSnapshotAccessResult: AWSDecodableShape {
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -607,6 +623,7 @@ extension Redshift {
         /// The ARN for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
         public let trustedTokenIssuerArn: String?
 
+        @inlinable
         public init(authorizedAudiencesList: [String]? = nil, trustedTokenIssuerArn: String? = nil) {
             self.authorizedAudiencesList = authorizedAudiencesList
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
@@ -633,6 +650,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SupportedPlatformsEncoding, SupportedPlatform>>
         public var supportedPlatforms: [SupportedPlatform]?
 
+        @inlinable
         public init(name: String? = nil, supportedPlatforms: [SupportedPlatform]? = nil) {
             self.name = name
             self.supportedPlatforms = supportedPlatforms
@@ -651,6 +669,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_IdentifiersEncoding, DeleteClusterSnapshotMessage>>
         public var identifiers: [DeleteClusterSnapshotMessage]?
 
+        @inlinable
         public init(identifiers: [DeleteClusterSnapshotMessage]? = nil) {
             self.identifiers = identifiers
         }
@@ -677,6 +696,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ResourcesEncoding, String>>
         public var resources: [String]?
 
+        @inlinable
         public init(errors: [SnapshotErrorMessage]? = nil, resources: [String]? = nil) {
             self.errors = errors
             self.resources = resources
@@ -699,6 +719,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SnapshotIdentifierListEncoding, String>>
         public var snapshotIdentifierList: [String]?
 
+        @inlinable
         public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifierList: [String]? = nil) {
             self.force = force
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -729,6 +750,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ResourcesEncoding, String>>
         public var resources: [String]?
 
+        @inlinable
         public init(errors: [SnapshotErrorMessage]? = nil, resources: [String]? = nil) {
             self.errors = errors
             self.resources = resources
@@ -744,6 +766,7 @@ extension Redshift {
         /// The unique identifier for the cluster that you want to cancel a resize operation for.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -763,6 +786,7 @@ extension Redshift {
         /// The custom domain name for the certificate association.
         public let customDomainName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainName = customDomainName
@@ -910,6 +934,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
+        @inlinable
         public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
@@ -1041,6 +1066,7 @@ extension Redshift {
         public let clusterIdentifier: String?
         public let scheduleAssociationState: ScheduleState?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, scheduleAssociationState: ScheduleState? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.scheduleAssociationState = scheduleAssociationState
@@ -1060,6 +1086,7 @@ extension Redshift {
         /// The date and time the password in DbPassword expires.
         public let expiration: Date?
 
+        @inlinable
         public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: Date? = nil) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
@@ -1086,6 +1113,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_RevisionTargetsEncoding, RevisionTarget>>
         public var revisionTargets: [RevisionTarget]?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, currentDatabaseRevision: String? = nil, databaseRevisionReleaseDate: Date? = nil, revisionTargets: [RevisionTarget]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.currentDatabaseRevision = currentDatabaseRevision
@@ -1110,6 +1138,7 @@ extension Redshift {
         /// A string representing the starting point for the next set of revisions. If a value is returned in a response, you can retrieve the next set of revisions by providing the value in the marker parameter and retrying the command. If the marker field is empty, all revisions have already been returned.
         public let marker: String?
 
+        @inlinable
         public init(clusterDbRevisions: [ClusterDbRevision]? = nil, marker: String? = nil) {
             self.clusterDbRevisions = clusterDbRevisions
             self.marker = marker
@@ -1131,6 +1160,7 @@ extension Redshift {
         /// Reserved for future use.
         public let nextRefreshTime: Date?
 
+        @inlinable
         public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: Date? = nil, nextRefreshTime: Date? = nil) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
@@ -1152,6 +1182,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the IAM role, for example, arn:aws:iam::123456789012:role/RedshiftCopyUnload.
         public let iamRoleArn: String?
 
+        @inlinable
         public init(applyStatus: String? = nil, iamRoleArn: String? = nil) {
             self.applyStatus = applyStatus
             self.iamRoleArn = iamRoleArn
@@ -1171,6 +1202,7 @@ extension Redshift {
         /// The public IP address of a node within a cluster.
         public let publicIPAddress: String?
 
+        @inlinable
         public init(nodeRole: String? = nil, privateIPAddress: String? = nil, publicIPAddress: String? = nil) {
             self.nodeRole = nodeRole
             self.privateIPAddress = privateIPAddress
@@ -1197,6 +1229,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, parameterGroupFamily: String? = nil, parameterGroupName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.parameterGroupFamily = parameterGroupFamily
@@ -1221,6 +1254,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
+        @inlinable
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameters = parameters
@@ -1238,6 +1272,7 @@ extension Redshift {
         /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
         public let parameterGroupStatus: String?
 
+        @inlinable
         public init(parameterGroupName: String? = nil, parameterGroupStatus: String? = nil) {
             self.parameterGroupName = parameterGroupName
             self.parameterGroupStatus = parameterGroupStatus
@@ -1261,6 +1296,7 @@ extension Redshift {
         /// The name of the cluster parameter group.
         public let parameterGroupName: String?
 
+        @inlinable
         public init(clusterParameterStatusList: [ClusterParameterStatus]? = nil, parameterApplyStatus: String? = nil, parameterGroupName: String? = nil) {
             self.clusterParameterStatusList = clusterParameterStatusList
             self.parameterApplyStatus = parameterApplyStatus
@@ -1283,6 +1319,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ParameterGroupsEncoding, ClusterParameterGroup>>
         public var parameterGroups: [ClusterParameterGroup]?
 
+        @inlinable
         public init(marker: String? = nil, parameterGroups: [ClusterParameterGroup]? = nil) {
             self.marker = marker
             self.parameterGroups = parameterGroups
@@ -1302,6 +1339,7 @@ extension Redshift {
         /// The name of the parameter.
         public let parameterName: String?
 
+        @inlinable
         public init(parameterApplyErrorDescription: String? = nil, parameterApplyStatus: String? = nil, parameterName: String? = nil) {
             self.parameterApplyErrorDescription = parameterApplyErrorDescription
             self.parameterApplyStatus = parameterApplyStatus
@@ -1334,6 +1372,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(clusterSecurityGroupName: String? = nil, description: String? = nil, ec2SecurityGroups: [EC2SecurityGroup]? = nil, ipRanges: [IPRange]? = nil, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.description = description
@@ -1357,6 +1396,7 @@ extension Redshift {
         /// The status of the cluster security group.
         public let status: String?
 
+        @inlinable
         public init(clusterSecurityGroupName: String? = nil, status: String? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.status = status
@@ -1377,6 +1417,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(clusterSecurityGroups: [ClusterSecurityGroup]? = nil, marker: String? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.marker = marker
@@ -1398,6 +1439,7 @@ extension Redshift {
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
 
+        @inlinable
         public init(destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, retentionPeriod: Int64? = nil, snapshotCopyGrantName: String? = nil) {
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -1436,6 +1478,7 @@ extension Redshift {
         /// The VPC ID of the cluster subnet group.
         public let vpcId: String?
 
+        @inlinable
         public init(clusterSubnetGroupName: String? = nil, description: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, supportedClusterIpAddressTypes: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
@@ -1466,6 +1509,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(clusterSubnetGroups: [ClusterSubnetGroup]? = nil, marker: String? = nil) {
             self.clusterSubnetGroups = clusterSubnetGroups
             self.marker = marker
@@ -1485,6 +1529,7 @@ extension Redshift {
         /// The description of the cluster version.
         public let description: String?
 
+        @inlinable
         public init(clusterParameterGroupFamily: String? = nil, clusterVersion: String? = nil, description: String? = nil) {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
             self.clusterVersion = clusterVersion
@@ -1507,6 +1552,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(clusterVersions: [ClusterVersion]? = nil, marker: String? = nil) {
             self.clusterVersions = clusterVersions
             self.marker = marker
@@ -1527,6 +1573,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(clusters: [Cluster]? = nil, marker: String? = nil) {
             self.clusters = clusters
             self.marker = marker
@@ -1548,6 +1595,7 @@ extension Redshift {
         /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the Amazon Web Services account that is making the request.
         public let targetSnapshotIdentifier: String?
 
+        @inlinable
         public init(manualSnapshotRetentionPeriod: Int? = nil, sourceSnapshotClusterIdentifier: String? = nil, sourceSnapshotIdentifier: String? = nil, targetSnapshotIdentifier: String? = nil) {
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.sourceSnapshotClusterIdentifier = sourceSnapshotClusterIdentifier
@@ -1572,6 +1620,7 @@ extension Redshift {
     public struct CopyClusterSnapshotResult: AWSDecodableShape {
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -1587,6 +1636,7 @@ extension Redshift {
         /// The name of the authentication profile to be created.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileContent: String? = nil, authenticationProfileName: String? = nil) {
             self.authenticationProfileContent = authenticationProfileContent
             self.authenticationProfileName = authenticationProfileName
@@ -1610,6 +1660,7 @@ extension Redshift {
         /// The name of the authentication profile that was created.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileContent: String? = nil, authenticationProfileName: String? = nil) {
             self.authenticationProfileContent = authenticationProfileContent
             self.authenticationProfileName = authenticationProfileName
@@ -1710,6 +1761,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, loadSampleData: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, redshiftIdcApplicationArn: String? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
@@ -1845,6 +1897,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, parameterGroupFamily: String? = nil, parameterGroupName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.parameterGroupFamily = parameterGroupFamily
@@ -1872,6 +1925,7 @@ extension Redshift {
     public struct CreateClusterParameterGroupResult: AWSDecodableShape {
         public let clusterParameterGroup: ClusterParameterGroup?
 
+        @inlinable
         public init(clusterParameterGroup: ClusterParameterGroup? = nil) {
             self.clusterParameterGroup = clusterParameterGroup
         }
@@ -1884,6 +1938,7 @@ extension Redshift {
     public struct CreateClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1904,6 +1959,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(clusterSecurityGroupName: String? = nil, description: String? = nil, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.description = description
@@ -1928,6 +1984,7 @@ extension Redshift {
     public struct CreateClusterSecurityGroupResult: AWSDecodableShape {
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
+        @inlinable
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
@@ -1950,6 +2007,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -1976,6 +2034,7 @@ extension Redshift {
     public struct CreateClusterSnapshotResult: AWSDecodableShape {
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -2000,6 +2059,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(clusterSubnetGroupName: String? = nil, description: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
@@ -2029,6 +2089,7 @@ extension Redshift {
     public struct CreateClusterSubnetGroupResult: AWSDecodableShape {
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
+        @inlinable
         public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
@@ -2046,6 +2107,7 @@ extension Redshift {
         /// The custom domain name for a custom domain association.
         public let customDomainName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainCertificateArn = customDomainCertificateArn
@@ -2079,6 +2141,7 @@ extension Redshift {
         /// The custom domain name for the association result.
         public let customDomainName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainCertExpiryTime: String? = nil, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainCertExpiryTime = customDomainCertExpiryTime
@@ -2109,6 +2172,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, endpointName: String? = nil, resourceOwner: String? = nil, subnetGroupName: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.endpointName = endpointName
@@ -2161,6 +2225,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String? = nil, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -2203,6 +2268,7 @@ extension Redshift {
     public struct CreateEventSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -2221,6 +2287,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(hsmClientCertificateIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.tags = tags
@@ -2242,6 +2309,7 @@ extension Redshift {
     public struct CreateHsmClientCertificateResult: AWSDecodableShape {
         public let hsmClientCertificate: HsmClientCertificate?
 
+        @inlinable
         public init(hsmClientCertificate: HsmClientCertificate? = nil) {
             self.hsmClientCertificate = hsmClientCertificate
         }
@@ -2270,6 +2338,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, hsmConfigurationIdentifier: String? = nil, hsmIpAddress: String? = nil, hsmPartitionName: String? = nil, hsmPartitionPassword: String? = nil, hsmServerPublicCertificate: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -2306,6 +2375,7 @@ extension Redshift {
     public struct CreateHsmConfigurationResult: AWSDecodableShape {
         public let hsmConfiguration: HsmConfiguration?
 
+        @inlinable
         public init(hsmConfiguration: HsmConfiguration? = nil) {
             self.hsmConfiguration = hsmConfiguration
         }
@@ -2333,6 +2403,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<ServiceIntegrationsUnion>>
         public var serviceIntegrations: [ServiceIntegrationsUnion]?
 
+        @inlinable
         public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
@@ -2374,6 +2445,7 @@ extension Redshift {
     public struct CreateRedshiftIdcApplicationResult: AWSDecodableShape {
         public let redshiftIdcApplication: RedshiftIdcApplication?
 
+        @inlinable
         public init(redshiftIdcApplication: RedshiftIdcApplication? = nil) {
             self.redshiftIdcApplication = redshiftIdcApplication
         }
@@ -2401,6 +2473,7 @@ extension Redshift {
         /// A JSON format string of the Amazon Redshift API operation with input parameters.  For more information about this parameter, see ScheduledAction.
         public let targetAction: ScheduledActionType?
 
+        @inlinable
         public init(enable: Bool? = nil, endTime: Date? = nil, iamRole: String? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, targetAction: ScheduledActionType? = nil) {
             self.enable = enable
             self.endTime = endTime
@@ -2443,6 +2516,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, snapshotCopyGrantName: String? = nil, tags: [Tag]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -2467,6 +2541,7 @@ extension Redshift {
     public struct CreateSnapshotCopyGrantResult: AWSDecodableShape {
         public let snapshotCopyGrant: SnapshotCopyGrant?
 
+        @inlinable
         public init(snapshotCopyGrant: SnapshotCopyGrant? = nil) {
             self.snapshotCopyGrant = snapshotCopyGrant
         }
@@ -2493,6 +2568,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(dryRun: Bool? = nil, nextInvocations: Int? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.nextInvocations = nextInvocations
@@ -2532,6 +2608,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(resourceName: String? = nil, tags: [Tag]? = nil) {
             self.resourceName = resourceName
             self.tags = tags
@@ -2569,6 +2646,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(amount: Int64? = nil, breachAction: UsageLimitBreachAction? = nil, clusterIdentifier: String? = nil, featureType: UsageLimitFeatureType? = nil, limitType: UsageLimitLimitType? = nil, period: UsageLimitPeriod? = nil, tags: [Tag]? = nil) {
             self.amount = amount
             self.breachAction = breachAction
@@ -2606,6 +2684,7 @@ extension Redshift {
         /// The marker for the custom domain association.
         public let marker: String?
 
+        @inlinable
         public init(associations: [Association]? = nil, marker: String? = nil) {
             self.associations = associations
             self.marker = marker
@@ -2623,6 +2702,7 @@ extension Redshift {
         /// The total amount of storage currently provisioned.
         public let totalProvisionedStorageInMegaBytes: Double?
 
+        @inlinable
         public init(totalBackupSizeInMegaBytes: Double? = nil, totalProvisionedStorageInMegaBytes: Double? = nil) {
             self.totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytes
             self.totalProvisionedStorageInMegaBytes = totalProvisionedStorageInMegaBytes
@@ -2647,6 +2727,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the producer namespace.
         public let producerArn: String?
 
+        @inlinable
         public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, managedBy: String? = nil, producerArn: String? = nil) {
             self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
             self.dataShareArn = dataShareArn
@@ -2680,6 +2761,7 @@ extension Redshift {
         /// The status change data of the datashare that is associated.
         public let statusChangeDate: Date?
 
+        @inlinable
         public init(consumerAcceptedWrites: Bool? = nil, consumerIdentifier: String? = nil, consumerRegion: String? = nil, createdDate: Date? = nil, producerAllowedWrites: Bool? = nil, status: DataShareStatus? = nil, statusChangeDate: Date? = nil) {
             self.consumerAcceptedWrites = consumerAcceptedWrites
             self.consumerIdentifier = consumerIdentifier
@@ -2715,6 +2797,7 @@ extension Redshift {
         /// Describes the total amount of data to be transfered in megabytes.
         public let totalDataInMegaBytes: Int64?
 
+        @inlinable
         public init(currentRateInMegaBytesPerSecond: Double? = nil, dataTransferredInMegaBytes: Int64? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, status: String? = nil, totalDataInMegaBytes: Int64? = nil) {
             self.currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecond
             self.dataTransferredInMegaBytes = dataTransferredInMegaBytes
@@ -2740,6 +2823,7 @@ extension Redshift {
         /// The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from.
         public let dataShareArn: String?
 
+        @inlinable
         public init(consumerIdentifier: String? = nil, dataShareArn: String? = nil) {
             self.consumerIdentifier = consumerIdentifier
             self.dataShareArn = dataShareArn
@@ -2767,6 +2851,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
+        @inlinable
         public init(marker: String? = nil, parameterGroupFamily: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
             self.parameterGroupFamily = parameterGroupFamily
@@ -2788,6 +2873,7 @@ extension Redshift {
         ///  A timestamp for the beginning of the time period when we defer maintenance.
         public let deferMaintenanceStartTime: Date?
 
+        @inlinable
         public init(deferMaintenanceEndTime: Date? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: Date? = nil) {
             self.deferMaintenanceEndTime = deferMaintenanceEndTime
             self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
@@ -2805,6 +2891,7 @@ extension Redshift {
         /// The name of the authentication profile to delete.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileName: String? = nil) {
             self.authenticationProfileName = authenticationProfileName
         }
@@ -2823,6 +2910,7 @@ extension Redshift {
         /// The name of the authentication profile that was deleted.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileName: String? = nil) {
             self.authenticationProfileName = authenticationProfileName
         }
@@ -2842,6 +2930,7 @@ extension Redshift {
         /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true, a final cluster snapshot is not created. If false, a final cluster snapshot is created before the cluster is deleted.   The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false.  Default: false
         public let skipFinalClusterSnapshot: Bool?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, finalClusterSnapshotIdentifier: String? = nil, finalClusterSnapshotRetentionPeriod: Int? = nil, skipFinalClusterSnapshot: Bool? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.finalClusterSnapshotIdentifier = finalClusterSnapshotIdentifier
@@ -2866,6 +2955,7 @@ extension Redshift {
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.
         public let parameterGroupName: String?
 
+        @inlinable
         public init(parameterGroupName: String? = nil) {
             self.parameterGroupName = parameterGroupName
         }
@@ -2882,6 +2972,7 @@ extension Redshift {
     public struct DeleteClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -2895,6 +2986,7 @@ extension Redshift {
         /// The name of the cluster security group to be deleted.
         public let clusterSecurityGroupName: String?
 
+        @inlinable
         public init(clusterSecurityGroupName: String? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
@@ -2914,6 +3006,7 @@ extension Redshift {
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
@@ -2933,6 +3026,7 @@ extension Redshift {
     public struct DeleteClusterSnapshotResult: AWSDecodableShape {
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -2946,6 +3040,7 @@ extension Redshift {
         /// The name of the cluster subnet group name to be deleted.
         public let clusterSubnetGroupName: String?
 
+        @inlinable
         public init(clusterSubnetGroupName: String? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
         }
@@ -2965,6 +3060,7 @@ extension Redshift {
         /// The custom domain name for the custom domain association.
         public let customDomainName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainName = customDomainName
@@ -2987,6 +3083,7 @@ extension Redshift {
         /// The Redshift-managed VPC endpoint to delete.
         public let endpointName: String?
 
+        @inlinable
         public init(endpointName: String? = nil) {
             self.endpointName = endpointName
         }
@@ -3004,6 +3101,7 @@ extension Redshift {
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public let subscriptionName: String?
 
+        @inlinable
         public init(subscriptionName: String? = nil) {
             self.subscriptionName = subscriptionName
         }
@@ -3021,6 +3119,7 @@ extension Redshift {
         /// The identifier of the HSM client certificate to be deleted.
         public let hsmClientCertificateIdentifier: String?
 
+        @inlinable
         public init(hsmClientCertificateIdentifier: String? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
@@ -3038,6 +3137,7 @@ extension Redshift {
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
         public let hsmConfigurationIdentifier: String?
 
+        @inlinable
         public init(hsmConfigurationIdentifier: String? = nil) {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         }
@@ -3055,6 +3155,7 @@ extension Redshift {
         /// The ARN for a deleted Amazon Redshift IAM Identity Center application.
         public let redshiftIdcApplicationArn: String?
 
+        @inlinable
         public init(redshiftIdcApplicationArn: String? = nil) {
             self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
         }
@@ -3072,6 +3173,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the resource of which its resource policy is deleted.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -3089,6 +3191,7 @@ extension Redshift {
         /// The name of the scheduled action to delete.
         public let scheduledActionName: String?
 
+        @inlinable
         public init(scheduledActionName: String? = nil) {
             self.scheduledActionName = scheduledActionName
         }
@@ -3106,6 +3209,7 @@ extension Redshift {
         /// The name of the snapshot copy grant to delete.
         public let snapshotCopyGrantName: String?
 
+        @inlinable
         public init(snapshotCopyGrantName: String? = nil) {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
@@ -3123,6 +3227,7 @@ extension Redshift {
         /// A unique identifier of the snapshot schedule to delete.
         public let scheduleIdentifier: String?
 
+        @inlinable
         public init(scheduleIdentifier: String? = nil) {
             self.scheduleIdentifier = scheduleIdentifier
         }
@@ -3145,6 +3250,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagKeysEncoding, String>>
         public var tagKeys: [String]?
 
+        @inlinable
         public init(resourceName: String? = nil, tagKeys: [String]? = nil) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
@@ -3167,6 +3273,7 @@ extension Redshift {
         /// The identifier of the usage limit to delete.
         public let usageLimitId: String?
 
+        @inlinable
         public init(usageLimitId: String? = nil) {
             self.usageLimitId = usageLimitId
         }
@@ -3187,6 +3294,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_AttributeNamesEncoding, String>>
         public var attributeNames: [String]?
 
+        @inlinable
         public init(attributeNames: [String]? = nil) {
             self.attributeNames = attributeNames
         }
@@ -3206,6 +3314,7 @@ extension Redshift {
         /// The name of the authentication profile to describe. If not specified then all authentication profiles owned by the account are listed.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileName: String? = nil) {
             self.authenticationProfileName = authenticationProfileName
         }
@@ -3225,6 +3334,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<AuthenticationProfile>>
         public var authenticationProfiles: [AuthenticationProfile]?
 
+        @inlinable
         public init(authenticationProfiles: [AuthenticationProfile]? = nil) {
             self.authenticationProfiles = authenticationProfiles
         }
@@ -3242,6 +3352,7 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Default: 100 Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -3277,6 +3388,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3315,6 +3427,7 @@ extension Redshift {
         /// The parameter types to return. Specify user to show parameters that are different form the default. Similarly, specify engine-default to show parameters that are the same as the default parameter group.  Default: All parameter types returned. Valid Values: user | engine-default
         public let source: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupName: String? = nil, source: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3353,6 +3466,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(clusterSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.marker = marker
@@ -3415,6 +3529,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: Date? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterExists = clusterExists
             self.clusterIdentifier = clusterIdentifier
@@ -3480,6 +3595,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(clusterSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.marker = marker
@@ -3516,6 +3632,7 @@ extension Redshift {
         /// An integer value for the maximum number of maintenance tracks to return.
         public let maxRecords: Int?
 
+        @inlinable
         public init(maintenanceTrackName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.maintenanceTrackName = maintenanceTrackName
             self.marker = marker
@@ -3544,6 +3661,7 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
 
+        @inlinable
         public init(clusterParameterGroupFamily: String? = nil, clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
             self.clusterVersion = clusterVersion
@@ -3582,6 +3700,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -3620,6 +3739,7 @@ extension Redshift {
         /// The maximum records setting for the associated custom domain.
         public let maxRecords: Int?
 
+        @inlinable
         public init(customDomainCertificateArn: String? = nil, customDomainName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainName = customDomainName
@@ -3655,6 +3775,7 @@ extension Redshift {
         /// An identifier giving the status of a datashare in the consumer cluster. If this field is specified, Amazon Redshift returns the list of datashares that have the specified status.
         public let status: DataShareStatusForConsumer?
 
+        @inlinable
         public init(consumerArn: String? = nil, marker: String? = nil, maxRecords: Int? = nil, status: DataShareStatusForConsumer? = nil) {
             self.consumerArn = consumerArn
             self.marker = marker
@@ -3682,6 +3803,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
+        @inlinable
         public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
             self.dataShares = dataShares
             self.marker = marker
@@ -3703,6 +3825,7 @@ extension Redshift {
         /// An identifier giving the status of a datashare in the producer. If this field is specified, Amazon Redshift returns the list of datashares that have the specified status.
         public let status: DataShareStatusForProducer?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, producerArn: String? = nil, status: DataShareStatusForProducer? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3730,6 +3853,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
+        @inlinable
         public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
             self.dataShares = dataShares
             self.marker = marker
@@ -3749,6 +3873,7 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
         public let maxRecords: Int?
 
+        @inlinable
         public init(dataShareArn: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.dataShareArn = dataShareArn
             self.marker = marker
@@ -3774,6 +3899,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
+        @inlinable
         public init(dataShares: [DataShare]? = nil, marker: String? = nil) {
             self.dataShares = dataShares
             self.marker = marker
@@ -3793,6 +3919,7 @@ extension Redshift {
         /// The name of the cluster parameter group family.
         public let parameterGroupFamily: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupFamily: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3814,6 +3941,7 @@ extension Redshift {
     public struct DescribeDefaultClusterParametersResult: AWSDecodableShape {
         public let defaultClusterParameters: DefaultClusterParameters?
 
+        @inlinable
         public init(defaultClusterParameters: DefaultClusterParameters? = nil) {
             self.defaultClusterParameters = defaultClusterParameters
         }
@@ -3837,6 +3965,7 @@ extension Redshift {
         /// The virtual private cloud (VPC) identifier with access to the cluster.
         public let vpcId: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, endpointName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, resourceOwner: String? = nil, vpcId: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.endpointName = endpointName
@@ -3876,6 +4005,7 @@ extension Redshift {
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a Marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
 
+        @inlinable
         public init(account: String? = nil, clusterIdentifier: String? = nil, grantee: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.account = account
             self.clusterIdentifier = clusterIdentifier
@@ -3903,6 +4033,7 @@ extension Redshift {
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action.
         public let sourceType: String?
 
+        @inlinable
         public init(sourceType: String? = nil) {
             self.sourceType = sourceType
         }
@@ -3933,6 +4064,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, subscriptionName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3977,6 +4109,7 @@ extension Redshift {
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
         public let startTime: Date?
 
+        @inlinable
         public init(duration: Int? = nil, endTime: Date? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -4020,6 +4153,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.marker = marker
@@ -4065,6 +4199,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(hsmConfigurationIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.marker = marker
@@ -4103,6 +4238,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the target of an inbound integration.
         public let targetArn: String?
 
+        @inlinable
         public init(integrationArn: String? = nil, marker: String? = nil, maxRecords: Int? = nil, targetArn: String? = nil) {
             self.integrationArn = integrationArn
             self.marker = marker
@@ -4128,6 +4264,7 @@ extension Redshift {
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -4162,6 +4299,7 @@ extension Redshift {
         /// The identifier of the snapshot to evaluate for possible node configurations.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(actionType: ActionType? = nil, clusterIdentifier: String? = nil, filters: [NodeConfigurationOptionsFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotIdentifier: String? = nil) {
             self.actionType = actionType
             self.clusterIdentifier = clusterIdentifier
@@ -4206,6 +4344,7 @@ extension Redshift {
         /// The node type filter value. Specify this parameter to show only the available offerings matching the specified node type.
         public let nodeType: String?
 
+        @inlinable
         public init(clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int? = nil, nodeType: String? = nil) {
             self.clusterVersion = clusterVersion
             self.marker = marker
@@ -4237,6 +4376,7 @@ extension Redshift {
         /// The name of the partner that is being described. If partner name is not specified, then all partner integrations are described.
         public let partnerName: String?
 
+        @inlinable
         public init(accountId: String? = nil, clusterIdentifier: String? = nil, databaseName: String? = nil, partnerName: String? = nil) {
             self.accountId = accountId
             self.clusterIdentifier = clusterIdentifier
@@ -4271,6 +4411,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_PartnerIntegrationInfoListEncoding, PartnerIntegrationInfo>>
         public var partnerIntegrationInfoList: [PartnerIntegrationInfo]?
 
+        @inlinable
         public init(partnerIntegrationInfoList: [PartnerIntegrationInfo]? = nil) {
             self.partnerIntegrationInfoList = partnerIntegrationInfoList
         }
@@ -4288,6 +4429,7 @@ extension Redshift {
         /// The ARN for the Redshift application that integrates with IAM Identity Center.
         public let redshiftIdcApplicationArn: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, redshiftIdcApplicationArn: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -4313,6 +4455,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<RedshiftIdcApplication>>
         public var redshiftIdcApplications: [RedshiftIdcApplication]?
 
+        @inlinable
         public init(marker: String? = nil, redshiftIdcApplications: [RedshiftIdcApplication]? = nil) {
             self.marker = marker
             self.redshiftIdcApplications = redshiftIdcApplications
@@ -4334,6 +4477,7 @@ extension Redshift {
         /// The identifier of the source reserved node in a reserved-node exchange request.
         public let reservedNodeId: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeExchangeRequestId: String? = nil, reservedNodeId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -4364,6 +4508,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ReservedNodeExchangeStatusDetailsEncoding, ReservedNodeExchangeStatus>>
         public var reservedNodeExchangeStatusDetails: [ReservedNodeExchangeStatus]?
 
+        @inlinable
         public init(marker: String? = nil, reservedNodeExchangeStatusDetails: [ReservedNodeExchangeStatus]? = nil) {
             self.marker = marker
             self.reservedNodeExchangeStatusDetails = reservedNodeExchangeStatusDetails
@@ -4383,6 +4528,7 @@ extension Redshift {
         /// The unique identifier for the offering.
         public let reservedNodeOfferingId: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeOfferingId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -4409,6 +4555,7 @@ extension Redshift {
         /// Identifier for the node reservation.
         public let reservedNodeId: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -4431,6 +4578,7 @@ extension Redshift {
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an Amazon Web Services account are returned.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -4465,6 +4613,7 @@ extension Redshift {
         /// The type of the scheduled actions to retrieve.
         public let targetActionType: ScheduledActionTypeValues?
 
+        @inlinable
         public init(active: Bool? = nil, endTime: Date? = nil, filters: [ScheduledActionFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, targetActionType: ScheduledActionTypeValues? = nil) {
             self.active = active
             self.endTime = endTime
@@ -4513,6 +4662,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, snapshotCopyGrantName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -4560,6 +4710,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduleIdentifier: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -4600,6 +4751,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SnapshotSchedulesEncoding, SnapshotSchedule>>
         public var snapshotSchedules: [SnapshotSchedule]?
 
+        @inlinable
         public init(marker: String? = nil, snapshotSchedules: [SnapshotSchedule]? = nil) {
             self.marker = marker
             self.snapshotSchedules = snapshotSchedules
@@ -4621,6 +4773,7 @@ extension Redshift {
         /// The identifier of the table restore request to return status for. If you don't specify a TableRestoreRequestId value, then DescribeTableRestoreStatus returns the status of all in-progress table restore requests.
         public let tableRestoreRequestId: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tableRestoreRequestId: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -4661,6 +4814,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagValuesEncoding, String>>
         public var tagValues: [String]?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, resourceName: String? = nil, resourceType: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -4713,6 +4867,7 @@ extension Redshift {
         /// The identifier of the usage limit to describe.
         public let usageLimitId: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, featureType: UsageLimitFeatureType? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil, usageLimitId: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.featureType = featureType
@@ -4750,6 +4905,7 @@ extension Redshift {
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -4767,6 +4923,7 @@ extension Redshift {
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -4783,6 +4940,7 @@ extension Redshift {
     public struct DisableSnapshotCopyResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4802,6 +4960,7 @@ extension Redshift {
         /// A value that specifies whether association for the datashare is removed from the entire account.
         public let disassociateEntireAccount: Bool?
 
+        @inlinable
         public init(consumerArn: String? = nil, consumerRegion: String? = nil, dataShareArn: String? = nil, disassociateEntireAccount: Bool? = nil) {
             self.consumerArn = consumerArn
             self.consumerRegion = consumerRegion
@@ -4836,6 +4995,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -4857,6 +5017,7 @@ extension Redshift {
         /// The status of the elastic IP (EIP) address.
         public let status: String?
 
+        @inlinable
         public init(elasticIp: String? = nil, status: String? = nil) {
             self.elasticIp = elasticIp
             self.status = status
@@ -4881,6 +5042,7 @@ extension Redshift {
         /// The prefix applied to the log file names. Constraints:   Cannot exceed 512 characters   Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or control characters. The hexadecimal codes for invalid characters are:    x00 to x20   x22   x27   x5c   x7f or larger
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, clusterIdentifier: String? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil, s3KeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.clusterIdentifier = clusterIdentifier
@@ -4919,6 +5081,7 @@ extension Redshift {
         /// The name of the snapshot copy grant to use when snapshots of an Amazon Web Services KMS-encrypted cluster are copied to the destination region.
         public let snapshotCopyGrantName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, retentionPeriod: Int? = nil, snapshotCopyGrantName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.destinationRegion = destinationRegion
@@ -4945,6 +5108,7 @@ extension Redshift {
     public struct EnableSnapshotCopyResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -4965,6 +5129,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcEndpointsEncoding, VpcEndpoint>>
         public var vpcEndpoints: [VpcEndpoint]?
 
+        @inlinable
         public init(address: String? = nil, port: Int? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
             self.address = address
             self.port = port
@@ -5002,6 +5167,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
+        @inlinable
         public init(address: String? = nil, clusterIdentifier: String? = nil, endpointCreateTime: Date? = nil, endpointName: String? = nil, endpointStatus: String? = nil, port: Int? = nil, resourceOwner: String? = nil, subnetGroupName: String? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.address = address
             self.clusterIdentifier = clusterIdentifier
@@ -5036,6 +5202,7 @@ extension Redshift {
         /// An optional pagination token provided by a previous DescribeEndpointAccess request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
 
+        @inlinable
         public init(endpointAccessList: [EndpointAccess]? = nil, marker: String? = nil) {
             self.endpointAccessList = endpointAccessList
             self.marker = marker
@@ -5070,6 +5237,7 @@ extension Redshift {
         /// The status of the authorization action.
         public let status: AuthorizationStatus?
 
+        @inlinable
         public init(allowedAllVPCs: Bool? = nil, allowedVPCs: [String]? = nil, authorizeTime: Date? = nil, clusterIdentifier: String? = nil, clusterStatus: String? = nil, endpointCount: Int? = nil, grantee: String? = nil, grantor: String? = nil, status: AuthorizationStatus? = nil) {
             self.allowedAllVPCs = allowedAllVPCs
             self.allowedVPCs = allowedVPCs
@@ -5102,6 +5270,7 @@ extension Redshift {
         /// An optional pagination token provided by a previous DescribeEndpointAuthorization request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
 
+        @inlinable
         public init(endpointAuthorizationList: [EndpointAuthorization]? = nil, marker: String? = nil) {
             self.endpointAuthorizationList = endpointAuthorizationList
             self.marker = marker
@@ -5132,6 +5301,7 @@ extension Redshift {
         /// The source type for this event.
         public let sourceType: SourceType?
 
+        @inlinable
         public init(date: Date? = nil, eventCategories: [String]? = nil, eventId: String? = nil, message: String? = nil, severity: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.eventCategories = eventCategories
@@ -5162,6 +5332,7 @@ extension Redshift {
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
         public let sourceType: String?
 
+        @inlinable
         public init(events: [EventInfoMap]? = nil, sourceType: String? = nil) {
             self.events = events
             self.sourceType = sourceType
@@ -5180,6 +5351,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
         public var eventCategoriesMapList: [EventCategoriesMap]?
 
+        @inlinable
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
@@ -5202,6 +5374,7 @@ extension Redshift {
         /// The severity of the event. Values: ERROR, INFO
         public let severity: String?
 
+        @inlinable
         public init(eventCategories: [String]? = nil, eventDescription: String? = nil, eventId: String? = nil, severity: String? = nil) {
             self.eventCategories = eventCategories
             self.eventDescription = eventDescription
@@ -5248,6 +5421,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: Date? = nil, tags: [Tag]? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -5286,6 +5460,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
@@ -5306,6 +5481,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(events: [Event]? = nil, marker: String? = nil) {
             self.events = events
             self.marker = marker
@@ -5321,6 +5497,7 @@ extension Redshift {
         /// The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -5337,6 +5514,7 @@ extension Redshift {
     public struct FailoverPrimaryComputeResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -5365,6 +5543,7 @@ extension Redshift {
         /// The number of seconds until the returned temporary password expires. Constraint: minimum 900, maximum 3600. Default: 900
         public let durationSeconds: Int?
 
+        @inlinable
         public init(autoCreate: Bool? = nil, clusterIdentifier: String? = nil, customDomainName: String? = nil, dbGroups: [String]? = nil, dbName: String? = nil, dbUser: String? = nil, durationSeconds: Int? = nil) {
             self.autoCreate = autoCreate
             self.clusterIdentifier = clusterIdentifier
@@ -5406,6 +5585,7 @@ extension Redshift {
         /// The number of seconds until the returned temporary password expires. Range: 900-3600. Default: 900.
         public let durationSeconds: Int?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainName: String? = nil, dbName: String? = nil, durationSeconds: Int? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainName = customDomainName
@@ -5439,6 +5619,7 @@ extension Redshift {
         /// The identifier for the snapshot that is the source for the reserved-node exchange.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(actionType: ReservedNodeExchangeActionType? = nil, clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotIdentifier: String? = nil) {
             self.actionType = actionType
             self.clusterIdentifier = clusterIdentifier
@@ -5471,6 +5652,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ReservedNodeConfigurationOptionListEncoding, ReservedNodeConfigurationOption>>
         public var reservedNodeConfigurationOptionList: [ReservedNodeConfigurationOption]?
 
+        @inlinable
         public init(marker: String? = nil, reservedNodeConfigurationOptionList: [ReservedNodeConfigurationOption]? = nil) {
             self.marker = marker
             self.reservedNodeConfigurationOptionList = reservedNodeConfigurationOptionList
@@ -5490,6 +5672,7 @@ extension Redshift {
         /// A string representing the node identifier for the DC1 Reserved Node to be exchanged.
         public let reservedNodeId: String?
 
+        @inlinable
         public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
@@ -5517,6 +5700,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ReservedNodeOfferingsEncoding, ReservedNodeOffering>>
         public var reservedNodeOfferings: [ReservedNodeOffering]?
 
+        @inlinable
         public init(marker: String? = nil, reservedNodeOfferings: [ReservedNodeOffering]? = nil) {
             self.marker = marker
             self.reservedNodeOfferings = reservedNodeOfferings
@@ -5532,6 +5716,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -5549,6 +5734,7 @@ extension Redshift {
         /// The content of the resource policy.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -5569,6 +5755,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(hsmClientCertificateIdentifier: String? = nil, hsmClientCertificatePublicKey: String? = nil, tags: [Tag]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmClientCertificatePublicKey = hsmClientCertificatePublicKey
@@ -5591,6 +5778,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(hsmClientCertificates: [HsmClientCertificate]? = nil, marker: String? = nil) {
             self.hsmClientCertificates = hsmClientCertificates
             self.marker = marker
@@ -5617,6 +5805,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, hsmConfigurationIdentifier: String? = nil, hsmIpAddress: String? = nil, hsmPartitionName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -5643,6 +5832,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(hsmConfigurations: [HsmConfiguration]? = nil, marker: String? = nil) {
             self.hsmConfigurations = hsmConfigurations
             self.marker = marker
@@ -5662,6 +5852,7 @@ extension Redshift {
         /// Reports whether the Amazon Redshift cluster has finished applying any HSM settings changes specified in a modify cluster command. Values: active, applying
         public let status: String?
 
+        @inlinable
         public init(hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, status: String? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -5686,6 +5877,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(cidrip: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.cidrip = cidrip
             self.status = status
@@ -5716,6 +5908,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the target of an inbound integration.
         public let targetArn: String?
 
+        @inlinable
         public init(createTime: Date? = nil, errors: [IntegrationError]? = nil, integrationArn: String? = nil, sourceArn: String? = nil, status: ZeroETLIntegrationStatus? = nil, targetArn: String? = nil) {
             self.createTime = createTime
             self.errors = errors
@@ -5744,6 +5937,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
 
+        @inlinable
         public init(inboundIntegrations: [InboundIntegration]? = nil, marker: String? = nil) {
             self.inboundIntegrations = inboundIntegrations
             self.marker = marker
@@ -5761,6 +5955,7 @@ extension Redshift {
         /// The error message of an inbound integration error.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -5776,6 +5971,7 @@ extension Redshift {
         /// Determines whether the query scope is enabled or disabled.
         public let authorization: ServiceAuthorization?
 
+        @inlinable
         public init(authorization: ServiceAuthorization? = nil) {
             self.authorization = authorization
         }
@@ -5795,6 +5991,7 @@ extension Redshift {
         /// The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for which the list of Advisor recommendations is returned. If the neither the cluster identifier and the cluster namespace ARN parameters are specified, then recommendations for all clusters in the account are returned.
         public let namespaceArn: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, namespaceArn: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
@@ -5825,6 +6022,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_RecommendationsEncoding, Recommendation>>
         public var recommendations: [Recommendation]?
 
+        @inlinable
         public init(marker: String? = nil, recommendations: [Recommendation]? = nil) {
             self.marker = marker
             self.recommendations = recommendations
@@ -5855,6 +6053,7 @@ extension Redshift {
         /// The prefix applied to the log file names.
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: Date? = nil, lastSuccessfulDeliveryTime: Date? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.lastFailureMessage = lastFailureMessage
@@ -5889,6 +6088,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_UpdateTargetsEncoding, UpdateTarget>>
         public var updateTargets: [UpdateTarget]?
 
+        @inlinable
         public init(databaseVersion: String? = nil, maintenanceTrackName: String? = nil, updateTargets: [UpdateTarget]? = nil) {
             self.databaseVersion = databaseVersion
             self.maintenanceTrackName = maintenanceTrackName
@@ -5908,6 +6108,7 @@ extension Redshift {
         /// The identifier of the cluster to be modified.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(aquaConfigurationStatus: AquaConfigurationStatus? = nil, clusterIdentifier: String? = nil) {
             self.aquaConfigurationStatus = aquaConfigurationStatus
             self.clusterIdentifier = clusterIdentifier
@@ -5927,6 +6128,7 @@ extension Redshift {
         /// This parameter is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfiguration: AquaConfiguration?
 
+        @inlinable
         public init(aquaConfiguration: AquaConfiguration? = nil) {
             self.aquaConfiguration = aquaConfiguration
         }
@@ -5942,6 +6144,7 @@ extension Redshift {
         /// The name of the authentication profile to replace.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileContent: String? = nil, authenticationProfileName: String? = nil) {
             self.authenticationProfileContent = authenticationProfileContent
             self.authenticationProfileName = authenticationProfileName
@@ -5965,6 +6168,7 @@ extension Redshift {
         /// The name of the authentication profile that was replaced.
         public let authenticationProfileName: String?
 
+        @inlinable
         public init(authenticationProfileContent: String? = nil, authenticationProfileName: String? = nil) {
             self.authenticationProfileContent = authenticationProfileContent
             self.authenticationProfileName = authenticationProfileName
@@ -5982,6 +6186,7 @@ extension Redshift {
         /// The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request.
         public let revisionTarget: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, revisionTarget: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.revisionTarget = revisionTarget
@@ -6001,6 +6206,7 @@ extension Redshift {
     public struct ModifyClusterDbRevisionResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -6025,6 +6231,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_RemoveIamRolesEncoding, String>>
         public var removeIamRoles: [String]?
 
+        @inlinable
         public init(addIamRoles: [String]? = nil, clusterIdentifier: String? = nil, defaultIamRoleArn: String? = nil, removeIamRoles: [String]? = nil) {
             self.addIamRoles = addIamRoles
             self.clusterIdentifier = clusterIdentifier
@@ -6054,6 +6261,7 @@ extension Redshift {
     public struct ModifyClusterIamRolesResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -6077,6 +6285,7 @@ extension Redshift {
         /// A timestamp indicating the start time for the deferred maintenance window.
         public let deferMaintenanceStartTime: Date?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, deferMaintenance: Bool? = nil, deferMaintenanceDuration: Int? = nil, deferMaintenanceEndTime: Date? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: Date? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.deferMaintenance = deferMaintenance
@@ -6104,6 +6313,7 @@ extension Redshift {
     public struct ModifyClusterMaintenanceResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -6187,6 +6397,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -6285,6 +6496,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
+        @inlinable
         public init(parameterGroupName: String? = nil, parameters: [Parameter]? = nil) {
             self.parameterGroupName = parameterGroupName
             self.parameters = parameters
@@ -6306,6 +6518,7 @@ extension Redshift {
     public struct ModifyClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -6323,6 +6536,7 @@ extension Redshift {
         /// The identifier of the snapshot whose setting you want to modify.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifier: String? = nil) {
             self.force = force
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -6343,6 +6557,7 @@ extension Redshift {
     public struct ModifyClusterSnapshotResult: AWSDecodableShape {
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -6360,6 +6575,7 @@ extension Redshift {
         /// A unique alphanumeric identifier for the schedule that you want to associate with the cluster.
         public let scheduleIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, disassociateSchedule: Bool? = nil, scheduleIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.disassociateSchedule = disassociateSchedule
@@ -6389,6 +6605,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
 
+        @inlinable
         public init(clusterSubnetGroupName: String? = nil, description: String? = nil, subnetIds: [String]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
@@ -6413,6 +6630,7 @@ extension Redshift {
     public struct ModifyClusterSubnetGroupResult: AWSDecodableShape {
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
+        @inlinable
         public init(clusterSubnetGroup: ClusterSubnetGroup? = nil) {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
@@ -6430,6 +6648,7 @@ extension Redshift {
         /// The custom domain name for a changed custom domain association.
         public let customDomainName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainCertificateArn = customDomainCertificateArn
@@ -6463,6 +6682,7 @@ extension Redshift {
         /// The custom domain name associated with the result for the changed custom domain association.
         public let customDomainName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, customDomainCertExpiryTime: String? = nil, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainCertExpiryTime = customDomainCertExpiryTime
@@ -6487,6 +6707,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(endpointName: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.endpointName = endpointName
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -6526,6 +6747,7 @@ extension Redshift {
         /// The name of the modified Amazon Redshift event notification subscription.
         public let subscriptionName: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, severity: String? = nil, snsTopicArn: String? = nil, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String? = nil) {
             self.enabled = enabled
             self.eventCategories = eventCategories
@@ -6563,6 +6785,7 @@ extension Redshift {
     public struct ModifyEventSubscriptionResult: AWSDecodableShape {
         public let eventSubscription: EventSubscription?
 
+        @inlinable
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
@@ -6588,6 +6811,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<ServiceIntegrationsUnion>>
         public var serviceIntegrations: [ServiceIntegrationsUnion]?
 
+        @inlinable
         public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationArn: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
@@ -6624,6 +6848,7 @@ extension Redshift {
     public struct ModifyRedshiftIdcApplicationResult: AWSDecodableShape {
         public let redshiftIdcApplication: RedshiftIdcApplication?
 
+        @inlinable
         public init(redshiftIdcApplication: RedshiftIdcApplication? = nil) {
             self.redshiftIdcApplication = redshiftIdcApplication
         }
@@ -6651,6 +6876,7 @@ extension Redshift {
         /// A modified JSON format of the scheduled action.  For more information about this parameter, see ScheduledAction.
         public let targetAction: ScheduledActionType?
 
+        @inlinable
         public init(enable: Bool? = nil, endTime: Date? = nil, iamRole: String? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, targetAction: ScheduledActionType? = nil) {
             self.enable = enable
             self.endTime = endTime
@@ -6690,6 +6916,7 @@ extension Redshift {
         /// The number of days to retain automated snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this only changes the retention period of copied automated snapshots.  If you decrease the retention period for automated snapshots that are copied to a destination Amazon Web Services Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination Amazon Web Services Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots.  If you specify the manual option, only newly copied manual snapshots will have the new retention period.  If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
         public let retentionPeriod: Int?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, manual: Bool? = nil, retentionPeriod: Int? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.manual = manual
@@ -6710,6 +6937,7 @@ extension Redshift {
     public struct ModifySnapshotCopyRetentionPeriodResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -6728,6 +6956,7 @@ extension Redshift {
         /// A unique alphanumeric identifier of the schedule to modify.
         public let scheduleIdentifier: String?
 
+        @inlinable
         public init(scheduleDefinitions: [String]? = nil, scheduleIdentifier: String? = nil) {
             self.scheduleDefinitions = scheduleDefinitions
             self.scheduleIdentifier = scheduleIdentifier
@@ -6754,6 +6983,7 @@ extension Redshift {
         /// The identifier of the usage limit to modify.
         public let usageLimitId: String?
 
+        @inlinable
         public init(amount: Int64? = nil, breachAction: UsageLimitBreachAction? = nil, usageLimitId: String? = nil) {
             self.amount = amount
             self.breachAction = breachAction
@@ -6783,6 +7013,7 @@ extension Redshift {
         /// The subnet identifier.
         public let subnetId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, ipv6Address: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.ipv6Address = ipv6Address
@@ -6810,6 +7041,7 @@ extension Redshift {
         /// The number of nodes.
         public let numberOfNodes: Int?
 
+        @inlinable
         public init(estimatedDiskUtilizationPercent: Double? = nil, mode: Mode? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
             self.estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercent
             self.mode = mode
@@ -6836,6 +7068,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ValuesEncoding, String>>
         public var values: [String]?
 
+        @inlinable
         public init(name: NodeConfigurationOptionsFilterName? = nil, operator: OperatorType? = nil, values: [String]? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -6864,6 +7097,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_NodeConfigurationOptionListEncoding, NodeConfigurationOption>>
         public var nodeConfigurationOptionList: [NodeConfigurationOption]?
 
+        @inlinable
         public init(marker: String? = nil, nodeConfigurationOptionList: [NodeConfigurationOption]? = nil) {
             self.marker = marker
             self.nodeConfigurationOptionList = nodeConfigurationOptionList
@@ -6888,6 +7122,7 @@ extension Redshift {
         /// The node type for the orderable cluster.
         public let nodeType: String?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, nodeType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterType = clusterType
@@ -6912,6 +7147,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_OrderableClusterOptionsEncoding, OrderableClusterOption>>
         public var orderableClusterOptions: [OrderableClusterOption]?
 
+        @inlinable
         public init(marker: String? = nil, orderableClusterOptions: [OrderableClusterOption]? = nil) {
             self.marker = marker
             self.orderableClusterOptions = orderableClusterOptions
@@ -6946,6 +7182,7 @@ extension Redshift {
         /// The source of the parameter value, such as "engine-default" or "user".
         public let source: String?
 
+        @inlinable
         public init(allowedValues: String? = nil, applyType: ParameterApplyType? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil) {
             self.allowedValues = allowedValues
             self.applyType = applyType
@@ -6995,6 +7232,7 @@ extension Redshift {
         /// The date (UTC) that the partner integration status was last updated by the partner.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, databaseName: String? = nil, partnerName: String? = nil, status: PartnerIntegrationStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.databaseName = databaseName
@@ -7024,6 +7262,7 @@ extension Redshift {
         /// The name of the partner that is authorized to send data.
         public let partnerName: String?
 
+        @inlinable
         public init(accountId: String? = nil, clusterIdentifier: String? = nil, databaseName: String? = nil, partnerName: String? = nil) {
             self.accountId = accountId
             self.clusterIdentifier = clusterIdentifier
@@ -7057,6 +7296,7 @@ extension Redshift {
         /// The name of the partner that is authorized to send data.
         public let partnerName: String?
 
+        @inlinable
         public init(databaseName: String? = nil, partnerName: String? = nil) {
             self.databaseName = databaseName
             self.partnerName = partnerName
@@ -7072,6 +7312,7 @@ extension Redshift {
         /// The identifier of the cluster to be paused.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -7088,6 +7329,7 @@ extension Redshift {
     public struct PauseClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -7121,6 +7363,7 @@ extension Redshift {
         /// The pending or in-progress change of the ability to connect to the cluster from the public network.
         public let publiclyAccessible: Bool?
 
+        @inlinable
         public init(automatedSnapshotRetentionPeriod: Int? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, encryptionType: String? = nil, enhancedVpcRouting: Bool? = nil, maintenanceTrackName: String? = nil, masterUserPassword: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, publiclyAccessible: Bool? = nil) {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
@@ -7156,6 +7399,7 @@ extension Redshift {
         /// The unique identifier of the reserved node offering you want to purchase.
         public let reservedNodeOfferingId: String?
 
+        @inlinable
         public init(nodeCount: Int? = nil, reservedNodeOfferingId: String? = nil) {
             self.nodeCount = nodeCount
             self.reservedNodeOfferingId = reservedNodeOfferingId
@@ -7174,6 +7418,7 @@ extension Redshift {
     public struct PurchaseReservedNodeOfferingResult: AWSDecodableShape {
         public let reservedNode: ReservedNode?
 
+        @inlinable
         public init(reservedNode: ReservedNode? = nil) {
             self.reservedNode = reservedNode
         }
@@ -7189,6 +7434,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the resource of which its resource policy is updated.
         public let resourceArn: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -7209,6 +7455,7 @@ extension Redshift {
         /// The content of the updated resource policy.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -7222,6 +7469,7 @@ extension Redshift {
         /// The cluster identifier.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -7238,6 +7486,7 @@ extension Redshift {
     public struct RebootClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -7278,6 +7527,7 @@ extension Redshift {
         /// The title of the recommendation.
         public let title: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, impactRanking: ImpactRankingType? = nil, namespaceArn: String? = nil, observation: String? = nil, recommendationText: String? = nil, recommendationType: String? = nil, recommendedActions: [RecommendedAction]? = nil, referenceLinks: [ReferenceLink]? = nil, title: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
@@ -7319,6 +7569,7 @@ extension Redshift {
         /// The type of command.
         public let type: RecommendedActionType?
 
+        @inlinable
         public init(command: String? = nil, database: String? = nil, text: String? = nil, type: RecommendedActionType? = nil) {
             self.command = command
             self.database = database
@@ -7340,6 +7591,7 @@ extension Redshift {
         /// The frequency at which the recurring charge amount is applied.
         public let recurringChargeFrequency: String?
 
+        @inlinable
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
@@ -7375,6 +7627,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<ServiceIntegrationsUnion>>
         public var serviceIntegrations: [ServiceIntegrationsUnion]?
 
+        @inlinable
         public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcOnboardStatus: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationArn: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
@@ -7408,6 +7661,7 @@ extension Redshift {
         /// The hyperlink text that describes the link to more information.
         public let text: String?
 
+        @inlinable
         public init(link: String? = nil, text: String? = nil) {
             self.link = link
             self.text = text
@@ -7423,6 +7677,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the datashare to reject.
         public let dataShareArn: String?
 
+        @inlinable
         public init(dataShareArn: String? = nil) {
             self.dataShareArn = dataShareArn
         }
@@ -7466,6 +7721,7 @@ extension Redshift {
         /// The hourly rate Amazon Redshift charges you for this reserved node.
         public let usagePrice: Double?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeCount: Int? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeId: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -7505,6 +7761,7 @@ extension Redshift {
         public let targetReservedNodeCount: Int?
         public let targetReservedNodeOffering: ReservedNodeOffering?
 
+        @inlinable
         public init(sourceReservedNode: ReservedNode? = nil, targetReservedNodeCount: Int? = nil, targetReservedNodeOffering: ReservedNodeOffering? = nil) {
             self.sourceReservedNode = sourceReservedNode
             self.targetReservedNodeCount = targetReservedNodeCount
@@ -7538,6 +7795,7 @@ extension Redshift {
         /// The node type of the target reserved node, for example ra3.4xlarge.
         public let targetReservedNodeType: String?
 
+        @inlinable
         public init(requestTime: Date? = nil, reservedNodeExchangeRequestId: String? = nil, sourceReservedNodeCount: Int? = nil, sourceReservedNodeId: String? = nil, sourceReservedNodeType: String? = nil, status: ReservedNodeExchangeStatusType? = nil, targetReservedNodeCount: Int? = nil, targetReservedNodeOfferingId: String? = nil, targetReservedNodeType: String? = nil) {
             self.requestTime = requestTime
             self.reservedNodeExchangeRequestId = reservedNodeExchangeRequestId
@@ -7585,6 +7843,7 @@ extension Redshift {
         /// The rate you are charged for each hour the cluster that is using the offering is running.
         public let usagePrice: Double?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -7619,6 +7878,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ReservedNodeOfferingsEncoding, ReservedNodeOffering>>
         public var reservedNodeOfferings: [ReservedNodeOffering]?
 
+        @inlinable
         public init(marker: String? = nil, reservedNodeOfferings: [ReservedNodeOffering]? = nil) {
             self.marker = marker
             self.reservedNodeOfferings = reservedNodeOfferings
@@ -7639,6 +7899,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ReservedNodesEncoding, ReservedNode>>
         public var reservedNodes: [ReservedNode]?
 
+        @inlinable
         public init(marker: String? = nil, reservedNodes: [ReservedNode]? = nil) {
             self.marker = marker
             self.reservedNodes = reservedNodes
@@ -7661,6 +7922,7 @@ extension Redshift {
         /// If true, all parameters in the specified parameter group will be reset to their default values.  Default: true
         public let resetAllParameters: Bool?
 
+        @inlinable
         public init(parameterGroupName: String? = nil, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
             self.parameterGroupName = parameterGroupName
             self.parameters = parameters
@@ -7697,6 +7959,7 @@ extension Redshift {
         /// The identifier of the target reserved node offering.
         public let targetReservedNodeOfferingId: String?
 
+        @inlinable
         public init(classic: Bool? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, reservedNodeId: String? = nil, targetReservedNodeOfferingId: String? = nil) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
@@ -7729,6 +7992,7 @@ extension Redshift {
     public struct ResizeClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -7744,6 +8008,7 @@ extension Redshift {
         /// Returns the value ClassicResize.
         public let resizeType: String?
 
+        @inlinable
         public init(allowCancelResize: Bool? = nil, resizeType: String? = nil) {
             self.allowCancelResize = allowCancelResize
             self.resizeType = resizeType
@@ -7792,6 +8057,7 @@ extension Redshift {
         /// The estimated total amount of data, in megabytes, on the cluster before the resize operation began.
         public let totalResizeDataInMegaBytes: Int64?
 
+        @inlinable
         public init(avgResizeRateInMegaBytesPerSecond: Double? = nil, dataTransferProgressPercent: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, importTablesCompleted: [String]? = nil, importTablesInProgress: [String]? = nil, importTablesNotStarted: [String]? = nil, message: String? = nil, progressInMegaBytes: Int64? = nil, resizeType: String? = nil, status: String? = nil, targetClusterType: String? = nil, targetEncryptionType: String? = nil, targetNodeType: String? = nil, targetNumberOfNodes: Int? = nil, totalResizeDataInMegaBytes: Int64? = nil) {
             self.avgResizeRateInMegaBytesPerSecond = avgResizeRateInMegaBytesPerSecond
             self.dataTransferProgressPercent = dataTransferProgressPercent
@@ -7837,6 +8103,7 @@ extension Redshift {
         /// The resources that a policy is attached to.
         public let resourceArn: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -7931,6 +8198,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeId: String? = nil, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil, snapshotScheduleIdentifier: String? = nil, targetReservedNodeOfferingId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
@@ -8049,6 +8317,7 @@ extension Redshift {
     public struct RestoreFromClusterSnapshotResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -8072,6 +8341,7 @@ extension Redshift {
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public let status: String?
 
+        @inlinable
         public init(currentRestoreRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, progressInMegaBytes: Int64? = nil, snapshotSizeInMegaBytes: Int64? = nil, status: String? = nil) {
             self.currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -8111,6 +8381,7 @@ extension Redshift {
         /// The name of the schema to restore the table to.
         public let targetSchemaName: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, enableCaseSensitiveIdentifier: Bool? = nil, newTableName: String? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.enableCaseSensitiveIdentifier = enableCaseSensitiveIdentifier
@@ -8150,6 +8421,7 @@ extension Redshift {
     public struct RestoreTableFromClusterSnapshotResult: AWSDecodableShape {
         public let tableRestoreStatus: TableRestoreStatus?
 
+        @inlinable
         public init(tableRestoreStatus: TableRestoreStatus? = nil) {
             self.tableRestoreStatus = tableRestoreStatus
         }
@@ -8163,6 +8435,7 @@ extension Redshift {
         /// The identifier of the cluster to be resumed.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -8179,6 +8452,7 @@ extension Redshift {
     public struct ResumeClusterResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -8196,6 +8470,7 @@ extension Redshift {
         /// A string that describes the changes and features that will be applied to the cluster when it is updated to the corresponding ClusterDbRevision.
         public let description: String?
 
+        @inlinable
         public init(databaseRevision: String? = nil, databaseRevisionReleaseDate: Date? = nil, description: String? = nil) {
             self.databaseRevision = databaseRevision
             self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
@@ -8219,6 +8494,7 @@ extension Redshift {
         /// The Amazon Web Services account number of the owner of the security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example: 111122223333
         public let ec2SecurityGroupOwnerId: String?
 
+        @inlinable
         public init(cidrip: String? = nil, clusterSecurityGroupName: String? = nil, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.clusterSecurityGroupName = clusterSecurityGroupName
@@ -8244,6 +8520,7 @@ extension Redshift {
     public struct RevokeClusterSecurityGroupIngressResult: AWSDecodableShape {
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
+        @inlinable
         public init(clusterSecurityGroup: ClusterSecurityGroup? = nil) {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
@@ -8266,6 +8543,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcIdsEncoding, String>>
         public var vpcIds: [String]?
 
+        @inlinable
         public init(account: String? = nil, clusterIdentifier: String? = nil, force: Bool? = nil, vpcIds: [String]? = nil) {
             self.account = account
             self.clusterIdentifier = clusterIdentifier
@@ -8299,6 +8577,7 @@ extension Redshift {
         /// The identifier of the snapshot that the account can no longer access.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(accountWithRestoreAccess: String? = nil, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.accountWithRestoreAccess = accountWithRestoreAccess
             self.snapshotArn = snapshotArn
@@ -8324,6 +8603,7 @@ extension Redshift {
     public struct RevokeSnapshotAccessResult: AWSDecodableShape {
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -8337,6 +8617,7 @@ extension Redshift {
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
         public let clusterIdentifier: String?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
         }
@@ -8353,6 +8634,7 @@ extension Redshift {
     public struct RotateEncryptionKeyResult: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -8388,6 +8670,7 @@ extension Redshift {
         /// A JSON format string of the Amazon Redshift API operation with input parameters.  "{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
         public let targetAction: ScheduledActionType?
 
+        @inlinable
         public init(endTime: Date? = nil, iamRole: String? = nil, nextInvocations: [Date]? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, state: ScheduledActionState? = nil, targetAction: ScheduledActionType? = nil) {
             self.endTime = endTime
             self.iamRole = iamRole
@@ -8422,6 +8705,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ValuesEncoding, String>>
         public var values: [String]?
 
+        @inlinable
         public init(name: ScheduledActionFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -8447,6 +8731,7 @@ extension Redshift {
         /// An action that runs a ResumeCluster API operation.
         public let resumeCluster: ResumeClusterMessage?
 
+        @inlinable
         public init(pauseCluster: PauseClusterMessage? = nil, resizeCluster: ResizeClusterMessage? = nil, resumeCluster: ResumeClusterMessage? = nil) {
             self.pauseCluster = pauseCluster
             self.resizeCluster = resizeCluster
@@ -8475,6 +8760,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_ScheduledActionsEncoding, ScheduledAction>>
         public var scheduledActions: [ScheduledAction]?
 
+        @inlinable
         public init(marker: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
             self.marker = marker
             self.scheduledActions = scheduledActions
@@ -8493,6 +8779,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<ClusterNode>>
         public var clusterNodes: [ClusterNode]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, clusterNodes: [ClusterNode]? = nil) {
             self.availabilityZone = availabilityZone
             self.clusterNodes = clusterNodes
@@ -8587,6 +8874,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
 
+        @inlinable
         public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dbName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, engineFullVersion: String? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotArn: String? = nil, snapshotCreateTime: Date? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: Date? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
@@ -8679,6 +8967,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, snapshotCopyGrantName: String? = nil, tags: [Tag]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -8701,6 +8990,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SnapshotCopyGrantsEncoding, SnapshotCopyGrant>>
         public var snapshotCopyGrants: [SnapshotCopyGrant]?
 
+        @inlinable
         public init(marker: String? = nil, snapshotCopyGrants: [SnapshotCopyGrant]? = nil) {
             self.marker = marker
             self.snapshotCopyGrants = snapshotCopyGrants
@@ -8722,6 +9012,7 @@ extension Redshift {
         /// A unique identifier for the snapshot returning the error.
         public let snapshotIdentifier: String?
 
+        @inlinable
         public init(failureCode: String? = nil, failureReason: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -8746,6 +9037,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SnapshotsEncoding, Snapshot>>
         public var snapshots: [Snapshot]?
 
+        @inlinable
         public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
             self.marker = marker
             self.snapshots = snapshots
@@ -8781,6 +9073,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(associatedClusterCount: Int? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [Date]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.associatedClusterCount = associatedClusterCount
             self.associatedClusters = associatedClusters
@@ -8808,6 +9101,7 @@ extension Redshift {
         /// The order for listing the attributes.
         public let sortOrder: SortByOrder?
 
+        @inlinable
         public init(attribute: SnapshotAttributeToSortBy? = nil, sortOrder: SortByOrder? = nil) {
             self.attribute = attribute
             self.sortOrder = sortOrder
@@ -8826,6 +9120,7 @@ extension Redshift {
         /// The status of the subnet.
         public let subnetStatus: String?
 
+        @inlinable
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -8843,6 +9138,7 @@ extension Redshift {
         /// A list of the supported operations.
         public let operationName: String?
 
+        @inlinable
         public init(operationName: String? = nil) {
             self.operationName = operationName
         }
@@ -8855,6 +9151,7 @@ extension Redshift {
     public struct SupportedPlatform: AWSDecodableShape {
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -8894,6 +9191,7 @@ extension Redshift {
         /// The total amount of data to restore to the new table, in megabytes (MB).
         public let totalDataInMegaBytes: Int64?
 
+        @inlinable
         public init(clusterIdentifier: String? = nil, message: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, requestTime: Date? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: TableRestoreStatusType? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.message = message
@@ -8938,6 +9236,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TableRestoreStatusDetailsEncoding, TableRestoreStatus>>
         public var tableRestoreStatusDetails: [TableRestoreStatus]?
 
+        @inlinable
         public init(marker: String? = nil, tableRestoreStatusDetails: [TableRestoreStatus]? = nil) {
             self.marker = marker
             self.tableRestoreStatusDetails = tableRestoreStatusDetails
@@ -8955,6 +9254,7 @@ extension Redshift {
         /// The value for the resource tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -8979,6 +9279,7 @@ extension Redshift {
         /// The tag for the resource.
         public let tag: Tag?
 
+        @inlinable
         public init(resourceName: String? = nil, resourceType: String? = nil, tag: Tag? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
@@ -9001,6 +9302,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_TaggedResourcesEncoding, TaggedResource>>
         public var taggedResources: [TaggedResource]?
 
+        @inlinable
         public init(marker: String? = nil, taggedResources: [TaggedResource]? = nil) {
             self.marker = marker
             self.taggedResources = taggedResources
@@ -9021,6 +9323,7 @@ extension Redshift {
         /// The starting point to return a set of response tracklist records. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
 
+        @inlinable
         public init(maintenanceTracks: [MaintenanceTrack]? = nil, marker: String? = nil) {
             self.maintenanceTracks = maintenanceTracks
             self.marker = marker
@@ -9046,6 +9349,7 @@ extension Redshift {
         /// The status message provided by the partner.
         public let statusMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, clusterIdentifier: String? = nil, databaseName: String? = nil, partnerName: String? = nil, status: PartnerIntegrationStatus? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.clusterIdentifier = clusterIdentifier
@@ -9090,6 +9394,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_SupportedOperationsEncoding, SupportedOperation>>
         public var supportedOperations: [SupportedOperation]?
 
+        @inlinable
         public init(databaseVersion: String? = nil, maintenanceTrackName: String? = nil, supportedOperations: [SupportedOperation]? = nil) {
             self.databaseVersion = databaseVersion
             self.maintenanceTrackName = maintenanceTrackName
@@ -9124,6 +9429,7 @@ extension Redshift {
         /// The identifier of the usage limit.
         public let usageLimitId: String?
 
+        @inlinable
         public init(amount: Int64? = nil, breachAction: UsageLimitBreachAction? = nil, clusterIdentifier: String? = nil, featureType: UsageLimitFeatureType? = nil, limitType: UsageLimitLimitType? = nil, period: UsageLimitPeriod? = nil, tags: [Tag]? = nil, usageLimitId: String? = nil) {
             self.amount = amount
             self.breachAction = breachAction
@@ -9154,6 +9460,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<UsageLimit>>
         public var usageLimits: [UsageLimit]?
 
+        @inlinable
         public init(marker: String? = nil, usageLimits: [UsageLimit]? = nil) {
             self.marker = marker
             self.usageLimits = usageLimits
@@ -9176,6 +9483,7 @@ extension Redshift {
         /// The VPC identifier that the endpoint is associated.
         public let vpcId: String?
 
+        @inlinable
         public init(networkInterfaces: [NetworkInterface]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
             self.networkInterfaces = networkInterfaces
             self.vpcEndpointId = vpcEndpointId
@@ -9195,6 +9503,7 @@ extension Redshift {
         /// The identifier of the VPC security group.
         public let vpcSecurityGroupId: String?
 
+        @inlinable
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -9210,6 +9519,7 @@ extension Redshift {
         /// The Lake Formation scope.
         public let lakeFormationQuery: LakeFormationQuery?
 
+        @inlinable
         public init(lakeFormationQuery: LakeFormationQuery? = nil) {
             self.lakeFormationQuery = lakeFormationQuery
         }
@@ -9224,6 +9534,7 @@ extension Redshift {
         @OptionalCustomCoding<StandardArrayCoder<LakeFormationScopeUnion>>
         public var lakeFormation: [LakeFormationScopeUnion]?
 
+        @inlinable
         public init(lakeFormation: [LakeFormationScopeUnion]? = nil) {
             self.lakeFormation = lakeFormation
         }

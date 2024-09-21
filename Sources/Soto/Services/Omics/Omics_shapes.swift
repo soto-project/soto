@@ -455,6 +455,7 @@ extension Omics {
         /// The ID for the multipart upload.
         public let uploadId: String
 
+        @inlinable
         public init(sequenceStoreId: String, uploadId: String) {
             self.sequenceStoreId = sequenceStoreId
             self.uploadId = uploadId
@@ -487,6 +488,7 @@ extension Omics {
         /// The ID of the resource share.
         public let shareId: String
 
+        @inlinable
         public init(shareId: String) {
             self.shareId = shareId
         }
@@ -504,6 +506,7 @@ extension Omics {
         /// The status of the resource share.
         public let status: ShareStatus?
 
+        @inlinable
         public init(status: ShareStatus? = nil) {
             self.status = status
         }
@@ -521,6 +524,7 @@ extension Omics {
         /// The filter's status.
         public let status: ReadSetActivationJobStatus?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, status: ReadSetActivationJobStatus? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -546,6 +550,7 @@ extension Omics {
         /// The job's status.
         public let status: ReadSetActivationJobStatus
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, id: String, sequenceStoreId: String, status: ReadSetActivationJobStatus) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -571,6 +576,7 @@ extension Omics {
         /// The source's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(readSetId: String, status: ReadSetActivationJobItemStatus, statusMessage: String? = nil) {
             self.readSetId = readSetId
             self.status = status
@@ -590,6 +596,7 @@ extension Omics {
         /// The source file's location in Amazon S3.
         public let source: String
 
+        @inlinable
         public init(jobStatus: JobStatus, source: String) {
             self.jobStatus = jobStatus
             self.source = source
@@ -605,6 +612,7 @@ extension Omics {
         /// The source file's location in Amazon S3.
         public let source: String
 
+        @inlinable
         public init(source: String) {
             self.source = source
         }
@@ -643,6 +651,7 @@ extension Omics {
         /// The name of the annotation store version.
         public let versionName: String
 
+        @inlinable
         public init(annotationFields: [String: String]? = nil, completionTime: Date? = nil, creationTime: Date, destinationName: String, id: String, roleArn: String, runLeftNormalization: Bool? = nil, status: JobStatus, updateTime: Date, versionName: String) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
@@ -698,6 +707,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, reference: ReferenceItem, sseConfig: SseConfig, status: StoreStatus, statusMessage: String, storeArn: String, storeFormat: StoreFormat, storeSizeBytes: Int64, updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
@@ -755,6 +765,7 @@ extension Omics {
         /// The size of an annotation store version in Bytes.
         public let versionSizeBytes: Int64
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, status: VersionStatus, statusMessage: String, storeId: String, updateTime: Date, versionArn: String, versionName: String, versionSizeBytes: Int64) {
             self.creationTime = creationTime
             self.description = description
@@ -790,6 +801,7 @@ extension Omics {
         /// The read sets' sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(ids: [String], sequenceStoreId: String) {
             self.ids = ids
             self.sequenceStoreId = sequenceStoreId
@@ -824,6 +836,7 @@ extension Omics {
         /// Errors returned by individual delete operations.
         public let errors: [ReadSetBatchError]?
 
+        @inlinable
         public init(errors: [ReadSetBatchError]? = nil) {
             self.errors = errors
         }
@@ -837,6 +850,7 @@ extension Omics {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -862,6 +876,7 @@ extension Omics {
         /// The run's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -885,6 +900,7 @@ extension Omics {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -914,6 +930,7 @@ extension Omics {
         /// The ID for the multipart upload.
         public let uploadId: String
 
+        @inlinable
         public init(parts: [CompleteReadSetUploadPartListItem], sequenceStoreId: String, uploadId: String) {
             self.parts = parts
             self.sequenceStoreId = sequenceStoreId
@@ -946,6 +963,7 @@ extension Omics {
         /// The read set ID created for an uploaded read set.
         public let readSetId: String
 
+        @inlinable
         public init(readSetId: String) {
             self.readSetId = readSetId
         }
@@ -963,6 +981,7 @@ extension Omics {
         ///  The source file of the part being uploaded.
         public let partSource: ReadSetPartSource
 
+        @inlinable
         public init(checksum: String, partNumber: Int, partSource: ReadSetPartSource) {
             self.checksum = checksum
             self.partNumber = partNumber
@@ -994,6 +1013,7 @@ extension Omics {
         /// The name given to an annotation store version to distinguish it from other versions.
         public let versionName: String?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, reference: ReferenceItem? = nil, sseConfig: SseConfig? = nil, storeFormat: StoreFormat, storeOptions: StoreOptions? = nil, tags: [String: String]? = nil, versionName: String? = nil) {
             self.description = description
             self.name = name
@@ -1053,6 +1073,7 @@ extension Omics {
         /// The name given to an annotation store version to distinguish it from other versions.
         public let versionName: String
 
+        @inlinable
         public init(creationTime: Date, id: String, name: String, reference: ReferenceItem? = nil, status: StoreStatus, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil, versionName: String) {
             self.creationTime = creationTime
             self.id = id
@@ -1088,6 +1109,7 @@ extension Omics {
         /// The options for an annotation store version.
         public let versionOptions: VersionOptions?
 
+        @inlinable
         public init(description: String? = nil, name: String, tags: [String: String]? = nil, versionName: String, versionOptions: VersionOptions? = nil) {
             self.description = description
             self.name = name
@@ -1147,6 +1169,7 @@ extension Omics {
         /// The options for an annotation store version.
         public let versionOptions: VersionOptions?
 
+        @inlinable
         public init(creationTime: Date, id: String, name: String, status: VersionStatus, storeId: String, versionName: String, versionOptions: VersionOptions? = nil) {
             self.creationTime = creationTime
             self.id = id
@@ -1190,6 +1213,7 @@ extension Omics {
         /// Any tags to add to the read set.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, generatedFrom: String? = nil, name: String, referenceArn: String? = nil, sampleId: String, sequenceStoreId: String, sourceFileType: FileType, subjectId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1287,6 +1311,7 @@ extension Omics {
         /// The ID for the initiated multipart upload.
         public let uploadId: String
 
+        @inlinable
         public init(creationTime: Date, description: String? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String, sampleId: String, sequenceStoreId: String, sourceFileType: FileType, subjectId: String, tags: [String: String]? = nil, uploadId: String) {
             self.creationTime = creationTime
             self.description = description
@@ -1328,6 +1353,7 @@ extension Omics {
         /// Tags for the store.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, name: String, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1376,6 +1402,7 @@ extension Omics {
         /// The store's SSE settings.
         public let sseConfig: SseConfig?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1411,6 +1438,7 @@ extension Omics {
         /// Tags for the group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxCpus: Int? = nil, maxDuration: Int? = nil, maxGpus: Int? = nil, maxRuns: Int? = nil, name: String? = nil, requestId: String = CreateRunGroupRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.maxCpus = maxCpus
             self.maxDuration = maxDuration
@@ -1454,6 +1482,7 @@ extension Omics {
         /// Tags for the run group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -1483,6 +1512,7 @@ extension Omics {
         /// Tags for the store.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, name: String, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1540,6 +1570,7 @@ extension Omics {
         /// The store's SSE settings.
         public let sseConfig: SseConfig?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1571,6 +1602,7 @@ extension Omics {
         /// A name that the owner defines for the share.
         public let shareName: String?
 
+        @inlinable
         public init(principalSubscriber: String, resourceArn: String, shareName: String? = nil) {
             self.principalSubscriber = principalSubscriber
             self.resourceArn = resourceArn
@@ -1598,6 +1630,7 @@ extension Omics {
         /// The status of the share.
         public let status: ShareStatus?
 
+        @inlinable
         public init(shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil) {
             self.shareId = shareId
             self.shareName = shareName
@@ -1623,6 +1656,7 @@ extension Omics {
         /// Tags for the store.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, reference: ReferenceItem, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -1666,6 +1700,7 @@ extension Omics {
         /// The store's status.
         public let status: StoreStatus
 
+        @inlinable
         public init(creationTime: Date, id: String, name: String, reference: ReferenceItem? = nil, status: StoreStatus) {
             self.creationTime = creationTime
             self.id = id
@@ -1707,6 +1742,7 @@ extension Omics {
         /// Tags for the workflow.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accelerators: Accelerators? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, requestId: String = CreateWorkflowRequest.idempotencyToken(), storageCapacity: Int? = nil, tags: [String: String]? = nil) {
             self.accelerators = accelerators
             self.definitionUri = definitionUri
@@ -1777,6 +1813,7 @@ extension Omics {
         /// The workflow's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, status: WorkflowStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -1798,6 +1835,7 @@ extension Omics {
         /// The store's name.
         public let name: String
 
+        @inlinable
         public init(force: Bool? = nil, name: String) {
             self.force = force
             self.name = name
@@ -1817,6 +1855,7 @@ extension Omics {
         /// The store's status.
         public let status: StoreStatus
 
+        @inlinable
         public init(status: StoreStatus) {
             self.status = status
         }
@@ -1834,6 +1873,7 @@ extension Omics {
         /// The versions of an annotation store to be deleted.
         public let versions: [String]
 
+        @inlinable
         public init(force: Bool? = nil, name: String, versions: [String]) {
             self.force = force
             self.name = name
@@ -1867,6 +1907,7 @@ extension Omics {
         /// Any errors that occur when attempting to delete an annotation store version.
         public let errors: [VersionDeleteError]?
 
+        @inlinable
         public init(errors: [VersionDeleteError]? = nil) {
             self.errors = errors
         }
@@ -1882,6 +1923,7 @@ extension Omics {
         /// The reference's store ID.
         public let referenceStoreId: String
 
+        @inlinable
         public init(id: String, referenceStoreId: String) {
             self.id = id
             self.referenceStoreId = referenceStoreId
@@ -1914,6 +1956,7 @@ extension Omics {
         /// The store's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1941,6 +1984,7 @@ extension Omics {
         /// The run group's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1964,6 +2008,7 @@ extension Omics {
         /// The run's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1987,6 +2032,7 @@ extension Omics {
         /// The sequence store's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2014,6 +2060,7 @@ extension Omics {
         /// The ID for the resource share to be deleted.
         public let shareId: String
 
+        @inlinable
         public init(shareId: String) {
             self.shareId = shareId
         }
@@ -2031,6 +2078,7 @@ extension Omics {
         /// The status of the share being deleted.
         public let status: ShareStatus?
 
+        @inlinable
         public init(status: ShareStatus? = nil) {
             self.status = status
         }
@@ -2046,6 +2094,7 @@ extension Omics {
         /// The store's name.
         public let name: String
 
+        @inlinable
         public init(force: Bool? = nil, name: String) {
             self.force = force
             self.name = name
@@ -2065,6 +2114,7 @@ extension Omics {
         /// The store's status.
         public let status: StoreStatus
 
+        @inlinable
         public init(status: StoreStatus) {
             self.status = status
         }
@@ -2078,6 +2128,7 @@ extension Omics {
         /// The workflow's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2105,6 +2156,7 @@ extension Omics {
         /// The ETag hash calculated on Source2 of the read set.
         public let source2: String?
 
+        @inlinable
         public init(algorithm: ETagAlgorithm? = nil, source1: String? = nil, source2: String? = nil) {
             self.algorithm = algorithm
             self.source1 = source1
@@ -2122,6 +2174,7 @@ extension Omics {
         /// The set's ID.
         public let readSetId: String
 
+        @inlinable
         public init(readSetId: String) {
             self.readSetId = readSetId
         }
@@ -2145,6 +2198,7 @@ extension Omics {
         /// The set's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(id: String, status: ReadSetExportJobItemStatus, statusMessage: String? = nil) {
             self.id = id
             self.status = status
@@ -2166,6 +2220,7 @@ extension Omics {
         /// A status to filter on.
         public let status: ReadSetExportJobStatus?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, status: ReadSetExportJobStatus? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -2193,6 +2248,7 @@ extension Omics {
         /// The job's status.
         public let status: ReadSetExportJobStatus
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, destination: String, id: String, sequenceStoreId: String, status: ReadSetExportJobStatus) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2222,6 +2278,7 @@ extension Omics {
         /// The file's total parts.
         public let totalParts: Int?
 
+        @inlinable
         public init(contentLength: Int64? = nil, partSize: Int64? = nil, s3Access: ReadSetS3Access? = nil, totalParts: Int? = nil) {
             self.contentLength = contentLength
             self.partSize = partSize
@@ -2245,6 +2302,7 @@ extension Omics {
         /// The type of resources to be filtered. You can specify one or more of the resource types.
         public let type: [ShareResourceType]?
 
+        @inlinable
         public init(resourceArns: [String]? = nil, status: [ShareStatus]? = nil, type: [ShareResourceType]? = nil) {
             self.resourceArns = resourceArns
             self.status = status
@@ -2271,6 +2329,7 @@ extension Omics {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2318,6 +2377,7 @@ extension Omics {
         /// The name of the annotation store version.
         public let versionName: String
 
+        @inlinable
         public init(annotationFields: [String: String]? = nil, completionTime: Date, creationTime: Date, destinationName: String, formatOptions: FormatOptions, id: String, items: [AnnotationImportItemDetail], roleArn: String, runLeftNormalization: Bool, status: JobStatus, statusMessage: String, updateTime: Date, versionName: String) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
@@ -2355,6 +2415,7 @@ extension Omics {
         /// The store's name.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2402,6 +2463,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, numVersions: Int, reference: ReferenceItem, sseConfig: SseConfig, status: StoreStatus, statusMessage: String, storeArn: String, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil, storeSizeBytes: Int64, tags: [String: String], updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
@@ -2445,6 +2507,7 @@ extension Omics {
         /// The name given to an annotation store version to distinguish it from others.
         public let versionName: String
 
+        @inlinable
         public init(name: String, versionName: String) {
             self.name = name
             self.versionName = versionName
@@ -2490,6 +2553,7 @@ extension Omics {
         /// The size of the annotation store version in Bytes.
         public let versionSizeBytes: Int64
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, status: VersionStatus, statusMessage: String, storeId: String, tags: [String: String], updateTime: Date, versionArn: String, versionName: String, versionOptions: VersionOptions? = nil, versionSizeBytes: Int64) {
             self.creationTime = creationTime
             self.description = description
@@ -2529,6 +2593,7 @@ extension Omics {
         /// The job's sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
@@ -2569,6 +2634,7 @@ extension Omics {
         /// The job's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, id: String, sequenceStoreId: String, sources: [ActivateReadSetSourceItem]? = nil, status: ReadSetActivationJobStatus, statusMessage: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2596,6 +2662,7 @@ extension Omics {
         /// The job's sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
@@ -2638,6 +2705,7 @@ extension Omics {
         /// The job's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, destination: String, id: String, readSets: [ExportReadSetDetail]? = nil, sequenceStoreId: String, status: ReadSetExportJobStatus, statusMessage: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2667,6 +2735,7 @@ extension Omics {
         /// The job's sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
@@ -2709,6 +2778,7 @@ extension Omics {
         /// The job's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, id: String, roleArn: String, sequenceStoreId: String, sources: [ImportReadSetSourceItem], status: ReadSetImportJobStatus, statusMessage: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2738,6 +2808,7 @@ extension Omics {
         /// The read set's sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(id: String, sequenceStoreId: String) {
             self.id = id
             self.sequenceStoreId = sequenceStoreId
@@ -2798,6 +2869,7 @@ extension Omics {
         /// The read set's subject ID.
         public let subjectId: String?
 
+        @inlinable
         public init(arn: String, creationJobId: String? = nil, creationTime: Date, creationType: CreationType? = nil, description: String? = nil, etag: ETag? = nil, files: ReadSetFiles? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
             self.arn = arn
             self.creationJobId = creationJobId
@@ -2849,6 +2921,7 @@ extension Omics {
         /// The read set's sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(file: ReadSetFile? = nil, id: String, partNumber: Int, sequenceStoreId: String) {
             self.file = file
             self.id = id
@@ -2882,6 +2955,7 @@ extension Omics {
         /// The read set file payload.
         public let payload: AWSHTTPBody
 
+        @inlinable
         public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
@@ -2900,6 +2974,7 @@ extension Omics {
         /// The job's reference store ID.
         public let referenceStoreId: String
 
+        @inlinable
         public init(id: String, referenceStoreId: String) {
             self.id = id
             self.referenceStoreId = referenceStoreId
@@ -2942,6 +3017,7 @@ extension Omics {
         /// The job's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, id: String, referenceStoreId: String, roleArn: String, sources: [ImportReferenceSourceItem], status: ReferenceImportJobStatus, statusMessage: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -2971,6 +3047,7 @@ extension Omics {
         /// The reference's reference store ID.
         public let referenceStoreId: String
 
+        @inlinable
         public init(id: String, referenceStoreId: String) {
             self.id = id
             self.referenceStoreId = referenceStoreId
@@ -3021,6 +3098,7 @@ extension Omics {
         /// When the reference was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, creationJobId: String? = nil, creationTime: Date, creationType: ReferenceCreationType? = nil, description: String? = nil, files: ReferenceFiles? = nil, id: String, md5: String, name: String? = nil, referenceStoreId: String, status: ReferenceStatus? = nil, updateTime: Date) {
             self.arn = arn
             self.creationJobId = creationJobId
@@ -3064,6 +3142,7 @@ extension Omics {
         /// The reference's store ID.
         public let referenceStoreId: String
 
+        @inlinable
         public init(file: ReferenceFile? = nil, id: String, partNumber: Int, range: String? = nil, referenceStoreId: String) {
             self.file = file
             self.id = id
@@ -3102,6 +3181,7 @@ extension Omics {
         /// The reference file payload.
         public let payload: AWSHTTPBody
 
+        @inlinable
         public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
@@ -3118,6 +3198,7 @@ extension Omics {
         /// The store's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3151,6 +3232,7 @@ extension Omics {
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3174,6 +3256,7 @@ extension Omics {
         /// The group's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3214,6 +3297,7 @@ extension Omics {
         /// The group's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, maxCpus: Int? = nil, maxDuration: Int? = nil, maxGpus: Int? = nil, maxRuns: Int? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3245,6 +3329,7 @@ extension Omics {
         /// The run's ID.
         public let id: String
 
+        @inlinable
         public init(export: [RunExport]? = nil, id: String) {
             self.export = export
             self.id = id
@@ -3334,6 +3419,7 @@ extension Omics {
         /// The run's workflow type.
         public let workflowType: WorkflowType?
 
+        @inlinable
         public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.accelerators = accelerators
             self.arn = arn
@@ -3409,6 +3495,7 @@ extension Omics {
         /// The task's ID.
         public let taskId: String
 
+        @inlinable
         public init(id: String, taskId: String) {
             self.id = id
             self.taskId = taskId
@@ -3464,6 +3551,7 @@ extension Omics {
         /// The task's ID.
         public let taskId: String?
 
+        @inlinable
         public init(cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
             self.cpus = cpus
             self.creationTime = creationTime
@@ -3501,6 +3589,7 @@ extension Omics {
         /// The store's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3540,6 +3629,7 @@ extension Omics {
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, s3Access: SequenceStoreS3Access? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3569,6 +3659,7 @@ extension Omics {
         /// The ID of the share.
         public let shareId: String
 
+        @inlinable
         public init(shareId: String) {
             self.shareId = shareId
         }
@@ -3586,6 +3677,7 @@ extension Omics {
         /// A resource share details object. The object includes the status, the resourceArn, and ownerId.
         public let share: ShareDetails?
 
+        @inlinable
         public init(share: ShareDetails? = nil) {
             self.share = share
         }
@@ -3599,6 +3691,7 @@ extension Omics {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -3643,6 +3736,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(annotationFields: [String: String]? = nil, completionTime: Date? = nil, creationTime: Date, destinationName: String, id: String, items: [VariantImportItemDetail], roleArn: String, runLeftNormalization: Bool, status: JobStatus, statusMessage: String, updateTime: Date) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
@@ -3676,6 +3770,7 @@ extension Omics {
         /// The store's name.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3717,6 +3812,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, reference: ReferenceItem, sseConfig: SseConfig, status: StoreStatus, statusMessage: String, storeArn: String, storeSizeBytes: Int64, tags: [String: String], updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
@@ -3758,6 +3854,7 @@ extension Omics {
         /// The ID of the workflow owner.
         public let workflowOwnerId: String?
 
+        @inlinable
         public init(export: [WorkflowExport]? = nil, id: String, type: WorkflowType? = nil, workflowOwnerId: String? = nil) {
             self.export = export
             self.id = id
@@ -3822,6 +3919,7 @@ extension Omics {
         /// The workflow's type.
         public let type: WorkflowType?
 
+        @inlinable
         public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil) {
             self.accelerators = accelerators
             self.arn = arn
@@ -3871,6 +3969,7 @@ extension Omics {
         /// A status to filter on.
         public let status: ReadSetImportJobStatus?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, status: ReadSetImportJobStatus? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -3898,6 +3997,7 @@ extension Omics {
         /// The job's status.
         public let status: ReadSetImportJobStatus
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, id: String, roleArn: String, sequenceStoreId: String, status: ReadSetImportJobStatus) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -3943,6 +4043,7 @@ extension Omics {
         /// The source's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, generatedFrom: String? = nil, name: String? = nil, readSetId: String? = nil, referenceArn: String? = nil, sampleId: String, sourceFiles: SourceFiles, sourceFileType: FileType, status: ReadSetImportJobItemStatus, statusMessage: String? = nil, subjectId: String, tags: [String: String]? = nil) {
             self.description = description
             self.generatedFrom = generatedFrom
@@ -3982,6 +4083,7 @@ extension Omics {
         /// A status to filter on.
         public let status: ReferenceImportJobStatus?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, status: ReferenceImportJobStatus? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -4009,6 +4111,7 @@ extension Omics {
         /// The job's status.
         public let status: ReferenceImportJobStatus
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date, id: String, referenceStoreId: String, roleArn: String, status: ReferenceImportJobStatus) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -4044,6 +4147,7 @@ extension Omics {
         /// The source's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, referenceId: String? = nil, sourceFile: String? = nil, status: ReferenceImportJobItemStatus, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -4071,6 +4175,7 @@ extension Omics {
         /// A store name to filter on.
         public let storeName: String?
 
+        @inlinable
         public init(status: JobStatus? = nil, storeName: String? = nil) {
             self.status = status
             self.storeName = storeName
@@ -4092,6 +4197,7 @@ extension Omics {
         /// Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListAnnotationImportJobsFilter? = nil, ids: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.ids = ids
@@ -4127,6 +4233,7 @@ extension Omics {
         /// Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(annotationImportJobs: [AnnotationImportJobItem]? = nil, nextToken: String? = nil) {
             self.annotationImportJobs = annotationImportJobs
             self.nextToken = nextToken
@@ -4142,6 +4249,7 @@ extension Omics {
         /// The status of an annotation store version.
         public let status: VersionStatus?
 
+        @inlinable
         public init(status: VersionStatus? = nil) {
             self.status = status
         }
@@ -4161,6 +4269,7 @@ extension Omics {
         /// Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListAnnotationStoreVersionsFilter? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4188,6 +4297,7 @@ extension Omics {
         /// Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(annotationStoreVersions: [AnnotationStoreVersionItem]? = nil, nextToken: String? = nil) {
             self.annotationStoreVersions = annotationStoreVersions
             self.nextToken = nextToken
@@ -4203,6 +4313,7 @@ extension Omics {
         /// A status to filter on.
         public let status: StoreStatus?
 
+        @inlinable
         public init(status: StoreStatus? = nil) {
             self.status = status
         }
@@ -4222,6 +4333,7 @@ extension Omics {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListAnnotationStoresFilter? = nil, ids: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.ids = ids
@@ -4257,6 +4369,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(annotationStores: [AnnotationStoreItem]? = nil, nextToken: String? = nil) {
             self.annotationStores = annotationStores
             self.nextToken = nextToken
@@ -4276,6 +4389,7 @@ extension Omics {
         /// The Sequence Store ID used for the multipart uploads.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sequenceStoreId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4308,6 +4422,7 @@ extension Omics {
         /// An array of multipart uploads.
         public let uploads: [MultipartReadSetUploadListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, uploads: [MultipartReadSetUploadListItem]? = nil) {
             self.nextToken = nextToken
             self.uploads = uploads
@@ -4329,6 +4444,7 @@ extension Omics {
         /// The read set's sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(filter: ActivateReadSetFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sequenceStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4365,6 +4481,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(activationJobs: [ActivateReadSetJobItem]? = nil, nextToken: String? = nil) {
             self.activationJobs = activationJobs
             self.nextToken = nextToken
@@ -4386,6 +4503,7 @@ extension Omics {
         /// The jobs' sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(filter: ExportReadSetFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sequenceStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4422,6 +4540,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(exportJobs: [ExportReadSetJobDetail]? = nil, nextToken: String? = nil) {
             self.exportJobs = exportJobs
             self.nextToken = nextToken
@@ -4443,6 +4562,7 @@ extension Omics {
         /// The jobs' sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(filter: ImportReadSetFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sequenceStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4479,6 +4599,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(importJobs: [ImportReadSetJobItem]? = nil, nextToken: String? = nil) {
             self.importJobs = importJobs
             self.nextToken = nextToken
@@ -4504,6 +4625,7 @@ extension Omics {
         /// The ID for the initiated multipart upload.
         public let uploadId: String
 
+        @inlinable
         public init(filter: ReadSetUploadPartListFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, partSource: ReadSetPartSource, sequenceStoreId: String, uploadId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4548,6 +4670,7 @@ extension Omics {
         /// An array of upload parts.
         public let parts: [ReadSetUploadPartListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, parts: [ReadSetUploadPartListItem]? = nil) {
             self.nextToken = nextToken
             self.parts = parts
@@ -4569,6 +4692,7 @@ extension Omics {
         /// The jobs' sequence store ID.
         public let sequenceStoreId: String
 
+        @inlinable
         public init(filter: ReadSetFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, sequenceStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4606,6 +4730,7 @@ extension Omics {
         /// A list of read sets.
         public let readSets: [ReadSetListItem]
 
+        @inlinable
         public init(nextToken: String? = nil, readSets: [ReadSetListItem]) {
             self.nextToken = nextToken
             self.readSets = readSets
@@ -4627,6 +4752,7 @@ extension Omics {
         /// The job's reference store ID.
         public let referenceStoreId: String
 
+        @inlinable
         public init(filter: ImportReferenceFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, referenceStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4663,6 +4789,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(importJobs: [ImportReferenceJobItem]? = nil, nextToken: String? = nil) {
             self.importJobs = importJobs
             self.nextToken = nextToken
@@ -4682,6 +4809,7 @@ extension Omics {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ReferenceStoreFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4714,6 +4842,7 @@ extension Omics {
         /// A list of reference stores.
         public let referenceStores: [ReferenceStoreDetail]
 
+        @inlinable
         public init(nextToken: String? = nil, referenceStores: [ReferenceStoreDetail]) {
             self.nextToken = nextToken
             self.referenceStores = referenceStores
@@ -4735,6 +4864,7 @@ extension Omics {
         /// The references' reference store ID.
         public let referenceStoreId: String
 
+        @inlinable
         public init(filter: ReferenceFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, referenceStoreId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4772,6 +4902,7 @@ extension Omics {
         /// A list of references.
         public let references: [ReferenceListItem]
 
+        @inlinable
         public init(nextToken: String? = nil, references: [ReferenceListItem]) {
             self.nextToken = nextToken
             self.references = references
@@ -4791,6 +4922,7 @@ extension Omics {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let startingToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, startingToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -4823,6 +4955,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [RunGroupListItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4844,6 +4977,7 @@ extension Omics {
         /// Filter the list by status.
         public let status: TaskStatus?
 
+        @inlinable
         public init(id: String, maxResults: Int? = nil, startingToken: String? = nil, status: TaskStatus? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -4878,6 +5012,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [TaskListItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4901,6 +5036,7 @@ extension Omics {
         /// The status of a run.
         public let status: RunStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, runGroupId: String? = nil, startingToken: String? = nil, status: RunStatus? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -4940,6 +5076,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [RunListItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -4959,6 +5096,7 @@ extension Omics {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: SequenceStoreFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -4991,6 +5129,7 @@ extension Omics {
         /// A list of sequence stores.
         public let sequenceStores: [SequenceStoreDetail]
 
+        @inlinable
         public init(nextToken: String? = nil, sequenceStores: [SequenceStoreDetail]) {
             self.nextToken = nextToken
             self.sequenceStores = sequenceStores
@@ -5012,6 +5151,7 @@ extension Omics {
         /// The account that owns the resource shares.
         public let resourceOwner: ResourceOwner
 
+        @inlinable
         public init(filter: Filter? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner) {
             self.filter = filter
             self.maxResults = maxResults
@@ -5044,6 +5184,7 @@ extension Omics {
         /// The shares available and their metadata details.
         public let shares: [ShareDetails]
 
+        @inlinable
         public init(nextToken: String? = nil, shares: [ShareDetails]) {
             self.nextToken = nextToken
             self.shares = shares
@@ -5059,6 +5200,7 @@ extension Omics {
         /// The resource's ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5082,6 +5224,7 @@ extension Omics {
         /// A list of tags.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -5097,6 +5240,7 @@ extension Omics {
         /// A store name to filter on.
         public let storeName: String?
 
+        @inlinable
         public init(status: JobStatus? = nil, storeName: String? = nil) {
             self.status = status
             self.storeName = storeName
@@ -5118,6 +5262,7 @@ extension Omics {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListVariantImportJobsFilter? = nil, ids: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.ids = ids
@@ -5153,6 +5298,7 @@ extension Omics {
         /// A list of jobs.
         public let variantImportJobs: [VariantImportJobItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, variantImportJobs: [VariantImportJobItem]? = nil) {
             self.nextToken = nextToken
             self.variantImportJobs = variantImportJobs
@@ -5168,6 +5314,7 @@ extension Omics {
         /// A status to filter on.
         public let status: StoreStatus?
 
+        @inlinable
         public init(status: StoreStatus? = nil) {
             self.status = status
         }
@@ -5187,6 +5334,7 @@ extension Omics {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListVariantStoresFilter? = nil, ids: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.ids = ids
@@ -5222,6 +5370,7 @@ extension Omics {
         /// A list of variant stores.
         public let variantStores: [VariantStoreItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, variantStores: [VariantStoreItem]? = nil) {
             self.nextToken = nextToken
             self.variantStores = variantStores
@@ -5243,6 +5392,7 @@ extension Omics {
         /// Filter the list by workflow type.
         public let type: WorkflowType?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, startingToken: String? = nil, type: WorkflowType? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -5277,6 +5427,7 @@ extension Omics {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [WorkflowListItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -5312,6 +5463,7 @@ extension Omics {
         ///  The ID for the initiated multipart upload.
         public let uploadId: String
 
+        @inlinable
         public init(creationTime: Date, description: String? = nil, generatedFrom: String, name: String? = nil, referenceArn: String, sampleId: String, sequenceStoreId: String, sourceFileType: FileType, subjectId: String, tags: [String: String]? = nil, uploadId: String) {
             self.creationTime = creationTime
             self.description = description
@@ -5361,6 +5513,7 @@ extension Omics {
         /// The file's field separator.
         public let sep: String?
 
+        @inlinable
         public init(comment: String? = nil, encoding: String? = nil, escape: String? = nil, escapeQuotes: Bool? = nil, header: Bool? = nil, lineSep: String? = nil, quote: String? = nil, quoteAll: Bool? = nil, sep: String? = nil) {
             self.comment = comment
             self.encoding = encoding
@@ -5409,6 +5562,7 @@ extension Omics {
         /// The error's message.
         public let message: String
 
+        @inlinable
         public init(code: String, id: String, message: String) {
             self.code = code
             self.id = id
@@ -5430,6 +5584,7 @@ extension Omics {
         /// The location of the second file in Amazon S3.
         public let source2: FileInformation?
 
+        @inlinable
         public init(index: FileInformation? = nil, source1: FileInformation? = nil, source2: FileInformation? = nil) {
             self.index = index
             self.source1 = source1
@@ -5463,6 +5618,7 @@ extension Omics {
         ///  The read set source's subject ID.
         public let subjectId: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, creationType: CreationType? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, status: ReadSetStatus? = nil, subjectId: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -5536,6 +5692,7 @@ extension Omics {
         /// The read set's subject ID.
         public let subjectId: String?
 
+        @inlinable
         public init(arn: String, creationTime: Date, creationType: CreationType? = nil, description: String? = nil, etag: ETag? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -5577,6 +5734,7 @@ extension Omics {
         /// The S3 URI for each read set file.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Uri: String? = nil) {
             self.s3Uri = s3Uri
         }
@@ -5592,6 +5750,7 @@ extension Omics {
         ///  Filters for read set part uploads before a specified time.
         public let createdBefore: Date?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -5617,6 +5776,7 @@ extension Omics {
         ///  The origin of the part being direct uploaded.
         public let partSource: ReadSetPartSource
 
+        @inlinable
         public init(checksum: String, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, partNumber: Int, partSize: Int64, partSource: ReadSetPartSource) {
             self.checksum = checksum
             self.creationTime = creationTime
@@ -5642,6 +5802,7 @@ extension Omics {
         /// The source file's location in Amazon S3.
         public let source: FileInformation?
 
+        @inlinable
         public init(index: FileInformation? = nil, source: FileInformation? = nil) {
             self.index = index
             self.source = source
@@ -5663,6 +5824,7 @@ extension Omics {
         /// A name to filter on.
         public let name: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, md5: String? = nil, name: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -5707,6 +5869,7 @@ extension Omics {
         /// When the reference was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, id: String, md5: String, name: String? = nil, referenceStoreId: String, status: ReferenceStatus? = nil, updateTime: Date) {
             self.arn = arn
             self.creationTime = creationTime
@@ -5746,6 +5909,7 @@ extension Omics {
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -5773,6 +5937,7 @@ extension Omics {
         /// The name to filter on.
         public let name: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, name: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -5811,6 +5976,7 @@ extension Omics {
         /// The group's name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, maxCpus: Int? = nil, maxDuration: Int? = nil, maxGpus: Int? = nil, maxRuns: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -5861,6 +6027,7 @@ extension Omics {
         /// The run's workflow ID.
         public let workflowId: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -5896,6 +6063,7 @@ extension Omics {
         /// The log stream ARN for the run log.
         public let runLogStream: String?
 
+        @inlinable
         public init(engineLogStream: String? = nil, runLogStream: String? = nil) {
             self.engineLogStream = engineLogStream
             self.runLogStream = runLogStream
@@ -5917,6 +6085,7 @@ extension Omics {
         /// The sequence's total read count.
         public let totalReadCount: Int64?
 
+        @inlinable
         public init(alignment: String? = nil, generatedFrom: String? = nil, totalBaseCount: Int64? = nil, totalReadCount: Int64? = nil) {
             self.alignment = alignment
             self.generatedFrom = generatedFrom
@@ -5950,6 +6119,7 @@ extension Omics {
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
 
+        @inlinable
         public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -5981,6 +6151,7 @@ extension Omics {
         /// A name to filter on.
         public let name: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, name: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -6006,6 +6177,7 @@ extension Omics {
         /// The S3 URI of the sequence store.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3AccessPointArn: String? = nil, s3Uri: String? = nil) {
             self.s3AccessPointArn = s3AccessPointArn
             self.s3Uri = s3Uri
@@ -6041,6 +6213,7 @@ extension Omics {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, ownerId: String? = nil, principalSubscriber: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
             self.creationTime = creationTime
             self.ownerId = ownerId
@@ -6074,6 +6247,7 @@ extension Omics {
         /// The location of the second file in Amazon S3.
         public let source2: String?
 
+        @inlinable
         public init(source1: String, source2: String? = nil) {
             self.source1 = source1
             self.source2 = source2
@@ -6096,6 +6270,7 @@ extension Omics {
         /// The encryption type.
         public let type: EncryptionType
 
+        @inlinable
         public init(keyArn: String? = nil, type: EncryptionType) {
             self.keyArn = keyArn
             self.type = type
@@ -6123,6 +6298,7 @@ extension Omics {
         /// The name of the annotation store version.
         public let versionName: String?
 
+        @inlinable
         public init(annotationFields: [String: String]? = nil, destinationName: String, formatOptions: FormatOptions? = nil, items: [AnnotationImportItemSource], roleArn: String, runLeftNormalization: Bool? = nil, versionName: String? = nil) {
             self.annotationFields = annotationFields
             self.destinationName = destinationName
@@ -6165,6 +6341,7 @@ extension Omics {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6182,6 +6359,7 @@ extension Omics {
         /// The job's source files.
         public let sources: [StartReadSetActivationJobSourceItem]
 
+        @inlinable
         public init(clientToken: String? = nil, sequenceStoreId: String, sources: [StartReadSetActivationJobSourceItem]) {
             self.clientToken = clientToken
             self.sequenceStoreId = sequenceStoreId
@@ -6224,6 +6402,7 @@ extension Omics {
         /// The job's status.
         public let status: ReadSetActivationJobStatus
 
+        @inlinable
         public init(creationTime: Date, id: String, sequenceStoreId: String, status: ReadSetActivationJobStatus) {
             self.creationTime = creationTime
             self.id = id
@@ -6243,6 +6422,7 @@ extension Omics {
         /// The source's read set ID.
         public let readSetId: String
 
+        @inlinable
         public init(readSetId: String) {
             self.readSetId = readSetId
         }
@@ -6270,6 +6450,7 @@ extension Omics {
         /// The job's source files.
         public let sources: [ExportReadSet]
 
+        @inlinable
         public init(clientToken: String? = nil, destination: String, roleArn: String, sequenceStoreId: String, sources: [ExportReadSet]) {
             self.clientToken = clientToken
             self.destination = destination
@@ -6324,6 +6505,7 @@ extension Omics {
         /// The job's status.
         public let status: ReadSetExportJobStatus
 
+        @inlinable
         public init(creationTime: Date, destination: String, id: String, sequenceStoreId: String, status: ReadSetExportJobStatus) {
             self.creationTime = creationTime
             self.destination = destination
@@ -6351,6 +6533,7 @@ extension Omics {
         /// The job's source files.
         public let sources: [StartReadSetImportJobSourceItem]
 
+        @inlinable
         public init(clientToken: String? = nil, roleArn: String, sequenceStoreId: String, sources: [StartReadSetImportJobSourceItem]) {
             self.clientToken = clientToken
             self.roleArn = roleArn
@@ -6401,6 +6584,7 @@ extension Omics {
         /// The job's status.
         public let status: ReadSetImportJobStatus
 
+        @inlinable
         public init(creationTime: Date, id: String, roleArn: String, sequenceStoreId: String, status: ReadSetImportJobStatus) {
             self.creationTime = creationTime
             self.id = id
@@ -6438,6 +6622,7 @@ extension Omics {
         /// The source's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String? = nil, sampleId: String, sourceFiles: SourceFiles, sourceFileType: FileType, subjectId: String, tags: [String: String]? = nil) {
             self.description = description
             self.generatedFrom = generatedFrom
@@ -6500,6 +6685,7 @@ extension Omics {
         /// The job's source files.
         public let sources: [StartReferenceImportJobSourceItem]
 
+        @inlinable
         public init(clientToken: String? = nil, referenceStoreId: String, roleArn: String, sources: [StartReferenceImportJobSourceItem]) {
             self.clientToken = clientToken
             self.referenceStoreId = referenceStoreId
@@ -6550,6 +6736,7 @@ extension Omics {
         /// The job's status.
         public let status: ReferenceImportJobStatus
 
+        @inlinable
         public init(creationTime: Date, id: String, referenceStoreId: String, roleArn: String, status: ReferenceImportJobStatus) {
             self.creationTime = creationTime
             self.id = id
@@ -6577,6 +6764,7 @@ extension Omics {
         /// The source's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, sourceFile: String, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -6641,6 +6829,7 @@ extension Omics {
         /// The run's workflow type.
         public let workflowType: WorkflowType?
 
+        @inlinable
         public init(logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.logLevel = logLevel
             self.name = name
@@ -6724,6 +6913,7 @@ extension Omics {
         /// The universally unique identifier for a run.
         public let uuid: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, runOutputUri: String? = nil, status: RunStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
             self.arn = arn
             self.id = id
@@ -6755,6 +6945,7 @@ extension Omics {
         /// The job's left normalization setting.
         public let runLeftNormalization: Bool?
 
+        @inlinable
         public init(annotationFields: [String: String]? = nil, destinationName: String, items: [VariantImportItemSource], roleArn: String, runLeftNormalization: Bool? = nil) {
             self.annotationFields = annotationFields
             self.destinationName = destinationName
@@ -6789,6 +6980,7 @@ extension Omics {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6804,6 +6996,7 @@ extension Omics {
         /// Tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6861,6 +7054,7 @@ extension Omics {
         /// The task's ID.
         public let taskId: String?
 
+        @inlinable
         public init(cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil) {
             self.cpus = cpus
             self.creationTime = creationTime
@@ -6892,6 +7086,7 @@ extension Omics {
         /// The file's read options.
         public let readOptions: ReadOptions?
 
+        @inlinable
         public init(readOptions: ReadOptions? = nil) {
             self.readOptions = readOptions
         }
@@ -6913,6 +7108,7 @@ extension Omics {
         /// The store's schema.
         public let schema: [[String: SchemaValueType]]?
 
+        @inlinable
         public init(annotationType: AnnotationType? = nil, formatToHeader: [FormatToHeaderKey: String]? = nil, schema: [[String: SchemaValueType]]? = nil) {
             self.annotationType = annotationType
             self.formatToHeader = formatToHeader
@@ -6941,6 +7137,7 @@ extension Omics {
         /// The TSV schema for an annotation store version.
         public let schema: [[String: SchemaValueType]]?
 
+        @inlinable
         public init(annotationType: AnnotationType? = nil, formatToHeader: [FormatToHeaderKey: String]? = nil, schema: [[String: SchemaValueType]]? = nil) {
             self.annotationType = annotationType
             self.formatToHeader = formatToHeader
@@ -6967,6 +7164,7 @@ extension Omics {
         /// Keys of tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7003,6 +7201,7 @@ extension Omics {
         /// A name for the store.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
@@ -7046,6 +7245,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, reference: ReferenceItem, status: StoreStatus, storeFormat: StoreFormat? = nil, storeOptions: StoreOptions? = nil, updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
@@ -7079,6 +7279,7 @@ extension Omics {
         /// The name of an annotation store version.
         public let versionName: String
 
+        @inlinable
         public init(description: String? = nil, name: String, versionName: String) {
             self.description = description
             self.name = name
@@ -7122,6 +7323,7 @@ extension Omics {
         /// The name of an annotation store version.
         public let versionName: String
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, status: VersionStatus, storeId: String, updateTime: Date, versionName: String) {
             self.creationTime = creationTime
             self.description = description
@@ -7159,6 +7361,7 @@ extension Omics {
         /// A name for the group.
         public let name: String?
 
+        @inlinable
         public init(id: String, maxCpus: Int? = nil, maxDuration: Int? = nil, maxGpus: Int? = nil, maxRuns: Int? = nil, name: String? = nil) {
             self.id = id
             self.maxCpus = maxCpus
@@ -7203,6 +7406,7 @@ extension Omics {
         /// A name for the store.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
@@ -7242,6 +7446,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, reference: ReferenceItem, status: StoreStatus, updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
@@ -7271,6 +7476,7 @@ extension Omics {
         /// A name for the workflow.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, id: String, name: String? = nil) {
             self.description = description
             self.id = id
@@ -7316,6 +7522,7 @@ extension Omics {
         /// The ID for the initiated multipart upload.
         public let uploadId: String
 
+        @inlinable
         public init(partNumber: Int, partSource: ReadSetPartSource, payload: AWSHTTPBody, sequenceStoreId: String, uploadId: String) {
             self.partNumber = partNumber
             self.partSource = partSource
@@ -7350,6 +7557,7 @@ extension Omics {
         /// An identifier used to confirm that parts are being added to the intended upload.
         public let checksum: String
 
+        @inlinable
         public init(checksum: String) {
             self.checksum = checksum
         }
@@ -7367,6 +7575,7 @@ extension Omics {
         ///  A message that provides additional context about a job
         public let statusMessage: String?
 
+        @inlinable
         public init(jobStatus: JobStatus, source: String, statusMessage: String? = nil) {
             self.jobStatus = jobStatus
             self.source = source
@@ -7384,6 +7593,7 @@ extension Omics {
         /// The source file's location in Amazon S3.
         public let source: String
 
+        @inlinable
         public init(source: String) {
             self.source = source
         }
@@ -7420,6 +7630,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(annotationFields: [String: String]? = nil, completionTime: Date? = nil, creationTime: Date, destinationName: String, id: String, roleArn: String, runLeftNormalization: Bool? = nil, status: JobStatus, updateTime: Date) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
@@ -7471,6 +7682,7 @@ extension Omics {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, description: String, id: String, name: String, reference: ReferenceItem, sseConfig: SseConfig, status: StoreStatus, statusMessage: String, storeArn: String, storeSizeBytes: Int64, updateTime: Date) {
             self.creationTime = creationTime
             self.description = description
@@ -7506,6 +7718,7 @@ extension Omics {
         /// The file's ignore qual field setting.
         public let ignoreQualField: Bool?
 
+        @inlinable
         public init(ignoreFilterField: Bool? = nil, ignoreQualField: Bool? = nil) {
             self.ignoreFilterField = ignoreFilterField
             self.ignoreQualField = ignoreQualField
@@ -7523,6 +7736,7 @@ extension Omics {
         /// The name given to an annotation store version.
         public let versionName: String
 
+        @inlinable
         public init(message: String, versionName: String) {
             self.message = message
             self.versionName = versionName
@@ -7553,6 +7767,7 @@ extension Omics {
         /// The workflow's type.
         public let type: WorkflowType?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, digest: String? = nil, id: String? = nil, metadata: [String: String]? = nil, name: String? = nil, status: WorkflowStatus? = nil, type: WorkflowType? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -7582,6 +7797,7 @@ extension Omics {
         /// Whether the parameter is optional.
         public let optional: Bool?
 
+        @inlinable
         public init(description: String? = nil, optional: Bool? = nil) {
             self.description = description
             self.optional = optional
@@ -7602,6 +7818,7 @@ extension Omics {
         /// The reference's ARN.
         public let referenceArn: String?
 
+        @inlinable
         public init(referenceArn: String? = nil) {
             self.referenceArn = referenceArn
         }
@@ -7621,6 +7838,7 @@ extension Omics {
         /// File settings for a TSV store.
         public let tsvStoreOptions: TsvStoreOptions?
 
+        @inlinable
         public init(tsvStoreOptions: TsvStoreOptions? = nil) {
             self.tsvStoreOptions = tsvStoreOptions
         }
@@ -7638,6 +7856,7 @@ extension Omics {
         /// File settings for a version of a TSV store.
         public let tsvVersionOptions: TsvVersionOptions?
 
+        @inlinable
         public init(tsvVersionOptions: TsvVersionOptions? = nil) {
             self.tsvVersionOptions = tsvVersionOptions
         }

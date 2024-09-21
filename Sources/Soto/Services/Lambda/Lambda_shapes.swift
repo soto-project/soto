@@ -332,6 +332,7 @@ extension Lambda {
         /// The maximum number of simultaneous function executions, minus the capacity that's reserved for individual functions with PutFunctionConcurrency.
         public let unreservedConcurrentExecutions: Int?
 
+        @inlinable
         public init(codeSizeUnzipped: Int64? = nil, codeSizeZipped: Int64? = nil, concurrentExecutions: Int? = nil, totalCodeSize: Int64? = nil, unreservedConcurrentExecutions: Int? = nil) {
             self.codeSizeUnzipped = codeSizeUnzipped
             self.codeSizeZipped = codeSizeZipped
@@ -355,6 +356,7 @@ extension Lambda {
         /// The amount of storage space, in bytes, that's being used by deployment packages and layer archives.
         public let totalCodeSize: Int64?
 
+        @inlinable
         public init(functionCount: Int64? = nil, totalCodeSize: Int64? = nil) {
             self.functionCount = functionCount
             self.totalCodeSize = totalCodeSize
@@ -382,6 +384,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
+        @inlinable
         public init(action: String, layerName: String, organizationId: String? = nil, principal: String, revisionId: String? = nil, statementId: String, versionNumber: Int64) {
             self.action = action
             self.layerName = layerName
@@ -432,6 +435,7 @@ extension Lambda {
         /// The permission statement.
         public let statement: String?
 
+        @inlinable
         public init(revisionId: String? = nil, statement: String? = nil) {
             self.revisionId = revisionId
             self.statement = statement
@@ -467,6 +471,7 @@ extension Lambda {
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
 
+        @inlinable
         public init(action: String, eventSourceToken: String? = nil, functionName: String, functionUrlAuthType: FunctionUrlAuthType? = nil, principal: String, principalOrgID: String? = nil, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
             self.action = action
             self.eventSourceToken = eventSourceToken
@@ -536,6 +541,7 @@ extension Lambda {
         /// The permission statement that's added to the function policy.
         public let statement: String?
 
+        @inlinable
         public init(statement: String? = nil) {
             self.statement = statement
         }
@@ -559,6 +565,7 @@ extension Lambda {
         /// The routing configuration of the alias.
         public let routingConfig: AliasRoutingConfiguration?
 
+        @inlinable
         public init(aliasArn: String? = nil, description: String? = nil, functionVersion: String? = nil, name: String? = nil, revisionId: String? = nil, routingConfig: AliasRoutingConfiguration? = nil) {
             self.aliasArn = aliasArn
             self.description = description
@@ -582,6 +589,7 @@ extension Lambda {
         /// The second version, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
 
+        @inlinable
         public init(additionalVersionWeights: [String: Double]? = nil) {
             self.additionalVersionWeights = additionalVersionWeights
         }
@@ -605,6 +613,7 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package.
         public let signingProfileVersionArns: [String]
 
+        @inlinable
         public init(signingProfileVersionArns: [String]) {
             self.signingProfileVersionArns = signingProfileVersionArns
         }
@@ -626,6 +635,7 @@ extension Lambda {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
 
+        @inlinable
         public init(consumerGroupId: String? = nil) {
             self.consumerGroupId = consumerGroupId
         }
@@ -655,6 +665,7 @@ extension Lambda {
         /// The date and time that the Code signing configuration was last modified, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String
 
+        @inlinable
         public init(allowedPublishers: AllowedPublishers, codeSigningConfigArn: String, codeSigningConfigId: String, codeSigningPolicies: CodeSigningPolicies, description: String? = nil, lastModified: String) {
             self.allowedPublishers = allowedPublishers
             self.codeSigningConfigArn = codeSigningConfigArn
@@ -678,6 +689,7 @@ extension Lambda {
         /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log.  Default value: Warn
         public let untrustedArtifactOnDeployment: CodeSigningPolicy?
 
+        @inlinable
         public init(untrustedArtifactOnDeployment: CodeSigningPolicy? = nil) {
             self.untrustedArtifactOnDeployment = untrustedArtifactOnDeployment
         }
@@ -691,6 +703,7 @@ extension Lambda {
         /// The number of concurrent executions that are reserved for this function. For more information, see Managing Lambda reserved concurrency.
         public let reservedConcurrentExecutions: Int?
 
+        @inlinable
         public init(reservedConcurrentExecutions: Int? = nil) {
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
         }
@@ -714,6 +727,7 @@ extension Lambda {
         /// The maximum amount of time, in seconds, that web browsers can cache results of a preflight request. By default, this is set to 0, which means that the browser doesn't cache results.
         public let maxAge: Int?
 
+        @inlinable
         public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
             self.allowCredentials = allowCredentials
             self.allowHeaders = allowHeaders
@@ -771,6 +785,7 @@ extension Lambda {
         /// The routing configuration of the alias.
         public let routingConfig: AliasRoutingConfiguration?
 
+        @inlinable
         public init(description: String? = nil, functionName: String, functionVersion: String, name: String, routingConfig: AliasRoutingConfiguration? = nil) {
             self.description = description
             self.functionName = functionName
@@ -819,6 +834,7 @@ extension Lambda {
         /// Descriptive name for this code signing configuration.
         public let description: String?
 
+        @inlinable
         public init(allowedPublishers: AllowedPublishers, codeSigningPolicies: CodeSigningPolicies? = nil, description: String? = nil) {
             self.allowedPublishers = allowedPublishers
             self.codeSigningPolicies = codeSigningPolicies
@@ -841,6 +857,7 @@ extension Lambda {
         /// The code signing configuration.
         public let codeSigningConfig: CodeSigningConfig
 
+        @inlinable
         public init(codeSigningConfig: CodeSigningConfig) {
             self.codeSigningConfig = codeSigningConfig
         }
@@ -900,6 +917,7 @@ extension Lambda {
         /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public let tumblingWindowInSeconds: Int?
 
+        @inlinable
         public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
@@ -1059,6 +1077,7 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, loggingConfig: LoggingConfig? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, snapStart: SnapStart? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.architectures = architectures
             self.code = code
@@ -1160,6 +1179,7 @@ extension Lambda {
         /// The alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(authType: FunctionUrlAuthType, cors: Cors? = nil, functionName: String, invokeMode: InvokeMode? = nil, qualifier: String? = nil) {
             self.authType = authType
             self.cors = cors
@@ -1209,6 +1229,7 @@ extension Lambda {
         /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
         public let invokeMode: InvokeMode?
 
+        @inlinable
         public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil) {
             self.authType = authType
             self.cors = cors
@@ -1232,6 +1253,7 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
 
+        @inlinable
         public init(targetArn: String? = nil) {
             self.targetArn = targetArn
         }
@@ -1251,6 +1273,7 @@ extension Lambda {
         /// The name of the alias.
         public let name: String
 
+        @inlinable
         public init(functionName: String, name: String) {
             self.functionName = functionName
             self.name = name
@@ -1279,6 +1302,7 @@ extension Lambda {
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
 
+        @inlinable
         public init(codeSigningConfigArn: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
         }
@@ -1305,6 +1329,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String
 
+        @inlinable
         public init(uuid: String) {
             self.uuid = uuid
         }
@@ -1322,6 +1347,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(functionName: String) {
             self.functionName = functionName
         }
@@ -1345,6 +1371,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(functionName: String) {
             self.functionName = functionName
         }
@@ -1370,6 +1397,7 @@ extension Lambda {
         /// A version number or alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1400,6 +1428,7 @@ extension Lambda {
         /// Specify a version to delete. You can't delete a version that an alias references.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1430,6 +1459,7 @@ extension Lambda {
         /// The alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1460,6 +1490,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
+        @inlinable
         public init(layerName: String, versionNumber: Int64) {
             self.layerName = layerName
             self.versionNumber = versionNumber
@@ -1487,6 +1518,7 @@ extension Lambda {
         /// The version number or alias name.
         public let qualifier: String
 
+        @inlinable
         public init(functionName: String, qualifier: String) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -1517,6 +1549,7 @@ extension Lambda {
         /// The destination configuration for successful invocations.
         public let onSuccess: OnSuccess?
 
+        @inlinable
         public init(onFailure: OnFailure? = nil, onSuccess: OnSuccess? = nil) {
             self.onFailure = onFailure
             self.onSuccess = onSuccess
@@ -1541,6 +1574,7 @@ extension Lambda {
         ///  Determines what DocumentDB sends to your event stream during document update operations. If set to UpdateLookup, DocumentDB sends a delta describing the changes, along with a copy of the entire document. Otherwise, DocumentDB sends only a partial document that contains the changes.
         public let fullDocument: FullDocument?
 
+        @inlinable
         public init(collectionName: String? = nil, databaseName: String? = nil, fullDocument: FullDocument? = nil) {
             self.collectionName = collectionName
             self.databaseName = databaseName
@@ -1567,6 +1601,7 @@ extension Lambda {
         /// Environment variable key-value pairs. For more information, see Using Lambda environment variables.
         public let variables: [String: String]?
 
+        @inlinable
         public init(variables: [String: String]? = nil) {
             self.variables = variables
         }
@@ -1588,6 +1623,7 @@ extension Lambda {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -1605,6 +1641,7 @@ extension Lambda {
         /// Environment variable key-value pairs. Omitted from CloudTrail logs.
         public let variables: [String: String]?
 
+        @inlinable
         public init(error: EnvironmentError? = nil, variables: [String: String]? = nil) {
             self.error = error
             self.variables = variables
@@ -1620,6 +1657,7 @@ extension Lambda {
         /// The size of the function's /tmp directory.
         public let size: Int
 
+        @inlinable
         public init(size: Int) {
             self.size = size
         }
@@ -1696,6 +1734,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String?
 
+        @inlinable
         public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
@@ -1767,6 +1806,7 @@ extension Lambda {
         /// The path where the function can access the file system, starting with /mnt/.
         public let localMountPath: String
 
+        @inlinable
         public init(arn: String, localMountPath: String) {
             self.arn = arn
             self.localMountPath = localMountPath
@@ -1789,6 +1829,7 @@ extension Lambda {
         ///  A filter pattern. For more information on the syntax of a filter pattern, see  Filter rule syntax.
         public let pattern: String?
 
+        @inlinable
         public init(pattern: String? = nil) {
             self.pattern = pattern
         }
@@ -1807,6 +1848,7 @@ extension Lambda {
         ///  A list of filters.
         public let filters: [Filter]?
 
+        @inlinable
         public init(filters: [Filter]? = nil) {
             self.filters = filters
         }
@@ -1828,6 +1870,7 @@ extension Lambda {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -1851,6 +1894,7 @@ extension Lambda {
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you.
         public let zipFile: AWSBase64Data?
 
+        @inlinable
         public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.imageUri = imageUri
             self.s3Bucket = s3Bucket
@@ -1888,6 +1932,7 @@ extension Lambda {
         /// The resolved URI for the image.
         public let resolvedImageUri: String?
 
+        @inlinable
         public init(imageUri: String? = nil, location: String? = nil, repositoryType: String? = nil, resolvedImageUri: String? = nil) {
             self.imageUri = imageUri
             self.location = location
@@ -1977,6 +2022,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
+        @inlinable
         public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, loggingConfig: LoggingConfig? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, runtimeVersionConfig: RuntimeVersionConfig? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, snapStart: SnapStartResponse? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
@@ -2068,6 +2114,7 @@ extension Lambda {
         /// The maximum number of times to retry when the function returns an error.
         public let maximumRetryAttempts: Int?
 
+        @inlinable
         public init(destinationConfig: DestinationConfig? = nil, functionArn: String? = nil, lastModified: Date? = nil, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
             self.destinationConfig = destinationConfig
             self.functionArn = functionArn
@@ -2101,6 +2148,7 @@ extension Lambda {
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
 
+        @inlinable
         public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil, lastModifiedTime: String) {
             self.authType = authType
             self.cors = cors
@@ -2132,6 +2180,7 @@ extension Lambda {
         /// The number of functions and amount of storage in use.
         public let accountUsage: AccountUsage?
 
+        @inlinable
         public init(accountLimit: AccountLimit? = nil, accountUsage: AccountUsage? = nil) {
             self.accountLimit = accountLimit
             self.accountUsage = accountUsage
@@ -2149,6 +2198,7 @@ extension Lambda {
         /// The name of the alias.
         public let name: String
 
+        @inlinable
         public init(functionName: String, name: String) {
             self.functionName = functionName
             self.name = name
@@ -2177,6 +2227,7 @@ extension Lambda {
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
 
+        @inlinable
         public init(codeSigningConfigArn: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
         }
@@ -2199,6 +2250,7 @@ extension Lambda {
         /// The code signing configuration
         public let codeSigningConfig: CodeSigningConfig
 
+        @inlinable
         public init(codeSigningConfig: CodeSigningConfig) {
             self.codeSigningConfig = codeSigningConfig
         }
@@ -2212,6 +2264,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String
 
+        @inlinable
         public init(uuid: String) {
             self.uuid = uuid
         }
@@ -2229,6 +2282,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(functionName: String) {
             self.functionName = functionName
         }
@@ -2254,6 +2308,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(codeSigningConfigArn: String, functionName: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.functionName = functionName
@@ -2269,6 +2324,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(functionName: String) {
             self.functionName = functionName
         }
@@ -2292,6 +2348,7 @@ extension Lambda {
         /// The number of simultaneous executions that are reserved for the function.
         public let reservedConcurrentExecutions: Int?
 
+        @inlinable
         public init(reservedConcurrentExecutions: Int? = nil) {
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
         }
@@ -2307,6 +2364,7 @@ extension Lambda {
         /// Specify a version or alias to get details about a published version of the function.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2337,6 +2395,7 @@ extension Lambda {
         /// A version number or alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2364,6 +2423,7 @@ extension Lambda {
     public struct GetFunctionRecursionConfigRequest: AWSEncodableShape {
         public let functionName: String
 
+        @inlinable
         public init(functionName: String) {
             self.functionName = functionName
         }
@@ -2387,6 +2447,7 @@ extension Lambda {
         /// If your function's recursive loop detection configuration is Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. If your function's recursive loop detection configuration is Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. You can update this  configuration using the PutFunctionRecursionConfig action.
         public let recursiveLoop: RecursiveLoop?
 
+        @inlinable
         public init(recursiveLoop: RecursiveLoop? = nil) {
             self.recursiveLoop = recursiveLoop
         }
@@ -2402,6 +2463,7 @@ extension Lambda {
         /// Specify a version or alias to get details about a published version of the function.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2436,6 +2498,7 @@ extension Lambda {
         /// The function's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(code: FunctionCodeLocation? = nil, concurrency: Concurrency? = nil, configuration: FunctionConfiguration? = nil, tags: [String: String]? = nil) {
             self.code = code
             self.concurrency = concurrency
@@ -2457,6 +2520,7 @@ extension Lambda {
         /// The alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2497,6 +2561,7 @@ extension Lambda {
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
 
+        @inlinable
         public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil, lastModifiedTime: String) {
             self.authType = authType
             self.cors = cors
@@ -2522,6 +2587,7 @@ extension Lambda {
         /// The ARN of the layer version.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2547,6 +2613,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
+        @inlinable
         public init(layerName: String, versionNumber: Int64) {
             self.layerName = layerName
             self.versionNumber = versionNumber
@@ -2574,6 +2641,7 @@ extension Lambda {
         /// A unique identifier for the current revision of the policy.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -2591,6 +2659,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
+        @inlinable
         public init(layerName: String, versionNumber: Int64) {
             self.layerName = layerName
             self.versionNumber = versionNumber
@@ -2633,6 +2702,7 @@ extension Lambda {
         /// The version number.
         public let version: Int64?
 
+        @inlinable
         public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
             self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
@@ -2664,6 +2734,7 @@ extension Lambda {
         /// Specify a version or alias to get the policy for that resource.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2694,6 +2765,7 @@ extension Lambda {
         /// A unique identifier for the current revision of the policy.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -2711,6 +2783,7 @@ extension Lambda {
         /// The version number or alias name.
         public let qualifier: String
 
+        @inlinable
         public init(functionName: String, qualifier: String) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2749,6 +2822,7 @@ extension Lambda {
         /// For failed allocations, the reason that provisioned concurrency could not be allocated.
         public let statusReason: String?
 
+        @inlinable
         public init(allocatedProvisionedConcurrentExecutions: Int? = nil, availableProvisionedConcurrentExecutions: Int? = nil, lastModified: String? = nil, requestedProvisionedConcurrentExecutions: Int? = nil, status: ProvisionedConcurrencyStatusEnum? = nil, statusReason: String? = nil) {
             self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
             self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
@@ -2774,6 +2848,7 @@ extension Lambda {
         /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
         public let qualifier: String?
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -2806,6 +2881,7 @@ extension Lambda {
         /// The current runtime update mode of the function.
         public let updateRuntimeOn: UpdateRuntimeOn?
 
+        @inlinable
         public init(functionArn: String? = nil, runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn? = nil) {
             self.functionArn = functionArn
             self.runtimeVersionArn = runtimeVersionArn
@@ -2827,6 +2903,7 @@ extension Lambda {
         /// Specifies the working directory.
         public let workingDirectory: String?
 
+        @inlinable
         public init(command: [String]? = nil, entryPoint: [String]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.entryPoint = entryPoint
@@ -2852,6 +2929,7 @@ extension Lambda {
         /// Error message.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -2869,6 +2947,7 @@ extension Lambda {
         /// Configuration values that override the container image Dockerfile.
         public let imageConfig: ImageConfig?
 
+        @inlinable
         public init(error: ImageConfigError? = nil, imageConfig: ImageConfig? = nil) {
             self.error = error
             self.imageConfig = imageConfig
@@ -2894,6 +2973,7 @@ extension Lambda {
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
 
+        @inlinable
         public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: AWSHTTPBody? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
@@ -2939,6 +3019,7 @@ extension Lambda {
         /// The HTTP status code is in the 200 range for a successful request. For the RequestResponse invocation type, this status code is 200. For the Event invocation type, this status code is 202. For the DryRun invocation type, the status code is 204.
         public let statusCode: Int?
 
+        @inlinable
         public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: AWSHTTPBody, statusCode: Int? = nil) {
             self.executedVersion = executedVersion
             self.functionError = functionError
@@ -2967,6 +3048,7 @@ extension Lambda {
         /// The JSON that you want to provide to your Lambda function as input.
         public let invokeArgs: AWSHTTPBody
 
+        @inlinable
         public init(functionName: String, invokeArgs: AWSHTTPBody) {
             self.functionName = functionName
             self.invokeArgs = invokeArgs
@@ -2992,6 +3074,7 @@ extension Lambda {
         /// The status code.
         public let status: Int?
 
+        @inlinable
         public init(status: Int? = nil) {
             self.status = status
         }
@@ -3008,6 +3091,7 @@ extension Lambda {
         /// Data returned by your Lambda function.
         public let payload: AWSEventPayload
 
+        @inlinable
         public init(payload: AWSEventPayload) {
             self.payload = payload
         }
@@ -3028,6 +3112,7 @@ extension Lambda {
         /// The last 4 KB of the execution log, which is base64-encoded.
         public let logResult: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorDetails: String? = nil, logResult: String? = nil) {
             self.errorCode = errorCode
             self.errorDetails = errorDetails
@@ -3055,6 +3140,7 @@ extension Lambda {
         /// The alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(clientContext: String? = nil, functionName: String, invocationType: ResponseStreamingInvocationType? = nil, logType: LogType? = nil, payload: AWSHTTPBody? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
@@ -3098,6 +3184,7 @@ extension Lambda {
         /// For a successful request, the HTTP status code is in the 200 range. For the RequestResponse invocation type, this status code is 200. For the DryRun invocation type, this status code is 204.
         public let statusCode: Int?
 
+        @inlinable
         public init(eventStream: AWSEventStream<InvokeWithResponseStreamResponseEvent>, executedVersion: String? = nil, responseStreamContentType: String? = nil, statusCode: Int? = nil) {
             self.eventStream = eventStream
             self.executedVersion = executedVersion
@@ -3127,6 +3214,7 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) for a signing profile version.
         public let signingProfileVersionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, codeSize: Int64? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil) {
             self.arn = arn
             self.codeSize = codeSize
@@ -3152,6 +3240,7 @@ extension Lambda {
         /// The base64-encoded contents of the layer archive. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: AWSBase64Data?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -3189,6 +3278,7 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) for a signing profile version.
         public let signingProfileVersionArn: String?
 
+        @inlinable
         public init(codeSha256: String? = nil, codeSize: Int64? = nil, location: String? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -3222,6 +3312,7 @@ extension Lambda {
         /// The version number.
         public let version: Int64?
 
+        @inlinable
         public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, createdDate: String? = nil, description: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
             self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
@@ -3251,6 +3342,7 @@ extension Lambda {
         /// The name of the layer.
         public let layerName: String?
 
+        @inlinable
         public init(latestMatchingVersion: LayerVersionsListItem? = nil, layerArn: String? = nil, layerName: String? = nil) {
             self.latestMatchingVersion = latestMatchingVersion
             self.layerArn = layerArn
@@ -3274,6 +3366,7 @@ extension Lambda {
         /// Limit the number of aliases returned.
         public let maxItems: Int?
 
+        @inlinable
         public init(functionName: String, functionVersion: String? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.functionName = functionName
             self.functionVersion = functionVersion
@@ -3310,6 +3403,7 @@ extension Lambda {
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
 
+        @inlinable
         public init(aliases: [AliasConfiguration]? = nil, nextMarker: String? = nil) {
             self.aliases = aliases
             self.nextMarker = nextMarker
@@ -3327,6 +3421,7 @@ extension Lambda {
         /// Maximum number of items to return.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3353,6 +3448,7 @@ extension Lambda {
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
 
+        @inlinable
         public init(codeSigningConfigs: [CodeSigningConfig]? = nil, nextMarker: String? = nil) {
             self.codeSigningConfigs = codeSigningConfigs
             self.nextMarker = nextMarker
@@ -3374,6 +3470,7 @@ extension Lambda {
         /// The maximum number of event source mappings to return. Note that ListEventSourceMappings returns a maximum of 100 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
+        @inlinable
         public init(eventSourceArn: String? = nil, functionName: String? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.eventSourceArn = eventSourceArn
             self.functionName = functionName
@@ -3408,6 +3505,7 @@ extension Lambda {
         /// A pagination token that's returned when the response doesn't contain all event source mappings.
         public let nextMarker: String?
 
+        @inlinable
         public init(eventSourceMappings: [EventSourceMappingConfiguration]? = nil, nextMarker: String? = nil) {
             self.eventSourceMappings = eventSourceMappings
             self.nextMarker = nextMarker
@@ -3427,6 +3525,7 @@ extension Lambda {
         /// The maximum number of configurations to return.
         public let maxItems: Int?
 
+        @inlinable
         public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.functionName = functionName
             self.marker = marker
@@ -3458,6 +3557,7 @@ extension Lambda {
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
 
+        @inlinable
         public init(functionEventInvokeConfigs: [FunctionEventInvokeConfig]? = nil, nextMarker: String? = nil) {
             self.functionEventInvokeConfigs = functionEventInvokeConfigs
             self.nextMarker = nextMarker
@@ -3477,6 +3577,7 @@ extension Lambda {
         /// The maximum number of function URLs to return in the response. Note that ListFunctionUrlConfigs returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
+        @inlinable
         public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.functionName = functionName
             self.marker = marker
@@ -3508,6 +3609,7 @@ extension Lambda {
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
 
+        @inlinable
         public init(functionUrlConfigs: [FunctionUrlConfig], nextMarker: String? = nil) {
             self.functionUrlConfigs = functionUrlConfigs
             self.nextMarker = nextMarker
@@ -3527,6 +3629,7 @@ extension Lambda {
         /// Maximum number of items to return.
         public let maxItems: Int?
 
+        @inlinable
         public init(codeSigningConfigArn: String, marker: String? = nil, maxItems: Int? = nil) {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.marker = marker
@@ -3557,6 +3660,7 @@ extension Lambda {
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
 
+        @inlinable
         public init(functionArns: [String]? = nil, nextMarker: String? = nil) {
             self.functionArns = functionArns
             self.nextMarker = nextMarker
@@ -3578,6 +3682,7 @@ extension Lambda {
         /// The maximum number of functions to return in the response. Note that ListFunctions returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
+        @inlinable
         public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: SotoCore.Region? = nil, maxItems: Int? = nil) {
             self.functionVersion = functionVersion
             self.marker = marker
@@ -3608,6 +3713,7 @@ extension Lambda {
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
 
+        @inlinable
         public init(functions: [FunctionConfiguration]? = nil, nextMarker: String? = nil) {
             self.functions = functions
             self.nextMarker = nextMarker
@@ -3632,6 +3738,7 @@ extension Lambda {
         /// The maximum number of versions to return.
         public let maxItems: Int?
 
+        @inlinable
         public init(compatibleArchitecture: Architecture? = nil, compatibleRuntime: Runtime? = nil, layerName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.compatibleArchitecture = compatibleArchitecture
             self.compatibleRuntime = compatibleRuntime
@@ -3667,6 +3774,7 @@ extension Lambda {
         /// A pagination token returned when the response doesn't contain all versions.
         public let nextMarker: String?
 
+        @inlinable
         public init(layerVersions: [LayerVersionsListItem]? = nil, nextMarker: String? = nil) {
             self.layerVersions = layerVersions
             self.nextMarker = nextMarker
@@ -3689,6 +3797,7 @@ extension Lambda {
         /// The maximum number of layers to return.
         public let maxItems: Int?
 
+        @inlinable
         public init(compatibleArchitecture: Architecture? = nil, compatibleRuntime: Runtime? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.compatibleArchitecture = compatibleArchitecture
             self.compatibleRuntime = compatibleRuntime
@@ -3719,6 +3828,7 @@ extension Lambda {
         /// A pagination token returned when the response doesn't contain all layers.
         public let nextMarker: String?
 
+        @inlinable
         public init(layers: [LayersListItem]? = nil, nextMarker: String? = nil) {
             self.layers = layers
             self.nextMarker = nextMarker
@@ -3738,6 +3848,7 @@ extension Lambda {
         /// Specify a number to limit the number of configurations returned.
         public let maxItems: Int?
 
+        @inlinable
         public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.functionName = functionName
             self.marker = marker
@@ -3769,6 +3880,7 @@ extension Lambda {
         /// A list of provisioned concurrency configurations.
         public let provisionedConcurrencyConfigs: [ProvisionedConcurrencyConfigListItem]?
 
+        @inlinable
         public init(nextMarker: String? = nil, provisionedConcurrencyConfigs: [ProvisionedConcurrencyConfigListItem]? = nil) {
             self.nextMarker = nextMarker
             self.provisionedConcurrencyConfigs = provisionedConcurrencyConfigs
@@ -3784,6 +3896,7 @@ extension Lambda {
         /// The function's Amazon Resource Name (ARN).  Note: Lambda does not support adding tags to aliases or versions.
         public let resource: String
 
+        @inlinable
         public init(resource: String) {
             self.resource = resource
         }
@@ -3805,6 +3918,7 @@ extension Lambda {
         /// The function's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3822,6 +3936,7 @@ extension Lambda {
         /// The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response,  even if you set the number higher.
         public let maxItems: Int?
 
+        @inlinable
         public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.functionName = functionName
             self.marker = marker
@@ -3853,6 +3968,7 @@ extension Lambda {
         /// A list of Lambda function versions.
         public let versions: [FunctionConfiguration]?
 
+        @inlinable
         public init(nextMarker: String? = nil, versions: [FunctionConfiguration]? = nil) {
             self.nextMarker = nextMarker
             self.versions = versions
@@ -3874,6 +3990,7 @@ extension Lambda {
         /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the  selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
         public let systemLogLevel: SystemLogLevel?
 
+        @inlinable
         public init(applicationLogLevel: ApplicationLogLevel? = nil, logFormat: LogFormat? = nil, logGroup: String? = nil, systemLogLevel: SystemLogLevel? = nil) {
             self.applicationLogLevel = applicationLogLevel
             self.logFormat = logFormat
@@ -3899,6 +4016,7 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) of the destination resource. To retain records of asynchronous invocations, you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from Kinesis and DynamoDB event sources, you can configure an Amazon SNS topic or Amazon SQS queue as the destination. To retain records of failed invocations from self-managed Kafka or Amazon MSK, you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public let destination: String?
 
+        @inlinable
         public init(destination: String? = nil) {
             self.destination = destination
         }
@@ -3917,6 +4035,7 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) of the destination resource.
         public let destination: String?
 
+        @inlinable
         public init(destination: String? = nil) {
             self.destination = destination
         }
@@ -3947,6 +4066,7 @@ extension Lambda {
         /// For failed allocations, the reason that provisioned concurrency could not be allocated.
         public let statusReason: String?
 
+        @inlinable
         public init(allocatedProvisionedConcurrentExecutions: Int? = nil, availableProvisionedConcurrentExecutions: Int? = nil, functionArn: String? = nil, lastModified: String? = nil, requestedProvisionedConcurrentExecutions: Int? = nil, status: ProvisionedConcurrencyStatusEnum? = nil, statusReason: String? = nil) {
             self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
             self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
@@ -3983,6 +4103,7 @@ extension Lambda {
         /// The layer's software license. It can be any of the following:   An SPDX license identifier. For example, MIT.   The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.   The full text of the license.
         public let licenseInfo: String?
 
+        @inlinable
         public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentInput, description: String? = nil, layerName: String, licenseInfo: String? = nil) {
             self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
@@ -4044,6 +4165,7 @@ extension Lambda {
         /// The version number.
         public let version: Int64?
 
+        @inlinable
         public init(compatibleArchitectures: [Architecture]? = nil, compatibleRuntimes: [Runtime]? = nil, content: LayerVersionContentOutput? = nil, createdDate: String? = nil, description: String? = nil, layerArn: String? = nil, layerVersionArn: String? = nil, licenseInfo: String? = nil, version: Int64? = nil) {
             self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
@@ -4079,6 +4201,7 @@ extension Lambda {
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
         public let revisionId: String?
 
+        @inlinable
         public init(codeSha256: String? = nil, description: String? = nil, functionName: String, revisionId: String? = nil) {
             self.codeSha256 = codeSha256
             self.description = description
@@ -4115,6 +4238,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(codeSigningConfigArn: String, functionName: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.functionName = functionName
@@ -4146,6 +4270,7 @@ extension Lambda {
         /// The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
+        @inlinable
         public init(codeSigningConfigArn: String, functionName: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.functionName = functionName
@@ -4163,6 +4288,7 @@ extension Lambda {
         /// The number of simultaneous executions to reserve for the function.
         public let reservedConcurrentExecutions: Int
 
+        @inlinable
         public init(functionName: String, reservedConcurrentExecutions: Int) {
             self.functionName = functionName
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
@@ -4199,6 +4325,7 @@ extension Lambda {
         /// A version number or alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(destinationConfig: DestinationConfig? = nil, functionName: String, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, qualifier: String? = nil) {
             self.destinationConfig = destinationConfig
             self.functionName = functionName
@@ -4244,6 +4371,7 @@ extension Lambda {
         /// If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a  Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate.  If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see Recursive patterns that cause run-away Lambda functions in Serverless Land.
         public let recursiveLoop: RecursiveLoop
 
+        @inlinable
         public init(functionName: String, recursiveLoop: RecursiveLoop) {
             self.functionName = functionName
             self.recursiveLoop = recursiveLoop
@@ -4271,6 +4399,7 @@ extension Lambda {
         /// The status of your function's recursive loop detection configuration. When this value is set to Allowand Lambda detects your function being invoked as part of a recursive  loop, it doesn't take any action. When this value is set to Terminate and Lambda detects your function being invoked as part of a recursive  loop, it stops your function being invoked and notifies you.
         public let recursiveLoop: RecursiveLoop?
 
+        @inlinable
         public init(recursiveLoop: RecursiveLoop? = nil) {
             self.recursiveLoop = recursiveLoop
         }
@@ -4288,6 +4417,7 @@ extension Lambda {
         /// The version number or alias name.
         public let qualifier: String
 
+        @inlinable
         public init(functionName: String, provisionedConcurrentExecutions: Int, qualifier: String) {
             self.functionName = functionName
             self.provisionedConcurrentExecutions = provisionedConcurrentExecutions
@@ -4331,6 +4461,7 @@ extension Lambda {
         /// For failed allocations, the reason that provisioned concurrency could not be allocated.
         public let statusReason: String?
 
+        @inlinable
         public init(allocatedProvisionedConcurrentExecutions: Int? = nil, availableProvisionedConcurrentExecutions: Int? = nil, lastModified: String? = nil, requestedProvisionedConcurrentExecutions: Int? = nil, status: ProvisionedConcurrencyStatusEnum? = nil, statusReason: String? = nil) {
             self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
             self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
@@ -4360,6 +4491,7 @@ extension Lambda {
         /// Specify the runtime update mode.    Auto (default) - Automatically update to the most recent and secure runtime version using a Two-phase runtime version rollout. This is the best  choice for most customers to ensure they always benefit from runtime updates.    Function update - Lambda updates the runtime of your function  to the most recent and secure runtime version when you update your  function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and  mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.    Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely.  In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information,  see Roll back a runtime version.
         public let updateRuntimeOn: UpdateRuntimeOn
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil, runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -4402,6 +4534,7 @@ extension Lambda {
         /// The runtime update mode.
         public let updateRuntimeOn: UpdateRuntimeOn
 
+        @inlinable
         public init(functionArn: String, runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn) {
             self.functionArn = functionArn
             self.runtimeVersionArn = runtimeVersionArn
@@ -4425,6 +4558,7 @@ extension Lambda {
         /// The version number.
         public let versionNumber: Int64
 
+        @inlinable
         public init(layerName: String, revisionId: String? = nil, statementId: String, versionNumber: Int64) {
             self.layerName = layerName
             self.revisionId = revisionId
@@ -4463,6 +4597,7 @@ extension Lambda {
         /// Statement ID of the permission to remove.
         public let statementId: String
 
+        @inlinable
         public init(functionName: String, qualifier: String? = nil, revisionId: String? = nil, statementId: String) {
             self.functionName = functionName
             self.qualifier = qualifier
@@ -4500,6 +4635,7 @@ extension Lambda {
         /// The ARN of the runtime version you want the function to use.
         public let runtimeVersionArn: String?
 
+        @inlinable
         public init(error: RuntimeVersionError? = nil, runtimeVersionArn: String? = nil) {
             self.error = error
             self.runtimeVersionArn = runtimeVersionArn
@@ -4517,6 +4653,7 @@ extension Lambda {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -4532,6 +4669,7 @@ extension Lambda {
         /// Limits the number of concurrent instances that the Amazon SQS event source can invoke.
         public let maximumConcurrency: Int?
 
+        @inlinable
         public init(maximumConcurrency: Int? = nil) {
             self.maximumConcurrency = maximumConcurrency
         }
@@ -4550,6 +4688,7 @@ extension Lambda {
         /// The list of bootstrap servers for your Kafka brokers in the following format: "KAFKA_BOOTSTRAP_SERVERS": ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"].
         public let endpoints: [EndPointType: [String]]?
 
+        @inlinable
         public init(endpoints: [EndPointType: [String]]? = nil) {
             self.endpoints = endpoints
         }
@@ -4572,6 +4711,7 @@ extension Lambda {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
 
+        @inlinable
         public init(consumerGroupId: String? = nil) {
             self.consumerGroupId = consumerGroupId
         }
@@ -4591,6 +4731,7 @@ extension Lambda {
         /// Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
         public let applyOn: SnapStartApplyOn?
 
+        @inlinable
         public init(applyOn: SnapStartApplyOn? = nil) {
             self.applyOn = applyOn
         }
@@ -4606,6 +4747,7 @@ extension Lambda {
         /// When you provide a qualified Amazon Resource Name (ARN), this response element indicates whether SnapStart is activated for the specified function version.
         public let optimizationStatus: SnapStartOptimizationStatus?
 
+        @inlinable
         public init(applyOn: SnapStartApplyOn? = nil, optimizationStatus: SnapStartOptimizationStatus? = nil) {
             self.applyOn = applyOn
             self.optimizationStatus = optimizationStatus
@@ -4623,6 +4765,7 @@ extension Lambda {
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
 
+        @inlinable
         public init(type: SourceAccessType? = nil, uri: String? = nil) {
             self.type = type
             self.uri = uri
@@ -4646,6 +4789,7 @@ extension Lambda {
         /// A list of tags to apply to the function.
         public let tags: [String: String]
 
+        @inlinable
         public init(resource: String, tags: [String: String]) {
             self.resource = resource
             self.tags = tags
@@ -4671,6 +4815,7 @@ extension Lambda {
         /// The tracing mode.
         public let mode: TracingMode?
 
+        @inlinable
         public init(mode: TracingMode? = nil) {
             self.mode = mode
         }
@@ -4684,6 +4829,7 @@ extension Lambda {
         /// The tracing mode.
         public let mode: TracingMode?
 
+        @inlinable
         public init(mode: TracingMode? = nil) {
             self.mode = mode
         }
@@ -4699,6 +4845,7 @@ extension Lambda {
         /// A list of tag keys to remove from the function.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resource: String, tagKeys: [String]) {
             self.resource = resource
             self.tagKeys = tagKeys
@@ -4732,6 +4879,7 @@ extension Lambda {
         /// The routing configuration of the alias.
         public let routingConfig: AliasRoutingConfiguration?
 
+        @inlinable
         public init(description: String? = nil, functionName: String, functionVersion: String? = nil, name: String, revisionId: String? = nil, routingConfig: AliasRoutingConfiguration? = nil) {
             self.description = description
             self.functionName = functionName
@@ -4784,6 +4932,7 @@ extension Lambda {
         /// Descriptive name for this code signing configuration.
         public let description: String?
 
+        @inlinable
         public init(allowedPublishers: AllowedPublishers? = nil, codeSigningConfigArn: String, codeSigningPolicies: CodeSigningPolicies? = nil, description: String? = nil) {
             self.allowedPublishers = allowedPublishers
             self.codeSigningConfigArn = codeSigningConfigArn
@@ -4818,6 +4967,7 @@ extension Lambda {
         /// The code signing configuration
         public let codeSigningConfig: CodeSigningConfig
 
+        @inlinable
         public init(codeSigningConfig: CodeSigningConfig) {
             self.codeSigningConfig = codeSigningConfig
         }
@@ -4863,6 +5013,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String
 
+        @inlinable
         public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -4977,6 +5128,7 @@ extension Lambda {
         /// handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
         public let zipFile: AWSBase64Data?
 
+        @inlinable
         public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.architectures = architectures
             self.dryRun = dryRun
@@ -5080,6 +5232,7 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, loggingConfig: LoggingConfig? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, snapStart: SnapStart? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
@@ -5189,6 +5342,7 @@ extension Lambda {
         /// A version number or alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(destinationConfig: DestinationConfig? = nil, functionName: String, maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, qualifier: String? = nil) {
             self.destinationConfig = destinationConfig
             self.functionName = functionName
@@ -5240,6 +5394,7 @@ extension Lambda {
         /// The alias name.
         public let qualifier: String?
 
+        @inlinable
         public init(authType: FunctionUrlAuthType? = nil, cors: Cors? = nil, functionName: String, invokeMode: InvokeMode? = nil, qualifier: String? = nil) {
             self.authType = authType
             self.cors = cors
@@ -5291,6 +5446,7 @@ extension Lambda {
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
 
+        @inlinable
         public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil, lastModifiedTime: String) {
             self.authType = authType
             self.cors = cors
@@ -5320,6 +5476,7 @@ extension Lambda {
         /// A list of VPC subnet IDs.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(ipv6AllowedForDualStack: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
@@ -5348,6 +5505,7 @@ extension Lambda {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(ipv6AllowedForDualStack: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds

@@ -170,6 +170,7 @@ extension Forecast {
         /// The value that is applied for the chosen Operation.
         public let value: Double
 
+        @inlinable
         public init(attributeName: String, operation: Operation, value: Double) {
             self.attributeName = attributeName
             self.operation = operation
@@ -195,6 +196,7 @@ extension Forecast {
         /// The name of the additional dataset. Valid names: "holiday" and "weather".
         public let name: String
 
+        @inlinable
         public init(configuration: [String: [String]]? = nil, name: String) {
             self.configuration = configuration
             self.name = name
@@ -225,6 +227,7 @@ extension Forecast {
         /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Default values are bolded.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max    To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "backfill_value":"2".
         public let transformations: [String: String]
 
+        @inlinable
         public init(attributeName: String, transformations: [String: String]) {
             self.attributeName = attributeName
             self.transformations = transformations
@@ -255,6 +258,7 @@ extension Forecast {
         /// The initial accuracy metrics for the predictor you are monitoring. Use these metrics as a baseline for comparison purposes as you use your predictor and the metrics change.
         public let predictorBaseline: PredictorBaseline?
 
+        @inlinable
         public init(predictorBaseline: PredictorBaseline? = nil) {
             self.predictorBaseline = predictorBaseline
         }
@@ -270,6 +274,7 @@ extension Forecast {
         /// The value for the metric.
         public let value: Double?
 
+        @inlinable
         public init(name: String? = nil, value: Double? = nil) {
             self.name = name
             self.value = value
@@ -287,6 +292,7 @@ extension Forecast {
         /// A list of the tunable categories for the hyperparameter.
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -320,6 +326,7 @@ extension Forecast {
         /// The scale that hyperparameter tuning uses to search the hyperparameter range. Valid values:  Auto  Amazon Forecast hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have values greater than 0.  ReverseLogarithmic  hyperparameter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0    For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:
         public let scalingType: ScalingType?
 
+        @inlinable
         public init(maxValue: Double, minValue: Double, name: String, scalingType: ScalingType? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -368,6 +375,7 @@ extension Forecast {
         /// The time boundary Forecast uses to align and aggregate any data that doesn't align with your forecast frequency. Provide the unit of time and the time boundary as a key value pair.  For more information on specifying a time boundary, see Specifying a Time Boundary. If you don't provide a time boundary, Forecast uses a set of Default Time Boundaries.
         public let timeAlignmentBoundary: TimeAlignmentBoundary?
 
+        @inlinable
         public init(dataConfig: DataConfig? = nil, encryptionConfig: EncryptionConfig? = nil, explainPredictor: Bool? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, monitorConfig: MonitorConfig? = nil, optimizationMetric: OptimizationMetric? = nil, predictorName: String, referencePredictorArn: String? = nil, tags: [Tag]? = nil, timeAlignmentBoundary: TimeAlignmentBoundary? = nil) {
             self.dataConfig = dataConfig
             self.encryptionConfig = encryptionConfig
@@ -438,6 +446,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor.
         public let predictorArn: String?
 
+        @inlinable
         public init(predictorArn: String? = nil) {
             self.predictorArn = predictorArn
         }
@@ -457,6 +466,7 @@ extension Forecast {
         /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datasetArns: [String]? = nil, datasetGroupName: String, domain: Domain, tags: [Tag]? = nil) {
             self.datasetArns = datasetArns
             self.datasetGroupName = datasetGroupName
@@ -490,6 +500,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
 
+        @inlinable
         public init(datasetGroupArn: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -521,6 +532,7 @@ extension Forecast {
         /// Automatically derive time zone information from the geolocation attribute. This option is ideal for datasets that contain timestamps in multiple time zones and those timestamps are expressed in local time.
         public let useGeolocationForTimeZone: Bool?
 
+        @inlinable
         public init(datasetArn: String, datasetImportJobName: String, dataSource: DataSource, format: String? = nil, geolocationFormat: String? = nil, importMode: ImportMode? = nil, tags: [Tag]? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.datasetArn = datasetArn
             self.datasetImportJobName = datasetImportJobName
@@ -573,6 +585,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String?
 
+        @inlinable
         public init(datasetImportJobArn: String? = nil) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -598,6 +611,7 @@ extension Forecast {
         /// The optional metadata that you apply to the dataset to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
+        @inlinable
         public init(dataFrequency: String? = nil, datasetName: String, datasetType: DatasetType, domain: Domain, encryptionConfig: EncryptionConfig? = nil, schema: Schema, tags: [Tag]? = nil) {
             self.dataFrequency = dataFrequency
             self.datasetName = datasetName
@@ -638,6 +652,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
 
+        @inlinable
         public init(datasetArn: String? = nil) {
             self.datasetArn = datasetArn
         }
@@ -658,6 +673,7 @@ extension Forecast {
         /// Optional metadata to help you categorize and organize your resources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
 
+        @inlinable
         public init(destination: DataDestination, explainabilityArn: String, explainabilityExportName: String, format: String? = nil, tags: [Tag]? = nil) {
             self.destination = destination
             self.explainabilityArn = explainabilityArn
@@ -694,6 +710,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the export.
         public let explainabilityExportArn: String?
 
+        @inlinable
         public init(explainabilityExportArn: String? = nil) {
             self.explainabilityExportArn = explainabilityExportArn
         }
@@ -721,6 +738,7 @@ extension Forecast {
         /// Optional metadata to help you categorize and organize your resources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, enableVisualization: Bool? = nil, endDateTime: String? = nil, explainabilityConfig: ExplainabilityConfig, explainabilityName: String, resourceArn: String, schema: Schema? = nil, startDateTime: String? = nil, tags: [Tag]? = nil) {
             self.dataSource = dataSource
             self.enableVisualization = enableVisualization
@@ -768,6 +786,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the Explainability.
         public let explainabilityArn: String?
 
+        @inlinable
         public init(explainabilityArn: String? = nil) {
             self.explainabilityArn = explainabilityArn
         }
@@ -789,6 +808,7 @@ extension Forecast {
         /// The optional metadata that you apply to the forecast export job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
+        @inlinable
         public init(destination: DataDestination, forecastArn: String, forecastExportJobName: String, format: String? = nil, tags: [Tag]? = nil) {
             self.destination = destination
             self.forecastArn = forecastArn
@@ -825,6 +845,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the export job.
         public let forecastExportJobArn: String?
 
+        @inlinable
         public init(forecastExportJobArn: String? = nil) {
             self.forecastExportJobArn = forecastExportJobArn
         }
@@ -846,6 +867,7 @@ extension Forecast {
         /// Defines the set of time series that are used to create the forecasts in a TimeSeriesIdentifiers object. The TimeSeriesIdentifiers object needs the following information:    DataSource     Format     Schema
         public let timeSeriesSelector: TimeSeriesSelector?
 
+        @inlinable
         public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String, tags: [Tag]? = nil, timeSeriesSelector: TimeSeriesSelector? = nil) {
             self.forecastName = forecastName
             self.forecastTypes = forecastTypes
@@ -887,6 +909,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String?
 
+        @inlinable
         public init(forecastArn: String? = nil) {
             self.forecastArn = forecastArn
         }
@@ -904,6 +927,7 @@ extension Forecast {
         /// A list of tags to apply to the monitor resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(monitorName: String, resourceArn: String, tags: [Tag]? = nil) {
             self.monitorName = monitorName
             self.resourceArn = resourceArn
@@ -933,6 +957,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the monitor resource.
         public let monitorArn: String?
 
+        @inlinable
         public init(monitorArn: String? = nil) {
             self.monitorArn = monitorArn
         }
@@ -953,6 +978,7 @@ extension Forecast {
         /// Optional metadata to help you categorize and organize your backtests. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
 
+        @inlinable
         public init(destination: DataDestination, format: String? = nil, predictorArn: String, predictorBacktestExportJobName: String, tags: [Tag]? = nil) {
             self.destination = destination
             self.format = format
@@ -989,6 +1015,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor backtest export job that you want to export.
         public let predictorBacktestExportJobArn: String?
 
+        @inlinable
         public init(predictorBacktestExportJobArn: String? = nil) {
             self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
         }
@@ -1030,6 +1057,7 @@ extension Forecast {
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
+        @inlinable
         public init(algorithmArn: String? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hpoConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
@@ -1101,6 +1129,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor.
         public let predictorArn: String?
 
+        @inlinable
         public init(predictorArn: String? = nil) {
             self.predictorArn = predictorArn
         }
@@ -1120,6 +1149,7 @@ extension Forecast {
         /// The name of the what-if analysis. Each name must be unique.
         public let whatIfAnalysisName: String
 
+        @inlinable
         public init(forecastArn: String, tags: [Tag]? = nil, timeSeriesSelector: TimeSeriesSelector? = nil, whatIfAnalysisName: String) {
             self.forecastArn = forecastArn
             self.tags = tags
@@ -1152,6 +1182,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if analysis.
         public let whatIfAnalysisArn: String?
 
+        @inlinable
         public init(whatIfAnalysisArn: String? = nil) {
             self.whatIfAnalysisArn = whatIfAnalysisArn
         }
@@ -1173,6 +1204,7 @@ extension Forecast {
         /// The name of the what-if forecast to export.
         public let whatIfForecastExportName: String
 
+        @inlinable
         public init(destination: DataDestination, format: String? = nil, tags: [Tag]? = nil, whatIfForecastArns: [String], whatIfForecastExportName: String) {
             self.destination = destination
             self.format = format
@@ -1213,6 +1245,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if forecast.
         public let whatIfForecastExportArn: String?
 
+        @inlinable
         public init(whatIfForecastExportArn: String? = nil) {
             self.whatIfForecastExportArn = whatIfForecastExportArn
         }
@@ -1234,6 +1267,7 @@ extension Forecast {
         /// The name of the what-if forecast. Names must be unique within each what-if analysis.
         public let whatIfForecastName: String
 
+        @inlinable
         public init(tags: [Tag]? = nil, timeSeriesReplacementsDataSource: TimeSeriesReplacementsDataSource? = nil, timeSeriesTransformations: [TimeSeriesTransformation]? = nil, whatIfAnalysisArn: String, whatIfForecastName: String) {
             self.tags = tags
             self.timeSeriesReplacementsDataSource = timeSeriesReplacementsDataSource
@@ -1272,6 +1306,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if forecast.
         public let whatIfForecastArn: String?
 
+        @inlinable
         public init(whatIfForecastArn: String? = nil) {
             self.whatIfForecastArn = whatIfForecastArn
         }
@@ -1289,6 +1324,7 @@ extension Forecast {
         /// The ARN of the dataset group used to train the predictor.
         public let datasetGroupArn: String
 
+        @inlinable
         public init(additionalDatasets: [AdditionalDataset]? = nil, attributeConfigs: [AttributeConfig]? = nil, datasetGroupArn: String) {
             self.additionalDatasets = additionalDatasets
             self.attributeConfigs = attributeConfigs
@@ -1321,6 +1357,7 @@ extension Forecast {
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket.
         public let s3Config: S3Config
 
+        @inlinable
         public init(s3Config: S3Config) {
             self.s3Config = s3Config
         }
@@ -1338,6 +1375,7 @@ extension Forecast {
         /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         public let s3Config: S3Config
 
+        @inlinable
         public init(s3Config: S3Config) {
             self.s3Config = s3Config
         }
@@ -1361,6 +1399,7 @@ extension Forecast {
         /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current time of the ListDatasetGroups call.
         public let lastModificationTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, lastModificationTime: Date? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
@@ -1394,6 +1433,7 @@ extension Forecast {
         /// The status of the dataset import job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSource: DataSource? = nil, importMode: ImportMode? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetImportJobArn = datasetImportJobArn
@@ -1431,6 +1471,7 @@ extension Forecast {
         /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the ListDatasets call. After a CreateDatasetImportJob operation has finished, LastModificationTime is when the import job completed or failed.
         public let lastModificationTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, lastModificationTime: Date? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
@@ -1454,6 +1495,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset group to delete.
         public let datasetGroupArn: String
 
+        @inlinable
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -1472,6 +1514,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset import job to delete.
         public let datasetImportJobArn: String
 
+        @inlinable
         public init(datasetImportJobArn: String) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -1490,6 +1533,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
 
+        @inlinable
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -1508,6 +1552,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the Explainability export to delete.
         public let explainabilityExportArn: String
 
+        @inlinable
         public init(explainabilityExportArn: String) {
             self.explainabilityExportArn = explainabilityExportArn
         }
@@ -1526,6 +1571,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the Explainability resource to delete.
         public let explainabilityArn: String
 
+        @inlinable
         public init(explainabilityArn: String) {
             self.explainabilityArn = explainabilityArn
         }
@@ -1544,6 +1590,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the forecast export job to delete.
         public let forecastExportJobArn: String
 
+        @inlinable
         public init(forecastExportJobArn: String) {
             self.forecastExportJobArn = forecastExportJobArn
         }
@@ -1562,6 +1609,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the forecast to delete.
         public let forecastArn: String
 
+        @inlinable
         public init(forecastArn: String) {
             self.forecastArn = forecastArn
         }
@@ -1580,6 +1628,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the monitor resource to delete.
         public let monitorArn: String
 
+        @inlinable
         public init(monitorArn: String) {
             self.monitorArn = monitorArn
         }
@@ -1598,6 +1647,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete.
         public let predictorBacktestExportJobArn: String
 
+        @inlinable
         public init(predictorBacktestExportJobArn: String) {
             self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
         }
@@ -1616,6 +1666,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor to delete.
         public let predictorArn: String
 
+        @inlinable
         public init(predictorArn: String) {
             self.predictorArn = predictorArn
         }
@@ -1634,6 +1685,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1652,6 +1704,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if analysis that you want to delete.
         public let whatIfAnalysisArn: String
 
+        @inlinable
         public init(whatIfAnalysisArn: String) {
             self.whatIfAnalysisArn = whatIfAnalysisArn
         }
@@ -1670,6 +1723,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if forecast export that you want to delete.
         public let whatIfForecastExportArn: String
 
+        @inlinable
         public init(whatIfForecastExportArn: String) {
             self.whatIfForecastExportArn = whatIfForecastExportArn
         }
@@ -1688,6 +1742,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if forecast that you want to delete.
         public let whatIfForecastArn: String
 
+        @inlinable
         public init(whatIfForecastArn: String) {
             self.whatIfForecastArn = whatIfForecastArn
         }
@@ -1706,6 +1761,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor.
         public let predictorArn: String
 
+        @inlinable
         public init(predictorArn: String) {
             self.predictorArn = predictorArn
         }
@@ -1759,6 +1815,7 @@ extension Forecast {
         /// The time boundary Forecast uses when aggregating data.
         public let timeAlignmentBoundary: TimeAlignmentBoundary?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataConfig: DataConfig? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityInfo: ExplainabilityInfo? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, monitorInfo: MonitorInfo? = nil, optimizationMetric: OptimizationMetric? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil, timeAlignmentBoundary: TimeAlignmentBoundary? = nil) {
             self.creationTime = creationTime
             self.dataConfig = dataConfig
@@ -1808,6 +1865,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
 
+        @inlinable
         public init(datasetGroupArn: String) {
             self.datasetGroupArn = datasetGroupArn
         }
@@ -1838,6 +1896,7 @@ extension Forecast {
         /// The status of the dataset group. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply when you call the UpdateDatasetGroup operation.  The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor.
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetArns: [String]? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, domain: Domain? = nil, lastModificationTime: Date? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetArns = datasetArns
@@ -1863,6 +1922,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String
 
+        @inlinable
         public init(datasetImportJobArn: String) {
             self.datasetImportJobArn = datasetImportJobArn
         }
@@ -1913,6 +1973,7 @@ extension Forecast {
         /// Whether TimeZone is automatically derived from the geolocation attribute.
         public let useGeolocationForTimeZone: Bool?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, fieldStatistics: [String: Statistics]? = nil, format: String? = nil, geolocationFormat: String? = nil, importMode: ImportMode? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
@@ -1958,6 +2019,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String
 
+        @inlinable
         public init(datasetArn: String) {
             self.datasetArn = datasetArn
         }
@@ -1994,6 +2056,7 @@ extension Forecast {
         /// The status of the dataset. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply while data is imported to the dataset from a call to the CreateDatasetImportJob operation and reflect the status of the dataset import job. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS.  The Status of the dataset must be ACTIVE before you can import training data.
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataFrequency: String? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, encryptionConfig: EncryptionConfig? = nil, lastModificationTime: Date? = nil, schema: Schema? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.dataFrequency = dataFrequency
@@ -2025,6 +2088,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the Explainability export.
         public let explainabilityExportArn: String
 
+        @inlinable
         public init(explainabilityExportArn: String) {
             self.explainabilityExportArn = explainabilityExportArn
         }
@@ -2058,6 +2122,7 @@ extension Forecast {
         /// The status of the Explainability export. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, explainabilityArn: String? = nil, explainabilityExportArn: String? = nil, explainabilityExportName: String? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -2087,6 +2152,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the Explaianability to describe.
         public let explainabilityArn: String
 
+        @inlinable
         public init(explainabilityArn: String) {
             self.explainabilityArn = explainabilityArn
         }
@@ -2129,6 +2195,7 @@ extension Forecast {
         /// The status of the Explainability resource. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataSource: DataSource? = nil, enableVisualization: Bool? = nil, endDateTime: String? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityArn: String? = nil, explainabilityConfig: ExplainabilityConfig? = nil, explainabilityName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, resourceArn: String? = nil, schema: Schema? = nil, startDateTime: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.dataSource = dataSource
@@ -2168,6 +2235,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the forecast export job.
         public let forecastExportJobArn: String
 
+        @inlinable
         public init(forecastExportJobArn: String) {
             self.forecastExportJobArn = forecastExportJobArn
         }
@@ -2202,6 +2270,7 @@ extension Forecast {
         /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -2231,6 +2300,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String
 
+        @inlinable
         public init(forecastArn: String) {
             self.forecastArn = forecastArn
         }
@@ -2269,6 +2339,7 @@ extension Forecast {
         /// The time series to include in the forecast.
         public let timeSeriesSelector: TimeSeriesSelector?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil, timeSeriesSelector: TimeSeriesSelector? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
@@ -2302,6 +2373,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the monitor resource to describe.
         public let monitorArn: String
 
+        @inlinable
         public init(monitorArn: String) {
             self.monitorArn = monitorArn
         }
@@ -2340,6 +2412,7 @@ extension Forecast {
         /// The status of the monitor resource.
         public let status: String?
 
+        @inlinable
         public init(baseline: Baseline? = nil, creationTime: Date? = nil, estimatedEvaluationTimeRemainingInMinutes: Int64? = nil, lastEvaluationState: String? = nil, lastEvaluationTime: Date? = nil, lastModificationTime: Date? = nil, message: String? = nil, monitorArn: String? = nil, monitorName: String? = nil, resourceArn: String? = nil, status: String? = nil) {
             self.baseline = baseline
             self.creationTime = creationTime
@@ -2373,6 +2446,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor backtest export job.
         public let predictorBacktestExportJobArn: String
 
+        @inlinable
         public init(predictorBacktestExportJobArn: String) {
             self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
         }
@@ -2406,6 +2480,7 @@ extension Forecast {
         /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -2435,6 +2510,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor that you want information about.
         public let predictorArn: String
 
+        @inlinable
         public init(predictorArn: String) {
             self.predictorArn = predictorArn
         }
@@ -2499,6 +2575,7 @@ extension Forecast {
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
+        @inlinable
         public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hpoConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, isAutoPredictor: Bool? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
@@ -2558,6 +2635,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if analysis that you are interested in.
         public let whatIfAnalysisArn: String
 
+        @inlinable
         public init(whatIfAnalysisArn: String) {
             self.whatIfAnalysisArn = whatIfAnalysisArn
         }
@@ -2591,6 +2669,7 @@ extension Forecast {
         /// The name of the what-if analysis.
         public let whatIfAnalysisName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timeSeriesSelector: TimeSeriesSelector? = nil, whatIfAnalysisArn: String? = nil, whatIfAnalysisName: String? = nil) {
             self.creationTime = creationTime
             self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
@@ -2620,6 +2699,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in.
         public let whatIfForecastExportArn: String
 
+        @inlinable
         public init(whatIfForecastExportArn: String) {
             self.whatIfForecastExportArn = whatIfForecastExportArn
         }
@@ -2655,6 +2735,7 @@ extension Forecast {
         /// The name of the what-if forecast export.
         public let whatIfForecastExportName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, format: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfForecastArns: [String]? = nil, whatIfForecastExportArn: String? = nil, whatIfForecastExportName: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -2686,6 +2767,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the what-if forecast that you are interested in.
         public let whatIfForecastArn: String
 
+        @inlinable
         public init(whatIfForecastArn: String) {
             self.whatIfForecastArn = whatIfForecastArn
         }
@@ -2724,6 +2806,7 @@ extension Forecast {
         /// The name of the what-if forecast.
         public let whatIfForecastName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timeSeriesReplacementsDataSource: TimeSeriesReplacementsDataSource? = nil, timeSeriesTransformations: [TimeSeriesTransformation]? = nil, whatIfAnalysisArn: String? = nil, whatIfForecastArn: String? = nil, whatIfForecastName: String? = nil) {
             self.creationTime = creationTime
             self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
@@ -2759,6 +2842,7 @@ extension Forecast {
         /// The ARN of the IAM role that Amazon Forecast can assume to access the KMS key. Passing a role across Amazon Web Services accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         public let roleArn: String
 
+        @inlinable
         public init(kmsKeyArn: String, roleArn: String) {
             self.kmsKeyArn = kmsKeyArn
             self.roleArn = roleArn
@@ -2789,6 +2873,7 @@ extension Forecast {
         ///  The weighted absolute percentage error (WAPE).
         public let wape: Double?
 
+        @inlinable
         public init(forecastType: String? = nil, mape: Double? = nil, mase: Double? = nil, rmse: Double? = nil, wape: Double? = nil) {
             self.forecastType = forecastType
             self.mape = mape
@@ -2812,6 +2897,7 @@ extension Forecast {
         /// The number of times to split the input data. The default is 1. Valid values are 1 through 5.
         public let numberOfBacktestWindows: Int?
 
+        @inlinable
         public init(backTestWindowOffset: Int? = nil, numberOfBacktestWindows: Int? = nil) {
             self.backTestWindowOffset = backTestWindowOffset
             self.numberOfBacktestWindows = numberOfBacktestWindows
@@ -2829,6 +2915,7 @@ extension Forecast {
         /// The array of test windows used for evaluating the algorithm. The NumberOfBacktestWindows from the EvaluationParameters object determines the number of windows in the array.
         public let testWindows: [WindowSummary]?
 
+        @inlinable
         public init(algorithmArn: String? = nil, testWindows: [WindowSummary]? = nil) {
             self.algorithmArn = algorithmArn
             self.testWindows = testWindows
@@ -2846,6 +2933,7 @@ extension Forecast {
         /// To create an Explainability for all time series in your datasets, use ALL. To create an Explainability for specific time series in your datasets, use SPECIFIC. Specify time series by uploading a CSV or Parquet file to an Amazon S3 bucket and set the location within the DataDestination data type.
         public let timeSeriesGranularity: TimeSeriesGranularity
 
+        @inlinable
         public init(timePointGranularity: TimePointGranularity, timeSeriesGranularity: TimeSeriesGranularity) {
             self.timePointGranularity = timePointGranularity
             self.timeSeriesGranularity = timeSeriesGranularity
@@ -2872,6 +2960,7 @@ extension Forecast {
         /// The status of the Explainability export. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, explainabilityExportArn: String? = nil, explainabilityExportName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -2899,6 +2988,7 @@ extension Forecast {
         /// The status of the Explainability. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(explainabilityArn: String? = nil, status: String? = nil) {
             self.explainabilityArn = explainabilityArn
             self.status = status
@@ -2928,6 +3018,7 @@ extension Forecast {
         /// The status of the Explainability. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, explainabilityArn: String? = nil, explainabilityConfig: ExplainabilityConfig? = nil, explainabilityName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, resourceArn: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.explainabilityArn = explainabilityArn
@@ -2957,6 +3048,7 @@ extension Forecast {
         /// An array of one FeaturizationMethod object that specifies the feature transformation method.
         public let featurizationPipeline: [FeaturizationMethod]?
 
+        @inlinable
         public init(attributeName: String, featurizationPipeline: [FeaturizationMethod]? = nil) {
             self.attributeName = attributeName
             self.featurizationPipeline = featurizationPipeline
@@ -2987,6 +3079,7 @@ extension Forecast {
         /// The frequency of predictions in a forecast. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a frequency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following:   Minute - 1-59   Hour - 1-23   Day - 1-6   Week - 1-4   Month - 1-11   Year - 1   Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M". The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the TARGET_TIME_SERIES dataset frequency.
         public let forecastFrequency: String
 
+        @inlinable
         public init(featurizations: [Featurization]? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String) {
             self.featurizations = featurizations
             self.forecastDimensions = forecastDimensions
@@ -3024,6 +3117,7 @@ extension Forecast {
         /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max    To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "backfill_value":"2".
         public let featurizationMethodParameters: [String: String]?
 
+        @inlinable
         public init(featurizationMethodName: FeaturizationMethodName, featurizationMethodParameters: [String: String]? = nil) {
             self.featurizationMethodName = featurizationMethodName
             self.featurizationMethodParameters = featurizationMethodParameters
@@ -3054,6 +3148,7 @@ extension Forecast {
         /// The value to match.
         public let value: String
 
+        @inlinable
         public init(condition: FilterConditionString, key: String, value: String) {
             self.condition = condition
             self.key = key
@@ -3090,6 +3185,7 @@ extension Forecast {
         /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -3131,6 +3227,7 @@ extension Forecast {
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
+        @inlinable
         public init(createdUsingAutoPredictor: Bool? = nil, creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
             self.createdUsingAutoPredictor = createdUsingAutoPredictor
             self.creationTime = creationTime
@@ -3160,6 +3257,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
         public let predictorArn: String
 
+        @inlinable
         public init(predictorArn: String) {
             self.predictorArn = predictorArn
         }
@@ -3184,6 +3282,7 @@ extension Forecast {
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
 
+        @inlinable
         public init(autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, isAutoPredictor: Bool? = nil, optimizationMetric: OptimizationMetric? = nil, predictorEvaluationResults: [EvaluationResult]? = nil) {
             self.autoMLOverrideStrategy = autoMLOverrideStrategy
             self.isAutoPredictor = isAutoPredictor
@@ -3203,6 +3302,7 @@ extension Forecast {
         /// Specifies the ranges of valid values for the hyperparameters.
         public let parameterRanges: ParameterRanges?
 
+        @inlinable
         public init(parameterRanges: ParameterRanges? = nil) {
             self.parameterRanges = parameterRanges
         }
@@ -3222,6 +3322,7 @@ extension Forecast {
         /// An array of supplementary features. The only supported feature is a holiday calendar.
         public let supplementaryFeatures: [SupplementaryFeature]?
 
+        @inlinable
         public init(datasetGroupArn: String, supplementaryFeatures: [SupplementaryFeature]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.supplementaryFeatures = supplementaryFeatures
@@ -3253,6 +3354,7 @@ extension Forecast {
         /// The scale that hyperparameter tuning uses to search the hyperparameter range. Valid values:  Auto  Amazon Forecast hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have values greater than 0.  ReverseLogarithmic  Not supported for IntegerParameterRange. Reverse logarithmic scaling works only for ranges that are entirely within the range 0    For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:
         public let scalingType: ScalingType?
 
+        @inlinable
         public init(maxValue: Int, minValue: Int, name: String, scalingType: ScalingType? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -3280,6 +3382,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3305,6 +3408,7 @@ extension Forecast {
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetGroups: [DatasetGroupSummary]? = nil, nextToken: String? = nil) {
             self.datasetGroups = datasetGroups
             self.nextToken = nextToken
@@ -3324,6 +3428,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3354,6 +3459,7 @@ extension Forecast {
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetImportJobs: [DatasetImportJobSummary]? = nil, nextToken: String? = nil) {
             self.datasetImportJobs = datasetImportJobs
             self.nextToken = nextToken
@@ -3371,6 +3477,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3396,6 +3503,7 @@ extension Forecast {
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(datasets: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasets = datasets
             self.nextToken = nextToken
@@ -3415,6 +3523,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3445,6 +3554,7 @@ extension Forecast {
         /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(explainabilities: [ExplainabilitySummary]? = nil, nextToken: String? = nil) {
             self.explainabilities = explainabilities
             self.nextToken = nextToken
@@ -3464,6 +3574,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3494,6 +3605,7 @@ extension Forecast {
         /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(explainabilityExports: [ExplainabilityExportSummary]? = nil, nextToken: String? = nil) {
             self.explainabilityExports = explainabilityExports
             self.nextToken = nextToken
@@ -3513,6 +3625,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3543,6 +3656,7 @@ extension Forecast {
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(forecastExportJobs: [ForecastExportJobSummary]? = nil, nextToken: String? = nil) {
             self.forecastExportJobs = forecastExportJobs
             self.nextToken = nextToken
@@ -3562,6 +3676,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3592,6 +3707,7 @@ extension Forecast {
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(forecasts: [ForecastSummary]? = nil, nextToken: String? = nil) {
             self.forecasts = forecasts
             self.nextToken = nextToken
@@ -3613,6 +3729,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, monitorArn: String, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3647,6 +3764,7 @@ extension Forecast {
         /// The monitoring results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see Viewing Monitoring Results. For more information about retrieving monitoring results see Viewing Monitoring Results.
         public let predictorMonitorEvaluations: [PredictorMonitorEvaluation]?
 
+        @inlinable
         public init(nextToken: String? = nil, predictorMonitorEvaluations: [PredictorMonitorEvaluation]? = nil) {
             self.nextToken = nextToken
             self.predictorMonitorEvaluations = predictorMonitorEvaluations
@@ -3666,6 +3784,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3696,6 +3815,7 @@ extension Forecast {
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(monitors: [MonitorSummary]? = nil, nextToken: String? = nil) {
             self.monitors = monitors
             self.nextToken = nextToken
@@ -3715,6 +3835,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3745,6 +3866,7 @@ extension Forecast {
         /// An array of objects that summarize the properties of each predictor backtest export job.
         public let predictorBacktestExportJobs: [PredictorBacktestExportJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, predictorBacktestExportJobs: [PredictorBacktestExportJobSummary]? = nil) {
             self.nextToken = nextToken
             self.predictorBacktestExportJobs = predictorBacktestExportJobs
@@ -3764,6 +3886,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3794,6 +3917,7 @@ extension Forecast {
         /// An array of objects that summarize each predictor's properties.
         public let predictors: [PredictorSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, predictors: [PredictorSummary]? = nil) {
             self.nextToken = nextToken
             self.predictors = predictors
@@ -3809,6 +3933,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3827,6 +3952,7 @@ extension Forecast {
         /// The tags for the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3844,6 +3970,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3874,6 +4001,7 @@ extension Forecast {
         /// An array of WhatIfAnalysisSummary objects that describe the matched analyses.
         public let whatIfAnalyses: [WhatIfAnalysisSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, whatIfAnalyses: [WhatIfAnalysisSummary]? = nil) {
             self.nextToken = nextToken
             self.whatIfAnalyses = whatIfAnalyses
@@ -3893,6 +4021,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next  request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3923,6 +4052,7 @@ extension Forecast {
         /// An array of WhatIfForecastExports objects that describe the matched forecast exports.
         public let whatIfForecastExports: [WhatIfForecastExportSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, whatIfForecastExports: [WhatIfForecastExportSummary]? = nil) {
             self.nextToken = nextToken
             self.whatIfForecastExports = whatIfForecastExports
@@ -3942,6 +4072,7 @@ extension Forecast {
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next  request. Tokens expire after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3972,6 +4103,7 @@ extension Forecast {
         /// An array of WhatIfForecasts objects that describe the matched forecasts.
         public let whatIfForecasts: [WhatIfForecastSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, whatIfForecasts: [WhatIfForecastSummary]? = nil) {
             self.nextToken = nextToken
             self.whatIfForecasts = whatIfForecasts
@@ -3989,6 +4121,7 @@ extension Forecast {
         /// The value for the metric.
         public let metricValue: Double?
 
+        @inlinable
         public init(metricName: String? = nil, metricValue: Double? = nil) {
             self.metricName = metricName
             self.metricValue = metricValue
@@ -4010,6 +4143,7 @@ extension Forecast {
         /// An array of weighted quantile losses. Quantiles divide a probability distribution into regions of equal probability. The distribution in this case is the loss function.
         public let weightedQuantileLosses: [WeightedQuantileLoss]?
 
+        @inlinable
         public init(averageWeightedQuantileLoss: Double? = nil, errorMetrics: [ErrorMetric]? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
             self.averageWeightedQuantileLoss = averageWeightedQuantileLoss
             self.errorMetrics = errorMetrics
@@ -4018,6 +4152,7 @@ extension Forecast {
         }
 
         @available(*, deprecated, message: "Members rmse have been deprecated")
+        @inlinable
         public init(averageWeightedQuantileLoss: Double? = nil, errorMetrics: [ErrorMetric]? = nil, rmse: Double? = nil, weightedQuantileLosses: [WeightedQuantileLoss]? = nil) {
             self.averageWeightedQuantileLoss = averageWeightedQuantileLoss
             self.errorMetrics = errorMetrics
@@ -4037,6 +4172,7 @@ extension Forecast {
         /// The name of the monitor resource.
         public let monitorName: String
 
+        @inlinable
         public init(monitorName: String) {
             self.monitorName = monitorName
         }
@@ -4060,6 +4196,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the predictor resource you are monitoring.
         public let predictorArn: String?
 
+        @inlinable
         public init(datasetImportJobArn: String? = nil, forecastArn: String? = nil, predictorArn: String? = nil) {
             self.datasetImportJobArn = datasetImportJobArn
             self.forecastArn = forecastArn
@@ -4079,6 +4216,7 @@ extension Forecast {
         /// The status of the monitor. States include:    ACTIVE     ACTIVE_STOPPING, ACTIVE_STOPPED     UPDATE_IN_PROGRESS     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(monitorArn: String? = nil, status: String? = nil) {
             self.monitorArn = monitorArn
             self.status = status
@@ -4104,6 +4242,7 @@ extension Forecast {
         /// The status of the monitor. States include:    ACTIVE     ACTIVE_STOPPING, ACTIVE_STOPPED     UPDATE_IN_PROGRESS     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModificationTime: Date? = nil, monitorArn: String? = nil, monitorName: String? = nil, resourceArn: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.lastModificationTime = lastModificationTime
@@ -4131,6 +4270,7 @@ extension Forecast {
         /// Specifies the tunable range for each integer hyperparameter.
         public let integerParameterRanges: [IntegerParameterRange]?
 
+        @inlinable
         public init(categoricalParameterRanges: [CategoricalParameterRange]? = nil, continuousParameterRanges: [ContinuousParameterRange]? = nil, integerParameterRanges: [IntegerParameterRange]? = nil) {
             self.categoricalParameterRanges = categoricalParameterRanges
             self.continuousParameterRanges = continuousParameterRanges
@@ -4177,6 +4317,7 @@ extension Forecast {
         /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -4202,6 +4343,7 @@ extension Forecast {
         /// The initial accuracy metrics for the predictor. Use these metrics as a baseline for comparison purposes as you use your predictor and the metrics change.
         public let baselineMetrics: [BaselineMetric]?
 
+        @inlinable
         public init(baselineMetrics: [BaselineMetric]? = nil) {
             self.baselineMetrics = baselineMetrics
         }
@@ -4217,6 +4359,7 @@ extension Forecast {
         /// The type of event. For example, Retrain. A retraining event denotes the timepoint when a predictor was retrained. Any monitor results from before the Datetime are from the previous predictor. Any new metrics are for the newly retrained predictor.
         public let detail: String?
 
+        @inlinable
         public init(datetime: Date? = nil, detail: String? = nil) {
             self.datetime = datetime
             self.detail = detail
@@ -4234,6 +4377,7 @@ extension Forecast {
         /// An array of test windows used to evaluate the algorithm. The NumberOfBacktestWindows from the  object determines the number of windows in the array.
         public let testWindows: [TestWindowSummary]?
 
+        @inlinable
         public init(algorithmArn: String? = nil, testWindows: [TestWindowSummary]? = nil) {
             self.algorithmArn = algorithmArn
             self.testWindows = testWindows
@@ -4249,6 +4393,7 @@ extension Forecast {
         /// An array of the backtests performed to evaluate the accuracy of the predictor against a particular algorithm. The NumberOfBacktestWindows from the  object determines the number of windows in the array.
         public let predictorExecutions: [PredictorExecution]?
 
+        @inlinable
         public init(predictorExecutions: [PredictorExecution]? = nil) {
             self.predictorExecutions = predictorExecutions
         }
@@ -4282,6 +4427,7 @@ extension Forecast {
         /// The timestamp that indicates the start of the window that is used for monitor evaluation.
         public let windowStartDatetime: Date?
 
+        @inlinable
         public init(evaluationState: String? = nil, evaluationTime: Date? = nil, message: String? = nil, metricResults: [MetricResult]? = nil, monitorArn: String? = nil, monitorDataSource: MonitorDataSource? = nil, numItemsEvaluated: Int64? = nil, predictorEvent: PredictorEvent? = nil, resourceArn: String? = nil, windowEndDatetime: Date? = nil, windowStartDatetime: Date? = nil) {
             self.evaluationState = evaluationState
             self.evaluationTime = evaluationTime
@@ -4331,6 +4477,7 @@ extension Forecast {
         /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, isAutoPredictor: Bool? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
@@ -4362,6 +4509,7 @@ extension Forecast {
         /// Whether the reference predictor is Active or Deleted.
         public let state: State?
 
+        @inlinable
         public init(arn: String? = nil, state: State? = nil) {
             self.arn = arn
             self.state = state
@@ -4377,6 +4525,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) of the monitor resource to resume.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4399,6 +4548,7 @@ extension Forecast {
         /// The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         public let roleArn: String
 
+        @inlinable
         public init(kmsKeyArn: String? = nil, path: String, roleArn: String) {
             self.kmsKeyArn = kmsKeyArn
             self.path = path
@@ -4426,6 +4576,7 @@ extension Forecast {
         /// An array of attributes specifying the name and type of each field in a dataset.
         public let attributes: [SchemaAttribute]?
 
+        @inlinable
         public init(attributes: [SchemaAttribute]? = nil) {
             self.attributes = attributes
         }
@@ -4449,6 +4600,7 @@ extension Forecast {
         /// The data type of the field. For a related time series dataset, other than date, item_id, and forecast dimensions attributes, all attributes should be of numerical type (integer/float).
         public let attributeType: AttributeType?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeType: AttributeType? = nil) {
             self.attributeName = attributeName
             self.attributeType = attributeType
@@ -4492,6 +4644,7 @@ extension Forecast {
         /// For a numeric field, the standard deviation.
         public let stddev: Double?
 
+        @inlinable
         public init(avg: Double? = nil, count: Int? = nil, countDistinct: Int? = nil, countDistinctLong: Int64? = nil, countLong: Int64? = nil, countNan: Int? = nil, countNanLong: Int64? = nil, countNull: Int? = nil, countNullLong: Int64? = nil, max: String? = nil, min: String? = nil, stddev: Double? = nil) {
             self.avg = avg
             self.count = count
@@ -4527,6 +4680,7 @@ extension Forecast {
         /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn, ForecastArn, ForecastExportJobArn, ExplainabilityArn, and ExplainabilityExportArn.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -4547,6 +4701,7 @@ extension Forecast {
         ///  Weather Index  To enable the Weather Index, set the value to "true"   Holidays  To enable Holidays, specify a country with one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -4572,6 +4727,7 @@ extension Forecast {
         /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4597,6 +4753,7 @@ extension Forecast {
         /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4631,6 +4788,7 @@ extension Forecast {
         /// The time at which the test began.
         public let testWindowStart: Date?
 
+        @inlinable
         public init(message: String? = nil, status: String? = nil, testWindowEnd: Date? = nil, testWindowStart: Date? = nil) {
             self.message = message
             self.status = status
@@ -4656,6 +4814,7 @@ extension Forecast {
         /// The month to use for time alignment during aggregation. The month must be in uppercase.
         public let month: Month?
 
+        @inlinable
         public init(dayOfMonth: Int? = nil, dayOfWeek: DayOfWeek? = nil, hour: Int? = nil, month: Month? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -4686,6 +4845,7 @@ extension Forecast {
         /// The condition to apply. Valid values are EQUALS, NOT_EQUALS, LESS_THAN and GREATER_THAN.
         public let condition: Condition
 
+        @inlinable
         public init(attributeName: String, attributeValue: String, condition: Condition) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -4713,6 +4873,7 @@ extension Forecast {
         public let format: String?
         public let schema: Schema?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, format: String? = nil, schema: Schema? = nil) {
             self.dataSource = dataSource
             self.format = format
@@ -4741,6 +4902,7 @@ extension Forecast {
         /// The timestamp format of the replacement data.
         public let timestampFormat: String?
 
+        @inlinable
         public init(format: String? = nil, s3Config: S3Config, schema: Schema, timestampFormat: String? = nil) {
             self.format = format
             self.s3Config = s3Config
@@ -4769,6 +4931,7 @@ extension Forecast {
         /// Details about the import file that contains the time series for which you want to create forecasts.
         public let timeSeriesIdentifiers: TimeSeriesIdentifiers?
 
+        @inlinable
         public init(timeSeriesIdentifiers: TimeSeriesIdentifiers? = nil) {
             self.timeSeriesIdentifiers = timeSeriesIdentifiers
         }
@@ -4788,6 +4951,7 @@ extension Forecast {
         /// An array of conditions that define which members of the related time series are transformed.
         public let timeSeriesConditions: [TimeSeriesCondition]?
 
+        @inlinable
         public init(action: Action? = nil, timeSeriesConditions: [TimeSeriesCondition]? = nil) {
             self.action = action
             self.timeSeriesConditions = timeSeriesConditions
@@ -4813,6 +4977,7 @@ extension Forecast {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4845,6 +5010,7 @@ extension Forecast {
         /// The ARN of the dataset group.
         public let datasetGroupArn: String
 
+        @inlinable
         public init(datasetArns: [String], datasetGroupArn: String) {
             self.datasetArns = datasetArns
             self.datasetGroupArn = datasetGroupArn
@@ -4875,6 +5041,7 @@ extension Forecast {
         /// The quantile. Quantiles divide a probability distribution into regions of equal probability. For example, if the distribution was divided into 5 regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
         public let quantile: Double?
 
+        @inlinable
         public init(lossValue: Double? = nil, quantile: Double? = nil) {
             self.lossValue = lossValue
             self.quantile = quantile
@@ -4902,6 +5069,7 @@ extension Forecast {
         /// The name of the what-if analysis.
         public let whatIfAnalysisName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, forecastArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfAnalysisArn: String? = nil, whatIfAnalysisName: String? = nil) {
             self.creationTime = creationTime
             self.forecastArn = forecastArn
@@ -4941,6 +5109,7 @@ extension Forecast {
         /// The what-if forecast export name.
         public let whatIfForecastExportName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfForecastArns: [String]? = nil, whatIfForecastExportArn: String? = nil, whatIfForecastExportName: String? = nil) {
             self.creationTime = creationTime
             self.destination = destination
@@ -4980,6 +5149,7 @@ extension Forecast {
         /// The name of the what-if forecast.
         public let whatIfForecastName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, whatIfAnalysisArn: String? = nil, whatIfForecastArn: String? = nil, whatIfForecastName: String? = nil) {
             self.creationTime = creationTime
             self.lastModificationTime = lastModificationTime
@@ -5013,6 +5183,7 @@ extension Forecast {
         /// The timestamp that defines the start of the window.
         public let testWindowStart: Date?
 
+        @inlinable
         public init(evaluationType: EvaluationType? = nil, itemCount: Int? = nil, metrics: Metrics? = nil, testWindowEnd: Date? = nil, testWindowStart: Date? = nil) {
             self.evaluationType = evaluationType
             self.itemCount = itemCount
